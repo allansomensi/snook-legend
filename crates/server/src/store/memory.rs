@@ -107,15 +107,18 @@ struct Inner {
 }
 
 impl Inner {
-    /// A day's scores, best first (earlier first on a tie).
-    fn daily_sorted(&self, day: i64) -> Vec<(i64, u32, i64)> {
-        let mut rows: Vec<(i64, u32, i64)> = self
+    /// A day's scores, best first: on a tie the quicker attempt leads,
+    /// then the earlier. (user, balls, when, seconds)
+    fn daily_sorted(&self, day: i64) -> Vec<(i64, u32, i64, u32)> {
+        let mut rows: Vec<(i64, u32, i64, u32)> = self
             .daily
             .range((day, i64::MIN)..=(day, i64::MAX))
             .filter(|&(&(_, u), _)| !self.off_boards(u))
-            .filter_map(|(&(_, u), r)| r.best.map(|b| (u, b, r.best_at)))
+            .filter_map(|(&(_, u), r)| r.best.map(|b| (u, b, r.best_at, r.best_secs)))
             .collect();
-        rows.sort_by(|a, b| b.1.cmp(&a.1).then(a.2.cmp(&b.2)).then(a.0.cmp(&b.0)));
+        rows.sort_by(|a, b| {
+            b.1.cmp(&a.1).then(a.3.cmp(&b.3)).then(a.2.cmp(&b.2)).then(a.0.cmp(&b.0))
+        });
         rows
     }
 }
@@ -1344,12 +1347,15 @@ impl MemoryStore {
         if row.started_at == 0 || now - row.started_at > limit {
             return Ok(super::DailyFinish::NotStarted);
         }
+        let secs = (now - row.started_at).clamp(0, limit) as u32;
         row.started_at = 0;
         // A refused attempt (no balls) ends without a score.
-        let improved = balls.is_some_and(|n| row.best.is_none_or(|b| n > b));
+        let improved = balls
+            .is_some_and(|n| row.best.is_none_or(|b| n > b || (n == b && secs < row.best_secs)));
         if improved {
             row.best = balls;
             row.best_at = now;
+            row.best_secs = secs;
         }
         let first_clear = cleared && !row.cleared;
         row.cleared |= cleared;
@@ -1371,7 +1377,7 @@ impl MemoryStore {
         let board = rows
             .into_iter()
             .take(limit as usize)
-            .filter_map(|(u, balls, at)| {
+            .filter_map(|(u, balls, at, secs)| {
                 let user = s.users.get(&u)?;
                 Some(super::DailyBoardRow {
                     user_id: u,
@@ -1379,6 +1385,7 @@ impl MemoryStore {
                     country: user.country.clone(),
                     balls,
                     at,
+                    secs,
                 })
             })
             .collect();

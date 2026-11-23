@@ -464,10 +464,10 @@ async fn exercise(store: Store) {
     );
     let (board, players) = store.daily_board(d, 10).await.unwrap();
     assert_eq!(players, 2);
-    // A tie: who made it first leads.
+    // A tie: the quicker attempt leads (5 seconds against 10).
     assert_eq!(
-        board.iter().map(|r| (r.user_id, r.balls)).collect::<Vec<_>>(),
-        [(b.id, 4), (a.id, 4)]
+        board.iter().map(|r| (r.user_id, r.balls, r.secs)).collect::<Vec<_>>(),
+        [(b.id, 4, 5), (a.id, 4, 10)]
     );
     assert_eq!(store.daily_rank(a.id, d).await.unwrap(), Some(2));
     assert_eq!(store.daily_rank(b.id, 999).await.unwrap(), None);
@@ -475,6 +475,21 @@ async fn exercise(store: Store) {
     assert!(store.daily_wins(a.id, d + 1).await.unwrap().is_empty());
     let row = store.daily_row(b.id, d).await.unwrap();
     assert_eq!((row.attempts, row.started_at, row.best, row.cleared), (1, 0, Some(4), true));
+    // As many balls more slowly isn't better; more quickly is, and leads
+    // although made later.
+    assert!(store.daily_start(b.id, d, t + 200, 3).await.unwrap());
+    assert_eq!(
+        store.daily_finish(b.id, d, t + 230, Some(4), false, 60).await.unwrap(),
+        snook_legend_server::store::DailyFinish::Counted { improved: false, first_clear: false }
+    );
+    assert!(store.daily_start(a.id, d, t + 300, 3).await.unwrap());
+    assert_eq!(
+        store.daily_finish(a.id, d, t + 302, Some(4), false, 60).await.unwrap(),
+        snook_legend_server::store::DailyFinish::Counted { improved: true, first_clear: false }
+    );
+    assert_eq!(store.daily_rank(a.id, d).await.unwrap(), Some(1));
+    assert_eq!(store.daily_row(a.id, d).await.unwrap().best_secs, 2);
+    assert_eq!(store.daily_wins(a.id, d + 1).await.unwrap(), vec![(d, 2)]);
 
     // Drills: bests, tables and the challenge rating.
     assert_eq!(store.drill_record(a.id, "cut", 2, t).await.unwrap(), None);

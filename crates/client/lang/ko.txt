@@ -1300,7 +1300,7 @@ off one cushion	원 쿠션
 off {n} cushions	{n}쿠션
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	한 차례에 최대한 많은 공을 넣으세요. 실패하거나 파울하면 도전이 끝나요.
 The same table for everyone, all day	하루 종일 모두에게 같은 테이블
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	하루 {n}번 도전할 수 있어요. 테이블을 비우면 {coins} 코인, 그날의 1위는 트로피를 받아요.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	하루 {n}번 도전할 수 있어요. 테이블을 비우면 {coins} 코인. 공을 가장 많이 넣은 사람이 그날의 1위로 트로피를 받고, 같으면 더 빠른 도전이 앞서요.
 A new table in {h} h {m} min	{h}시간 {m}분 후 새 테이블
 Sign in to take part: the server keeps the day's table.	참가하려면 로그인하세요. 서버에 그날의 순위가 기록돼요.
 Balls on today's table	오늘 테이블의 공
@@ -1309,6 +1309,7 @@ Attempts left	남은 도전 횟수
 {n} balls	공 {n}개
 not yet	아직 없음
 Your best today	오늘 내 최고 기록
+Time of your best	내 최고 기록 시간
 No attempts left today: come back tomorrow.	오늘은 도전 횟수를 모두 썼어요. 내일 다시 오세요.
 The attempt could not be counted.	도전 기록을 집계하지 못했어요.
 Setting up the table…	테이블을 준비하는 중…

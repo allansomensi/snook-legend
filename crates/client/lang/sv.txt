@@ -1300,7 +1300,7 @@ off one cushion	via en vall
 off {n} cushions	via {n} vallar
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Sänk så många bollar du kan under en tur: en miss eller en foul avslutar försöket.
 The same table for everyone, all day	Samma bord för alla, hela dagen
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} försök per dag. Rensa bordet för {coins} mynt; dagens vinnare får en trofé.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	{n} försök per dag. Rensa bordet för {coins} mynt. Flest bollar vinner dagen och en trofé; vid lika vinner det snabbaste försöket.
 A new table in {h} h {m} min	Nytt bord om {h} h {m} min
 Sign in to take part: the server keeps the day's table.	Logga in för att delta: servern håller dagens topplista.
 Balls on today's table	Bollar på dagens bord
@@ -1309,6 +1309,7 @@ Attempts left	Försök kvar
 {n} balls	{n} bollar
 not yet	inte än
 Your best today	Ditt bästa i dag
+Time of your best	Tid för ditt bästa
 No attempts left today: come back tomorrow.	Inga försök kvar i dag: kom tillbaka i morgon.
 The attempt could not be counted.	Försöket kunde inte räknas.
 Setting up the table…	Förbereder bordet…

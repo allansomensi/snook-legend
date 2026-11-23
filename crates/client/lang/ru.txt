@@ -1300,7 +1300,7 @@ off one cushion	от одного борта
 off {n} cushions	от бортов: {n}
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Забейте как можно больше шаров за один подход: промах или фол завершают попытку.
 The same table for everyone, all day	Один стол для всех, на весь день
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Попыток в день: {n}. Очистите стол — получите {coins} мон.; победитель дня получает трофей.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	Попыток в день: {n}. Очистите стол — получите {coins} мон. Больше всего шаров — победа дня и трофей; при равенстве выше самая быстрая попытка.
 A new table in {h} h {m} min	Новый стол через {h} ч {m} мин
 Sign in to take part: the server keeps the day's table.	Войдите, чтобы участвовать: сервер ведёт таблицу дня.
 Balls on today's table	Шары на сегодняшнем столе
@@ -1309,6 +1309,7 @@ Attempts left	Осталось попыток
 {n} balls	шаров: {n}
 not yet	пока нет
 Your best today	Ваш лучший результат сегодня
+Time of your best	Время лучшей попытки
 No attempts left today: come back tomorrow.	Попытки на сегодня закончились: возвращайтесь завтра.
 The attempt could not be counted.	Попытку не удалось засчитать.
 Setting up the table…	Готовим стол…

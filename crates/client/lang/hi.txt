@@ -1300,7 +1300,7 @@ off one cushion	एक कुशन से
 off {n} cushions	{n} कुशन से
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	एक ही बारी में जितनी हो सकें उतनी बॉल पॉट करें: मिस या फ़ाउल होते ही कोशिश ख़त्म।
 The same table for everyone, all day	सबके लिए एक ही टेबल, पूरे दिन
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	दिन में {n} कोशिशें। टेबल साफ़ करें और {coins} कॉइन पाएँ; दिन के विजेता को ट्रॉफ़ी मिलती है।
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	दिन में {n} कोशिशें। टेबल साफ़ करें और {coins} कॉइन पाएँ। सबसे ज़्यादा बॉल वाला दिन और ट्रॉफ़ी जीतता है; बराबरी पर, सबसे तेज़ कोशिश।
 A new table in {h} h {m} min	{h} घंटे {m} मिनट में नई टेबल
 Sign in to take part: the server keeps the day's table.	हिस्सा लेने के लिए साइन इन करें: सर्वर दिन का लीडरबोर्ड रखता है।
 Balls on today's table	आज की टेबल पर बॉल
@@ -1309,6 +1309,7 @@ Attempts left	बाकी कोशिशें
 {n} balls	{n} बॉल
 not yet	अभी नहीं
 Your best today	आज का आपका बेस्ट
+Time of your best	आपके बेस्ट का समय
 No attempts left today: come back tomorrow.	आज की कोशिशें ख़त्म: कल फिर आएँ।
 The attempt could not be counted.	यह कोशिश गिनी नहीं जा सकी।
 Setting up the table…	टेबल तैयार हो रही है…

@@ -413,6 +413,9 @@ async fn main() {
         Some("drills") => {
             screen = Screen::Versus(versus::Versus::new(versus::Tab::Drills, &config))
         }
+        Some("challenge") => {
+            screen = Screen::Versus(versus::Versus::new(versus::Tab::Daily, &config))
+        }
         Some("hotseat") => screen = Screen::Setup(Setup::new()),
         // Development aid (screenshots): the settings with the picture picker.
         Some("avatars") => {

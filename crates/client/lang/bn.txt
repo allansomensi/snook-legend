@@ -1300,7 +1300,7 @@ off one cushion	এক কুশনে লেগে
 off {n} cushions	{n} কুশনে লেগে
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	এক পালায় যত বেশি পারেন বল পকেট করুন: মিস বা ফাউলে চেষ্টা শেষ।
 The same table for everyone, all day	সারা দিন সবার জন্য একই টেবিল
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	দিনে {n}টি চেষ্টা। টেবিল সাফ করলে {coins} কয়েন; দিনের বিজয়ী পান একটি ট্রফি।
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	দিনে {n}টি চেষ্টা। টেবিল সাফ করলে {coins} কয়েন। সবচেয়ে বেশি বল যার, দিনের জয় ও ট্রফি তার; সমান হলে, যে দ্রুততম।
 A new table in {h} h {m} min	{h} ঘণ্টা {m} মিনিট পরে নতুন টেবিল
 Sign in to take part: the server keeps the day's table.	অংশ নিতে সাইন ইন করুন: সার্ভার দিনের তালিকা রাখে।
 Balls on today's table	আজকের টেবিলে বল
@@ -1309,6 +1309,7 @@ Attempts left	বাকি চেষ্টা
 {n} balls	{n}টি বল
 not yet	এখনও নয়
 Your best today	আজ আপনার সেরা
+Time of your best	আপনার সেরার সময়
 No attempts left today: come back tomorrow.	আজ আর কোনো চেষ্টা বাকি নেই: কাল আবার আসুন।
 The attempt could not be counted.	চেষ্টাটি গণনা করা যায়নি।
 Setting up the table…	টেবিল সাজানো হচ্ছে…

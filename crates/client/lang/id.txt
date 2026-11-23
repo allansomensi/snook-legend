@@ -1300,7 +1300,7 @@ off one cushion	lewat satu bantalan
 off {n} cushions	lewat {n} bantalan
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Masukkan bola sebanyak mungkin dalam satu giliran: meleset atau foul mengakhiri percobaan.
 The same table for everyone, all day	Meja yang sama untuk semua orang, sepanjang hari
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} percobaan sehari. Bersihkan meja untuk {coins} koin; pemenang hari itu mendapat trofi.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	{n} percobaan sehari. Bersihkan meja untuk {coins} koin. Bola terbanyak memenangkan hari itu dan trofi; jika seri, percobaan tercepat.
 A new table in {h} h {m} min	Meja baru dalam {h} jam {m} mnt
 Sign in to take part: the server keeps the day's table.	Masuk untuk ikut serta: server menyimpan klasemen hari ini.
 Balls on today's table	Bola di meja hari ini
@@ -1309,6 +1309,7 @@ Attempts left	Sisa percobaan
 {n} balls	{n} bola
 not yet	belum
 Your best today	Terbaikmu hari ini
+Time of your best	Waktu terbaikmu
 No attempts left today: come back tomorrow.	Percobaan hari ini sudah habis: kembali lagi besok.
 The attempt could not be counted.	Percobaan tidak bisa dihitung.
 Setting up the table…	Menyiapkan meja…

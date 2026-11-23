@@ -45,6 +45,7 @@ pub async fn info(server: &Server, me: &User) -> Option<Info> {
         balls: daily::balls(seed),
         attempts_left: daily::ATTEMPTS.saturating_sub(row.attempts),
         best: row.best,
+        best_secs: row.best.map(|_| row.best_secs),
         rank: rank.ok().flatten(),
         open: row.started_at > 0 && t - row.started_at <= daily::TIME_LIMIT_SECS,
         board: board
@@ -54,6 +55,7 @@ pub async fn info(server: &Server, me: &User) -> Option<Info> {
                 country: r.country,
                 balls: r.balls,
                 at: r.at,
+                secs: r.secs,
             })
             .collect(),
         players,

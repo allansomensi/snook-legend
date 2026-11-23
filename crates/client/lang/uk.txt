@@ -1300,7 +1300,7 @@ off one cushion	від одного борту
 off {n} cushions	від бортів: {n}
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Забийте якомога більше куль за один підхід: промах або фол завершує спробу.
 The same table for everyone, all day	Той самий стіл для всіх, увесь день
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Спроб на день: {n}. Очистьте стіл і отримайте монети ({coins}); переможець дня отримує трофей.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	Спроб на день: {n}. Очистьте стіл і отримайте монети ({coins}). Найбільше куль — перемога дня і трофей; за рівності вище найшвидша спроба.
 A new table in {h} h {m} min	Новий стіл через {h} год {m} хв
 Sign in to take part: the server keeps the day's table.	Увійдіть, щоб узяти участь: сервер веде таблицю дня.
 Balls on today's table	Кулі на сьогоднішньому столі
@@ -1309,6 +1309,7 @@ Attempts left	Залишилося спроб
 {n} balls	куль: {n}
 not yet	ще ні
 Your best today	Ваш найкращий результат сьогодні
+Time of your best	Час найкращої спроби
 No attempts left today: come back tomorrow.	Спроби на сьогодні закінчилися: повертайтеся завтра.
 The attempt could not be counted.	Не вдалося зарахувати спробу.
 Setting up the table…	Підготовка столу…

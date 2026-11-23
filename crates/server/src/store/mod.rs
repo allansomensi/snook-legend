@@ -316,6 +316,8 @@ pub struct DailyRow {
     pub started_at: i64,
     pub best: Option<u32>,
     pub best_at: i64,
+    /// How long the best attempt took (seconds): the quicker leads a tie.
+    pub best_secs: u32,
     pub cleared: bool,
 }
 
@@ -327,6 +329,8 @@ pub struct DailyBoardRow {
     pub country: String,
     pub balls: u32,
     pub at: i64,
+    /// How long the attempt took (seconds).
+    pub secs: u32,
 }
 
 /// A line of a drill's table, or of the challenge rating's.

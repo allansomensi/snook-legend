@@ -1943,7 +1943,7 @@ impl PgStore {
     ) -> StoreResult<super::DailyFinish> {
         let mut tx = self.pool.begin().await?;
         let row = query(
-            "SELECT best, cleared FROM daily_scores
+            "SELECT best, best_secs, started_at, cleared FROM daily_scores
              WHERE day = $1 AND user_id = $2 AND started_at > 0 AND $3 - started_at <= $4
              FOR UPDATE",
         )
@@ -1957,13 +1957,20 @@ impl PgStore {
             return Ok(super::DailyFinish::NotStarted);
         };
         let best: Option<i32> = row.get("best");
+        let best_secs: i32 = row.get("best_secs");
+        let started_at: i64 = row.get("started_at");
         let was_cleared: bool = row.get("cleared");
-        // A refused attempt (no balls) ends without a score.
-        let improved = balls.is_some_and(|n| best.is_none_or(|b| n as i32 > b));
+        let secs = (now - started_at).clamp(0, limit) as i32;
+        // A refused attempt (no balls) ends without a score; as many balls
+        // in less time is better.
+        let improved = balls.is_some_and(|n| {
+            best.is_none_or(|b| n as i32 > b || (n as i32 == b && secs < best_secs))
+        });
         query(
             "UPDATE daily_scores SET started_at = 0, cleared = cleared OR $3,
                 best = CASE WHEN $4 THEN $5 ELSE best END,
-                best_at = CASE WHEN $4 THEN $6 ELSE best_at END
+                best_at = CASE WHEN $4 THEN $6 ELSE best_at END,
+                best_secs = CASE WHEN $4 THEN $7 ELSE best_secs END
              WHERE day = $1 AND user_id = $2",
         )
         .bind(day)
@@ -1972,6 +1979,7 @@ impl PgStore {
         .bind(improved)
         .bind(balls.unwrap_or(0) as i32)
         .bind(now)
+        .bind(secs)
         .execute(&mut *tx)
         .await?;
         tx.commit().await?;
@@ -1980,7 +1988,7 @@ impl PgStore {
 
     pub async fn daily_row(&self, user_id: i64, day: i64) -> StoreResult<super::DailyRow> {
         let row = query(
-            "SELECT attempts, started_at, best, best_at, cleared FROM daily_scores
+            "SELECT attempts, started_at, best, best_at, best_secs, cleared FROM daily_scores
              WHERE day = $1 AND user_id = $2",
         )
         .bind(day)
@@ -1992,6 +2000,7 @@ impl PgStore {
             started_at: r.get("started_at"),
             best: r.get::<Option<i32>, _>("best").map(|b| b.max(0) as u32),
             best_at: r.get::<Option<i64>, _>("best_at").unwrap_or(0),
+            best_secs: r.get::<i32, _>("best_secs").max(0) as u32,
             cleared: r.get("cleared"),
         }))
     }
@@ -2002,11 +2011,11 @@ impl PgStore {
         limit: u32,
     ) -> StoreResult<(Vec<super::DailyBoardRow>, u32)> {
         let rows = query(
-            "SELECT d.user_id, u.username, u.country, d.best, d.best_at
+            "SELECT d.user_id, u.username, u.country, d.best, d.best_at, d.best_secs
              FROM daily_scores d JOIN users u ON u.id = d.user_id
              WHERE d.day = $1 AND d.best IS NOT NULL AND u.deleted_at IS NULL
                AND (u.banned_until IS NULL OR u.banned_until <= $3)
-             ORDER BY d.best DESC, d.best_at, d.user_id LIMIT $2",
+             ORDER BY d.best DESC, d.best_secs, d.best_at, d.user_id LIMIT $2",
         )
         .bind(day)
         .bind(limit as i64)
@@ -2031,6 +2040,7 @@ impl PgStore {
                 country: r.get("country"),
                 balls: r.get::<i32, _>("best").max(0) as u32,
                 at: r.get("best_at"),
+                secs: r.get::<i32, _>("best_secs").max(0) as u32,
             })
             .collect();
         Ok((board, players as u32))
@@ -2042,7 +2052,8 @@ impl PgStore {
                      WHERE o.day = me.day AND o.best IS NOT NULL AND ou.deleted_at IS NULL
                        AND (ou.banned_until IS NULL OR ou.banned_until <= $3)
                        AND (o.best > me.best OR (o.best = me.best
-                            AND (o.best_at, o.user_id) < (me.best_at, me.user_id)))) AS ahead
+                            AND (o.best_secs, o.best_at, o.user_id)
+                                < (me.best_secs, me.best_at, me.user_id)))) AS ahead
              FROM daily_scores me JOIN users mu ON mu.id = me.user_id
              WHERE me.day = $1 AND me.user_id = $2 AND me.best IS NOT NULL
                AND mu.deleted_at IS NULL AND (mu.banned_until IS NULL OR mu.banned_until <= $3)",
@@ -2059,7 +2070,7 @@ impl PgStore {
         let rows = query(
             "SELECT day, n FROM (
                 SELECT d.day, d.user_id, COUNT(*) OVER (PARTITION BY d.day) AS n,
-                    ROW_NUMBER() OVER (PARTITION BY d.day ORDER BY d.best DESC, d.best_at, d.user_id) AS place
+                    ROW_NUMBER() OVER (PARTITION BY d.day ORDER BY d.best DESC, d.best_secs, d.best_at, d.user_id) AS place
                 FROM daily_scores d JOIN users u ON u.id = d.user_id
                 WHERE d.best IS NOT NULL AND d.day < $2 AND u.deleted_at IS NULL
                   AND (u.banned_until IS NULL OR u.banned_until <= $3)

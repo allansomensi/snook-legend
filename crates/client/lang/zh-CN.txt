@@ -1300,7 +1300,7 @@ off one cushion	吃一库
 off {n} cushions	吃{n}库
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	一杆内尽可能多地进球：失误或犯规即结束本次挑战。
 The same table for everyone, all day	全天所有人挑战同一张球台
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	每天{n}次机会。清台可得{coins}金币；当日第一名获得奖杯。
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	每天{n}次机会。清台可得{coins}金币。进球最多者赢得当日第一并获得奖杯；数量相同时，用时最短者领先。
 A new table in {h} h {m} min	{h}小时{m}分钟后更换新球台
 Sign in to take part: the server keeps the day's table.	登录后即可参加：服务器会记录当日排行。
 Balls on today's table	今日球台上的球数
@@ -1309,6 +1309,7 @@ Attempts left	剩余次数
 {n} balls	{n}球
 not yet	尚未挑战
 Your best today	今日最佳
+Time of your best	最佳成绩用时
 No attempts left today: come back tomorrow.	今天的次数已用完：明天再来吧。
 The attempt could not be counted.	本次挑战未能计入成绩。
 Setting up the table…	正在摆球…

@@ -1300,7 +1300,7 @@ off one cushion	a una sponda
 off {n} cushions	a {n} sponde
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Imbuca più palle che puoi in un solo turno: un errore o un fallo chiude il tentativo.
 The same table for everyone, all day	Lo stesso tavolo per tutti, tutto il giorno
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} tentativi al giorno. Ripulisci il tavolo per {coins} monete; il vincitore del giorno riceve un trofeo.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	{n} tentativi al giorno. Ripulisci il tavolo per {coins} monete. Chi imbuca più bilie vince la giornata e un trofeo; a parità, il tentativo più rapido.
 A new table in {h} h {m} min	Nuovo tavolo tra {h} h {m} min
 Sign in to take part: the server keeps the day's table.	Accedi per partecipare: il server tiene la classifica del giorno.
 Balls on today's table	Palle sul tavolo di oggi
@@ -1309,6 +1309,7 @@ Attempts left	Tentativi rimasti
 {n} balls	{n} palle
 not yet	non ancora
 Your best today	Il tuo record di oggi
+Time of your best	Tempo del tuo record
 No attempts left today: come back tomorrow.	Nessun tentativo rimasto oggi: torna domani.
 The attempt could not be counted.	Impossibile conteggiare il tentativo.
 Setting up the table…	Preparazione del tavolo…

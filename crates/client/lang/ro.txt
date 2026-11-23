@@ -1300,7 +1300,7 @@ off one cushion	dintr-o manta
 off {n} cushions	din {n} mante
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Bagă cât mai multe bile într-o singură tură: o ratare sau un fault încheie încercarea.
 The same table for everyone, all day	Aceeași masă pentru toți, toată ziua
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} încercări pe zi. Curăță masa pentru {coins} de monede; câștigătorul zilei primește un trofeu.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	{n} încercări pe zi. Curăță masa pentru {coins} de monede. Cele mai multe bile câștigă ziua și un trofeu; la egalitate, cea mai rapidă încercare.
 A new table in {h} h {m} min	Masă nouă în {h} h {m} min
 Sign in to take part: the server keeps the day's table.	Conectează-te ca să participi: serverul ține clasamentul zilei.
 Balls on today's table	Bile pe masa de azi
@@ -1309,6 +1309,7 @@ Attempts left	Încercări rămase
 {n} balls	bile: {n}
 not yet	încă nu
 Your best today	Cel mai bun rezultat azi
+Time of your best	Timpul celui mai bun rezultat
 No attempts left today: come back tomorrow.	Nu mai ai încercări azi: revino mâine.
 The attempt could not be counted.	Încercarea nu a putut fi numărată.
 Setting up the table…	Se pregătește masa…

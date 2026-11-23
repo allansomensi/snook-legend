@@ -919,7 +919,7 @@ impl Versus {
         say(
             ui,
             &tw(
-                "{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.",
+                "{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.",
                 &[("n", &daily::ATTEMPTS), ("coins", &daily::CLEAR_COINS)],
             ),
             13.0,
@@ -961,6 +961,9 @@ impl Versus {
                 _ => t("not yet").to_string(),
             };
             stat(ui, t("Your best today"), &best, &mut y);
+            if let (Some(_), Some(secs)) = (info.best, info.best_secs) {
+                stat(ui, t("Time of your best"), &clock(secs), &mut y);
+            }
             y += 8.0;
             if let Some(refused) = online.daily_refused {
                 let text = match refused {
@@ -1433,6 +1436,11 @@ impl Versus {
             let balls = tw("{n} balls", &[("n", &e.balls)]);
             let bw = ui.text_size(&balls, 14.0, true).x;
             ui.text(&balls, x + w - bw, y + 4.0, 14.0, color, true);
+            // How long the attempt took: on a tie of balls, the quicker leads.
+            let time = clock(e.secs);
+            let tw_ = ui.text_size(&time, 13.0, false).x;
+            let time_x = x + w - bw - 14.0 - tw_;
+            ui.text(&time, time_x, y + 5.0, 13.0, MUTED, false);
             ui.name_with_flag(
                 &e.username,
                 &e.country,
@@ -1440,10 +1448,15 @@ impl Versus {
                 x + 34.0,
                 y + 4.0,
                 14.0,
-                w - 34.0 - bw - 12.0,
+                time_x - x - 34.0 - 12.0,
             );
         }
     }
+}
+
+/// A duration as minutes and seconds ("2:05").
+fn clock(secs: u32) -> String {
+    format!("{}:{:02}", secs / 60, secs % 60)
 }
 
 /// The settings for a game against `o` (`rung`: a ladder game).

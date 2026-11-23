@@ -1300,7 +1300,7 @@ off one cushion	με μία μπάντα
 off {n} cushions	με μπάντες: {n}
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Βάλε όσες περισσότερες μπάλες μπορείς σε μία επίσκεψη: μια αστοχία ή ένα φάουλ τερματίζει την προσπάθεια.
 The same table for everyone, all day	Το ίδιο τραπέζι για όλους, όλη μέρα
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} προσπάθειες την ημέρα. Καθάρισε το τραπέζι για {coins} νομίσματα· ο νικητής της ημέρας παίρνει τρόπαιο.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	{n} προσπάθειες την ημέρα. Καθάρισε το τραπέζι για {coins} νομίσματα. Οι περισσότερες μπάλες κερδίζουν τη μέρα και ένα τρόπαιο· σε ισοπαλία, η πιο γρήγορη προσπάθεια.
 A new table in {h} h {m} min	Νέο τραπέζι σε {h} ώ. {m} λ.
 Sign in to take part: the server keeps the day's table.	Συνδέσου για να συμμετάσχεις: ο διακομιστής κρατά την κατάταξη της ημέρας.
 Balls on today's table	Μπάλες στο σημερινό τραπέζι
@@ -1309,6 +1309,7 @@ Attempts left	Προσπάθειες που απομένουν
 {n} balls	Μπάλες: {n}
 not yet	όχι ακόμα
 Your best today	Το καλύτερό σου σήμερα
+Time of your best	Χρόνος του καλύτερού σου
 No attempts left today: come back tomorrow.	Δεν σου έμειναν προσπάθειες σήμερα: έλα ξανά αύριο.
 The attempt could not be counted.	Η προσπάθεια δεν μπόρεσε να μετρηθεί.
 Setting up the table…	Στήσιμο τραπεζιού…

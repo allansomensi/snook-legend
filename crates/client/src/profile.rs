@@ -426,7 +426,7 @@ impl ProfileScreen {
             } else {
                 t("Play their ghost")
             };
-            let bw = ui.text_size(label, 14.0, true).x + 32.0 + 22.0;
+            let bw = ghost_width(ui, p.relation == Relation::Me);
             let b = Rect::new(r.x + r.w - PAD - bw, r.y + 20.0, bw, 36.0);
             if ui.button(b, "", true) {
                 action = ProfileAction::Ghost(p.player.username.clone());
@@ -558,12 +558,16 @@ impl ProfileScreen {
                 &[("games", &standing.games), ("pct", &standing.win_rate())],
             )
         };
-        let peak = tw("peak {n}", &[("n", p.peaks.get(rules))]);
         let (record, size) = ui.fitted(&record, 13.0, c.w * 0.42, false);
         let w = ui.text_size(&record, size, false).x;
-        ui.text(&record, right - w, c.y + 14.0, size, CREAM, false);
-        let pw = ui.text_size(&peak, 12.0, false).x;
-        ui.text(&peak, right - pw, c.y + 33.0, 12.0, MUTED, false);
+        let color = if standing.games == 0 { MUTED } else { CREAM };
+        ui.text(&record, right - w, c.y + 14.0, size, color, false);
+        // The peak says something once it was played for.
+        if standing.games > 0 {
+            let peak = tw("peak {n}", &[("n", p.peaks.get(rules))]);
+            let pw = ui.text_size(&peak, 12.0, false).x;
+            ui.text(&peak, right - pw, c.y + 33.0, 12.0, MUTED, false);
+        }
         // The way to the next league.
         let next = Tier::ALL.into_iter().find(|t| t.min_rating() > standing.rating);
         let bar = Rect::new(x, c.y + c.h - 14.0, c.w - 32.0, 4.0);
@@ -657,8 +661,13 @@ impl ProfileScreen {
         // The name's middle lines up with the back button's.
         let mid = r.y + 38.0;
         let flag_h = 24.0;
-        let flag_w =
-            if player.country.is_empty() { 0.0 } else { crate::flags::width(flag_h) + 12.0 };
+        // One's own flag is where the country is changed (a placeholder
+        // stands in for none yet).
+        let flag_w = if player.country.is_empty() && !own {
+            0.0
+        } else {
+            crate::flags::width(flag_h) + 12.0
+        };
         let name_w = ui.text_size(&player.username, 30.0, true).x;
         let crown_w = if player.vip { 30.0 } else { 0.0 };
         let dot_w = if p.online { 18.0 } else { 0.0 };
@@ -674,7 +683,11 @@ impl ProfileScreen {
                 Color::new(0.09, 0.055, 0.035, 1.0),
             );
         }
-        crate::flags::draw(&player.country, x, mid - flag_h / 2.0, flag_h);
+        let flag = Rect::new(x, mid - flag_h / 2.0, crate::flags::width(flag_h), flag_h);
+        let drawn = crate::flags::draw(&player.country, flag.x, flag.y, flag.h);
+        if own {
+            country_flag(ui, flag, drawn, &player.country);
+        }
         let nx = x + flag_w;
         crate::ui::draw_name(ui, player, nx, caps_y(mid, 30.0), 30.0);
         let mut after = nx + name_w + 4.0;
@@ -703,16 +716,12 @@ impl ProfileScreen {
         // the top right, signed in).
         let status_x = after + dot_w + 18.0 + pad;
         let ghost_w = if online.signed_in() && !online.lan && !player.guest {
-            let label = if p.relation == Relation::Me {
-                t("Play your ghost")
-            } else {
-                t("Play their ghost")
-            };
-            ui.text_size(label, 14.0, true).x + 54.0 + 24.0
+            ghost_width(ui, p.relation == Relation::Me) + 16.0
         } else {
             0.0
         };
-        let status_end = r.x + r.w - PAD - ghost_w;
+        let account_w = if own { ACCOUNT_W + 8.0 } else { 0.0 };
+        let status_end = r.x + r.w - PAD - ghost_w - account_w;
         self.status_message(ui, online, p, status_x, status_end, mid);
 
         // The tier and a line about the player, under the name. The pill's
@@ -747,11 +756,14 @@ impl ProfileScreen {
 
         // Numbers.
         let s = &p.stats;
-        let pct = (s.wins * 100).checked_div(s.games).unwrap_or(0);
+        let pct = match (s.wins * 100).checked_div(s.games) {
+            Some(pct) => format!("{pct}%"),
+            None => "–".to_string(),
+        };
         let cards = [
             (s.games.to_string(), t("rated games")),
             (s.wins.to_string(), t("wins")),
-            (format!("{pct}%"), t("win rate")),
+            (pct, t("win rate")),
             (s.eight_wins.to_string(), t("won on the 8")),
             (s.best_streak.to_string(), t("best streak")),
             (s.tournaments_won.to_string(), t("tournaments won")),
@@ -818,12 +830,16 @@ impl ProfileScreen {
         match p.relation {
             _ if !actions => {}
             Relation::Me => {
-                if icon_action(ui, Icon::Gear, t("Account"), true, Look::Plain) {
+                // On the name's line, before the ghost's button.
+                let b = Rect::new(
+                    r.x + r.w - PAD - ghost_w - ACCOUNT_W,
+                    r.y + 20.0,
+                    ACCOUNT_W,
+                    ACCOUNT_W,
+                );
+                if ui.icon_button(b, Icon::Gear, t("Account"), true) {
                     self.account = Some(AccountForm::default());
                     online.send(ClientMsg::Account);
-                }
-                if icon_action(ui, Icon::Globe, t("Change country"), true, Look::Plain) {
-                    crate::countries::open_at(&player.country);
                 }
             }
             _ if online.me.is_none() => {}
@@ -955,20 +971,20 @@ impl ProfileScreen {
             if !own {
                 return;
             }
-            // Nothing yet: an invitation to write one.
+            // Nothing yet: a quiet invitation to write one (it lights up
+            // under the pointer, like the flag and the picture).
             let label = t("Add a status message");
-            let lw = ui.text_size(label, 13.0, false).x;
-            let b = Rect::new(x, mid - 14.0, (lw + 36.0).min(width), 28.0);
+            let lw = ui.text_size(label, 14.0, false).x;
+            let b = Rect::new(x - 8.0, mid - 14.0, (lw + 40.0).min(width), 28.0);
             let hover = ui.hovering(b);
             ui.block(b);
             if hover {
-                rrect(b, 7.0, Color::new(1.0, 1.0, 1.0, 0.06));
+                rrect(b, 7.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08));
             }
-            rrect_lines(b, 7.0, 1.0, if hover { GOLD } else { BORDER });
-            let color = if hover { GOLD } else { MUTED };
-            crate::icons::draw(Icon::Pencil, vec2(b.x + 14.0, mid), 13.0, color);
-            let label = ui.ellipsize(label, b.w - 34.0, 13.0);
-            ui.text(&label, b.x + 26.0, text_y(mid, 13.0), 13.0, color, false);
+            let color = if hover { GOLD } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.75) };
+            crate::icons::draw(Icon::Pencil, vec2(b.x + 16.0, mid), 13.0, color);
+            let label = ui.ellipsize(label, b.w - 36.0, 14.0);
+            ui.text(&label, b.x + 30.0, text_y(mid, 14.0), 14.0, color, false);
             if hover && ui.clicked(b) {
                 self.status_edit = Some(String::new());
                 ui.focus = Some(FIELD);
@@ -1682,6 +1698,43 @@ impl ProfileScreen {
 
 /// A rounded tag in the tier's colour; `mid` is its vertical middle.
 /// Returns its width.
+/// The account button (own profile), square, on the name's line.
+const ACCOUNT_W: f32 = 36.0;
+
+/// The width of the ghost's button (one's own, or another's).
+fn ghost_width(ui: &Ui, own: bool) -> f32 {
+    let label = if own { t("Play your ghost") } else { t("Play their ghost") };
+    ui.text_size(label, 14.0, true).x + 32.0 + 22.0
+}
+
+/// One's own flag by the name (`r`, `drawn`: a flag was drawn there):
+/// a click opens the list of countries. Under the pointer it lifts, with a
+/// pencil over it; with no country yet, a globe in a frame invites one.
+fn country_flag(ui: &mut Ui, r: Rect, drawn: bool, country: &str) {
+    let hit = Rect::new(r.x - 4.0, r.y - 4.0, r.w + 8.0, r.h + 8.0);
+    let hover = ui.hovering(hit);
+    ui.block(hit);
+    if !drawn {
+        rrect(r, 4.0, Color::new(1.0, 1.0, 1.0, if hover { 0.08 } else { 0.04 }));
+        let edge = if hover { GOLD } else { BORDER };
+        rrect_lines(r, 4.0, 1.0, edge);
+        let icon = if hover { Icon::Pencil } else { Icon::Globe };
+        let color = if hover { GOLD } else { MUTED };
+        crate::icons::draw(icon, vec2(r.x + r.w / 2.0, r.y + r.h / 2.0), 14.0, color);
+    } else if hover {
+        draw_rectangle(r.x, r.y, r.w, r.h, Color::new(0.0, 0.0, 0.0, 0.55));
+        let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
+        crate::icons::draw(Icon::Pencil, c, 14.0, GOLD);
+        rrect_lines(Rect::new(r.x - 2.0, r.y - 2.0, r.w + 4.0, r.h + 4.0), 4.0, 1.5, GOLD);
+    }
+    if hover {
+        ui.tooltip(t("Change country"), hit);
+        if ui.clicked(hit) {
+            crate::countries::open_at(country);
+        }
+    }
+}
+
 fn tier_pill(ui: &Ui, text: &str, x: f32, mid: f32, color: Color) -> f32 {
     let size = 12.0;
     let w = ui.text_size(text, size, true).x + 18.0;

@@ -137,8 +137,13 @@ pub struct Entry {
     #[serde(default)]
     pub country: String,
     pub balls: u32,
-    /// When they made it (Unix seconds; earlier is ahead on a tie).
+    /// When they made it (Unix seconds).
     pub at: i64,
+    /// How long the attempt took (seconds, from its start to its strokes
+    /// reaching the server): on a tie of balls the quicker is ahead, then
+    /// the earlier.
+    #[serde(default)]
+    pub secs: u32,
 }
 
 /// Today's challenge as one player sees it.
@@ -150,6 +155,9 @@ pub struct Info {
     pub attempts_left: u32,
     /// Their best today (None: not tried yet).
     pub best: Option<u32>,
+    /// How long their best took (seconds).
+    #[serde(default)]
+    pub best_secs: Option<u32>,
     /// Their place on today's table (1 is first).
     pub rank: Option<u32>,
     /// An attempt is under way (started, not sent).

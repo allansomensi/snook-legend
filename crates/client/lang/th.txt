@@ -1300,7 +1300,7 @@ off one cushion	ชิ่ง​หนึ่ง​ขอบ
 off {n} cushions	ชิ่ง {n} ขอบ
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	แทงลง​ให้ได้​มาก​ที่สุด​ใน​ตาเดียว: แทง​พลาด​หรือ​ฟาวล์​จะ​จบ​รอบ​นั้น
 The same table for everyone, all day	โต๊ะ​เดียวกัน​สำหรับ​ทุกคน ตลอด​ทั้งวัน
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	วัน​ละ {n} รอบ เคลียร์​โต๊ะ​เพื่อ​รับ {coins} เหรียญ ผู้ชนะ​ประจำวัน​จะ​ได้​ถ้วยรางวัล
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	วัน​ละ {n} รอบ เคลียร์​โต๊ะ​เพื่อ​รับ {coins} เหรียญ ผู้​ที่​ลง​ลูก​ได้​มาก​ที่สุด​ชนะ​ประจำวัน​และ​ได้​ถ้วยรางวัล ถ้า​เท่ากัน รอบ​ที่​เร็ว​ที่สุด​ชนะ
 A new table in {h} h {m} min	โต๊ะ​ใหม่​ใน​อีก {h} ชม. {m} นาที
 Sign in to take part: the server keeps the day's table.	เข้าสู่ระบบ​เพื่อ​ร่วม​เล่น: เซิร์ฟเวอร์​จะ​เก็บ​อันดับ​ของ​วัน​ไว้
 Balls on today's table	ลูก​บน​โต๊ะ​วันนี้
@@ -1309,6 +1309,7 @@ Attempts left	รอบ​ที่​เหลือ
 {n} balls	{n} ลูก
 not yet	ยัง​ไม่​มี
 Your best today	ผลดี​ที่สุด​ของ​คุณ​วันนี้
+Time of your best	เวลา​ของ​ผลดี​ที่สุด
 No attempts left today: come back tomorrow.	วันนี้​คุณ​เล่น​ครบ​ทุก​รอบ​แล้ว: กลับมา​ใหม่​พรุ่งนี้
 The attempt could not be counted.	นับ​ผล​รอบ​นี้​ไม่​ได้
 Setting up the table…	กำลัง​เตรียม​โต๊ะ…

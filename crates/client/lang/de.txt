@@ -1300,7 +1300,7 @@ off one cushion	über eine Bande
 off {n} cushions	über {n} Banden
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Versenke so viele Kugeln wie möglich in einer Aufnahme: Ein Fehlstoß oder Foul beendet den Versuch.
 The same table for everyone, all day	Derselbe Tisch für alle, den ganzen Tag
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} Versuche pro Tag. Räum den Tisch ab für {coins} Münzen; der Tagessieger bekommt eine Trophäe.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	{n} Versuche pro Tag. Räum den Tisch ab für {coins} Münzen. Die meisten Kugeln gewinnen den Tag und eine Trophäe; bei Gleichstand der schnellste Versuch.
 A new table in {h} h {m} min	Neuer Tisch in {h} Std. {m} Min.
 Sign in to take part: the server keeps the day's table.	Melde dich an, um mitzumachen: Der Server führt die Tagesrangliste.
 Balls on today's table	Kugeln auf dem heutigen Tisch
@@ -1309,6 +1309,7 @@ Attempts left	Übrige Versuche
 {n} balls	{n} Kugeln
 not yet	noch nicht
 Your best today	Dein Bestes heute
+Time of your best	Zeit deines Besten
 No attempts left today: come back tomorrow.	Heute keine Versuche mehr: Komm morgen wieder.
 The attempt could not be counted.	Der Versuch konnte nicht gezählt werden.
 Setting up the table…	Tisch wird aufgebaut…

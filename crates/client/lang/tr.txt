@@ -1300,7 +1300,7 @@ off one cushion	tek bantlı
 off {n} cushions	{n} bantlı
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Tek sırada olabildiğince çok top sok: kaçan bir top ya da faul denemeyi bitirir.
 The same table for everyone, all day	Herkes için aynı masa, bütün gün
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Günde {n} deneme. Masayı bitir, {coins} jeton kazan; günün birincisi kupa alır.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	Günde {n} deneme. Masayı bitir, {coins} jeton kazan. En çok top sokan günü ve kupayı kazanır; eşitlikte en hızlı deneme.
 A new table in {h} h {m} min	{h} sa {m} dk sonra yeni masa
 Sign in to take part: the server keeps the day's table.	Katılmak için giriş yap: günün sıralamasını sunucu tutar.
 Balls on today's table	Bugünkü masadaki toplar
@@ -1309,6 +1309,7 @@ Attempts left	Kalan deneme
 {n} balls	{n} top
 not yet	henüz yok
 Your best today	Bugünkü en iyin
+Time of your best	En iyinin süresi
 No attempts left today: come back tomorrow.	Bugün deneme hakkın kalmadı: yarın tekrar gel.
 The attempt could not be counted.	Deneme sayılamadı.
 Setting up the table…	Masa hazırlanıyor…

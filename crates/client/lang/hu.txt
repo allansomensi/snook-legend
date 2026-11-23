@@ -1300,7 +1300,7 @@ off one cushion	egy falszélről
 off {n} cushions	{n} falszélről
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Rakj el annyi golyót, amennyit csak tudsz egy sorozatban: egy kihagyás vagy szabálytalanság véget vet a próbálkozásnak.
 The same table for everyone, all day	Ugyanaz az asztal mindenkinek, egész nap
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Napi {n} próbálkozás. Pucold ki az asztalt {coins} érméért; a nap győztese trófeát kap.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	Napi {n} próbálkozás. Pucold ki az asztalt {coins} érméért. A legtöbb golyó nyeri a napot és egy trófeát; döntetlennél a leggyorsabb próbálkozás.
 A new table in {h} h {m} min	Új asztal {h} ó {m} perc múlva
 Sign in to take part: the server keeps the day's table.	Jelentkezz be a részvételhez: a szerver tárolja a napi ranglistát.
 Balls on today's table	Golyók a mai asztalon
@@ -1309,6 +1309,7 @@ Attempts left	Hátralévő próbálkozások
 {n} balls	{n} golyó
 not yet	még nincs
 Your best today	Mai legjobb eredményed
+Time of your best	A legjobbad ideje
 No attempts left today: come back tomorrow.	Mára elfogytak a próbálkozásaid: gyere vissza holnap.
 The attempt could not be counted.	A próbálkozást nem sikerült beszámítani.
 Setting up the table…	Az asztal előkészítése…

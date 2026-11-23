@@ -1300,7 +1300,7 @@ off one cushion	od jednej bandy
 off {n} cushions	od {n} band
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Wbij jak najwięcej bil w jednym podejściu: pudło lub faul kończy próbę.
 The same table for everyone, all day	Ten sam stół dla wszystkich, przez cały dzień
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Liczba prób dziennie: {n}. Wyczyść stół, a zdobędziesz {coins} monet; zwycięzca dnia dostaje trofeum.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	Liczba prób dziennie: {n}. Wyczyść stół, a zdobędziesz {coins} monet. Najwięcej bil wygrywa dzień i trofeum; przy remisie najszybsza próba.
 A new table in {h} h {m} min	Nowy stół za {h} godz. {m} min
 Sign in to take part: the server keeps the day's table.	Zaloguj się, aby wziąć udział: serwer prowadzi tabelę dnia.
 Balls on today's table	Bile na dzisiejszym stole
@@ -1309,6 +1309,7 @@ Attempts left	Pozostałe próby
 {n} balls	bile: {n}
 not yet	jeszcze nie
 Your best today	Twój najlepszy wynik dzisiaj
+Time of your best	Czas najlepszej próby
 No attempts left today: come back tomorrow.	Na dziś nie masz już prób: wróć jutro.
 The attempt could not be counted.	Nie udało się zaliczyć próby.
 Setting up the table…	Przygotowywanie stołu…

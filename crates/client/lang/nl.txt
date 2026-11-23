@@ -1300,7 +1300,7 @@ off one cushion	via één band
 off {n} cushions	via {n} banden
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Pot zo veel ballen als je kunt in één beurt: een misser of een fout beëindigt de poging.
 The same table for everyone, all day	Dezelfde tafel voor iedereen, de hele dag
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} pogingen per dag. Speel de tafel leeg voor {coins} munten; de dagwinnaar krijgt een trofee.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	{n} pogingen per dag. Speel de tafel leeg voor {coins} munten. De meeste ballen winnen de dag en een trofee; bij gelijkspel de snelste poging.
 A new table in {h} h {m} min	Nieuwe tafel over {h} u {m} min
 Sign in to take part: the server keeps the day's table.	Log in om mee te doen: de server houdt de dagranglijst bij.
 Balls on today's table	Ballen op de tafel van vandaag
@@ -1309,6 +1309,7 @@ Attempts left	Pogingen over
 {n} balls	{n} ballen
 not yet	nog niet
 Your best today	Je beste van vandaag
+Time of your best	Tijd van je beste
 No attempts left today: come back tomorrow.	Geen pogingen meer vandaag: kom morgen terug.
 The attempt could not be counted.	De poging kon niet worden geteld.
 Setting up the table…	Tafel klaarzetten…

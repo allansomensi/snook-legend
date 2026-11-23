@@ -1300,7 +1300,7 @@ off one cushion	com uma tabela
 off {n} cushions	com {n} tabelas
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Encaçape o máximo de bolas em uma só vez na mesa: um erro ou uma falta encerra a tentativa.
 The same table for everyone, all day	A mesma mesa para todos, o dia inteiro
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} tentativas por dia. Limpe a mesa e ganhe {coins} moedas; o vencedor do dia ganha um troféu.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	{n} tentativas por dia. Limpe a mesa e ganhe {coins} moedas. Quem encaçapar mais bolas vence o dia e ganha um troféu; no empate, vence a tentativa mais rápida.
 A new table in {h} h {m} min	Nova mesa em {h} h {m} min
 Sign in to take part: the server keeps the day's table.	Entre para participar: o servidor guarda a classificação do dia.
 Balls on today's table	Bolas na mesa de hoje
@@ -1309,6 +1309,7 @@ Attempts left	Tentativas restantes
 {n} balls	{n} bolas
 not yet	ainda não
 Your best today	Seu melhor hoje
+Time of your best	Tempo do seu melhor
 No attempts left today: come back tomorrow.	Sem tentativas hoje: volte amanhã.
 The attempt could not be counted.	Não foi possível contar a tentativa.
 Setting up the table…	Preparando a mesa…

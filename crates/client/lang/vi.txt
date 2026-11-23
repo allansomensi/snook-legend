@@ -1300,7 +1300,7 @@ off one cushion	dội một băng
 off {n} cushions	dội {n} băng
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Ăn càng nhiều bi càng tốt trong một lượt: đánh trượt hoặc phạm lỗi sẽ kết thúc lượt thử.
 The same table for everyone, all day	Cùng một bàn cho mọi người, suốt cả ngày
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} lượt thử mỗi ngày. Dọn sạch bàn để nhận {coins} xu; người thắng trong ngày được nhận cúp.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	{n} lượt thử mỗi ngày. Dọn sạch bàn để nhận {coins} xu. Ai đưa được nhiều bi nhất sẽ thắng trong ngày và nhận cúp; nếu bằng nhau, lượt nhanh nhất thắng.
 A new table in {h} h {m} min	Bàn mới sau {h} giờ {m} phút
 Sign in to take part: the server keeps the day's table.	Đăng nhập để tham gia: máy chủ lưu bảng xếp hạng trong ngày.
 Balls on today's table	Số bi trên bàn hôm nay
@@ -1309,6 +1309,7 @@ Attempts left	Lượt thử còn lại
 {n} balls	{n} bi
 not yet	chưa có
 Your best today	Thành tích tốt nhất hôm nay
+Time of your best	Thời gian lượt tốt nhất
 No attempts left today: come back tomorrow.	Hôm nay bạn đã hết lượt thử: hãy quay lại vào ngày mai.
 The attempt could not be counted.	Không thể tính lượt thử này.
 Setting up the table…	Đang chuẩn bị bàn…

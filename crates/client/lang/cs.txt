@@ -1300,7 +1300,7 @@ off one cushion	od jednoho mantinelu
 off {n} cushions	mantinely: {n}
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Potop co nejvíc koulí v jednom náběhu: chyba nebo faul pokus ukončí.
 The same table for everyone, all day	Stejný stůl pro všechny, celý den
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	Pokusy za den: {n}. Vyčisti stůl a získáš mince ({coins}); vítěz dne dostane trofej.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	Pokusy za den: {n}. Vyčisti stůl a získáš mince ({coins}). Den i trofej vyhrává nejvíc koulí; při shodě nejrychlejší pokus.
 A new table in {h} h {m} min	Nový stůl za {h} h {m} min
 Sign in to take part: the server keeps the day's table.	Přihlas se a zapoj se: server vede denní pořadí.
 Balls on today's table	Koule na dnešním stole
@@ -1309,6 +1309,7 @@ Attempts left	Zbývající pokusy
 {n} balls	Koule: {n}
 not yet	zatím ne
 Your best today	Tvůj dnešní nejlepší
+Time of your best	Čas tvého nejlepšího
 No attempts left today: come back tomorrow.	Dnes už nemáš žádné pokusy: vrať se zítra.
 The attempt could not be counted.	Pokus se nepodařilo započítat.
 Setting up the table…	Připravuji stůl…

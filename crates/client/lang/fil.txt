@@ -1300,7 +1300,7 @@ off one cushion	sa isang cushion
 off {n} cushions	sa {n} cushion
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	Magpasok ng pinakamaraming bola na kaya mo sa iisang turn: tapos ang pagtatangka kapag nagmintis o nag-foul ka.
 The same table for everyone, all day	Iisang mesa para sa lahat, buong araw
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} pagtatangka bawat araw. Ubusin ang mesa para sa {coins} coins; may tropeo ang panalo sa araw na iyon.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	{n} pagtatangka bawat araw. Ubusin ang mesa para sa {coins} coins. Ang may pinakamaraming bola ang panalo sa araw at may tropeo; kapag tabla, ang pinakamabilis.
 A new table in {h} h {m} min	Bagong mesa sa loob ng {h} oras {m} min
 Sign in to take part: the server keeps the day's table.	Mag-sign in para makasali: itinatabi ng server ang ranking ng araw.
 Balls on today's table	Mga bola sa mesa ngayon
@@ -1309,6 +1309,7 @@ Attempts left	Natitirang pagtatangka
 {n} balls	{n} bola
 not yet	hindi pa
 Your best today	Pinakamagaling mo ngayon
+Time of your best	Oras ng pinakamagaling mo
 No attempts left today: come back tomorrow.	Wala ka nang pagtatangka ngayon: bumalik bukas.
 The attempt could not be counted.	Hindi mabilang ang pagtatangka.
 Setting up the table…	Inihahanda ang mesa…

@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased
+
+### Daily challenge
+- **On a tie, the quickest wins**: the day's table still goes by the balls
+  made, and among those with as many, the attempt that took the least time
+  (from its start to its strokes reaching the server, measured by the
+  server) is ahead. A later attempt with as many balls in less time
+  improves the day's best. The table shows each player's time, and the
+  challenge's page the time of one's own best. Scores made before this
+  count as having taken the whole time allowed (migration `0025`).
+
+### Profile
+- **The country is changed on the flag**: one's own flag by the name lifts
+  under the pointer, with a pencil over it, and a click opens the list of
+  countries (with no country yet, a globe stands in for it). The globe
+  button is gone.
+- **A calmer header**: the account button sits beside the ghost's, on the
+  name's line; "Add a status message" is a quiet line that lights up under
+  the pointer instead of a framed button; the rating cards don't show a
+  peak before any rated game, and the win rate reads "–" until there is one.
+
 ## 0.10.3 (protocol 24)
 
 The tour won is really restored, and the staff portal is a site of its

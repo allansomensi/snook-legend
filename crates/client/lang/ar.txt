@@ -1300,7 +1300,7 @@ off one cushion	عبر حافة واحدة
 off {n} cushions	عبر {n} حواف
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	أدخل أكبر عدد ممكن من الكرات في دور واحد: الإخفاق أو الخطأ ينهي المحاولة.
 The same table for everyone, all day	الطاولة نفسها للجميع، طوال اليوم
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	{n} محاولات في اليوم. نظف الطاولة لتربح {coins} عملة؛ ويحصل فائز اليوم على كأس.
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	{n} محاولات في اليوم. نظف الطاولة لتربح {coins} عملة. صاحب أكبر عدد من الكرات يفوز باليوم وبكأس؛ وعند التعادل، الأسرع.
 A new table in {h} h {m} min	طاولة جديدة بعد {h} س {m} د
 Sign in to take part: the server keeps the day's table.	سجل الدخول للمشاركة: يحفظ الخادم ترتيب اليوم.
 Balls on today's table	الكرات على طاولة اليوم
@@ -1309,6 +1309,7 @@ Attempts left	المحاولات المتبقية
 {n} balls	{n} كرة
 not yet	ليس بعد
 Your best today	أفضل نتيجة لك اليوم
+Time of your best	زمن أفضل محاولة لك
 No attempts left today: come back tomorrow.	لم تتبق لك محاولات اليوم: عد غدا.
 The attempt could not be counted.	تعذر احتساب المحاولة.
 Setting up the table…	يجري تجهيز الطاولة…

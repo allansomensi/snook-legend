@@ -1300,7 +1300,7 @@ off one cushion	ワンクッション
 off {n} cushions	{n}クッション
 Make as many balls as you can in one visit: a miss or a foul ends the attempt.	1回の番でできるだけ多くの球を入れてください：ミスかファウルで挑戦終了です。
 The same table for everyone, all day	1日中、全員が同じ配置に挑戦
-{n} attempts a day. Clear the table for {coins} coins; the day's winner gets a trophy.	1日{n}回挑戦できます。取り切れば{coins}コイン、その日の1位にはトロフィーが贈られます。
+{n} attempts a day. Clear the table for {coins} coins. The most balls wins the day and a trophy; on a tie, the quickest attempt.	1日{n}回挑戦できます。取り切れば{coins}コイン。最も多く沈めた人がその日の1位でトロフィーを獲得、同数なら最速の挑戦が上位です。
 A new table in {h} h {m} min	新しい配置まで{h}時間{m}分
 Sign in to take part: the server keeps the day's table.	参加するにはログインしてください：その日の順位はサーバーに記録されます。
 Balls on today's table	今日の配置の球数
@@ -1309,6 +1309,7 @@ Attempts left	残り挑戦回数
 {n} balls	{n}球
 not yet	未挑戦
 Your best today	今日の自己ベスト
+Time of your best	自己ベストのタイム
 No attempts left today: come back tomorrow.	今日の挑戦回数は残っていません：また明日どうぞ。
 The attempt could not be counted.	挑戦を記録できませんでした。
 Setting up the table…	配置を準備中…

@@ -3,6 +3,20 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.11.0
+
+### Medaglie di rubino e 26 nuove reazioni
+Gli obiettivi più difficili ora danno una medaglia di rubino. 14 nuove reazioni arrivano con gli obiettivi, e altre 12 sono nel negozio, nella nuova categoria Reazioni.
+
+### Un profilo più chiaro
+Clicca sulla tua bandiera per cambiare paese, sul nome di un avversario per aprire il suo profilo, e vedi il tuo livello come un gradino illuminato sulla scala dei livelli.
+
+### Sfida del giorno e partite giornaliere
+Nella sfida del giorno, a parità di bilie vince il tentativo più rapido, e la classifica mostra il tempo di ognuno. Sfidando qualcuno a una partita giornaliera scegli prima le regole.
+
+### Un menu più silenzioso e chiaro
+In Impostazioni → Audio puoi spegnere i clic dell'interfaccia. Il pulsante per uscire ora è una porta aperta, con il suo nome.
+
 ## 0.10.3
 
 ### Il circuito vinto torna davvero

@@ -4,6 +4,20 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.11.0
+
+### Médailles de rubis et 26 nouvelles réactions
+Les succès les plus difficiles donnent maintenant une médaille de rubis. 14 nouvelles réactions viennent avec des succès, et 12 autres sont dans la boutique, dans la nouvelle catégorie Réactions.
+
+### Un profil plus clair
+Cliquez sur votre drapeau pour changer de pays, sur le nom d'un adversaire pour ouvrir son profil, et voyez votre niveau comme une marche allumée sur l'échelle des niveaux.
+
+### Défi du jour et parties quotidiennes
+Au défi du jour, une égalité de billes revient à la tentative la plus rapide, et le classement montre le temps de chacun. Pour défier quelqu'un en partie quotidienne, vous choisissez d'abord les règles.
+
+### Un menu plus calme et plus clair
+Paramètres → Son peut couper les clics de l'interface. Le bouton pour quitter est maintenant une porte ouverte, avec son nom.
+
 ## 0.10.3
 
 ### Le circuit gagné revient pour de bon

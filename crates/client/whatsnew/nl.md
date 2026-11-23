@@ -3,6 +3,20 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.11.0
+
+### Robijnen medailles en 26 nieuwe reacties
+De moeilijkste prestaties geven nu een robijnen medaille. 14 nieuwe reacties komen met prestaties, en nog 12 staan in de winkel, in de nieuwe categorie Reacties.
+
+### Een duidelijker profiel
+Klik op je vlag om van land te wisselen, op de naam van een tegenstander om zijn profiel te openen, en zie je level als een verlichte trede op de levelladder.
+
+### Dagchallenge en dagpartijen
+Bij de dagchallenge gaat een gelijke stand in ballen naar de snelste poging, en de stand toont ieders tijd. Daag je iemand uit voor een dagpartij, dan kies je eerst de regels.
+
+### Een rustiger, duidelijker menu
+Via Instellingen → Geluid zet je de klikjes van de interface uit. De afsluitknop is nu een open deur, met zijn naam.
+
 ## 0.10.3
 
 ### Je gewonnen tour komt nu echt terug

@@ -2,6 +2,20 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.11.0
+
+### Huy chương hồng ngọc và 26 biểu cảm mới
+Các thành tựu khó nhất giờ cho huy chương hồng ngọc. 14 biểu cảm mới đến từ thành tựu, và 12 cái nữa có trong cửa hàng, ở mục mới Biểu cảm.
+
+### Hồ sơ rõ ràng hơn
+Nhấp vào lá cờ để đổi quốc gia, vào tên đối thủ để mở hồ sơ của họ, và xem cấp của bạn như một bậc sáng trên thang cấp.
+
+### Thử thách ngày và ván hằng ngày
+Ở thử thách ngày, khi bằng số bi, lượt nhanh nhất xếp trên, và bảng hiện thời gian của từng người. Khi thách đấu ai đó một ván hằng ngày, bạn chọn luật trước.
+
+### Menu yên tĩnh và rõ hơn
+Trong Cài đặt → Âm thanh có thể tắt tiếng nhấp của giao diện. Nút thoát giờ là một cánh cửa mở, kèm tên.
+
 ## 0.10.3
 
 ### Giải đã thắng giờ thật sự trở lại

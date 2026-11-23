@@ -2,6 +2,20 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.11.0
+
+### Rubinérmek és 26 új reakció
+A legnehezebb teljesítmények mostantól rubinérmet adnak. 14 új reakció teljesítményekkel jár, további 12 pedig a boltban van, az új Reakciók kategóriában.
+
+### Átláthatóbb profil
+Kattints a zászlódra az ország cseréjéhez, egy ellenfél nevére a profilja megnyitásához, és lásd a szinted kivilágított fokként a szintek létráján.
+
+### Napi kihívás és napi játszmák
+A napi kihívásban golyóegyezésnél a leggyorsabb próbálkozás nyer, a táblázat pedig mutatja mindenki idejét. Ha valakit napi játszmára hívsz, előbb kiválaszthatod a szabályokat.
+
+### Csendesebb, átláthatóbb menü
+A Beállítások → Hang alatt kikapcsolható a felület kattogása. A kilépés gomb most nyitott ajtó, felirattal.
+
 ## 0.10.3
 
 ### A megnyert túra most tényleg visszajön

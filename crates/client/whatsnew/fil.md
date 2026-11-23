@@ -2,6 +2,20 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.11.0
+
+### Mga ruby medal at 26 bagong reaction
+Ang pinakamahihirap na achievement ay may ruby medal na. 14 bagong reaction ang kasama ng mga achievement, at 12 pa ang nasa tindahan, sa bagong kategoryang Reactions.
+
+### Mas malinaw na profile
+I-click ang iyong bandila para palitan ang bansa, ang pangalan ng kalaban para buksan ang profile niya, at makita ang level mo bilang nakailaw na baitang sa hagdan ng mga level.
+
+### Daily challenge at daily game
+Sa daily challenge, kapag tabla sa bola, ang pinakamabilis na tangka ang mauuna, at ipinapakita ng talaan ang oras ng bawat isa. Kapag hinamon mo ang isang tao sa daily game, pipiliin mo muna ang rules.
+
+### Mas tahimik at malinaw na menu
+Sa Settings → Sound, puwedeng patayin ang mga click ng interface. Ang button na pang-exit ay isa nang bukas na pinto, may pangalan.
+
 ## 0.10.3
 
 ### Talagang bumabalik na ang napanalunang tour

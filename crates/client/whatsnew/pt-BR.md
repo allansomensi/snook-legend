@@ -3,6 +3,20 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.11.0
+
+### Medalhas de rubi e 26 reações novas
+As conquistas mais difíceis agora dão uma medalha de rubi. 14 reações novas vêm com conquistas, e mais 12 estão na loja, na nova categoria Reações.
+
+### Um perfil mais claro
+Clique na sua bandeira para trocar de país, no nome de um adversário para abrir o perfil dele, e veja o seu nível como um degrau aceso na escada de níveis.
+
+### Desafio do dia e partidas diárias
+No desafio do dia, o empate em bolas fica com a tentativa mais rápida, e a classificação mostra o tempo de cada jogador. Ao desafiar alguém para uma partida diária, você escolhe a regra antes.
+
+### Menu mais silencioso e claro
+Em Configurações → Som dá para desligar os cliques da interface. O botão de sair agora é uma porta aberta, com o nome.
+
 ## 0.10.3
 
 ### O circuito vencido volta de verdade

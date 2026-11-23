@@ -2,6 +2,20 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.11.0
+
+### Rubinowe medale i 26 nowych reakcji
+Najtrudniejsze osiągnięcia dają teraz rubinowy medal. 14 nowych reakcji przychodzi z osiągnięciami, a kolejne 12 jest w sklepie, w nowej kategorii Reakcje.
+
+### Czytelniejszy profil
+Kliknij swoją flagę, aby zmienić kraj, nazwę rywala, aby otworzyć jego profil, i zobacz swój poziom jako podświetlony stopień na drabinie poziomów.
+
+### Wyzwanie dnia i gry dzienne
+W wyzwaniu dnia remis w bilach wygrywa najszybsza próba, a tabela pokazuje czas każdego gracza. Wyzywając kogoś na grę dzienną, najpierw wybierasz zasady.
+
+### Cichsze, czytelniejsze menu
+W Ustawienia → Dźwięk można wyłączyć kliknięcia interfejsu. Przycisk wyjścia to teraz otwarte drzwi z podpisem.
+
 ## 0.10.3
 
 ### Wygrany turniej naprawdę wraca

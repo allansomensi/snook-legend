@@ -3,6 +3,20 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.11.0
+
+### Ruby medals and 26 new reactions
+The hardest achievements now give a ruby medal. 14 new reactions come with achievements, and 12 more are in the shop, in the new Reactions category.
+
+### A clearer profile
+Click your flag to change your country, click an opponent's name to open their profile, and see your level as a lit step on the ladder of levels.
+
+### Daily challenge and daily games
+On the daily challenge, a tie in balls goes to the quickest attempt, and the table shows each player's time. Challenging someone to a daily game lets you choose the rules first.
+
+### Quieter, clearer menu
+Settings → Sound can turn off the interface's clicks. The quit button is now an open door with its name.
+
 ## 0.10.3
 
 ### Your tour is really back

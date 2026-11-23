@@ -3,6 +3,20 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.11.0
+
+### Medali rubi dan 26 reaksi baru
+Pencapaian tersulit kini memberi medali rubi. 14 reaksi baru datang dari pencapaian, dan 12 lagi ada di toko, di kategori baru Reaksi.
+
+### Profil yang lebih jelas
+Klik benderamu untuk ganti negara, klik nama lawan untuk membuka profilnya, dan lihat levelmu sebagai anak tangga yang menyala di tangga level.
+
+### Tantangan harian dan permainan harian
+Di tantangan harian, jika jumlah bola sama, percobaan tercepat unggul, dan tabel menampilkan waktu tiap pemain. Saat menantang seseorang ke permainan harian, kamu memilih aturannya dulu.
+
+### Menu lebih tenang dan jelas
+Di Pengaturan → Suara, bunyi klik antarmuka bisa dimatikan. Tombol keluar kini berupa pintu terbuka, dengan namanya.
+
 ## 0.10.3
 
 ### Tur yang dimenangkan kini benar-benar kembali

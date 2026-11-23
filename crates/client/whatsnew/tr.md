@@ -3,6 +3,20 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.11.0
+
+### Yakut madalyalar ve 26 yeni tepki
+En zor başarımlar artık yakut madalya veriyor. 14 yeni tepki başarımlarla geliyor, 12 tane daha mağazada, yeni Tepkiler kategorisinde.
+
+### Daha anlaşılır profil
+Ülkeni değiştirmek için bayrağına, profilini açmak için bir rakibin adına tıkla; seviyeni seviye merdiveninde yanan bir basamak olarak gör.
+
+### Günün meydan okuması ve günlük oyunlar
+Günün meydan okumasında top sayısı eşitse en hızlı deneme öne geçer ve tablo herkesin süresini gösterir. Birini günlük oyuna davet ederken önce kuralları seçersin.
+
+### Daha sessiz, daha net menü
+Ayarlar → Ses bölümünden arayüz tıklamalarını kapatabilirsin. Çıkış düğmesi artık adıyla birlikte açık bir kapı.
+
 ## 0.10.3
 
 ### Kazanılan tur artık gerçekten geri geliyor

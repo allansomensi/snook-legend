@@ -1,6 +1,11 @@
 # Changelog
 
-## Unreleased
+## 0.11.0 (protocol 24)
+
+Ruby medals and 26 new reactions (12 of them in the shop), a clearer
+profile, ties on the daily challenge settled by time, daily games set up
+before they are sent, and a Store version that can sell nothing. The
+protocol is unchanged: 0.10.x and 0.11.x games play together.
 
 ### Microsoft Store
 - **The Store version can be built without any purchase for real money**:

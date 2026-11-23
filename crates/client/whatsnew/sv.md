@@ -3,6 +3,20 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.11.0
+
+### Rubinmedaljer och 26 nya reaktioner
+De svåraste prestationerna ger nu en rubinmedalj. 14 nya reaktioner kommer med prestationer, och 12 till finns i butiken, i den nya kategorin Reaktioner.
+
+### En tydligare profil
+Klicka på din flagga för att byta land, på en motståndares namn för att öppna profilen, och se din nivå som ett tänt steg på nivåstegen.
+
+### Dagens utmaning och dagspartier
+I dagens utmaning vinner det snabbaste försöket vid lika många bollar, och tabellen visar allas tid. När du utmanar någon till ett dagsparti väljer du reglerna först.
+
+### En tystare, tydligare meny
+Under Inställningar → Ljud kan du stänga av gränssnittets klick. Avsluta-knappen är nu en öppen dörr, med sitt namn.
+
 ## 0.10.3
 
 ### Din vunna turné kommer verkligen tillbaka

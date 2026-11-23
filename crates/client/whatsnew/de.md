@@ -3,6 +3,20 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.11.0
+
+### Rubinmedaillen und 26 neue Reaktionen
+Die schwersten Erfolge bringen jetzt eine Rubinmedaille. 14 neue Reaktionen gibt es mit Erfolgen, 12 weitere im Shop, in der neuen Kategorie Reaktionen.
+
+### Ein klareres Profil
+Klick auf deine Flagge, um das Land zu ändern, auf den Namen eines Gegners, um sein Profil zu öffnen, und sieh dein Level als leuchtende Stufe auf der Level-Leiter.
+
+### Tageschallenge und Tagespartien
+Bei der Tageschallenge entscheidet bei gleich vielen Kugeln der schnellste Versuch, und die Tabelle zeigt die Zeit jedes Spielers. Forderst du jemanden zu einer Tagespartie heraus, wählst du vorher die Regeln.
+
+### Ein ruhigeres, klareres Menü
+Unter Einstellungen → Ton lassen sich die Klicks der Oberfläche ausschalten. Der Beenden-Knopf ist jetzt eine offene Tür, mit Namen.
+
 ## 0.10.3
 
 ### Die gewonnene Tour kommt jetzt wirklich zurück

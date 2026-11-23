@@ -9,9 +9,10 @@ The screenshots for each language are in `store-art/screenshots/<language>/`
 (1920 × 1080, in the order to upload them); the logos and the hero art are in
 `store-art/` (see `tools/store_art.py`).
 
-**Coin purchases in the Store** depend on the server: they are on only when
-the server has the `SNOOK_LEGEND_MSSTORE_*` variables and the add-ons are
-published (see [MSSTORE.md](MSSTORE.md), "Venda de moedas e VIP pela Store"). The
+**Coin purchases in the Store** depend on the package: they are on only when
+it was built with the repository variable `MSSTORE_PURCHASES` set to `on`
+(and the server has the `SNOOK_LEGEND_MSSTORE_*` variables and the add-ons
+are published; see [MSSTORE.md](MSSTORE.md), "Venda de moedas e VIP pela Store"). The
 texts below don't mention buying anything: while the Store sale is off, use
 them as they are, and the age rating questionnaire shouldn't mention
 purchases with money either. Once it is on, add the block at the end of this
@@ -57,7 +58,15 @@ Em 27 idiomas, entre eles português, inglês, espanhol, francês, alemão, ital
 
 ### Novidades desta versão
 
-Versão 0.10.3: o circuito vencido volta de verdade.
+Versão 0.11.0: medalhas de rubi, 26 reações novas e um perfil mais claro.
+• As conquistas mais difíceis agora dão uma medalha de rubi.
+• 26 reações novas: 14 vêm com conquistas e 12 estão na loja, compradas com as moedas ganhas jogando.
+• No perfil, clique na bandeira para trocar de país e no nome de um adversário para abrir o perfil dele; o seu nível aparece aceso na escada de níveis.
+• Desafio do dia: no empate em bolas, fica na frente a tentativa mais rápida.
+• Ao desafiar alguém para uma partida diária, você escolhe a regra antes.
+• Os cliques da interface podem ser desligados em Configurações → Som.
+
+Da versão 0.10.3: o circuito vencido volta de verdade.
 • Entrando com a conta que venceu o circuito, ele volta completo, com todos os adversários liberados (na 0.10.2 isso não acontecia para todos).
 
 Da versão 0.10.2: o circuito vencido não se perde mais ao reinstalar ou trocar de computador.
@@ -65,10 +74,6 @@ Da versão 0.10.2: o circuito vencido não se perde mais ao reinstalar ou trocar
 Da versão 0.10.1: telas sempre claras e a conta conectada até você sair.
 
 Da versão 0.10.0: um visual novo e fotos de perfil do jogo.
-• Interface refeita: fonte feita para telas, ícones nítidos, bordas lisas, menu novo com o logotipo e botões com animação e clique suave.
-• 32 fotos de perfil novas com coisas da sinuca, das bolas numeradas ao taco em chamas, no lugar dos rostos.
-• Na loja, panos e bolas aparecem como na mesa, sob a luz da luminária.
-• Mensagens claras quando o servidor não responde, com o botão "Tentar de novo".
 
 Da versão 0.9.0: o jogo em 27 idiomas, com as regras, as novidades e os nomes dos países traduzidos.
 
@@ -139,7 +144,15 @@ In 27 languages, including English, Portuguese, Spanish, French, German, Italian
 
 ### What's new in this version
 
-Version 0.10.3: a tour you won really comes back.
+Version 0.11.0: ruby medals, 26 new reactions and a clearer profile.
+• The hardest achievements now give a ruby medal.
+• 26 new reactions: 14 come with achievements and 12 are in the shop, bought with the coins you earn by playing.
+• On the profile, click your flag to change country and an opponent's name to open their profile; your level is lit on the ladder of levels.
+• Daily challenge: on a tie in balls, the quickest attempt is ahead.
+• Challenging someone to a daily game, you choose the rules first.
+• The interface's clicks can be turned off in Settings → Sound.
+
+From version 0.10.3: a tour you won really comes back.
 • Signed in with the account that won the tour, it is complete again, every opponent unlocked (0.10.2 didn't do it for everyone).
 
 From version 0.10.2: a tour you won is no longer lost when reinstalling or moving to another computer.
@@ -147,10 +160,6 @@ From version 0.10.2: a tour you won is no longer lost when reinstalling or movin
 From version 0.10.1: screens always bright, and signed in until you sign out.
 
 From version 0.10.0: a new look and profile pictures from the game.
-• The interface redone: a typeface made for screens, sharp icons, smooth edges, a new menu with the logo, and buttons that light up and click softly.
-• 32 new profile pictures of pool things, from the numbered balls to a cue on fire, in place of the faces.
-• In the shop, cloths and ball sets look as on the table, under the lamp.
-• Clear messages when the server doesn't answer, with a "Try again" button.
 
 From version 0.9.0: the game in 27 languages, with the rules, what's new and the countries' names translated.
 
@@ -221,7 +230,15 @@ En 27 idiomas, entre ellos español, inglés, portugués, francés, alemán, ita
 
 ### Novedades de esta versión
 
-Versión 0.10.3: el circuito ganado vuelve de verdad.
+Versión 0.11.0: medallas de rubí, 26 reacciones nuevas y un perfil más claro.
+• Los logros más difíciles ahora dan una medalla de rubí.
+• 26 reacciones nuevas: 14 llegan con logros y 12 están en la tienda, compradas con las monedas que ganas jugando.
+• En el perfil, haz clic en tu bandera para cambiar de país y en el nombre de un rival para abrir su perfil; tu nivel aparece iluminado en la escalera de niveles.
+• Desafío del día: con empate en bolas, va delante el intento más rápido.
+• Al retar a alguien a una partida diaria, eliges antes las reglas.
+• Los clics de la interfaz se pueden apagar en Ajustes → Sonido.
+
+De la versión 0.10.3: el circuito ganado vuelve de verdad.
 • Al entrar con la cuenta que ganó el circuito, vuelve completo, con todos los rivales desbloqueados (la 0.10.2 no lo hacía para todos).
 
 De la versión 0.10.2: el circuito ganado ya no se pierde al reinstalar o cambiar de computadora.
@@ -229,10 +246,6 @@ De la versión 0.10.2: el circuito ganado ya no se pierde al reinstalar o cambia
 De la versión 0.10.1: pantallas siempre claras y la sesión abierta hasta que salgas.
 
 De la versión 0.10.0: un aspecto nuevo y fotos de perfil del juego.
-• La interfaz rehecha: una tipografía pensada para pantallas, iconos nítidos, bordes suaves, un menú nuevo con el logotipo y botones que se iluminan con un clic suave.
-• 32 fotos de perfil nuevas con cosas del billar, de las bolas numeradas a un taco en llamas, en lugar de las caras.
-• En la tienda, los paños y las bolas se ven como en la mesa, bajo la lámpara.
-• Mensajes claros cuando el servidor no responde, con el botón "Reintentar".
 
 De la versión 0.9.0: el juego en 27 idiomas, con las reglas, las novedades y los nombres de los países traducidos.
 

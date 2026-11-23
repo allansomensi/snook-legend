@@ -2,6 +2,20 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.11.0
+
+### Medalii de rubin și 26 de reacții noi
+Cele mai grele realizări dau acum o medalie de rubin. 14 reacții noi vin cu realizări, iar alte 12 sunt în magazin, în noua categorie Reacții.
+
+### Un profil mai clar
+Apasă pe steagul tău ca să schimbi țara, pe numele unui adversar ca să-i deschizi profilul, și vezi-ți nivelul ca o treaptă luminată pe scara nivelurilor.
+
+### Provocarea zilei și jocuri zilnice
+La provocarea zilei, egalitatea la bile o câștigă încercarea cea mai rapidă, iar clasamentul arată timpul fiecăruia. Când provoci pe cineva la un joc zilnic, alegi mai întâi regulile.
+
+### Un meniu mai liniștit și mai clar
+Din Setări → Sunet poți opri clicurile interfeței. Butonul de ieșire e acum o ușă deschisă, cu numele lui.
+
 ## 0.10.3
 
 ### Circuitul câștigat revine cu adevărat

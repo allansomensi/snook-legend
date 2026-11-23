@@ -3,6 +3,20 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.11.0
+
+### Rubínové medaile a 26 nových reakcí
+Nejtěžší úspěchy teď dávají rubínovou medaili. 14 nových reakcí přichází s úspěchy a dalších 12 je v obchodě, v nové kategorii Reakce.
+
+### Přehlednější profil
+Kliknutím na vlajku změníš zemi, kliknutím na jméno soupeře otevřeš jeho profil a svou úroveň uvidíš jako rozsvícený stupeň na žebříčku úrovní.
+
+### Denní výzva a denní hry
+V denní výzvě při stejném počtu koulí vyhrává nejrychlejší pokus a tabulka ukazuje čas každého hráče. Když někoho vyzveš k denní hře, nejdřív vybereš pravidla.
+
+### Tišší a přehlednější menu
+V Nastavení → Zvuk lze vypnout cvakání rozhraní. Tlačítko pro ukončení je teď otevřené dveře s popiskem.
+
 ## 0.10.3
 
 ### Vyhraný okruh se teď opravdu vrátí

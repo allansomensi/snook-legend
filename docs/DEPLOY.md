@@ -3,9 +3,8 @@
 The server is a single executable (`snook-legend-server`) that keeps the lounge and
 running matches in memory and stores accounts, ratings, history,
 achievements, friends, reports and the staff audit log in PostgreSQL. It also
-serves the staff API at `/admin/api`, for the staff portal (a web app of its
-own: the `admin/` folder of the website's repository, `snooklegend.app`, at
-`admin.snooklegend.app`).
+serves the staff API at `/admin/api`, for the staff portal (part of the
+website, in its repository `snooklegend.app`, at `snooklegend.app/admin`).
 
 A step-by-step guide for **Render + Neon**, in Portuguese, is in
 [DEPLOY.pt-BR.md](DEPLOY.pt-BR.md). The official server runs on Render's
@@ -29,7 +28,7 @@ Render and Neon are fine for testing. This page is the reference.
 | `SNOOK_LEGEND_STRIPE_*` | — | real-money purchases through Stripe (see `crates/server/src/payments.rs`) |
 | `SNOOK_LEGEND_MSSTORE_*` | — | coin packs bought in the Microsoft Store (see [MSSTORE.md](MSSTORE.md)) |
 | `SNOOK_LEGEND_SITE_URL` | `https://snooklegend.app` | the game's website, with the terms of use and the privacy policy: the server's old addresses for them (`/termos`, `/privacy`…) and `/` lead there, permanently |
-| `SNOOK_LEGEND_ADMIN_ORIGIN` | — | the staff portal's origin (`https://admin.snooklegend.app`): the only site a browser may call the staff API (`/admin/api`) from (CORS, no credentials: the portal's session is a bearer token), and where `/admin` here leads. Without it, no browser may call the staff API from another site, and `/admin` is not found. (`SNOOK_LEGEND_ADMIN_HOST`, before 0.10.3, is no longer used.) |
+| `SNOOK_LEGEND_ADMIN_ORIGIN` | — | the origin of the website, where the staff portal is (`https://snooklegend.app`): the only site a browser may call the staff API (`/admin/api`) from (CORS, no credentials: the portal's session is a bearer token), and `/admin` here leads to its `/admin/`. Without it, no browser may call the staff API from another site, and `/admin` is not found. (`SNOOK_LEGEND_ADMIN_HOST`, before 0.10.3, is no longer used.) |
 | `RUST_LOG` | `info` | log filter |
 
 Endpoints: `GET /ws` (the game), `GET /health` (`ok`), `GET /api/status`
@@ -41,7 +40,7 @@ rules, Brazilian when left out; public JSON with CORS, for a website),
 (`/termos`, `/terms`, `/terminos`, `/privacidade`, `/privacy`, `/privacidad`)
 and `/` redirect there. The public server's addresses: the game at
 `wss://api.snooklegend.app/ws`, the website on `https://snooklegend.app`, the
-staff portal on `https://admin.snooklegend.app` (section 11 of the Portuguese guide sets
+staff portal on `https://snooklegend.app/admin/` (section 11 of the Portuguese guide sets
 them up).
 
 ## Docker

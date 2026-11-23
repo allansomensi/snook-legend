@@ -21,7 +21,7 @@
 //! | `SNOOK_LEGEND_STRIPE_PRICES` | — | `code=price_id\|label;…` for coin packs and `vip_monthly` |
 //! | `SNOOK_LEGEND_PUBLIC_URL` | — | the server's public address (payment return pages) |
 //! | `SNOOK_LEGEND_SITE_URL` | `https://snooklegend.app` | the game's website, with the terms of use and the privacy policy: the server's old addresses for them (`/termos`, `/privacy`…) and `/` lead there |
-//! | `SNOOK_LEGEND_ADMIN_ORIGIN` | — | the staff portal's origin (`https://admin.snooklegend.app`): the only one allowed to call `/admin/api` from a browser; `/admin` leads there |
+//! | `SNOOK_LEGEND_ADMIN_ORIGIN` | — | the website's origin, where the staff portal is (`https://snooklegend.app`, pages `/admin`): the only one allowed to call `/admin/api` from a browser; `/admin` here leads there |
 //! | `SNOOK_LEGEND_DRAIN_SECS` | `240` | on SIGTERM: how long games in progress may go on before they are handed to the next server |
 //! | `SNOOK_LEGEND_CUP` | — | the weekly cup, e.g. `sat 20:00` (options: `60m`, `fee=100`, `utc-3`, `official` for the official rules) |
 //! | `RUST_LOG` | `info` | log filter |

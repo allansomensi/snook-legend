@@ -1,7 +1,7 @@
-//! The staff API under `/admin/api`, for the staff portal: a web app of its
-//! own (Next.js, the `admin/` folder of the website's repository, at
-//! `admin.snooklegend.app`) that calls it from the browser. Only the
-//! portal's origin may (`SNOOK_LEGEND_ADMIN_ORIGIN`, checked by CORS).
+//! The staff API under `/admin/api`, for the staff portal: the `/admin` pages
+//! of the website (Next.js, the website's repository, at
+//! `snooklegend.app/admin`), which call it from the browser. Only the
+//! website's origin may (`SNOOK_LEGEND_ADMIN_ORIGIN`, checked by CORS).
 //!
 //! Staff are ordinary accounts with the moderator or administrator role
 //! (the first administrators come from `SNOOK_LEGEND_ADMINS`). They sign in with

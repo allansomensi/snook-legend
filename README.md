@@ -159,8 +159,8 @@ which every desktop installation has. How releases are made is described in
 - **Local network**: host a game from the game itself (no server needed);
   others find it automatically or join by address.
 - **Replay** of the last shot, a discreet **zoom bar**, a read-only game
-  history offline, and a staff **portal** (a Next.js app at
-  `admin.snooklegend.app`, over the server's staff API: moderation, wallets,
+  history offline, and a staff **portal** (Next.js, part of the
+  website at `snooklegend.app/admin`, over the server's staff API: moderation, wallets,
   payments, metrics, audit log).
 - **Aiming guides**: the full guide (where both balls go) is for offline
   practice; against people, the standard guide (ghost ball) or a short line.

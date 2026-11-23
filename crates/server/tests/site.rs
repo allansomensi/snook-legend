@@ -1,6 +1,6 @@
 //! The server on its own addresses: the terms of use, the privacy policy and
-//! the root lead to the game's website, `/admin` to the staff portal's own
-//! site, and only the portal may call the staff API from a browser.
+//! the root lead to the game's website, `/admin` to the staff portal on the
+//! website, and only the portal may call the staff API from a browser.
 
 use snook_legend_server::store::Store;
 use snook_legend_server::{Config, Server, serve};
@@ -71,12 +71,12 @@ async fn the_old_portal_address_leads_to_the_portal() {
     let addr = start(Config::default()).await;
     assert_eq!(get(&addr, "api.snooklegend.app", "/admin").await.0, 404);
     let config =
-        Config { admin_origin: Some("https://admin.snooklegend.app".into()), ..Config::default() };
+        Config { admin_origin: Some("https://snooklegend.app".into()), ..Config::default() };
     let addr = start(config).await;
     for path in ["/admin", "/admin/"] {
         let (code, to) = get(&addr, "api.snooklegend.app", path).await;
         assert!(permanent(code), "{path}");
-        assert_eq!(to, "https://admin.snooklegend.app");
+        assert_eq!(to, "https://snooklegend.app/admin/");
     }
     // The old portal's files are gone.
     assert_eq!(get(&addr, "api.snooklegend.app", "/admin/app.js").await.0, 404);
@@ -100,17 +100,17 @@ async fn request(addr: &str, head: &str) -> (u16, String) {
 #[tokio::test]
 async fn only_the_portal_may_call_the_staff_api_from_a_browser() {
     let config =
-        Config { admin_origin: Some("https://admin.snooklegend.app".into()), ..Config::default() };
+        Config { admin_origin: Some("https://snooklegend.app".into()), ..Config::default() };
     let addr = start(config).await;
     // The browser asks first, for the portal's origin: yes.
     let (code, head) = request(
         &addr,
-        "OPTIONS /admin/api/overview HTTP/1.0\r\nOrigin: https://admin.snooklegend.app\r\n\
+        "OPTIONS /admin/api/overview HTTP/1.0\r\nOrigin: https://snooklegend.app\r\n\
          Access-Control-Request-Method: GET\r\nAccess-Control-Request-Headers: authorization",
     )
     .await;
     assert_eq!(code, 204, "{head}");
-    assert!(head.contains("access-control-allow-origin: https://admin.snooklegend.app"), "{head}");
+    assert!(head.contains("access-control-allow-origin: https://snooklegend.app"), "{head}");
     assert!(head.contains("access-control-allow-headers: authorization, content-type"), "{head}");
     assert!(!head.contains("access-control-allow-credentials"), "{head}");
     // For any other site: no.
@@ -123,10 +123,9 @@ async fn only_the_portal_may_call_the_staff_api_from_a_browser() {
     assert!(!head.contains("access-control-allow-origin"), "{head}");
     // The answers themselves name the portal only.
     let (code, head) =
-        request(&addr, "GET /admin/api/overview HTTP/1.0\r\nOrigin: https://admin.snooklegend.app")
-            .await;
+        request(&addr, "GET /admin/api/overview HTTP/1.0\r\nOrigin: https://snooklegend.app").await;
     assert_eq!(code, 401);
-    assert!(head.contains("access-control-allow-origin: https://admin.snooklegend.app"), "{head}");
+    assert!(head.contains("access-control-allow-origin: https://snooklegend.app"), "{head}");
     let (_, head) =
         request(&addr, "GET /admin/api/overview HTTP/1.0\r\nOrigin: https://evil.example").await;
     assert!(!head.contains("access-control-allow-origin"), "{head}");
@@ -137,7 +136,7 @@ async fn without_a_portal_no_browser_may_call_the_staff_api() {
     let addr = start(Config::default()).await;
     let (code, head) = request(
         &addr,
-        "OPTIONS /admin/api/login HTTP/1.0\r\nOrigin: https://admin.snooklegend.app\r\nAccess-Control-Request-Method: POST",
+        "OPTIONS /admin/api/login HTTP/1.0\r\nOrigin: https://snooklegend.app\r\nAccess-Control-Request-Method: POST",
     )
     .await;
     assert_eq!(code, 403);

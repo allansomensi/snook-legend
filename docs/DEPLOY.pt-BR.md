@@ -8,16 +8,15 @@ e do Neon também servem, com os limites abaixo.
 ```
  Jogadores ──wss──▶  Render (servidor Snook Legend, Docker)  ──TLS──▶  Neon (PostgreSQL)
                          ▲  /admin/api (API da equipe, CORS)
- Equipe ──https──▶  Vercel (painel, admin.snooklegend.app)
+ Equipe ──https──▶  Vercel (site + painel, snooklegend.app/admin)
 ```
 
 - **Render** roda o servidor (o mesmo binário de sempre, em um container).
 - **Neon** guarda contas, ratings, histórico, conquistas, amizades e denúncias.
-- **Vercel** publica o site (`snooklegend.app`) e o **painel da equipe**
-  (`admin.snooklegend.app`): os dois estão no repositório `snooklegend.app`
-  (o painel na pasta `admin/`, um projeto Vercel próprio). O painel fala com a
-  API da equipe do servidor (`/admin/api`), que só responde ao navegador vindo
-  do endereço do painel (`SNOOK_LEGEND_ADMIN_ORIGIN`). O servidor também expõe
+- **Vercel** publica o site (`snooklegend.app`) com o **painel da equipe**
+  em `/admin`: um app Next.js só, no repositório `snooklegend.app`. O painel
+  fala com a API da equipe do servidor (`/admin/api`), que só responde ao
+  navegador vindo do endereço do site (`SNOOK_LEGEND_ADMIN_ORIGIN`). O servidor também expõe
   `GET /api/leaderboard?rules=brazilian|official` (o ranking de cada regra; a
   brasileira quando omitido) e `GET /api/status` (JSON público, com CORS) para o site
   mostrar o ranking e quantos estão online.
@@ -94,11 +93,10 @@ As outras variáveis já vêm no `render.yaml`:
 
 1. Abra o jogo, **Jogar online → Nova conta**, crie a conta com o nome que pôs
    em `SNOOK_LEGEND_ADMINS` (ou entre, se ela já existe). Ao entrar, ela vira admin.
-2. Abra o painel, `https://admin.snooklegend.app` (passo 11.4), e entre com o
-   mesmo usuário e senha. Para testar antes do domínio, rode o painel na sua
-   máquina (`admin/README.md` no repositório do site) com
-   `NEXT_PUBLIC_API_URL` apontando para o servidor e
-   `SNOOK_LEGEND_ADMIN_ORIGIN=http://localhost:3001` no Render.
+2. Abra o painel, `https://snooklegend.app/admin/` (passo 11.4), e entre com o
+   mesmo usuário e senha. Para testar antes, rode o site na sua máquina (o
+   README do repositório do site) com `NEXT_PUBLIC_API_URL` apontando para o
+   servidor e `SNOOK_LEGEND_ADMIN_ORIGIN=http://localhost:3000` no Render.
 
 No painel: visão geral (online, partidas, contas, denúncias abertas), busca de
 jogadores, ban temporário/permanente, silenciar, desconectar, encerrar todas
@@ -306,13 +304,13 @@ Onde usar os endereços:
 
 ## 11. Domínios próprios: site, API e painel
 
-O jogo usa três endereços, cada um com um papel:
+O jogo usa dois domínios, cada um com um papel:
 
 | Endereço | O que serve | Onde roda |
 |---|---|---|
 | `snooklegend.app` | o site: página do jogo, downloads, termos e privacidade | Vercel |
 | `api.snooklegend.app` | o jogo: `/ws`, `/api/...`, webhook da Stripe | Render |
-| `admin.snooklegend.app` | o painel da equipe (fala com `api.snooklegend.app/admin/api`) | Vercel (projeto próprio, pasta `admin/` do repositório do site) |
+| `snooklegend.app/admin` | o painel da equipe (fala com `api.snooklegend.app/admin/api`) | Vercel (o mesmo projeto do site) |
 
 A partir da 0.10.2 o jogo se conecta em `wss://api.snooklegend.app/ws`. Uma
 sessão salva no endereço antigo (`snook-server.onrender.com`) vale no novo
@@ -334,9 +332,8 @@ Em **Vercel → Domains → snooklegend.app → DNS Records**, crie:
 |---|---|---|
 | `CNAME` | `api` | `snook-server.onrender.com` |
 
-(`admin.snooklegend.app` é do próprio Vercel: o passo 11.4 o adiciona ao
-projeto do painel, e o Vercel cria o registro sozinho. Se um `CNAME admin`
-para o Render ficou de antes, apague-o.)
+(Se um `CNAME admin` para o Render ficou de antes, apague-o: o painel é
+`snooklegend.app/admin`.)
 
 ### 11.3 Domínios no Render
 
@@ -353,24 +350,22 @@ Stripe, o endereço do webhook para `https://api.snooklegend.app/stripe/webhook`
 `SNOOK_LEGEND_LEGAL_ADDRESS` e `SNOOK_LEGEND_PRIVACY_CONTACT` não são mais
 usadas pelo servidor: apague-as depois de levar os valores para o Vercel.
 
-### 11.4 O painel da equipe no Vercel
+### 11.4 O painel da equipe (`snooklegend.app/admin`)
 
-O painel é um app Next.js na pasta `admin/` do repositório `snooklegend.app`,
-com um projeto Vercel só dele:
+O painel faz parte do site: o mesmo projeto Vercel, o mesmo deploy.
 
-1. **Vercel → Add New… → Project** → o repositório `snooklegend.app` →
-   **Root Directory: `admin`** (o preset Next.js é detectado).
-2. **Environment Variables:** `NEXT_PUBLIC_API_URL` =
-   `https://api.snooklegend.app`. **Deploy.**
-3. **Settings → Domains:** adicione `admin.snooklegend.app`.
-4. Em **Render → Environment**, defina `SNOOK_LEGEND_ADMIN_ORIGIN` =
-   `https://admin.snooklegend.app` (sem barra no fim) e apague
+1. No projeto do site no **Vercel → Settings → Environment Variables**, crie
+   `NEXT_PUBLIC_API_URL` = `https://api.snooklegend.app` e faça um novo
+   deploy (o *merge* no `main` já faz).
+2. Em **Render → Environment**, defina `SNOOK_LEGEND_ADMIN_ORIGIN` =
+   `https://snooklegend.app` (sem barra no fim) e apague
    `SNOOK_LEGEND_ADMIN_HOST`, que não é mais usada. A API da equipe passa a
    responder ao painel, e `api.snooklegend.app/admin` leva até ele.
 
-Confira: `https://admin.snooklegend.app` abre a tela de entrada, e entrar
+Confira: `https://snooklegend.app/admin/` abre a tela de entrada, e entrar
 mostra o painel. Se aparecer "Não foi possível falar com o servidor", a
-variável do passo 4 está diferente do endereço do painel.
+variável do passo 2 está diferente do endereço do site, ou a do passo 1
+não estava definida no build.
 
 ### 11.5 As lojas
 

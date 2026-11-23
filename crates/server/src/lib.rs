@@ -193,10 +193,11 @@ pub struct Config {
     /// are: this server's old addresses for them and its root lead there
     /// (see [`pages`]).
     pub site_url: String,
-    /// The staff portal's origin (`https://admin.snooklegend.app`): a web
-    /// app of its own (the `admin/` folder of the website's repository) that
-    /// calls the staff API (`/admin/api`) from there. Only that origin may
-    /// call it from a browser (CORS), and `/admin` here leads to it.
+    /// The staff portal's origin (`https://snooklegend.app`): the portal is
+    /// part of the website (its `/admin` pages, in the website's repository)
+    /// and calls the staff API (`/admin/api`) from there. Only that origin
+    /// may call it from a browser (CORS), and `/admin` here leads to the
+    /// portal (`{origin}/admin/`).
     /// `None`: no browser may call the staff API from another origin.
     pub admin_origin: Option<String>,
 }
@@ -544,7 +545,7 @@ pub fn router(server: Arc<Server>) -> Router {
 }
 
 /// `/admin` was the staff portal's address on this server: it now leads to
-/// the portal's own site (or is not found when none is set).
+/// the portal, on the website (or is not found when none is set).
 async fn hosts(
     State(server): State<Arc<Server>>,
     req: axum::extract::Request,
@@ -553,7 +554,9 @@ async fn hosts(
     let path = req.uri().path();
     if path == "/admin" || path == "/admin/" {
         return match server.config.admin_origin.as_deref() {
-            Some(origin) => axum::response::Redirect::permanent(origin).into_response(),
+            Some(origin) => {
+                axum::response::Redirect::permanent(&format!("{origin}/admin/")).into_response()
+            }
             None => axum::http::StatusCode::NOT_FOUND.into_response(),
         };
     }

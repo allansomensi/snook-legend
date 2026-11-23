@@ -1,12 +1,12 @@
 # Staff portal
 
-The staff portal is a web app of its own,
-[admin.snooklegend.app](https://admin.snooklegend.app): Next.js, React and
-TypeScript, in the `admin/` folder of the website's repository
-([snooklegend.app](https://github.com/allansomensi/snooklegend.app/tree/main/admin)),
-published by Vercel. It calls the server's staff API (`/admin/api`,
+The staff portal is part of the game's website,
+[snooklegend.app/admin](https://snooklegend.app/admin/): Next.js, React and
+TypeScript, in the website's repository
+([snooklegend.app](https://github.com/allansomensi/snooklegend.app), `src/app/admin`
+and `src/admin`), published by Vercel with the rest of the site. It calls the server's staff API (`/admin/api`,
 `crates/server/src/admin.rs`), which answers browsers only from the portal's
-origin (`SNOOK_LEGEND_ADMIN_ORIGIN`, CORS without credentials); `/admin` on
+origin (the website's, `SNOOK_LEGEND_ADMIN_ORIGIN`, CORS without credentials); `/admin` on
 the server leads to the portal. The portal has a strict Content Security
 Policy (a nonce per page; the only server it talks to is the API).
 Staff sign in with their game account; the portal's session is separate
@@ -28,7 +28,7 @@ everything on screen is the portal's.
   a recovery e-mail, whole, finds its account too); `#123` opens game 123
   in the replay viewer.
 - **Links:** every page and filter has its own address
-  (`/players/ana/moderation`, `/reports?status=open`…): bookmark it, send
+  (`/admin/players/ana/moderation/`, `/admin/reports/?status=open`…): bookmark it, send
   it to another staff member, use the browser's back button.
 - **Keyboard:** `?` lists the shortcuts; `g` then a letter goes to a page
   (`g d` dashboard, `g p` players, `g r` reports, `g l` live, `g c` chat…);

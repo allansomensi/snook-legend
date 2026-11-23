@@ -2058,3 +2058,26 @@ You earned a new item!	你获得了新物品！
 Ranking	排行榜
 Can't reach the server	无法连接到服务器
 offline: click to connect	离线：点击连接
+Ruby	红宝石
+Interface sounds	界面音效
+A click when you press buttons, tabs and windows.	按下按钮、标签页和窗口时的点击声。
+Current level	当前等级
+Daily game with {name}	与{name}的每日对局
+Each of you plays a turn whenever you can: the game can last days.	双方随时都可以走自己的回合：对局可能持续数天。
+In the shop, for {n} coins	商店有售，{n}金币
+In your reactions	已在你的表情中
+Open the profile	打开资料
+Send the challenge	发送挑战
+Thumbs up	点赞
+Eyes	眼睛
+Tears	大哭
+Huff	生气
+Please	拜托
+Sleepy	犯困
+Rolling with laughter	笑到打滚
+Scream	尖叫
+Can't look	不忍直视
+Salute	敬礼
+Mind blown	震惊
+Lucky clover	幸运四叶草
+Popcorn	爆米花

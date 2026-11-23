@@ -1696,7 +1696,7 @@ impl Hud {
         ui.panel(p);
         let open = snook_legend_proto::REACTIONS
             .iter()
-            .filter(|r| r.available(&o.unlocked, o.vip))
+            .filter(|r| r.available(&o.unlocked, &o.bought, o.vip))
             .count();
         ui.text(
             &tw("Reactions {n}/{total}", &[("n", &open), ("total", &n)]),
@@ -1716,7 +1716,7 @@ impl Hud {
                 CELL,
             );
             let center = vec2(c.x + c.w / 2.0, c.y + c.h / 2.0);
-            let unlocked = r.available(&o.unlocked, o.vip);
+            let unlocked = r.available(&o.unlocked, &o.bought, o.vip);
             let hover = ui.hovering(c);
             if unlocked {
                 if hover {
@@ -1741,6 +1741,8 @@ impl Hud {
                 );
                 if hover && r.is_vip() {
                     tip = Some((t("For VIP members").to_string(), c));
+                } else if hover && r.is_shop() {
+                    tip = Some((crate::reactions::shop_hint(r), c));
                 } else if hover {
                     let how = r
                         .unlock
@@ -1748,7 +1750,10 @@ impl Hud {
                         .map(|a| {
                             tw(
                                 "{title}: {how}",
-                                &[("title", &t(a.title)), ("how", &t(a.description))],
+                                &[
+                                    ("title", &t(a.title)),
+                                    ("how", &crate::profile::achievement_text(a)),
+                                ],
                             )
                         })
                         .unwrap_or_default();

@@ -125,6 +125,7 @@ pub fn category_name(c: Category) -> &'static str {
         Category::Effect => t("Winning effects"),
         Category::Table => t("Tables"),
         Category::Hall => t("Halls"),
+        Category::Reaction => t("Reactions"),
     }
 }
 
@@ -338,6 +339,13 @@ pub fn preview(ui: &Ui, item: &Item, r: Rect) {
         }
         Look::Table(style) => crate::theme_art::table(r, style),
         Look::Hall(style) => crate::theme_art::hall(r, style),
+        Look::Reaction(code) => {
+            // The picture, large, on a soft spotlight.
+            rrect(r, 8.0, Color::new(0.0, 0.0, 0.0, 0.25));
+            let s = r.w.min(r.h) * 0.62;
+            draw_circle(c.x, c.y, s * 0.62, Color::new(1.0, 0.85, 0.5, 0.06));
+            crate::reactions::draw(code, c, s, crate::paint::alpha());
+        }
     }
 }
 
@@ -465,7 +473,9 @@ fn listed(item: &Item, online: &Online) -> bool {
     // to nothing.
     let pack_sold = crate::channel::real_money_purchases()
         && online.offers.as_ref().is_none_or(|o| !o.welcome_price.is_empty());
-    item.price != Price::Pack || pack_sold || online.can_use(item)
+    // The free reactions aren't sold (everyone has them).
+    let free_reaction = item.category == Category::Reaction && item.price == Price::Free;
+    !free_reaction && (item.price != Price::Pack || pack_sold || online.can_use(item))
 }
 
 /// The achievement an item comes with: (title, description).
@@ -550,6 +560,7 @@ impl ShopScreen {
             "shop-effects" => Tab::Items(Category::Effect),
             "shop-tables" => Tab::Items(Category::Table),
             "shop-halls" => Tab::Items(Category::Hall),
+            "shop-reactions" => Tab::Items(Category::Reaction),
             _ => Tab::Items(Category::Cloth),
         };
         self.page = 0;
@@ -672,7 +683,8 @@ impl ShopScreen {
             let tab = Tab::Items(c);
             let owned = ITEMS
                 .iter()
-                .filter(|i| i.category == c && (i.price == Price::Free || online.can_use(i)))
+                .filter(|i| i.category == c && listed(i, online))
+                .filter(|i| i.price == Price::Free || online.can_use(i))
                 .count();
             let total = ITEMS.iter().filter(|i| i.category == c && listed(i, online)).count();
             let tr = Rect::new(side.x, y, side.w, row_h);
@@ -685,9 +697,17 @@ impl ShopScreen {
         }
         draw_line(side.x + 12.0, y - 1.0, side.x + side.w - 12.0, y - 1.0, 1.0, BORDER);
         y += 4.0;
+        // The Store build that sells nothing keeps VIP's page for those who
+        // are VIP (bought before): to others it would show what can't be had.
+        let vip_page = !crate::channel::STORE
+            || crate::channel::store_sales()
+            || online.wallet.as_ref().is_some_and(|w| w.is_vip());
         for (tab, label, icon) in
             [(Tab::Coins, t("Coins"), Icon::Coin), (Tab::Vip, "VIP", Icon::Crown)]
         {
+            if tab == Tab::Vip && !vip_page {
+                continue;
+            }
             let tr = Rect::new(side.x, y, side.w, row_h);
             if side_tab(ui, tr, label, SideNote::Icon(icon), self.tab == tab) {
                 self.tab = tab;
@@ -899,6 +919,9 @@ impl ShopScreen {
             let size = 14.0;
             if equipped {
                 button(ui, b, Kind::Disabled, Some(Icon::Check), t("In use"), size);
+            } else if usable && item.category == Category::Reaction {
+                // A reaction is kept, not put on: it is in the match's picker.
+                button(ui, b, Kind::Disabled, Some(Icon::Check), t("In your reactions"), size);
             } else if !signed_in && matches!(item.price, Price::Coins(_) | Price::Free) {
                 // Signed out: the button leads to signing in (rather than
                 // a row of dead grey buttons).

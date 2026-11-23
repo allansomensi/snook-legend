@@ -2058,3 +2058,26 @@ You earned a new item!	Du hast einen neuen Artikel verdient!
 Ranking	Rangliste
 Can't reach the server	Der Server ist nicht erreichbar
 offline: click to connect	offline: zum Verbinden klicken
+Ruby	Rubin
+Interface sounds	Oberflächen-Sounds
+A click when you press buttons, tabs and windows.	Ein Klick beim Drücken von Schaltflächen, Tabs und Fenstern.
+Current level	Aktuelles Level
+Daily game with {name}	Tagespartie mit {name}
+Each of you plays a turn whenever you can: the game can last days.	Jeder spielt seinen Zug, wann er kann: die Partie kann Tage dauern.
+In the shop, for {n} coins	Im Shop, für {n} Münzen
+In your reactions	Bei deinen Reaktionen
+Open the profile	Profil öffnen
+Send the challenge	Herausforderung senden
+Thumbs up	Daumen hoch
+Eyes	Augen
+Tears	Tränen
+Huff	Schnauben
+Please	Bitte
+Sleepy	Müde
+Rolling with laughter	Lachen am Boden
+Scream	Schrei
+Can't look	Kann nicht hinsehen
+Salute	Salut
+Mind blown	Umgehauen
+Lucky clover	Glücksklee
+Popcorn	Popcorn

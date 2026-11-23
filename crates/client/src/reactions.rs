@@ -24,6 +24,12 @@ fn atlas() -> Texture2D {
     })
 }
 
+/// How a shop reaction is had ("In the shop, for 300 coins").
+pub fn shop_hint(r: &snook_legend_proto::Reaction) -> String {
+    let coins = r.item().and_then(|i| i.coins()).unwrap_or(0);
+    crate::i18n::tw("In the shop, for {n} coins", &[("n", &coins)])
+}
+
 /// Draws reaction `code` centred on `at`, `size` wide, with `alpha`.
 /// False for an unknown code.
 pub fn draw(code: &str, at: Vec2, size: f32, alpha: f32) -> bool {

@@ -2058,3 +2058,26 @@ You earned a new item!	Je hebt een nieuw item verdiend!
 Ranking	Ranglijst
 Can't reach the server	Kan de server niet bereiken
 offline: click to connect	offline: klik om te verbinden
+Ruby	Robijn
+Interface sounds	Interfacegeluiden
+A click when you press buttons, tabs and windows.	Een klik als je op knoppen, tabbladen en vensters drukt.
+Current level	Huidig level
+Daily game with {name}	Dagpartij met {name}
+Each of you plays a turn whenever you can: the game can last days.	Ieder speelt zijn beurt wanneer het uitkomt: de partij kan dagen duren.
+In the shop, for {n} coins	In de winkel, voor {n} munten
+In your reactions	In je reacties
+Open the profile	Profiel openen
+Send the challenge	Uitdaging versturen
+Thumbs up	Duim omhoog
+Eyes	Ogen
+Tears	Tranen
+Huff	Briesend
+Please	Alsjeblieft
+Sleepy	Slaperig
+Rolling with laughter	Rollend van het lachen
+Scream	Schreeuw
+Can't look	Kan niet kijken
+Salute	Saluut
+Mind blown	Verbluft
+Lucky clover	Klavertje vier
+Popcorn	Popcorn

@@ -2058,3 +2058,26 @@ You earned a new item!	Nowy przedmiot!
 Ranking	Ranking
 Can't reach the server	Nie można połączyć się z serwerem
 offline: click to connect	offline: kliknij, aby połączyć
+Ruby	Rubin
+Interface sounds	Dźwięki interfejsu
+A click when you press buttons, tabs and windows.	Kliknięcie przy naciskaniu przycisków, kart i okien.
+Current level	Obecny poziom
+Daily game with {name}	Gra dzienna z {name}
+Each of you plays a turn whenever you can: the game can last days.	Każde z was gra swoją turę, kiedy może: gra może trwać dni.
+In the shop, for {n} coins	W sklepie za {n} monet
+In your reactions	W twoich reakcjach
+Open the profile	Otwórz profil
+Send the challenge	Wyślij wyzwanie
+Thumbs up	Kciuk w górę
+Eyes	Oczy
+Tears	Łzy
+Huff	Prychnięcie
+Please	Proszę
+Sleepy	Śpiący
+Rolling with laughter	Turlam się ze śmiechu
+Scream	Krzyk
+Can't look	Nie mogę patrzeć
+Salute	Salut
+Mind blown	Mózg rozwalony
+Lucky clover	Czterolistna koniczyna
+Popcorn	Popcorn

@@ -405,6 +405,8 @@ pub struct InviteDialog {
     pub to: String,
     pub rated: bool,
     pub rules: Rules,
+    /// A daily (correspondence) game rather than one played now.
+    pub daily: bool,
 }
 
 /// A request for the style of a player's ghost.
@@ -1759,7 +1761,8 @@ impl Online {
                         snook_legend_proto::shop::Category::Hall => &mut config.hall,
                         // Only seen online.
                         snook_legend_proto::shop::Category::Frame
-                        | snook_legend_proto::shop::Category::Name => {
+                        | snook_legend_proto::shop::Category::Name
+                        | snook_legend_proto::shop::Category::Reaction => {
                             continue;
                         }
                     };
@@ -1782,7 +1785,16 @@ impl Online {
                 store_vip,
             } => {
                 let ids = store_packs.iter().map(|p| p.store_id.clone()).collect();
+                // (Asked even with the sales off: a purchase paid for in an
+                // earlier version and never received still arrives.)
                 let effects = self.store_shop.offers(ids, store_vip.clone(), self.signed_in());
+                // The Store build without sales shows none of the server's
+                // Store offers: coins are earned, VIP isn't sold.
+                let (store_packs, store_vip) = if crate::channel::store_sales() {
+                    (store_packs, store_vip)
+                } else {
+                    (Vec::new(), String::new())
+                };
                 self.offers = Some(ShopOffers {
                     payments,
                     packs,
@@ -2387,7 +2399,16 @@ impl Online {
             to: to.to_string(),
             rated: self.rated_games && !self.lan,
             rules: self.rules,
+            daily: false,
         });
+    }
+
+    /// The same dialog for a daily game (a turn whenever each can).
+    pub fn open_daily_challenge(&mut self, to: &str) {
+        self.open_invite(to);
+        if let Some(d) = self.invite_dialog.as_mut() {
+            d.daily = true;
+        }
     }
 
     /// The invitation dialog, over the lounge (`main` draws it last, with
@@ -2399,19 +2420,33 @@ impl Online {
         let w = 560.0f32.min(sw - 24.0);
         let pad = 28.0;
         let inner = w - pad * 2.0;
-        let them = self.players.iter().find(|p| p.username == d.to).cloned();
-        // What the other player plays, when it isn't this player's.
-        let theirs = them.as_ref().map(|p| p.rules).filter(|r| *r != self.rules);
-        let note = them.as_ref().filter(|p| p.rules != self.rules).map(|p| {
-            tw(
-                "{name} plays the {theirs} now; yours are the {mine}.",
-                &[
-                    ("name", &p.username),
-                    ("theirs", &crate::i18n::rules_name_inline(p.rules)),
-                    ("mine", &crate::i18n::rules_name_inline(self.rules)),
-                ],
-            )
+        // Who: online in the lounge, or the profile shown (a daily game
+        // can go to someone away).
+        let them = self.players.iter().find(|p| p.username == d.to).cloned().or_else(|| {
+            self.profile
+                .as_ref()
+                .map(|p| p.player.clone())
+                .filter(|p| p.username.eq_ignore_ascii_case(&d.to))
         });
+        // What the other player plays, when it isn't this player's (a
+        // daily game says how it goes instead).
+        let theirs = them.as_ref().map(|p| p.rules).filter(|r| *r != self.rules && !d.daily);
+        let note = if d.daily {
+            Some(
+                t("Each of you plays a turn whenever you can: the game can last days.").to_string(),
+            )
+        } else {
+            them.as_ref().filter(|p| p.rules != self.rules).map(|p| {
+                tw(
+                    "{name} plays the {theirs} now; yours are the {mine}.",
+                    &[
+                        ("name", &p.username),
+                        ("theirs", &crate::i18n::rules_name_inline(p.rules)),
+                        ("mine", &crate::i18n::rules_name_inline(self.rules)),
+                    ],
+                )
+            })
+        };
         let note_lines = note.as_ref().map_or(Vec::new(), |n| ui.wrap(n, inner - 24.0, 13.0));
         let note_h =
             if note_lines.is_empty() { 0.0 } else { 10.0 + note_lines.len() as f32 * 18.0 };
@@ -2426,7 +2461,11 @@ impl Online {
         // chosen.
         let avatar = them.as_ref().map(|p| p.avatar.clone()).unwrap_or_default();
         crate::avatars::draw(&avatar, vec2(x + 30.0, y + 30.0), 30.0);
-        let title = tw("Invite {name}", &[("name", &d.to)]);
+        let title = if d.daily {
+            tw("Daily game with {name}", &[("name", &d.to)])
+        } else {
+            tw("Invite {name}", &[("name", &d.to)])
+        };
         let (title, size) = ui.fitted(&title, 24.0, inner - 76.0, true);
         ui.text(&title, x + 76.0, y + 4.0, size, GOLD, true);
         if let Some(p) = &them {
@@ -2467,6 +2506,12 @@ impl Online {
             for (k, line) in note_lines.iter().enumerate() {
                 ui.text(line, x + 24.0, y + k as f32 * 18.0, 13.0, color, false);
             }
+        } else if d.daily {
+            y += 10.0;
+            crate::icons::draw(Icon::Hourglass, vec2(x + 8.0, y + 9.0), 15.0, MUTED);
+            for (k, line) in note_lines.iter().enumerate() {
+                ui.text(line, x + 24.0, y + k as f32 * 18.0, 13.0, MUTED, false);
+            }
         }
         // Cancel, and Invite (Enter).
         let by = r.y + r.h - pad - 44.0;
@@ -2482,10 +2527,15 @@ impl Online {
             self.invite_dialog = None;
             return;
         }
-        if ui.primary_button(send, t("Invite")) || enter {
+        let label = if d.daily { t("Send the challenge") } else { t("Invite") };
+        if ui.primary_button(send, label) || enter {
             self.invite_dialog = None;
             let rated = d.rated && !self.lan;
-            self.send(ClientMsg::Invite { to: d.to, rated, rules: d.rules });
+            if d.daily {
+                self.send(ClientMsg::CorrChallenge { to: d.to, rated, rules: d.rules });
+            } else {
+                self.send(ClientMsg::Invite { to: d.to, rated, rules: d.rules });
+            }
             return;
         }
         self.invite_dialog = Some(d);

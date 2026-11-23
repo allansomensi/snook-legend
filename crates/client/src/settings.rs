@@ -745,6 +745,13 @@ impl SettingsScreen {
                     let (v, _) = slider(ui, 70, c, config.volume, 0.0, 1.0, &value);
                     config.volume = v;
                 }
+                switch_row(
+                    rows,
+                    ui,
+                    t("Interface sounds"),
+                    t("A click when you press buttons, tabs and windows."),
+                    &mut config.interface_sounds,
+                );
 
                 rows.heading(ui, t("Notifications"), None);
                 switch_row(

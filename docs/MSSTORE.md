@@ -114,6 +114,43 @@ página da loja, a classificação etária e o preço:
 
 ## Venda de moedas e VIP pela Store
 
+### Ligar e desligar as vendas (variável `MSSTORE_PURCHASES`)
+
+As vendas pela Store dependem **do pacote**, não do servidor: o jogo da
+Store só oferece pacotes de moedas e o mês de VIP quando é compilado com a
+*feature* `store-purchases`. O workflow decide isso pela variável do
+repositório **`MSSTORE_PURCHASES`** (Settings → Secrets and variables →
+Actions → **Variables**):
+
+| `MSSTORE_PURCHASES` | O pacote da Store |
+|---|---|
+| `on` | vende os pacotes de moedas e o mês de VIP (add-ons) |
+| qualquer outro valor, ou sem a variável | **não vende nada por dinheiro**: as moedas vêm só de jogar, a aba VIP diz que ele não é vendido nesta versão |
+
+As variáveis `SNOOK_LEGEND_MSSTORE_*` do Render **podem ficar como estão**:
+o servidor continua pronto, só o jogo não mostra as ofertas. Uma compra
+feita numa versão anterior e que nunca chegou ainda é entregue.
+
+**Para tirar as compras e baixar a classificação etária** (o IARC dá 14+
+no Brasil com compras no jogo):
+
+1. Apagar a variável `MSSTORE_PURCHASES` (ou mudar para `off`).
+2. Gerar o MSIX (**Actions → Microsoft Store → Run workflow**, ou a tag da
+   versão) e conferir no log do passo de compilação
+   `Store build with: store`.
+3. Partner Center: em cada add-on, **Pricing and availability →
+   Visibility: Stop acquisition** (ou deixe de vendê-los), para nada
+   aparecer à venda na página da Store.
+4. Partner Center → **Age ratings**: refazer o questionário IARC dizendo
+   que **não há compras com dinheiro** no jogo (os itens continuam
+   compráveis só com a moeda ganha jogando).
+5. Enviar a submissão com o pacote novo.
+
+Para voltar a vender: `MSSTORE_PURCHASES` = `on`, reabrir os add-ons e
+refazer o questionário (com compras).
+
+### Como a venda funciona
+
 Os quatro pacotes de moedas (`coins_500`, `coins_1200`, `coins_2800`,
 `coins_7000`) e o mês de VIP (`vip_month`) são vendidos como *add-ons* da
 Store. O dinheiro fica com a Microsoft (que repassa pelo Partner Center,

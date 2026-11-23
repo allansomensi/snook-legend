@@ -469,7 +469,8 @@ impl Menu {
         let by = y - m.gap + 22.0;
         let dh = m.icon;
         let gap = 8.0;
-        let quit_w = (dh * 0.8).round();
+        // Quitting says so too (an icon alone read as "turn off").
+        let quit_w = (ui.text_size(t("Quit"), 12.0, true).x + 22.0).max(dh * 0.8).round();
         let room = w - quit_w - 14.0 - gap * (dock.len() - 1) as f32;
         // Each as wide as its name (at least square); the names smaller if
         // they don't fit, and left out if even that isn't enough.
@@ -538,9 +539,26 @@ impl Menu {
         }
         rrect_lines(q, 10.0, 1.0, Color::new(1.0, 1.0, 1.0, if hover { 0.14 } else { 0.07 }));
         let quit_color = if hover { Color::new(0.95, 0.55, 0.45, 1.0) } else { MUTED };
-        crate::icons::draw(Icon::Power, vec2(q.x + q.w / 2.0, q.y + dh / 2.0), 20.0, quit_color);
+        if show_labels {
+            crate::icons::draw(
+                Icon::DoorOpen,
+                vec2(q.x + q.w / 2.0, q.y + dh * 0.38),
+                20.0,
+                quit_color,
+            );
+            ui.text_centered(t("Quit"), q.x + q.w / 2.0, q.y + dh * 0.64, label, quit_color, true);
+        } else {
+            crate::icons::draw(
+                Icon::DoorOpen,
+                vec2(q.x + q.w / 2.0, q.y + dh / 2.0),
+                20.0,
+                quit_color,
+            );
+        }
         if hover {
-            ui.tooltip(t("Quit"), q);
+            if !show_labels {
+                ui.tooltip(t("Quit"), q);
+            }
             if ui.clicked(q) {
                 ui.note_click();
                 action = MenuAction::Quit;

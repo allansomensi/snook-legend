@@ -2058,3 +2058,26 @@ You earned a new item!	আপনি একটি নতুন আইটেম �
 Ranking	র‍্যাঙ্কিং
 Can't reach the server	সার্ভারের সাথে যোগাযোগ করা যাচ্ছে না
 offline: click to connect	অফলাইন: সংযোগ করতে ক্লিক করুন
+Ruby	রুবি
+Interface sounds	ইন্টারফেসের শব্দ
+A click when you press buttons, tabs and windows.	বোতাম, ট্যাব ও উইন্ডোতে চাপলে একটি ক্লিক।
+Current level	বর্তমান লেভেল
+Daily game with {name}	{name}-এর সঙ্গে দৈনিক খেলা
+Each of you plays a turn whenever you can: the game can last days.	তোমরা প্রত্যেকে যখন পারো তখন নিজের পালা খেলো: খেলাটি কয়েক দিন চলতে পারে।
+In the shop, for {n} coins	দোকানে, {n} কয়েনে
+In your reactions	তোমার রিঅ্যাকশনে
+Open the profile	প্রোফাইল খোলো
+Send the challenge	চ্যালেঞ্জ পাঠাও
+Thumbs up	থাম্বস আপ
+Eyes	চোখ
+Tears	কান্না
+Huff	রাগ
+Please	প্লিজ
+Sleepy	ঘুম ঘুম
+Rolling with laughter	হেসে গড়াগড়ি
+Scream	চিৎকার
+Can't look	দেখতে পারছি না
+Salute	স্যালুট
+Mind blown	মাথা ঘুরে গেছে
+Lucky clover	সৌভাগ্যের ক্লোভার
+Popcorn	পপকর্ন

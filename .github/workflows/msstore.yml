@@ -11,7 +11,11 @@
 #   MSSTORE_IDENTITY_NAME, MSSTORE_PUBLISHER, MSSTORE_PUBLISHER_DISPLAY_NAME
 #     (Partner Center → Product management → Product identity),
 #   MSSTORE_DISPLAY_NAME (the name reserved in the Store),
-#   SNOOK_LEGEND_SERVER (the game server, as for the other releases).
+#   SNOOK_LEGEND_SERVER (the game server, as for the other releases),
+#   MSSTORE_PURCHASES: "on" sells coin packs and months of VIP as Store
+#     add-ons in the package; anything else (or unset) builds it without
+#     any purchase for real money (coins are earned by playing), so the
+#     Store's age rating needs no "in-game purchases".
 name: Microsoft Store
 
 on:
@@ -82,7 +86,12 @@ jobs:
           SNOOK_LEGEND_SERVER: ${{ vars.SNOOK_LEGEND_SERVER }}
           # The C runtime inside the executable: nothing else to install.
           RUSTFLAGS: -C target-feature=+crt-static
-        run: cargo build --release --locked -p snook-legend --features store
+          PURCHASES: ${{ vars.MSSTORE_PURCHASES }}
+        run: |
+          # Sales in the Store only when the repository variable says so.
+          $features = if ($env:PURCHASES -eq 'on') { 'store-purchases' } else { 'store' }
+          Write-Host "Store build with: $features"
+          cargo build --release --locked -p snook-legend --features $features
       - name: Pack the MSIX
         id: pack
         shell: pwsh

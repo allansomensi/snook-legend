@@ -2058,3 +2058,26 @@ You earned a new item!	आपने एक नया आइटम जीता!
 Ranking	रैंकिंग
 Can't reach the server	सर्वर से संपर्क नहीं हो पा रहा
 offline: click to connect	ऑफ़लाइन: जुड़ने के लिए क्लिक करें
+Ruby	माणिक
+Interface sounds	इंटरफ़ेस की आवाज़ें
+A click when you press buttons, tabs and windows.	बटन, टैब और विंडो दबाने पर एक क्लिक।
+Current level	मौजूदा लेवल
+Daily game with {name}	{name} के साथ डेली गेम
+Each of you plays a turn whenever you can: the game can last days.	आप दोनों जब चाहें अपनी बारी खेलें: गेम कई दिन चल सकता है।
+In the shop, for {n} coins	दुकान में, {n} कॉइन में
+In your reactions	आपके रिएक्शन में
+Open the profile	प्रोफ़ाइल खोलें
+Send the challenge	चुनौती भेजें
+Thumbs up	अंगूठा ऊपर
+Eyes	आँखें
+Tears	आँसू
+Huff	गुस्सा
+Please	प्लीज़
+Sleepy	नींद
+Rolling with laughter	हँसते-हँसते लोटपोट
+Scream	चीख
+Can't look	देख नहीं सकता
+Salute	सलाम
+Mind blown	दिमाग़ हिल गया
+Lucky clover	भाग्यशाली क्लोवर
+Popcorn	पॉपकॉर्न

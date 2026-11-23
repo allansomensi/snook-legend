@@ -2058,3 +2058,26 @@ You earned a new item!	Ai câștigat un obiect nou!
 Ranking	Clasament
 Can't reach the server	Serverul nu poate fi contactat
 offline: click to connect	offline: apasă pentru a te conecta
+Ruby	Rubin
+Interface sounds	Sunetele interfeței
+A click when you press buttons, tabs and windows.	Un clic când apeși butoane, file și ferestre.
+Current level	Nivelul actual
+Daily game with {name}	Joc zilnic cu {name}
+Each of you plays a turn whenever you can: the game can last days.	Fiecare joacă tura lui când poate: jocul poate dura zile.
+In the shop, for {n} coins	În magazin, pentru {n} monede
+In your reactions	În reacțiile tale
+Open the profile	Deschide profilul
+Send the challenge	Trimite provocarea
+Thumbs up	Degetul mare sus
+Eyes	Ochi
+Tears	Lacrimi
+Huff	Pufnet
+Please	Te rog
+Sleepy	Somnoros
+Rolling with laughter	Mă tăvălesc de râs
+Scream	Țipăt
+Can't look	Nu mă pot uita
+Salute	Salut
+Mind blown	Uluit
+Lucky clover	Trifoi norocos
+Popcorn	Popcorn

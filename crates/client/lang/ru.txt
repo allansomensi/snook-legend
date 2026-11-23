@@ -2058,3 +2058,26 @@ You earned a new item!	Вы получили новый предмет!
 Ranking	Рейтинг
 Can't reach the server	Не удаётся связаться с сервером
 offline: click to connect	не в сети: нажмите, чтобы подключиться
+Ruby	Рубин
+Interface sounds	Звуки интерфейса
+A click when you press buttons, tabs and windows.	Щелчок при нажатии кнопок, вкладок и окон.
+Current level	Текущий уровень
+Daily game with {name}	Дневная партия с {name}
+Each of you plays a turn whenever you can: the game can last days.	Каждый ходит, когда может: партия может длиться днями.
+In the shop, for {n} coins	В магазине за {n} мон.
+In your reactions	В ваших реакциях
+Open the profile	Открыть профиль
+Send the challenge	Отправить вызов
+Thumbs up	Палец вверх
+Eyes	Глаза
+Tears	Слёзы
+Huff	Пыхтение
+Please	Пожалуйста
+Sleepy	Сонный
+Rolling with laughter	Катаюсь со смеху
+Scream	Крик
+Can't look	Не могу смотреть
+Salute	Салют
+Mind blown	Взрыв мозга
+Lucky clover	Клевер удачи
+Popcorn	Попкорн

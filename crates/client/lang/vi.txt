@@ -2058,3 +2058,26 @@ You earned a new item!	Bạn nhận được vật phẩm mới!
 Ranking	Xếp hạng
 Can't reach the server	Không thể kết nối tới máy chủ
 offline: click to connect	ngoại tuyến: nhấn để kết nối
+Ruby	Hồng ngọc
+Interface sounds	Âm thanh giao diện
+A click when you press buttons, tabs and windows.	Tiếng nhấp khi bấm nút, thẻ và cửa sổ.
+Current level	Cấp hiện tại
+Daily game with {name}	Ván hằng ngày với {name}
+Each of you plays a turn whenever you can: the game can last days.	Mỗi người đánh lượt của mình khi rảnh: ván có thể kéo dài nhiều ngày.
+In the shop, for {n} coins	Trong cửa hàng, giá {n} xu
+In your reactions	Trong biểu cảm của bạn
+Open the profile	Mở hồ sơ
+Send the challenge	Gửi lời thách đấu
+Thumbs up	Like
+Eyes	Đôi mắt
+Tears	Nước mắt
+Huff	Hậm hực
+Please	Làm ơn
+Sleepy	Buồn ngủ
+Rolling with laughter	Cười lăn lộn
+Scream	Hét lên
+Can't look	Không dám nhìn
+Salute	Chào
+Mind blown	Choáng váng
+Lucky clover	Cỏ bốn lá
+Popcorn	Bỏng ngô

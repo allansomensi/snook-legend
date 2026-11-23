@@ -862,9 +862,15 @@ async fn main() {
             v.send_waiting(&mut online);
         }
 
-        // VIP reactions follow the wallet.
+        // VIP and bought reactions follow the wallet.
         if let Some(o) = current.as_mut().and_then(|m| m.online.as_mut()) {
             o.vip = !match_from_lan && online.wallet.as_ref().is_some_and(|w| w.is_vip());
+            if let Some(w) = online.wallet.as_ref().filter(|_| !match_from_lan) {
+                let bought = snook_legend_proto::reactions::bought(&w.owned);
+                if o.bought != bought {
+                    o.bought = bought;
+                }
+            }
         }
         if let Some(m) = current.as_mut() {
             if !hud.paused || m.is_online() {
@@ -1144,12 +1150,16 @@ async fn main() {
             // Development aid (screenshots): SNOOK_LEGEND_ASK_RULES shows it.
             && (options.screenshot.is_none() || crate::dev::flag("SNOOK_LEGEND_ASK_RULES"));
         // An invitation being set up, over the lounge.
+        // (A daily game's challenge also from a profile.)
+        let invite_here = matches!(screen, Screen::Online)
+            || (matches!(screen, Screen::Profile)
+                && online.invite_dialog.as_ref().is_some_and(|d| d.daily));
         let inviting = online.invite_dialog.is_some()
             && current.is_none()
             && !settings_open
             && !staff_up
-            && matches!(screen, Screen::Online);
-        if !matches!(screen, Screen::Online) || current.is_some() {
+            && invite_here;
+        if !invite_here || current.is_some() {
             online.invite_dialog = None;
         }
         // The chat with other players' dialog is over every screen and game
@@ -2072,7 +2082,7 @@ async fn main() {
         if chime && !focus {
             ui_sounds.push(game::ImpactSound { kind: game::ImpactKind::Chime, speed: 1.0 });
         }
-        if ui.take_click() {
+        if ui.take_click() && config.interface_sounds {
             ui_sounds.push(game::ImpactSound { kind: game::ImpactKind::Click, speed: 1.0 });
         }
         sounds.play(&mut ui_sounds, config.volume);

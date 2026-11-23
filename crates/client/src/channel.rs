@@ -9,10 +9,23 @@
 /// This is the Microsoft Store build.
 pub const STORE: bool = cfg!(feature = "store");
 
+/// The Store build sells coin packs and months of VIP (as Store add-ons)
+/// only when built with the feature `store-purchases`: without it the
+/// game offers nothing for real money (coins are earned by playing), so
+/// its age rating need not carry "in-game purchases". The release
+/// workflow turns it on with the repository variable `MSSTORE_PURCHASES`
+/// (see docs/MSSTORE.md); the server needs no change.
+pub const STORE_PURCHASES: bool = cfg!(feature = "store-purchases");
+
 /// Coin packs and VIP may be bought through the game's own payment pages
 /// (Stripe); the Store build buys coin packs in the Store instead.
 pub const fn real_money_purchases() -> bool {
     !STORE
+}
+
+/// The Store build offers its add-ons for sale (see [`STORE_PURCHASES`]).
+pub const fn store_sales() -> bool {
+    STORE && STORE_PURCHASES
 }
 
 #[cfg(test)]

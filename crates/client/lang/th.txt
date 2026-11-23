@@ -2058,3 +2058,26 @@ You earned a new item!	คุณ​ได้รับ​ไอเท็ม​ใ
 Ranking	อันดับ
 Can't reach the server	ไม่สามารถติดต่อเซิร์ฟเวอร์ได้
 offline: click to connect	ออฟไลน์: คลิก​เพื่อ​เชื่อมต่อ
+Ruby	ทับทิม
+Interface sounds	เสียง​ของ​หน้าจอ
+A click when you press buttons, tabs and windows.	เสียง​คลิก​เมื่อ​กด​ปุ่ม แท็บ และ​หน้าต่าง
+Current level	เลเวล​ปัจจุบัน
+Daily game with {name}	เกม​รายวัน​กับ {name}
+Each of you plays a turn whenever you can: the game can last days.	แต่ละ​คน​เล่น​ตา​ของ​ตัวเอง​เมื่อ​สะดวก เกม​อาจ​ยาว​หลาย​วัน
+In the shop, for {n} coins	ใน​ร้านค้า ราคา {n} เหรียญ
+In your reactions	อยู่​ใน​รีแอคชัน​ของ​คุณ
+Open the profile	เปิด​โปรไฟล์
+Send the challenge	ส่ง​คำ​ท้า
+Thumbs up	ยกนิ้ว​โป้ง
+Eyes	ดวงตา
+Tears	น้ำตา
+Huff	ฮึดฮัด
+Please	ขอร้อง
+Sleepy	ง่วง
+Rolling with laughter	ขำ​กลิ้ง
+Scream	กรีดร้อง
+Can't look	มอง​ไม่​ได้
+Salute	ตะ​เบ๊ะ
+Mind blown	ทึ่ง​สุดๆ
+Lucky clover	ใบ​โคลเวอร์​นำ​โชค
+Popcorn	ป๊อปคอร์น

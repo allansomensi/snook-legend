@@ -2058,3 +2058,26 @@ You earned a new item!	حصلت على عنصر جديد!
 Ranking	الترتيب
 Can't reach the server	تعذّر الوصول إلى الخادم
 offline: click to connect	غير متصل: انقر للاتصال
+Ruby	ياقوتي
+Interface sounds	أصوات الواجهة
+A click when you press buttons, tabs and windows.	نقرة عند الضغط على الأزرار وعلامات التبويب والنوافذ.
+Current level	المستوى الحالي
+Daily game with {name}	مباراة يومية مع {name}
+Each of you plays a turn whenever you can: the game can last days.	يلعب كل منكما دوره متى استطاع: قد تستمر المباراة أيامًا.
+In the shop, for {n} coins	في المتجر، مقابل {n} عملة
+In your reactions	ضمن تفاعلاتك
+Open the profile	فتح الملف الشخصي
+Send the challenge	إرسال التحدي
+Thumbs up	إعجاب
+Eyes	عيون
+Tears	دموع
+Huff	غضب
+Please	أرجوك
+Sleepy	نعسان
+Rolling with laughter	ضحك هستيري
+Scream	صرخة
+Can't look	لا أستطيع النظر
+Salute	تحية
+Mind blown	مذهول
+Lucky clover	برسيم الحظ
+Popcorn	فشار

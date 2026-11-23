@@ -23,10 +23,13 @@ pub enum Category {
     Table,
     /// The room around the table (only its owner sees it).
     Hall,
+    /// A reaction to send during a match (see [`crate::reactions`]): kept
+    /// once bought, never "put on".
+    Reaction,
 }
 
 impl Category {
-    pub const ALL: [Category; 9] = [
+    pub const ALL: [Category; 10] = [
         Category::Cloth,
         Category::Cue,
         Category::Chalk,
@@ -36,6 +39,7 @@ impl Category {
         Category::Frame,
         Category::Name,
         Category::Effect,
+        Category::Reaction,
     ];
 
     pub fn code(self) -> &'static str {
@@ -49,6 +53,7 @@ impl Category {
             Category::Effect => "effect",
             Category::Table => "table",
             Category::Hall => "hall",
+            Category::Reaction => "reaction",
         }
     }
 
@@ -68,6 +73,7 @@ impl Category {
             Category::Effect => "effect_none",
             Category::Table => "table_classic",
             Category::Hall => "hall_pool",
+            Category::Reaction => "reaction_thumbs_up",
         }
     }
 }
@@ -227,6 +233,8 @@ pub enum Look {
     },
     Table(TableStyle),
     Hall(HallStyle),
+    /// A reaction: its code (see [`crate::reactions::REACTIONS`]).
+    Reaction(&'static str),
 }
 
 /// How an item is obtained.
@@ -1021,7 +1029,25 @@ pub const ITEMS: &[Item] = &[
     effect("effect_flames", "Flames", Price::Coins(3750), EffectKind::Flames, [255, 120, 30]),
     effect("effect_fireworks", "Fireworks", Price::Vip, EffectKind::Fireworks, [255, 220, 140]),
     effect("effect_royal", "Royal sparks", Price::Vip, EffectKind::Sparks, [200, 150, 255]),
+    // Reactions (the free ones, achievements' and VIP's are not sold).
+    reaction("reaction_thumbs_up", "Thumbs up", Price::Free, "thumbs_up"),
+    reaction("reaction_eyes", "Eyes", Price::Coins(300), "eyes"),
+    reaction("reaction_sob", "Tears", Price::Coins(300), "sob"),
+    reaction("reaction_huff", "Huff", Price::Coins(300), "huff"),
+    reaction("reaction_please", "Please", Price::Coins(300), "please"),
+    reaction("reaction_sleepy", "Sleepy", Price::Coins(300), "sleepy"),
+    reaction("reaction_rofl", "Rolling with laughter", Price::Coins(400), "rofl"),
+    reaction("reaction_scream", "Scream", Price::Coins(400), "scream"),
+    reaction("reaction_no_look", "Can't look", Price::Coins(400), "no_look"),
+    reaction("reaction_salute", "Salute", Price::Coins(400), "salute"),
+    reaction("reaction_mind_blown", "Mind blown", Price::Coins(500), "mind_blown"),
+    reaction("reaction_clover", "Lucky clover", Price::Coins(500), "clover"),
+    reaction("reaction_popcorn", "Popcorn", Price::Coins(600), "popcorn"),
 ];
+
+const fn reaction(code: &'static str, name: &'static str, price: Price, r: &'static str) -> Item {
+    Item { code, category: Category::Reaction, name, price, look: Look::Reaction(r) }
+}
 
 pub fn item(code: &str) -> Option<&'static Item> {
     ITEMS.iter().find(|i| i.code == code)
@@ -1184,6 +1210,12 @@ mod tests {
         }
         assert!(matches!(item("table_club").unwrap().look, Look::Table(TableStyle::Club)));
         assert!(matches!(item("hall_beach").unwrap().look, Look::Hall(HallStyle::Beach)));
+        // Every reaction item names a reaction, under its own code.
+        for i in ITEMS.iter().filter(|i| i.category == Category::Reaction) {
+            let Look::Reaction(r) = i.look else { panic!("{}", i.code) };
+            assert!(crate::reaction(r).is_some(), "{}", i.code);
+            assert_eq!(i.code.strip_prefix(crate::reactions::ITEM_PREFIX), Some(r));
+        }
     }
 
     #[test]

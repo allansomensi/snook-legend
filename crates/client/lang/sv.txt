@@ -2058,3 +2058,26 @@ You earned a new item!	Du har fått ett nytt föremål!
 Ranking	Topplista
 Can't reach the server	Det går inte att nå servern
 offline: click to connect	offline: klicka för att ansluta
+Ruby	Rubin
+Interface sounds	Gränssnittsljud
+A click when you press buttons, tabs and windows.	Ett klick när du trycker på knappar, flikar och fönster.
+Current level	Nuvarande nivå
+Daily game with {name}	Dagsparti med {name}
+Each of you plays a turn whenever you can: the game can last days.	Var och en spelar sin tur när det passar: partiet kan pågå i dagar.
+In the shop, for {n} coins	I butiken, för {n} mynt
+In your reactions	Bland dina reaktioner
+Open the profile	Öppna profilen
+Send the challenge	Skicka utmaningen
+Thumbs up	Tummen upp
+Eyes	Ögon
+Tears	Tårar
+Huff	Fnys
+Please	Snälla
+Sleepy	Sömnig
+Rolling with laughter	Skrattar ihjäl mig
+Scream	Skrik
+Can't look	Kan inte titta
+Salute	Honnör
+Mind blown	Helt mållös
+Lucky clover	Fyrklöver
+Popcorn	Popcorn

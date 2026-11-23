@@ -509,6 +509,8 @@ pub struct Look {
     pub frame: String,
     pub name_style: String,
     pub effect: String,
+    /// The reactions bought in the shop (their codes).
+    pub reactions: Vec<String>,
 }
 
 pub fn dressed(mut info: PlayerInfo, look: &Look) -> PlayerInfo {
@@ -1700,7 +1702,8 @@ impl Lounge {
     fn react(&mut self, k: &str, code: &str) {
         let Some(r) = snook_legend_proto::reaction(code) else { return };
         let Some(s) = self.sessions.get_mut(k) else { return };
-        if !r.available(&s.achievements, s.look.vip) || !s.reaction_bucket.take() {
+        if !r.available(&s.achievements, &s.look.reactions, s.look.vip) || !s.reaction_bucket.take()
+        {
             return;
         }
         if s.user.is_muted(now()) {

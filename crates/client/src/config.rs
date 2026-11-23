@@ -212,6 +212,8 @@ pub struct Config {
     /// Windows notifications when a friend comes online or a tournament
     /// is about to start (while the game is in the background).
     pub desktop_notifications: bool,
+    /// The interface's own sounds (the click of buttons, tabs and windows).
+    pub interface_sounds: bool,
     /// Focus mode: no invitations while a game is being played (the lounge
     /// shows the player as focused, and invitations are turned away).
     pub focus_mode: bool,
@@ -281,6 +283,7 @@ impl Default for Config {
             board_seen: 0,
             tv_camera: false,
             desktop_notifications: true,
+            interface_sounds: true,
             focus_mode: false,
             keys: crate::keys::Bindings::default(),
             auto_update: true,
@@ -462,6 +465,7 @@ impl Config {
                 // saved for everyone, so it says nothing about a choice.
                 "tv_view" => c.tv_camera = v == "true",
                 "desktop_notifications" => c.desktop_notifications = v != "false",
+                "interface_sounds" => c.interface_sounds = v != "false",
                 "focus_mode" => c.focus_mode = v == "true",
                 "auto_update" => c.auto_update = v != "false",
                 "last_version" => c.last_version = v.chars().take(32).collect(),
@@ -479,7 +483,7 @@ impl Config {
             "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nhead_string = {}\ncoached = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nshadows = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\ntoken_server = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
-             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nfocus_mode = {}\nauto_update = {}\nlast_version = {}\nnext_breaker = {}\nrules = {}\n{}",
+             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nfocus_mode = {}\nauto_update = {}\nlast_version = {}\nnext_breaker = {}\nrules = {}\ninterface_sounds = {}\n{}",
             self.player_name,
             self.second_player_name,
             self.guide.name(),
@@ -529,6 +533,7 @@ impl Config {
             self.last_version,
             self.next_breaker,
             self.rules.map_or("", Rules::code),
+            self.interface_sounds,
             self.keys.to_text()
         )
     }

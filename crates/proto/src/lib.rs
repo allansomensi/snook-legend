@@ -19,12 +19,12 @@ pub mod events;
 pub mod ghost;
 pub mod ladder;
 pub mod missions;
-mod reactions;
+pub mod reactions;
 pub mod replay;
 pub mod shop;
 pub mod xp;
 
-pub use achievements::{ACHIEVEMENTS, Achievement, GOLDEN_BREAK, Stat, Stats, month_day};
+pub use achievements::{ACHIEVEMENTS, Achievement, GOLDEN_BREAK, RUBY, Stat, Stats, month_day};
 pub use countries::{COUNTRIES, FLAG_COLUMNS, FLAG_H, FLAG_W};
 pub use reactions::{REACTIONS, Reaction, reaction};
 
@@ -1032,6 +1032,10 @@ pub struct Profile {
     /// What they won (tournaments, the ladder…), newest first.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub trophies: Vec<Trophy>,
+    /// The reactions they bought in the shop (codes; see
+    /// [`reactions::bought`]).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub reactions: Vec<String>,
 }
 
 /// Something a player won, for the profile's trophy shelf.

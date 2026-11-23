@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+### Microsoft Store
+- **The Store version can be built without any purchase for real money**:
+  coin packs and months of VIP are sold in the Store package only when the
+  repository variable `MSSTORE_PURCHASES` is `on` (the workflow then
+  builds with the feature `store-purchases`). Without it, coins are only
+  earned by playing and VIP's page is not shown (except to who is VIP), so
+  the age rating needs no "in-game purchases". The server's Store
+  settings stay as they are; a purchase paid in an earlier version and
+  never received still arrives. Steps in docs/MSSTORE.md.
+
+### Menu and settings
+- **Quit is an open door, with its name**: the power sign read as "turn
+  off"; the button now says "Quit" like the others in the row.
+- **Interface sounds can be turned off** (Settings → Sound): the click of
+  buttons, tabs and windows, apart from the game's own sounds and the
+  system notifications.
+
 ### Daily challenge
 - **On a tie, the quickest wins**: the day's table still goes by the balls
   made, and among those with as many, the attempt that took the least time
@@ -11,7 +28,31 @@
   challenge's page the time of one's own best. Scores made before this
   count as having taken the whole time allowed (migration `0025`).
 
+### Achievements and reactions
+- **Ruby medals for the near impossible**: a fifth medal above diamond, a
+  cut ruby set in gold on a black and gold ribbon, for the golden break,
+  Legend (2100), ten wins in a row and ten break-and-runs.
+- **Achievements of one set of rules say so**: the golden break can only
+  happen under the Brazilian rules (the official ones spot the 8 again),
+  and its description now starts with "(Brazilian rules)".
+- **26 new reactions**: 14 more come with achievements (a first friend,
+  ten wins, a break and run, the tour, a year at the table, level 50…),
+  and 12 are sold in the shop for 300 to 600 coins, in a new Reactions
+  category (they can be given to friends too). A bought reaction is kept,
+  not "put on": it is in the match's picker at once. The server checks
+  the wallet before passing a reaction on.
+
 ### Profile
+- **An opponent's name opens their profile**: in the games list, the name
+  is a link (underlined under the pointer); Back walks back through the
+  profiles visited.
+- **A daily game is set up before it is sent**: challenging a player to a
+  daily game (from a profile or the lounge) opens the invitation dialog,
+  to pick rated or casual and the rules, instead of sending at once.
+- **The levels' ladder shows where the player is in it**: no card above
+  the list; the current level is a lit step among the levels that bring
+  an item (with the bar to the next level), the highest at the top like
+  the leagues beside it.
 - **The country is changed on the flag**: one's own flag by the name lifts
   under the pointer, with a pencil over it, and a click opens the list of
   countries (with no country yet, a globe stands in for it). The globe

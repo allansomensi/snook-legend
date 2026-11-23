@@ -2058,3 +2058,26 @@ You earned a new item!	새 아이템을 얻었어요!
 Ranking	랭킹
 Can't reach the server	서버에 연결할 수 없어요
 offline: click to connect	오프라인: 클릭해서 연결
+Ruby	루비
+Interface sounds	인터페이스 효과음
+A click when you press buttons, tabs and windows.	버튼, 탭, 창을 누를 때 나는 클릭 소리.
+Current level	현재 레벨
+Daily game with {name}	{name}님과 데일리 게임
+Each of you plays a turn whenever you can: the game can last days.	각자 가능할 때 자기 차례를 둬요. 게임이 며칠 이어질 수 있어요.
+In the shop, for {n} coins	상점에서 {n} 코인
+In your reactions	내 리액션에 있음
+Open the profile	프로필 열기
+Send the challenge	도전 보내기
+Thumbs up	엄지 척
+Eyes	눈
+Tears	눈물
+Huff	씩씩
+Please	제발
+Sleepy	졸림
+Rolling with laughter	데굴데굴 웃음
+Scream	비명
+Can't look	못 보겠어
+Salute	경례
+Mind blown	머리가 터짐
+Lucky clover	행운의 클로버
+Popcorn	팝콘

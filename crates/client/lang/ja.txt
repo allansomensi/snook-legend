@@ -2058,3 +2058,26 @@ You earned a new item!	新しいアイテムを獲得しました！
 Ranking	ランキング
 Can't reach the server	サーバーに接続できません
 offline: click to connect	オフライン：クリックで接続
+Ruby	ルビー
+Interface sounds	インターフェースの効果音
+A click when you press buttons, tabs and windows.	ボタン、タブ、ウィンドウを押したときのクリック音。
+Current level	現在のレベル
+Daily game with {name}	{name}とのデイリー対戦
+Each of you plays a turn whenever you can: the game can last days.	お互い都合のよいときに自分の番を打てます。対局は数日続くこともあります。
+In the shop, for {n} coins	ショップで{n}コイン
+In your reactions	リアクションに追加済み
+Open the profile	プロフィールを開く
+Send the challenge	挑戦を送る
+Thumbs up	いいね
+Eyes	目
+Tears	号泣
+Huff	ぷんぷん
+Please	お願い
+Sleepy	おねむ
+Rolling with laughter	笑い転げる
+Scream	絶叫
+Can't look	見てられない
+Salute	敬礼
+Mind blown	脳が爆発
+Lucky clover	幸運のクローバー
+Popcorn	ポップコーン

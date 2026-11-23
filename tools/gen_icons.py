@@ -218,6 +218,7 @@ ICONS = {
     "Question": "question",
     "Clock": "clock",
     "Handshake": "handshake",
+    "DoorOpen": "door-open",
 }
 
 # Layers drawn under an icon, in another colour: (name, path).

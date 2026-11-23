@@ -2058,3 +2058,26 @@ You earned a new item!	Új tárgyat szereztél!
 Ranking	Ranglista
 Can't reach the server	A szerver nem érhető el
 offline: click to connect	offline: kattints a csatlakozáshoz
+Ruby	Rubin
+Interface sounds	Kezelőfelület hangjai
+A click when you press buttons, tabs and windows.	Kattanás gombok, fülek és ablakok megnyomásakor.
+Current level	Jelenlegi szint
+Daily game with {name}	Napi játszma vele: {name}
+Each of you plays a turn whenever you can: the game can last days.	Mindenki akkor lép, amikor tud: a játszma napokig tarthat.
+In the shop, for {n} coins	A boltban, {n} érméért
+In your reactions	A reakcióid között
+Open the profile	Profil megnyitása
+Send the challenge	Kihívás küldése
+Thumbs up	Hüvelykujj fel
+Eyes	Szemek
+Tears	Könnyek
+Huff	Fújtatás
+Please	Kérlek
+Sleepy	Álmos
+Rolling with laughter	Gurulok a nevetéstől
+Scream	Sikoly
+Can't look	Nem bírom nézni
+Salute	Tisztelgés
+Mind blown	Leesett az állam
+Lucky clover	Szerencselóhere
+Popcorn	Pattogatott kukorica

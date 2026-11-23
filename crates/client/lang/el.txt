@@ -2058,3 +2058,26 @@ You earned a new item!	Κέρδισες νέο αντικείμενο!
 Ranking	Κατάταξη
 Can't reach the server	Δεν είναι δυνατή η σύνδεση με τον διακομιστή
 offline: click to connect	εκτός σύνδεσης: πάτα για σύνδεση
+Ruby	Ρουμπίνι
+Interface sounds	Ήχοι διεπαφής
+A click when you press buttons, tabs and windows.	Ένα κλικ όταν πατάς κουμπιά, καρτέλες και παράθυρα.
+Current level	Τρέχον επίπεδο
+Daily game with {name}	Ημερήσια παρτίδα με {name}
+Each of you plays a turn whenever you can: the game can last days.	Ο καθένας παίζει τη σειρά του όποτε μπορεί: η παρτίδα μπορεί να κρατήσει μέρες.
+In the shop, for {n} coins	Στο κατάστημα, για {n} νομίσματα
+In your reactions	Στις αντιδράσεις σου
+Open the profile	Άνοιγμα προφίλ
+Send the challenge	Στείλε την πρόκληση
+Thumbs up	Μπράβο
+Eyes	Μάτια
+Tears	Δάκρυα
+Huff	Θυμός
+Please	Σε παρακαλώ
+Sleepy	Νυσταγμένος
+Rolling with laughter	Κυλιέμαι στα γέλια
+Scream	Κραυγή
+Can't look	Δεν βλέπω
+Salute	Χαιρετισμός
+Mind blown	Πάθαμε πλάκα
+Lucky clover	Τετράφυλλο τριφύλλι
+Popcorn	Ποπκόρν

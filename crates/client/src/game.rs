@@ -484,6 +484,8 @@ pub struct OnlineMatch {
     pub echoes: Vec<String>,
     /// Achievements of this player (they unlock reactions).
     pub unlocked: Vec<String>,
+    /// The reactions this player bought in the shop.
+    pub bought: Vec<String>,
     /// This player is VIP (the VIP reactions).
     pub vip: bool,
     /// Reactions on screen: who sent which (a seat, or [`SPECTATOR_SEAT`]),
@@ -983,6 +985,7 @@ impl Match {
                 preview: None,
                 echoes: Vec::new(),
                 unlocked: Vec::new(),
+                bought: Vec::new(),
                 reactions: Vec::new(),
                 spectator: spectating,
                 spectators: 0,

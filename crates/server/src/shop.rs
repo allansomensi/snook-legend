@@ -76,6 +76,7 @@ pub fn look_of(w: &Wallet, achievements: &[String], t: i64) -> Look {
         frame: item(Category::Frame),
         name_style: item(Category::Name),
         effect: item(Category::Effect),
+        reactions: snook_legend_proto::reactions::bought(&w.owned),
     }
 }
 
@@ -175,8 +176,11 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
             match server.store.buy_item(me.id, item.code, price as i64, now()).await {
                 Ok(BuyOutcome::Bought) => {
                     tracing::info!(user = me.id, item = item.code, price, "item bought");
-                    // Bought to be used: put it on straight away.
-                    let _ = server.store.equip(me.id, item.category.code(), item.code).await;
+                    // Bought to be used: put it on straight away (a
+                    // reaction is simply kept).
+                    if item.category != Category::Reaction {
+                        let _ = server.store.equip(me.id, item.category.code(), item.code).await;
+                    }
                     send(ServerMsg::ItemBought { code: item.code.to_string(), gift_to: None });
                     push_wallet(server, me).await;
                 }
@@ -247,6 +251,10 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
         }
         ClientMsg::Equip { code } => {
             let Some(item) = shop::item(&code) else { return error("No such item.") };
+            if item.category == Category::Reaction {
+                // Kept, not put on.
+                return;
+            }
             let (w, achievements) =
                 tokio::join!(server.store.wallet(me.id), achievements_of(server, me.id));
             let w = w.unwrap_or_default();

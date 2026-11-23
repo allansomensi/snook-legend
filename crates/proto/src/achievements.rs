@@ -100,7 +100,8 @@ pub struct Achievement {
     pub description: &'static str,
     pub stat: Stat,
     pub goal: i64,
-    /// 0 bronze, 1 silver, 2 gold, 3 platinum.
+    /// 0 bronze, 1 silver, 2 gold, 3 diamond, 4 ruby (the near impossible:
+    /// a handful of players ever, see [`RUBY`]).
     pub level: u8,
 }
 
@@ -117,6 +118,18 @@ const fn a(
 
 /// Awarded for a rated game won by making only the 8 on the break.
 pub const GOLDEN_BREAK: &str = "golden_break";
+
+/// The medal of the near impossible.
+pub const RUBY: u8 = 4;
+
+impl Achievement {
+    /// The rules it can only be won under (None: either). Only the
+    /// Brazilian rules end a game with the 8 alone on the break: the
+    /// official ones spot it again.
+    pub fn rules(&self) -> Option<snook_legend_core::Rules> {
+        (self.code == GOLDEN_BREAK).then_some(snook_legend_core::Rules::Brazilian)
+    }
+}
 
 pub const ACHIEVEMENTS: &[Achievement] = &[
     a("games_1", "First break", "Play your first rated game.", Stat::Games, 1, 0),
@@ -137,10 +150,10 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
     a("rating_1500", "Expert", "Reach a rating of 1500.", Stat::PeakRating, 1500, 1),
     a("rating_1700", "Master", "Reach a rating of 1700.", Stat::PeakRating, 1700, 2),
     a("rating_1900", "Grandmaster", "Reach a rating of 1900.", Stat::PeakRating, 1900, 3),
-    a("rating_2100", "Legend", "Reach a rating of 2100.", Stat::PeakRating, 2100, 3),
+    a("rating_2100", "Legend", "Reach a rating of 2100.", Stat::PeakRating, 2100, RUBY),
     a("streak_3", "Hat trick", "Win 3 rated games in a row.", Stat::BestStreak, 3, 0),
     a("streak_5", "Hot hand", "Win 5 rated games in a row.", Stat::BestStreak, 5, 1),
-    a("streak_10", "On fire", "Win 10 rated games in a row.", Stat::BestStreak, 10, 3),
+    a("streak_10", "On fire", "Win 10 rated games in a row.", Stat::BestStreak, 10, RUBY),
     a(
         "runout_1",
         "Break and run",
@@ -149,7 +162,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         1,
         1,
     ),
-    a("runout_10", "Table runner", "Break and run 10 times.", Stat::Runouts, 10, 3),
+    a("runout_10", "Table runner", "Break and run 10 times.", Stat::Runouts, 10, RUBY),
     a(
         "shutout_1",
         "Shutout",
@@ -171,7 +184,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         "Win a rated game by sinking only the 8-ball on the break.",
         Stat::Awarded,
         1,
-        2,
+        RUBY,
     ),
     a("veteran_30", "Familiar face", "Have an account for 30 days.", Stat::AccountDays, 30, 0),
     a("veteran_180", "Half a year", "Have an account for six months.", Stat::AccountDays, 180, 1),
@@ -291,6 +304,17 @@ mod tests {
         };
         assert!(!all.earned().any(|c| c == crate::ladder::ACHIEVEMENT));
         assert!(ACHIEVEMENTS.iter().any(|a| a.code == crate::ladder::ACHIEVEMENT));
+    }
+
+    #[test]
+    fn ruby_is_rare_and_the_golden_break_brazilian() {
+        let rubies: Vec<_> = ACHIEVEMENTS.iter().filter(|a| a.level == RUBY).collect();
+        assert!((1..=5).contains(&rubies.len()));
+        assert!(ACHIEVEMENTS.iter().all(|a| a.level <= RUBY));
+        let golden = ACHIEVEMENTS.iter().find(|a| a.code == GOLDEN_BREAK).unwrap();
+        assert_eq!(golden.rules(), Some(snook_legend_core::Rules::Brazilian));
+        assert_eq!(golden.level, RUBY);
+        assert_eq!(ACHIEVEMENTS.iter().filter(|a| a.rules().is_some()).count(), 1);
     }
 
     #[test]

@@ -121,11 +121,10 @@ fn table_mut(m: &mut Match) -> Option<&mut CorrTable> {
     m.online.as_mut()?.corr.as_mut()
 }
 
-/// Sends a challenge (rated or not as the lounge's switch says, under the
-/// player's rules).
+/// Opens the challenge to a daily game: the player picks rated or casual
+/// and the rules (the lounge's choices first), then sends it.
 pub fn challenge(o: &mut Online, to: &str) {
-    let rated = o.rated_games && !o.lan;
-    o.send(ClientMsg::CorrChallenge { to: to.to_string(), rated, rules: o.rules });
+    o.open_daily_challenge(to);
 }
 
 /// A message for the server from the table, as the correspondence game

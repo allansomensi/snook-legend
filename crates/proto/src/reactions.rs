@@ -1,10 +1,11 @@
 //! Reactions: small pictures a player can send during a match. A few are
-//! free; others come with achievements (including event ones), and a set
-//! is for VIP members while they are VIP.
+//! free; others come with achievements (including event ones), some are
+//! sold in the shop for coins (see [`crate::shop`]: an item
+//! `reaction_<code>` each), and a set is for VIP members while they are VIP.
 
 /// A reaction. `art` names its picture in the game's atlas (a Twemoji code
 /// point); `unlock` is the achievement that grants it (`None`: everyone,
-/// [`VIP`]: VIP members).
+/// [`VIP`]: VIP members, [`SHOP`]: bought in the shop).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Reaction {
     pub code: &'static str,
@@ -14,6 +15,8 @@ pub struct Reaction {
 
 /// The `unlock` of the reactions VIP members have while they are VIP.
 pub const VIP: &str = "vip";
+/// The `unlock` of the reactions sold in the shop.
+pub const SHOP: &str = "shop";
 
 const fn r(code: &'static str, art: &'static str, unlock: Option<&'static str>) -> Reaction {
     Reaction { code, art, unlock }
@@ -42,6 +45,33 @@ pub const REACTIONS: &[Reaction] = &[
     r("pumpkin", "1f383", Some("event_halloween")),
     r("tree", "1f384", Some("event_winter")),
     r("fireworks", "1f386", Some("event_new_year")),
+    r("wave", "1f44b", Some("friend_1")),
+    r("playful", "1f61c", Some("casual_25")),
+    r("grin", "1f601", Some("wins_10")),
+    r("bolt", "26a1", Some("streak_5")),
+    r("broom", "1f9f9", Some("runout_1")),
+    r("wall", "1f9f1", Some("shutout_1")),
+    r("brain", "1f9e0", Some("rating_1500")),
+    r("eagle", "1f985", Some("rating_1900")),
+    r("skull", "1f480", Some("eight_250")),
+    r("medal", "1f947", Some("tournament_win")),
+    r("glow_star", "1f31f", Some("golden_break")),
+    r("robot", "1f916", Some("ladder_champion")),
+    r("cake", "1f382", Some("veteran_365")),
+    r("goat", "1f410", Some("level_50")),
+    // Sold in the shop, for coins.
+    r("eyes", "1f440", Some(SHOP)),
+    r("sob", "1f62d", Some(SHOP)),
+    r("huff", "1f624", Some(SHOP)),
+    r("please", "1f64f", Some(SHOP)),
+    r("sleepy", "1f634", Some(SHOP)),
+    r("rofl", "1f923", Some(SHOP)),
+    r("scream", "1f631", Some(SHOP)),
+    r("no_look", "1f648", Some(SHOP)),
+    r("salute", "1fae1", Some(SHOP)),
+    r("mind_blown", "1f92f", Some(SHOP)),
+    r("clover", "1f340", Some(SHOP)),
+    r("popcorn", "1f37f", Some(SHOP)),
     // For VIP members, while they are VIP.
     r("star_eyes", "1f929", Some(VIP)),
     r("gem", "1f48e", Some(VIP)),
@@ -56,21 +86,55 @@ pub fn reaction(code: &str) -> Option<&'static Reaction> {
     REACTIONS.iter().find(|r| r.code == code)
 }
 
+/// The prefix of the shop items that are reactions.
+pub const ITEM_PREFIX: &str = "reaction_";
+
+/// The reactions bought among a wallet's items (their codes).
+pub fn bought(owned: &[String]) -> Vec<String> {
+    owned.iter().filter_map(|i| i.strip_prefix(ITEM_PREFIX)).map(str::to_string).collect()
+}
+
 impl Reaction {
-    /// Whether a player with these achievements may send it (VIP
+    /// Whether a player with these achievements may send it (VIP and shop
     /// reactions: never; see [`Reaction::available`]).
     pub fn unlocked<S: AsRef<str>>(&self, achievements: &[S]) -> bool {
-        !self.is_vip() && self.unlock.is_none_or(|a| achievements.iter().any(|c| c.as_ref() == a))
+        !self.is_vip()
+            && !self.is_shop()
+            && self.unlock.is_none_or(|a| achievements.iter().any(|c| c.as_ref() == a))
     }
 
-    /// Whether a player with these achievements, VIP or not, may send it.
-    pub fn available<S: AsRef<str>>(&self, achievements: &[S], vip: bool) -> bool {
-        (vip && self.is_vip()) || self.unlocked(achievements)
+    /// Whether a player with these achievements and these reactions bought
+    /// (see [`bought`]), VIP or not, may send it.
+    pub fn available<S: AsRef<str>, B: AsRef<str>>(
+        &self,
+        achievements: &[S],
+        bought: &[B],
+        vip: bool,
+    ) -> bool {
+        (vip && self.is_vip())
+            || (self.is_shop() && bought.iter().any(|b| b.as_ref() == self.code))
+            || self.unlocked(achievements)
     }
 
     /// One of the reactions for VIP members.
     pub fn is_vip(&self) -> bool {
         self.unlock == Some(VIP)
+    }
+
+    /// One of the reactions sold in the shop.
+    pub fn is_shop(&self) -> bool {
+        self.unlock == Some(SHOP)
+    }
+
+    /// Its item in the shop (a shop reaction).
+    pub fn item(&self) -> Option<&'static crate::shop::Item> {
+        if !self.is_shop() {
+            return None;
+        }
+        crate::shop::ITEMS.iter().find(|i| {
+            i.code.strip_prefix(ITEM_PREFIX) == Some(self.code)
+                && i.category == crate::shop::Category::Reaction
+        })
     }
 }
 
@@ -84,7 +148,7 @@ mod tests {
         codes.sort();
         codes.dedup();
         assert_eq!(codes.len(), REACTIONS.len());
-        for r in REACTIONS.iter().filter(|r| !r.is_vip()) {
+        for r in REACTIONS.iter().filter(|r| !r.is_vip() && !r.is_shop()) {
             if let Some(a) = r.unlock {
                 assert!(crate::ACHIEVEMENTS.iter().any(|x| x.code == a), "{a}");
             }
@@ -94,9 +158,26 @@ mod tests {
         assert!(!reaction("crown").unwrap().unlocked(&none));
         assert!(reaction("crown").unwrap().unlocked(&["rating_2100"]));
         let gem = reaction("gem").unwrap();
-        assert!(gem.available(&none, true) && !gem.available(&none, false));
+        assert!(gem.available(&none, &none, true) && !gem.available(&none, &none, false));
         assert!(!gem.unlocked(&[VIP]), "VIP comes from the wallet, not achievements");
-        assert!(reaction("crown").unwrap().available(&["rating_2100"], false));
+        assert!(reaction("crown").unwrap().available(&["rating_2100"], &none, false));
+        // Shop reactions: each an item for coins, usable once bought.
+        let popcorn = reaction("popcorn").unwrap();
+        assert!(!popcorn.available(&none, &none, true));
+        assert!(!popcorn.unlocked(&[SHOP]));
+        assert!(popcorn.available(&none, &["popcorn"], false));
+        assert_eq!(bought(&["reaction_popcorn".into(), "cloth_blue".into()]), ["popcorn"]);
+        let shop: Vec<_> = REACTIONS.iter().filter(|r| r.is_shop()).collect();
+        assert!(shop.len() >= 6);
+        for r in &shop {
+            let item = r.item().unwrap_or_else(|| panic!("{} is not in the shop", r.code));
+            assert!(item.coins().is_some(), "{}", r.code);
+        }
+        let items = crate::shop::ITEMS
+            .iter()
+            .filter(|i| i.category == crate::shop::Category::Reaction && i.coins().is_some())
+            .count();
+        assert_eq!(items, shop.len(), "every reaction item is a shop reaction");
         // Few are free.
         assert!(REACTIONS.iter().filter(|r| r.unlock.is_none()).count() <= 4);
     }

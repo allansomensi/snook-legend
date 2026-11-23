@@ -2058,3 +2058,26 @@ You earned a new item!	Máš nový předmět!
 Ranking	Žebříček
 Can't reach the server	Server není dostupný
 offline: click to connect	offline: klikni pro připojení
+Ruby	Rubín
+Interface sounds	Zvuky rozhraní
+A click when you press buttons, tabs and windows.	Cvaknutí při stisku tlačítek, karet a oken.
+Current level	Aktuální úroveň
+Daily game with {name}	Denní hra s hráčem {name}
+Each of you plays a turn whenever you can: the game can last days.	Každý z vás táhne, kdy může: hra může trvat i dny.
+In the shop, for {n} coins	V obchodě za {n} mincí
+In your reactions	Mezi tvými reakcemi
+Open the profile	Otevřít profil
+Send the challenge	Poslat výzvu
+Thumbs up	Palec nahoru
+Eyes	Oči
+Tears	Slzy
+Huff	Funění
+Please	Prosím
+Sleepy	Ospalý
+Rolling with laughter	Válím se smíchy
+Scream	Výkřik
+Can't look	Nemůžu se dívat
+Salute	Salutování
+Mind blown	Mysl vybuchla
+Lucky clover	Čtyřlístek
+Popcorn	Popcorn

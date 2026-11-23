@@ -2058,3 +2058,26 @@ You earned a new item!	Kamu mendapat item baru!
 Ranking	Peringkat
 Can't reach the server	Tidak dapat terhubung ke server
 offline: click to connect	offline: klik untuk terhubung
+Ruby	Rubi
+Interface sounds	Suara antarmuka
+A click when you press buttons, tabs and windows.	Bunyi klik saat menekan tombol, tab, dan jendela.
+Current level	Level saat ini
+Daily game with {name}	Permainan harian dengan {name}
+Each of you plays a turn whenever you can: the game can last days.	Masing-masing bermain giliran kapan pun bisa: permainan bisa berlangsung berhari-hari.
+In the shop, for {n} coins	Di toko, seharga {n} koin
+In your reactions	Ada di reaksimu
+Open the profile	Buka profil
+Send the challenge	Kirim tantangan
+Thumbs up	Jempol
+Eyes	Mata
+Tears	Air mata
+Huff	Kesal
+Please	Tolong
+Sleepy	Ngantuk
+Rolling with laughter	Tertawa berguling
+Scream	Teriak
+Can't look	Tak sanggup lihat
+Salute	Hormat
+Mind blown	Terpukau
+Lucky clover	Semanggi keberuntungan
+Popcorn	Popcorn

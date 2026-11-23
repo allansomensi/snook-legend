@@ -2058,3 +2058,26 @@ You earned a new item!	May bago kang item!
 Ranking	Ranking
 Can't reach the server	Hindi maabot ang server
 offline: click to connect	offline: i-click para kumonekta
+Ruby	Rubi
+Interface sounds	Mga tunog ng interface
+A click when you press buttons, tabs and windows.	Isang click kapag pumindot ka ng mga button, tab at window.
+Current level	Kasalukuyang level
+Daily game with {name}	Pang-araw-araw na laro kasama si {name}
+Each of you plays a turn whenever you can: the game can last days.	Bawat isa ay titira kapag kaya niya: puwedeng tumagal nang ilang araw ang laro.
+In the shop, for {n} coins	Sa tindahan, sa halagang {n} coins
+In your reactions	Nasa reactions mo na
+Open the profile	Buksan ang profile
+Send the challenge	Ipadala ang hamon
+Thumbs up	Thumbs up
+Eyes	Mga mata
+Tears	Luha
+Huff	Inis
+Please	Pakiusap
+Sleepy	Inaantok
+Rolling with laughter	Gumugulong sa tawa
+Scream	Sigaw
+Can't look	Di ko kayang tingnan
+Salute	Saludo
+Mind blown	Napanganga
+Lucky clover	Swerteng clover
+Popcorn	Popcorn

@@ -67,6 +67,11 @@ pub struct ProfileScreen {
     rules: Rules,
     /// "Sign out" was clicked (the screen hands it on as its action).
     sign_out: bool,
+    /// The profiles this one was reached from (an opponent's name clicked
+    /// in the games): Back goes to the last of them.
+    trail: Vec<String>,
+    /// A profile to open next (a name clicked this frame).
+    follow: Option<String>,
 }
 
 /// The account dialog: username, recovery e-mail, password, deletion.
@@ -156,8 +161,18 @@ pub fn medal_tier(level: u8) -> &'static str {
         0 => "Bronze",
         1 => "Silver",
         2 => "Gold",
-        _ => "Diamond",
+        3 => "Diamond",
+        _ => "Ruby",
     })
+}
+
+/// An achievement's description, with the rules it can only be won under
+/// in front ("(Brazilian rules) Win a rated game…").
+pub fn achievement_text(a: &snook_legend_proto::Achievement) -> String {
+    match a.rules() {
+        Some(r) => format!("({}) {}", crate::i18n::rules_name(r), t(a.description)),
+        None => t(a.description).to_string(),
+    }
 }
 
 pub fn medal_color(level: u8) -> Color {
@@ -165,7 +180,8 @@ pub fn medal_color(level: u8) -> Color {
         0 => Color::new(0.80, 0.55, 0.33, 1.0),
         1 => Color::new(0.80, 0.82, 0.86, 1.0),
         2 => GOLD,
-        _ => Color::new(0.62, 0.90, 0.98, 1.0),
+        3 => Color::new(0.62, 0.90, 0.98, 1.0),
+        _ => Color::new(0.93, 0.20, 0.33, 1.0),
     }
 }
 
@@ -175,12 +191,17 @@ pub fn medal_color(level: u8) -> Color {
 /// star (diamond medals sparkle). `locked`: greyed and faint. `size` is
 /// the whole medal's height, centred on `c`.
 pub fn medal_art(c: Vec2, size: f32, level: u8, locked: bool) {
-    let metal = medal_color(level);
+    let ruby = level >= snook_legend_proto::RUBY;
+    // A ruby is set in a gold disc (the stone is the medal's colour).
+    let stone = medal_color(level);
+    let metal = if ruby { GOLD } else { stone };
     let ribbon = match level {
         0 => Color::new(0.52, 0.16, 0.18, 1.0),
         1 => Color::new(0.16, 0.24, 0.48, 1.0),
         2 => Color::new(0.62, 0.12, 0.12, 1.0),
-        _ => Color::new(0.10, 0.42, 0.50, 1.0),
+        3 => Color::new(0.10, 0.42, 0.50, 1.0),
+        // Ruby: on a black and gold ribbon.
+        _ => Color::new(0.16, 0.12, 0.08, 1.0),
     };
     // Locked: the colours drained and darkened.
     let grey = |c: Color, k: f32| {
@@ -203,10 +224,11 @@ pub fn medal_art(c: Vec2, size: f32, level: u8, locked: bool) {
         let n = vec2(w / 2.0, 0.0);
         crate::paint::draw_triangle(a - n, a + n, b + n, grey(ribbon, 1.0));
         crate::paint::draw_triangle(a - n, b + n, b - n, grey(ribbon, 1.0));
-        // The light stripe down its middle.
-        let m = vec2(w * 0.14, 0.0);
-        crate::paint::draw_triangle(a - m, a + m, b + m, grey(ribbon, 1.7));
-        crate::paint::draw_triangle(a - m, b + m, b - m, grey(ribbon, 1.7));
+        // The light stripe down its middle (gold, and wider, on a ruby's).
+        let m = vec2(w * if ruby { 0.22 } else { 0.14 }, 0.0);
+        let stripe = if ruby { grey(GOLD, 1.0) } else { grey(ribbon, 1.7) };
+        crate::paint::draw_triangle(a - m, a + m, b + m, stripe);
+        crate::paint::draw_triangle(a - m, b + m, b - m, stripe);
     }
     // The disc: a dark rim, then the metal shaded from the top left.
     draw_circle(disc.x, disc.y + 0.8, r + 1.2, Color::new(0.0, 0.0, 0.0, 0.35));
@@ -234,8 +256,40 @@ pub fn medal_art(c: Vec2, size: f32, level: u8, locked: bool) {
             crate::paint::draw_triangle(disc + o, pts[k], pts[(k + 1) % 10], color);
         }
     };
-    star(vec2(0.7, 0.9), r * 0.5, grey(metal, 0.42));
-    star(Vec2::ZERO, r * 0.5, grey(metal, 1.38));
+    if ruby {
+        // A cut stone instead of the star: an octagon of facets, the top
+        // left ones lit, on a dark seat in the gold.
+        draw_circle(disc.x, disc.y + 0.6, r * 0.66, grey(Color::new(0.2, 0.05, 0.08, 1.0), 1.0));
+        let n = 8;
+        let gr = r * 0.62;
+        let pts: Vec<Vec2> = (0..n)
+            .map(|k| {
+                let a = std::f32::consts::PI / 8.0 + k as f32 * std::f32::consts::TAU / n as f32;
+                disc + Vec2::from_angle(a) * gr
+            })
+            .collect();
+        let table = gr * 0.5;
+        for k in 0..n {
+            let (a, b) = (pts[k], pts[(k + 1) % n]);
+            let mid = (a + b) / 2.0 - disc;
+            // Facets facing the top left catch the light.
+            let lit = (-mid.x * 0.6 - mid.y * 0.8) / gr;
+            let ia = disc + (a - disc) * (table / gr);
+            let ib = disc + (b - disc) * (table / gr);
+            let c = grey(stone, 0.75 + 0.45 * lit.clamp(-1.0, 1.0));
+            crate::paint::draw_triangle(a, b, ib, c);
+            crate::paint::draw_triangle(a, ib, ia, c);
+        }
+        let inner: Vec<Vec2> = pts.iter().map(|p| disc + (*p - disc) * (table / gr)).collect();
+        for k in 0..n {
+            crate::paint::draw_triangle(disc, inner[k], inner[(k + 1) % n], grey(stone, 1.15));
+        }
+        // A highlight on the table.
+        draw_circle(disc.x - table * 0.35, disc.y - table * 0.4, table * 0.28, grey(WHITE, 0.6));
+    } else {
+        star(vec2(0.7, 0.9), r * 0.5, grey(metal, 0.42));
+        star(Vec2::ZERO, r * 0.5, grey(metal, 1.38));
+    }
     // A diamond medal sparkles at its edge.
     if level >= 3 && !locked {
         let sp = disc + vec2(r * 0.62, -r * 0.62);
@@ -312,7 +366,21 @@ fn heading(ui: &Ui, text: &str, x: f32, mid: f32) {
 
 impl ProfileScreen {
     pub fn open(&mut self, name: &str, online: &mut Online) {
+        self.trail.clear();
+        self.show(name, online);
+    }
+
+    /// Goes on to `name`'s profile from this one (Back returns here).
+    fn go_to(&mut self, name: &str, online: &mut Online) {
+        let mut trail = std::mem::take(&mut self.trail);
+        trail.push(self.name.clone());
+        self.show(name, online);
+        self.trail = trail;
+    }
+
+    fn show(&mut self, name: &str, online: &mut Online) {
         self.name = name.to_string();
+        self.follow = None;
         // The rules of the viewer's games first.
         self.rules = online.rules;
         self.history_first = 0;
@@ -389,12 +457,22 @@ impl ProfileScreen {
         // A dialog over the page (account, report, country): Esc is its own.
         let dialog = self.account.is_some()
             || self.report.is_some()
+            || online.invite_dialog.is_some()
             || crate::countries::is_open()
             || crate::avatars::is_open();
         if ui.icon_button(Rect::new(r.x + PAD, r.y + 20.0, 36.0, 36.0), Icon::Back, t("Back"), true)
             || (ui.escape() && !dialog && self.status_edit.is_none())
         {
-            action = ProfileAction::Back;
+            // Back through the profiles followed, then out.
+            match self.trail.pop() {
+                Some(previous) => {
+                    let trail = std::mem::take(&mut self.trail);
+                    self.show(&previous, online);
+                    self.trail = trail;
+                    return ProfileAction::None;
+                }
+                None => action = ProfileAction::Back,
+            }
         }
         let Some(mut p) = loaded else {
             let area = Rect::new(r.x, r.y + 40.0, r.w, r.h - 60.0);
@@ -512,6 +590,11 @@ impl ProfileScreen {
         }
         self.report_dialog(ui, online);
         self.account_dialog(ui, online);
+        if let Some(name) = self.follow.take()
+            && matches!(action, ProfileAction::None)
+        {
+            self.go_to(&name, online);
+        }
         if std::mem::take(&mut self.sign_out) {
             action = ProfileAction::SignOut;
         }
@@ -1128,7 +1211,8 @@ impl ProfileScreen {
             let c = Rect::new(area.x + k as f32 * (MEDAL + MEDAL_GAP), y + 26.0, MEDAL, MEDAL);
             medal_cell(c, a.level, true, ui.hovering(c));
             if ui.hovering(c) {
-                let tip = format!("{} ({}): {}", t(a.title), medal_tier(a.level), t(a.description));
+                let tip =
+                    format!("{} ({}): {}", t(a.title), medal_tier(a.level), achievement_text(a));
                 ui.tooltip(&tip, c);
             }
         }
@@ -1140,7 +1224,8 @@ impl ProfileScreen {
         // The reactions they can send: one row.
         let codes: Vec<&str> = p.achievements.iter().map(|(c, _)| c.as_str()).collect();
         let reactions = snook_legend_proto::REACTIONS;
-        let open: Vec<_> = reactions.iter().filter(|r| r.available(&codes, player.vip)).collect();
+        let open: Vec<_> =
+            reactions.iter().filter(|r| r.available(&codes, &p.reactions, player.vip)).collect();
         if y + 30.0 + REACTION <= area.y + area.h {
             heading(
                 ui,
@@ -1204,7 +1289,7 @@ impl ProfileScreen {
         if let Some((a, at, c)) = tip {
             let level = a.level;
             let title = t(a.title);
-            let desc = t(a.description);
+            let desc = achievement_text(a);
             let when = at
                 .map(|at| tw("Unlocked {date}", &[("date", &date(at))]))
                 .unwrap_or_else(|| t("Locked").to_string());
@@ -1214,7 +1299,7 @@ impl ProfileScreen {
                 let w = ui
                     .text_size(title, 14.0, true)
                     .x
-                    .max(ui.text_size(desc, 13.0, false).x)
+                    .max(ui.text_size(&desc, 13.0, false).x)
                     .max(ui.text_size(&when, 12.0, false).x)
                     + 28.0;
                 let below = c.y + c.h + 76.0 < crate::ui::vh();
@@ -1227,7 +1312,7 @@ impl ProfileScreen {
                 rrect(tr, 8.0, Color::new(0.0, 0.0, 0.0, 0.92));
                 rrect_lines(tr, 8.0, 1.0, medal_color(level));
                 ui.text(title, tr.x + 14.0, tr.y + 10.0, 14.0, medal_color(level), true);
-                ui.text(desc, tr.x + 14.0, tr.y + 30.0, 13.0, CREAM, false);
+                ui.text(&desc, tr.x + 14.0, tr.y + 30.0, 13.0, CREAM, false);
                 ui.text(&when, tr.x + 14.0, tr.y + 50.0, 12.0, MUTED, false);
             });
         }
@@ -1237,7 +1322,7 @@ impl ProfileScreen {
         let codes: Vec<&str> = p.achievements.iter().map(|(c, _)| c.as_str()).collect();
         let vip = p.player.vip;
         let reactions = snook_legend_proto::REACTIONS;
-        let open = reactions.iter().filter(|r| r.available(&codes, vip)).count();
+        let open = reactions.iter().filter(|r| r.available(&codes, &p.reactions, vip)).count();
         heading(
             ui,
             &tw("Reactions {n}/{total}", &[("n", &open), ("total", &reactions.len())]),
@@ -1258,7 +1343,7 @@ impl ProfileScreen {
             if hover {
                 rrect(c, 6.0, Color::new(1.0, 1.0, 1.0, 0.08));
             }
-            if r.available(&codes, vip) {
+            if r.available(&codes, &p.reactions, vip) {
                 crate::reactions::draw(r.code, centre, 24.0, crate::paint::alpha());
             } else {
                 crate::reactions::draw_locked(r.code, centre, 22.0);
@@ -1271,13 +1356,15 @@ impl ProfileScreen {
                 if hover {
                     let how = if r.is_vip() {
                         t("For VIP members").to_string()
+                    } else if r.is_shop() {
+                        crate::reactions::shop_hint(r)
                     } else {
                         r.unlock
                             .and_then(|a| ACHIEVEMENTS.iter().find(|x| x.code == a))
                             .map(|a| {
                                 tw(
                                     "{title}: {how}",
-                                    &[("title", &t(a.title)), ("how", &t(a.description))],
+                                    &[("title", &t(a.title)), ("how", &achievement_text(a))],
                                 )
                             })
                             .unwrap_or_default()
@@ -1343,7 +1430,8 @@ impl ProfileScreen {
             let x = r.x + 42.0;
             let room = text_right - x;
             let opp_color = crate::ui::name_color_of(h.opponent_admin, h.opponent_rating);
-            ui.name_with_flag(
+            // The opponent's name leads to their profile.
+            let name_w = ui.name_with_flag(
                 &h.opponent,
                 &h.opponent_country,
                 opp_color,
@@ -1352,6 +1440,26 @@ impl ProfileScreen {
                 14.0,
                 room,
             );
+            let linked = !h.opponent.is_empty()
+                && !h.opponent.starts_with("deleted-")
+                && !h.opponent.eq_ignore_ascii_case(&p.player.username);
+            let hit = Rect::new(x - 3.0, mid - 19.0, name_w + 6.0, 20.0);
+            if linked && ui.hovering(hit) {
+                ui.block(hit);
+                let ul = mid - 17.0 + 16.0;
+                draw_line(
+                    x + name_w - ui.text_size(&h.opponent, 14.0, true).x.min(name_w),
+                    ul,
+                    x + name_w,
+                    ul,
+                    1.0,
+                    opp_color,
+                );
+                ui.tooltip(t("Open the profile"), hit);
+                if ui.clicked(hit) {
+                    self.follow = Some(h.opponent.clone());
+                }
+            }
             // A daily game lost on time was not left: it ran out.
             let how = match (h.correspondence, h.reason, h.won) {
                 (true, snook_legend_core::GameOverReason::Abandoned, true) => {
@@ -2064,74 +2172,139 @@ fn journey(ui: &mut Ui, online: &Online, p: &Profile, rules: Rules, area: Rect) 
     let (note, size) = ui.fitted(&note, 12.0, col_w - 90.0, false);
     let nw = ui.text_size(&note, size, false).x;
     ui.text(&note, x + col_w - nw, area.y + 4.0, size, MUTED, false);
-    let card = Rect::new(x, top, col_w, 50.0 - 5.0);
-    rrect(card, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12));
-    rrect_lines(card, 8.0, 1.2, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7));
-    let title = tw("Level {n}", &[("n", &level)]);
-    let xp_known = online.xp.filter(|_| own);
-    // Without the XP (another's profile): the title alone, in the middle.
-    let title_y =
-        if xp_known.is_some() { card.y + 6.0 } else { text_y(card.y + card.h / 2.0, 16.0) };
-    ui.text(&title, card.x + 12.0, title_y, 16.0, GOLD, true);
-    if let Some(xp_now) = xp_known {
-        let bar = Rect::new(card.x + 12.0, card.y + card.h - 13.0, card.w - 24.0, 5.0);
-        rrect(bar, 2.5, Color::new(1.0, 1.0, 1.0, 0.1));
-        let (_, into, span) = xp::progress(xp_now);
-        let k = if span == 0 { 1.0 } else { into as f32 / span as f32 };
-        if k > 0.0 {
-            rrect(Rect::new(bar.x, bar.y, (bar.w * k).max(5.0), bar.h), 2.5, GOLD);
-        }
-        let text = if span == 0 {
-            t("The top level.").to_string()
-        } else {
-            tw("{n} XP to level {next}", &[("n", &(span - into)), ("next", &(level + 1))])
-        };
-        let tw_ = ui.text_size(&text, 12.0, false).x;
-        ui.text(&text, card.x + card.w - 12.0 - tw_, card.y + 9.0, 12.0, CREAM, false);
+    // One ladder, the highest level at the top like the leagues': the
+    // levels that bring an item, and the player's own level in its place
+    // among them (lit, with the way to the next level), not on a card of
+    // its own.
+    #[derive(Clone, Copy)]
+    enum Step {
+        /// A level that brings an item (and its achievement).
+        Milestone(u32, &'static str),
+        /// Where the player is (on a milestone: that milestone).
+        Here(Option<&'static str>),
     }
-    let rows = xp::MILESTONES.len();
-    let list_top = top + 50.0;
-    let row_h = ((area.y + area.h - list_top) / rows as f32).min(42.0);
-    for (k, (at, achievement)) in xp::MILESTONES.iter().enumerate() {
-        let r = Rect::new(x, list_top + k as f32 * row_h, col_w, row_h - 5.0);
-        let done = level >= *at;
-        let next = !done && xp::next_milestone(level).is_some_and(|(l, _)| l == *at);
-        let fade = if done || next { 1.0 } else { 0.55 };
-        rrect(r, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, if next { 0.1 } else { 0.04 }));
-        let mid = r.y + r.h / 2.0;
-        let label = tw("Level {n}", &[("n", at)]);
-        ui.text(
-            &label,
-            r.x + 12.0,
-            text_y(mid, 14.0),
-            14.0,
-            Color::new(GOLD.r, GOLD.g, GOLD.b, fade),
-            true,
-        );
-        let item = snook_legend_proto::shop::ITEMS.iter().find(|i| {
-            matches!(i.price, snook_legend_proto::shop::Price::Achievement(a) if a == *achievement)
-        });
-        let mut what = item.map(item_label).unwrap_or_default();
-        if next {
-            what = format!(
-                "{what}  ·  {}",
-                if at - level == 1 {
-                    t("1 level to go").to_string()
-                } else {
-                    tw("{n} levels to go", &[("n", &(at - level))])
-                }
-            );
+    let mut steps: Vec<Step> = Vec::new();
+    let mut placed = false;
+    for &(at, achievement) in xp::MILESTONES.iter() {
+        if !placed && level <= at {
+            placed = true;
+            if level == at {
+                steps.push(Step::Here(Some(achievement)));
+                continue;
+            }
+            steps.push(Step::Here(None));
         }
-        let (what, size) = ui.fitted(&what, 13.0, r.w - 130.0, false);
-        let ww = ui.text_size(&what, size, false).x;
-        ui.text(
-            &what,
-            r.x + r.w - 34.0 - ww,
-            text_y(mid, size),
-            size,
-            Color::new(CREAM.r, CREAM.g, CREAM.b, fade),
-            false,
-        );
-        state(r, done, next);
+        steps.push(Step::Milestone(at, achievement));
+    }
+    if !placed {
+        steps.push(Step::Here(None));
+    }
+    steps.reverse();
+    let xp_known = online.xp.filter(|_| own);
+    let item_of = |achievement: &str| {
+        snook_legend_proto::shop::ITEMS
+            .iter()
+            .find(|i| {
+                matches!(i.price, snook_legend_proto::shop::Price::Achievement(a) if a == achievement)
+            })
+            .map(item_label)
+            .unwrap_or_default()
+    };
+    let row_h = ((area.y + area.h - top) / steps.len() as f32).min(50.0);
+    for (k, step) in steps.iter().enumerate() {
+        let r = Rect::new(x, top + k as f32 * row_h, col_w, row_h - 5.0);
+        let mid = r.y + r.h / 2.0;
+        match *step {
+            Step::Here(milestone) => {
+                rrect(r, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.16));
+                rrect_lines(r, 8.0, 1.4, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.85));
+                let with_bar = xp_known.is_some() && r.h >= 34.0;
+                let line_mid = if with_bar { r.y + (r.h - 9.0) / 2.0 } else { mid };
+                let title = tw("Level {n}", &[("n", &level)]);
+                ui.text(&title, r.x + 14.0, text_y(line_mid, 16.0), 16.0, GOLD, true);
+                let title_w = ui.text_size(&title, 16.0, true).x;
+                // What the right side says: the milestone's item (won), or
+                // the way to the next level, or (another's) where they are.
+                let mut tip = None;
+                let what = match (milestone, xp_known) {
+                    (Some(a), Some(xp_now)) => {
+                        tip = Some(xp_line(xp_now, level));
+                        item_of(a)
+                    }
+                    (Some(a), None) => item_of(a),
+                    (None, Some(xp_now)) => xp_line(xp_now, level),
+                    (None, None) => t("Current level").to_string(),
+                };
+                let right = r.x + r.w - if milestone.is_some() { 34.0 } else { 14.0 };
+                let room = right - (r.x + 14.0 + title_w + 16.0);
+                let (what, size) = ui.fitted(&what, 13.0, room, false);
+                let ww = ui.text_size(&what, size, false).x;
+                ui.text(&what, right - ww, text_y(line_mid, size), size, CREAM, false);
+                if milestone.is_some() {
+                    state(Rect::new(r.x, r.y, r.w, line_mid * 2.0 - 2.0 * r.y), true, true);
+                }
+                if let (true, Some(xp_now)) = (with_bar, xp_known) {
+                    let bar = Rect::new(r.x + 14.0, r.y + r.h - 11.0, r.w - 28.0, 4.0);
+                    rrect(bar, 2.0, Color::new(1.0, 1.0, 1.0, 0.1));
+                    let (_, into, span) = xp::progress(xp_now);
+                    let k = if span == 0 { 1.0 } else { into as f32 / span as f32 };
+                    if k > 0.0 {
+                        rrect(Rect::new(bar.x, bar.y, (bar.w * k).max(4.0), bar.h), 2.0, GOLD);
+                    }
+                }
+                if let Some(tip) = tip
+                    && ui.hovering(r)
+                {
+                    ui.tooltip(&tip, r);
+                }
+            }
+            Step::Milestone(at, achievement) => {
+                let done = level >= at;
+                let next = !done && xp::next_milestone(level).is_some_and(|(l, _)| l == at);
+                let fade = if done || next { 1.0 } else { 0.55 };
+                rrect(r, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, if next { 0.08 } else { 0.04 }));
+                let label = tw("Level {n}", &[("n", &at)]);
+                ui.text(
+                    &label,
+                    r.x + 12.0,
+                    text_y(mid, 14.0),
+                    14.0,
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, fade),
+                    true,
+                );
+                let mut what = item_of(achievement);
+                if next {
+                    what = format!(
+                        "{what}  ·  {}",
+                        if at - level == 1 {
+                            t("1 level to go").to_string()
+                        } else {
+                            tw("{n} levels to go", &[("n", &(at - level))])
+                        }
+                    );
+                }
+                let (what, size) = ui.fitted(&what, 13.0, r.w - 130.0, false);
+                let ww = ui.text_size(&what, size, false).x;
+                ui.text(
+                    &what,
+                    r.x + r.w - 34.0 - ww,
+                    text_y(mid, size),
+                    size,
+                    Color::new(CREAM.r, CREAM.g, CREAM.b, fade),
+                    false,
+                );
+                state(r, done, false);
+            }
+        }
+    }
+}
+
+/// The way to the next level ("120 XP to level 8"), or the top reached.
+fn xp_line(xp_now: i64, level: u32) -> String {
+    let (_, into, span) = snook_legend_proto::xp::progress(xp_now);
+    if span == 0 {
+        t("The top level.").to_string()
+    } else {
+        tw("{n} XP to level {next}", &[("n", &(span - into)), ("next", &(level + 1))])
     }
 }

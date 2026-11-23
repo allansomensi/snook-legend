@@ -14,7 +14,6 @@ pub enum Icon {
     Person,
     People,
     Gear,
-    Power,
     /// Back to the default camera.
     CameraReset,
     Replay,
@@ -68,8 +67,8 @@ pub enum Icon {
     Block,
     /// A small flag on its pole: report a player.
     Flag,
-    /// A door with an arrow going out of it: sign out of the account (the
-    /// power sign is quitting the game).
+    /// A door with an arrow going out of it: sign out of the account (an
+    /// open door is quitting the game).
     SignOut,
     /// The settings' tabs: graphics, the game, controls and sound.
     Monitor,
@@ -78,6 +77,9 @@ pub enum Icon {
     Speaker,
     /// No connection to the server.
     WifiSlash,
+    /// An open door: quit the game (said at a glance, where a power sign
+    /// read as "turn off").
+    DoorOpen,
 }
 
 thread_local! {
@@ -152,7 +154,7 @@ mod tests {
     #[test]
     fn every_icon_is_in_the_font() {
         let face = rustybuzz::Face::from_slice(super::FONT_BYTES, 0).unwrap();
-        for k in 0..=super::Icon::WifiSlash as u32 {
+        for k in 0..=super::Icon::DoorOpen as u32 {
             for base in [0xE000, 0xE100] {
                 let c = char::from_u32(base + k).unwrap();
                 assert!(face.glyph_index(c).is_some(), "icon {k} (U+{:04X})", base + k);

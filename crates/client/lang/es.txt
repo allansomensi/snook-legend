@@ -2058,3 +2058,26 @@ You earned a new item!	Ganaste un artículo nuevo!
 Ranking	Ranking
 Can't reach the server	No se puede conectar con el servidor
 offline: click to connect	sin conexión: haz clic para conectar
+Ruby	Rubí
+Interface sounds	Sonidos de la interfaz
+A click when you press buttons, tabs and windows.	Un clic al pulsar botones, pestañas y ventanas.
+Current level	Nivel actual
+Daily game with {name}	Partida diaria con {name}
+Each of you plays a turn whenever you can: the game can last days.	Cada uno juega su turno cuando puede: la partida puede durar días.
+In the shop, for {n} coins	En la tienda, por {n} monedas
+In your reactions	En tus reacciones
+Open the profile	Abrir el perfil
+Send the challenge	Enviar el desafío
+Thumbs up	Pulgar arriba
+Eyes	Ojos
+Tears	Lágrimas
+Huff	Resoplido
+Please	Por favor
+Sleepy	Dormido
+Rolling with laughter	Muerto de risa
+Scream	Grito
+Can't look	No puedo mirar
+Salute	Saludo
+Mind blown	Mente explotada
+Lucky clover	Trébol de la suerte
+Popcorn	Palomitas

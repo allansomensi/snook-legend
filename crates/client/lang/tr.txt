@@ -2058,3 +2058,26 @@ You earned a new item!	Yeni bir eşya kazandın!
 Ranking	Sıralama
 Can't reach the server	Sunucuya ulaşılamıyor
 offline: click to connect	çevrimdışı: bağlanmak için tıkla
+Ruby	Yakut
+Interface sounds	Arayüz sesleri
+A click when you press buttons, tabs and windows.	Düğmelere, sekmelere ve pencerelere basınca bir tık sesi.
+Current level	Mevcut seviye
+Daily game with {name}	{name} ile günlük oyun
+Each of you plays a turn whenever you can: the game can last days.	Herkes sırasını istediği zaman oynar: oyun günlerce sürebilir.
+In the shop, for {n} coins	Mağazada, {n} jetona
+In your reactions	Tepkilerinde
+Open the profile	Profili aç
+Send the challenge	Meydan okumayı gönder
+Thumbs up	Başparmak
+Eyes	Gözler
+Tears	Gözyaşı
+Huff	Öfke
+Please	Lütfen
+Sleepy	Uykulu
+Rolling with laughter	Gülmekten yerlerde
+Scream	Çığlık
+Can't look	Bakamıyorum
+Salute	Selam
+Mind blown	Aklım uçtu
+Lucky clover	Şans yoncası
+Popcorn	Patlamış mısır

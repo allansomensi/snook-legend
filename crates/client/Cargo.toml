@@ -21,6 +21,9 @@ eula = false
 # through the Store itself (Store policy for games), never through the
 # game's own payment pages; the Store's purchase API comes with it (Windows).
 store = ["dep:windows", "dep:windows-collections"]
+# With `store`: coin packs and months of VIP sold as Store add-ons (without
+# it the Store build sells nothing for real money; see src/channel.rs).
+store-purchases = ["store"]
 
 [build-dependencies]
 # The executable's icon and version details on Windows (see build.rs).

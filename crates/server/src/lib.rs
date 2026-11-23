@@ -2183,6 +2183,7 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                     cue_wins: Vec::new(),
                     cue_stats: Vec::new(),
                     trophies: Vec::new(),
+                    reactions: Vec::new(),
                 }),
             });
         }
@@ -2276,6 +2277,7 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
             career: career.unwrap_or_default(),
             abandon_rate,
             analysis: None,
+            reactions: snook_legend_proto::reactions::bought(&wallet.owned),
             cue_wins: {
                 let mut cues: Vec<(String, u32)> =
                     wallet.cue_wins.iter().map(|(c, n)| (c.clone(), *n)).collect();

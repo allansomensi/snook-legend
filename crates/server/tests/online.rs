@@ -60,7 +60,12 @@ impl Client {
     async fn connect(url: &str) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
+        c.send(ClientMsg::Hello {
+            version: PROTOCOL_VERSION,
+            rules: Rules::Brazilian,
+            store_sales: None,
+        })
+        .await;
         c
     }
 
@@ -594,7 +599,7 @@ async fn login_errors_and_validation() {
     {
         let (ws, _) = connect_async(&url).await.unwrap();
         let mut old = Client { ws };
-        old.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
+        old.send(ClientMsg::Hello { version, rules: Rules::Brazilian, store_sales: None }).await;
         old.send(ClientMsg::Resume { token: token.clone() }).await;
         let m = old
             .expect("answer", |m| {
@@ -649,7 +654,7 @@ async fn login_errors_and_validation() {
     for (version, says) in [(0, "out of date"), (PROTOCOL_VERSION + 1, "being updated")] {
         let (ws, _) = connect_async(&url).await.unwrap();
         let mut other = Client { ws };
-        other.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
+        other.send(ClientMsg::Hello { version, rules: Rules::Brazilian, store_sales: None }).await;
         let ServerMsg::AuthError { reason } =
             other.expect("version", |m| matches!(m, ServerMsg::AuthError { .. })).await
         else {

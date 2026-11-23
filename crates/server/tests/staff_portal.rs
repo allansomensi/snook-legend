@@ -59,7 +59,12 @@ impl Client {
     async fn connect(url: &str) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
+        c.send(ClientMsg::Hello {
+            version: PROTOCOL_VERSION,
+            rules: Rules::Brazilian,
+            store_sales: None,
+        })
+        .await;
         c
     }
 
@@ -456,6 +461,25 @@ async fn the_portal_shows_the_economy_and_the_server() {
     assert!(v["online"].as_u64().unwrap() >= 1);
     assert_eq!(v["online_by_rules"]["brazilian"].as_u64(), v["online"].as_u64());
     assert_eq!(v["settings"]["shot_clock_secs"], 30);
+    // No Store game yet, and no Stripe (so not its test mode either).
+    assert!(v["msstore_game"].is_null(), "{v}");
+    assert_eq!(v["stripe_test"], false);
+    // A Microsoft Store game built without sales connects: the portal says
+    // what the Store's game does, whatever the server's settings.
+    let (mut store, _) = connect_async(&s.url).await.unwrap();
+    let hello = ClientMsg::Hello {
+        version: PROTOCOL_VERSION,
+        rules: Rules::Brazilian,
+        store_sales: Some(false),
+    };
+    store.send(Message::Text(hello.to_json().into())).await.unwrap();
+    let game = eventually("the Store game in the portal", || async {
+        let (_, v) = request(&s.host, "GET", "/admin/api/system", &boss, "").await;
+        (!v["msstore_game"].is_null()).then(|| v["msstore_game"].clone())
+    })
+    .await;
+    assert_eq!(game["sales"], false);
+    assert!(game["seen_at"].as_i64().unwrap() > 0);
 
     let (code, v) = request(&s.host, "GET", "/admin/api/metrics", &boss, "").await;
     assert_eq!(code, 200);

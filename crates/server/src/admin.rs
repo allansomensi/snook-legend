@@ -1305,7 +1305,12 @@ async fn system(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRes
         "queue": queue,
         "pending_writes": pending,
         "stripe": server.stripe.is_some(),
+        // Stripe with a test key: payments work, but nothing is charged.
+        "stripe_test": server.config.stripe.as_ref().is_some_and(|s| s.test_mode()),
         "msstore": server.msstore.is_some(),
+        // What the Store's game does (its package decides whether it sells):
+        // the last one to connect since the server started, if any.
+        "msstore_game": server.store_game().map(|(sales, at)| json!({ "sales": sales, "seen_at": at })),
         "online_by_rules": server.with(|l| l.online_by_rules()),
         "settings": {
             "shot_clock_secs": r.shot_clock.as_secs(),

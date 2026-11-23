@@ -238,6 +238,10 @@ pub struct Server {
     effects_pending: Arc<AtomicUsize>,
     pub config: Config,
     pub started: Instant,
+    /// The last Microsoft Store game that connected: whether it sells
+    /// add-ons, and when (Unix seconds). For the staff portal: the Store's
+    /// package decides, not the server's settings.
+    store_game: Mutex<Option<(bool, i64)>>,
     /// Password hashing is slow and memory-hungry: a few at a time.
     hashing: Semaphore,
     /// The world ranking of each of the rules, with when it was read.
@@ -336,6 +340,7 @@ impl Server {
             effects_pending,
             config,
             started: Instant::now(),
+            store_game: Mutex::new(None),
             hashing: Semaphore::new(2),
             leaderboard: Mutex::new(PerRules::default()),
             connections: Mutex::new(HashMap::new()),
@@ -441,6 +446,17 @@ impl Server {
                 Vec::new()
             }
         }
+    }
+
+    /// A Microsoft Store game connected, selling add-ons or not.
+    pub fn store_game_seen(&self, sales: bool) {
+        *self.store_game.lock().unwrap_or_else(|e| e.into_inner()) = Some((sales, now()));
+    }
+
+    /// The last Microsoft Store game seen since the server started: whether
+    /// it sells, and when it connected.
+    pub fn store_game(&self) -> Option<(bool, i64)> {
+        *self.store_game.lock().unwrap_or_else(|e| e.into_inner())
     }
 
     pub(crate) fn invalidate_leaderboard(&self) {
@@ -1245,11 +1261,14 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         };
         if !hello {
             match msg {
-                ClientMsg::Hello { version: v, rules: r }
+                ClientMsg::Hello { version: v, rules: r, store_sales }
                     if (OLDEST_PROTOCOL_VERSION..=PROTOCOL_VERSION).contains(&v) =>
                 {
                     hello = true;
                     rules = r;
+                    if let Some(sales) = store_sales {
+                        server.store_game_seen(sales);
+                    }
                 }
                 // A game newer than the server: the server hasn't been
                 // updated yet (updating the game can't help).

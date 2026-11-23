@@ -10,6 +10,15 @@
   "Game history in the chat" puts them back together, as before. The
   server's own notices stay in the chat.
 
+### Staff portal
+- **The health card says what purchases really do**: the Microsoft Store's
+  game now tells the server, as it connects, whether it sells add-ons (its
+  package decides: `MSSTORE_PURCHASES`), and the portal shows it ("off:
+  the Store's game sells nothing", with when it was seen) instead of
+  calling purchases on because the server has the Store's settings. A
+  Stripe test key (`sk_test_…`) shows as test mode, where nothing is
+  charged. (`/admin/api/system`: `msstore_game`, `stripe_test`.)
+
 ### Fixes
 - **The quick phrases' list no longer opens and closes at once**: with the
   chat open on a small window, the list had no room above its button and

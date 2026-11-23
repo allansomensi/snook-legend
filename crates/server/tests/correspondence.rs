@@ -301,7 +301,12 @@ impl Rig {
         self.store.create_user(&user).await.unwrap().unwrap();
         let (ws, _) = connect_async(&self.url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
+        c.send(ClientMsg::Hello {
+            version: PROTOCOL_VERSION,
+            rules: Rules::Brazilian,
+            store_sales: None,
+        })
+        .await;
         c.send(ClientMsg::Login { username: name.into(), password: PASSWORD.into() }).await;
         c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
         // The list comes after signing in.

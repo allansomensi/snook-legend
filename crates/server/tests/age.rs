@@ -39,7 +39,12 @@ impl Client {
     async fn register(url: &str, name: &str, minor: Option<bool>) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
+        c.send(ClientMsg::Hello {
+            version: PROTOCOL_VERSION,
+            rules: Rules::Brazilian,
+            store_sales: None,
+        })
+        .await;
         c.send(ClientMsg::Register {
             username: name.into(),
             password: PASSWORD.into(),
@@ -254,7 +259,12 @@ async fn guests_of_a_lan_server_chat() {
         async move {
             let (ws, _) = connect_async(&url).await.unwrap();
             let mut c = Client { ws };
-            c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
+            c.send(ClientMsg::Hello {
+                version: PROTOCOL_VERSION,
+                rules: Rules::Brazilian,
+                store_sales: None,
+            })
+            .await;
             c.send(ClientMsg::Guest { name: name.into() }).await;
             c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
             c

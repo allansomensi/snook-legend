@@ -147,7 +147,9 @@ async fn run(
     .map_err(|e| friendly(&e))?;
     let (mut sink, mut source) = ws.split();
     let send_msg = |msg: &ClientMsg| Message::text(msg.to_json());
-    sink.send(send_msg(&ClientMsg::Hello { version: PROTOCOL_VERSION, rules }))
+    // The Store's game says whether it sells (for the staff portal).
+    let store_sales = crate::channel::STORE.then_some(crate::channel::STORE_PURCHASES);
+    sink.send(send_msg(&ClientMsg::Hello { version: PROTOCOL_VERSION, rules, store_sales }))
         .await
         .map_err(|e| friendly(&e))?;
     if in_tx.send(NetEvent::Connected).is_err() {

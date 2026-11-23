@@ -50,7 +50,12 @@ impl Client {
     async fn connect(url: &str) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws, seen: Vec::new() };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
+        c.send(ClientMsg::Hello {
+            version: PROTOCOL_VERSION,
+            rules: Rules::Brazilian,
+            store_sales: None,
+        })
+        .await;
         c
     }
 

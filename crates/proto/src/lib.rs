@@ -1188,6 +1188,12 @@ pub enum ClientMsg {
         version: u32,
         #[serde(default)]
         rules: Rules,
+        /// The Microsoft Store build says whether it sells coin packs and
+        /// VIP as Store add-ons (its build decides: the feature
+        /// `store-purchases`); other builds say nothing. The staff portal
+        /// shows what the Store's game does.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        store_sales: Option<bool>,
     },
     Register {
         username: String,

@@ -228,7 +228,7 @@ impl Client {
     async fn connect(url: &str, version: u32) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
+        c.send(ClientMsg::Hello { version, rules: Rules::Brazilian, store_sales: None }).await;
         c
     }
 

@@ -35,6 +35,12 @@ pub struct StripeConfig {
 }
 
 impl StripeConfig {
+    /// A test key (`sk_test_…`, `rk_test_…`): Stripe's test mode, where no
+    /// card is really charged.
+    pub fn test_mode(&self) -> bool {
+        self.secret.starts_with("sk_test_") || self.secret.starts_with("rk_test_")
+    }
+
     /// From the environment; `None` (no payments) if anything is missing.
     pub fn from_env() -> Option<StripeConfig> {
         let var =

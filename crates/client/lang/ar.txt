@@ -2081,3 +2081,5 @@ Salute	تحية
 Mind blown	مذهول
 Lucky clover	برسيم الحظ
 Popcorn	فشار
+Game history in the chat	سجل المباراة في الدردشة
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	عبر الإنترنت، تظهر الكرات المسجلة والأخطاء في الدردشة أيضًا. عند الإيقاف: الدردشة للرسائل فقط، وللسجل زر خاص في الأعلى.

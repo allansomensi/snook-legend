@@ -2081,3 +2081,5 @@ Salute	Salutování
 Mind blown	Mysl vybuchla
 Lucky clover	Čtyřlístek
 Popcorn	Popcorn
+Game history in the chat	Průběh hry v chatu
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Online se v chatu zobrazují i potopené koule a fauly. Vypnuto: chat je jen pro zprávy a průběh hry má vlastní tlačítko nahoře.

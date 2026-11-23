@@ -2081,3 +2081,5 @@ Salute	Chào
 Mind blown	Choáng váng
 Lucky clover	Cỏ bốn lá
 Popcorn	Bỏng ngô
+Game history in the chat	Lịch sử ván trong trò chuyện
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Khi chơi trực tuyến, bi vào lỗ và lỗi cũng hiện trong trò chuyện. Tắt: trò chuyện chỉ dành cho tin nhắn, lịch sử có nút riêng ở trên cùng.

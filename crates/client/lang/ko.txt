@@ -2081,3 +2081,5 @@ Salute	경례
 Mind blown	머리가 터짐
 Lucky clover	행운의 클로버
 Popcorn	팝콘
+Game history in the chat	채팅에 게임 기록
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	온라인에서 넣은 공과 파울도 채팅에 표시돼요. 끄면 채팅은 메시지 전용이 되고, 기록은 위쪽의 별도 버튼으로 볼 수 있어요.

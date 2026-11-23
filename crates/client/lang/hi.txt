@@ -2081,3 +2081,5 @@ Salute	सलाम
 Mind blown	दिमाग़ हिल गया
 Lucky clover	भाग्यशाली क्लोवर
 Popcorn	पॉपकॉर्न
+Game history in the chat	चैट में गेम का इतिहास
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	ऑनलाइन, डाली गई बॉल और फ़ाउल चैट में भी दिखते हैं। बंद होने पर: चैट सिर्फ़ संदेशों के लिए, और इतिहास का ऊपर अपना बटन।

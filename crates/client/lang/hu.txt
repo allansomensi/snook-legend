@@ -2081,3 +2081,5 @@ Salute	Tisztelgés
 Mind blown	Leesett az állam
 Lucky clover	Szerencselóhere
 Popcorn	Pattogatott kukorica
+Game history in the chat	A játszma története a csevegésben
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Online a lökött golyók és a hibák a csevegésben is megjelennek. Kikapcsolva: a csevegés csak üzeneteké, a történetnek saját gombja van felül.

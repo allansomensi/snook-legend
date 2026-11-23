@@ -2081,3 +2081,5 @@ Salute	Salut
 Mind blown	Umgehauen
 Lucky clover	Glücksklee
 Popcorn	Popcorn
+Game history in the chat	Spielverlauf im Chat
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Online erscheinen versenkte Kugeln und Fouls auch im Chat. Aus: Der Chat ist nur für Nachrichten, der Verlauf hat oben eine eigene Schaltfläche.

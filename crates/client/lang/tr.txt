@@ -2081,3 +2081,5 @@ Salute	Selam
 Mind blown	Aklım uçtu
 Lucky clover	Şans yoncası
 Popcorn	Patlamış mısır
+Game history in the chat	Sohbette oyun geçmişi
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Çevrimiçi oyunda sokulan toplar ve fauller sohbette de görünür. Kapalı: sohbet yalnızca mesajlar içindir, geçmişin üstte kendi düğmesi vardır.

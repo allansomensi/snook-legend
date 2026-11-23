@@ -2081,3 +2081,5 @@ Salute	Saludo
 Mind blown	Mente explotada
 Lucky clover	Trébol de la suerte
 Popcorn	Palomitas
+Game history in the chat	Historial de la partida en el chat
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	En línea, las bolas metidas y las faltas también aparecen en el chat. Desactivado: el chat es solo para mensajes y el historial tiene su propio botón arriba.

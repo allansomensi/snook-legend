@@ -2,6 +2,14 @@
 
 ## Unreleased (0.11.1)
 
+### Online games
+- **The chat is for messages; the game's history has its own button**:
+  online, balls made, fouls and turns no longer fill the chat. The history
+  opens from the list icon at the top, as against the computer, in the
+  chat's place (the chat comes back when it is hidden). Settings → Game →
+  "Game history in the chat" puts them back together, as before. The
+  server's own notices stay in the chat.
+
 ### Fixes
 - **The quick phrases' list no longer opens and closes at once**: with the
   chat open on a small window, the list had no room above its button and

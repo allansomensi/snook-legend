@@ -2081,3 +2081,5 @@ Salute	Hormat
 Mind blown	Terpukau
 Lucky clover	Semanggi keberuntungan
 Popcorn	Popcorn
+Game history in the chat	Riwayat permainan di obrolan
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Saat online, bola yang masuk dan pelanggaran juga muncul di obrolan. Mati: obrolan hanya untuk pesan, dan riwayat punya tombol sendiri di atas.

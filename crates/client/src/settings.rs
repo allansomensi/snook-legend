@@ -551,6 +551,15 @@ impl SettingsScreen {
                     ),
                     &mut config.focus_mode,
                 );
+                switch_row(
+                    rows,
+                    ui,
+                    t("Game history in the chat"),
+                    t(
+                        "Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.",
+                    ),
+                    &mut config.events_in_chat,
+                );
 
                 rows.heading(ui, t("Aiming"), None);
                 let hint = match config.guide {

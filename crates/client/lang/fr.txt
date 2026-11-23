@@ -2081,3 +2081,5 @@ Salute	Salut
 Mind blown	Époustouflé
 Lucky clover	Trèfle porte-bonheur
 Popcorn	Pop-corn
+Game history in the chat	Historique de la partie dans le chat
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	En ligne, les billes empochées et les fautes s'affichent aussi dans le chat. Désactivé : le chat sert aux messages, et l'historique a son propre bouton en haut.

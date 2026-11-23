@@ -2081,3 +2081,5 @@ Salute	Saludo
 Mind blown	Napanganga
 Lucky clover	Swerteng clover
 Popcorn	Popcorn
+Game history in the chat	Kasaysayan ng laro sa chat
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Online, lumalabas din sa chat ang mga naipasok na bola at foul. Kapag naka-off: para sa mga mensahe lang ang chat, at may sariling button sa itaas ang kasaysayan.

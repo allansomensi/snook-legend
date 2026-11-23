@@ -2081,3 +2081,5 @@ Salute	Salut
 Mind blown	Uluit
 Lucky clover	Trifoi norocos
 Popcorn	Popcorn
+Game history in the chat	Istoricul jocului în chat
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Online, bilele introduse și faulturile apar și în chat. Oprit: chatul e doar pentru mesaje, iar istoricul are butonul lui sus.

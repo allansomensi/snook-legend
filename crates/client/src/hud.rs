@@ -85,8 +85,16 @@ pub struct Hud {
     /// How much the open chat lets the table show through (0 solid, 1
     /// glass): glass while nobody uses it.
     chat_glass: f32,
-    /// Offline: the game history panel is open (it starts folded).
+    /// The game history panel is open (it starts folded): offline, and
+    /// online unless the history goes into the chat.
     history_open: bool,
+    /// Online, the game's events also go into the chat (Settings → Game);
+    /// otherwise the chat shows only messages and the history has its own
+    /// button. Set by the game from the settings each frame.
+    pub events_in_chat: bool,
+    /// How far the history panel is scrolled (its own, apart from the
+    /// chat's).
+    history_scroll: usize,
     /// Where the history's icon in the top bar was drawn (pressing it is
     /// not a press outside the history).
     history_toggle: Rect,
@@ -165,6 +173,8 @@ impl Default for Hud {
             camera_default: true,
             opponent_relation: None,
             history_open: false,
+            events_in_chat: false,
+            history_scroll: 0,
             history_toggle: Rect::new(0.0, 0.0, 0.0, 0.0),
             can_report: false,
             rule_players: None,
@@ -630,8 +640,9 @@ impl Hud {
                     m.start_replay();
                 }
             }
-            // Offline: the game's history, out of the way up here.
-            if !m.is_online() || crate::correspondence::is_corr(m) {
+            // The game's history, out of the way up here (online too,
+            // unless it goes into the chat).
+            if self.history_apart(m) {
                 x += 36.0;
                 let tip = if self.history_open { t("Hide the history") } else { t("Game history") };
                 let r = Rect::new(x, 12.0, 30.0, 30.0);
@@ -681,9 +692,12 @@ impl Hud {
                 .is_some_and(|o| o.spectator && o.feed.iter().any(|f| f.kind == FeedKind::Player));
             // A correspondence game has no one to chat with: its history.
             let corr = crate::correspondence::is_corr(m);
-            if m.is_online() && !corr && (!m.is_spectating() || players_chat) {
+            // Online with the history apart: it takes the chat's place
+            // while open (the chat comes back when it is hidden).
+            let history_up = self.history_open && self.history_apart(m);
+            if m.is_online() && !corr && !history_up && (!m.is_spectating() || players_chat) {
                 self.draw_chat(ui, m);
-            } else if !m.is_online() || corr {
+            } else if self.history_apart(m) {
                 self.draw_history(ui, m);
             }
         }
@@ -1509,7 +1523,19 @@ impl Hud {
         let log = Rect::new(r.x + 2.0, r.y + 32.0, r.w - 4.0, r.h - 32.0 - input_h);
         let me = m.names[o.seat].clone();
         let me = (!watching).then_some(me.as_str());
-        self.chat_scroll = ui.chat_log(log, &o.feed, me, false, self.chat_scroll).0;
+        // With the history apart, the chat keeps to messages (the server's
+        // own notices, which have an id, stay: they are not in the history).
+        if self.events_in_chat {
+            self.chat_scroll = ui.chat_log(log, &o.feed, me, false, self.chat_scroll).0;
+        } else {
+            let messages: Vec<FeedLine> = o
+                .feed
+                .iter()
+                .filter(|f| !matches!(f.kind, FeedKind::Event | FeedKind::Alert) || f.id != 0)
+                .cloned()
+                .collect();
+            self.chat_scroll = ui.chat_log(log, &messages, me, false, self.chat_scroll).0;
+        }
         if watching {
             // (A spectator's reactions are in the bar below.)
             if !list_open && ui.pressed_outside(&[r]) {
@@ -1623,8 +1649,15 @@ impl Hud {
         }
     }
 
-    /// Offline, what happened in the game so far, in the chat's place (no
-    /// one to write to).
+    /// The game's history has a panel of its own (and a button at the top):
+    /// offline and in correspondence games always, online unless the
+    /// settings put it into the chat.
+    fn history_apart(&self, m: &Match) -> bool {
+        !m.is_online() || crate::correspondence::is_corr(m) || !self.events_in_chat
+    }
+
+    /// What happened in the game so far, in the chat's place: offline (no
+    /// one to write to), and online when the chat is kept for messages.
     fn draw_history(&mut self, ui: &mut Ui, m: &mut Match) {
         // Above the replay's controls when they would be in the way.
         let bar = video_bar_rect();
@@ -1661,7 +1694,7 @@ impl Hud {
         if lines.is_empty() {
             ui.text(t("Nothing yet."), log.x + 6.0, log.y + 6.0, 13.0, MUTED, false);
         } else {
-            self.chat_scroll = ui.chat_log(log, &lines, None, false, self.chat_scroll).0;
+            self.history_scroll = ui.chat_log(log, &lines, None, false, self.history_scroll).0;
         }
     }
 

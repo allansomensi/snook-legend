@@ -2081,3 +2081,5 @@ Salute	Continência
 Mind blown	Explodiu a mente
 Lucky clover	Trevo da sorte
 Popcorn	Pipoca
+Game history in the chat	Histórico da partida no chat
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Online, as bolas encaçapadas e as faltas também aparecem no chat. Desligado: o chat fica só para mensagens, e o histórico tem o seu próprio botão lá em cima.

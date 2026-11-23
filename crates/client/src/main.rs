@@ -1225,6 +1225,7 @@ async fn main() {
         } else {
             match current.as_mut() {
                 Some(m) => {
+                    hud.events_in_chat = config.events_in_chat;
                     let action =
                         hud_draw(&mut hud, &mut ui, m, controls.aiming(), &mut hud_opacity, dt);
                     // Passing the time while "Play now" looks for an opponent.

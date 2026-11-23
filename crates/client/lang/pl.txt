@@ -2081,3 +2081,5 @@ Salute	Salut
 Mind blown	Mózg rozwalony
 Lucky clover	Czterolistna koniczyna
 Popcorn	Popcorn
+Game history in the chat	Historia gry na czacie
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Online wbite bile i faule pojawiają się też na czacie. Wyłączone: czat jest tylko na wiadomości, a historia ma własny przycisk u góry.

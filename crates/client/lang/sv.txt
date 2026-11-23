@@ -2081,3 +2081,5 @@ Salute	Honnör
 Mind blown	Helt mållös
 Lucky clover	Fyrklöver
 Popcorn	Popcorn
+Game history in the chat	Partihistorik i chatten
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Online visas sänkta bollar och regelbrott även i chatten. Av: chatten är bara för meddelanden, och historiken har en egen knapp högst upp.

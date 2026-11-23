@@ -2081,3 +2081,5 @@ Salute	Салют
 Mind blown	Вибух мозку
 Lucky clover	Конюшина удачі
 Popcorn	Попкорн
+Game history in the chat	Історія партії в чаті
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Онлайн забиті кулі та фоли також показуються в чаті. Вимкнено: чат лише для повідомлень, а в історії своя кнопка вгорі.

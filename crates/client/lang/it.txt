@@ -2081,3 +2081,5 @@ Salute	Saluto
 Mind blown	Senza parole
 Lucky clover	Quadrifoglio
 Popcorn	Popcorn
+Game history in the chat	Cronologia della partita nella chat
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Online, le bilie imbucate e i falli compaiono anche nella chat. Disattivato: la chat è solo per i messaggi e la cronologia ha un suo pulsante in alto.

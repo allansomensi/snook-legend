@@ -2081,3 +2081,5 @@ Salute	Χαιρετισμός
 Mind blown	Πάθαμε πλάκα
 Lucky clover	Τετράφυλλο τριφύλλι
 Popcorn	Ποπκόρν
+Game history in the chat	Ιστορικό παρτίδας στη συνομιλία
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Online, οι μπάλες που μπαίνουν και τα φάουλ εμφανίζονται και στη συνομιλία. Ανενεργό: η συνομιλία είναι μόνο για μηνύματα και το ιστορικό έχει δικό του κουμπί επάνω.

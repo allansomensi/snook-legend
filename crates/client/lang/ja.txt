@@ -2081,3 +2081,5 @@ Salute	敬礼
 Mind blown	脳が爆発
 Lucky clover	幸運のクローバー
 Popcorn	ポップコーン
+Game history in the chat	チャットに対局の履歴
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	オンラインでは、沈めたボールやファウルもチャットに表示されます。オフ：チャットはメッセージ専用になり、履歴は上部の専用ボタンで見られます。

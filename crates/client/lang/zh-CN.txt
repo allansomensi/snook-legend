@@ -2081,3 +2081,5 @@ Salute	敬礼
 Mind blown	震惊
 Lucky clover	幸运四叶草
 Popcorn	爆米花
+Game history in the chat	在聊天中显示对局记录
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	在线对局时，进球和犯规也会显示在聊天中。关闭后：聊天只用于消息，对局记录在顶部有单独的按钮。

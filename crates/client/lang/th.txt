@@ -2081,3 +2081,5 @@ Salute	ตะ​เบ๊ะ
 Mind blown	ทึ่ง​สุดๆ
 Lucky clover	ใบ​โคลเวอร์​นำ​โชค
 Popcorn	ป๊อปคอร์น
+Game history in the chat	ประวัติ​เกม​ใน​แชท
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	เมื่อ​เล่น​ออนไลน์ ลูก​ที่​ลง​และ​ฟาวล์​จะ​แสดง​ใน​แชท​ด้วย ปิด: แชท​มี​ไว้​คุย​เท่านั้น และ​ประวัติ​มี​ปุ่ม​ของ​ตัวเอง​ด้านบน

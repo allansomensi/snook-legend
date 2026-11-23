@@ -2081,3 +2081,5 @@ Salute	Saluut
 Mind blown	Verbluft
 Lucky clover	Klavertje vier
 Popcorn	Popcorn
+Game history in the chat	Spelverloop in de chat
+Online, balls made and fouls also show in the chat. Off: the chat is only for messages, and the history has its own button at the top.	Online verschijnen gepotte ballen en fouten ook in de chat. Uit: de chat is alleen voor berichten en het verloop heeft een eigen knop bovenaan.

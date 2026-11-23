@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased (0.11.1)
+
+### Fixes
+- **The quick phrases' list no longer opens and closes at once**: with the
+  chat open on a small window, the list had no room above its button and
+  was pushed down over it, so the click that opened it also sent the
+  phrase under the pointer (and closed the list). Lists opened by a button
+  (quick phrases, reactions) now go above it, else below, else beside it,
+  never over it; the click that opens the phrases never sends one; the
+  reactions' grid takes more columns on a short window.
+- **Text over a list opened on top of the chat is no longer cut short**:
+  text inside a panel is kept within the panel on top (the last drawn),
+  not the smallest one under it.
+
 ## 0.11.0 (protocol 24)
 
 Ruby medals and 26 new reactions (12 of them in the shop), a clearer

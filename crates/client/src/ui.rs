@@ -481,14 +481,12 @@ impl Ui {
         measure_text(text, Some(font), (size * k).round().max(1.0) as u16, 1.0 / k).width
     }
 
-    /// The smallest panel drawn this frame that contains `p`.
+    /// The panel on top at `p`: the last drawn this frame that contains it
+    /// (a list opened over the chat, not the chat under it, even when the
+    /// chat is the smaller of the two; a panel inside another is drawn
+    /// after it, so it is found first as well).
     fn panel_at(&self, p: Vec2) -> Option<Rect> {
-        self.panels
-            .borrow()
-            .iter()
-            .filter(|r| r.contains(p))
-            .min_by(|a, b| (a.w * a.h).total_cmp(&(b.w * b.h)))
-            .copied()
+        self.panels.borrow().iter().rev().find(|r| r.contains(p)).copied()
     }
 
     /// Text that would run `width` past the room it has is made smaller

@@ -388,6 +388,27 @@ fn status_line(m: &Match) -> Option<String> {
     }
 }
 
+/// Where a list `w` × `h` opened by button `b` goes: above it when it
+/// fits, else below it, else beside it (on a small window): never over the
+/// button, where the click that opened it would land on the list.
+fn popover(b: Rect, w: f32, h: f32, gap: f32) -> Rect {
+    let (vw, vh) = (crate::ui::vw(), crate::ui::vh());
+    let x = b.x.min(vw - w - 8.0).max(8.0);
+    let above = b.y - h - gap;
+    let below = b.y + b.h + gap;
+    if above >= 8.0 {
+        Rect::new(x, above, w, h)
+    } else if below + h <= vh - 8.0 {
+        Rect::new(x, below, w, h)
+    } else {
+        // Beside: to the right when there is room, else to the left.
+        let right = b.x + b.w + gap;
+        let x = if right + w <= vw - 8.0 { right } else { (b.x - gap - w).max(8.0) };
+        let y = (b.y + b.h / 2.0 - h / 2.0).clamp(8.0, (vh - h - 8.0).max(8.0));
+        Rect::new(x, y, w, h)
+    }
+}
+
 impl Hud {
     pub fn draw(&mut self, ui: &mut Ui, m: &mut Match) -> HudAction {
         let sw = crate::ui::vw();
@@ -1552,7 +1573,8 @@ impl Hud {
             return;
         }
         let label = t("Quick phrases");
-        if ui.icon_button_ex(b, Icon::Pencil, label, true, true) {
+        let opened = ui.icon_button_ex(b, Icon::Pencil, label, true, true);
+        if opened {
             self.quick_open = !self.quick_open;
             self.reactions_open = false;
             self.emoji.open = false;
@@ -1568,7 +1590,7 @@ impl Hud {
             .fold(200.0, f32::max)
             .min(crate::ui::vw() - b.x - 12.0);
         let h = phrases.len() as f32 * row_h + 34.0;
-        let r = Rect::new(b.x, (b.y - h - 6.0).max(60.0), w, h);
+        let r = popover(b, w, h, 6.0);
         ui.panel(r);
         ui.text(label, r.x + 10.0, r.y + 8.0, 13.0, GOLD, true);
         let mut chosen = None;
@@ -1587,7 +1609,9 @@ impl Hud {
                 CREAM,
                 false,
             );
-            if ui.clicked(row) {
+            // (Not the click that opened the list: on a small window the
+            // list can lie over its button, and that click sent a phrase.)
+            if !opened && ui.clicked(row) {
                 chosen = Some(*p);
             }
         }
@@ -1686,13 +1710,16 @@ impl Hud {
             return;
         }
         self.reactions_from = Some(b);
-        const COLS: usize = 7;
+        // Seven across; more on a window too short for the grid above or
+        // below the button.
         const CELL: f32 = 40.0;
         let n = snook_legend_proto::REACTIONS.len();
-        let rows = n.div_ceil(COLS);
-        let w = COLS as f32 * CELL + 16.0;
+        let space = (b.y - 16.0).max(crate::ui::vh() - b.y - b.h - 16.0);
+        let cols = (7..=13).find(|&c| n.div_ceil(c) as f32 * CELL + 40.0 <= space).unwrap_or(13);
+        let rows = n.div_ceil(cols);
+        let w = cols as f32 * CELL + 16.0;
         let h = rows as f32 * CELL + 40.0;
-        let p = Rect::new(b.x.min(crate::ui::vw() - w - 8.0), b.y - h - 8.0, w, h);
+        let p = popover(b, w, h, 8.0);
         ui.panel(p);
         let open = snook_legend_proto::REACTIONS
             .iter()
@@ -1710,8 +1737,8 @@ impl Hud {
         let mut tip: Option<(String, Rect)> = None;
         for (k, r) in snook_legend_proto::REACTIONS.iter().enumerate() {
             let c = Rect::new(
-                p.x + 8.0 + (k % COLS) as f32 * CELL,
-                p.y + 32.0 + (k / COLS) as f32 * CELL,
+                p.x + 8.0 + (k % cols) as f32 * CELL,
+                p.y + 32.0 + (k / cols) as f32 * CELL,
                 CELL,
                 CELL,
             );

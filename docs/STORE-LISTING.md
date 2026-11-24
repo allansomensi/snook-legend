@@ -67,7 +67,6 @@ Da versão 0.11.1: livre assim que a partida acaba, e um chat melhor.
 • O chat da partida fica mais alto ou mais baixo arrastando a borda de cima, e todos os chats têm uma barra de rolagem para arrastar.
 • Muito mais caracteres chineses e japoneses no chat, e as escritas da Índia, do Sri Lanka, de Mianmar, do Camboja e da Etiópia.
 • Numa janela pequena, abrir as frases rápidas não envia mais uma delas.
-• Na regra oficial, a caçapa para onde a mira aponta não fica mais acesa.
 
 Da versão 0.11.0: medalhas de rubi, 26 reações novas e um perfil mais claro.
 
@@ -149,7 +148,6 @@ From version 0.11.1: free as soon as the game ends, and a better chat.
 • The match chat gets taller or shorter by dragging its top edge, and every chat has a scroll bar to drag.
 • Many more Chinese and Japanese characters in the chat, and the scripts of India, Sri Lanka, Myanmar, Cambodia and Ethiopia.
 • In a small window, opening the quick phrases no longer sends one.
-• Under the official rules, the pocket your aim points at is no longer lit.
 
 From version 0.11.0: ruby medals, 26 new reactions and a clearer profile.
 
@@ -231,7 +229,6 @@ De la versión 0.11.1: libre en cuanto acaba la partida, y un chat mejor.
 • El chat de la partida se hace más alto o más bajo arrastrando su borde superior, y todos los chats tienen una barra de desplazamiento para arrastrar.
 • Muchos más caracteres chinos y japoneses en el chat, y las escrituras de la India, Sri Lanka, Myanmar, Camboya y Etiopía.
 • En una ventana pequeña, abrir las frases rápidas ya no envía una.
-• En la regla oficial, la tronera a la que apunta tu mira ya no se ilumina.
 
 De la versión 0.11.0: medallas de rubí, 26 reacciones nuevas y un perfil más claro.
 

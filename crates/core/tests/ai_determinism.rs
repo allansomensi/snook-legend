@@ -157,4 +157,4 @@ fn decisions_are_bit_identical_everywhere() {
 /// Update only on purpose (a change to the physics, the rules or the AI),
 /// from the values printed above.
 const EXPECTED: [(Rules, u64); 2] =
-    [(Rules::Brazilian, 0xe866_92d6_0300_b481), (Rules::Official, 0x09b9_141a_cff9_a646)];
+    [(Rules::Brazilian, 0xe866_92d6_0300_b481), (Rules::Official, 0xe866_92d6_0300_b481)];

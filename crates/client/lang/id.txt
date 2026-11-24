@@ -2018,14 +2018,14 @@ your call	pilihanmu
 {n} points to {tier} ({rules})	{n} poin lagi ke {tier} ({rules})
 {n} waiting	{n} menunggu
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Foul memberi lawan bola dari grupnya. Bola putih di tangan hanya saat break, dan hanya lubang bola 8 yang dipilih.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Foul memberi lawan bola putih di tangan, di mana saja di meja. Lubang dipilih di setiap pukulan, dan break harus membawa empat bola ke bantalan.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Foul memberi lawan bola putih di tangan, di mana saja di meja. Tidak ada lubang yang dipilih, dan break harus membawa empat bola ke bantalan.
 A foul gives balls to the opponent	Foul memberi bola ke lawan
 Ball in hand on the break only	Bola di tangan hanya saat break
 Only the 8's pocket is called	Hanya lubang bola 8 yang dipilih
 The most played in Brazil	Paling banyak dimainkan di Brasil
 A foul gives ball in hand	Foul memberi bola di tangan
 The break drives four balls to a cushion	Break membawa empat bola ke bantalan
-Every shot is called	Lubang dipilih di setiap pukulan
+Any pocket counts	Lubang mana pun dihitung
 The same all over the world	Sama di seluruh dunia
 Game type	Jenis game
 called: {pocket}	pilihan: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Popcorn
 From the shop	Dari toko
 Every player has it	Dimiliki semua pemain
 Drag to make the chat taller or shorter	Seret untuk meninggikan atau memendekkan chat
+Hide the result to see the table and the chat	Sembunyikan hasil untuk melihat meja dan chat
+Show the result	Tampilkan hasil

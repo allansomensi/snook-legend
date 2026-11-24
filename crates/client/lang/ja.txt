@@ -2018,14 +2018,14 @@ your call	あなたのコール
 {n} points to {tier} ({rules})	{tier}まであと{n}ポイント（{rules}）
 {n} waiting	{n}人待機中
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	ファウルすると、相手のグループの球が相手に与えられます。フリーボールはブレイク時のみで、コールするのは8番のポケットだけです。
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	ファウルすると、相手にフリーボール（テーブルのどこでも）が与えられます。すべてのショットでコールし、ブレイクでは4球以上をクッションに届かせる必要があります。
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	ファウルすると、相手にフリーボール（テーブルのどこでも）が与えられます。コールは不要で、ブレイクでは4球以上をクッションに届かせる必要があります。
 A foul gives balls to the opponent	ファウルで相手に球が渡る
 Ball in hand on the break only	フリーボールはブレイク時のみ
 Only the 8's pocket is called	コールは8番のポケットのみ
 The most played in Brazil	ブラジルで最も遊ばれているルール
 A foul gives ball in hand	ファウルでフリーボール
 The break drives four balls to a cushion	ブレイクは4球以上をクッションへ
-Every shot is called	すべてのショットでコール
+Any pocket counts	どのポケットでも有効
 The same all over the world	世界共通のルール
 Game type	対戦の種類
 called: {pocket}	コール：{pocket}
@@ -2084,3 +2084,5 @@ Popcorn	ポップコーン
 From the shop	ショップで入手
 Every player has it	全プレイヤーが使えます
 Drag to make the chat taller or shorter	ドラッグでチャットの高さを変更
+Hide the result to see the table and the chat	結果を隠してテーブルとチャットを見る
+Show the result	結果を表示

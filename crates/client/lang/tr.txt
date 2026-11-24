@@ -2018,14 +2018,14 @@ your call	senin seçimin
 {n} points to {tier} ({rules})	{tier} için {n} puan ({rules})
 {n} waiting	{n} bekliyor
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Faul, rakibe kendi grubundan top verir. Elde top yalnızca açılışta olur ve yalnızca 8'in cebi söylenir.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Faul, rakibe masanın herhangi bir yerinde elde top verir. Her vuruşta cep söylenir ve açılışta dört top banda ulaşmalıdır.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Faul, rakibe masanın herhangi bir yerinde elde top verir. Cep söylenmez ve açılışta dört top banda ulaşmalıdır.
 A foul gives balls to the opponent	Faul rakibe top verir
 Ball in hand on the break only	Elde top yalnızca açılışta
 Only the 8's pocket is called	Yalnızca 8'in cebi söylenir
 The most played in Brazil	Brezilya'da en çok oynanan
 A foul gives ball in hand	Faul elde top verir
 The break drives four balls to a cushion	Açılışta dört top banda ulaşır
-Every shot is called	Her vuruşta cep söylenir
+Any pocket counts	Her cep geçerli
 The same all over the world	Tüm dünyada aynı
 Game type	Oyun türü
 called: {pocket}	söylenen: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Patlamış mısır
 From the shop	Mağazadan
 Every player has it	Her oyuncuda var
 Drag to make the chat taller or shorter	Sohbeti uzatmak veya kısaltmak için sürükle
+Hide the result to see the table and the chat	Masayı ve sohbeti görmek için sonucu gizle
+Show the result	Sonucu göster

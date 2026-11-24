@@ -2018,14 +2018,14 @@ your call	आपकी कॉल
 {n} points to {tier} ({rules})	{tier} तक {n} पॉइंट ({rules})
 {n} waiting	{n} इंतज़ार में
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	फ़ाउल पर विरोधी को उसके ग्रुप की बॉल मिलती हैं। बॉल इन हैंड सिर्फ़ ब्रेक पर होता है, और सिर्फ़ 8 बॉल का पॉकेट कॉल किया जाता है।
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	फ़ाउल पर विरोधी को बॉल इन हैंड मिलता है, टेबल पर कहीं भी। हर शॉट कॉल किया जाता है, और ब्रेक में चार बॉल कुशन तक पहुँचनी चाहिए।
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	फ़ाउल पर विरोधी को बॉल इन हैंड मिलता है, टेबल पर कहीं भी। कुछ भी कॉल नहीं होता, और ब्रेक में चार बॉल कुशन तक पहुँचनी चाहिए।
 A foul gives balls to the opponent	फ़ाउल पर विरोधी को बॉल मिलती हैं
 Ball in hand on the break only	बॉल इन हैंड सिर्फ़ ब्रेक पर
 Only the 8's pocket is called	सिर्फ़ 8 बॉल का पॉकेट कॉल होता है
 The most played in Brazil	ब्राज़ील में सबसे लोकप्रिय
 A foul gives ball in hand	फ़ाउल पर बॉल इन हैंड
 The break drives four balls to a cushion	ब्रेक में चार बॉल कुशन तक
-Every shot is called	हर शॉट कॉल होता है
+Any pocket counts	कोई भी पॉकेट चलेगा
 The same all over the world	पूरी दुनिया में एक जैसे
 Game type	गेम का प्रकार
 called: {pocket}	कॉल किया: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	पॉपकॉर्न
 From the shop	शॉप से
 Every player has it	सभी खिलाड़ियों के पास है
 Drag to make the chat taller or shorter	चैट को लंबा या छोटा करने के लिए खींचें
+Hide the result to see the table and the chat	टेबल और चैट देखने के लिए नतीजा छिपाएँ
+Show the result	नतीजा दिखाएँ

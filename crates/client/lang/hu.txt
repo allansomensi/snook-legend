@@ -2018,14 +2018,14 @@ your call	a te bemondásod
 {n} points to {tier} ({rules})	Még {n} pont: {tier} ({rules})
 {n} waiting	{n} vár
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	A szabálytalanságért az ellenfél a csoportjából golyókat kap. Golyó kézben csak a kezdőlökésnél van, és csak a 8-as lyukát kell bemondani.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	A szabálytalanságért az ellenfél golyót kap kézbe, bárhová az asztalon. Minden lökést be kell mondani, és a kezdőlökésnek négy golyót falszélig kell juttatnia.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	A szabálytalanságért az ellenfél golyót kap kézbe, bárhová az asztalon. Semmit nem kell bemondani, és a kezdőlökésnek négy golyót falszélig kell juttatnia.
 A foul gives balls to the opponent	A szabálytalanság golyókat ad az ellenfélnek
 Ball in hand on the break only	Golyó kézben csak a kezdőlökésnél
 Only the 8's pocket is called	Csak a 8-as lyukát kell bemondani
 The most played in Brazil	Brazíliában ezt játsszák a legtöbben
 A foul gives ball in hand	A szabálytalanság golyót ad kézbe
 The break drives four balls to a cushion	A kezdőlökés négy golyót juttat falszélig
-Every shot is called	Minden lökést be kell mondani
+Any pocket counts	Bármelyik lyuk számít
 The same all over the world	Az egész világon ugyanaz
 Game type	Játéktípus
 called: {pocket}	bemondva: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Pattogatott kukorica
 From the shop	A boltból
 Every player has it	Minden játékosnak megvan
 Drag to make the chat taller or shorter	Húzd a csevegés magasításához vagy alacsonyításához
+Hide the result to see the table and the chat	Rejtsd el az eredményt, hogy lásd az asztalt és a csevegést
+Show the result	Eredmény mutatása

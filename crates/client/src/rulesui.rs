@@ -207,7 +207,7 @@ pub fn points(rules: Rules) -> [&'static str; 4] {
 /// [`summary`] in English, by [`Rules::index`].
 const SUMMARY: [&str; 2] = [
     "A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.",
-    "A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.",
+    "A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.",
 ];
 
 /// [`points`] in English, by [`Rules::index`].
@@ -221,7 +221,7 @@ const POINTS: [[&str; 4]; 2] = [
     [
         "A foul gives ball in hand",
         "The break drives four balls to a cushion",
-        "Every shot is called",
+        "Any pocket counts",
         "The same all over the world",
     ],
 ];

@@ -18,20 +18,23 @@
 //!   decided any ball may be hit first but the 8 (unless a group is off the
 //!   table: then the shooter may claim it and play the 8), and the group of
 //!   the called ball legally made is the shooter's.
-//! - Calls (1.7, 4.6): every shot but the break is called. The game takes
-//!   the pocket as the call: a ball of the shooter's group (on an open
-//!   table, of either group; on the 8, the 8) made in the called pocket on
-//!   a shot without a foul keeps the table; anything else made stays down.
-//!   No call is a safety: play passes at the end of the shot.
+//! - No calls (since 0.11.2, unlike 1.7 and 4.6): a ball of the shooter's
+//!   group (on an open table, of either group; on the 8, the 8) made in any
+//!   pocket on a shot without a foul keeps the table; on an open table the
+//!   first one made decides the groups. A game recorded until 0.11.1 keeps
+//!   the calls it was played with ([`EightBallGame::calls_shots`]): every
+//!   shot but the break is called, only a ball made in the called pocket
+//!   keeps the table (anything else made stays down), and no call is a
+//!   safety: play passes at the end of the shot.
 //! - Fouls (4.9): a scratch or the cue ball off the table, no ball hit or
 //!   the wrong one hit first, no ball made and none driven to a cushion
 //!   after the contact, an object ball off the table (it stays off), a
 //!   ball behind the head string hit first from the cue ball in hand
 //!   behind it without crossing it (3.11), the shot clock (3.14). The
 //!   opponent has the cue ball in hand anywhere on the table.
-//! - Losing (4.8): making the 8 on a foul, before one's group is off the
-//!   table, or in a pocket not called; driving the 8 off the table. Not on
-//!   the break.
+//! - Losing (4.8): making the 8 on a foul or before one's group is off the
+//!   table (with calls, also in a pocket not called); driving the 8 off the
+//!   table. Not on the break.
 //! - Spotting (4.7, 1.5): only the 8, after the break, on the foot spot or
 //!   the long string behind it. When the cue ball is in hand behind the
 //!   head string and every ball the shooter may hit lies behind it too,
@@ -48,6 +51,8 @@ impl EightBallGame {
         let shooter = self.current;
         let opponent = 1 - shooter;
         let call = pending.called_pocket;
+        // Without calls (games since 0.11.2), any pocket is the right one.
+        let calls = self.calls;
         let on_eight = self.is_on_eight(shooter);
         let open_table = self.groups[shooter].is_none();
         let from_kitchen = self.ball_in_hand == Some(BallInHand::Kitchen);
@@ -114,7 +119,7 @@ impl EightBallGame {
                 lost(GameOverReason::EightPocketedOnFoul)
             } else if !shooting_eight {
                 lost(GameOverReason::EightPocketedEarly)
-            } else if call != Some(pocket) {
+            } else if calls && call != Some(pocket) {
                 lost(GameOverReason::EightInWrongPocket)
             } else {
                 Some(GameOver { winner: shooter, reason: GameOverReason::PocketedEight })
@@ -132,11 +137,17 @@ impl EightBallGame {
         // table) shot at the 8: a ball of the other group made with it is
         // not theirs to take.
         let at_eight_open = shooting_eight && self.groups[shooter].is_none();
-        let made_call = match call {
-            Some(c) if game_over.is_none() && fouls.is_empty() && !at_eight_open => {
-                facts.pocketed.iter().find(|(b, p)| *p == c && callable(*b)).map(|(b, _)| *b)
+        let clean = game_over.is_none() && fouls.is_empty() && !at_eight_open;
+        let made_call = if !calls && clean {
+            // In any pocket: the first made (on an open table, its group).
+            facts.pocketed.iter().find(|(b, _)| callable(*b)).map(|(b, _)| *b)
+        } else {
+            match call {
+                Some(c) if clean => {
+                    facts.pocketed.iter().find(|(b, p)| *p == c && callable(*b)).map(|(b, _)| *b)
+                }
+                _ => None,
             }
-            _ => None,
         };
         let mut group_assigned = None;
         if self.groups[shooter].is_none()

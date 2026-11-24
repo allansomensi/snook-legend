@@ -2018,14 +2018,14 @@ your call	내가 지정
 {n} points to {tier} ({rules})	{tier}까지 {n}점 ({rules})
 {n} waiting	{n}명 대기 중
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	파울하면 상대가 자기 그룹의 공을 받아요. 볼 인 핸드는 브레이크 때만 있고, 8번 공의 포켓만 지정해요.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	파울하면 상대가 볼 인 핸드로 테이블 어디든 수구를 놓아요. 모든 샷은 포켓을 지정하고, 브레이크에서는 공 4개가 쿠션에 닿아야 해요.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	파울하면 상대가 볼 인 핸드로 테이블 어디든 수구를 놓아요. 아무것도 지정하지 않고, 브레이크에서는 공 4개가 쿠션에 닿아야 해요.
 A foul gives balls to the opponent	파울하면 상대에게 공을 줌
 Ball in hand on the break only	볼 인 핸드는 브레이크 때만
 Only the 8's pocket is called	8번 공의 포켓만 지정
 The most played in Brazil	브라질에서 가장 많이 치는 방식
 A foul gives ball in hand	파울하면 볼 인 핸드
 The break drives four balls to a cushion	브레이크에서 공 4개가 쿠션에 닿아야 함
-Every shot is called	모든 샷에 포켓 지정
+Any pocket counts	어느 포켓이든 인정
 The same all over the world	전 세계 공통
 Game type	게임 유형
 called: {pocket}	지정: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	팝콘
 From the shop	상점에서 얻음
 Every player has it	모든 플레이어가 가지고 있어요
 Drag to make the chat taller or shorter	드래그해서 채팅 창 높이 조절하기
+Hide the result to see the table and the chat	결과를 숨기고 테이블과 채팅 보기
+Show the result	결과 보기

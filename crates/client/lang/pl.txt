@@ -2018,14 +2018,14 @@ your call	twoja deklaracja
 {n} points to {tier} ({rules})	Do ligi {tier}: {n} pkt ({rules})
 {n} waiting	czekający: {n}
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Faul daje przeciwnikowi bile z jego grupy. Biała z ręki tylko przy rozbiciu, a deklaruje się tylko łuzę dla ósemki.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Faul daje przeciwnikowi białą z ręki w dowolnym miejscu stołu. Każde uderzenie jest deklarowane, a rozbicie musi doprowadzić cztery bile do band.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Faul daje przeciwnikowi białą z ręki w dowolnym miejscu stołu. Nic się nie deklaruje, a rozbicie musi doprowadzić cztery bile do band.
 A foul gives balls to the opponent	Faul daje bile przeciwnikowi
 Ball in hand on the break only	Biała z ręki tylko przy rozbiciu
 Only the 8's pocket is called	Deklaruje się tylko łuzę dla ósemki
 The most played in Brazil	Najpopularniejsze w Brazylii
 A foul gives ball in hand	Faul daje białą z ręki
 The break drives four balls to a cushion	Rozbicie: cztery bile do band
-Every shot is called	Każde uderzenie jest deklarowane
+Any pocket counts	Liczy się każda łuza
 The same all over the world	Takie same na całym świecie
 Game type	Rodzaj gry
 called: {pocket}	deklaracja: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Popcorn
 From the shop	Ze sklepu
 Every player has it	Ma ją każdy gracz
 Drag to make the chat taller or shorter	Przeciągnij, aby wydłużyć lub skrócić czat
+Hide the result to see the table and the chat	Ukryj wynik, aby widzieć stół i czat
+Show the result	Pokaż wynik

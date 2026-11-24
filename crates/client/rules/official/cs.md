@@ -10,10 +10,10 @@
 Osmička mezinárodních turnajů, jak ji hraje Světová poolbillardová asociace (WPA). Snook Legend má i brazilská pravidla: pravidla svých her si vybereš v hlavním menu. Pokud hraješ podle brazilských pravidel, přečti si níže rozstřel, ohlašování a fauly, protože se hodně liší.
 
 ### Cíl
-Každý hráč má skupinu sedmi koulí: plné (1 až 7) nebo půlené (9 až 15). Potop všechny své a pak osmičku do ohlášené díry dřív než soupeř.
+Každý hráč má skupinu sedmi koulí: plné (1 až 7) nebo půlené (9 až 15). Potop všechny své a pak osmičku dřív než soupeř.
 
 ### Tvůj tah
-Hraješ dál, dokud bez faulu potápíš koule své skupiny do ohlášené díry. Jinak tah přechází na soupeře a koule, které spadly, zůstávají v dírách.
+Hraješ dál, dokud bez faulu potápíš koule své skupiny, do kterékoli díry. Jinak tah přechází na soupeře a koule, které spadly, zůstávají v dírách.
 
 ## Rozstřel
 
@@ -32,16 +32,16 @@ Potopená osmička při rozstřelu nevyhrává ani neprohrává: vrací se na do
 ### Koule ze stolu při rozstřelu
 Je to faul a koule zůstává mimo stůl (vrací se jen osmička). Soupeř hraje stůl, jak leží, nebo si vezme bílou do ruky za čárou rozstřelu. Pokud byl rozstřel navíc neplatný, může také nechat koule znovu sestavit, jako výše.
 
-## Ohlašování a hra
+## Hra
 
 ### Otevřený stůl
-Dokud nejsou skupiny určené, stůl je otevřený: jako první můžeš trefit kteroukoli kouli kromě osmičky. Skupina koule, kterou potopíš do ohlášené díry, se stává tvou. Když už je jedna skupina celá mimo stůl, můžeš hrát na osmičku.
+Dokud nejsou skupiny určené, stůl je otevřený: jako první můžeš trefit kteroukoli kouli kromě osmičky. Skupina první koule, kterou potopíš, se stává tvou. Když už je jedna skupina celá mimo stůl, můžeš hrát na osmičku.
 
-### Ohlášení šťouchu
-Každý šťouch kromě rozstřelu se ohlašuje. Ve hře ohlašuješ díru: podle míření se ohlásí díra, ke které míří trefená koule. Kliknutím na jinou díru ohlásíš tu, nebo zahraj safety. Koule tvé skupiny (nebo osmička, když hraješ na ni) potopená do ohlášené díry ti nechává stůl, i od mantinelu nebo od jiné koule.
+### Bez ohlašování
+Na turnajích se ohlašuje každý šťouch; tady se neohlašuje nic. Koule tvé skupiny (nebo osmička, když hraješ na ni) potopená do kterékoli díry bez faulu ti nechává stůl, i od mantinelu nebo od jiné koule.
 
 ### Safety
-Šťouch bez ohlášené díry je safety: co spadne, zůstane v díře, a tah přechází na soupeře.
+Chceš-li nechat stůl soupeři, zahraj šťouch, který nepotopí žádnou tvou kouli: tah přechází a co spadlo, zůstane v díře. Koule tvé skupiny, která přesto spadne, ti stůl nechává.
 
 ### Bílá za čárou rozstřelu
 S bílou v ruce za čárou rozstřelu nesmíš trefit kouli, která také leží za ní, pokud bílá nejdřív čáru rozstřelu nepřejede. Když všechny koule, které smíš trefit, leží za ní, ta nejbližší k čáře rozstřelu se vrací na dolní bod.
@@ -60,7 +60,7 @@ Když má hra čas na šťouch a ten vyprší, je to faul: soupeř má bílou v 
 ## Osmička
 
 ### Výhra
-Jakmile je tvá skupina mimo stůl, potop osmičku do ohlášené díry, bez faulu.
+Jakmile je tvá skupina mimo stůl, potop osmičku, do kterékoli díry, bez faulu.
 
 ### Prohra na osmičce
-Prohráváš, když potopíš osmičku s faulem, dřív, než je tvá skupina mimo stůl, nebo do díry, kterou jsi neohlásil(a), a když osmičku vyrazíš ze stolu. Nic z toho neplatí při rozstřelu.
+Prohráváš, když potopíš osmičku s faulem nebo dřív, než je tvá skupina mimo stůl, a když osmičku vyrazíš ze stolu. Nic z toho neplatí při rozstřelu.

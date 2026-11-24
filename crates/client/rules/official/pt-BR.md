@@ -10,10 +10,10 @@
 A bola 8 dos torneios internacionais, como a World Pool-Billiard Association joga. O Snook Legend tem também a regra brasileira: escolha a regra das suas partidas no menu principal. Se você joga a regra brasileira, leia a saída, as cantadas e as faltas abaixo, porque mudam bastante.
 
 ### O objetivo
-Cada jogador tem um grupo de sete bolas: as lisas (1 a 7) ou as listradas (9 a 15). Encaçape todas as suas e depois a bola 8, na caçapa que você cantar, antes do adversário.
+Cada jogador tem um grupo de sete bolas: as lisas (1 a 7) ou as listradas (9 a 15). Encaçape todas as suas e depois a bola 8 antes do adversário.
 
 ### Sua vez
-Você continua jogando enquanto encaçapar uma bola do seu grupo na caçapa cantada, numa tacada sem falta. Se não, a vez passa, e as bolas que caíram ficam encaçapadas.
+Você continua jogando enquanto encaçapar uma bola do seu grupo, em qualquer caçapa, numa tacada sem falta. Senão, a vez passa, e as bolas que caíram ficam encaçapadas.
 
 ## A saída
 
@@ -32,16 +32,16 @@ Encaçapar a 8 na saída não vence nem perde: ela volta para o ponto do pé da 
 ### Bola fora da mesa na saída
 É falta, e a bola fica fora (só a 8 volta). O adversário joga a mesa como está ou fica com a branca na mão atrás da linha de cabeceira. Se a saída também foi ilegal, ele ainda pode pedir as bolas arrumadas de novo, como acima.
 
-## Cantar e jogar
+## Jogar
 
 ### Mesa aberta
-Enquanto os grupos não estão decididos, a mesa está aberta: você pode acertar primeiro qualquer bola, menos a 8. O grupo da bola que você encaçapar na caçapa cantada passa a ser o seu. Se um dos grupos já saiu todo da mesa, você pode jogar na 8.
+Enquanto os grupos não estão decididos, a mesa está aberta: você pode acertar primeiro qualquer bola, menos a 8. O grupo da primeira bola que você encaçapar passa a ser o seu. Se um dos grupos já saiu todo da mesa, você pode jogar a 8.
 
-### Cantar a tacada
-Toda tacada, menos a saída, é cantada. No jogo você canta uma caçapa: seguindo a sua mira, ele canta a caçapa para onde vai a bola que você acerta. Clique em outra caçapa para cantá-la, ou jogue uma defesa. Uma bola do seu grupo (ou a 8, quando você está nela) que cair na caçapa cantada mantém a vez, também de tabela ou de combinação.
+### Sem cantar
+Nos torneios toda tacada é cantada; aqui nada é cantado. Uma bola do seu grupo (ou a 8, quando você está nela) que cair em qualquer caçapa, numa tacada sem falta, mantém a vez, também de tabela ou de combinação.
 
 ### Defesa
-Uma tacada sem caçapa cantada é uma defesa: o que cair fica encaçapado, e a vez passa para o adversário.
+Para deixar a mesa para o adversário, jogue uma tacada que não encaçape nenhuma bola sua: a vez passa, e o que caiu fica encaçapado. Uma bola do seu grupo que cair mesmo assim mantém a vez.
 
 ### A branca atrás da linha de cabeceira
 Com a branca na mão atrás da linha de cabeceira, você não pode acertar uma bola que também esteja atrás dela, a não ser que a branca atravesse a linha antes. Se todas as bolas que você pode acertar estiverem atrás dela, a mais próxima da linha volta para o ponto do pé da mesa.
@@ -60,7 +60,7 @@ Quando a partida tem tempo de tacada e ele acaba, é falta: o adversário fica c
 ## A bola 8
 
 ### Vencer
-Quando o seu grupo sair todo da mesa, encaçape a 8 na caçapa que você cantou, numa tacada sem falta.
+Quando o seu grupo sair todo da mesa, encaçape a 8, em qualquer caçapa, numa tacada sem falta.
 
 ### Perder na 8
-Você perde se encaçapar a 8 numa falta, antes de o seu grupo sair da mesa ou numa caçapa que não cantou, e se jogar a 8 para fora da mesa. Nada disso vale na saída.
+Você perde se encaçapar a 8 numa falta ou antes de o seu grupo sair da mesa, e se jogar a 8 para fora da mesa. Nada disso vale na saída.

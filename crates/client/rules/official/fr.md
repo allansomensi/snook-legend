@@ -10,10 +10,10 @@
 Le billard à 8 billes des tournois internationaux, tel que le joue la World Pool-Billiard Association. Snook Legend propose aussi les règles brésiliennes : choisissez les règles de vos parties dans le menu principal. Si vous jouez aux règles brésiliennes, lisez la casse, les annonces et les fautes ci-dessous, car elles diffèrent beaucoup.
 
 ### Le but
-Chaque joueur a un groupe de sept billes : les pleines (1 à 7) ou les rayées (9 à 15). Empochez toutes les vôtres, puis la 8, dans la poche annoncée, avant votre adversaire.
+Chaque joueur a un groupe de sept billes : les pleines (1 à 7) ou les rayées (9 à 15). Empochez toutes les vôtres, puis la 8, avant votre adversaire.
 
 ### Votre tour
-Vous continuez à jouer tant que vous empochez une bille de votre groupe dans la poche annoncée, sur un coup sans faute. Sinon, le tour passe, et les billes tombées restent empochées.
+Vous continuez à jouer tant que vous empochez une bille de votre groupe, dans n'importe quelle poche, sur un coup sans faute. Sinon, le tour passe, et les billes tombées restent empochées.
 
 ## La casse
 
@@ -32,16 +32,16 @@ Empocher la 8 à la casse ne fait ni gagner ni perdre : elle est replacée sur l
 ### Une bille hors de la table à la casse
 C'est une faute, et la bille reste hors de la table (seule la 8 revient). Votre adversaire joue la table telle quelle ou prend la blanche en main derrière la ligne de tête. Si la casse était aussi irrégulière, il peut également faire remettre les billes en triangle, comme ci-dessus.
 
-## Annonces et jeu
+## Le jeu
 
 ### Table ouverte
-Tant que les groupes ne sont pas décidés, la table est ouverte : vous pouvez toucher n'importe quelle bille en premier, sauf la 8. Le groupe de la bille que vous empochez dans la poche annoncée devient le vôtre. Si un groupe a déjà quitté la table, vous pouvez jouer la 8.
+Tant que les groupes ne sont pas décidés, la table est ouverte : vous pouvez toucher n'importe quelle bille en premier, sauf la 8. Le groupe de la première bille que vous empochez devient le vôtre. Si un groupe a déjà quitté la table, vous pouvez jouer la 8.
 
-### Annoncer votre coup
-Chaque coup, sauf la casse, est annoncé. Dans le jeu, vous annoncez une poche : en suivant votre visée, le jeu annonce la poche vers laquelle va la bille que vous touchez. Cliquez sur une autre poche pour l'annoncer, ou jouez une sécurité. Une bille de votre groupe (ou la 8, quand vous êtes dessus) empochée dans la poche annoncée vous garde la main, même après une bande ou une autre bille.
+### Sans annonce
+En tournoi, chaque coup est annoncé ; ici, rien ne s'annonce. Une bille de votre groupe (ou la 8, quand vous êtes dessus) empochée dans n'importe quelle poche, sur un coup sans faute, vous garde la main, même après une bande ou une autre bille.
 
 ### Sécurité
-Un coup sans poche annoncée est une sécurité : ce qui rentre reste empoché, et le tour passe à votre adversaire.
+Pour laisser la table à votre adversaire, jouez un coup qui n'empoche aucune de vos billes : le tour passe, et ce qui est tombé reste empoché. Une bille de votre groupe qui tombe quand même vous garde la main.
 
 ### La blanche derrière la ligne de tête
 Avec la blanche en main derrière la ligne de tête, vous ne pouvez pas toucher une bille qui se trouve aussi derrière, à moins que la blanche ne franchisse d'abord la ligne de tête. Si toutes les billes que vous pouvez toucher sont derrière, celle qui est la plus proche de la ligne de tête est replacée sur le point de pied.
@@ -60,7 +60,7 @@ Quand la partie a un temps limité par coup et qu'il est écoulé, c'est une fau
 ## La 8
 
 ### Gagner
-Une fois votre groupe sorti de la table, empochez la 8 dans la poche annoncée, sur un coup sans faute.
+Une fois votre groupe sorti de la table, empochez la 8, dans n'importe quelle poche, sur un coup sans faute.
 
 ### Perdre sur la 8
-Vous perdez en empochant la 8 sur une faute, avant que votre groupe ait quitté la table ou dans une poche que vous n'avez pas annoncée, et en faisant sortir la 8 de la table. Rien de tout cela ne s'applique à la casse.
+Vous perdez en empochant la 8 sur une faute ou avant que votre groupe ait quitté la table, et en faisant sortir la 8 de la table. Rien de tout cela ne s'applique à la casse.

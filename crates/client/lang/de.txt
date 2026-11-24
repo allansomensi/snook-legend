@@ -2018,14 +2018,14 @@ your call	deine Ansage
 {n} points to {tier} ({rules})	Noch {n} Punkte bis {tier} ({rules})
 {n} waiting	{n} warten
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Ein Foul bringt dem Gegner Kugeln seiner Gruppe. Ball in Hand gibt es nur beim Anstoß, und nur die Tasche der 8 wird angesagt.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Ein Foul gibt dem Gegner Ball in Hand, überall auf dem Tisch. Jeder Stoß wird angesagt, und der Anstoß muss vier Kugeln an die Banden bringen.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Ein Foul gibt dem Gegner Ball in Hand, überall auf dem Tisch. Nichts wird angesagt, und der Anstoß muss vier Kugeln an die Banden bringen.
 A foul gives balls to the opponent	Ein Foul bringt dem Gegner Kugeln
 Ball in hand on the break only	Ball in Hand nur beim Anstoß
 Only the 8's pocket is called	Nur die Tasche der 8 wird angesagt
 The most played in Brazil	In Brasilien am meisten gespielt
 A foul gives ball in hand	Ein Foul gibt Ball in Hand
 The break drives four balls to a cushion	Beim Anstoß vier Kugeln an die Banden
-Every shot is called	Jeder Stoß wird angesagt
+Any pocket counts	Jede Tasche zählt
 The same all over the world	Überall auf der Welt gleich
 Game type	Spielart
 called: {pocket}	angesagt: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Popcorn
 From the shop	Aus dem Shop
 Every player has it	Haben alle Spieler
 Drag to make the chat taller or shorter	Ziehen, um den Chat höher oder niedriger zu machen
+Hide the result to see the table and the chat	Ergebnis ausblenden, um Tisch und Chat zu sehen
+Show the result	Ergebnis zeigen

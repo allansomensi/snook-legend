@@ -75,6 +75,7 @@ async fn exercise(store: Store) {
             seed: u64::MAX - 5,
             breaker: 1,
             rules: Rules::Brazilian,
+            calls: false,
             strokes: vec![
                 Stroke::Shot {
                     shot: Shot::new(0.25, 3.5),
@@ -177,7 +178,8 @@ async fn exercise(store: Store) {
         room: None,
         counts: true,
         ended_at: t + 5,
-        replay: m.replay.clone().map(|r| Replay { rules: Rules::Official, ..r }),
+        // Played with the calls of before 0.11.2: kept with the game.
+        replay: m.replay.clone().map(|r| Replay { rules: Rules::Official, calls: true, ..r }),
         ..m.clone()
     };
     let ([ua, ub], official_id) = store.record_match(&official).await.unwrap().unwrap();
@@ -192,6 +194,8 @@ async fn exercise(store: Store) {
     assert_eq!(store.rating_history(a.id, Rules::Official, 10).await.unwrap(), vec![(t + 5, 1184)]);
     let r = store.replay(official_id).await.unwrap().expect("replay kept");
     assert_eq!(r.replay.rules, Rules::Official);
+    assert!(r.replay.calls);
+    assert!(!store.replay(match_id).await.unwrap().expect("replay kept").replay.calls);
     assert_eq!(store.history(a.id, 10).await.unwrap()[0].rules, Rules::Official);
 
     // The shop: credits are applied once per reference, purchases never
@@ -753,10 +757,12 @@ async fn audit_fixes(store: &Store) {
     // doesn't count gives no win nor streak (the rating still moves).
     let p = make("af_p").await.unwrap().unwrap();
     let q = make("af_q").await.unwrap().unwrap();
-    let replay = Replay { seed: 7, breaker: 0, rules: Rules::Brazilian, strokes: vec![] };
+    let replay =
+        Replay { seed: 7, breaker: 0, rules: Rules::Official, strokes: vec![], calls: true };
     let live =
         LiveMatch { id: 9_000_001, players: [p.id, q.id], rated: true, replay, updated_at: t };
     store.save_live(&live).await.unwrap();
+    assert!(store.live_match_of(p.id).await.unwrap().expect("saved").replay.calls);
     let game = MatchRecord {
         players: [p.id, q.id],
         winner: 0,

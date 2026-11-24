@@ -25,6 +25,9 @@ pub struct Hud {
     /// The game whose rating change is being counted up on the end panel,
     /// and since when.
     result_shown: Option<((u64, u32), f64)>,
+    /// The game whose result panel the player put away (to see the table
+    /// and use the chat): a slim bar at the top stands in for it.
+    result_hidden: Option<(u64, u32)>,
     /// The pause menu is open (online, the game keeps running behind it).
     pub paused: bool,
     /// The balls made, in order, for the score panel.
@@ -138,6 +141,7 @@ impl Default for Hud {
     fn default() -> Self {
         Hud {
             result_shown: None,
+            result_hidden: None,
             // Development aid (screenshots): SNOOK_LEGEND_PAUSED opens the
             // pause menu.
             paused: crate::dev::flag("SNOOK_LEGEND_PAUSED"),
@@ -405,12 +409,13 @@ fn status_line(m: &Match) -> Option<String> {
             let target = match (m.game.group_of(m.game.current_player()), m.game.rules()) {
                 (Some(Group::Solids), _) => t("solids"),
                 (Some(Group::Stripes), _) => t("stripes"),
-                // The Brazilian rules: the first ball made decides.
-                (None, Rules::Brazilian) => t("open table: the next ball you make sets your group"),
-                // The official rules: the ball made in the called pocket.
-                (None, Rules::Official) => {
+                // The official rules with calls (a game recorded until
+                // 0.11.1): the ball made in the called pocket.
+                (None, Rules::Official) if m.game.calls() => {
                     t("open table: the called ball you make sets your group")
                 }
+                // Otherwise the first ball made decides.
+                (None, _) => t("open table: the next ball you make sets your group"),
             };
             // The official rules: the pocket the player called (clicked),
             // after the group. Not the one the aim calls: it would say where
@@ -799,7 +804,17 @@ impl Hud {
         // Game over.
         // (While the last shot is watched again, the panel steps aside.)
         let mut replay_now = false;
+        let result_key = (m.match_id(), m.games_played);
         if let (Phase::GameOver, Some(over), true, None) =
+            (&m.phase, m.game.game_over(), m.is_online(), &m.replay)
+            // Development aid (screenshots): SNOOK_LEGEND_RESULT_HIDDEN puts it away.
+            && (self.result_hidden == Some(result_key) || crate::dev::flag("SNOOK_LEGEND_RESULT_HIDDEN"))
+        {
+            // Put away: a bar at the top, with what the panel's buttons do.
+            if let Some(a) = self.result_bar(ui, m, over) {
+                action = a;
+            }
+        } else if let (Phase::GameOver, Some(over), true, None) =
             (&m.phase, m.game.game_over(), m.is_online(), &m.replay)
         {
             let o = m.online.as_ref().expect("online");
@@ -842,6 +857,12 @@ impl Hud {
             let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 110.0 - STATS_H / 2.0, w, 220.0);
             ui.panel(r);
             replay_now |= replay_button(ui, m, r);
+            // Put away, to see the table and use the chat.
+            let hide = Rect::new(r.x + 10.0, r.y + 10.0, 30.0, 30.0);
+            let tip = t("Hide the result to see the table and the chat");
+            if ui.icon_button_ex(hide, Icon::Minus, tip, true, true) {
+                self.result_hidden = Some(result_key);
+            }
             let view = &mut self.stats_view;
             let stats_w = 440.0f32.min(w);
             let stats = Rect::new((sw - stats_w) / 2.0, r.y + r.h + 8.0, stats_w, STATS_H - 8.0);
@@ -1390,6 +1411,9 @@ impl Hud {
     fn draw_chat(&mut self, ui: &mut Ui, m: &mut Match) {
         let sh = crate::ui::vh();
         let dt = get_frame_time();
+        // The game is over: opening the chat puts the result away (the bar
+        // at the top brings it back).
+        let over = matches!(m.phase, Phase::GameOver).then(|| (m.match_id(), m.games_played));
         let Some(o) = m.online.as_mut() else { return };
         if !self.chat_open {
             self.set_resize_cursor(false);
@@ -1432,6 +1456,9 @@ impl Hud {
             );
             if hover && ui.released_in(button) {
                 self.chat_open = true;
+                if over.is_some() {
+                    self.result_hidden = over;
+                }
             }
             if unread {
                 // The number of new lines, on the corner, with a soft glow
@@ -1513,6 +1540,9 @@ impl Hud {
             }
             if open_chat {
                 self.chat_open = true;
+                if over.is_some() {
+                    self.result_hidden = over;
+                }
             }
             let rb = Rect::new(button.x + button.w + 6.0, button.y, 32.0, 32.0);
             self.reaction_button(ui, m, rb, true);
@@ -1655,6 +1685,75 @@ impl Hud {
         if !list_open && ui.pressed_outside(&keep) {
             self.chat_open = false;
         }
+    }
+
+    /// The result of an online game, put away: a slim bar at the top with
+    /// the title and what the panel's buttons do (show it again, the
+    /// rematch, back to the lounge), the table and the chat free under it.
+    fn result_bar(
+        &mut self,
+        ui: &mut Ui,
+        m: &mut Match,
+        over: snook_legend_core::GameOver,
+    ) -> Option<HudAction> {
+        let sw = crate::ui::vw();
+        let o = m.online.as_ref()?;
+        let me = o.seat;
+        let won = over.winner == me && !o.spectator;
+        let title = if won {
+            t("You win!").to_string()
+        } else {
+            tw("{name} wins", &[("name", &m.names[over.winner])])
+        };
+        let corr = crate::correspondence::is_corr(m);
+        let rematch = (!o.spectator && !corr && o.tournament.is_none()).then(|| {
+            let can = !o.opponent_left && !o.rematch_requested;
+            (if o.rematch_offered { t("Accept rematch") } else { t("Rematch") }, can)
+        });
+        let offered = o.rematch_offered && !o.rematch_requested;
+        let back = if corr {
+            t("Back to daily games")
+        } else if o.spectator {
+            t("Stop watching")
+        } else {
+            t("Back to lounge")
+        };
+        let show = t("Show the result");
+        const H: f32 = 34.0;
+        let bw = |l: &str| crate::online::button_w(ui, l, H - 6.0);
+        let (show_w, back_w) = (bw(show), bw(back));
+        let rematch_w = rematch.map_or(0.0, |r| bw(r.0) + 8.0);
+        let title_w = ui.text_size(&title, 16.0, true).x;
+        let w = (16.0 + title_w + 16.0 + show_w + back_w + rematch_w + 16.0).min(sw - 16.0);
+        let r = Rect::new((sw - w) / 2.0, TOP_BAR + 8.0, w, H + 12.0);
+        ui.panel(r);
+        crate::ui::rrect_lines(r, 8.0, 1.5, if won || offered { GOLD } else { BORDER });
+        let mid = r.y + r.h / 2.0;
+        let (title, size) = ui.fitted(&title, 16.0, title_w.min(r.w * 0.35), true);
+        ui.text(&title, r.x + 16.0, crate::ranking::text_y(mid, size), size, GOLD, true);
+        let mut x = r.x + r.w - 8.0;
+        let mut at = |w: f32| {
+            x -= w;
+            let b = Rect::new(x, r.y + 6.0, w, H);
+            x -= 8.0;
+            b
+        };
+        let mut action = None;
+        if ui.button(at(back_w), back, true) {
+            action = Some(HudAction::Lounge);
+        }
+        if let Some((label, can)) = rematch {
+            let b = at(rematch_w - 8.0);
+            let pressed =
+                if offered { ui.primary_button(b, label) } else { ui.button(b, label, can) };
+            if pressed && can {
+                m.rematch();
+            }
+        }
+        if ui.button(at(show_w), show, true) {
+            self.result_hidden = None;
+        }
+        action
     }
 
     /// The quick phrases: a button, and the list it opens above it. A phrase

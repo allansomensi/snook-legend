@@ -2018,14 +2018,14 @@ your call	chiamata da te
 {n} points to {tier} ({rules})	{n} punti per {tier} ({rules})
 {n} waiting	{n} in attesa
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Un fallo dà all'avversario palle del suo gruppo. La bianca è in mano solo alla spaccata, e si chiama solo la buca della 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Un fallo dà all'avversario la bianca in mano, ovunque sul tavolo. Ogni tiro va chiamato e la spaccata deve mandare quattro palle in sponda.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Un fallo dà all'avversario la bianca in mano, ovunque sul tavolo. Non si chiama nulla e la spaccata deve mandare quattro palle in sponda.
 A foul gives balls to the opponent	Il fallo dà palle all'avversario
 Ball in hand on the break only	Palla in mano solo alla spaccata
 Only the 8's pocket is called	Si chiama solo la buca della 8
 The most played in Brazil	Le più giocate in Brasile
 A foul gives ball in hand	Il fallo dà palla in mano
 The break drives four balls to a cushion	La spaccata manda quattro palle in sponda
-Every shot is called	Ogni tiro va chiamato
+Any pocket counts	Vale qualsiasi buca
 The same all over the world	Le stesse in tutto il mondo
 Game type	Tipo di partita
 called: {pocket}	chiamata: buca {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Popcorn
 From the shop	Dal negozio
 Every player has it	Ce l'hanno tutti i giocatori
 Drag to make the chat taller or shorter	Trascina per allungare o accorciare la chat
+Hide the result to see the table and the chat	Nascondi il risultato per vedere il tavolo e la chat
+Show the result	Mostra il risultato

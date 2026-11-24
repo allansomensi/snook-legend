@@ -480,6 +480,12 @@ pub struct EightBallGame {
     /// The official rules: a decision the current player has to make
     /// before anyone shoots (after some breaks).
     choice: Option<BreakChoice>,
+    /// The official rules with calls, as they were until 0.11.1: every
+    /// shot but the break is called, and only a ball made in the called
+    /// pocket keeps the table (see [`Self::calls_shots`]). Games since are
+    /// played without them; one recorded before keeps them, so it replays
+    /// and goes on as it was played.
+    calls: bool,
 }
 
 /// What a snapshot holds (see [`EightBallGame`]).
@@ -496,6 +502,16 @@ struct GameData {
     called: [Option<PocketId>; 2],
     rack_seed: u64,
     choice: Option<BreakChoice>,
+    /// A snapshot written before the field (0.11.1 and earlier) was of a
+    /// game with calls.
+    #[serde(default = "with_calls")]
+    calls: bool,
+}
+
+/// Games recorded before 0.11.2 were played with calls (see
+/// [`EightBallGame::calls_shots`]).
+pub fn with_calls() -> bool {
+    true
 }
 
 impl TryFrom<GameData> for EightBallGame {
@@ -567,6 +583,7 @@ impl TryFrom<GameData> for EightBallGame {
             called: d.called,
             rack_seed: d.rack_seed,
             choice: d.choice,
+            calls: d.calls,
         })
     }
 }
@@ -649,7 +666,21 @@ impl EightBallGame {
             called: [None, None],
             rack_seed: seed,
             choice: None,
+            calls: false,
         }
+    }
+
+    /// This game played with the calls of the official rules as they were
+    /// until 0.11.1 (`true`: a game recorded then), or without.
+    pub fn with_calls(mut self, calls: bool) -> Self {
+        self.calls = calls;
+        self
+    }
+
+    /// Played with the calls of the official rules as they were until
+    /// 0.11.1 (see [`Self::with_calls`]).
+    pub fn calls(&self) -> bool {
+        self.calls
     }
 
     pub fn table(&self) -> &Table {
@@ -812,10 +843,12 @@ impl EightBallGame {
         self.rules == Rules::Brazilian && !self.break_on_rack() && self.is_on_eight(self.current)
     }
 
-    /// The official rules: this shot is called (every shot but the break;
-    /// no call makes it a safety).
+    /// The official rules in a game recorded with calls (until 0.11.1):
+    /// this shot is called (every shot but the break; no call makes it a
+    /// safety). Since then nothing is called: a ball of the shooter's made
+    /// in any pocket keeps the table.
     pub fn calls_shots(&self) -> bool {
-        self.rules == Rules::Official && !self.is_break && self.choice.is_none()
+        self.rules == Rules::Official && self.calls && !self.is_break && self.choice.is_none()
     }
 
     /// True if the cue ball may be placed (or left) at `p` given the
@@ -894,8 +927,8 @@ impl EightBallGame {
                 }
                 called
             }
-            // Nothing is called on the break.
-            Rules::Official => called_pocket.filter(|_| !self.is_break),
+            // Nothing is called on the break, nor in a game without calls.
+            Rules::Official => called_pocket.filter(|_| self.calls && !self.is_break),
         };
         // A tip beyond the edge of the ball is brought back to the edge, in
         // its direction (one so far out that its length overflows an f64 is

@@ -2018,14 +2018,14 @@ your call	cantada por ti
 {n} points to {tier} ({rules})	{n} puntos para {tier} ({rules})
 {n} waiting	{n} en espera
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Una falta da al rival bolas de su grupo. La blanca está en mano solo en el saque, y solo se canta la tronera de la 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Una falta da al rival la blanca en mano, en cualquier lugar de la mesa. Todo tiro se canta, y el saque debe llevar cuatro bolas a las bandas.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Una falta da al rival la blanca en mano, en cualquier lugar de la mesa. No se canta nada, y el saque debe llevar cuatro bolas a las bandas.
 A foul gives balls to the opponent	La falta da bolas al rival
 Ball in hand on the break only	Bola en mano solo en el saque
 Only the 8's pocket is called	Solo se canta la tronera de la 8
 The most played in Brazil	La más jugada en Brasil
 A foul gives ball in hand	La falta da bola en mano
 The break drives four balls to a cushion	Saque con cuatro bolas a las bandas
-Every shot is called	Todo tiro se canta
+Any pocket counts	Vale cualquier tronera
 The same all over the world	La misma en todo el mundo
 Game type	Partida
 called: {pocket}	cantada: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Palomitas
 From the shop	De la tienda
 Every player has it	La tienen todos los jugadores
 Drag to make the chat taller or shorter	Arrastra para hacer el chat más alto o más bajo
+Hide the result to see the table and the chat	Oculta el resultado para ver la mesa y el chat
+Show the result	Ver el resultado

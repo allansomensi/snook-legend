@@ -10,10 +10,10 @@
 Jocul cu bila 8 al turneelor internaționale, așa cum îl joacă World Pool-Billiard Association. Snook Legend are și regulile braziliene: alege regulile partidelor tale din meniul principal. Dacă joci după regulile braziliene, citește mai jos spargerea, anunțurile și faulturile, pentru că diferă mult.
 
 ### Scopul
-Fiecare jucător are o grupă de șapte bile: pline (de la 1 la 7) sau dungate (de la 9 la 15). Bagă-le pe toate ale tale și apoi bila 8, în buzunarul pe care îl anunți, înaintea adversarului.
+Fiecare jucător are o grupă de șapte bile: pline (de la 1 la 7) sau dungate (de la 9 la 15). Bagă-le pe toate ale tale și apoi bila 8 înaintea adversarului.
 
 ### Tura ta
-Continui să joci cât timp bagi o bilă din grupa ta în buzunarul anunțat, la o lovitură fără fault. Altfel tura trece la adversar, iar bilele care au intrat rămân în buzunar.
+Joci mai departe cât timp bagi o bilă din grupa ta, în orice buzunar, la o lovitură fără fault. Altfel, rândul trece la adversar, iar bilele intrate rămân în buzunare.
 
 ## Spargerea
 
@@ -32,16 +32,16 @@ Dacă bagi bila 8 la spargere, nici nu câștigi, nici nu pierzi: ea revine pe p
 ### O bilă scoasă de pe masă la spargere
 E fault, iar bila rămâne afară (doar bila 8 revine). Adversarul joacă masa așa cum e sau ia bila albă în mână în spatele liniei de start. Dacă spargerea a fost și neregulamentară, poate cere și ca bilele să fie așezate din nou în triunghi, ca mai sus.
 
-## Anunțul și jocul
+## Jocul
 
 ### Masă deschisă
-Cât timp grupele nu sunt stabilite, masa e deschisă: poți lovi mai întâi orice bilă, în afară de bila 8. Grupa bilei pe care o bagi în buzunarul anunțat devine a ta. Dacă o grupă a ieșit deja în întregime de pe masă, poți juca bila 8.
+Cât timp grupele nu sunt stabilite, masa e deschisă: poți lovi primul orice bilă în afară de 8. Grupa primei bile pe care o bagi devine a ta. Dacă o grupă a ieșit deja în întregime de pe masă, poți juca bila 8.
 
-### Anunțarea loviturii
-Fiecare lovitură, în afară de spargere, se anunță. În joc anunți un buzunar: urmându-ți țintirea, se anunță buzunarul spre care se îndreaptă bila lovită. Dă clic pe alt buzunar ca să-l anunți sau joacă o lovitură de siguranță. O bilă din grupa ta (sau bila 8, când ești la ea) băgată în buzunarul anunțat îți păstrează masa, chiar și din manta sau dintr-o altă bilă.
+### Fără anunț
+La turnee se anunță fiecare lovitură; aici nu se anunță nimic. O bilă din grupa ta (sau bila 8, când ești la ea) băgată în orice buzunar, la o lovitură fără fault, îți păstrează masa, chiar și din manta sau prin altă bilă.
 
 ### Lovitura de siguranță
-O lovitură fără niciun buzunar anunțat e o lovitură de siguranță: ce intră rămâne în buzunar, iar tura trece la adversar.
+Ca să-i lași masa adversarului, joacă o lovitură care nu bagă nicio bilă de-a ta: rândul trece, iar ce a intrat rămâne în buzunar. O bilă din grupa ta care intră totuși îți păstrează masa.
 
 ### Bila albă în spatele liniei de start
 Cu bila albă în mână în spatele liniei de start, nu poți lovi o bilă aflată tot în spatele ei decât dacă bila albă trece mai întâi linia de start. Dacă toate bilele pe care le poți lovi sunt în spatele ei, cea mai apropiată de linia de start revine pe punctul din fund.
@@ -60,7 +60,7 @@ Când partida are timp pe lovitură și acesta expiră, e fault: adversarul are 
 ## Bila 8
 
 ### Victoria
-După ce grupa ta a ieșit de pe masă, bagă bila 8 în buzunarul anunțat, la o lovitură fără fault.
+După ce grupa ta a ieșit de pe masă, bagă bila 8, în orice buzunar, la o lovitură fără fault.
 
 ### Pierderea la bila 8
-Pierzi dacă bagi bila 8 cu fault, înainte ca grupa ta să fi ieșit de pe masă sau într-un buzunar pe care nu l-ai anunțat, și dacă scoți bila 8 de pe masă. Nimic din toate acestea nu se aplică la spargere.
+Pierzi dacă bagi bila 8 la un fault sau înainte ca grupa ta să iasă de pe masă, și dacă scoți bila 8 de pe masă. Nimic din toate acestea nu se aplică la spargere.

@@ -2018,14 +2018,14 @@ your call	tvoje ohlášení
 {n} points to {tier} ({rules})	Do úrovně {tier} zbývá bodů: {n} ({rules})
 {n} waiting	Čeká: {n}
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Faul dává soupeři koule z jeho skupiny. Bílá v ruce je jen při rozstřelu a ohlašuje se jen díra pro osmičku.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Faul dává soupeři bílou v ruce kdekoli na stole. Každý šťouch se ohlašuje a rozstřel musí dostat čtyři koule k mantinelu.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Faul dává soupeři bílou v ruce kdekoli na stole. Nic se neohlašuje a rozstřel musí dostat čtyři koule k mantinelu.
 A foul gives balls to the opponent	Faul dává soupeři koule
 Ball in hand on the break only	Bílá v ruce jen při rozstřelu
 Only the 8's pocket is called	Ohlašuje se jen díra pro osmičku
 The most played in Brazil	Nejhranější v Brazílii
 A foul gives ball in hand	Faul dává bílou v ruce
 The break drives four balls to a cushion	Rozstřel dostane čtyři koule k mantinelu
-Every shot is called	Každý šťouch se ohlašuje
+Any pocket counts	Platí kterákoli díra
 The same all over the world	Stejná po celém světě
 Game type	Typ hry
 called: {pocket}	ohlášeno: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Popcorn
 From the shop	Z obchodu
 Every player has it	Mají ji všichni hráči
 Drag to make the chat taller or shorter	Tažením chat zvětšíš nebo zmenšíš
+Hide the result to see the table and the chat	Skryj výsledek a uvidíš stůl i chat
+Show the result	Ukázat výsledek

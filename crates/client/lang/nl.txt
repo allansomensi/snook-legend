@@ -2018,14 +2018,14 @@ your call	door jou aangegeven
 {n} points to {tier} ({rules})	Nog {n} punten tot {tier} ({rules})
 {n} waiting	{n} wachtend
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Een fout geeft de tegenstander ballen van diens groep. Alleen bij de afstoot heb je de speelbal in de hand, en alleen de pocket van de 8 wordt aangegeven.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Een fout geeft de tegenstander de speelbal in de hand, overal op de tafel. Elke stoot wordt aangegeven, en de afstoot moet vier ballen naar een band sturen.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Een fout geeft de tegenstander de speelbal in de hand, overal op de tafel. Je geeft niets aan, en de afstoot moet vier ballen naar een band sturen.
 A foul gives balls to the opponent	Een fout geeft ballen aan de tegenstander
 Ball in hand on the break only	Bal in de hand alleen bij de afstoot
 Only the 8's pocket is called	Alleen de pocket van de 8 wordt aangegeven
 The most played in Brazil	Het meest gespeeld in Brazilië
 A foul gives ball in hand	Een fout geeft bal in de hand
 The break drives four balls to a cushion	De afstoot stuurt vier ballen naar een band
-Every shot is called	Elke stoot wordt aangegeven
+Any pocket counts	Elke pocket telt
 The same all over the world	Overal ter wereld hetzelfde
 Game type	Soort partij
 called: {pocket}	aangegeven: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Popcorn
 From the shop	Uit de winkel
 Every player has it	Elke speler heeft deze
 Drag to make the chat taller or shorter	Sleep om de chat hoger of lager te maken
+Hide the result to see the table and the chat	Verberg de uitslag om de tafel en de chat te zien
+Show the result	Uitslag tonen

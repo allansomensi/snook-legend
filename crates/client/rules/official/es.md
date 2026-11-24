@@ -10,10 +10,10 @@
 La bola 8 de los torneos internacionales, como la juega la World Pool-Billiard Association. Snook Legend tiene también la regla brasileña: elige la regla de tus partidas en el menú principal. Si juegas la regla brasileña, lee el saque, los cantos y las faltas más abajo, porque cambian bastante.
 
 ### El objetivo
-Cada jugador tiene un grupo de siete bolas: las lisas (1 a 7) o las rayadas (9 a 15). Mete todas las tuyas y después la bola 8, en la tronera que cantes, antes que el rival.
+Cada jugador tiene un grupo de siete bolas: las lisas (1 a 7) o las rayadas (9 a 15). Mete todas las tuyas y después la bola 8 antes que el rival.
 
 ### Tu turno
-Sigues tirando mientras metas una bola de tu grupo en la tronera cantada, en un tiro sin falta. Si no, el turno pasa, y las bolas que entraron se quedan dentro.
+Sigues tirando mientras metas una bola de tu grupo, en cualquier tronera, en un tiro sin falta. Si no, el turno pasa, y las bolas que entraron se quedan dentro.
 
 ## El saque
 
@@ -32,16 +32,16 @@ Meter la 8 en el saque no gana ni pierde: vuelve al punto de pie de la mesa, y s
 ### Bola fuera de la mesa en el saque
 Es falta, y la bola queda fuera (solo la 8 vuelve). El rival juega la mesa como está o toma la blanca en mano detrás de la línea de cabecera. Si el saque también fue ilegal, además puede pedir las bolas armadas de nuevo, como arriba.
 
-## Cantar y jugar
+## Jugar
 
 ### Mesa abierta
-Mientras los grupos no están decididos, la mesa está abierta: puedes tocar primero cualquier bola menos la 8. El grupo de la bola que metas en la tronera cantada pasa a ser el tuyo. Si uno de los grupos ya salió entero de la mesa, puedes jugar la 8.
+Mientras los grupos no están decididos, la mesa está abierta: puedes tocar primero cualquier bola menos la 8. El grupo de la primera bola que metas pasa a ser el tuyo. Si uno de los grupos ya salió entero de la mesa, puedes jugar la 8.
 
-### Cantar el tiro
-Todo tiro, menos el saque, se canta. En el juego cantas una tronera: siguiendo tu mira, el juego canta la tronera hacia donde va la bola que tocas. Haz clic en otra tronera para cantarla, o juega una defensa. Una bola de tu grupo (o la 8, cuando estás en ella) que entre en la tronera cantada mantiene el turno, también de banda o de combinación.
+### Sin cantar
+En los torneos se canta cada tiro; aquí no se canta nada. Una bola de tu grupo (o la 8, cuando estás en ella) que entre en cualquier tronera, en un tiro sin falta, mantiene el turno, también de banda o de combinación.
 
 ### Defensa
-Un tiro sin tronera cantada es una defensa: lo que entre se queda dentro, y el turno pasa al rival.
+Para dejarle la mesa al rival, juega un tiro que no meta ninguna bola tuya: el turno pasa, y lo que entró se queda dentro. Una bola de tu grupo que entre de todos modos mantiene el turno.
 
 ### La blanca detrás de la línea de cabecera
 Con la blanca en mano detrás de la línea de cabecera, no puedes tocar una bola que también esté detrás de ella, salvo que la blanca cruce antes la línea. Si todas las bolas que puedes tocar están detrás de ella, la más cercana a la línea vuelve al punto de pie de la mesa.
@@ -60,7 +60,7 @@ Cuando la partida tiene tiempo de tiro y se acaba, es falta: el rival tiene la b
 ## La bola 8
 
 ### Ganar
-Cuando tu grupo haya salido entero de la mesa, mete la 8 en la tronera que cantaste, en un tiro sin falta.
+Cuando tu grupo haya salido entero de la mesa, mete la 8, en cualquier tronera, en un tiro sin falta.
 
 ### Perder con la 8
-Pierdes si metes la 8 en una falta, antes de que tu grupo salga de la mesa o en una tronera que no cantaste, y si sacas la 8 de la mesa. Nada de esto vale en el saque.
+Pierdes si metes la 8 en una falta o antes de que tu grupo salga de la mesa, y si sacas la 8 de la mesa. Nada de esto vale en el saque.

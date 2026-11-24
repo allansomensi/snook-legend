@@ -1394,7 +1394,8 @@ mod tests {
             let (winner, shots) = play_game_under(Rules::Official, medium, medium, seed);
             assert!(winner.is_some(), "seed {seed}: no winner after {shots} shots");
         }
-        // A pot is called for its pocket.
+        // Nothing is called (the games since 0.11.2): a pot keeps the table
+        // in whatever pocket it drops.
         let g = position(
             Rules::Official,
             &[
@@ -1405,8 +1406,16 @@ mod tests {
             ],
         );
         let d = decide_with(&g, &Difficulty::Hard.player(), 3);
-        let called = d.called_pocket.expect("a pot is called");
+        assert_eq!(d.called_pocket, None, "nothing is called");
         let report = g.clone().play_shot(&d.shot, d.called_pocket).unwrap();
+        if report.continues {
+            assert!(report.pocketed.iter().any(|(b, _)| b.0 == 3), "{report:?}");
+        }
+        // With calls (a game recorded until 0.11.1), a pot is called for its pocket.
+        let called_game = g.clone().with_calls(true);
+        let d = decide_with(&called_game, &Difficulty::Hard.player(), 3);
+        let called = d.called_pocket.expect("a pot is called");
+        let report = called_game.clone().play_shot(&d.shot, d.called_pocket).unwrap();
         if report.continues {
             assert!(report.pocketed.iter().any(|(b, p)| b.0 == 3 && *p == called), "{report:?}");
         }

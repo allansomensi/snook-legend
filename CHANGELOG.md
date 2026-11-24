@@ -1,5 +1,34 @@
 # Changelog
 
+## Unreleased
+
+### Official rules
+- **Nothing is called**: a ball of the shooter's group (on an open table,
+  of either group; on the 8, the 8) made in any pocket on a shot without a
+  foul keeps the table, and on an open table the first one made decides
+  the groups. The 8 wins in any pocket once the group is off the table
+  (made on a foul or too early it still loses). The tournaments' calls
+  are gone from the game: no pocket follows the aim, no click on a pocket,
+  no "Safety" button; a shot that makes none of the shooter's balls passes
+  the turn. The rules' page (27 languages) and the rules' cards say so.
+- **Games recorded before keep their calls**: the game state, replays and
+  the stored games (`matches`, `live_matches`, `async_games`: column
+  `calls`, migration `0026`) say whether a game was played with calls, and
+  everything recorded until 0.11.1 was: its replays, a game in progress
+  across the update and a daily game already started go on as they were
+  played. A snapshot or replay without the field (an older game or
+  server) has calls. A 0.11.1 game against a newer server still shows the
+  call while aiming, but the server's result stands.
+- The pinned fingerprints of the official rules (physics and rules, and
+  the computer's decisions, which no longer call a pocket) are updated.
+
+### Match
+- **The result can be put away**: the panel at the end of an online game
+  has a button to hide it (with its numbers), leaving the table and the
+  chat free; a slim bar at the top keeps the title, "Show the result", the
+  rematch and "Back to lounge". Opening the chat after the game puts the
+  result away too.
+
 ## 0.11.1 (protocol 24)
 
 Fixes for the lounge and the chat: players are free as soon as a game ends,

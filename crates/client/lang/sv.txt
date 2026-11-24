@@ -2018,14 +2018,14 @@ your call	ditt val
 {n} points to {tier} ({rules})	{n} poäng till {tier} ({rules})
 {n} waiting	{n} väntar
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	En foul ger motståndaren bollar ur sin grupp. Vita bollen i hand bara på utslaget, och bara 8-bollens hål anmäls.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	En foul ger motståndaren vita bollen i hand, var som helst på bordet. Varje stöt anmäls, och utslaget måste driva fyra bollar till en vall.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	En foul ger motståndaren vita bollen i hand, var som helst på bordet. Ingenting anmäls, och utslaget måste driva fyra bollar till en vall.
 A foul gives balls to the opponent	En foul ger bollar till motståndaren
 Ball in hand on the break only	Boll i hand bara på utslaget
 Only the 8's pocket is called	Bara 8-bollens hål anmäls
 The most played in Brazil	Mest spelad i Brasilien
 A foul gives ball in hand	En foul ger boll i hand
 The break drives four balls to a cushion	Utslaget driver fyra bollar till en vall
-Every shot is called	Varje stöt anmäls
+Any pocket counts	Alla hål räknas
 The same all over the world	Samma i hela världen
 Game type	Partityp
 called: {pocket}	anmält: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Popcorn
 From the shop	Från butiken
 Every player has it	Alla spelare har den
 Drag to make the chat taller or shorter	Dra för att göra chatten högre eller lägre
+Hide the result to see the table and the chat	Dölj resultatet för att se bordet och chatten
+Show the result	Visa resultatet

@@ -51,17 +51,22 @@ pub struct Replay {
     /// under the Brazilian rules.
     #[serde(default)]
     pub rules: Rules,
+    /// Played with the calls of the official rules as they were until
+    /// 0.11.1 (see [`snook_legend_core::EightBallGame::calls_shots`]): a
+    /// game recorded before 0.11.2 (no such field) was.
+    #[serde(default = "snook_legend_core::rules::with_calls")]
+    pub calls: bool,
 }
 
 impl Replay {
     /// A new game under `rules`.
     pub fn new(seed: u64, breaker: usize, rules: Rules) -> Replay {
-        Replay { seed, breaker, strokes: Vec::new(), rules }
+        Replay { seed, breaker, strokes: Vec::new(), rules, calls: false }
     }
 
     /// The game before any stroke.
     pub fn start(&self) -> EightBallGame {
-        EightBallGame::new(self.seed, self.breaker, self.rules)
+        EightBallGame::new(self.seed, self.breaker, self.rules).with_calls(self.calls)
     }
 
     /// The game after the first `upto` strokes (all of them if `None`), and

@@ -2018,14 +2018,14 @@ your call	ваше замовлення
 {n} points to {tier} ({rules})	Ще {n} оч. до ліги «{tier}» ({rules})
 {n} waiting	Очікують: {n}
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Фол дає суперникові кулі його групи. Биток з руки лише на розбитті, і замовляють лише лузу для вісімки.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Фол дає суперникові биток з руки будь-де на столі. Кожен удар замовляють, а розбиття має довести чотири кулі до борту.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Фол дає суперникові биток з руки будь-де на столі. Нічого не замовляють, а розбиття має довести чотири кулі до борту.
 A foul gives balls to the opponent	Фол дає суперникові кулі
 Ball in hand on the break only	Биток з руки лише на розбитті
 Only the 8's pocket is called	Замовляють лише лузу для вісімки
 The most played in Brazil	Найпопулярніші в Бразилії
 A foul gives ball in hand	Фол дає биток з руки
 The break drives four balls to a cushion	Розбиття доводить чотири кулі до борту
-Every shot is called	Кожен удар замовляють
+Any pocket counts	Рахується будь-яка луза
 The same all over the world	Однакові в усьому світі
 Game type	Тип гри
 called: {pocket}	замовлено: {pocket} луза
@@ -2084,3 +2084,5 @@ Popcorn	Попкорн
 From the shop	З крамниці
 Every player has it	Є в усіх гравців
 Drag to make the chat taller or shorter	Тягніть, щоб зробити чат вищим або нижчим
+Hide the result to see the table and the chat	Сховайте підсумок, щоб бачити стіл і чат
+Show the result	Показати підсумок

@@ -2018,14 +2018,14 @@ your call	你的指定
 {n} points to {tier} ({rules})	距离{tier}还差{n}分（{rules}）
 {n} waiting	{n}人等待中
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	犯规时对手获得其球组的球。仅开球时有自由球，且只需为8号球指定球袋。
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	犯规时对手获得自由球，可放在球台任意位置。每一杆都需指定球袋，开球须至少让四颗球碰库。
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	犯规时对手获得自由球，可放在球台任意位置。无需指定球袋，开球须至少让四颗球碰库。
 A foul gives balls to the opponent	犯规罚球给对手
 Ball in hand on the break only	仅开球时有自由球
 Only the 8's pocket is called	仅8号球需指定球袋
 The most played in Brazil	巴西最流行的玩法
 A foul gives ball in hand	犯规给予自由球
 The break drives four balls to a cushion	开球须让四颗球碰库
-Every shot is called	每杆都需指定球袋
+Any pocket counts	任意球袋都算
 The same all over the world	全球通用
 Game type	对局类型
 called: {pocket}	指定：{pocket}
@@ -2084,3 +2084,5 @@ Popcorn	爆米花
 From the shop	来自商店
 Every player has it	所有玩家都有
 Drag to make the chat taller or shorter	拖动以调整聊天框高度
+Hide the result to see the table and the chat	隐藏结果以查看球台和聊天
+Show the result	显示结果

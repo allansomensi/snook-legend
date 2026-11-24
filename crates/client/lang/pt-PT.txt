@@ -2018,14 +2018,14 @@ your call	cantado por ti
 {n} points to {tier} ({rules})	{n} pontos para {tier} ({rules})
 {n} waiting	{n} à espera
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Uma falta dá ao adversário bolas do grupo dele. A bola branca só fica na mão na abertura, e só se canta o buraco da 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Uma falta dá ao adversário bola na mão, em qualquer ponto da mesa. Todas as jogadas são cantadas, e a abertura tem de levar quatro bolas a uma tabela.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Uma falta dá ao adversário bola na mão, em qualquer ponto da mesa. Nada se canta, e a abertura tem de levar quatro bolas a uma tabela.
 A foul gives balls to the opponent	Uma falta dá bolas ao adversário
 Ball in hand on the break only	Bola na mão só na abertura
 Only the 8's pocket is called	Só se canta o buraco da 8
 The most played in Brazil	As mais jogadas no Brasil
 A foul gives ball in hand	Uma falta dá bola na mão
 The break drives four balls to a cushion	A abertura leva quatro bolas à tabela
-Every shot is called	Todas as jogadas são cantadas
+Any pocket counts	Conta qualquer buraco
 The same all over the world	As mesmas no mundo inteiro
 Game type	Tipo de partida
 called: {pocket}	cantado: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Pipocas
 From the shop	Da loja
 Every player has it	Todos os jogadores a têm
 Drag to make the chat taller or shorter	Arrasta para tornar o chat mais alto ou mais baixo
+Hide the result to see the table and the chat	Esconde o resultado para veres a mesa e o chat
+Show the result	Ver o resultado

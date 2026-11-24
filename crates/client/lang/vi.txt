@@ -2018,14 +2018,14 @@ your call	bạn chỉ định
 {n} points to {tier} ({rules})	Còn {n} điểm lên {tier} ({rules})
 {n} waiting	{n} đang chờ
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Phạm lỗi thì đối thủ được tặng bi của nhóm họ. Bi cái chỉ được đặt tự do khi phá bi, và chỉ phải chỉ định lỗ cho bi số 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Phạm lỗi thì đối thủ được đặt bi cái tự do ở bất cứ đâu trên bàn. Mọi cú đánh đều phải chỉ định lỗ, và cú phá bi phải đưa bốn bi chạm băng.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Phạm lỗi thì đối thủ được đặt bi cái tự do ở bất cứ đâu trên bàn. Không cần chỉ định lỗ, và cú phá bi phải đưa bốn bi chạm băng.
 A foul gives balls to the opponent	Phạm lỗi thì đối thủ được bi
 Ball in hand on the break only	Bi cái tự do chỉ khi phá bi
 Only the 8's pocket is called	Chỉ chỉ định lỗ cho bi số 8
 The most played in Brazil	Phổ biến nhất ở Brazil
 A foul gives ball in hand	Phạm lỗi thì đối thủ được bi cái tự do
 The break drives four balls to a cushion	Phá bi phải đưa bốn bi chạm băng
-Every shot is called	Mọi cú đánh đều phải chỉ định lỗ
+Any pocket counts	Lỗ nào cũng tính
 The same all over the world	Giống nhau trên toàn thế giới
 Game type	Loại ván
 called: {pocket}	chỉ định: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Bỏng ngô
 From the shop	Từ cửa hàng
 Every player has it	Mọi người chơi đều có
 Drag to make the chat taller or shorter	Kéo để làm khung trò chuyện cao hơn hoặc thấp hơn
+Hide the result to see the table and the chat	Ẩn kết quả để xem bàn và khung trò chuyện
+Show the result	Xem kết quả

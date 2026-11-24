@@ -7,7 +7,7 @@ use sqlx::{Row, query};
 use super::super::{AsyncChallenge, AsyncGame, MatchRecord, NewAsyncGame, StoreResult, User};
 use super::{PgStore, replay_json, replay_of};
 
-const GAME_COLUMNS: &str = "id, player0, player1, rated, seed, breaker, strokes::text AS strokes, rules, \
+const GAME_COLUMNS: &str = "id, player0, player1, rated, seed, breaker, strokes::text AS strokes, rules, calls, \
     turn, deadline, seen0, seen1, group0, group1, left0, left1, started_at, updated_at, \
     finished_at, winner, reason, timeout, delta0, delta1, rating0, rating1, match_id";
 
@@ -48,9 +48,14 @@ fn readable(rows: &[PgRow]) -> Vec<AsyncGame> {
 
 fn game(r: &PgRow) -> Result<AsyncGame, sqlx::Error> {
     let strokes: String = r.try_get("strokes")?;
-    let replay =
-        replay_of(r.try_get("seed")?, r.try_get("breaker")?, &strokes, r.try_get("rules")?)
-            .ok_or_else(|| sqlx::Error::Decode("unreadable strokes".into()))?;
+    let replay = replay_of(
+        r.try_get("seed")?,
+        r.try_get("breaker")?,
+        &strokes,
+        r.try_get("rules")?,
+        r.try_get("calls")?,
+    )
+    .ok_or_else(|| sqlx::Error::Decode("unreadable strokes".into()))?;
     let n = |c: &str| -> Result<u32, sqlx::Error> { Ok(r.try_get::<i32, _>(c)?.max(0) as u32) };
     let small = |c: &str| -> Result<i16, sqlx::Error> { r.try_get::<i16, _>(c) };
     Ok(AsyncGame {

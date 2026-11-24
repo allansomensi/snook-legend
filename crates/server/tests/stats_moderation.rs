@@ -57,6 +57,7 @@ fn record(players: [i64; 2], ended_at: i64, replay: bool) -> MatchRecord {
             breaker: 0,
             rules: Rules::Brazilian,
             strokes: vec![Stroke::Resign { seat: 1 }],
+            calls: false,
         }),
         stats: [ShotStats::default(); 2],
         abandoned: None,

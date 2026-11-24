@@ -2018,14 +2018,14 @@ your call	votre annonce
 {n} points to {tier} ({rules})	{n} points avant {tier} ({rules})
 {n} waiting	{n} en attente
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Une faute donne à l'adversaire des billes de son groupe. La blanche n'est en main qu'à la casse, et seule la poche de la 8 est annoncée.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Une faute donne à l'adversaire la blanche en main, n'importe où sur la table. Chaque coup est annoncé, et la casse doit envoyer quatre billes en bande.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Une faute donne à l'adversaire la blanche en main, n'importe où sur la table. Rien ne s'annonce, et la casse doit envoyer quatre billes en bande.
 A foul gives balls to the opponent	Une faute donne des billes à l'adversaire
 Ball in hand on the break only	Bille en main à la casse seulement
 Only the 8's pocket is called	Seule la poche de la 8 est annoncée
 The most played in Brazil	Les plus jouées au Brésil
 A foul gives ball in hand	Une faute donne bille en main
 The break drives four balls to a cushion	La casse envoie quatre billes en bande
-Every shot is called	Chaque coup est annoncé
+Any pocket counts	Toutes les poches comptent
 The same all over the world	Les mêmes dans le monde entier
 Game type	Type de partie
 called: {pocket}	annoncée : {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Pop-corn
 From the shop	De la boutique
 Every player has it	Tous les joueurs l'ont
 Drag to make the chat taller or shorter	Faites glisser pour agrandir ou réduire le chat
+Hide the result to see the table and the chat	Masquer le résultat pour voir la table et le chat
+Show the result	Voir le résultat

@@ -2018,14 +2018,14 @@ your call	আপনার ঘোষণা
 {n} points to {tier} ({rules})	{tier} পর্যন্ত আর {n} পয়েন্ট ({rules})
 {n} waiting	{n} জন অপেক্ষায়
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	ফাউল হলে প্রতিপক্ষ তাঁর গ্রুপের বল পান। শুধু ব্রেকেই কিউ বল হাতে থাকে, আর শুধু 8-এর পকেট ঘোষণা করতে হয়।
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	ফাউল হলে প্রতিপক্ষ টেবিলের যেকোনো জায়গায় হাতে কিউ বল পান। প্রতিটি শট ঘোষণা করতে হয়, আর ব্রেকে চারটি বলকে কুশনে পাঠাতে হয়।
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	ফাউল হলে প্রতিপক্ষ টেবিলের যেকোনো জায়গায় হাতে কিউ বল পান। কিছুই ঘোষণা করতে হয় না, আর ব্রেকে চারটি বলকে কুশনে পাঠাতে হয়।
 A foul gives balls to the opponent	ফাউলে প্রতিপক্ষ বল পান
 Ball in hand on the break only	হাতে বল শুধু ব্রেকে
 Only the 8's pocket is called	শুধু 8-এর পকেট ঘোষণা
 The most played in Brazil	ব্রাজিলে সবচেয়ে জনপ্রিয়
 A foul gives ball in hand	ফাউলে হাতে বল
 The break drives four balls to a cushion	ব্রেকে চারটি বল কুশনে
-Every shot is called	প্রতিটি শট ঘোষণা
+Any pocket counts	যেকোনো পকেট চলে
 The same all over the world	সারা বিশ্বে একই
 Game type	গেমের ধরন
 called: {pocket}	ঘোষিত: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	পপকর্ন
 From the shop	শপ থেকে
 Every player has it	সব খেলোয়াড়ের কাছে আছে
 Drag to make the chat taller or shorter	চ্যাট লম্বা বা ছোট করতে টানুন
+Hide the result to see the table and the chat	টেবিল আর চ্যাট দেখতে ফলাফল লুকান
+Show the result	ফলাফল দেখুন

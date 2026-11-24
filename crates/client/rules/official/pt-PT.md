@@ -10,10 +10,10 @@
 A bola 8 dos torneios internacionais, tal como a World Pool-Billiard Association a joga. O Snook Legend também tem as regras brasileiras: escolhe as regras das tuas partidas no menu principal. Se jogas com as regras brasileiras, lê a abertura, o cantar e as faltas abaixo, porque mudam bastante.
 
 ### O objetivo
-Cada jogador tem um grupo de sete bolas: as lisas (1 a 7) ou as riscadas (9 a 15). Mete todas as tuas e depois a bola 8, no buraco que cantares, antes do teu adversário.
+Cada jogador tem um grupo de sete bolas: as lisas (1 a 7) ou as riscadas (9 a 15). Mete todas as tuas e depois a bola 8 antes do teu adversário.
 
 ### A tua vez
-Continuas a jogar enquanto meteres uma bola do teu grupo no buraco que cantaste, numa jogada sem falta. Caso contrário, a vez passa, e as bolas que entraram não voltam à mesa.
+Continuas a jogar enquanto meteres uma bola do teu grupo, em qualquer buraco, numa jogada sem falta. Senão, a vez passa, e as bolas que entraram ficam dentro.
 
 ## A abertura
 
@@ -32,16 +32,16 @@ Meter a 8 na abertura não ganha nem perde: ela volta ao ponto de pé, e continu
 ### Uma bola fora da mesa na abertura
 É falta, e a bola fica fora (só a 8 volta). O adversário joga a mesa tal como está ou fica com a branca na mão atrás da linha de cabeceira. Se a abertura também foi ilegal, ele pode ainda mandar pôr as bolas de novo no triângulo, como acima.
 
-## Cantar e jogar
+## Jogar
 
 ### Mesa aberta
-Enquanto os grupos não estão decididos, a mesa está aberta: podes tocar primeiro em qualquer bola, menos na 8. O grupo da bola que meteres no buraco cantado passa a ser o teu. Se um dos grupos já tiver saído todo da mesa, podes jogar à 8.
+Enquanto os grupos não estão decididos, a mesa está aberta: podes tocar primeiro em qualquer bola, menos na 8. O grupo da primeira bola que meteres passa a ser o teu. Se um dos grupos já saiu todo da mesa, podes jogar a 8.
 
-### Cantar a jogada
-Todas as jogadas, menos a abertura, são cantadas. No jogo cantas um buraco: seguindo a tua mira, o jogo canta o buraco para onde vai a bola em que tocas. Clica noutro buraco para o cantar, ou joga uma defesa. Uma bola do teu grupo (ou a 8, quando estás nela) que entre no buraco cantado mantém a vez, também de tabela ou por intermédio de outra bola.
+### Sem cantar
+Nos torneios todas as jogadas são cantadas; aqui nada se canta. Uma bola do teu grupo (ou a 8, quando estás nela) que entre em qualquer buraco, numa jogada sem falta, mantém a vez, também de tabela ou por intermédio de outra bola.
 
 ### Defesa
-Uma jogada sem buraco cantado é uma defesa: o que entrar não volta à mesa, e a vez passa para o adversário.
+Para deixares a mesa ao adversário, joga uma jogada que não meta nenhuma bola tua: a vez passa, e o que entrou fica dentro. Uma bola do teu grupo que entre mesmo assim mantém a vez.
 
 ### A branca atrás da linha de cabeceira
 Com a branca na mão atrás da linha de cabeceira, não podes tocar numa bola que também esteja atrás dela, a não ser que a branca atravesse primeiro a linha de cabeceira. Se todas as bolas em que podes tocar estiverem atrás dela, a mais próxima da linha de cabeceira volta ao ponto de pé.
@@ -60,7 +60,7 @@ Quando a partida tem tempo por jogada e ele se esgota, é falta: o adversário f
 ## A bola 8
 
 ### Ganhar
-Quando o teu grupo tiver saído todo da mesa, mete a 8 no buraco que cantaste, numa jogada sem falta.
+Quando o teu grupo tiver saído todo da mesa, mete a 8, em qualquer buraco, numa jogada sem falta.
 
 ### Perder na 8
-Perdes se meteres a 8 numa falta, antes de o teu grupo ter saído da mesa ou num buraco que não cantaste, e se atirares a 8 para fora da mesa. Nada disto se aplica à abertura.
+Perdes se meteres a 8 numa falta ou antes de o teu grupo sair da mesa, e se atirares a 8 para fora da mesa. Nada disto vale na abertura.

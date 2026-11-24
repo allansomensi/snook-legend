@@ -2018,14 +2018,14 @@ your call	call mo
 {n} points to {tier} ({rules})	{n} puntos para sa {tier} ({rules})
 {n} waiting	{n} naghihintay
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Ang foul ay nagbibigay sa kalaban ng mga bola ng grupo niya. Sa break lang may ball in hand, at ang pocket lang ng 8 ang kino-call.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Ang foul ay nagbibigay sa kalaban ng ball in hand, kahit saan sa mesa. Kino-call ang bawat tira, at dapat magpaabot ng apat na bola sa cushion ang break.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Ang foul ay nagbibigay sa kalaban ng ball in hand, kahit saan sa mesa. Walang kino-call, at dapat magpaabot ng apat na bola sa cushion ang break.
 A foul gives balls to the opponent	Nagbibigay ng bola sa kalaban ang foul
 Ball in hand on the break only	Ball in hand sa break lang
 Only the 8's pocket is called	Pocket lang ng 8 ang kino-call
 The most played in Brazil	Pinakanilalaro sa Brazil
 A foul gives ball in hand	Nagbibigay ng ball in hand ang foul
 The break drives four balls to a cushion	Apat na bola sa cushion sa break
-Every shot is called	Kino-call ang bawat tira
+Any pocket counts	Puwede ang kahit anong pocket
 The same all over the world	Pareho sa buong mundo
 Game type	Uri ng laro
 called: {pocket}	naka-call: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Popcorn
 From the shop	Mula sa tindahan
 Every player has it	Mayroon nito ang lahat ng manlalaro
 Drag to make the chat taller or shorter	I-drag para palakihin o paliitin ang chat
+Hide the result to see the table and the chat	Itago ang resulta para makita ang mesa at ang chat
+Show the result	Ipakita ang resulta

@@ -10,10 +10,10 @@
 8-ball som det spelas i internationella turneringar, enligt World Pool-Billiard Association. Snook Legend har även de brasilianska reglerna: välj regler för dina partier i huvudmenyn. Om du spelar efter brasilianska regler, läs om utslaget, anmälningar och fouls nedan, för de skiljer sig mycket.
 
 ### Målet
-Varje spelare har en grupp om sju bollar: hela (1 till 7) eller halva (9 till 15). Sänk alla dina och sedan 8-bollen, i det hål du anmäler, innan din motståndare gör det.
+Varje spelare har en grupp om sju bollar: hela (1 till 7) eller halva (9 till 15). Sänk alla dina och sedan 8-bollen innan din motståndare gör det.
 
 ### Din tur
-Du fortsätter stöta så länge du sänker en boll ur din grupp i det hål du anmält, på en stöt utan foul. Annars går turen över, och bollarna som gick i stannar nere.
+Du fortsätter stöta så länge du sänker en boll ur din grupp, i vilket hål som helst, på en stöt utan foul. Annars går turen över, och bollarna som gick ner stannar där.
 
 ## Utslaget
 
@@ -32,16 +32,16 @@ Att sänka 8-bollen på utslaget varken vinner eller förlorar: den placeras på
 ### En boll av bordet på utslaget
 Det är foul, och bollen stannar utanför (bara 8-bollen kommer tillbaka). Motståndaren spelar bordet som det ligger eller tar vita bollen i hand bakom huvudlinjen. Om utslaget dessutom var ogiltigt kan motståndaren också låta ställa upp bollarna igen, som ovan.
 
-## Anmälan och spel
+## Spelet
 
 ### Öppet bord
-Så länge grupperna inte är avgjorda är bordet öppet: du får träffa vilken boll som helst först utom 8-bollen. Gruppen för den boll du sänker i det anmälda hålet blir din. Om en grupp redan är borta från bordet får du spela på 8-bollen.
+Så länge grupperna inte är bestämda är bordet öppet: du får träffa vilken boll som helst först utom 8-bollen. Gruppen för den första boll du sänker blir din. Är en grupp redan borta från bordet får du spela på 8-bollen.
 
-### Att anmäla stöten
-Varje stöt utom utslaget anmäls. I spelet anmäler du ett hål: efter ditt sikte anmäls det hål som bollen du träffar är på väg mot. Klicka på ett annat hål för att anmäla det, eller spela en safety. En boll ur din grupp (eller 8-bollen, när du är på den) som sänks i det anmälda hålet ger dig fortsatt tur, även via en vall eller en annan boll.
+### Inga anmälningar
+I turneringar anmäls varje stöt; här anmäls ingenting. En boll ur din grupp (eller 8-bollen, när du är på den) som sänks i vilket hål som helst, på en stöt utan foul, ger dig fortsatt tur, även via en vall eller en annan boll.
 
 ### Safety
-En stöt utan anmält hål är en safety: det som går i stannar nere, och turen går över till motståndaren.
+För att lämna bordet till motståndaren spelar du en stöt som inte sänker någon av dina bollar: turen går över, och det som gick ner stannar där. En boll ur din grupp som ändå går ner ger dig fortsatt tur.
 
 ### Vita bollen bakom huvudlinjen
 Med vita bollen i hand bakom huvudlinjen får du inte träffa en boll som också ligger bakom den, om inte vita bollen först passerar huvudlinjen. Om alla bollar du får träffa ligger bakom den placeras den som ligger närmast huvudlinjen på fotpunkten.
@@ -60,7 +60,7 @@ När partiet har stöttimer och tiden tar slut är det foul: motståndaren har v
 ## 8-bollen
 
 ### Att vinna
-När din grupp är borta från bordet sänker du 8-bollen i det hål du anmält, på en stöt utan foul.
+När din grupp är borta från bordet sänker du 8-bollen, i vilket hål som helst, på en stöt utan foul.
 
 ### Att förlora på 8-bollen
-Du förlorar om du sänker 8-bollen på en foul, innan din grupp är borta från bordet eller i ett hål du inte anmält, och om du slår 8-bollen av bordet. Inget av detta gäller på utslaget.
+Du förlorar om du sänker 8-bollen på en foul eller innan din grupp är borta från bordet, och om du slår 8-bollen av bordet. Inget av detta gäller på utslaget.

@@ -2018,14 +2018,14 @@ your call	cantada por você
 {n} points to {tier} ({rules})	{n} pontos para {tier} ({rules})
 {n} waiting	{n} na fila
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Falta dá ao adversário bolas do grupo dele. A branca fica na mão só na saída, e só a caçapa da 8 é cantada.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Every shot is called, and the break must drive four balls to a cushion.	Falta dá ao adversário a branca na mão, em qualquer lugar da mesa. Toda tacada é cantada, e a saída precisa levar quatro bolas à tabela.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Falta dá ao adversário a branca na mão, em qualquer lugar da mesa. Nada é cantado, e a saída precisa levar quatro bolas à tabela.
 A foul gives balls to the opponent	Falta dá bolas ao adversário
 Ball in hand on the break only	Bola na mão só na saída
 Only the 8's pocket is called	Só a caçapa da 8 é cantada
 The most played in Brazil	A mais jogada no Brasil
 A foul gives ball in hand	Falta dá bola na mão
 The break drives four balls to a cushion	Saída com quatro bolas na tabela
-Every shot is called	Toda tacada é cantada
+Any pocket counts	Vale qualquer caçapa
 The same all over the world	A mesma do mundo todo
 Game type	Partida
 called: {pocket}	cantada: {pocket}
@@ -2084,3 +2084,5 @@ Popcorn	Pipoca
 From the shop	Da loja
 Every player has it	Todos os jogadores têm
 Drag to make the chat taller or shorter	Arraste para deixar o chat mais alto ou mais baixo
+Hide the result to see the table and the chat	Esconda o resultado para ver a mesa e o chat
+Show the result	Ver o resultado

@@ -2,6 +2,14 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.11.2
+
+### Luật chính thức: lỗ nào cũng tính
+Không còn phải chỉ định gì nữa: bi trong nhóm của bạn vào bất kỳ lỗ nào cũng giữ lượt, và bi số 8 thắng ở bất kỳ lỗ nào. Các ván đã chơi trước đó vẫn giữ luật lúc chơi.
+
+### Ẩn kết quả
+Cuối một ván trực tuyến, hãy ẩn bảng kết quả để xem bàn và dùng khung trò chuyện; một thanh ở trên vẫn giữ nút tái đấu và về sảnh.
+
 ## 0.11.1
 
 ### Rảnh ngay khi ván kết thúc

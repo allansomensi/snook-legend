@@ -2,6 +2,14 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.11.2
+
+### Reguli oficiale: contează orice buzunar
+Nu se mai anunță nimic: o bilă din grupa ta în orice buzunar îți păstrează masa, iar bila 8 câștigă în orice buzunar. Jocurile jucate înainte rămân cu regulile cu care au fost jucate.
+
+### Ascunde rezultatul
+La sfârșitul unui joc online, ascunde panoul rezultatului ca să vezi masa și să folosești chatul; o bară sus păstrează revanșa și întoarcerea în salon.
+
 ## 0.11.1
 
 ### Liber imediat ce se termină jocul

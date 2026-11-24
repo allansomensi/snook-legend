@@ -3,6 +3,14 @@
 # destaque, e as linhas seguintes são o texto dele. Curto e sobre o que os
 # jogadores veem; todas as línguas têm as mesmas versões e o mesmo número de destaques.
 
+## 0.11.2
+
+### Regras oficiais: conta qualquer buraco
+Já não se canta nada: uma bola do teu grupo em qualquer buraco mantém a vez, e a 8 vale em qualquer buraco. Os jogos jogados antes continuam com as regras com que foram jogados.
+
+### Esconde o resultado
+No fim de um jogo online, esconde o painel do resultado para veres a mesa e usares o chat; uma barra no topo mantém a desforra e o regresso ao salão.
+
 ## 0.11.1
 
 ### Livre assim que o jogo acaba

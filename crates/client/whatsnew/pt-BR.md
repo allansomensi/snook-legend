@@ -3,6 +3,14 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.11.2
+
+### Regra oficial: vale qualquer caçapa
+Não se canta mais nada: uma bola do seu grupo em qualquer caçapa mantém a vez, e a 8 vale em qualquer caçapa. As partidas jogadas antes continuam com a regra com que foram jogadas.
+
+### Esconda o resultado
+No fim de uma partida online, esconda o painel do resultado para ver a mesa e usar o chat; uma barra no topo mantém a revanche e a volta ao salão.
+
 ## 0.11.1
 
 ### Livre assim que a partida acaba

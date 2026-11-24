@@ -3,6 +3,14 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.11.2
+
+### Regla oficial: vale cualquier tronera
+Ya no se canta nada: una bola de tu grupo en cualquier tronera mantiene el turno, y la 8 vale en cualquier tronera. Las partidas jugadas antes siguen con la regla con la que se jugaron.
+
+### Oculta el resultado
+Al final de una partida online, oculta el panel del resultado para ver la mesa y usar el chat; una barra arriba mantiene la revancha y la vuelta al salón.
+
 ## 0.11.1
 
 ### Libre en cuanto acaba la partida

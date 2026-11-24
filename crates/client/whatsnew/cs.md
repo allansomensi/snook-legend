@@ -3,6 +3,14 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.11.2
+
+### Oficiální pravidla: platí kterákoli díra
+Už se nic neohlašuje: koule tvé skupiny v kterékoli díře ti nechává stůl a osmička vyhrává v kterékoli díře. Hry odehrané dřív si nechávají pravidla, podle kterých se hrály.
+
+### Skryj výsledek
+Na konci online hry skryj panel s výsledkem a uvidíš stůl i chat; lišta nahoře nechává odvetu a návrat do herny.
+
 ## 0.11.1
 
 ### Volný hned po konci hry

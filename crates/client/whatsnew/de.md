@@ -3,6 +3,14 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.11.2
+
+### Offizielle Regeln: jede Tasche zählt
+Es wird nichts mehr angesagt: Eine Kugel deiner Gruppe in irgendeiner Tasche hält dich am Tisch, und die 8 gewinnt in jeder Tasche. Partien von vorher behalten die Regeln, mit denen sie gespielt wurden.
+
+### Ergebnis ausblenden
+Am Ende einer Online-Partie kannst du das Ergebnis ausblenden, um Tisch und Chat zu sehen; eine Leiste oben behält Revanche und den Weg zurück zur Lounge.
+
 ## 0.11.1
 
 ### Frei, sobald die Partie endet

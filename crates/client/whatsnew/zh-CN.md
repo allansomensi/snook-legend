@@ -3,6 +3,14 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.11.2
+
+### 官方规则：任意球袋都算
+不再需要指定球袋：你这组的球打进任意球袋即可继续击球，8号球打进任意球袋即获胜。之前的对局仍按当时的规则。
+
+### 隐藏结果
+在线对局结束时，可以隐藏结果面板来查看球台和使用聊天；顶部的横条保留再来一局和返回大厅。
+
 ## 0.11.1
 
 ### 对局一结束就空闲

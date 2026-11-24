@@ -3,6 +3,14 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.11.2
+
+### Officiële regels: elke pocket telt
+Je geeft niets meer aan: een bal van je groep in welke pocket ook houdt je aan tafel, en de 8 wint in elke pocket. Spellen van eerder houden de regels waarmee ze gespeeld zijn.
+
+### Verberg de uitslag
+Aan het eind van een online spel verberg je de uitslag om de tafel te zien en te chatten; een balk bovenaan houdt de revanche en de weg terug naar de lounge.
+
 ## 0.11.1
 
 ### Vrij zodra het spel voorbij is

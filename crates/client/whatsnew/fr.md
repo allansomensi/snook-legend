@@ -4,6 +4,14 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.11.2
+
+### Règles officielles : toutes les poches comptent
+Plus rien ne s'annonce : une bille de votre groupe dans n'importe quelle poche vous garde la main, et la 8 gagne dans n'importe quelle poche. Les parties jouées avant gardent les règles avec lesquelles elles ont été jouées.
+
+### Masquez le résultat
+À la fin d'une partie en ligne, masquez le panneau du résultat pour voir la table et utiliser le chat ; une barre en haut garde la revanche et le retour au salon.
+
 ## 0.11.1
 
 ### Libre dès la fin de la partie

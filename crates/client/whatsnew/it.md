@@ -3,6 +3,14 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.11.2
+
+### Regole ufficiali: vale qualsiasi buca
+Non si chiama più nulla: una palla del tuo gruppo in qualsiasi buca ti fa continuare a tirare, e la 8 vince in qualsiasi buca. Le partite giocate prima restano con le regole con cui sono state giocate.
+
+### Nascondi il risultato
+Alla fine di una partita online, nascondi il pannello del risultato per vedere il tavolo e usare la chat; una barra in alto mantiene la rivincita e il ritorno alla sala.
+
 ## 0.11.1
 
 ### Libero appena finisce la partita

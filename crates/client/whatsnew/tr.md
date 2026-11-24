@@ -3,6 +3,14 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.11.2
+
+### Resmî kurallar: her cep geçerli
+Artık cep söylenmiyor: grubundan bir top herhangi bir cebe girerse sıra sende kalır ve 8 herhangi bir cepte kazandırır. Önceden oynanan oyunlar, oynandıkları kuralları korur.
+
+### Sonucu gizle
+Çevrimiçi bir oyunun sonunda masayı görmek ve sohbeti kullanmak için sonuç panelini gizle; üstteki şerit rövanşı ve lobiye dönüşü tutar.
+
 ## 0.11.1
 
 ### Oyun biter bitmez müsait

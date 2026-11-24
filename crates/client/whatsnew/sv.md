@@ -3,6 +3,14 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.11.2
+
+### Officiella regler: alla hål räknas
+Ingenting anmäls längre: en boll ur din grupp i vilket hål som helst ger dig fortsatt tur, och 8-bollen vinner i vilket hål som helst. Partier spelade tidigare behåller reglerna de spelades med.
+
+### Dölj resultatet
+I slutet av ett onlineparti kan du dölja resultatet för att se bordet och chatta; en list högst upp behåller returmatchen och vägen tillbaka till loungen.
+
 ## 0.11.1
 
 ### Ledig så fort partiet är slut

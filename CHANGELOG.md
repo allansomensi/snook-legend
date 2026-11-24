@@ -1,6 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.11.2 (protocol 24)
+
+The official rules without calls (any pocket counts), and a result that
+can be put away to see the table and use the chat. The protocol is
+unchanged: 0.10.x and 0.11.x games play together (a 0.11.1 or older game
+against this server still shows the call while aiming; the server's
+result stands).
 
 ### Official rules
 - **Nothing is called**: a ball of the shooter's group (on an open table,

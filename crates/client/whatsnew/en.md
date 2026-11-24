@@ -3,6 +3,14 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.11.2
+
+### Official rules: any pocket counts
+Nothing is called any more: a ball of your group in any pocket keeps the table, and the 8 wins in any pocket. Games played before keep the rules they were played with.
+
+### Put the result away
+At the end of an online game, hide the result panel to see the table and use the chat; a bar at the top keeps the rematch and the way back to the lounge.
+
 ## 0.11.1
 
 ### Free as soon as the game ends

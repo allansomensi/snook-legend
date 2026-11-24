@@ -2,6 +2,14 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.11.2
+
+### Zasady oficjalne: liczy się każda łuza
+Niczego się już nie deklaruje: bila z twojej grupy w dowolnej łuzie daje dalszą grę, a ósemka wygrywa w każdej łuzie. Gry rozegrane wcześniej zachowują zasady, według których je grano.
+
+### Ukryj wynik
+Na koniec gry online ukryj panel wyniku, aby widzieć stół i pisać na czacie; pasek u góry zostawia rewanż i powrót do lobby.
+
 ## 0.11.1
 
 ### Wolny, gdy tylko gra się skończy

@@ -3,6 +3,14 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.11.2
+
+### Aturan resmi: lubang mana pun dihitung
+Tidak ada lagi lubang yang dipilih: bola dari grupmu di lubang mana pun membuatmu tetap memukul, dan bola 8 menang di lubang mana pun. Game yang dimainkan sebelumnya tetap memakai aturan saat dimainkan.
+
+### Sembunyikan hasil
+Di akhir game online, sembunyikan panel hasil untuk melihat meja dan memakai chat; bilah di atas tetap menyediakan tanding ulang dan kembali ke lobi.
+
 ## 0.11.1
 
 ### Bebas begitu game selesai

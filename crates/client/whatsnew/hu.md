@@ -2,6 +2,14 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.11.2
+
+### Hivatalos szabályok: bármelyik lyuk számít
+Már semmit sem kell bemondani: a csoportod egy golyója bármelyik lyukban megtartja neked az asztalt, és a 8-as bármelyik lyukban nyer. A korábban játszott játékok megtartják a szabályokat, amelyekkel játszották őket.
+
+### Rejtsd el az eredményt
+Online játék végén elrejtheted az eredményt, hogy lásd az asztalt és csevegj; a felső sáv megtartja a visszavágót és a visszautat a társalgóba.
+
 ## 0.11.1
 
 ### Szabad, amint vége a játéknak

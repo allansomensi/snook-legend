@@ -2,6 +2,14 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.11.2
+
+### Patakarang Opisyal: puwede ang kahit anong pocket
+Wala nang kino-call: ang bola ng grupo mo sa kahit anong pocket ay nagpapatuloy ng tira mo, at panalo ang 8 sa kahit anong pocket. Ang mga larong nalaro dati ay mananatili sa patakarang ginamit noon.
+
+### Itago ang resulta
+Sa dulo ng online na laro, itago ang panel ng resulta para makita ang mesa at magamit ang chat; may bar sa itaas para sa rematch at pagbalik sa lounge.
+
 ## 0.11.1
 
 ### Libre agad pagkatapos ng laro

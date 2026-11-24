@@ -529,6 +529,8 @@ const TICKET_REFUSED: &str = "Slow down a little.";
 
 /// The password field of the e-mail offer (its keyboard mark: see main.rs).
 pub const EMAIL_OFFER_FIELD: u64 = 77;
+/// The lounge chat's scroll bar.
+const LOUNGE_LOG: u64 = 9_203;
 
 /// "5 h", "3 days", "12 min": how long until something.
 /// A notice of something earned, with the event's multiplier when one ran.
@@ -3287,7 +3289,7 @@ impl Online {
             }
         } else {
             let (scroll, act) =
-                ui.chat_log(log, &self.chat, me.as_deref(), admin, self.chat_scroll);
+                ui.chat_log(LOUNGE_LOG, log, &self.chat, me.as_deref(), admin, self.chat_scroll);
             self.chat_scroll = scroll;
             if let Some(crate::ui::ChatAction::Delete { id, silent }) = act {
                 self.send(ClientMsg::DeleteChat { id, silent });

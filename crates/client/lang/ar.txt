@@ -2081,3 +2081,6 @@ Salute	تحية
 Mind blown	مذهول
 Lucky clover	برسيم الحظ
 Popcorn	فشار
+From the shop	من المتجر
+Every player has it	لدى كل اللاعبين
+Drag to make the chat taller or shorter	اسحب لتكبير الدردشة أو تصغيرها

@@ -38,7 +38,7 @@ Het is een fout, en de bal blijft eraf (alleen de 8 komt terug). Je tegenstander
 Zolang de groepen niet bepaald zijn, is de tafel open: je mag elke bal eerst raken, behalve de 8. De groep van de bal die je in de aangegeven pocket pot, wordt de jouwe. Is een groep al helemaal van tafel, dan mag je op de 8 spelen.
 
 ### Je stoot aangeven
-Elke stoot behalve de afstoot wordt aangegeven. In het spel geef je een pocket aan: die volgt je richting en geeft de pocket aan waar de geraakte bal naartoe gaat (de ring op de pocket). Klik op een andere pocket om die aan te geven, of speel een safety. Een bal van je groep (of de 8, als je erop speelt) gepot in de aangegeven pocket houdt je aan tafel, ook via een band of een andere bal.
+Elke stoot behalve de afstoot wordt aangegeven. In het spel geef je een pocket aan: die volgt je richting en geeft de pocket aan waar de geraakte bal naartoe gaat. Klik op een andere pocket om die aan te geven, of speel een safety. Een bal van je groep (of de 8, als je erop speelt) gepot in de aangegeven pocket houdt je aan tafel, ook via een band of een andere bal.
 
 ### Safety
 Een stoot zonder aangegeven pocket is een safety: wat erin gaat, blijft erin, en de beurt gaat naar je tegenstander.

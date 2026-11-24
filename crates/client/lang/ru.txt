@@ -2081,3 +2081,6 @@ Salute	Салют
 Mind blown	Взрыв мозга
 Lucky clover	Клевер удачи
 Popcorn	Попкорн
+From the shop	Из магазина
+Every player has it	Есть у всех игроков
+Drag to make the chat taller or shorter	Тяните, чтобы сделать чат выше или ниже

@@ -235,6 +235,8 @@ pub struct Ui {
     press_at: Vec2,
     /// The widget whose drag ended this frame.
     released_active: Option<u64>,
+    /// Where a chat's scroll bar was taken, down from the top of its thumb.
+    scroll_grab: f32,
     /// The text field with keyboard focus.
     pub focus: Option<u64>,
     /// True if the pointer is over a UI element this frame (blocks game input).
@@ -298,6 +300,7 @@ impl Ui {
             active: None,
             press_at: Vec2::new(-1.0e6, -1.0e6),
             released_active: None,
+            scroll_grab: 0.0,
             focus: None,
             hovered: false,
             hovered_next: false,
@@ -1599,9 +1602,11 @@ impl Ui {
     /// own (the reader's gold, administrators red); the game's notices are
     /// small, quiet and centred. `scroll` counts rows up from the bottom.
     /// `admin`: the reader may delete anyone's lines. Returns the new scroll
-    /// and what the reader asked for.
+    /// and what the reader asked for. `id` names its scroll bar (dragged
+    /// with the pointer, like the wheel turns it).
     pub fn chat_log(
         &mut self,
+        id: u64,
         r: Rect,
         lines: &[FeedLine],
         me: Option<&str>,
@@ -1613,12 +1618,20 @@ impl Ui {
         const NOTE: f32 = 12.0;
         const LINE: f32 = 19.0;
         const GAP: f32 = 6.0;
-        let inner = Rect::new(r.x + 8.0, r.y + 4.0, r.w - 16.0, r.h - 8.0);
+        // The scroll bar's room on the right.
+        const BAR: f32 = 14.0;
+        let inner = Rect::new(r.x + 8.0, r.y + 4.0, r.w - 8.0 - BAR, r.h - 8.0);
         // Wrap only the newest messages that can be shown (measuring text is
-        // the expensive part with a long history).
-        let budget = (inner.h / LINE).ceil() as usize + scroll + 24;
+        // the expensive part with a long history); all of them while the
+        // scroll bar is dragged, which can reach the oldest at once.
+        let dragging = self.active == Some(id);
+        let budget =
+            if dragging { usize::MAX } else { (inner.h / LINE).ceil() as usize + scroll + 24 };
         let mut rows: Vec<LogRow> = Vec::new();
+        // The messages wrapped so far (from the newest).
+        let mut wrapped = 0;
         for (index, l) in lines.iter().enumerate().rev() {
+            wrapped += 1;
             let older = index.checked_sub(1).map(|i| &lines[i]);
             let player = l.kind == FeedKind::Player;
             let author = l.from.as_ref().map(|(n, _)| n.as_str());
@@ -1708,6 +1721,41 @@ impl Ui {
                 scroll = scroll.saturating_sub(3);
             }
         }
+        // The scroll bar: its thumb is as long as the part shown, and is
+        // dragged (a press on the track brings it there). The rows of the
+        // messages not wrapped yet are reckoned from the ones that are.
+        let total = if wrapped >= lines.len() || wrapped == 0 {
+            rows.len()
+        } else {
+            rows.len() + (lines.len() - wrapped) * rows.len() / wrapped
+        };
+        let reach = total.saturating_sub(top_rows.max(1)).max(max_scroll);
+        if reach > 0 {
+            let track = Rect::new(r.x + r.w - 10.0, r.y + 6.0, 6.0, r.h - 12.0);
+            let hold = Rect::new(r.x + r.w - BAR, r.y, BAR, r.h);
+            let thumb_h = (track.h * top_rows as f32 / total.max(1) as f32).max(20.0).min(track.h);
+            let travel = (track.h - thumb_h).max(1.0);
+            let thumb_y =
+                |scroll: usize| track.y + travel * (1.0 - scroll.min(reach) as f32 / reach as f32);
+            let y = thumb_y(scroll);
+            if self.pressed && hold.contains(self.mouse) {
+                // Taken where it was pressed; from the track, by its middle.
+                self.scroll_grab = if self.mouse.y >= y && self.mouse.y <= y + thumb_h {
+                    self.mouse.y - y
+                } else {
+                    thumb_h / 2.0
+                };
+            }
+            let drag = self.drag_area(id, hold);
+            if let Drag::Held(p) = drag {
+                let f = ((p.y - self.scroll_grab - track.y) / travel).clamp(0.0, 1.0);
+                scroll = (((1.0 - f) * reach as f32).round() as usize).min(max_scroll);
+            }
+            let lit = matches!(drag, Drag::Held(_) | Drag::Hover);
+            rrect(track, 3.0, Color::new(1.0, 1.0, 1.0, if lit { 0.10 } else { 0.05 }));
+            let thumb = Rect::new(track.x, thumb_y(scroll), track.w, thumb_h);
+            rrect(thumb, 3.0, Color::new(GOLD.r, GOLD.g, GOLD.b, if lit { 0.9 } else { 0.5 }));
+        }
         // Laid out from the bottom up: the newest against the field.
         let end = rows.len() - scroll;
         let mut placed: Vec<(usize, f32)> = Vec::new();
@@ -1783,7 +1831,7 @@ impl Ui {
             if hovered == Some(row.index) && !buttons_drawn {
                 buttons_drawn = true;
                 let id = line.id;
-                let mut bx = r.x + r.w - 26.0;
+                let mut bx = r.x + r.w - BAR - 22.0;
                 let b = Rect::new(bx, y - 1.0, 20.0, 18.0);
                 let tip = crate::i18n::t("Delete (it shows as deleted)");
                 if self.icon_button_ex(b, crate::icons::Icon::Close, tip, true, true) {

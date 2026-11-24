@@ -2081,3 +2081,6 @@ Salute	Saluto
 Mind blown	Senza parole
 Lucky clover	Quadrifoglio
 Popcorn	Popcorn
+From the shop	Dal negozio
+Every player has it	Ce l'hanno tutti i giocatori
+Drag to make the chat taller or shorter	Trascina per allungare o accorciare la chat

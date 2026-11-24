@@ -2081,3 +2081,6 @@ Salute	敬礼
 Mind blown	脳が爆発
 Lucky clover	幸運のクローバー
 Popcorn	ポップコーン
+From the shop	ショップで入手
+Every player has it	全プレイヤーが使えます
+Drag to make the chat taller or shorter	ドラッグでチャットの高さを変更

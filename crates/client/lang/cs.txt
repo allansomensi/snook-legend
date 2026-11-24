@@ -2081,3 +2081,6 @@ Salute	Salutování
 Mind blown	Mysl vybuchla
 Lucky clover	Čtyřlístek
 Popcorn	Popcorn
+From the shop	Z obchodu
+Every player has it	Mají ji všichni hráči
+Drag to make the chat taller or shorter	Tažením chat zvětšíš nebo zmenšíš

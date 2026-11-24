@@ -38,7 +38,7 @@ Itu foul, dan bola tersebut tetap di luar (hanya bola 8 yang dikembalikan). Lawa
 Selama grup belum ditentukan, meja terbuka: kamu boleh mengenai bola mana pun lebih dulu kecuali bola 8. Grup dari bola yang kamu masukkan ke lubang pilihan menjadi grupmu. Jika satu grup sudah habis dari meja, kamu boleh memainkan bola 8.
 
 ### Memilih lubang
-Setiap pukulan kecuali break harus memilih lubang. Di game, lubang dipilih otomatis mengikuti bidikanmu: lubang yang dituju bola yang kamu kenai (lingkaran di lubang). Klik lubang lain untuk memilihnya, atau mainkan safety. Bola dari grupmu (atau bola 8, saat kamu sudah di bola 8) yang masuk ke lubang pilihan membuatmu tetap memukul, termasuk jika lewat bantalan atau bola lain.
+Setiap pukulan kecuali break harus memilih lubang. Di game, lubang dipilih otomatis mengikuti bidikanmu: lubang yang dituju bola yang kamu kenai. Klik lubang lain untuk memilihnya, atau mainkan safety. Bola dari grupmu (atau bola 8, saat kamu sudah di bola 8) yang masuk ke lubang pilihan membuatmu tetap memukul, termasuk jika lewat bantalan atau bola lain.
 
 ### Safety
 Pukulan tanpa lubang pilihan adalah safety: bola apa pun yang masuk tetap di dalam, dan giliran berpindah ke lawanmu.

@@ -2081,3 +2081,6 @@ Salute	Salut
 Mind blown	Mózg rozwalony
 Lucky clover	Czterolistna koniczyna
 Popcorn	Popcorn
+From the shop	Ze sklepu
+Every player has it	Ma ją każdy gracz
+Drag to make the chat taller or shorter	Przeciągnij, aby wydłużyć lub skrócić czat

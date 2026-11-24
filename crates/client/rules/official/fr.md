@@ -38,7 +38,7 @@ C'est une faute, et la bille reste hors de la table (seule la 8 revient). Votre 
 Tant que les groupes ne sont pas décidés, la table est ouverte : vous pouvez toucher n'importe quelle bille en premier, sauf la 8. Le groupe de la bille que vous empochez dans la poche annoncée devient le vôtre. Si un groupe a déjà quitté la table, vous pouvez jouer la 8.
 
 ### Annoncer votre coup
-Chaque coup, sauf la casse, est annoncé. Dans le jeu, vous annoncez une poche : en suivant votre visée, le jeu annonce la poche vers laquelle va la bille que vous touchez (l'anneau sur la poche). Cliquez sur une autre poche pour l'annoncer, ou jouez une sécurité. Une bille de votre groupe (ou la 8, quand vous êtes dessus) empochée dans la poche annoncée vous garde la main, même après une bande ou une autre bille.
+Chaque coup, sauf la casse, est annoncé. Dans le jeu, vous annoncez une poche : en suivant votre visée, le jeu annonce la poche vers laquelle va la bille que vous touchez. Cliquez sur une autre poche pour l'annoncer, ou jouez une sécurité. Une bille de votre groupe (ou la 8, quand vous êtes dessus) empochée dans la poche annoncée vous garde la main, même après une bande ou une autre bille.
 
 ### Sécurité
 Un coup sans poche annoncée est une sécurité : ce qui rentre reste empoché, et le tour passe à votre adversaire.

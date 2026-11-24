@@ -2081,3 +2081,6 @@ Salute	Selam
 Mind blown	Aklım uçtu
 Lucky clover	Şans yoncası
 Popcorn	Patlamış mısır
+From the shop	Mağazadan
+Every player has it	Her oyuncuda var
+Drag to make the chat taller or shorter	Sohbeti uzatmak veya kısaltmak için sürükle

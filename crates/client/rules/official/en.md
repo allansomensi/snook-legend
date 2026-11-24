@@ -38,7 +38,7 @@ It is a foul, and the ball stays off (only the 8 comes back). Your opponent play
 While the groups are not decided, the table is open: you may hit any ball first except the 8. The group of the ball you make in the called pocket becomes yours. If one group is already off the table, you may play the 8.
 
 ### Calling your shot
-Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for (the ring on the pocket). Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
+Every shot except the break is called. In the game you call a pocket: following your aim, it calls the pocket the ball you hit is heading for. Click another pocket to call it, or play a safety. A ball of your group (or the 8, when you are on it) made in the called pocket keeps the table, also off a cushion or another ball.
 
 ### Safety
 A shot with no pocket called is a safety: whatever goes in stays down, and the turn passes to your opponent.

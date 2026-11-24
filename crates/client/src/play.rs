@@ -920,20 +920,20 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
         }
     }
 
-    // The official rules: the pocket called for this shot, for everyone to
-    // see (a soft ring while it follows the aim, a bright one once chosen).
+    // The official rules: a pocket the player called by clicking it. The
+    // call that follows the aim is never shown: it would say where the aim
+    // sends the ball (judging that is the shot).
     if m.game.calls_shots()
         && matches!(m.phase, Phase::Turn { .. })
         && m.replay.is_none()
+        && m.call_locked
         && let Some(id) = m.called_pocket
     {
-        let pulse = 0.5 + 0.5 * (time * 3.0).sin();
-        let alpha = if m.call_locked { 1.0 } else { 0.5 + 0.3 * pulse };
         out.guides.push(Guide::Ring {
             center: surface(scene.pocket_center(id), POCKET_RING_HEIGHT),
             radius: scene.pocket_radius(id) + 0.018,
-            width: if m.call_locked { 0.009 } else { 0.006 },
-            color: Color::new(1.0, 0.82, 0.25, alpha),
+            width: 0.009,
+            color: Color::new(1.0, 0.82, 0.25, 1.0),
         });
     }
 

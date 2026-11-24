@@ -909,6 +909,10 @@ async fn main() {
             });
         hud.aim_sensitivity = config.aim_sensitivity;
         hud.zoom = rig.zoom_level();
+        // The chat's height as the player left it (not while it is dragged).
+        if !hud.resizing_chat() {
+            hud.chat_height = config.chat_height;
+        }
         controls.sensitivity = config.aim_sensitivity;
         // New cloth or balls from the shop: dress the table again (in the
         // background). Online, the table is the host's (or the higher
@@ -1227,6 +1231,11 @@ async fn main() {
                 Some(m) => {
                     let action =
                         hud_draw(&mut hud, &mut ui, m, controls.aiming(), &mut hud_opacity, dt);
+                    // The chat was made taller or shorter: kept for the next games.
+                    if let Some(h) = hud.chat_resized.take() {
+                        config.chat_height = h;
+                        config.save();
+                    }
                     // Passing the time while "Play now" looks for an opponent.
                     if m.practice {
                         online.draw_queue_banner(&mut ui);

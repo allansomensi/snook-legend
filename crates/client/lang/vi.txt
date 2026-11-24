@@ -2081,3 +2081,6 @@ Salute	Chào
 Mind blown	Choáng váng
 Lucky clover	Cỏ bốn lá
 Popcorn	Bỏng ngô
+From the shop	Từ cửa hàng
+Every player has it	Mọi người chơi đều có
+Drag to make the chat taller or shorter	Kéo để làm khung trò chuyện cao hơn hoặc thấp hơn

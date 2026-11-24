@@ -327,7 +327,8 @@ pub fn clean_text(text: &str, max: usize) -> String {
         if c.is_control() && !c.is_whitespace() {
             continue;
         }
-        if is_invisible(c) && !in_emoji(out.last().copied(), c, chars.peek().copied()) {
+        let (prev, next) = (out.last().copied(), chars.peek().copied());
+        if is_invisible(c) && !in_emoji(prev, c, next) && !in_word(prev, c, next) {
             continue;
         }
         // A flag's tags are a few letters and the tag that ends them: a
@@ -380,6 +381,22 @@ fn in_emoji(prev: Option<char>, c: char, next: Option<char>) -> bool {
         '\u{E0020}'..='\u{E007F}' => p == '\u{1F3F4}' || ('\u{E0020}'..='\u{E007E}').contains(&p),
         _ => false,
     }
+}
+
+/// Whether `c`, a joiner after `prev` (kept already) and before `next`, is
+/// part of a word: the zero-width non-joiner and joiner between two letters
+/// of a script that needs them (Persian's "ضربه‌ی", Sinhala's "ශ්‍රී", the
+/// scripts of India, Myanmar, Khmer). Never between Latin letters, where
+/// they would only hide a word from the filter.
+fn in_word(prev: Option<char>, c: char, next: Option<char>) -> bool {
+    let joining = |c: char| {
+        matches!(c,
+            '\u{0600}'..='\u{06FF}' | '\u{0750}'..='\u{077F}' | '\u{08A0}'..='\u{08FF}'
+            | '\u{FB50}'..='\u{FDFF}' | '\u{FE70}'..='\u{FEFF}' | '\u{0900}'..='\u{0DFF}'
+            | '\u{1000}'..='\u{109F}' | '\u{1780}'..='\u{17FF}')
+            && !is_invisible(c)
+    };
+    matches!(c, '\u{200C}' | '\u{200D}') && prev.is_some_and(joining) && next.is_some_and(joining)
 }
 
 /// Whether characters `k - 1` and `k` of `s` belong to the same emoji (a
@@ -2293,6 +2310,11 @@ mod tests {
         }
         // …but nowhere else.
         assert_eq!(clean_chat("a\u{200D}b"), "ab");
+        // Inside a word of a script that needs them, they stay.
+        assert_eq!(clean_chat("ضربه\u{200C}ی"), "ضربه\u{200C}ی");
+        assert_eq!(clean_chat("ශ්\u{200D}රී"), "ශ්\u{200D}රී");
+        assert_eq!(clean_chat("ශ්\u{200D}"), "ශ්");
+        assert_eq!(clean_chat("a\u{200C}ی"), "aی");
         assert_eq!(clean_chat("adm\u{200D}in\u{FE0F}"), "admin");
         assert_eq!(clean_chat("\u{200D}\u{1F602}\u{200D}"), "\u{1F602}");
         assert_eq!(clean_chat("\u{1F602}\u{200D}a"), "\u{1F602}a");

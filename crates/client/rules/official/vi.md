@@ -38,7 +38,7 @@ Một bi vào lỗ trong cú phá hợp lệ giúp bạn giữ lượt, nhưng b
 Khi các nhóm chưa được quyết định, bàn ở trạng thái mở: bạn có thể chạm trước bất kỳ bi nào trừ bi số 8. Nhóm của bi bạn đưa vào lỗ chỉ định sẽ thành nhóm của bạn. Nếu một nhóm đã hết bi trên bàn, bạn có thể đánh bi số 8.
 
 ### Chỉ định cú đánh
-Mọi cú đánh trừ cú phá bi đều phải chỉ định. Trong game, bạn chỉ định một lỗ: theo hướng ngắm của bạn, game chỉ định lỗ mà bi bạn chạm đang hướng tới (vòng tròn ở lỗ). Bấm vào lỗ khác để chỉ định lỗ đó, hoặc đánh an toàn. Một bi trong nhóm của bạn (hoặc bi số 8, khi bạn đã đến bi số 8) vào lỗ chỉ định thì bạn giữ lượt, kể cả khi bi đó dội băng hoặc chạm bi khác.
+Mọi cú đánh trừ cú phá bi đều phải chỉ định. Trong game, bạn chỉ định một lỗ: theo hướng ngắm của bạn, game chỉ định lỗ mà bi bạn chạm đang hướng tới. Bấm vào lỗ khác để chỉ định lỗ đó, hoặc đánh an toàn. Một bi trong nhóm của bạn (hoặc bi số 8, khi bạn đã đến bi số 8) vào lỗ chỉ định thì bạn giữ lượt, kể cả khi bi đó dội băng hoặc chạm bi khác.
 
 ### Đánh an toàn
 Cú đánh không chỉ định lỗ là đánh an toàn: bi nào vào lỗ thì nằm luôn dưới lỗ, và lượt chuyển sang đối thủ.

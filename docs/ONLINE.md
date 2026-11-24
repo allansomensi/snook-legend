@@ -70,7 +70,11 @@ shooter                     server                         opponent
   get `chose { seat, option, game }`; the shot clock takes the first option.
 - `resign`, a disconnection longer than the grace period or the last ball end
   the match with `match_ended { result }`, ratings included. Then `rematch`
-  (both players; not in tournaments) or `leave_match`.
+  (both players; not in tournaments) or `leave_match`. From `match_ended`
+  on, both players are `available` in the lounge (also while they look at
+  the result) and can be invited: accepting leaves the result (the opponent
+  gets `opponent_left`). A `leave_match` right after a `resign` that waits
+  for the shot being played waits with it.
 - Reconnecting within the grace period resumes the match with a fresh
   `match_started`.
 - Ratings: Elo with K 24 for the first 10 rated games, 14 after, 8 from

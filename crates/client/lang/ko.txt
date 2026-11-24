@@ -2081,3 +2081,6 @@ Salute	경례
 Mind blown	머리가 터짐
 Lucky clover	행운의 클로버
 Popcorn	팝콘
+From the shop	상점에서 얻음
+Every player has it	모든 플레이어가 가지고 있어요
+Drag to make the chat taller or shorter	드래그해서 채팅 창 높이 조절하기

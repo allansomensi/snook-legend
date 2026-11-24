@@ -2081,3 +2081,6 @@ Salute	Continência
 Mind blown	Mente explodida
 Lucky clover	Trevo da sorte
 Popcorn	Pipocas
+From the shop	Da loja
+Every player has it	Todos os jogadores a têm
+Drag to make the chat taller or shorter	Arrasta para tornar o chat mais alto ou mais baixo

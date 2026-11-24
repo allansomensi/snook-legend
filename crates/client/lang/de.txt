@@ -2081,3 +2081,6 @@ Salute	Salut
 Mind blown	Umgehauen
 Lucky clover	Glücksklee
 Popcorn	Popcorn
+From the shop	Aus dem Shop
+Every player has it	Haben alle Spieler
+Drag to make the chat taller or shorter	Ziehen, um den Chat höher oder niedriger zu machen

@@ -2081,3 +2081,6 @@ Salute	Salut
 Mind blown	Époustouflé
 Lucky clover	Trèfle porte-bonheur
 Popcorn	Pop-corn
+From the shop	De la boutique
+Every player has it	Tous les joueurs l'ont
+Drag to make the chat taller or shorter	Faites glisser pour agrandir ou réduire le chat

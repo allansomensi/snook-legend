@@ -2081,3 +2081,6 @@ Salute	Honnör
 Mind blown	Helt mållös
 Lucky clover	Fyrklöver
 Popcorn	Popcorn
+From the shop	Från butiken
+Every player has it	Alla spelare har den
+Drag to make the chat taller or shorter	Dra för att göra chatten högre eller lägre

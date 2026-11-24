@@ -2081,3 +2081,6 @@ Salute	Saluut
 Mind blown	Verbluft
 Lucky clover	Klavertje vier
 Popcorn	Popcorn
+From the shop	Uit de winkel
+Every player has it	Elke speler heeft deze
+Drag to make the chat taller or shorter	Sleep om de chat hoger of lager te maken

@@ -2081,3 +2081,6 @@ Salute	Салют
 Mind blown	Вибух мозку
 Lucky clover	Конюшина удачі
 Popcorn	Попкорн
+From the shop	З крамниці
+Every player has it	Є в усіх гравців
+Drag to make the chat taller or shorter	Тягніть, щоб зробити чат вищим або нижчим

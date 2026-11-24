@@ -2081,3 +2081,6 @@ Salute	सलाम
 Mind blown	दिमाग़ हिल गया
 Lucky clover	भाग्यशाली क्लोवर
 Popcorn	पॉपकॉर्न
+From the shop	शॉप से
+Every player has it	सभी खिलाड़ियों के पास है
+Drag to make the chat taller or shorter	चैट को लंबा या छोटा करने के लिए खींचें

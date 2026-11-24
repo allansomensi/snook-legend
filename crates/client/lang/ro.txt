@@ -2081,3 +2081,6 @@ Salute	Salut
 Mind blown	Uluit
 Lucky clover	Trifoi norocos
 Popcorn	Popcorn
+From the shop	Din magazin
+Every player has it	O au toți jucătorii
+Drag to make the chat taller or shorter	Trage ca să faci chatul mai înalt sau mai scund

@@ -36,6 +36,15 @@ pub struct Hud {
     chat_input: String,
     chat_open: bool,
     chat_scroll: usize,
+    /// Set by the caller: the open chat's height as the player left it
+    /// (0: the size that fits the window). Changed by its top edge.
+    pub chat_height: f32,
+    /// The chat's top edge is being dragged.
+    chat_resizing: bool,
+    /// The height the player dragged the chat to, for the caller to keep.
+    pub chat_resized: Option<f32>,
+    /// The pointer shows the up-down arrows (over the chat's top edge).
+    resize_cursor: bool,
     /// The quick phrases are open (by the chat).
     quick_open: bool,
     confirm_leave: bool,
@@ -118,6 +127,13 @@ pub enum HudAction {
     DrillAgain(&'static str),
 }
 
+impl Drop for Hud {
+    /// Left with the pointer on the chat's edge: back to the arrow.
+    fn drop(&mut self) {
+        self.set_resize_cursor(false);
+    }
+}
+
 impl Default for Hud {
     fn default() -> Self {
         Hud {
@@ -138,6 +154,10 @@ impl Default for Hud {
             // Development aid: SNOOK_LEGEND_CHAT_OPEN opens it.
             chat_open: crate::dev::flag("SNOOK_LEGEND_CHAT_OPEN"),
             chat_scroll: 0,
+            chat_height: 0.0,
+            chat_resizing: false,
+            chat_resized: None,
+            resize_cursor: false,
             quick_open: false,
             confirm_leave: false,
             banner_key: None,
@@ -176,6 +196,21 @@ impl Default for Hud {
 }
 
 impl Hud {
+    /// The chat's top edge is being dragged (the caller leaves its height
+    /// alone meanwhile).
+    pub fn resizing_chat(&self) -> bool {
+        self.chat_resizing
+    }
+
+    /// The pointer as up-down arrows over the chat's top edge.
+    fn set_resize_cursor(&mut self, on: bool) {
+        if on != self.resize_cursor {
+            self.resize_cursor = on;
+            use macroquad::miniquad::{CursorIcon, window::set_mouse_cursor};
+            set_mouse_cursor(if on { CursorIcon::NSResize } else { CursorIcon::Default });
+        }
+    }
+
     /// A menu or a dialog is over the table: the table's keys (aim, spin,
     /// power, the replay) wait, not only its pointer.
     pub fn modal_open(&self) -> bool {
@@ -195,6 +230,11 @@ impl Hud {
 }
 
 const CHAT_FIELD: u64 = 40;
+/// The match chat's top edge (dragged to resize it) and its scroll bar.
+const CHAT_RESIZE: u64 = 9_200;
+const CHAT_LOG: u64 = 9_201;
+/// The game history's scroll bar (offline).
+const HISTORY_LOG: u64 = 9_202;
 
 /// The status line in the top bar, from `x`, at most `width` wide: what is
 /// in brackets at its end ("… to shoot (stripes)") goes on a second, quieter
@@ -372,8 +412,10 @@ fn status_line(m: &Match) -> Option<String> {
                     t("open table: the called ball you make sets your group")
                 }
             };
-            // The official rules: the pocket called, after the group.
-            let target = if m.game.calls_shots() {
+            // The official rules: the pocket the player called (clicked),
+            // after the group. Not the one the aim calls: it would say where
+            // the aim sends the ball.
+            let target = if m.game.calls_shots() && m.call_locked {
                 let call = match m.called_pocket {
                     Some(p) => tw("called: {pocket}", &[("pocket", &crate::i18n::pocket(p))]),
                     None => t("no call: a safety").to_string(),
@@ -1247,6 +1289,42 @@ fn chat_h() -> f32 {
     ((crate::ui::vh() - TOP_BAR - BOTTOM_BAR) * 0.42).clamp(140.0, 250.0)
 }
 
+/// The shortest the chat is dragged to.
+const CHAT_MIN_H: f32 = 140.0;
+
+/// The tallest the chat is dragged to: up to the top bar.
+fn chat_max_h() -> f32 {
+    crate::ui::vh() - TOP_BAR - BOTTOM_BAR - 16.0
+}
+
+/// The highest a list opened from a button goes: under the top bar.
+const POPOVER_TOP: f32 = TOP_BAR + 4.0;
+
+/// Where a list `w` × `h` opens from button `b`: above it when it fits
+/// (under the top bar), else below it, else on the side with more room.
+/// Not over the button while there is room on a side (and the click that
+/// opens a list is never taken as a click on it).
+fn popover_rect(b: Rect, w: f32, h: f32) -> Rect {
+    let (vw, vh) = (crate::ui::vw(), crate::ui::vh());
+    let above = b.y - 6.0 - POPOVER_TOP;
+    let below = vh - 8.0 - (b.y + b.h + 6.0);
+    let y = if h <= above || (h > below && above >= below) {
+        crate::ui::clamp_soft(b.y - h - 6.0, POPOVER_TOP, vh)
+    } else {
+        b.y + b.h + 6.0
+    };
+    let x = crate::ui::clamp_soft(b.x, 8.0, vw - w - 8.0);
+    Rect::new(x, y, w, h)
+}
+
+/// The room a list opened from button `b` has, above or below it (see
+/// [`popover_rect`]).
+fn popover_room(b: Rect) -> f32 {
+    let above = b.y - 6.0 - POPOVER_TOP;
+    let below = crate::ui::vh() - 8.0 - (b.y + b.h + 6.0);
+    above.max(below)
+}
+
 impl Hud {
     /// A slim vertical zoom control on the right edge: almost invisible
     /// until the pointer comes near.
@@ -1314,6 +1392,8 @@ impl Hud {
         let dt = get_frame_time();
         let Some(o) = m.online.as_mut() else { return };
         if !self.chat_open {
+            self.set_resize_cursor(false);
+            self.chat_resizing = false;
             // A bubble button as small as the tools beside it; what's new
             // shows as a number on its corner.
             // The bubble and the word: the chat is used most, so it is the
@@ -1445,13 +1525,45 @@ impl Hud {
         // A list open by the chat (quick phrases, reactions) closes first:
         // the press that closes it leaves the chat open.
         let list_open = self.quick_open || self.reactions_open || self.emoji.open;
-        let r = Rect::new(12.0, sh - BOTTOM_BAR - chat_h() - 8.0, chat_w(), chat_h());
+        // As tall as the player made it (its top edge is dragged), or the
+        // size that fits the window.
+        let bottom = sh - BOTTOM_BAR - 8.0;
+        let height = |h: f32| {
+            if h > 0.0 { crate::ui::clamp_soft(h, CHAT_MIN_H, chat_max_h()) } else { chat_h() }
+        };
+        let mut r =
+            Rect::new(12.0, bottom - height(self.chat_height), chat_w(), height(self.chat_height));
+        // The top edge, left of the header's tools: dragged up for a taller
+        // chat (more of the talk in view), down for a shorter one. Kept for
+        // the next games.
+        let grip = Rect::new(r.x + 6.0, r.y - 5.0, r.w - 6.0 - 3.0 * 28.0 - 8.0, 10.0);
+        let drag = ui.drag_area(CHAT_RESIZE, grip);
+        match drag {
+            crate::ui::Drag::Held(p) => {
+                self.chat_resizing = true;
+                self.chat_height = height((bottom - p.y).round());
+                r = Rect::new(r.x, bottom - self.chat_height, r.w, self.chat_height);
+            }
+            crate::ui::Drag::Released(_) if self.chat_resizing => {
+                self.chat_resizing = false;
+                self.chat_resized = Some(self.chat_height);
+            }
+            _ => self.chat_resizing = false,
+        }
+        let on_grip = self.chat_resizing || matches!(drag, crate::ui::Drag::Hover);
+        self.set_resize_cursor(on_grip);
         // Glass while nobody uses it (the table shows through), solid under
         // the pointer, while typing or with one of its lists open.
         let busy = ui.hovering(r) || ui.focus == Some(CHAT_FIELD) || list_open;
         let target = if busy { 0.0 } else { 1.0 };
         self.chat_glass += (target - self.chat_glass) * (1.0 - (-dt * 10.0).exp());
         ui.glass_panel(r, self.chat_glass);
+        // The grip: a short bar in the middle of the top edge.
+        let grip_c = if on_grip { GOLD } else { Color::new(BORDER.r, BORDER.g, BORDER.b, 0.9) };
+        crate::ui::rrect(Rect::new(r.x + r.w / 2.0 - 16.0, r.y + 3.0, 32.0, 3.0), 1.5, grip_c);
+        if matches!(drag, crate::ui::Drag::Hover) && !self.chat_resizing {
+            ui.tooltip(t("Drag to make the chat taller or shorter"), grip);
+        }
         let watching = o.spectator;
         let title = if watching { t("Players' chat (administrator)") } else { t("Chat") };
         let head_mid = r.y + 15.0;
@@ -1488,10 +1600,10 @@ impl Hud {
         let log = Rect::new(r.x + 2.0, r.y + 32.0, r.w - 4.0, r.h - 32.0 - input_h);
         let me = m.names[o.seat].clone();
         let me = (!watching).then_some(me.as_str());
-        self.chat_scroll = ui.chat_log(log, &o.feed, me, false, self.chat_scroll).0;
+        self.chat_scroll = ui.chat_log(CHAT_LOG, log, &o.feed, me, false, self.chat_scroll).0;
         if watching {
             // (A spectator's reactions are in the bar below.)
-            if !list_open && ui.pressed_outside(&[r]) {
+            if !list_open && ui.pressed_outside(&[r, grip]) {
                 self.chat_open = false;
             }
             return;
@@ -1538,7 +1650,7 @@ impl Hud {
         self.quick_phrases(ui, m, quick);
         // A press anywhere else hides the chat (what was typed stays). The
         // press still reaches the table: a click on a ball hides it and aims.
-        let mut keep = vec![r, reactions, quick];
+        let mut keep = vec![r, reactions, quick, grip];
         keep.extend(picker);
         if !list_open && ui.pressed_outside(&keep) {
             self.chat_open = false;
@@ -1552,7 +1664,10 @@ impl Hud {
             return;
         }
         let label = t("Quick phrases");
-        if ui.icon_button_ex(b, Icon::Pencil, label, true, true) {
+        // The click that opens the list is not a click on it: in a small
+        // window the list could open under the pointer and send a phrase.
+        let toggled = ui.icon_button_ex(b, Icon::Pencil, label, true, true);
+        if toggled {
             self.quick_open = !self.quick_open;
             self.reactions_open = false;
             self.emoji.open = false;
@@ -1561,14 +1676,16 @@ impl Hud {
             return;
         }
         let phrases = snook_legend_proto::QUICK_CHAT;
-        let row_h = 30.0;
+        let n = phrases.len() as f32;
+        // Rows a little closer when the window is short, never over the button.
+        let row_h = ((popover_room(b) - 34.0) / n).clamp(22.0, 30.0);
         let w = phrases
             .iter()
             .map(|p| ui.text_size(t(p), 13.0, false).x + 24.0)
             .fold(200.0, f32::max)
-            .min(crate::ui::vw() - b.x - 12.0);
-        let h = phrases.len() as f32 * row_h + 34.0;
-        let r = Rect::new(b.x, (b.y - h - 6.0).max(60.0), w, h);
+            .min(crate::ui::vw() - 16.0);
+        let h = n * row_h + 34.0;
+        let r = popover_rect(b, w, h);
         ui.panel(r);
         ui.text(label, r.x + 10.0, r.y + 8.0, 13.0, GOLD, true);
         let mut chosen = None;
@@ -1587,7 +1704,7 @@ impl Hud {
                 CREAM,
                 false,
             );
-            if ui.clicked(row) {
+            if !toggled && ui.clicked(row) {
                 chosen = Some(*p);
             }
         }
@@ -1637,7 +1754,8 @@ impl Hud {
         if lines.is_empty() {
             ui.text(t("Nothing yet."), log.x + 6.0, log.y + 6.0, 13.0, MUTED, false);
         } else {
-            self.chat_scroll = ui.chat_log(log, &lines, None, false, self.chat_scroll).0;
+            self.chat_scroll =
+                ui.chat_log(HISTORY_LOG, log, &lines, None, false, self.chat_scroll).0;
         }
     }
 
@@ -1692,7 +1810,8 @@ impl Hud {
         let rows = n.div_ceil(COLS);
         let w = COLS as f32 * CELL + 16.0;
         let h = rows as f32 * CELL + 40.0;
-        let p = Rect::new(b.x.min(crate::ui::vw() - w - 8.0), b.y - h - 8.0, w, h);
+        // Above the button, or below it when the chat reaches the top.
+        let p = popover_rect(b, w, h);
         ui.panel(p);
         let open = snook_legend_proto::REACTIONS
             .iter()
@@ -1739,26 +1858,10 @@ impl Hud {
                     11.0,
                     MUTED,
                 );
-                if hover && r.is_vip() {
-                    tip = Some((t("For VIP members").to_string(), c));
-                } else if hover && r.is_shop() {
-                    tip = Some((crate::reactions::shop_hint(r), c));
-                } else if hover {
-                    let how = r
-                        .unlock
-                        .and_then(|a| snook_legend_proto::ACHIEVEMENTS.iter().find(|x| x.code == a))
-                        .map(|a| {
-                            tw(
-                                "{title}: {how}",
-                                &[
-                                    ("title", &t(a.title)),
-                                    ("how", &crate::profile::achievement_text(a)),
-                                ],
-                            )
-                        })
-                        .unwrap_or_default();
-                    tip = Some((how, c));
-                }
+            }
+            // Had or not, it says how it is won.
+            if hover {
+                tip = Some((crate::reactions::how(r, unlocked), c));
             }
         }
         if let Some((text, c)) = tip {

@@ -2081,3 +2081,6 @@ Salute	Χαιρετισμός
 Mind blown	Πάθαμε πλάκα
 Lucky clover	Τετράφυλλο τριφύλλι
 Popcorn	Ποπκόρν
+From the shop	Από το κατάστημα
+Every player has it	Την έχουν όλοι οι παίκτες
+Drag to make the chat taller or shorter	Σύρε για να κάνεις τη συνομιλία ψηλότερη ή χαμηλότερη

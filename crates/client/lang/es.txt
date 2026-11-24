@@ -2081,3 +2081,6 @@ Salute	Saludo
 Mind blown	Mente explotada
 Lucky clover	Trébol de la suerte
 Popcorn	Palomitas
+From the shop	De la tienda
+Every player has it	La tienen todos los jugadores
+Drag to make the chat taller or shorter	Arrastra para hacer el chat más alto o más bajo

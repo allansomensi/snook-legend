@@ -2081,3 +2081,6 @@ Salute	Hormat
 Mind blown	Terpukau
 Lucky clover	Semanggi keberuntungan
 Popcorn	Popcorn
+From the shop	Dari toko
+Every player has it	Dimiliki semua pemain
+Drag to make the chat taller or shorter	Seret untuk meninggikan atau memendekkan chat

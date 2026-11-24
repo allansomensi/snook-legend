@@ -38,7 +38,7 @@ Det är foul, och bollen stannar utanför (bara 8-bollen kommer tillbaka). Motst
 Så länge grupperna inte är avgjorda är bordet öppet: du får träffa vilken boll som helst först utom 8-bollen. Gruppen för den boll du sänker i det anmälda hålet blir din. Om en grupp redan är borta från bordet får du spela på 8-bollen.
 
 ### Att anmäla stöten
-Varje stöt utom utslaget anmäls. I spelet anmäler du ett hål: efter ditt sikte anmäls det hål som bollen du träffar är på väg mot (ringen vid hålet). Klicka på ett annat hål för att anmäla det, eller spela en safety. En boll ur din grupp (eller 8-bollen, när du är på den) som sänks i det anmälda hålet ger dig fortsatt tur, även via en vall eller en annan boll.
+Varje stöt utom utslaget anmäls. I spelet anmäler du ett hål: efter ditt sikte anmäls det hål som bollen du träffar är på väg mot. Klicka på ett annat hål för att anmäla det, eller spela en safety. En boll ur din grupp (eller 8-bollen, när du är på den) som sänks i det anmälda hålet ger dig fortsatt tur, även via en vall eller en annan boll.
 
 ### Safety
 En stöt utan anmält hål är en safety: det som går i stannar nere, och turen går över till motståndaren.

@@ -2081,3 +2081,6 @@ Salute	স্যালুট
 Mind blown	মাথা ঘুরে গেছে
 Lucky clover	সৌভাগ্যের ক্লোভার
 Popcorn	পপকর্ন
+From the shop	শপ থেকে
+Every player has it	সব খেলোয়াড়ের কাছে আছে
+Drag to make the chat taller or shorter	চ্যাট লম্বা বা ছোট করতে টানুন

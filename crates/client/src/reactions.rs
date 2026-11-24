@@ -30,6 +30,27 @@ pub fn shop_hint(r: &snook_legend_proto::Reaction) -> String {
     crate::i18n::tw("In the shop, for {n} coins", &[("n", &coins)])
 }
 
+/// How reaction `r` is had, under the pointer: the achievement that brings
+/// it, the shop, VIP, or nothing (every player has it). Said of the
+/// reactions had too (`have`), so a reaction tells how it was won.
+pub fn how(r: &snook_legend_proto::Reaction, have: bool) -> String {
+    use crate::i18n::{t, tw};
+    if r.is_vip() {
+        return t("For VIP members").to_string();
+    }
+    if r.is_shop() {
+        // Bought or given by a friend: from the shop either way.
+        return if have { t("From the shop").to_string() } else { shop_hint(r) };
+    }
+    match r.unlock.and_then(|a| snook_legend_proto::ACHIEVEMENTS.iter().find(|x| x.code == a)) {
+        Some(a) => tw(
+            "{title}: {how}",
+            &[("title", &t(a.title)), ("how", &crate::profile::achievement_text(a))],
+        ),
+        None => t("Every player has it").to_string(),
+    }
+}
+
 /// Draws reaction `code` centred on `at`, `size` wide, with `alpha`.
 /// False for an unknown code.
 pub fn draw(code: &str, at: Vec2, size: f32, alpha: f32) -> bool {

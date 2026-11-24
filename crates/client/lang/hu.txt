@@ -2081,3 +2081,6 @@ Salute	Tisztelgés
 Mind blown	Leesett az állam
 Lucky clover	Szerencselóhere
 Popcorn	Pattogatott kukorica
+From the shop	A boltból
+Every player has it	Minden játékosnak megvan
+Drag to make the chat taller or shorter	Húzd a csevegés magasításához vagy alacsonyításához

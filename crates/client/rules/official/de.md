@@ -38,7 +38,7 @@ Es ist ein Foul, und die Kugel bleibt draußen (nur die 8 kommt zurück). Dein G
 Solange die Gruppen nicht feststehen, ist der Tisch offen: Du darfst jede Kugel zuerst treffen, außer der 8. Die Gruppe der Kugel, die du in der angesagten Tasche versenkst, wird deine. Ist eine Gruppe schon ganz vom Tisch, darfst du auf die 8 spielen.
 
 ### Deinen Stoß ansagen
-Jeder Stoß außer dem Anstoß wird angesagt. Im Spiel sagst du eine Tasche an: Sie folgt deinem Zielen und sagt die Tasche an, auf die die getroffene Kugel zuläuft (der Ring an der Tasche). Klick eine andere Tasche an, um sie anzusagen, oder spiel ein Safety. Eine Kugel deiner Gruppe (oder die 8, wenn du auf sie spielst), die in der angesagten Tasche fällt, hält dich am Tisch, auch über eine Bande oder eine andere Kugel.
+Jeder Stoß außer dem Anstoß wird angesagt. Im Spiel sagst du eine Tasche an: Sie folgt deinem Zielen und sagt die Tasche an, auf die die getroffene Kugel zuläuft. Klick eine andere Tasche an, um sie anzusagen, oder spiel ein Safety. Eine Kugel deiner Gruppe (oder die 8, wenn du auf sie spielst), die in der angesagten Tasche fällt, hält dich am Tisch, auch über eine Bande oder eine andere Kugel.
 
 ### Safety
 Ein Stoß ohne angesagte Tasche ist ein Safety: Was fällt, bleibt drin, und dein Gegner ist am Zug.

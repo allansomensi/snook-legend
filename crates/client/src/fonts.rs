@@ -9,9 +9,11 @@
 //! - Chinese, Japanese and Korean, also character by character, the font
 //!   of the player's language first (the same character is drawn a little
 //!   differently in each);
-//! - the scripts whose letters change with their neighbours (Arabic,
-//!   Devanagari, Bengali, Thai): a run of them is shaped by rustybuzz (a
-//!   port of HarfBuzz) and its glyphs drawn from an atlas of our own;
+//! - the scripts whose letters change with their neighbours (Arabic, the
+//!   scripts of India and Sri Lanka, Thai, Khmer, Myanmar): a run of them
+//!   is shaped by rustybuzz (a port of HarfBuzz) and its glyphs drawn from
+//!   an atlas of our own;
+//! - Ethiopic, character by character;
 //! - Arabic reads right to left: a line with it is put in visual order by
 //!   the Unicode bidirectional algorithm (numbers and Latin names inside it
 //!   stay left to right).
@@ -50,10 +52,24 @@ pub enum Face {
     Devanagari,
     Bengali,
     Thai,
+    Gurmukhi,
+    Gujarati,
+    Oriya,
+    Tamil,
+    Telugu,
+    Kannada,
+    Malayalam,
+    Sinhala,
+    Khmer,
+    Myanmar,
+    Ethiopic,
 }
 
+/// How many faces there are, in both weights.
+const FACES: usize = Face::ALL.len() * 2;
+
 impl Face {
-    const ALL: [Face; 9] = [
+    const ALL: [Face; 20] = [
         Face::Main,
         Face::Symbols,
         Face::Chinese,
@@ -63,11 +79,47 @@ impl Face {
         Face::Devanagari,
         Face::Bengali,
         Face::Thai,
+        Face::Gurmukhi,
+        Face::Gujarati,
+        Face::Oriya,
+        Face::Tamil,
+        Face::Telugu,
+        Face::Kannada,
+        Face::Malayalam,
+        Face::Sinhala,
+        Face::Khmer,
+        Face::Myanmar,
+        Face::Ethiopic,
     ];
 
     /// Drawn from shaped glyphs (rather than character by character).
     pub fn shaped(self) -> bool {
-        matches!(self, Face::Arabic | Face::Devanagari | Face::Bengali | Face::Thai)
+        !matches!(
+            self,
+            Face::Main
+                | Face::Symbols
+                | Face::Chinese
+                | Face::Japanese
+                | Face::Korean
+                | Face::Ethiopic
+        )
+    }
+
+    /// One of the scripts of India and Sri Lanka (they share the danda).
+    fn indic(self) -> bool {
+        matches!(
+            self,
+            Face::Devanagari
+                | Face::Bengali
+                | Face::Gurmukhi
+                | Face::Gujarati
+                | Face::Oriya
+                | Face::Tamil
+                | Face::Telugu
+                | Face::Kannada
+                | Face::Malayalam
+                | Face::Sinhala
+        )
     }
 
     fn bytes(self, bold: bool) -> &'static [u8] {
@@ -104,6 +156,17 @@ impl Face {
             Face::Devanagari => noto!("NotoSansDevanagari", ttf),
             Face::Bengali => noto!("NotoSansBengali", ttf),
             Face::Thai => noto!("NotoSansThai", ttf),
+            Face::Gurmukhi => noto!("NotoSansGurmukhi", ttf),
+            Face::Gujarati => noto!("NotoSansGujarati", ttf),
+            Face::Oriya => noto!("NotoSansOriya", ttf),
+            Face::Tamil => noto!("NotoSansTamil", ttf),
+            Face::Telugu => noto!("NotoSansTelugu", ttf),
+            Face::Kannada => noto!("NotoSansKannada", ttf),
+            Face::Malayalam => noto!("NotoSansMalayalam", ttf),
+            Face::Sinhala => noto!("NotoSansSinhala", ttf),
+            Face::Khmer => noto!("NotoSansKhmer", ttf),
+            Face::Myanmar => noto!("NotoSansMyanmar", ttf),
+            Face::Ethiopic => noto!("NotoSansEthiopic", ttf),
         }
     }
 
@@ -119,10 +182,11 @@ struct Parsed {
 }
 
 thread_local! {
-    static PARSED: [OnceCell<Option<Parsed>>; 18] = Default::default();
+    static PARSED: [OnceCell<Option<Parsed>>; FACES] = std::array::from_fn(|_| OnceCell::new());
     // Never dropped: a font freed after the window (at exit) would free its
     // texture in a dead graphics context.
-    static CHARS: [OnceCell<Option<ManuallyDrop<Font>>>; 18] = Default::default();
+    static CHARS: [OnceCell<Option<ManuallyDrop<Font>>>; FACES] =
+        std::array::from_fn(|_| OnceCell::new());
     static LAYOUTS: RefCell<HashMap<(String, bool, Lang), Rc<Layout>>> =
         RefCell::new(HashMap::new());
     static ATLAS: RefCell<Option<Atlas>> = const { RefCell::new(None) };
@@ -201,7 +265,18 @@ fn script_face(c: char) -> Option<Face> {
         }
         0x0900..=0x0963 | 0x0966..=0x097F | 0xA8E0..=0xA8FF => Face::Devanagari,
         0x0980..=0x09FF => Face::Bengali,
+        0x0A00..=0x0A7F => Face::Gurmukhi,
+        0x0A80..=0x0AFF => Face::Gujarati,
+        0x0B00..=0x0B7F => Face::Oriya,
+        0x0B80..=0x0BFF => Face::Tamil,
+        0x0C00..=0x0C7F => Face::Telugu,
+        0x0C80..=0x0CFF => Face::Kannada,
+        0x0D00..=0x0D7F => Face::Malayalam,
+        0x0D80..=0x0DFF => Face::Sinhala,
         0x0E00..=0x0E7F => Face::Thai,
+        0x1000..=0x109F | 0xA9E0..=0xA9FF | 0xAA60..=0xAA7F => Face::Myanmar,
+        0x1780..=0x17FF | 0x19E0..=0x19FF => Face::Khmer,
+        0x1200..=0x139F | 0x2D80..=0x2DDF | 0xAB00..=0xAB2F => Face::Ethiopic,
         _ => return None,
     })
 }
@@ -235,9 +310,12 @@ fn face_for(c: char, current: Option<Face>, lang: Lang) -> Face {
     if joins_previous(c) {
         return current.unwrap_or(Face::Main);
     }
-    // The danda ends sentences in Bengali too.
+    // The danda ends sentences in the other scripts of India too.
     if matches!(c, '\u{0964}' | '\u{0965}') {
-        return if current == Some(Face::Bengali) { Face::Bengali } else { Face::Devanagari };
+        return match current {
+            Some(face) if face.indic() && covers(face, c) => face,
+            _ => Face::Devanagari,
+        };
     }
     if let Some(face) = script_face(c) {
         return face;
@@ -569,5 +647,53 @@ mod tests {
         let l = lay_out("Ana: مرحبا", false, Lang::English);
         let Run::Chars { text, .. } = &l.runs[0] else { panic!("{l:?}") };
         assert!(text.starts_with("Ana"), "{l:?}");
+    }
+
+    /// What players write in the chat, in the languages people speak
+    /// (not only the game's 27): every character has a glyph in one of
+    /// the faces (none is drawn as an empty box).
+    #[test]
+    fn chat_lines_in_many_languages_have_every_glyph() {
+        let samples = [
+            // Chinese, simplified and traditional (Taiwan, Hong Kong), with
+            // the characters of chat ("呗", "喔", "喵", Bopomofo).
+            "你好！打得好，再来一局吧？我今天运气不好。台球真好玩，谢谢你的比赛。",
+            "哈哈哈 嘿嘿 呵呵 嗯嗯 哇塞 加油 哎呀 呗 喔 怼 噢 嘞 呃 诶 嗷 嘤 喵 哒 噗 斯诺克",
+            "你好！打得好，再來一局吧？我今天運氣不好。檯球真好玩，謝謝你的比賽。厲害 這一桿 ㄉㄚ",
+            "こんにちは！ナイスショット、もう一回やりましょう。嬉しい 凄い 綺麗 呟く 罠 鬱 曖昧 囁く",
+            "안녕하세요! 좋은 샷이에요, 한 판 더 할까요? 감사합니다 ㅋㅋㅋ ㅠㅠ",
+            "Привет! Отличный удар, сыграем ещё? Дякую за гру. Ґ ї є. Сәлем! ғ қ ң ө ұ ү һ",
+            "Γεια σου! Ωραία βολή, παίζουμε ξανά;",
+            "مرحبا! ضربة رائعة، هل نلعب مرة أخرى؟ شكرا",
+            "سلام! ضربه\u{200C}ی خوبی بود، یک بازی دیگر؟ پ چ ژ گ ہیلو ٹ ڈ ڑ ں ے",
+            "שלום! מכה יפה, עוד משחק?",
+            "नमस्ते! बहुत अच्छा शॉट, एक और खेल? धन्यवाद। হ্যালো! দারুণ শট।",
+            "ਸਤ ਸ੍ਰੀ ਅਕਾਲ! ਵਧੀਆ ਸ਼ਾਟ। કેમ છો! સરસ શોટ। ନମସ୍କାର!",
+            "வணக்கம்! நல்ல ஷாட். హలో! మంచి షాట్. ನಮಸ್ಕಾರ! ಒಳ್ಳೆಯ ಶಾಟ್. നമസ്കാരം! നല്ല ഷോട്ട്.",
+            "ආයුබෝවන්! ශ්\u{200D}රී ලංකා",
+            "สวัสดี! ช็อตสวยมาก เล่นอีกตาไหม សួស្តី! មិង្គលាបា မင်္ဂလာပါ ສະບາຍດີ",
+            "ሰላም! ጥሩ ምት። გამარჯობა Բարեւ",
+            "Xin chào! Cú đánh đẹp quá. Güzel vuruş ğ ı ş İ. Cześć ż ź ł ń. Díky ř ů. Szép ő ű. Mulțumesc ș ț. ß œ ç ñ",
+            "→ ← ★ ♥ ✓ © ® ™ € £ ¥ ₹ ₩ ₽ ½ ° ± × ÷ ∞ … « » „ “ ” ‚ ‘ ’ – — • ·",
+        ];
+        for text in samples {
+            let missing: String = text
+                .chars()
+                .filter(|c| !c.is_whitespace() && !joins_previous(*c))
+                .filter(|c| !Face::ALL.iter().any(|f| covers(*f, *c)))
+                .collect();
+            assert!(missing.is_empty(), "no glyph for {missing:?} in {text}");
+            // And laid out without trouble, in every script's own face.
+            let _ = lay_out(text, false, Lang::English);
+            let _ = lay_out(text, true, Lang::Japanese);
+        }
+        // The new scripts are shaped (a conjunct: fewer glyphs than letters).
+        for (text, face) in [("க்ஷ", Face::Tamil), ("ක්ෂ", Face::Sinhala), ("ក្ស", Face::Khmer)]
+        {
+            let l = lay_out(text, false, Lang::English);
+            let Run::Glyphs { face: f, glyphs, .. } = &l.runs[0] else { panic!("{l:?}") };
+            assert_eq!(*f, face);
+            assert!(glyphs.len() < text.chars().count(), "{text}: {glyphs:?}");
+        }
     }
 }

@@ -2081,3 +2081,6 @@ Salute	ตะ​เบ๊ะ
 Mind blown	ทึ่ง​สุดๆ
 Lucky clover	ใบ​โคลเวอร์​นำ​โชค
 Popcorn	ป๊อปคอร์น
+From the shop	จาก​ร้านค้า
+Every player has it	ผู้​เล่น​ทุก​คน​มี
+Drag to make the chat taller or shorter	ลาก​เพื่อ​ปรับ​ความ​สูง​ของ​แชท

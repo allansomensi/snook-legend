@@ -38,7 +38,7 @@ Ez szabálytalanság, és a golyó kint marad (csak a 8-as kerül vissza). Az el
 Amíg a csoportok nem dőltek el, az asztal nyitott: a 8-as kivételével bármelyik golyót eltalálhatod először. Annak a golyónak a csoportja lesz a tiéd, amelyet a bemondott lyukba raksz el. Ha az egyik csoport már elfogyott az asztalról, a 8-asra mehetsz.
 
 ### A lökés bemondása
-A kezdőlökés kivételével minden lökést be kell mondani. A játékban egy lyukat mondasz be: a célzásodat követve azt a lyukat mondja be, amely felé az eltalált golyó tart (a gyűrű a lyukon). Kattints egy másik lyukra a bemondásához, vagy játssz biztonságit. A csoportod egy golyója (vagy a 8-as, ha arra jössz), amelyet a bemondott lyukba raksz el, megtartja neked az asztalt, akkor is, ha falszélről vagy egy másik golyóról megy be.
+A kezdőlökés kivételével minden lökést be kell mondani. A játékban egy lyukat mondasz be: a célzásodat követve azt a lyukat mondja be, amely felé az eltalált golyó tart. Kattints egy másik lyukra a bemondásához, vagy játssz biztonságit. A csoportod egy golyója (vagy a 8-as, ha arra jössz), amelyet a bemondott lyukba raksz el, megtartja neked az asztalt, akkor is, ha falszélről vagy egy másik golyóról megy be.
 
 ### Biztonsági lökés
 A bemondott lyuk nélküli lökés biztonsági lökés: ami beesik, bent marad, és a kör átszáll az ellenfeledre.

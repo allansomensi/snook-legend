@@ -38,7 +38,7 @@ Encaçapar a 8 na saída não vence nem perde: ela volta para o ponto do pé da 
 Enquanto os grupos não estão decididos, a mesa está aberta: você pode acertar primeiro qualquer bola, menos a 8. O grupo da bola que você encaçapar na caçapa cantada passa a ser o seu. Se um dos grupos já saiu todo da mesa, você pode jogar na 8.
 
 ### Cantar a tacada
-Toda tacada, menos a saída, é cantada. No jogo você canta uma caçapa: seguindo a sua mira, ele canta a caçapa para onde vai a bola que você acerta (o anel na caçapa). Clique em outra caçapa para cantá-la, ou jogue uma defesa. Uma bola do seu grupo (ou a 8, quando você está nela) que cair na caçapa cantada mantém a vez, também de tabela ou de combinação.
+Toda tacada, menos a saída, é cantada. No jogo você canta uma caçapa: seguindo a sua mira, ele canta a caçapa para onde vai a bola que você acerta. Clique em outra caçapa para cantá-la, ou jogue uma defesa. Uma bola do seu grupo (ou a 8, quando você está nela) que cair na caçapa cantada mantém a vez, também de tabela ou de combinação.
 
 ### Defesa
 Uma tacada sem caçapa cantada é uma defesa: o que cair fica encaçapado, e a vez passa para o adversário.

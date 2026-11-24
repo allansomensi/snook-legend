@@ -2690,3 +2690,66 @@ async fn the_tv_drops_a_game_the_moment_it_ends() {
     .await;
     assert!(off.is_ok(), "the TV still showed the game that ended");
 }
+
+/// A game over is not played any more: its players are free in the lounge
+/// at once (also while they still look at the result), and can be invited.
+#[tokio::test]
+async fn players_are_free_as_soon_as_the_game_is_over() {
+    use snook_legend_proto::PlayerStatus;
+    let url = start(Settings::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (mut carol, _) = Client::register(&url, "carol").await;
+    let (game, sa, _) = start_match(&mut alice, &mut bob, "bob", "alice", true).await;
+    let status = |m: &ServerMsg, name: &str, s: PlayerStatus| matches!(m, ServerMsg::PlayerUpdated { player } if player.username == name && player.status == s);
+    carol.expect("alice playing", |m| status(m, "alice", PlayerStatus::Playing)).await;
+    play_out(&mut alice, &mut bob, game, sa).await;
+    // Neither has left the result yet: both free for the lounge.
+    carol.expect("alice free", |m| status(m, "alice", PlayerStatus::Available)).await;
+    carol.expect("bob free", |m| status(m, "bob", PlayerStatus::Available)).await;
+    // Carol invites Bob, still at the result; he accepts and plays her.
+    carol.send(ClientMsg::Invite { to: "bob".into(), rated: false, rules: Rules::Brazilian }).await;
+    bob.expect("invited", |m| matches!(m, ServerMsg::Invited { .. })).await;
+    bob.send(ClientMsg::AnswerInvite { from: "carol".into(), accept: true }).await;
+    alice.expect("bob left", |m| matches!(m, ServerMsg::OpponentLeft)).await;
+    let ServerMsg::MatchStarted { players, .. } =
+        bob.expect("new game", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(players.iter().any(|p| p.username == "carol"));
+    alice.send(ClientMsg::LeaveMatch).await;
+    carol.expect("alice still free", |m| status(m, "alice", PlayerStatus::Available)).await;
+}
+
+/// Leaving with a shot still rolling: the resignation waits for the shot,
+/// and the player is back in the lounge with it (not left at the table).
+#[tokio::test]
+async fn leaving_during_a_shot_is_not_lost() {
+    let url = start(Settings::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (game, sa, _) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    let d = ai::decide(&game, Difficulty::Easy, 1);
+    let shot = ClientMsg::Shoot {
+        turn: 0,
+        shot: d.shot,
+        called_pocket: d.called_pocket,
+        cue_ball: d.cue_ball,
+    };
+    let breaker_is_alice = game.current_player() == sa;
+    let (shooter, other) =
+        if breaker_is_alice { (&mut alice, &mut bob) } else { (&mut bob, &mut alice) };
+    // The shot, the resignation and the leaving, one after the other.
+    shooter.send(shot).await;
+    shooter.send(ClientMsg::Resign).await;
+    shooter.send(ClientMsg::LeaveMatch).await;
+    shooter.expect("ended", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    other.expect("they left", |m| matches!(m, ServerMsg::OpponentLeft)).await;
+    // Back in the lounge: free to look for a game.
+    shooter.send(ClientMsg::QueueJoin { rated: false, rules: Rules::Brazilian }).await;
+    let m = shooter
+        .expect("queued", |m| matches!(m, ServerMsg::Queue { .. } | ServerMsg::Error { .. }))
+        .await;
+    assert!(matches!(m, ServerMsg::Queue { .. }), "still at the table: {m:?}");
+}

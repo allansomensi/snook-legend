@@ -309,6 +309,9 @@ struct Room {
     /// A seat that resigned while a shot was being played: the resignation
     /// comes after the shot (see [`Lounge::commit_shot`]).
     resigning: Option<usize>,
+    /// Seats that left as they resigned (that resignation waiting for the
+    /// shot): back in the lounge as soon as the game is over.
+    leaving: [bool; 2],
 }
 
 struct Table {
@@ -608,12 +611,19 @@ impl Lounge {
         }
     }
 
+    /// A game over is not played any more: its players are free in the
+    /// lounge at once, also while they still look at its result.
     fn status(&self, k: &str) -> PlayerStatus {
         match self.sessions.get(k) {
-            Some(s) if s.room.is_some() => PlayerStatus::Playing,
+            Some(s) if s.room.is_some_and(|id| self.live_room(id)) => PlayerStatus::Playing,
             Some(s) if s.table.is_some() => PlayerStatus::Waiting,
             _ => PlayerStatus::Available,
         }
+    }
+
+    /// Room `id` has a game going on (not over).
+    fn live_room(&self, id: u64) -> bool {
+        self.rooms.get(&id).is_some_and(|r| !r.finished)
     }
 
     fn info(&self, k: &str) -> Option<PlayerInfo> {
@@ -621,9 +631,10 @@ impl Lounge {
             let mut info = dressed(player_info(&s.user, s.guest, self.status(k), s.rules), &s.look);
             // An online game comes first (the game against the computer is
             // left behind when one starts).
-            info.vs_computer = s.vs_computer && s.room.is_none();
-            info.away = s.away && s.room.is_none();
-            info.focus = s.focus && s.room.is_none();
+            let online = s.room.is_some_and(|id| self.live_room(id));
+            info.vs_computer = s.vs_computer && !online;
+            info.away = s.away && !online;
+            info.focus = s.focus && !online;
             info.searching = self.queue.iter().any(|q| q.key == k);
             info
         })
@@ -723,7 +734,11 @@ impl Lounge {
         let info = player_info(
             &user,
             guest,
-            if room.is_some() { PlayerStatus::Playing } else { PlayerStatus::Available },
+            if room.is_some_and(|id| self.live_room(id)) {
+                PlayerStatus::Playing
+            } else {
+                PlayerStatus::Available
+            },
             rules,
         );
         let _ = tx.try_send(ServerMsg::AuthOk { player: info, token });
@@ -2113,6 +2128,12 @@ impl Lounge {
         self.sessions.get(k).is_some_and(|s| s.room.is_none())
     }
 
+    /// Free for an invitation: in no game, or only looking at the result
+    /// of one that is over (the lounge shows them free).
+    fn invitable(&self, k: &str) -> bool {
+        self.sessions.get(k).is_some_and(|s| s.room.is_none_or(|id| !self.live_room(id)))
+    }
+
     /// In a tournament that is still going (and not yet knocked out of it).
     fn in_tournament(&self, k: &str) -> Option<u64> {
         self.tournaments
@@ -2157,7 +2178,7 @@ impl Lounge {
         if !self.sessions.contains_key(to) {
             return fail(self, "That player is not online.");
         }
-        if !self.available(from) || !self.available(to) {
+        if !self.invitable(from) || !self.invitable(to) {
             return fail(self, "That player is in a game.");
         }
         if self.tournament_busy(from) || self.tournament_busy(to) {
@@ -2222,12 +2243,15 @@ impl Lounge {
                 },
             );
         }
-        if !self.available(from) || !self.available(me) {
+        if !self.invitable(from) || !self.invitable(me) {
             return self.send(
                 me,
                 ServerMsg::InviteFailed { reason: "That player is no longer available.".into() },
             );
         }
+        // Either still at the result of a game over: it is left for this one.
+        self.leave_finished(from);
+        self.leave_finished(me);
         self.start_room(
             [from.to_string(), me.to_string()],
             offer,
@@ -2444,6 +2468,7 @@ impl Lounge {
             ended: None,
             private,
             resigning: None,
+            leaving: [false, false],
         };
         let clock = self.settings.shot_clock.as_secs() as u32;
         for k in &keys {
@@ -2975,6 +3000,16 @@ impl Lounge {
         if let Some((tid, round, index)) = tournament {
             self.tournament_game_over(tid, round, index, &keys, over.winner, played);
         }
+        // Who left as they resigned (during a shot) is back in the lounge.
+        let leaving = self.rooms.get(&id).map_or([false, false], |r| r.leaving);
+        for (seat, k) in keys.iter().enumerate() {
+            if leaving[seat] && self.sessions.get(k).is_some_and(|s| s.room == Some(id)) {
+                self.leave_finished(k);
+                if let Some(tid) = self.in_tournament(k) {
+                    self.tournament_progress(tid);
+                }
+            }
+        }
     }
 
     fn rematch(&mut self, k: &str) {
@@ -3042,8 +3077,15 @@ impl Lounge {
 
     fn leave_match(&mut self, k: &str) {
         let Some(id) = self.sessions.get(k).and_then(|s| s.room) else { return };
-        let Some(room) = self.rooms.get(&id) else { return };
+        let Some(room) = self.rooms.get_mut(&id) else { return };
         if !room.finished {
+            // Resigned as the shot being played rolls: the resignation is
+            // made after it, and the leaving with it.
+            let seat = room.seat_of(k);
+            if room.resigning == Some(seat) {
+                room.leaving[seat] = true;
+                return;
+            }
             return self.error(k, "Resign first to leave a game in progress.");
         }
         self.leave_finished(k);
@@ -3494,6 +3536,7 @@ impl Lounge {
             // saved: kept off the lounge's TV to be safe.
             private: true,
             resigning: None,
+            leaving: [false, false],
         };
         self.rooms.insert(id, room);
         self.featured_dirty = true;

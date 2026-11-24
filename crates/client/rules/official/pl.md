@@ -38,7 +38,7 @@ To faul, a bila zostaje poza stołem (wraca tylko ósemka). Przeciwnik gra ze st
 Dopóki grupy nie są ustalone, stół jest otwarty: możesz najpierw trafić dowolną bilę oprócz ósemki. Twoją grupą staje się grupa bili wbitej do zadeklarowanej łuzy. Jeśli jedna z grup zniknęła już ze stołu, możesz grać na ósemkę.
 
 ### Deklarowanie uderzenia
-Każde uderzenie oprócz rozbicia jest deklarowane. W grze deklarujesz łuzę: zgodnie z twoim celowaniem gra deklaruje łuzę, do której zmierza trafiona bila (pierścień na łuzie). Kliknij inną łuzę, aby ją zadeklarować, albo zagraj odstawną. Bila z twojej grupy (lub ósemka, gdy na nią grasz) wbita do zadeklarowanej łuzy daje dalszą grę, także od bandy lub od innej bili.
+Każde uderzenie oprócz rozbicia jest deklarowane. W grze deklarujesz łuzę: zgodnie z twoim celowaniem gra deklaruje łuzę, do której zmierza trafiona bila. Kliknij inną łuzę, aby ją zadeklarować, albo zagraj odstawną. Bila z twojej grupy (lub ósemka, gdy na nią grasz) wbita do zadeklarowanej łuzy daje dalszą grę, także od bandy lub od innej bili.
 
 ### Odstawna
 Uderzenie bez zadeklarowanej łuzy to odstawna: co wpadnie, zostaje w łuzie, a kolej przechodzi na przeciwnika.

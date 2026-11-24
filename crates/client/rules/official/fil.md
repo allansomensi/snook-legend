@@ -38,7 +38,7 @@ Foul ito, at mananatiling labas ang bola (ang 8 lang ang ibinabalik). Lalaruin n
 Habang hindi pa natatakda ang mga grupo, open table: puwede mong unang tamaan ang kahit anong bola maliban sa 8. Magiging sa iyo ang grupo ng bolang maipasok mo sa naka-call na pocket. Kapag wala na sa mesa ang isang grupo, puwede mong laruin ang 8.
 
 ### Pag-call ng tira
-Kino-call ang bawat tira maliban sa break. Sa laro, pocket ang kino-call mo: sinusundan ang asinta mo, kino-call nito ang pocket na pupuntahan ng bolang tatamaan mo (ang bilog sa pocket). I-click ang ibang pocket para i-call ito, o mag-safety. Ang bola ng grupo mo (o ang 8, kapag nasa 8 ka na) na pumasok sa naka-call na pocket ay nagpapatuloy ng tira mo, kahit dumaan pa sa cushion o sa ibang bola.
+Kino-call ang bawat tira maliban sa break. Sa laro, pocket ang kino-call mo: sinusundan ang asinta mo, kino-call nito ang pocket na pupuntahan ng bolang tatamaan mo. I-click ang ibang pocket para i-call ito, o mag-safety. Ang bola ng grupo mo (o ang 8, kapag nasa 8 ka na) na pumasok sa naka-call na pocket ay nagpapatuloy ng tira mo, kahit dumaan pa sa cushion o sa ibang bola.
 
 ### Safety
 Safety ang tirang walang naka-call na pocket: mananatili sa loob ang anumang pumasok, at lilipat ang turn sa kalaban mo.

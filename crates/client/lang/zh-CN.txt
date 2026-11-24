@@ -2081,3 +2081,6 @@ Salute	敬礼
 Mind blown	震惊
 Lucky clover	幸运四叶草
 Popcorn	爆米花
+From the shop	来自商店
+Every player has it	所有玩家都有
+Drag to make the chat taller or shorter	拖动以调整聊天框高度

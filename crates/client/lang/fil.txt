@@ -2081,3 +2081,6 @@ Salute	Saludo
 Mind blown	Napanganga
 Lucky clover	Swerteng clover
 Popcorn	Popcorn
+From the shop	Mula sa tindahan
+Every player has it	Mayroon nito ang lahat ng manlalaro
+Drag to make the chat taller or shorter	I-drag para palakihin o paliitin ang chat

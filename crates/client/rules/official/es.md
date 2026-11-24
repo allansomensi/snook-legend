@@ -38,7 +38,7 @@ Es falta, y la bola queda fuera (solo la 8 vuelve). El rival juega la mesa como 
 Mientras los grupos no están decididos, la mesa está abierta: puedes tocar primero cualquier bola menos la 8. El grupo de la bola que metas en la tronera cantada pasa a ser el tuyo. Si uno de los grupos ya salió entero de la mesa, puedes jugar la 8.
 
 ### Cantar el tiro
-Todo tiro, menos el saque, se canta. En el juego cantas una tronera: siguiendo tu mira, el juego canta la tronera hacia donde va la bola que tocas (el anillo en la tronera). Haz clic en otra tronera para cantarla, o juega una defensa. Una bola de tu grupo (o la 8, cuando estás en ella) que entre en la tronera cantada mantiene el turno, también de banda o de combinación.
+Todo tiro, menos el saque, se canta. En el juego cantas una tronera: siguiendo tu mira, el juego canta la tronera hacia donde va la bola que tocas. Haz clic en otra tronera para cantarla, o juega una defensa. Una bola de tu grupo (o la 8, cuando estás en ella) que entre en la tronera cantada mantiene el turno, también de banda o de combinación.
 
 ### Defensa
 Un tiro sin tronera cantada es una defensa: lo que entre se queda dentro, y el turno pasa al rival.

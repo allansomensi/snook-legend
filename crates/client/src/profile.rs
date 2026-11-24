@@ -1343,7 +1343,8 @@ impl ProfileScreen {
             if hover {
                 rrect(c, 6.0, Color::new(1.0, 1.0, 1.0, 0.08));
             }
-            if r.available(&codes, &p.reactions, vip) {
+            let have = r.available(&codes, &p.reactions, vip);
+            if have {
                 crate::reactions::draw(r.code, centre, 24.0, crate::paint::alpha());
             } else {
                 crate::reactions::draw_locked(r.code, centre, 22.0);
@@ -1353,24 +1354,10 @@ impl ProfileScreen {
                     9.0,
                     Color::new(MUTED.r, MUTED.g, MUTED.b, 0.8),
                 );
-                if hover {
-                    let how = if r.is_vip() {
-                        t("For VIP members").to_string()
-                    } else if r.is_shop() {
-                        crate::reactions::shop_hint(r)
-                    } else {
-                        r.unlock
-                            .and_then(|a| ACHIEVEMENTS.iter().find(|x| x.code == a))
-                            .map(|a| {
-                                tw(
-                                    "{title}: {how}",
-                                    &[("title", &t(a.title)), ("how", &achievement_text(a))],
-                                )
-                            })
-                            .unwrap_or_default()
-                    };
-                    tip = Some((how, c));
-                }
+            }
+            // Had or not, it says how it is won.
+            if hover {
+                tip = Some((crate::reactions::how(r, have), c));
             }
             ui.block(c);
         }

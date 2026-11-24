@@ -2,6 +2,20 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.11.1
+
+### Szabad, amint vége a játéknak
+Ha egy játéknak vége, mindkét játékos azonnal szabadként jelenik meg a társalgóban, és meghívható, még ha az eredményt nézi is. Ha akkor lépsz ki, amikor az utolsó lökés még gurul, már nem ragadsz az asztalnál.
+
+### Akkora csevegés, amekkorát szeretnél
+Húzd a játék csevegésének felső szélét, hogy magasabb vagy alacsonyabb legyen; megjegyzi a méretet. Minden csevegésnek van húzható görgetősávja.
+
+### Minden nyelv a csevegésben
+Sokkal több kínai írásjegy (a hagyományosak is) és japán kandzsi jelenik meg a csevegésben, és India, Srí Lanka, Mianmar, Kambodzsa és Etiópia írásai is.
+
+### Kisebb javítások
+Kis ablakban a gyors üzenetek megnyitása már nem küld el egyet. A meglévő reakcióid megmutatják, hogyan szerezted őket. A hivatalos szabályoknál már nem világít az a lyuk, amelyre célzol.
+
 ## 0.11.0
 
 ### Rubinérmek és 26 új reakció

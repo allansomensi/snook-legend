@@ -2,6 +2,20 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.11.1
+
+### Rảnh ngay khi ván kết thúc
+Khi ván đấu kết thúc, cả hai người chơi hiện là rảnh trong sảnh ngay lập tức và có thể được mời dù vẫn đang xem kết quả. Rời đi khi cú đánh cuối còn đang lăn không còn khiến bạn bị kẹt ở bàn.
+
+### Khung trò chuyện theo ý bạn
+Kéo mép trên của khung trò chuyện trong ván để làm nó cao hơn hoặc thấp hơn; kích thước được giữ lại. Mọi khung trò chuyện đều có thanh cuộn kéo được.
+
+### Mọi ngôn ngữ trong trò chuyện
+Nhiều chữ Hán hơn hẳn (cả phồn thể) và kanji tiếng Nhật hiển thị trong trò chuyện, cùng chữ viết của Ấn Độ, Sri Lanka, Myanmar, Campuchia và Ethiopia.
+
+### Sửa lỗi nhỏ
+Trong cửa sổ nhỏ, mở câu nói nhanh không còn tự gửi một câu. Biểu cảm bạn có cho biết bạn đã nhận được chúng thế nào. Ở luật chính thức, lỗ mà bạn đang ngắm không còn sáng lên.
+
 ## 0.11.0
 
 ### Huy chương hồng ngọc và 26 biểu cảm mới

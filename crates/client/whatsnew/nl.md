@@ -3,6 +3,20 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.11.1
+
+### Vrij zodra het spel voorbij is
+Als een spel voorbij is, staan beide spelers meteen als vrij in de lounge en kunnen ze uitgenodigd worden, ook terwijl ze nog naar de uitslag kijken. Weggaan terwijl de laatste stoot nog rolt, laat je niet meer aan tafel hangen.
+
+### Een chat op jouw maat
+Sleep de bovenrand van de chat in een spel om hem hoger of lager te maken; hij onthoudt die maat. Elke chat heeft een schuifbalk die je kunt slepen.
+
+### Elke taal in de chat
+Veel meer Chinese tekens (ook traditionele) en Japanse kanji verschijnen in de chat, en ook de schriften van India, Sri Lanka, Myanmar, Cambodja en Ethiopië.
+
+### Kleinere verbeteringen
+In een klein venster stuurt het openen van de snelle berichten er geen meer weg. Reacties die je hebt, laten zien hoe je ze kreeg. Bij de officiële regels licht de pocket waarop je mikt niet meer op.
+
 ## 0.11.0
 
 ### Robijnen medailles en 26 nieuwe reacties

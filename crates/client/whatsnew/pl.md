@@ -2,6 +2,20 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.11.1
+
+### Wolny, gdy tylko gra się skończy
+Gdy gra się kończy, obaj gracze od razu są wolni w lobby i można ich zaprosić, nawet gdy jeszcze oglądają wynik. Wyjście, gdy ostatnie uderzenie jeszcze się toczy, nie zostawia cię już przy stole.
+
+### Czat w twoim rozmiarze
+Przeciągnij górną krawędź czatu w grze, aby go wydłużyć lub skrócić; zapamięta ten rozmiar. Każdy czat ma pasek przewijania, który można przeciągać.
+
+### Każdy język na czacie
+Na czacie widać dużo więcej znaków chińskich (także tradycyjnych) i japońskich kanji, a także pisma Indii, Sri Lanki, Mjanmy, Kambodży i Etiopii.
+
+### Drobne poprawki
+W małym oknie otwarcie szybkich zwrotów już nie wysyła jednego z nich. Reakcje, które masz, pokazują, jak je zdobyłeś. W zasadach oficjalnych łuza, w którą celujesz, już się nie podświetla.
+
 ## 0.11.0
 
 ### Rubinowe medale i 26 nowych reakcji

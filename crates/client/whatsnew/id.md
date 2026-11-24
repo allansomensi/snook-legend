@@ -3,6 +3,20 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.11.1
+
+### Bebas begitu game selesai
+Saat game selesai, kedua pemain langsung tampil bebas di lobi dan bisa diundang meski masih melihat hasilnya. Keluar saat pukulan terakhir masih bergulir tidak lagi membuatmu tertahan di meja.
+
+### Chat seukuran keinginanmu
+Seret tepi atas chat di dalam game untuk meninggikan atau memendekkannya; ukurannya disimpan. Setiap chat punya bilah gulir yang bisa diseret.
+
+### Semua bahasa di chat
+Jauh lebih banyak aksara Tionghoa (termasuk tradisional) dan kanji Jepang tampil di chat, begitu juga aksara India, Sri Lanka, Myanmar, Kamboja, dan Etiopia.
+
+### Perbaikan kecil
+Di jendela kecil, membuka frasa cepat tidak lagi mengirim salah satunya. Reaksi yang kamu punya menunjukkan cara kamu mendapatkannya. Di aturan resmi, lubang yang dituju bidikanmu tidak lagi menyala.
+
 ## 0.11.0
 
 ### Medali rubi dan 26 reaksi baru

@@ -2,6 +2,20 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.11.1
+
+### Liber imediat ce se termină jocul
+Când un joc s-a terminat, ambii jucători apar imediat liberi în salon și pot fi invitați chiar dacă încă privesc rezultatul. Dacă pleci cât timp ultima lovitură încă se rostogolește, nu mai rămâi blocat la masă.
+
+### Un chat pe măsura ta
+Trage marginea de sus a chatului din joc ca să-l faci mai înalt sau mai scund; își păstrează mărimea. Fiecare chat are o bară de derulare pe care o poți trage.
+
+### Toate limbile în chat
+Mult mai multe caractere chinezești (și tradiționale) și kanji japoneze apar în chat, la fel și scrierile din India, Sri Lanka, Myanmar, Cambodgia și Etiopia.
+
+### Corecturi mărunte
+Într-o fereastră mică, deschiderea frazelor rapide nu mai trimite una. Reacțiile pe care le ai arată cum le-ai obținut. La regulile oficiale, buzunarul spre care ținești nu mai e luminat.
+
 ## 0.11.0
 
 ### Medalii de rubin și 26 de reacții noi

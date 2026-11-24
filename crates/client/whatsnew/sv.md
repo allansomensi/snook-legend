@@ -3,6 +3,20 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.11.1
+
+### Ledig så fort partiet är slut
+När ett parti är över visas båda spelarna som lediga i loungen direkt, och kan bjudas in medan de fortfarande tittar på resultatet. Att gå medan sista stöten rullar lämnar dig inte längre kvar vid bordet.
+
+### En chatt i din storlek
+Dra chattens överkant i ett parti för att göra den högre eller lägre; den behåller storleken. Alla chattar har en rullningslist som går att dra.
+
+### Alla språk i chatten
+Många fler kinesiska tecken (även traditionella) och japanska kanji syns i chatten, liksom skrifterna från Indien, Sri Lanka, Myanmar, Kambodja och Etiopien.
+
+### Mindre rättningar
+I ett litet fönster skickar det inte längre en snabbfras när du öppnar dem. Reaktioner du har visar hur du fick dem. Med de officiella reglerna lyser hålet du siktar mot inte längre.
+
 ## 0.11.0
 
 ### Rubinmedaljer och 26 nya reaktioner

@@ -58,7 +58,14 @@ Em 27 idiomas, entre eles português, inglês, espanhol, francês, alemão, ital
 
 ### Novidades desta versão
 
-Versão 0.11.0: medalhas de rubi, 26 reações novas e um perfil mais claro.
+Versão 0.11.1: livre assim que a partida acaba, e um chat melhor.
+• Quando a partida termina, os dois jogadores aparecem livres no salão na hora.
+• O chat da partida fica mais alto ou mais baixo arrastando a borda de cima, e todos os chats têm uma barra de rolagem para arrastar.
+• Muito mais caracteres chineses e japoneses no chat, e as escritas da Índia, do Sri Lanka, de Mianmar, do Camboja e da Etiópia.
+• Numa janela pequena, abrir as frases rápidas não envia mais uma delas.
+• Na regra oficial, a caçapa para onde a mira aponta não fica mais acesa.
+
+Da versão 0.11.0: medalhas de rubi, 26 reações novas e um perfil mais claro.
 • As conquistas mais difíceis agora dão uma medalha de rubi.
 • 26 reações novas: 14 vêm com conquistas e 12 estão na loja, compradas com as moedas ganhas jogando.
 • No perfil, clique na bandeira para trocar de país e no nome de um adversário para abrir o perfil dele; o seu nível aparece aceso na escada de níveis.
@@ -67,13 +74,6 @@ Versão 0.11.0: medalhas de rubi, 26 reações novas e um perfil mais claro.
 • Os cliques da interface podem ser desligados em Configurações → Som.
 
 Da versão 0.10.3: o circuito vencido volta de verdade.
-• Entrando com a conta que venceu o circuito, ele volta completo, com todos os adversários liberados (na 0.10.2 isso não acontecia para todos).
-
-Da versão 0.10.2: o circuito vencido não se perde mais ao reinstalar ou trocar de computador.
-
-Da versão 0.10.1: telas sempre claras e a conta conectada até você sair.
-
-Da versão 0.10.0: um visual novo e fotos de perfil do jogo.
 
 Da versão 0.9.0: o jogo em 27 idiomas, com as regras, as novidades e os nomes dos países traduzidos.
 
@@ -144,7 +144,14 @@ In 27 languages, including English, Portuguese, Spanish, French, German, Italian
 
 ### What's new in this version
 
-Version 0.11.0: ruby medals, 26 new reactions and a clearer profile.
+Version 0.11.1: free as soon as the game ends, and a better chat.
+• When a game ends, both players show as free in the lounge at once.
+• The match chat gets taller or shorter by dragging its top edge, and every chat has a scroll bar to drag.
+• Many more Chinese and Japanese characters in the chat, and the scripts of India, Sri Lanka, Myanmar, Cambodia and Ethiopia.
+• In a small window, opening the quick phrases no longer sends one.
+• Under the official rules, the pocket your aim points at is no longer lit.
+
+From version 0.11.0: ruby medals, 26 new reactions and a clearer profile.
 • The hardest achievements now give a ruby medal.
 • 26 new reactions: 14 come with achievements and 12 are in the shop, bought with the coins you earn by playing.
 • On the profile, click your flag to change country and an opponent's name to open their profile; your level is lit on the ladder of levels.
@@ -153,13 +160,6 @@ Version 0.11.0: ruby medals, 26 new reactions and a clearer profile.
 • The interface's clicks can be turned off in Settings → Sound.
 
 From version 0.10.3: a tour you won really comes back.
-• Signed in with the account that won the tour, it is complete again, every opponent unlocked (0.10.2 didn't do it for everyone).
-
-From version 0.10.2: a tour you won is no longer lost when reinstalling or moving to another computer.
-
-From version 0.10.1: screens always bright, and signed in until you sign out.
-
-From version 0.10.0: a new look and profile pictures from the game.
 
 From version 0.9.0: the game in 27 languages, with the rules, what's new and the countries' names translated.
 
@@ -230,7 +230,14 @@ En 27 idiomas, entre ellos español, inglés, portugués, francés, alemán, ita
 
 ### Novedades de esta versión
 
-Versión 0.11.0: medallas de rubí, 26 reacciones nuevas y un perfil más claro.
+Versión 0.11.1: libre en cuanto acaba la partida, y un chat mejor.
+• Cuando la partida termina, los dos jugadores aparecen libres en el salón al instante.
+• El chat de la partida se hace más alto o más bajo arrastrando su borde superior, y todos los chats tienen una barra de desplazamiento para arrastrar.
+• Muchos más caracteres chinos y japoneses en el chat, y las escrituras de la India, Sri Lanka, Myanmar, Camboya y Etiopía.
+• En una ventana pequeña, abrir las frases rápidas ya no envía una.
+• En la regla oficial, la tronera a la que apunta tu mira ya no se ilumina.
+
+De la versión 0.11.0: medallas de rubí, 26 reacciones nuevas y un perfil más claro.
 • Los logros más difíciles ahora dan una medalla de rubí.
 • 26 reacciones nuevas: 14 llegan con logros y 12 están en la tienda, compradas con las monedas que ganas jugando.
 • En el perfil, haz clic en tu bandera para cambiar de país y en el nombre de un rival para abrir su perfil; tu nivel aparece iluminado en la escalera de niveles.
@@ -239,13 +246,6 @@ Versión 0.11.0: medallas de rubí, 26 reacciones nuevas y un perfil más claro.
 • Los clics de la interfaz se pueden apagar en Ajustes → Sonido.
 
 De la versión 0.10.3: el circuito ganado vuelve de verdad.
-• Al entrar con la cuenta que ganó el circuito, vuelve completo, con todos los rivales desbloqueados (la 0.10.2 no lo hacía para todos).
-
-De la versión 0.10.2: el circuito ganado ya no se pierde al reinstalar o cambiar de computadora.
-
-De la versión 0.10.1: pantallas siempre claras y la sesión abierta hasta que salgas.
-
-De la versión 0.10.0: un aspecto nuevo y fotos de perfil del juego.
 
 De la versión 0.9.0: el juego en 27 idiomas, con las reglas, las novedades y los nombres de los países traducidos.
 

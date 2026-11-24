@@ -2,6 +2,20 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.11.1
+
+### Libre agad pagkatapos ng laro
+Kapag tapos na ang laro, agad na lumalabas na libre ang dalawang manlalaro sa lounge, at puwede silang imbitahan kahit tinitingnan pa nila ang resulta. Ang pag-alis habang gumugulong pa ang huling tira ay hindi ka na iiwan sa mesa.
+
+### Chat na kasinlaki ng gusto mo
+I-drag ang itaas na gilid ng chat sa laro para palakihin o paliitin ito; tatandaan nito ang laki. May scroll bar na puwedeng i-drag ang bawat chat.
+
+### Lahat ng wika sa chat
+Mas maraming Chinese na character (pati tradisyonal) at Japanese na kanji ang lumalabas sa chat, pati ang mga sulat ng India, Sri Lanka, Myanmar, Cambodia at Ethiopia.
+
+### Maliliit na ayos
+Sa maliit na window, hindi na nagpapadala ng isa ang pagbukas ng mabilisang mensahe. Ipinapakita ng mga reaksyon mo kung paano mo nakuha ang mga ito. Sa Patakarang Opisyal, hindi na umiilaw ang pocket na inaasinta mo.
+
 ## 0.11.0
 
 ### Mga ruby medal at 26 bagong reaction

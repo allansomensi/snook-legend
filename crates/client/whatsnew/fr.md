@@ -4,6 +4,20 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.11.1
+
+### Libre dès la fin de la partie
+Quand une partie est finie, les deux joueurs apparaissent libres au salon aussitôt, et peuvent être invités même en regardant encore le résultat. Quitter pendant que le dernier coup roule ne vous laisse plus bloqué à la table.
+
+### Un chat à votre taille
+Faites glisser le bord supérieur du chat de la partie pour l'agrandir ou le réduire ; il garde cette taille. Chaque chat a une barre de défilement que l'on peut faire glisser.
+
+### Toutes les langues dans le chat
+Bien plus de caractères chinois (traditionnels aussi) et de kanji japonais s'affichent dans le chat, ainsi que les écritures de l'Inde, du Sri Lanka, de Birmanie, du Cambodge et d'Éthiopie.
+
+### Petites corrections
+Dans une petite fenêtre, ouvrir les phrases rapides n'en envoie plus une. Les réactions que vous avez indiquent comment vous les avez obtenues. Avec les règles officielles, la poche visée n'est plus éclairée.
+
 ## 0.11.0
 
 ### Médailles de rubis et 26 nouvelles réactions

@@ -3,6 +3,20 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.11.1
+
+### Libero appena finisce la partita
+Quando una partita è finita, entrambi i giocatori risultano subito liberi nella sala e possono essere invitati anche mentre guardano ancora il risultato. Uscire mentre l'ultimo tiro rotola non ti lascia più bloccato al tavolo.
+
+### Una chat della misura che vuoi
+Trascina il bordo superiore della chat della partita per allungarla o accorciarla; mantiene quella misura. Ogni chat ha una barra di scorrimento che si può trascinare.
+
+### Tutte le lingue in chat
+Molti più caratteri cinesi (anche tradizionali) e kanji giapponesi si vedono in chat, così come le scritture di India, Sri Lanka, Myanmar, Cambogia ed Etiopia.
+
+### Correzioni minori
+In una finestra piccola, aprire le frasi rapide non ne invia più una. Le reazioni che hai mostrano come le hai ottenute. Con le regole ufficiali, la buca a cui punta la mira non si illumina più.
+
 ## 0.11.0
 
 ### Medaglie di rubino e 26 nuove reazioni

@@ -3,6 +3,20 @@
 # destaque, e as linhas seguintes são o texto dele. Curto e sobre o que os
 # jogadores veem; todas as línguas têm as mesmas versões e o mesmo número de destaques.
 
+## 0.11.1
+
+### Livre assim que o jogo acaba
+Quando o jogo termina, os dois jogadores aparecem livres no salão de imediato, e podem ser convidados mesmo enquanto veem o resultado. Sair enquanto a última jogada rola já não te deixa preso à mesa.
+
+### Um chat do tamanho que quiseres
+Arrasta a borda de cima do chat do jogo para o tornar mais alto ou mais baixo; ele guarda o tamanho. Todos os chats têm uma barra de deslocamento que se pode arrastar.
+
+### Todas as línguas no chat
+Muitos mais caracteres chineses (também os tradicionais) e kanji japoneses aparecem no chat, tal como as escritas da Índia, do Sri Lanka, de Myanmar, do Camboja e da Etiópia.
+
+### Correções menores
+Numa janela pequena, abrir as frases rápidas já não envia uma delas. As reações que tens mostram como as ganhaste. Nas regras oficiais, o buraco para onde a mira aponta já não fica aceso.
+
 ## 0.11.0
 
 ### Medalhas de rubi e 26 reações novas

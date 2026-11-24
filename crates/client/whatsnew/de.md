@@ -3,6 +3,20 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.11.1
+
+### Frei, sobald die Partie endet
+Ist eine Partie vorbei, erscheinen beide Spieler sofort als frei in der Lounge und können eingeladen werden, auch während sie noch das Ergebnis ansehen. Wer geht, während der letzte Stoß noch rollt, bleibt nicht mehr am Tisch hängen.
+
+### Ein Chat in deiner Größe
+Zieh den oberen Rand des Chats in der Partie, um ihn höher oder niedriger zu machen; er behält diese Größe. Jeder Chat hat eine Bildlaufleiste, die du ziehen kannst.
+
+### Jede Sprache im Chat
+Viel mehr chinesische Schriftzeichen (auch traditionelle) und japanische Kanji erscheinen im Chat, ebenso die Schriften Indiens, Sri Lankas, Myanmars, Kambodschas und Äthiopiens.
+
+### Kleinere Korrekturen
+In einem kleinen Fenster schickt das Öffnen der Schnellsätze keinen mehr ab. Reaktionen, die du hast, zeigen, wie du sie bekommen hast. Bei den offiziellen Regeln leuchtet die Tasche, auf die du zielst, nicht mehr.
+
 ## 0.11.0
 
 ### Rubinmedaillen und 26 neue Reaktionen

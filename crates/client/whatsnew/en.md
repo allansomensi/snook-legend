@@ -3,6 +3,20 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.11.1
+
+### Free as soon as the game ends
+When a game is over, both players show as free in the lounge at once, and can be invited while still looking at the result. Leaving as the last shot rolls no longer leaves you at the table.
+
+### A chat you can size
+Drag the top edge of the chat in a game to make it taller or shorter; it keeps that size. Every chat has a scroll bar you can drag.
+
+### Every language in the chat
+Many more Chinese characters (traditional ones too) and Japanese kanji show in the chat, and so do the scripts of India, Sri Lanka, Myanmar, Cambodia and Ethiopia.
+
+### Smaller fixes
+In a small window, opening the quick phrases no longer sends one. Reactions you have show how you got them. Under the official rules, the pocket your aim points at is no longer lit.
+
 ## 0.11.0
 
 ### Ruby medals and 26 new reactions

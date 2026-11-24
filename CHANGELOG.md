@@ -1,5 +1,64 @@
 # Changelog
 
+## 0.11.1 (protocol 24)
+
+Fixes for the lounge and the chat: players are free as soon as a game ends,
+the match chat can be made taller, every chat has a scroll bar to drag,
+and the chat shows many more languages. The protocol is unchanged: 0.10.x
+and 0.11.x games play together.
+
+### Lounge
+- **Free as soon as the game ends**: a game over no longer counts as
+  played. Both players show as free in the lounge (and on the friends'
+  list) the moment it ends, also while they still look at the result, and
+  can be invited then: accepting leaves the result for the new game (the
+  opponent is told, as when going back to the lounge). Before, each stayed
+  "playing" until they left the result screen.
+- **Leaving as the last shot rolls**: "Leave" sends a resignation and then
+  the leaving; with a shot still being played the resignation waits for
+  it, and the server refused the leaving ("Resign first"), so the player
+  stayed at the table, unable to join "Play now" ("Finish your game
+  first"). The leaving now waits with the resignation, and the player is
+  back in the lounge when the game is over.
+
+### Chat
+- **The match chat can be made taller or shorter**: its top edge is
+  dragged (the pointer turns into up-down arrows, and a short bar marks
+  it), from a small strip up to the top bar. The height is kept in the
+  settings (`chat_height`) for the next games.
+- **A scroll bar you can drag** in every chat (the match's, the lounge's
+  and the game history offline): the thumb is as long as the part shown, is
+  dragged, and a press on the track brings it there. The wheel still works.
+- **The quick phrases no longer send one on the click that opens them**: in
+  a small window the list, kept below the top bar, opened over its own
+  button, and the click that opened it chose the phrase under the pointer.
+  The list now opens above the button or, without room, below it (never
+  over it), its rows a little closer when the window is short, and the
+  opening click never chooses. The reactions' picker opens the same way.
+- **Every language in the chat**: the Chinese font has all of GB 2312 and
+  the traditional characters of Big5 level 1 (with Bopomofo), and the
+  Japanese one the level 2 kanji too, so the characters of everyday chat
+  ("喔", "呃", "喵", "來", "賽", "綺麗"…) show instead of a blank. New fonts
+  for Gurmukhi, Gujarati, Odia, Tamil, Telugu, Kannada, Malayalam, Sinhala,
+  Khmer and Myanmar (shaped) and Ethiopic. A test checks chat lines in
+  about forty languages for a glyph for every character.
+- **Joiners kept inside words**: the zero-width non-joiner and joiner
+  between two letters of Arabic, the scripts of India and Sri Lanka,
+  Myanmar and Khmer stay in chat lines (Persian's "ضربه‌ی", Sinhala's
+  "ශ්‍රී"); between Latin letters they still go.
+
+### Reactions
+- **A reaction had still says how it is won**: under the pointer, in the
+  match's picker and on the profile, every reaction shows its achievement
+  (or the shop, VIP, or "Every player has it"), not only the locked ones.
+
+### Official rules
+- **The pocket the aim points at is no longer lit**: the call that follows
+  the aim showed a ring on that pocket (and named it in the status line),
+  which told where the aim sends the ball. Only a pocket the player calls
+  by clicking it is shown now; the call itself still follows the aim. The
+  rules' page no longer mentions the ring.
+
 ## 0.11.0 (protocol 24)
 
 Ruby medals and 26 new reactions (12 of them in the shop), a clearer

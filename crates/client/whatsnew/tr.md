@@ -3,6 +3,20 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.11.1
+
+### Oyun biter bitmez müsait
+Bir oyun bittiğinde iki oyuncu da lobide hemen müsait görünür ve sonuca bakarken bile davet edilebilir. Son vuruş hâlâ yuvarlanırken çıkarsan artık masada takılı kalmazsın.
+
+### İstediğin boyda sohbet
+Oyundaki sohbetin üst kenarını sürükleyerek onu uzatabilir ya da kısaltabilirsin; bu boyu hatırlar. Her sohbette sürüklenebilen bir kaydırma çubuğu var.
+
+### Sohbette her dil
+Sohbette çok daha fazla Çince karakter (gelenekseller de) ve Japonca kanji görünür; Hindistan, Sri Lanka, Myanmar, Kamboçya ve Etiyopya yazıları da.
+
+### Küçük düzeltmeler
+Küçük bir pencerede hızlı mesajları açmak artık birini göndermiyor. Sahip olduğun tepkiler onları nasıl kazandığını gösteriyor. Resmî kurallarda nişan aldığın cep artık yanmıyor.
+
 ## 0.11.0
 
 ### Yakut madalyalar ve 26 yeni tepki

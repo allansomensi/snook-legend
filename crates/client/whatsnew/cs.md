@@ -3,6 +3,20 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.11.1
+
+### Volný hned po konci hry
+Když hra skončí, oba hráči se v herně hned ukážou jako volní a dají se pozvat, i když se ještě dívají na výsledek. Odchod, zatímco poslední šťouch ještě jede, tě už nenechá viset u stolu.
+
+### Chat podle tebe
+Tažením horního okraje chatu ve hře ho zvětšíš nebo zmenšíš; velikost si pamatuje. Každý chat má posuvník, který jde táhnout.
+
+### Všechny jazyky v chatu
+V chatu se zobrazí mnohem víc čínských znaků (i tradičních) a japonských kandži, a také písma Indie, Srí Lanky, Myanmaru, Kambodže a Etiopie.
+
+### Drobné opravy
+V malém okně už otevření rychlých frází žádnou neodešle. Reakce, které máš, ukazují, jak jsi je získal. V oficiálních pravidlech se díra, na kterou míříš, už nerozsvítí.
+
 ## 0.11.0
 
 ### Rubínové medaile a 26 nových reakcí

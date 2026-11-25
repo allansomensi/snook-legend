@@ -163,3 +163,70 @@ Rated games use Elo (`snook_legend_core::rating`). See `docs/DEPLOY.md` for limi
 - `advanced_stats { rules }` → `advanced_stats { stats }`: a VIP's success
   by pocket and cut angle, week by week, and their league's (others get
   `vip: false` and no numbers).
+
+## New modes (0.12)
+
+### Doubles
+
+Two teams of two at one table (`crates/server/src/lounge/doubles.rs`,
+`snook_legend_core::doubles`, `snook_legend_proto::doubles`). Only games of
+protocol 25 or later are paired (the connection tells the lounge its
+protocol after signing in).
+
+- A pair: `doubles_invite { to }` (friends only; anyone on a LAN) →
+  `doubles_invited { from }` / `doubles_invite_sent { to }`;
+  `doubles_answer { from, accept }` → `doubles_pair { pair }` to both (the
+  partner, the pair's search or table). `doubles_leave` ends the pair (and
+  what it had going); signing out does too.
+- Finding another pair: `doubles_queue { rated, rules }` ("Play now": pairs
+  matched by the average of their doubles ratings, the range widening as
+  the singles queue's), `doubles_queue_leave`; or `doubles_open_table
+  { rated, rules }` → `doubles_tables { tables }` to everyone,
+  `doubles_join_table { id }`, `doubles_close_table`.
+- The game is a match room whose seats are the teams: each player gets
+  `doubles_lineup { lineup }` and then the usual `match_started` (`seat`:
+  their team; `players`: the teams' first players), and every match
+  message after it. The line-up comes again whenever it changes (a visit, a
+  connection, the result: `deltas`).
+- The rotation: every time the table comes to a team, a new visit of that
+  team begins, and the team's players take its visits in turn (the first
+  player the first visit, the breaking team's first player breaks). Within
+  a visit the same player shoots on. Only the player holding the cue may
+  aim, place the cue ball, shoot or choose; either may resign for the team.
+- Connections: a player whose connection drops is not waited for: their
+  partner takes the visit (with at least 15 s on the clock). The team is
+  away (`opponent_connection` to the other team, the reconnection grace
+  running) only when both are; it has left the game when both are gone past
+  the grace (or the shot clock runs out three times in a row, as in
+  singles). Doubles games are not saved for a restart nor handed to the
+  next server: they are played to their end on the server they started on.
+- The rating: a doubles rating per player and rules, apart from the singles
+  one (1200 to start). The expected score comes from the teams' averages;
+  each player moves by their own K-factor. Leaving costs both players the
+  usual extra. `doubles_leaderboard { rules }` → `doubles_leaderboard
+  { rules, entries }`; `/api/leaderboard?mode=doubles`. A doubles game
+  played to the end gives experience, and coins when rated (as singles);
+  it doesn't count for the singles statistics, missions or achievements.
+- Rematch: all four must ask (`rematch`); the other team breaks.
+
+### Against the clock
+
+A full rack cleared alone (`snook_legend_core::rules::time_attack`,
+`snook_legend_proto::time_attack`, `crates/server/src/time_attack.rs`):
+any ball first, every ball made stays down, the 8 last (made early it is
+spotted and the shot is a foul); fouls (scratch, no ball hit, a ball off the
+table, the early 8) give the cue ball in hand anywhere and cost 10 s.
+
+- `time_attack` → `time_attack { info }` (the week's table, last week's
+  winners, attempts left today, the player's best and place).
+- `time_attack_start` → `time_attack_started { attempt, seed }` (a rack of
+  its own for each attempt; 10 a day) or `time_attack_result { attempt: 0,
+  result: Err(no_attempts_left) }`.
+- `time_attack_submit { attempt, strokes }` (each stroke with the cue ball's
+  place when in hand) → `time_attack_result { attempt, result }`: the server
+  plays the strokes again; they must clear the table. The time is the
+  server's, from the start to the strokes arriving (20 minutes at most),
+  never less than the balls rolled, plus the penalties.
+- The week runs Monday to Sunday (UTC). Once it is over, its three quickest
+  get 300, 200 and 100 coins (paid once, checked every five minutes) and a
+  note in the inbox (`tournament_result` named "Against the clock").

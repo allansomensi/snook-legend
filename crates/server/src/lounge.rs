@@ -315,6 +315,9 @@ struct Room {
     rated: bool,
     game: EightBallGame,
     deadline: Instant,
+    /// The shot clock of the turn under way (as it was when the turn
+    /// started: the live setting may change meanwhile).
+    clock: Duration,
     disconnected: [Option<Instant>; 2],
     finished: bool,
     rematch: [bool; 2],
@@ -902,6 +905,7 @@ impl Lounge {
             room.grace_until = None;
             self.featured_dirty = true;
             room.deadline = Instant::now() + self.settings.shot_clock;
+            room.clock = self.settings.shot_clock;
         } else if was_away
             && !room.finished
             && room.busy.is_none()
@@ -2708,6 +2712,7 @@ impl Lounge {
             game: EightBallGame::new(seed, breaker, rules),
             // (The players see the match's introduction first.)
             deadline: Instant::now() + MATCH_INTRO + self.settings.shot_clock,
+            clock: self.settings.shot_clock,
             disconnected: [None, None],
             finished: false,
             rematch: [false, false],
@@ -2940,8 +2945,9 @@ impl Lounge {
         room.game.prepare_shot(&shot, called).map_err(|e| format!("Can't shoot: {e}."))?;
         let turn = room.game.shots_taken();
         let cue_ball = room.game.ball_in_hand().map(|_| room.game.ball(BallId::CUE).xy());
-        // How long it was thought over: since the shot clock started.
-        let clock = self.settings.shot_clock;
+        // How long it was thought over: since the shot clock started (the
+        // clock of this turn, whatever the setting is now).
+        let clock = room.clock;
         let left = room.deadline.saturating_duration_since(Instant::now());
         let think = clock.saturating_sub(left).as_millis().div_ceil(100) as u32;
         room.think.push((room.replay.strokes.len(), think));
@@ -2983,6 +2989,7 @@ impl Lounge {
                     game: room.game.clone(),
                 };
                 room.deadline = Instant::now() + clock;
+                room.clock = clock;
                 self.send_room(id, &msg);
                 self.resign_waiting(id);
                 return;
@@ -3015,6 +3022,7 @@ impl Lounge {
             room.turns[next] += 1;
         }
         room.deadline = room.shot_at + Duration::from_secs_f64(duration) + SHOT_MARGIN + clock;
+        room.clock = clock;
         let clock_left = room.deadline.saturating_duration_since(Instant::now()).as_secs_f32();
         let msg = ServerMsg::ShotResult { turn, end: room.game.clone(), report, clock_left };
         let over = room.game.game_over().is_some();
@@ -3080,6 +3088,7 @@ impl Lounge {
             room.turns[room.game.current_player()] += 1;
         }
         room.deadline = Instant::now() + clock;
+        room.clock = clock;
         let msg =
             ServerMsg::TimeFoul { seat, game: room.game.clone(), clock_left: clock.as_secs_f32() };
         self.send_room(id, &msg);
@@ -3122,6 +3131,7 @@ impl Lounge {
             room.turns[next] += 1;
         }
         room.deadline = Instant::now() + clock;
+        room.clock = clock;
         let msg = ServerMsg::Chose {
             seat,
             turn,
@@ -3855,6 +3865,7 @@ impl Lounge {
             rated: live.rated,
             game: rebuilt.game,
             deadline: nowi + RESTORE_GRACE + self.settings.shot_clock,
+            clock: self.settings.shot_clock,
             disconnected: [Some(nowi), Some(nowi)],
             finished: false,
             rematch: [false, false],
@@ -4143,6 +4154,49 @@ mod tests {
         assert!(matches!(effects.try_recv(), Ok(Effect::DeleteLive(1))));
         assert!(effects.try_recv().is_err());
         assert_eq!(l.pending_effects().load(Ordering::SeqCst), 1);
+    }
+
+    /// The time a shot was thought over is counted with the shot clock the
+    /// turn started with, not one the staff set meanwhile.
+    #[tokio::test]
+    async fn thinking_time_goes_by_the_turns_clock() {
+        let store = crate::store::Store::memory();
+        let user = |name: &'static str| crate::store::NewUser {
+            username: name,
+            password_hash: "x",
+            country: "BR",
+            rating: 1200,
+            role: snook_legend_proto::Role::Player,
+            ip: "127.0.0.1",
+            minor: Some(false),
+        };
+        let a = store.create_user(&user("ana")).await.unwrap().unwrap();
+        let b = store.create_user(&user("bia")).await.unwrap().unwrap();
+        let (tx, _effects) = tokio::sync::mpsc::unbounded_channel();
+        let settings = Settings { shot_clock: Duration::from_secs(30), ..Settings::default() };
+        let mut l = Lounge::new(settings, tx);
+        let keys = ["ana".to_string(), "bia".to_string()];
+        let game = Game { seed: 1, breaker: 0, rules: Rules::Official };
+        l.create_room(
+            7,
+            keys,
+            [a, b],
+            [false; 2],
+            false,
+            game,
+            None,
+            Default::default(),
+            false,
+            None,
+        );
+        // The turn started 10 seconds ago, with 30 seconds on the clock.
+        l.rooms.get_mut(&7).unwrap().deadline = Instant::now() + Duration::from_secs(20);
+        // The staff make it 60 seconds now: the turn keeps its 30.
+        l.settings.shot_clock = Duration::from_secs(60);
+        let shot = Shot { yaw: 0.0, elevation: 0.0, tip: DVec2::ZERO, speed: 3.0 };
+        l.start_shot(7, 0, shot, None, None, false, true).unwrap();
+        let think = l.rooms[&7].think[0].1;
+        assert!((100..=102).contains(&think), "10 seconds, not 40: {think}");
     }
 
     /// Games between the same two players are counted rated and casual

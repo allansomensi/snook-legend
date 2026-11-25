@@ -21,10 +21,13 @@ use crate::{Server, now, shop};
 /// How long a league's numbers are kept before they are read again.
 const LEAGUE_KEPT: Duration = Duration::from_secs(15 * 60);
 
-/// The leagues' numbers read lately: (rules, tier) -> (when, sums, players).
+/// A league's numbers as read: when, the sums, and how many players.
+type League = (Instant, Sums, u32);
+
+/// The leagues' numbers read lately, by rules and tier.
 #[derive(Default)]
 pub struct LeagueCache {
-    leagues: Mutex<HashMap<(Rules, Tier), (Instant, Sums, u32)>>,
+    leagues: Mutex<HashMap<(Rules, Tier), League>>,
 }
 
 /// The ratings of a tier: from its own minimum to the next one's.

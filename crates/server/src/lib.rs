@@ -1207,8 +1207,14 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         writer_kill.notify_one();
     });
 
+    // A connection that can't keep up is closed (the game reconnects and
+    // gets everything afresh), as the lounge does with its own messages: an
+    // answer dropped on the floor left the game waiting for it.
     let send = |msg: ServerMsg| {
-        let _ = tx.try_send(msg);
+        if let Err(mpsc::error::TrySendError::Full(_)) = tx.try_send(msg) {
+            tracing::warn!("{ip}: outgoing queue full, closing the connection");
+            kill.notify_one();
+        }
     };
     let mut hello = false;
     // The rules the player plays (the game says so in its hello).

@@ -2883,3 +2883,71 @@ async fn the_shot_clock_waits_for_a_dropped_player() {
     assert!(clock_left > 0.5, "{clock_left}");
     assert_eq!(back.shots_taken(), 0, "nothing was played meanwhile");
 }
+
+/// While the friend being watched is reconnecting, their game can still be
+/// watched (a spectator who reconnects too asks again), and the friend back
+/// at the table is told who is watching (a new table showed nobody).
+#[tokio::test]
+async fn watching_goes_on_while_the_friend_reconnects() {
+    let url = start(Settings::default()).await;
+    let (mut alice, alice_token) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (mut carol, _) = Client::register(&url, "carol").await;
+    carol.send(ClientMsg::FriendRequest { username: "alice".into() }).await;
+    alice.expect("request", |m| matches!(m, ServerMsg::FriendRequestReceived { .. })).await;
+    alice.send(ClientMsg::FriendAnswer { username: "carol".into(), accept: true }).await;
+    carol
+        .expect(
+            "friends",
+            |m| matches!(m, ServerMsg::Friends { friends, .. } if !friends.is_empty()),
+        )
+        .await;
+    start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    drop(alice);
+    bob.expect("lost", |m| matches!(m, ServerMsg::OpponentConnection { connected: false, .. }))
+        .await;
+    carol.send(ClientMsg::Spectate { username: "alice".into() }).await;
+    let m = carol
+        .expect("watching", |m| {
+            matches!(m, ServerMsg::MatchStarted { .. } | ServerMsg::Error { .. })
+        })
+        .await;
+    assert!(matches!(m, ServerMsg::MatchStarted { spectating: true, .. }), "{m:?}");
+    let mut alice = Client::connect(&url).await;
+    alice.send(ClientMsg::Resume { token: alice_token }).await;
+    alice.expect("back", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    alice.expect("watched", |m| matches!(m, ServerMsg::Spectators { count: 1 })).await;
+}
+
+/// The usual way a game reconnects: it signs in again before the server saw
+/// its old connection go. What was sent to that connection in its last
+/// moments (the opponent's line, a rematch asked for) comes again.
+#[tokio::test]
+async fn signing_in_again_brings_back_what_the_old_connection_missed() {
+    let url = start(Settings::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, bob_token) = Client::register(&url, "bob").await;
+    start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    alice.send(ClientMsg::MatchChat { text: "good luck".into() }).await;
+    alice.expect("said", |m| matches!(m, ServerMsg::MatchChat { .. })).await;
+    // (Bob's old connection got it; his game didn't.)
+    let mut bob2 = Client::connect(&url).await;
+    bob2.send(ClientMsg::Resume { token: bob_token.clone() }).await;
+    bob2.expect("back", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    let ServerMsg::MatchChat { line } =
+        bob2.expect("the line", |m| matches!(m, ServerMsg::MatchChat { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(line.text, "good luck");
+    // The game ends; a rematch asked for meanwhile reaches the next one.
+    drop(bob);
+    alice.send(ClientMsg::Resign).await;
+    bob2.expect("over", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    alice.send(ClientMsg::Rematch).await;
+    tokio::time::sleep(Duration::from_millis(200)).await;
+    let mut bob3 = Client::connect(&url).await;
+    bob3.send(ClientMsg::Resume { token: bob_token }).await;
+    bob3.expect("back", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    bob3.expect("the offer", |m| matches!(m, ServerMsg::RematchOffered)).await;
+}

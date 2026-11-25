@@ -170,6 +170,9 @@ const RECONNECT_CLOCK: Duration = Duration::from_secs(15);
 /// The games of 0.12 and later open a match with its introduction (the two
 /// players face each other, a few seconds): the first shot clock waits for it.
 const MATCH_INTRO: Duration = Duration::from_secs(3);
+/// A player who signs in again while their old connection still seemed
+/// open gets the table's chat lines of this many seconds again.
+const RECENT_CHAT_SECS: i64 = 60;
 /// Aim and cue-ball updates are relayed at most this often.
 const AIM_RELAY: Duration = Duration::from_millis(33);
 const MATCH_CHAT_KEEP: usize = 40;
@@ -874,7 +877,14 @@ impl Lounge {
                 let n = room.chat_total.saturating_sub(mark).min(room.chat.len() as u64) as usize;
                 room.chat.iter().skip(room.chat.len() - n).cloned().collect()
             }
-            None => Vec::new(),
+            // Signed in again before the server saw the old connection go
+            // (the usual way a game reconnects): what was sent to it in its
+            // last moments may never have arrived. The last minute's lines
+            // come again (the game leaves out those it has).
+            None => {
+                let since = now() - RECENT_CHAT_SECS;
+                room.chat.iter().filter(|l| l.at >= since).cloned().collect()
+            }
         };
         let rematch_offered = room.finished && room.rematch[1 - seat];
         self.send(k, msg);

@@ -135,7 +135,8 @@ history; others in the lounge, an open table and a tournament):
 
 ```sh
 export CARGO_TARGET_DIR=target   # any target dir; a debug build is needed
-cargo build -p snook-legend -p snook_legend_server --example ux_seed
+cargo build -p snook-legend
+cargo build -p snook_legend_server --example ux_seed
 python3 tools/screens.py --out /tmp/shots                     # everything
 python3 tools/screens.py --only menu,profile-achievements --langs en,ar --sizes 1024x600
 ```
@@ -160,3 +161,49 @@ The medals alone: `cargo test -p snook-legend export_medals -- --ignored`
 | Settings → Game | "Show reactions" (General) and "Hide the opponent's reactions" (Chat and reactions): two switches for one thing. | One "Reactions" choice in Chat and reactions: All / Hide opponent / Off. |
 | Profile → Achievements | On short windows the reactions ran out of the panel. | Medals and reactions shrink together to fit the panel at every size. |
 | Main menu | Crashed with seven places along the bottom (hover state for five). | Fixed. |
+
+# UI/UX review (0.12.1)
+
+## Screenshots: every entry works
+
+`tools/screens.py` now runs all its screens (65 of them) in every
+language and size. What was wrong with it, and what changed:
+
+| Before | Now |
+|---|---|
+| The documented `cargo build -p snook-legend -p snook_legend_server --example ux_seed` built the examples only: no game binary, every screen failed. | Two commands (above). |
+| One server for all workers: Ana signed in on two screens at once signed herself out of the first, so most online screens showed the sign-in page. | A seeded server per worker (`--jobs`), on ports from `--port` (two runs at once need different ones). |
+| Signing in adopted the account's language: online screens were in English whatever `--langs` said. | The settings written for the shot are newer than the account's, so they stay. |
+| Ana's pinned message from the staff and the items her achievements brought covered every online screen. | Kept off them (`SNOOK_LEGEND_QUIET_INBOX`, `SNOOK_LEGEND_QUIET_REWARDS`), each on its own screen: `staff-message` (with the achievement card waiting behind it) and `reward`. |
+| `auctions` and `credits` opened on empty pages. | The seed has auctions (with bids, one over) and supporters. |
+| The seed's players were let go after 75 s idle: the lounge emptied during a run. | They ping the server. |
+| `match-chat` and `match-reactions` were games against the computer, which have neither. | Real rated online games (and `match-online`) against seed players who take any invitation, greet the table and resign when the window closes. |
+| `match-intro` held the intro at one moment only. | `match-intro` (all in), `match-intro-in`, `match-intro-vs`, `match-intro-out`: `SNOOK_LEGEND_INTRO=0.5s` holds it at that moment. |
+| Hover states and tooltips depended on where Xvfb left the pointer. | The pointer is parked off the window for screenshots (`SNOOK_LEGEND_POINTER` keeps it). |
+| `settings-advanced` showed the Graphics tab. | The Game tab, scrolled to Advanced. |
+
+## Changes
+
+| Where | Before | Now |
+|---|---|---|
+| Match intro | The "VS" (46 px, 62 at its bounce) spilled out of its 68 px circle; on narrow windows the badge sat over the cards; "You" touched the picture; a VIP's crown pushed the name off centre; skipping cut it dead. | A ringed medallion that always fits the gap, the word fitted inside it in every language. A sequence: the table dims, the cards slide in from their sides a beat apart with a hint of overshoot, the VS lands from large with a bounce and a ring of light, the stakes and the rules rise in; going (or skipped) the cards part a little as everything fades. Names shrink to fit before they are shortened. |
+| Achievement card | Drew over the staff's message and any other dialog; its medal shrank as it went. | Waits, unseen and with its clock stopped, while a dialog is up; the medal fades with the card. On the main menu it comes down beside the title, under the player's card, never over the game's name. |
+| Diamond medal | The stone read as a pale grey-blue disc at mid sizes. | A round brilliant's real layout (table, star facets, kites, girdle facets) in strong light and dark, a little saturated fire, a dark girdle against the setting and a glint never thinner than a pixel or two: it sparkles at 32 px too. |
+| Main menu | Toasts covered the row of places. | They centre in the room right of the menu's column. |
+| Two players | A Back button at the bottom, unlike every other setup screen. | The back arrow by the title; Play as the single, full-width action. |
+| Daily challenge, Against the clock | "Nobody has played yet" in a line of small text at the top of a tall, empty panel; buttons narrower than the column of numbers above them. | The empty state of every other list (centred, with its icon); full-width actions. |
+| Segmented controls (settings, setup) | Equal cells: a long option ("Gegner ausblenden", "Hide opponent") shrank to a whisper beside "All". | Cells as wide as their labels when they don't all fit, one type size for the whole control. |
+| Settings, notes, rules | Rows cut in half at the scroll's edges. | The list fades into the panel at the edge that has more. |
+| Profile → Rating | League names sat under the rating-now chip and the rules tag. | Names at the left, the chart under the tag. |
+| Profile → Numbers | "No games yet." to players with games (the pane counts shots). | "No shots yet." |
+| Shop → VIP | "0 coins every month" before the server said how many. | The line waits for the number. |
+| Chalk (shop, collection, rewards) | A flat green square. | A cube in its wrapper, lit from the top left, the dish of the tip worn into it, with its shadow. |
+| At the table: reactions | 101 reactions, 7 across, ran over the bottom bar and its buttons. | As many columns as needed to fit above the bar; the player's own first, those still to win after. |
+| At the table: a recorded game | Its controls floated over the table's bottom cushion while the bottom bar sat empty. | In the bottom bar. |
+| Game over | "Computer wins!" in the same celebratory gold as a win. | A win: gold, a trophy and a glow; a loss: plain. |
+
+## Still to do
+
+- Arabic is shaped and ordered right, but laid out left to right (labels
+  on the left, controls on the right, chevrons pointing right): a mirrored
+  layout for right-to-left languages is a larger piece of work.

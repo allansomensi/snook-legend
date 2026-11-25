@@ -34,11 +34,14 @@ PORT = 7979  # the first worker's server; the next ones count up
 # online: the game signs in as Ana on the local server. Her pinned message
 # from the staff (a dialog until read) is kept off every screen but
 # "staff-message" (SNOOK_LEGEND_QUIET_INBOX), where her new achievement's
-# card waits behind it.
+# card waits behind it; the items her achievements brought, a dialog too,
+# only on "staff-message" and "reward" (SNOOK_LEGEND_QUIET_REWARDS).
 SCREENS = {
     "menu": ([], {}, False, 90),
     "menu-online": ([], {}, True, 150),
     "staff-message": ([], {"_loud": "1"}, True, 150),
+    # The items an achievement brought ("Congratulations!").
+    "reward": ([], {"_rewards": "1"}, True, 150),
     "whats-new": ([], {"SNOOK_LEGEND_WHATS_NEW": "1"}, False, 90),
     "rules": ([], {"SNOOK_LEGEND_WHATS_NEW": "rules"}, False, 90),
     "setup-free": (["--screen", "setup"], {}, False, 90),
@@ -185,6 +188,8 @@ def shoot(job, slot):
         )
         if online and "_loud" not in env_extra:
             env["SNOOK_LEGEND_QUIET_INBOX"] = "1"
+            if "_rewards" not in env_extra:
+                env["SNOOK_LEGEND_QUIET_REWARDS"] = "1"
         env.update({k: v for k, v in env_extra.items() if not k.startswith("_")})
         cmd = [
             "xvfb-run",

@@ -1512,6 +1512,8 @@ async fn list_events(State(server): State<Arc<Server>>, headers: HeaderMap) -> A
 
 #[derive(Deserialize)]
 struct EventBody {
+    /// Optional on `/tournaments/official`, which sets it.
+    #[serde(default)]
     kind: String,
     title: String,
     #[serde(default)]

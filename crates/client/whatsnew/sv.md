@@ -3,6 +3,32 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.12.0
+
+### Dubbel och mot klockan
+Spela 2 mot 2 med en vän (partnerna turas om vid bordet), med en dubbelranking för varje regelvariant. Eller rensa bordet mot klockan och klättra i veckans ranking.
+
+### Officiella regler: anmäl 8:an
+Bollarna i din grupp räknas fortfarande i vilket hål som helst, men 8:an måste anmälas: klicka på hålet före stöten. 8:an i ett annat hål förlorar.
+
+### Din samling
+Alla dina föremål, med deras sällsynthet och hur och när du fick dem. Dussintals nya köer, bord, bollset, dukar, ramar, effekter och 49 nya reaktioner, några animerade, några som bara vinns i evenemang och turneringar.
+
+### Inkorg
+Meddelanden från personalen, priser, turneringar och prestationer ligger kvar i din inkorg tills du läser dem, med en knapp för att agera på var och en.
+
+### Vänner
+Meddelanden mellan vänner, vad varje vän gör (med en knapp för att titta på), en vänranking och dina inställningar på varje dator.
+
+### Vid bordet
+En intro med vad som står på spel i rankade partier, ett tydligt rankad-märke, en stor nedräkning när motståndaren försvinner, en chatt för åskådare och ett observatörsläge. Tysta chatten eller reaktionerna från en motståndare, så kommer det ihåg.
+
+### Turneringar, auktioner och rea
+Officiella turneringar med en prispott i realtid, en veckovis auktion av sällsynta föremål, rea i shoppen och en bonus för att spela flera dagar i rad.
+
+### För VIP
+Ett föremål i månaden att behålla för alltid, en siktfärg, en egen segeranimation och avancerad statistik.
+
 ## 0.11.2
 
 ### Officiella regler: alla hål räknas

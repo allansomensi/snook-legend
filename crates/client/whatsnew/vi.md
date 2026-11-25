@@ -2,6 +2,32 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.12.0
+
+### Đánh đôi và đua với thời gian
+Chơi 2 đấu 2 cùng một người bạn (các đồng đội luân phiên ở bàn), với bảng xếp hạng đánh đôi cho từng luật. Hoặc dọn sạch bàn đua với thời gian và leo lên bảng xếp hạng của tuần.
+
+### Luật chính thức: gọi bi số 8
+Bi trong nhóm của bạn vẫn tính ở bất kỳ lỗ nào, nhưng bi số 8 phải được gọi: nhấp vào lỗ trước khi đánh. Bi số 8 vào lỗ khác là thua.
+
+### Bộ sưu tập của bạn
+Mọi vật phẩm bạn có, kèm độ hiếm và cách thức, thời điểm bạn nhận được. Hàng chục cây cơ, bàn, bộ bi, mặt vải, khung, hiệu ứng mới và 49 biểu cảm mới, một số có hoạt ảnh, một số chỉ giành được trong sự kiện và giải đấu.
+
+### Hộp thư
+Tin nhắn từ ban quản trị, phần thưởng, giải đấu và thành tích nằm trong hộp thư cho đến khi bạn đọc, kèm một nút để xử lý từng mục.
+
+### Bạn bè
+Tin nhắn giữa bạn bè, mỗi người bạn đang làm gì (có nút để xem), bảng xếp hạng bạn bè và các cài đặt của bạn trên mọi máy tính.
+
+### Ở bàn đấu
+Phần giới thiệu về những gì đang được đặt cược trong ván xếp hạng, huy hiệu xếp hạng rõ ràng, đồng hồ đếm ngược lớn khi đối thủ mất kết nối, khung trò chuyện cho khán giả và chế độ quan sát. Tắt tiếng khung trò chuyện hoặc biểu cảm của một đối thủ, và điều đó được ghi nhớ.
+
+### Giải đấu, đấu giá và khuyến mãi
+Giải đấu chính thức với quỹ thưởng cập nhật trực tiếp, buổi đấu giá hằng tuần các vật phẩm hiếm, khuyến mãi trong cửa hàng và phần thưởng khi chơi nhiều ngày liên tiếp.
+
+### Dành cho VIP
+Một vật phẩm của tháng để giữ vĩnh viễn, một màu ngắm, hoạt ảnh chiến thắng riêng và thống kê nâng cao.
+
 ## 0.11.2
 
 ### Luật chính thức: lỗ nào cũng tính

@@ -3,6 +3,32 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.0
+
+### Çiftler ve zamana karşı
+Bir arkadaşınla 2'ye 2 oyna (partnerler masada sırayla oynar), her kural için bir çiftler sıralamasıyla. Ya da masayı zamana karşı temizle ve haftanın sıralamasında yüksel.
+
+### Resmî kurallar: 8'i söyle
+Grubunun topları hâlâ her cepte sayılır, ama 8 söylenmelidir: vuruştan önce cebe tıkla. 8 başka bir cebe girerse kaybedersin.
+
+### Koleksiyonun
+Sahip olduğun her eşya, nadirliği ve onu nasıl ve ne zaman edindiğinle birlikte. Onlarca yeni isteka, masa, top seti, çuha, çerçeve, efekt ve 49 yeni tepki; bazıları animasyonlu, bazıları yalnızca etkinliklerde ve turnuvalarda kazanılıyor.
+
+### Gelen kutusu
+Ekipten gelen mesajlar, ödüller, turnuvalar ve başarımlar sen okuyana kadar gelen kutunda kalır; her biri için işlem yapabileceğin bir düğme de var.
+
+### Arkadaşlar
+Arkadaşlar arasında mesajlar, her arkadaşın ne yaptığı (izlemek için bir düğmeyle), arkadaş sıralaması ve her bilgisayarda ayarların.
+
+### Masada
+Dereceli oyunlarda nelerin tehlikede olduğunu anlatan bir giriş, net bir dereceli rozeti, rakip düştüğünde büyük bir geri sayım, izleyiciler için bir sohbet ve gözlemci modu. Bir rakibin sohbetini veya tepkilerini sessize al, hatırlanır.
+
+### Turnuvalar, müzayedeler ve indirimler
+Canlı ödül havuzlu resmî turnuvalar, nadir eşyaların haftalık müzayedesi, mağazada indirimler ve üst üste günlerde oynama bonusu.
+
+### VIP'ler için
+Kalıcı olarak saklayabileceğin ayın eşyası, bir nişan rengi, kendine özel bir zafer animasyonu ve gelişmiş istatistikler.
+
 ## 0.11.2
 
 ### Resmî kurallar: her cep geçerli

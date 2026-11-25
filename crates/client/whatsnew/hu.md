@@ -2,6 +2,32 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.12.0
+
+### Páros és idő ellen
+Játssz 2 a 2 ellen egy barátoddal (a társak felváltva játszanak az asztalnál), minden szabályhoz külön páros ranglistával. Vagy takaríts le az asztalt idő ellen, és mássz fel a hét ranglistáján.
+
+### Hivatalos szabályok: mondd be a 8-ast
+A csoportod golyói továbbra is számítanak bármelyik lyukban, de a 8-ast be kell mondani: kattints a lyukra a lökés előtt. A 8-as egy másik lyukban veszít.
+
+### A gyűjteményed
+Minden tárgyad, a ritkaságával és azzal, hogyan és mikor szerezted. Tucatnyi új dákó, asztal, golyókészlet, posztó, keret, effekt és 49 új reakció, némelyik animált, némelyiket csak eseményeken és versenyeken lehet megnyerni.
+
+### Postaláda
+A csapat üzenetei, a nyeremények, a versenyek és a teljesítmények a postaládádban maradnak, amíg el nem olvasod őket, mindegyikhez egy gombbal a teendőhöz.
+
+### Barátok
+Üzenetek a barátok között, mit csinál éppen minden barát (egy gombbal a nézéshez), barátok ranglistája és a beállításaid minden számítógépen.
+
+### Az asztalnál
+Bevezető arról, mi a tét a rangsorolt játékokban, jól látható rangsorolt jelvény, nagy visszaszámlálás, ha az ellenfél kiesik, csevegés a nézőknek és megfigyelő mód. Némítsd el egy ellenfél csevegését vagy reakcióit, és megjegyzi.
+
+### Versenyek, árverések és akciók
+Hivatalos versenyek élő nyereményalappal, heti árverés ritka tárgyakból, akciók a boltban és bónusz az egymást követő napokon való játékért.
+
+### VIP-eknek
+A hónap tárgya, amelyet örökre megtarthatsz, célzószín, saját győzelmi animáció és haladó statisztikák.
+
 ## 0.11.2
 
 ### Hivatalos szabályok: bármelyik lyuk számít

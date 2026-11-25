@@ -3,6 +3,32 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.12.0
+
+### Ganda dan lawan waktu
+Main 2 lawan 2 bersama teman (rekan bergantian di meja), dengan peringkat ganda untuk setiap aturan. Atau bersihkan meja melawan waktu dan naiki peringkat minggu ini.
+
+### Aturan resmi: sebutkan bola 8
+Bola dari grupmu tetap dihitung di lubang mana pun, tetapi bola 8 harus disebutkan: klik lubangnya sebelum memukul. Bola 8 di lubang lain berarti kalah.
+
+### Koleksimu
+Semua item yang kamu punya, lengkap dengan kelangkaannya serta cara dan waktu kamu mendapatkannya. Puluhan stik, meja, set bola, kain, bingkai, efek baru, dan 49 reaksi baru, sebagian beranimasi, sebagian hanya bisa dimenangkan di event dan turnamen.
+
+### Kotak masuk
+Pesan dari tim, hadiah, turnamen, dan pencapaian tetap ada di kotak masukmu sampai kamu membacanya, dengan tombol untuk menindaklanjuti tiap pesan.
+
+### Teman
+Pesan antarteman, apa yang sedang dilakukan tiap teman (dengan tombol untuk menonton), peringkat teman, dan pengaturanmu di setiap komputer.
+
+### Di meja
+Pengantar tentang apa yang dipertaruhkan di game berperingkat, lencana berperingkat yang jelas, hitung mundur besar saat lawan terputus, chat untuk penonton, dan mode pengamat. Bisukan chat atau reaksi satu lawan, dan itu diingat.
+
+### Turnamen, lelang, dan diskon
+Turnamen resmi dengan total hadiah langsung, lelang mingguan item langka, diskon di toko, dan bonus karena bermain berhari-hari berturut-turut.
+
+### Untuk VIP
+Item bulanan untuk disimpan selamanya, warna bidikan, animasi kemenangan sendiri, dan statistik lanjutan.
+
 ## 0.11.2
 
 ### Aturan resmi: lubang mana pun dihitung

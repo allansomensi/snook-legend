@@ -3,6 +3,32 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.12.0
+
+### Čtyřhra a na čas
+Hraj 2 proti 2 s kamarádem (parťáci se u stolu střídají), s žebříčkem čtyřhry pro každá pravidla. Nebo vyčisti stůl na čas a šplhej v žebříčku týdne.
+
+### Oficiální pravidla: ohlas osmičku
+Koule tvé skupiny se pořád počítají v kterékoli díře, ale osmičku je třeba ohlásit: klikni na díru před úderem. Osmička v jiné díře prohrává.
+
+### Tvoje sbírka
+Každá věc, kterou máš, s její vzácností a s tím, jak a kdy jsi ji získal(a). Desítky nových tág, stolů, sad koulí, sukna, rámů, efektů a 49 nových reakcí, některé animované, některé k vyhrání jen v událostech a turnajích.
+
+### Schránka
+Zprávy od týmu, ceny, turnaje a úspěchy zůstávají ve tvé schránce, dokud je nepřečteš, s tlačítkem pro každou z nich.
+
+### Přátelé
+Zprávy mezi přáteli, co každý přítel dělá (s tlačítkem pro sledování), žebříček přátel a tvé nastavení na každém počítači.
+
+### U stolu
+Úvod s tím, o co se hraje v hodnocených hrách, jasný odznak hodnocené hry, velké odpočítávání, když soupeř vypadne, chat pro diváky a režim pozorovatele. Ztlum chat nebo reakce jednoho soupeře a zapamatuje se to.
+
+### Turnaje, aukce a slevy
+Oficiální turnaje s prize poolem naživo, týdenní aukce vzácných věcí, slevy v obchodě a bonus za hraní několik dní po sobě.
+
+### Pro VIP
+Věc měsíce, kterou si necháš navždy, barva zaměřování, vlastní vítězná animace a pokročilé statistiky.
+
 ## 0.11.2
 
 ### Oficiální pravidla: platí kterákoli díra

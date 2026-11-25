@@ -4,6 +4,32 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.12.0
+
+### Doubles et contre la montre
+Jouez à 2 contre 2 avec un ami (les partenaires jouent à tour de rôle à la table), avec un classement des doubles pour chaque règle. Ou nettoyez la table contre la montre et grimpez au classement de la semaine.
+
+### Règles officielles : annoncez la 8
+Les billes de votre groupe comptent toujours dans n'importe quelle poche, mais la 8 doit être annoncée : cliquez sur la poche avant le coup. La 8 dans une autre poche fait perdre.
+
+### Votre collection
+Tous vos objets, avec leur rareté et comment et quand vous les avez obtenus. Des dizaines de nouvelles queues, tables, jeux de billes, tapis, cadres, effets et 49 nouvelles réactions, certaines animées, certaines gagnées seulement lors d'événements et de tournois.
+
+### Boîte de réception
+Les messages de l'équipe, les récompenses, les tournois et les succès restent dans votre boîte de réception jusqu'à ce que vous les lisiez, avec un bouton pour agir sur chacun.
+
+### Amis
+Messages entre amis, ce que fait chaque ami (avec un bouton pour regarder), un classement des amis et vos réglages sur chaque ordinateur.
+
+### À la table
+Une introduction sur ce qui est en jeu dans les parties classées, un badge classé bien visible, un grand compte à rebours quand l'adversaire se déconnecte, un chat pour les spectateurs et un mode observateur. Coupez le chat ou les réactions d'un adversaire, et c'est mémorisé.
+
+### Tournois, enchères et soldes
+Des tournois officiels avec une cagnotte en direct, une enchère hebdomadaire d'objets rares, des soldes dans la boutique et un bonus pour avoir joué plusieurs jours de suite.
+
+### Pour les VIP
+Un objet du mois à garder pour toujours, une couleur de visée, une animation de victoire à soi et des statistiques avancées.
+
 ## 0.11.2
 
 ### Règles officielles : toutes les poches comptent

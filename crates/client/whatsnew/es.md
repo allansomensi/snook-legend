@@ -3,6 +3,32 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.12.0
+
+### Dobles y contrarreloj
+Juega 2 contra 2 con un amigo (los compañeros se turnan en la mesa), con un ranking de dobles para cada regla. O limpia la mesa contrarreloj y sube en el ranking de la semana.
+
+### Regla oficial: canta la 8
+Las bolas de tu grupo siguen valiendo en cualquier tronera, pero la 8 hay que cantarla: haz clic en la tronera antes del tiro. La 8 en otra tronera pierde.
+
+### Tu colección
+Todos tus objetos, con su rareza y cómo y cuándo los conseguiste. Decenas de tacos, mesas, juegos de bolas, paños, marcos y efectos nuevos y 49 reacciones nuevas, algunas animadas, otras solo se ganan en eventos y torneos.
+
+### Buzón
+Los mensajes del equipo, premios, torneos y logros se quedan en tu buzón hasta que los leas, con un botón para actuar en cada uno.
+
+### Amigos
+Mensajes entre amigos, qué está haciendo cada amigo (con un botón para mirar), un ranking de amigos y tus ajustes en cada ordenador.
+
+### En la mesa
+Una introducción con lo que se juega en las partidas puntuables, una insignia clara de partida puntuable, una cuenta atrás grande cuando el rival se desconecta, un chat para espectadores y un modo observador. Silencia el chat o las reacciones de un rival y se recuerda.
+
+### Torneos, subastas y ofertas
+Torneos oficiales con un bote de premios en vivo, una subasta semanal de objetos raros, ofertas en la tienda y una bonificación por jugar días seguidos.
+
+### Para VIP
+Un objeto del mes para quedártelo para siempre, un color de mira, una animación de victoria propia y estadísticas avanzadas.
+
 ## 0.11.2
 
 ### Regla oficial: vale cualquier tronera

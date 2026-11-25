@@ -2,6 +2,32 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.12.0
+
+### Debel i na czas
+Zagraj 2 na 2 z przyjacielem (partnerzy grają przy stole na zmianę), z rankingiem debla dla każdych zasad. Albo zbierz bile ze stołu na czas i wspinaj się w rankingu tygodnia.
+
+### Zasady oficjalne: zadeklaruj ósemkę
+Bile z twojej grupy nadal liczą się w każdej łuzie, ale ósemkę trzeba zadeklarować: kliknij łuzę przed uderzeniem. Ósemka w innej łuzie przegrywa.
+
+### Twoja kolekcja
+Wszystkie twoje przedmioty, z ich rzadkością oraz informacją, jak i kiedy je zdobyłeś. Dziesiątki nowych kijów, stołów, zestawów bil, sukien, ram, efektów i 49 nowych reakcji, niektóre animowane, niektóre do wygrania tylko w wydarzeniach i turniejach.
+
+### Skrzynka
+Wiadomości od ekipy, nagrody, turnieje i osiągnięcia zostają w twojej skrzynce, dopóki ich nie przeczytasz, z przyciskiem do działania przy każdej.
+
+### Znajomi
+Wiadomości między znajomymi, co robi każdy znajomy (z przyciskiem do oglądania), ranking znajomych i twoje ustawienia na każdym komputerze.
+
+### Przy stole
+Wstęp z informacją, o co toczy się gra w grach rankingowych, wyraźna odznaka gry rankingowej, duże odliczanie, gdy przeciwnik się rozłączy, czat dla widzów i tryb obserwatora. Wycisz czat lub reakcje jednego przeciwnika, a zostanie to zapamiętane.
+
+### Turnieje, aukcje i wyprzedaże
+Oficjalne turnieje z pulą nagród na żywo, cotygodniowa aukcja rzadkich przedmiotów, wyprzedaże w sklepie i bonus za granie przez kolejne dni.
+
+### Dla VIP
+Przedmiot miesiąca do zatrzymania na zawsze, kolor celowania, własna animacja zwycięstwa i zaawansowane statystyki.
+
 ## 0.11.2
 
 ### Zasady oficjalne: liczy się każda łuza

@@ -2,6 +2,32 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.12.0
+
+### Doubles at kontra-oras
+Maglaro ng 2 laban 2 kasama ang kaibigan (salitan ang magkapartner sa mesa), na may doubles na ranking para sa bawat patakaran. O linisin ang mesa laban sa oras at umakyat sa ranking ng linggo.
+
+### Patakarang Opisyal: i-call ang 8
+Bibilang pa rin ang mga bola ng grupo mo sa kahit anong pocket, pero kailangang i-call ang 8: i-click ang pocket bago tumira. Talo kapag napunta ang 8 sa ibang pocket.
+
+### Ang koleksyon mo
+Lahat ng item mo, kasama ang rarity at kung paano at kailan mo nakuha. Dose-dosenang bagong cue, mesa, set ng bola, tela, frame, effect at 49 bagong reaksyon, may ilang animated, may ilang napapanalunan lang sa mga event at paligsahan.
+
+### Inbox
+Ang mga mensahe mula sa staff, premyo, paligsahan at achievement ay mananatili sa inbox mo hanggang mabasa mo, may button para kumilos sa bawat isa.
+
+### Mga kaibigan
+Mga mensahe sa pagitan ng magkakaibigan, kung ano ang ginagawa ng bawat kaibigan (may button para manood), ranking ng mga kaibigan at ang mga setting mo sa bawat computer.
+
+### Sa mesa
+Isang intro tungkol sa nakataya sa mga rated na laro, malinaw na rated badge, malaking countdown kapag nawala ang kalaban, chat para sa mga manonood at observer mode. I-mute ang chat o mga reaksyon ng isang kalaban, at maaalala ito.
+
+### Mga paligsahan, auction at sale
+Mga opisyal na paligsahan na may live na prize pool, lingguhang auction ng mga bihirang item, sale sa shop at bonus sa paglalaro nang magkakasunod na araw.
+
+### Para sa VIP
+Item ng buwan na maitatago mo habambuhay, kulay ng aim, sariling animation ng panalo at advanced na istatistika.
+
 ## 0.11.2
 
 ### Patakarang Opisyal: puwede ang kahit anong pocket

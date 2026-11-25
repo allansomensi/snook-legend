@@ -3,6 +3,32 @@
 # destaque, e as linhas seguintes são o texto dele. Curto e sobre o que os
 # jogadores veem; todas as línguas têm as mesmas versões e o mesmo número de destaques.
 
+## 0.12.0
+
+### Pares e contra o relógio
+Joga 2 contra 2 com um amigo (os parceiros alternam-se na mesa), com um ranking de pares para cada regra. Ou limpa a mesa contra o relógio e sobe no ranking da semana.
+
+### Regras oficiais: canta a 8
+As bolas do teu grupo continuam a valer em qualquer buraco, mas a 8 tem de ser cantada: clica no buraco antes da jogada. A 8 noutro buraco perde.
+
+### A tua coleção
+Todos os teus itens, com a sua raridade e como e quando os conseguiste. Dezenas de novos tacos, mesas, jogos de bolas, panos, molduras, efeitos e 49 novas reações, algumas animadas, algumas só ganhas em eventos e torneios.
+
+### Caixa de entrada
+As mensagens da equipa, os prémios, os torneios e as conquistas ficam na tua caixa de entrada até os leres, com um botão para agir em cada um.
+
+### Amigos
+Mensagens entre amigos, o que cada amigo está a fazer (com um botão para ver), um ranking de amigos e as tuas definições em todos os computadores.
+
+### À mesa
+Uma introdução com o que está em jogo nos jogos classificados, um selo de classificado bem visível, uma contagem decrescente grande quando o adversário se desliga, um chat para espectadores e um modo observador. Silencia o chat ou as reações de um adversário e fica guardado.
+
+### Torneios, leilões e promoções
+Torneios oficiais com um prémio total em direto, um leilão semanal de itens raros, promoções na loja e um bónus por jogar em dias seguidos.
+
+### Para VIP
+Um item do mês para guardares para sempre, uma cor da mira, uma animação de vitória própria e estatísticas avançadas.
+
 ## 0.11.2
 
 ### Regras oficiais: conta qualquer buraco

@@ -3,6 +3,32 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.12.0
+
+### Doppio e contro il tempo
+Gioca 2 contro 2 con un amico (i compagni si alternano al tavolo), con una classifica del doppio per ogni regola. Oppure ripulisci il tavolo contro il tempo e scala la classifica della settimana.
+
+### Regole ufficiali: chiama la 8
+Le palle del tuo gruppo valgono ancora in qualsiasi buca, ma la 8 va chiamata: clicca sulla buca prima del tiro. La 8 in un'altra buca fa perdere.
+
+### La tua collezione
+Tutti i tuoi oggetti, con la loro rarità e come e quando li hai ottenuti. Decine di nuove stecche, tavoli, set di palle, panni, cornici, effetti e 49 nuove reazioni, alcune animate, alcune vinte solo in eventi e tornei.
+
+### Posta in arrivo
+I messaggi dello staff, i premi, i tornei e i traguardi restano nella tua posta in arrivo finché non li leggi, con un pulsante per agire su ciascuno.
+
+### Amici
+Messaggi tra amici, cosa sta facendo ogni amico (con un pulsante per guardare), una classifica degli amici e le tue impostazioni su ogni computer.
+
+### Al tavolo
+Un'introduzione su cosa è in gioco nelle partite classificate, un chiaro badge di partita classificata, un grande conto alla rovescia quando l'avversario si disconnette, una chat per gli spettatori e una modalità osservatore. Silenzia la chat o le reazioni di un avversario e viene ricordato.
+
+### Tornei, aste e saldi
+Tornei ufficiali con un montepremi in tempo reale, un'asta settimanale di oggetti rari, saldi nel negozio e un bonus per giocare giorni di fila.
+
+### Per i VIP
+Un oggetto del mese da tenere per sempre, un colore della mira, un'animazione di vittoria tutta tua e statistiche avanzate.
+
 ## 0.11.2
 
 ### Regole ufficiali: vale qualsiasi buca

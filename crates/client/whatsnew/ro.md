@@ -2,6 +2,32 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.12.0
+
+### Dublu și contra cronometru
+Joacă 2 contra 2 cu un prieten (partenerii se schimbă la masă), cu un clasament de dublu pentru fiecare set de reguli. Sau curăță masa contra cronometru și urcă în clasamentul săptămânii.
+
+### Reguli oficiale: anunță bila 8
+Bilele grupei tale contează în continuare în orice buzunar, dar bila 8 trebuie anunțată: dă clic pe buzunar înainte de lovitură. Bila 8 în alt buzunar pierde.
+
+### Colecția ta
+Toate obiectele tale, cu raritatea lor și cu felul și momentul în care le-ai obținut. Zeci de tacuri, mese, seturi de bile, postavuri, rame, efecte noi și 49 de reacții noi, unele animate, unele câștigate doar în evenimente și turnee.
+
+### Mesaje primite
+Mesajele de la echipă, premiile, turneele și realizările rămân în căsuța ta până le citești, cu un buton pentru a acționa la fiecare.
+
+### Prieteni
+Mesaje între prieteni, ce face fiecare prieten (cu un buton pentru a privi), un clasament al prietenilor și setările tale pe fiecare calculator.
+
+### La masă
+O introducere cu ce se joacă în jocurile cu clasament, o insignă clară de joc cu clasament, o numărătoare inversă mare când adversarul pică, un chat pentru spectatori și un mod observator. Dezactivează chatul sau reacțiile unui adversar și se ține minte.
+
+### Turnee, licitații și reduceri
+Turnee oficiale cu un fond de premii în direct, o licitație săptămânală de obiecte rare, reduceri în magazin și un bonus pentru jocul în zile la rând.
+
+### Pentru VIP
+Un obiect al lunii pe care îl păstrezi pentru totdeauna, o culoare a țintei, o animație proprie de victorie și statistici avansate.
+
 ## 0.11.2
 
 ### Reguli oficiale: contează orice buzunar

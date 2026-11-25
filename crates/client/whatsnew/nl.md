@@ -3,6 +3,32 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.12.0
+
+### Dubbelspel en tegen de klok
+Speel 2 tegen 2 met een vriend (de partners wisselen elkaar af aan tafel), met een dubbelranglijst voor elke regelset. Of ruim de tafel op tegen de klok en klim in de ranglijst van de week.
+
+### Officiële regels: geef de 8 aan
+De ballen van je groep tellen nog steeds in elke pocket, maar de 8 moet worden aangegeven: klik vóór de stoot op de pocket. De 8 in een andere pocket verliest.
+
+### Je collectie
+Elk item dat je hebt, met zijn zeldzaamheid en hoe en wanneer je het kreeg. Tientallen nieuwe keuen, tafels, ballensets, lakens, lijsten, effecten en 49 nieuwe reacties, sommige geanimeerd, sommige alleen te winnen bij evenementen en toernooien.
+
+### Inbox
+Berichten van het team, prijzen, toernooien en prestaties blijven in je inbox staan tot je ze leest, met een knop om op elk te reageren.
+
+### Vrienden
+Berichten tussen vrienden, wat elke vriend aan het doen is (met een knop om mee te kijken), een vriendenranglijst en je instellingen op elke computer.
+
+### Aan tafel
+Een intro met wat er op het spel staat in gerangschikte spellen, een duidelijke badge voor gerangschikt, een grote aftelling als de tegenstander wegvalt, een chat voor toeschouwers en een waarnemersmodus. Demp de chat of de reacties van één tegenstander, en dat wordt onthouden.
+
+### Toernooien, veilingen en aanbiedingen
+Officiële toernooien met een live prijzenpot, een wekelijkse veiling van zeldzame items, aanbiedingen in de winkel en een bonus voor spelen op opeenvolgende dagen.
+
+### Voor VIP
+Een item van de maand om voorgoed te houden, een richtkleur, een eigen overwinningsanimatie en geavanceerde statistieken.
+
 ## 0.11.2
 
 ### Officiële regels: elke pocket telt

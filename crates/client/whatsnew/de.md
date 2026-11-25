@@ -3,6 +3,32 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.12.0
+
+### Doppel und gegen die Uhr
+Spiel 2 gegen 2 mit einem Freund (die Partner wechseln sich am Tisch ab), mit einer Doppel-Rangliste für jedes Regelwerk. Oder räum den Tisch gegen die Uhr ab und steig in der Wochenrangliste auf.
+
+### Offizielle Regeln: die 8 ansagen
+Die Kugeln deiner Gruppe zählen weiter in jeder Tasche, aber die 8 muss angesagt werden: Klick vor dem Stoß auf die Tasche. Die 8 in einer anderen Tasche verliert.
+
+### Deine Sammlung
+Alle deine Gegenstände, mit Seltenheit und der Angabe, wie und wann du sie bekommen hast. Dutzende neue Queues, Tische, Kugelsätze, Tücher, Rahmen, Effekte und 49 neue Reaktionen, manche animiert, manche nur bei Events und Turnieren zu gewinnen.
+
+### Posteingang
+Nachrichten vom Team, Preise, Turniere und Erfolge bleiben in deinem Posteingang, bis du sie liest, mit einem Button, um bei jeder zu handeln.
+
+### Freunde
+Nachrichten zwischen Freunden, was jeder Freund gerade macht (mit einem Button zum Zuschauen), eine Freunde-Rangliste und deine Einstellungen auf jedem Computer.
+
+### Am Tisch
+Eine Einblendung mit dem, was in gewerteten Partien auf dem Spiel steht, ein deutliches Wertungs-Abzeichen, ein großer Countdown, wenn der Gegner die Verbindung verliert, ein Chat für Zuschauer und ein Beobachtermodus. Schalte den Chat oder die Reaktionen eines Gegners stumm, und es wird gemerkt.
+
+### Turniere, Auktionen und Angebote
+Offizielle Turniere mit einem live wachsenden Preispool, eine wöchentliche Auktion seltener Gegenstände, Angebote im Shop und ein Bonus fürs Spielen an aufeinanderfolgenden Tagen.
+
+### Für VIP
+Ein Gegenstand des Monats zum Behalten, eine Zielfarbe, eine eigene Siegesanimation und erweiterte Statistiken.
+
 ## 0.11.2
 
 ### Offizielle Regeln: jede Tasche zählt

@@ -10,7 +10,7 @@
 8-ball som det spelas i internationella turneringar, enligt World Pool-Billiard Association. Snook Legend har även de brasilianska reglerna: välj regler för dina partier i huvudmenyn. Om du spelar efter brasilianska regler, läs om utslaget, anmälningar och fouls nedan, för de skiljer sig mycket.
 
 ### Målet
-Varje spelare har en grupp om sju bollar: hela (1 till 7) eller halva (9 till 15). Sänk alla dina och sedan 8-bollen innan din motståndare gör det.
+Varje spelare har en grupp om sju bollar: hela (1 till 7) eller halva (9 till 15). Sänk alla dina och sedan 8-bollen, i det hål du anmäler, innan din motståndare gör det.
 
 ### Din tur
 Du fortsätter stöta så länge du sänker en boll ur din grupp, i vilket hål som helst, på en stöt utan foul. Annars går turen över, och bollarna som gick ner stannar där.
@@ -37,8 +37,8 @@ Det är foul, och bollen stannar utanför (bara 8-bollen kommer tillbaka). Motst
 ### Öppet bord
 Så länge grupperna inte är bestämda är bordet öppet: du får träffa vilken boll som helst först utom 8-bollen. Gruppen för den första boll du sänker blir din. Är en grupp redan borta från bordet får du spela på 8-bollen.
 
-### Inga anmälningar
-I turneringar anmäls varje stöt; här anmäls ingenting. En boll ur din grupp (eller 8-bollen, när du är på den) som sänks i vilket hål som helst, på en stöt utan foul, ger dig fortsatt tur, även via en vall eller en annan boll.
+### Att anmäla 8-bollen
+I turneringar anmäls varje stöt; här anmäls bara 8-bollen. En boll ur din grupp som sänks i vilket hål som helst, på en stöt utan foul, ger dig fortsatt tur, även via en vall eller en annan boll. När du spelar på 8-bollen väljer du dess hål innan du stöter: klicka på hålet, så lyser det upp (klicka på ett annat för att byta). Du kan inte stöta förrän ett hål är anmält, och varje stöt på 8-bollen anmäls på nytt.
 
 ### Safety
 För att lämna bordet till motståndaren spelar du en stöt som inte sänker någon av dina bollar: turen går över, och det som gick ner stannar där. En boll ur din grupp som ändå går ner ger dig fortsatt tur.
@@ -60,7 +60,7 @@ När partiet har stöttimer och tiden tar slut är det foul: motståndaren har v
 ## 8-bollen
 
 ### Att vinna
-När din grupp är borta från bordet sänker du 8-bollen, i vilket hål som helst, på en stöt utan foul.
+När din grupp är borta från bordet sänker du 8-bollen i det hål du anmält, på en stöt utan foul.
 
 ### Att förlora på 8-bollen
-Du förlorar om du sänker 8-bollen på en foul eller innan din grupp är borta från bordet, och om du slår 8-bollen av bordet. Inget av detta gäller på utslaget.
+Du förlorar om du sänker 8-bollen på en foul, innan din grupp är borta från bordet eller i ett hål du inte anmält, och om du slår 8-bollen av bordet. Inget av detta gäller på utslaget.

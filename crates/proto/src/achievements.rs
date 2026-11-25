@@ -103,6 +103,9 @@ pub struct Achievement {
     /// 0 bronze, 1 silver, 2 gold, 3 diamond, 4 ruby (the near impossible:
     /// a handful of players ever, see [`RUBY`]).
     pub level: u8,
+    /// A secret: the game shows "???" until it is won (the server sees
+    /// the feat in the game's replay, see [`crate::feats`]).
+    pub secret: bool,
 }
 
 const fn a(
@@ -113,7 +116,17 @@ const fn a(
     goal: i64,
     level: u8,
 ) -> Achievement {
-    Achievement { code, title, description, stat, goal, level }
+    Achievement { code, title, description, stat, goal, level, secret: false }
+}
+
+/// A secret achievement: a feat the server sees in a rated game's replay.
+const fn secret(
+    code: &'static str,
+    title: &'static str,
+    description: &'static str,
+    level: u8,
+) -> Achievement {
+    Achievement { code, title, description, stat: Stat::Awarded, goal: 1, level, secret: true }
 }
 
 /// Awarded for a rated game won by making only the 8 on the break.
@@ -137,15 +150,18 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
     a("games_100", "Hustler", "Play 100 rated games.", Stat::Games, 100, 1),
     a("games_500", "Pool hall legend", "Play 500 rated games.", Stat::Games, 500, 2),
     a("games_1000", "Lives at the table", "Play 1,000 rated games.", Stat::Games, 1000, 3),
+    a("games_2500", "Institution", "Play 2,500 rated games.", Stat::Games, 2500, 3),
     a("wins_1", "First blood", "Win a rated game.", Stat::Wins, 1, 0),
     a("wins_10", "On a roll", "Win 10 rated games.", Stat::Wins, 10, 0),
     a("wins_50", "Shark", "Win 50 rated games.", Stat::Wins, 50, 1),
     a("wins_100", "Centurion", "Win 100 rated games.", Stat::Wins, 100, 2),
     a("wins_500", "Unstoppable", "Win 500 rated games.", Stat::Wins, 500, 3),
+    a("wins_1000", "Living legend", "Win 1,000 rated games.", Stat::Wins, 1000, 3),
     a("eight_10", "Eight is enough", "Win 10 rated games on the 8-ball.", Stat::EightWins, 10, 0),
     a("eight_50", "Black ball", "Win 50 rated games on the 8-ball.", Stat::EightWins, 50, 1),
     a("eight_100", "Closer", "Win 100 rated games on the 8-ball.", Stat::EightWins, 100, 2),
     a("eight_250", "Executioner", "Win 250 rated games on the 8-ball.", Stat::EightWins, 250, 3),
+    a("eight_500", "The last word", "Win 500 rated games on the 8-ball.", Stat::EightWins, 500, 3),
     a("rating_1300", "Skilled", "Reach a rating of 1300.", Stat::PeakRating, 1300, 0),
     a("rating_1500", "Expert", "Reach a rating of 1500.", Stat::PeakRating, 1500, 1),
     a("rating_1700", "Master", "Reach a rating of 1700.", Stat::PeakRating, 1700, 2),
@@ -153,6 +169,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
     a("rating_2100", "Legend", "Reach a rating of 2100.", Stat::PeakRating, 2100, RUBY),
     a("streak_3", "Hat trick", "Win 3 rated games in a row.", Stat::BestStreak, 3, 0),
     a("streak_5", "Hot hand", "Win 5 rated games in a row.", Stat::BestStreak, 5, 1),
+    a("streak_7", "Seventh heaven", "Win 7 rated games in a row.", Stat::BestStreak, 7, 2),
     a("streak_10", "On fire", "Win 10 rated games in a row.", Stat::BestStreak, 10, RUBY),
     a(
         "runout_1",
@@ -162,6 +179,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         1,
         1,
     ),
+    a("runout_5", "Clinical", "Break and run 5 times.", Stat::Runouts, 5, 3),
     a("runout_10", "Table runner", "Break and run 10 times.", Stat::Runouts, 10, RUBY),
     a(
         "shutout_1",
@@ -172,12 +190,14 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         0,
     ),
     a("shutout_10", "Whitewash", "Win 10 rated shutouts.", Stat::Shutouts, 10, 2),
+    a("shutout_25", "Iron curtain", "Win 25 rated shutouts.", Stat::Shutouts, 25, 3),
     a("casual_25", "Just for fun", "Play 25 casual games.", Stat::CasualGames, 25, 0),
     a("friend_1", "Good company", "Make a friend.", Stat::Friends, 1, 0),
     a("friend_10", "Popular", "Have 10 friends.", Stat::Friends, 10, 1),
     a("tournament_play", "Competitor", "Play in a tournament.", Stat::TournamentsPlayed, 1, 0),
     a("tournament_win", "Champion", "Win a tournament.", Stat::TournamentsWon, 1, 2),
     a("tournament_win_5", "Dynasty", "Win 5 tournaments.", Stat::TournamentsWon, 5, 3),
+    a("tournament_win_10", "Empire", "Win 10 tournaments.", Stat::TournamentsWon, 10, RUBY),
     a(
         "golden_break",
         "Golden break",
@@ -254,6 +274,67 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         1,
         2,
     ),
+    a(
+        "event_carnival",
+        "Carnival",
+        "Win a rated game in Carnival season (Feb 1 – Mar 10).",
+        Stat::Season(201, 310),
+        1,
+        1,
+    ),
+    a(
+        "event_festa_junina",
+        "June festival",
+        "Win a rated game during the June festivals (Jun 1 – Jun 30).",
+        Stat::Season(601, 630),
+        1,
+        1,
+    ),
+    // Secrets: feats seen in a rated game (see `feats`), "???" until won.
+    secret(
+        "secret_three_in_one",
+        "Three in one",
+        "Pocket three of your balls with one shot (not the break).",
+        2,
+    ),
+    secret(
+        "secret_four_corners",
+        "Four corners",
+        "Pocket balls in four different pockets with one shot (not the break).",
+        3,
+    ),
+    secret("secret_thunder_break", "Thunder break", "Pocket five balls on the break.", 2),
+    secret(
+        "secret_spotted_eight",
+        "Spotted",
+        "Pocket the 8-ball on the break in a game under the official rules.",
+        2,
+    ),
+    secret(
+        "secret_comeback",
+        "Back from the dead",
+        "Win a rated game after being six balls behind.",
+        3,
+    ),
+    secret(
+        "secret_last_stand",
+        "Last stand",
+        "Win a rated game after your opponent was on the 8-ball while you still had five or more balls.",
+        3,
+    ),
+    secret(
+        "secret_steal",
+        "Stolen table",
+        "Win a rated game from your opponent's break without them getting another shot.",
+        2,
+    ),
+    secret("secret_marathon", "Marathon", "Win a rated game that lasted 60 shots or more.", 1),
+    secret(
+        "secret_ugly",
+        "Ugly but it counts",
+        "Win a rated game in which you fouled four times or more.",
+        1,
+    ),
 ];
 
 /// Month * 100 + day of a Unix time, in UTC.
@@ -303,6 +384,8 @@ mod tests {
             today: 1031,
         };
         assert!(!all.earned().any(|c| c == crate::ladder::ACHIEVEMENT));
+        // Secrets never come from numbers either.
+        assert!(!all.earned().any(|c| c.starts_with("secret_")));
         assert!(ACHIEVEMENTS.iter().any(|a| a.code == crate::ladder::ACHIEVEMENT));
     }
 
@@ -310,6 +393,13 @@ mod tests {
     fn ruby_is_rare_and_the_golden_break_brazilian() {
         let rubies: Vec<_> = ACHIEVEMENTS.iter().filter(|a| a.level == RUBY).collect();
         assert!((1..=5).contains(&rubies.len()));
+        // The secrets: at least eight, none of them a ruby.
+        let secrets: Vec<_> = ACHIEVEMENTS.iter().filter(|a| a.secret).collect();
+        assert!(secrets.len() >= 8);
+        for s in secrets {
+            assert!(s.code.starts_with("secret_") && s.stat == Stat::Awarded, "{}", s.code);
+            assert!(s.level >= 1 && s.level < RUBY, "{}", s.code);
+        }
         assert!(ACHIEVEMENTS.iter().all(|a| a.level <= RUBY));
         let golden = ACHIEVEMENTS.iter().find(|a| a.code == GOLDEN_BREAK).unwrap();
         assert_eq!(golden.rules(), Some(snook_legend_core::Rules::Brazilian));
@@ -328,6 +418,8 @@ mod tests {
         assert!(has(at(1031), "event_halloween") && !has(at(1103), "event_halloween"));
         assert!(has(at(1220), "event_winter") && has(at(106), "event_winter"));
         assert!(!has(at(1214), "event_winter") && !has(at(107), "event_winter"));
+        assert!(has(at(214), "event_carnival") && !has(at(311), "event_carnival"));
+        assert!(has(at(624), "event_festa_junina") && !has(at(701), "event_festa_junina"));
         assert!(has(at(1231), "event_new_year") && !has(at(102), "event_new_year"));
     }
 }

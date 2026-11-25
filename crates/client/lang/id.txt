@@ -2018,14 +2018,14 @@ your call	pilihanmu
 {n} points to {tier} ({rules})	{n} poin lagi ke {tier} ({rules})
 {n} waiting	{n} menunggu
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Foul memberi lawan bola dari grupnya. Bola putih di tangan hanya saat break, dan hanya lubang bola 8 yang dipilih.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Foul memberi lawan bola putih di tangan, di mana saja di meja. Tidak ada lubang yang dipilih, dan break harus membawa empat bola ke bantalan.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Foul memberi lawan bola putih di tangan, di mana saja di meja. Hanya lubang bola 8 yang dipilih, di setiap pukulan ke bola 8, dan break harus membawa empat bola ke bantalan.
 A foul gives balls to the opponent	Foul memberi bola ke lawan
 Ball in hand on the break only	Bola di tangan hanya saat break
 Only the 8's pocket is called	Hanya lubang bola 8 yang dipilih
 The most played in Brazil	Paling banyak dimainkan di Brasil
 A foul gives ball in hand	Foul memberi bola di tangan
 The break drives four balls to a cushion	Break membawa empat bola ke bantalan
-Any pocket counts	Lubang mana pun dihitung
+Only the 8 is called, shot by shot	Hanya bola 8 yang dipilih lubangnya, tiap pukulan
 The same all over the world	Sama di seluruh dunia
 Game type	Jenis game
 called: {pocket}	pilihan: {pocket}
@@ -2086,6 +2086,255 @@ Every player has it	Dimiliki semua pemain
 Drag to make the chat taller or shorter	Seret untuk meninggikan atau memendekkan chat
 Hide the result to see the table and the chat	Sembunyikan hasil untuk melihat meja dan chat
 Show the result	Tampilkan hasil
+{n} unread	{n} belum dibaca
+Everything read	Semua sudah dibaca
+Mark all as read	Tandai semua sudah dibaca
+Inbox	Kotak masuk
+No notifications yet. What the staff and the game tell you comes here.	Belum ada notifikasi. Apa yang disampaikan tim dan permainan akan masuk ke sini.
+Nothing here.	Tidak ada apa-apa.
+Pick a notification to read it.	Pilih notifikasi untuk membacanya.
+Pinned	Disematkan
+From {name}	Dari {name}
+Pinned for {t} more	Disematkan {t} lagi
+I read it	Sudah saya baca
+Delete	Hapus
+Confirm you read it first.	Konfirmasi dulu bahwa kamu sudah membacanya.
+It stays while it is pinned.	Tetap ada selama disematkan.
+Equipped.	Dipakai.
+Message from the staff	Pesan dari tim
+You were muted	Kamu dibisukan
+You can't write to other players for {t} more.	Kamu tidak bisa menulis ke pemain lain selama {t} lagi.
+The mute is over.	Masa bisu sudah selesai.
+You can chat again	Kamu bisa mengobrol lagi
+The staff lifted your mute.	Tim mencabut bisumu.
+Your rating was adjusted	Rating-mu disesuaikan
+{delta} under the {rules}: now {rating}.	{delta} di {rules}: sekarang {rating}.
+A game was annulled	Sebuah permainan dibatalkan
+Your game against {name} no longer counts ({delta} rating).	Permainanmu melawan {name} tidak dihitung lagi ({delta} rating).
+The staff ended a game	Tim mengakhiri sebuah permainan
+Your game against {name} was given to you.	Permainan melawan {name} diberikan kepadamu.
+Your game against {name} was given to your opponent.	Permainan melawan {name} diberikan kepada lawanmu.
+Your game against {name} ended without a result.	Permainanmu melawan {name} berakhir tanpa hasil.
+Thank you for your report	Terima kasih atas laporanmu
+The staff took action about {name}.	Tim telah bertindak terkait {name}.
+{n} days of VIP	{n} hari VIP
+A gift from the staff	Hadiah dari tim
+You won an item	Kamu memenangkan item
+VIP item of the month	Item VIP bulan ini
+Achievement unlocked	Pencapaian terbuka
+A tournament is about to start	Turnamen akan segera dimulai
+Tournament result	Hasil turnamen
+{name}: place {place}, {prize} coins.	{name}: peringkat {place}, {prize} koin.
+You were outbid	Tawaranmu dikalahkan
+You won an auction	Kamu memenangkan lelang
+Maintenance	Pemeliharaan
+The server stops in {t} for about {n} min.	Server berhenti dalam {t} selama sekitar {n} menit.
+The server stops for about {n} min.	Server berhenti selama sekitar {n} menit.
+Notification	Notifikasi
+You are muted for {t} more.	Kamu dibisukan {t} lagi.
+You are muted for {t} more: {reason}	Kamu dibisukan {t} lagi: {reason}
+That word isn't allowed here: {word}	Kata itu tidak diizinkan di sini: {word}
+That can't be sent.	Itu tidak bisa dikirim.
+New in your inbox: {title}	Baru di kotak masukmu: {title}
+{n} more	{n} lagi
+{name} mentioned you	{name} menyebutmu
+Inbox ({n} unread)	Kotak masuk ({n} belum dibaca)
+Unpin	Lepas sematan
+Pin at the top of the chat	Sematkan di atas obrolan
+Names and countries	Nama dan negara
+All	Semua
+Staff	Tim
+Punishments	Sanksi
+See the game	Lihat permainan
+Equip now	Pakai sekarang
+Open the collection	Buka koleksi
+Auctions	Lelang
+The staff ended your game without a result. Sign in again.	Tim mengakhiri permainanmu tanpa hasil. Masuk lagi.
+A secret achievement: play to find it.	Pencapaian rahasia: bermainlah untuk menemukannya.
+Only won	Hanya dimenangkan
+Collection	Koleksi
+Everything you have, and how you got it	Semua yang kamu punya, dan bagaimana kamu mendapatkannya
+A secret achievement	Pencapaian rahasia
+Not yet yours	Belum milikmu
+Rarest first	Paling langka dulu
+Newest first	Terbaru dulu
+By name	Menurut nama
+Reaction	Reaksi
+Bought for {n} coins	Dibeli seharga {n} koin
+Bought in the shop	Dibeli di toko
+Gift from {name}	Hadiah dari {name}
+A present from the staff	Hadiah dari tim
+From the staff: {reason}	Dari tim: {reason}
+Champion of {name}	Juara {name}
+Runner-up of {name}	Runner-up {name}
+Place {n} in {name}	Peringkat {n} di {name}
+Achievement: {title}	Pencapaian: {title}
+Won at auction for {n} coins	Dimenangkan di lelang seharga {n} koin
+VIP's item of the month · {month}	Item VIP bulan ini · {month}
+Prize of {name}	Hadiah dari {name}
+Yours	Milikmu
+VIP's item of the month: VIP members get it that month	Item VIP bulan ini: anggota VIP mendapatkannya bulan itu
+Only the season's champion wins it	Hanya juara musim yang memenangkannya
+Won in the official tournaments	Dimenangkan di turnamen resmi
+Only won: events, cups and seasons	Hanya dimenangkan: event, piala, dan musim
+In the welcome pack	Di paket selamat datang
+Yours while you are VIP	Milikmu selama kamu VIP
+Legendary cue	Stik legendaris
+Epic cue	Stik epik
+{n} of {total} items	{n} dari {total} item
+Sign in to see your collection.	Masuk untuk melihat koleksimu.
+Missing too	Yang belum juga
+Nothing of this rarity here.	Tidak ada yang selangka ini di sini.
+None yet: they are waiting to be won.	Belum ada: semuanya menunggu untuk dimenangkan.
+Page {a} of {b}	Halaman {a} dari {b}
+In the shop	Di toko
+Everything you have	Semua yang kamu punya
+Show reactions	Tampilkan reaksi
+Off: no reactions are shown during matches, from anyone.	Mati: tidak ada reaksi dari siapa pun yang ditampilkan saat pertandingan.
+The colour of your aim line and ghost ball.	Warna garis bidik dan bola bayanganmu.
+For VIP members: the colour of the aim line and the ghost ball.	Untuk anggota VIP: warna garis bidik dan bola bayangan.
+Aim colour	Warna bidikan
+Polished stone, veined right through	Batu yang dipoles, berurat dari ujung ke ujung
+A night sky in every ball, under a clear coat	Langit malam di setiap bola, di bawah lapisan pernis
+Lit from within, like neon	Bersinar dari dalam, seperti neon
+Cut glass: deep colour and a dazzling shine	Kaca potong: warna dalam dan kilau yang memukau
+White Carrara marble, gold castings and fluted columns	Marmer Carrara putih, kelengkapan emas, dan pilar beralur
+Black gloss on slab legs, with a neon glow beneath	Hitam mengilap di atas kaki pelat, dengan cahaya neon di bawahnya
+Woven carbon rails, red trim and a light strip	Rel karbon anyam, aksen merah, dan strip lampu
+Dark walnut and polished copper on a riveted steel frame	Kenari gelap dan tembaga mengilap di atas rangka baja berpaku keling
+Frosted lacquer and silver, with a cold light beneath	Pernis beku dan perak, dengan cahaya dingin di bawahnya
+Black volcanic stone, cracked with molten orange	Batu vulkanik hitam, retak oleh oranye membara
+Rough pine on square posts, with iron castings	Pinus kasar di atas kaki persegi, dengan kelengkapan besi
+Black lacquer and gold: the season champion's table	Pernis hitam dan emas: meja juara musim
+The table alone under the spotlight, dark stands and TV lights	Meja sendirian di bawah lampu sorot, tribun gelap, dan lampu TV
+Crimson velvet	Beludru merah tua
+Eclipse	Gerhana
+Arena blue	Biru arena
+Millennium gold	Emas milenium
+Holly	Holly
+Winter frost	Embun beku musim dingin
+Rainforest	Hutan hujan
+Bonfire	Api unggun
+Spring meadow	Padang musim semi
+Gold filigree	Filigri emas
+Thunderbolt	Halilintar
+Damascus steel	Baja Damaskus
+Glacier	Gletser
+Abalone	Abalon
+Volcano	Gunung berapi
+Aurora	Aurora
+Emperor	Kaisar
+Untouchable	Tak tersentuh
+Midas	Midas
+Empire	Kekaisaran
+Millennium	Milenium
+Four corners	Empat sudut
+Back from the dead	Bangkit dari kematian
+Season champion	Juara musim
+Candy cane	Permen tongkat
+Countdown	Hitung mundur
+Carnival	Karnaval
+Easter egg	Telur Paskah
+Festa junina	Festa junina
+Spider web	Jaring laba-laba
+Winter cup	Piala musim dingin
+Summer cup	Piala musim panas
+Anniversary	Hari jadi
+World cup	Piala Dunia
+New dawn	Fajar baru
+Sakura	Sakura
+Tide	Pasang
+Witching hour	Jam penyihir
+Diamond dust chalk	Kapur debu berlian
+Champion's chalk	Kapur sang juara
+Marble	Marmer
+Glow	Pendar
+Crystal	Kristal
+Crown jewels	Permata mahkota
+Champion's gold	Emas sang juara
+Christmas baubles	Hiasan Natal
+Haunted	Berhantu
+Copper works	Bengkel tembaga
+Carbon racer	Pembalap karbon
+Neon night	Malam neon
+Ice palace	Istana es
+Country barn	Lumbung desa
+Pro arena	Arena pro
+Obsidian	Obsidian
+Prism	Prisma
+Phantom	Hantu
+Pro tour	Tur pro
+Rose garden	Taman mawar
+Golden hour	Jam emas
+Hearts	Hati
+Thunderstorm	Badai petir
+Black hole	Lubang hitam
+Shooting stars	Bintang jatuh
+Snowfall	Hujan salju
+Champion's fireworks	Kembang api sang juara
+Crown of glory	Mahkota kejayaan
+Fingers crossed	Jari bersilang
+Call me	Telepon aku
+Nerd	Kutu buku
+Money face	Wajah uang
+Monocle	Monokel
+Facepalm	Tepuk jidat
+Shrug	Angkat bahu
+Hands up	Angkat tangan
+Melting	Meleleh
+Alien	Alien
+Clown	Badut
+Little devil	Setan kecil
+Angel	Malaikat
+Bomb	Bom
+Money bag	Kantong uang
+Crystal ball	Bola kristal
+Tornado	Tornado
+Dragon	Naga
+Santa	Sinterklas
+Snowflake	Kepingan salju
+Summer sun	Matahari musim panas
+Easter bunny	Kelinci Paskah
+Football	Sepak bola
+Balloon	Balon
+Season medal	Medali musim
+Common	Umum
+Rare	Langka
+Epic	Epik
+Legendary	Legendaris
+Institution	Institusi
+Play 2,500 rated games.	Mainkan 2.500 game ranked.
+Living legend	Legenda hidup
+Win 1,000 rated games.	Menangkan 1.000 game ranked.
+The last word	Kata terakhir
+Win 500 rated games on the 8-ball.	Menangkan 500 game ranked dengan bola 8.
+Seventh heaven	Langit ketujuh
+Win 7 rated games in a row.	Menangkan 7 game ranked berturut-turut.
+Clinical	Klinis
+Break and run 5 times.	Break lalu habiskan meja 5 kali.
+Iron curtain	Tirai besi
+Win 25 rated shutouts.	Menangkan 25 game ranked tanpa balas.
+Win 10 tournaments.	Menangkan 10 turnamen.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Menangkan satu game ranked di musim Karnaval (1 Feb – 10 Mar).
+June festival	Pesta Juni
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Menangkan satu game ranked selama pesta Juni (1 – 30 Jun).
+Three in one	Tiga sekaligus
+Pocket three of your balls with one shot (not the break).	Masukkan tiga bolamu dengan satu pukulan (bukan saat break).
+Pocket balls in four different pockets with one shot (not the break).	Masukkan bola ke empat lubang berbeda dengan satu pukulan (bukan saat break).
+Thunder break	Break guntur
+Pocket five balls on the break.	Masukkan lima bola saat break.
+Spotted	Tepat di titik
+Pocket the 8-ball on the break in a game under the official rules.	Masukkan bola 8 saat break dalam game dengan aturan resmi.
+Win a rated game after being six balls behind.	Menangkan game ranked setelah tertinggal enam bola.
+Last stand	Pertahanan terakhir
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Menangkan game ranked setelah lawanmu sudah di bola 8 sementara kamu masih punya lima bola atau lebih.
+Stolen table	Meja curian
+Win a rated game from your opponent's break without them getting another shot.	Menangkan game ranked dari break lawan tanpa ia memukul lagi.
+Marathon	Maraton
+Win a rated game that lasted 60 shots or more.	Menangkan game ranked yang berlangsung 60 pukulan atau lebih.
+Ugly but it counts	Jelek, tapi dihitung
+Win a rated game in which you fouled four times or more.	Menangkan game ranked yang di dalamnya kamu melakukan empat pelanggaran atau lebih.
+This item can't be given: it stays with whoever won it.	Item ini tidak bisa diberikan: tetap milik yang memenangkannya.
 Current prize: {n} coins	Hadiah saat ini: {n} koin
 Champion wins: {item}	Juara mendapat: {item}
 {h} h {m} min	{h} j {m} mnt
@@ -2093,7 +2342,6 @@ Champion wins: {item}	Juara mendapat: {item}
 {s} s	{s} dtk
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Hari ke-{d} berturut-turut: +{n} koin. Besok: +{m}.
 Auctions ({n})	Lelang ({n})
-Auctions	Lelang
 Supporters	Pendukung
 Maintenance in {t}: the server stops for about {m} min.	Pemeliharaan dalam {t}: server berhenti sekitar {m} mnt.
 Maintenance: the server is stopping. Games in progress go on.	Pemeliharaan: server sedang berhenti. Permainan yang berjalan tetap lanjut.

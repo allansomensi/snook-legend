@@ -28,6 +28,8 @@ use snook_legend_proto::{
 use crate::store::{SessionKind, User};
 use crate::{Server, new_token, now, token_hash};
 
+mod collection;
+mod moderation;
 mod ops;
 
 const ADMIN_SESSION: i64 = 8 * 60 * 60;
@@ -41,6 +43,7 @@ pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
         .route("/admin/api/users", get(users))
         .route("/admin/api/users/{name}", get(user_detail))
         .route("/admin/api/users/{name}/{action}", post(user_action))
+        .route("/admin/api/users/{name}/collection", get(collection::collection))
         .route("/admin/api/reports", get(reports))
         .route("/admin/api/reports/{id}", post(resolve_report))
         .route("/admin/api/audit", get(audit))
@@ -66,6 +69,7 @@ pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
         .route("/admin/api/system", get(system))
         .route("/admin/api/events", get(list_events).post(create_event))
         .route("/admin/api/events/{id}/cancel", post(cancel_event))
+        .merge(moderation::routes())
         .merge(ops::router())
         // The panel sends small JSON bodies (the longest a note on the
         // board); anyone can post to the sign-in.
@@ -240,6 +244,7 @@ fn user_json(u: &User, online: bool) -> Value {
         "abandons": u.abandons,
         "status_message": u.status_message,
         "name_changes": u.name_changes,
+        "avatar": u.avatar,
     })
 }
 
@@ -608,6 +613,12 @@ async fn user_detail(
     let search =
         crate::store::AuditSearch { target: Some(u.username.clone()), ..Default::default() };
     let moderation = server.store.audit_search(&search, 100).await?;
+    let (renames, sent, adjustments) = tokio::join!(
+        server.store.profile_changes(u.id, 100),
+        server.store.notifications_sent(u.id, 50),
+        server.store.rating_adjustments(u.id, 50),
+    );
+    let sent: Vec<Value> = sent?.iter().map(moderation::notification_json).collect();
     let online = server.with(|l| l.is_online(&u.username));
     let presence = server
         .with(|l| l.player(&u.username).map(|p| json!({ "status": p.status, "rules": p.rules })));
@@ -657,6 +668,9 @@ async fn user_detail(
         "moderation": moderation,
         "presence": presence,
         "computer": computer,
+        "renames": renames?,
+        "notifications": sent,
+        "rating_adjustments": adjustments?,
         "private_hidden": !admin,
     })))
 }
@@ -733,6 +747,10 @@ struct ActionBody {
     /// The new username, for "rename".
     #[serde(default)]
     name: String,
+    /// Show what the player would be told (warn, mute, unmute, coins, item,
+    /// vip) and do nothing.
+    #[serde(default)]
+    preview: bool,
 }
 
 async fn user_action(
@@ -758,6 +776,14 @@ async fn user_action(
     }
     let reason = clean_text(&body.reason, 300);
     let t = now();
+    // What the player is told in their inbox (the portal can see it first).
+    if let Some(n) = inbox_notice(&action, &body, &reason, &s, t) {
+        if body.preview {
+            return Ok(Json(crate::inbox::preview(&n)));
+        }
+    } else if body.preview {
+        return Err(err(StatusCode::BAD_REQUEST, "Nothing to preview: the player isn't told."));
+    }
     match action.as_str() {
         "ban" => {
             let until = match body.hours {
@@ -799,18 +825,29 @@ async fn user_action(
             server.store.set_mute(target.id, Some(until)).await?;
             refresh(&server, &target).await;
             server.with(|l| {
-                l.notify(
-                    &target.username,
-                    snook_legend_proto::ServerMsg::Notice {
-                        text: format!("You were muted for {minutes} minutes: {reason}"),
-                    },
-                )
+                l.set_mute_reason(target.id, &reason);
+                // A game older than the inbox is told as it was.
+                if !l.has_inbox(&target.username) {
+                    l.notify(
+                        &target.username,
+                        snook_legend_proto::ServerMsg::Notice {
+                            text: format!("You were muted for {minutes} minutes: {reason}"),
+                        },
+                    )
+                }
             });
+            if let Some(n) = inbox_notice(&action, &body, &reason, &s, t) {
+                crate::inbox::send(&server, target.id, n).await;
+            }
             log(&server, &s, "mute", &target.username, &format!("{minutes} min: {reason}")).await;
         }
         "unmute" => {
             server.store.set_mute(target.id, None).await?;
             refresh(&server, &target).await;
+            server.with(|l| l.set_mute_reason(target.id, ""));
+            if let Some(n) = inbox_notice(&action, &body, &reason, &s, t) {
+                crate::inbox::send(&server, target.id, n).await;
+            }
             log(&server, &s, "unmute", &target.username, &reason).await;
         }
         "kick" => {
@@ -882,6 +919,9 @@ async fn user_action(
             }
             server.store.credit(target.id, coins, &format!("staff: {reason}"), None, t).await?;
             crate::shop::push_wallet(&server, &target).await;
+            if let Some(n) = inbox_notice(&action, &body, &reason, &s, t) {
+                crate::inbox::send(&server, target.id, n).await;
+            }
             log(&server, &s, "coins", &target.username, &format!("{coins:+}: {reason}")).await;
         }
         "item" => {
@@ -891,7 +931,8 @@ async fn user_action(
             use snook_legend_proto::shop::Price;
             match snook_legend_proto::shop::item(&body.item).map(|i| i.price) {
                 None => return Err(err(StatusCode::BAD_REQUEST, "No such item.")),
-                Some(Price::Coins(_) | Price::Pack) => {}
+                // (Items only won, too: the staff award them for events.)
+                Some(Price::Coins(_) | Price::Pack | Price::Earned) => {}
                 Some(_) => {
                     return Err(err(
                         StatusCode::BAD_REQUEST,
@@ -903,7 +944,13 @@ async fn user_action(
                 return Err(err(StatusCode::CONFLICT, "They already have it."));
             }
             server.store.grant_item(target.id, &body.item, "staff", t).await?;
+            let origin =
+                snook_legend_proto::collection::Origin::Staff { reason: reason.to_string() };
+            crate::collection::record(&server, target.id, &body.item, origin).await;
             crate::shop::push_wallet(&server, &target).await;
+            if let Some(n) = inbox_notice(&action, &body, &reason, &s, t) {
+                crate::inbox::send(&server, target.id, n).await;
+            }
             log(&server, &s, "item", &target.username, &format!("{}: {reason}", body.item)).await;
         }
         "vip" => {
@@ -912,6 +959,9 @@ async fn user_action(
             let days = days.ok_or_else(|| err(StatusCode::BAD_REQUEST, "Give 1–366 days."))?;
             server.store.add_vip(target.id, t, days as i64 * 86_400).await?;
             crate::shop::push_wallet(&server, &target).await;
+            if let Some(n) = inbox_notice(&action, &body, &reason, &s, t) {
+                crate::inbox::send(&server, target.id, n).await;
+            }
             log(&server, &s, "vip", &target.username, &format!("+{days} days: {reason}")).await;
         }
         // A note among the staff (the player never sees it).
@@ -932,7 +982,11 @@ async fn user_action(
             }
             server.store.add_staff_note(target.id, s.user.id, "warning", &text, t).await?;
             if server.with(|l| l.is_online(&target.username)) {
+                // (A game with an inbox has it there: it is marked shown.)
                 crate::account::deliver_warnings(&server, &target).await;
+            }
+            if let Some(n) = inbox_notice(&action, &body, &reason, &s, t) {
+                crate::inbox::send(&server, target.id, n).await;
             }
             log(&server, &s, "warn", &target.username, &text).await;
         }
@@ -1015,6 +1069,63 @@ async fn user_action(
     Ok(Json(json!({ "ok": true, "user": user })))
 }
 
+/// What a user action tells the player in their inbox (None: nothing).
+/// A warning is pinned for a week and asks the player to confirm it; a
+/// mute stays pinned until it ends.
+fn inbox_notice(
+    action: &str,
+    body: &ActionBody,
+    reason: &str,
+    s: &Staff,
+    t: i64,
+) -> Option<crate::inbox::New> {
+    use snook_legend_proto::inbox::{Action, Kind};
+    let from = s.user.username.clone();
+    let n = match action {
+        "warn" => {
+            let text = clean_text(&body.reason, crate::store::MAX_STAFF_NOTE);
+            crate::inbox::New::game(Kind::Warning)
+                .text(text)
+                .important()
+                .pinned_until(t + WARNING_PINNED)
+                .quiet()
+        }
+        "mute" => {
+            let minutes = body.minutes.unwrap_or(60).clamp(1, 60 * 24 * 30);
+            let until = t + minutes as i64 * 60;
+            crate::inbox::New::game(Kind::Muted { until }).text(reason).pinned_until(until).quiet()
+        }
+        "unmute" => crate::inbox::New::game(Kind::Unmuted).text(reason),
+        "coins" => {
+            let coins = body.coins.filter(|c| *c > 0)?;
+            crate::inbox::New::game(Kind::StaffGift { coins, item: String::new(), vip_days: 0 })
+                .text(reason)
+        }
+        "item" => crate::inbox::New::game(Kind::StaffGift {
+            coins: 0,
+            item: body.item.clone(),
+            vip_days: 0,
+        })
+        .text(reason)
+        .action(Action::Equip { code: body.item.clone() }),
+        "vip" => {
+            let days = body.days.filter(|d| *d > 0 && *d <= 366)?;
+            crate::inbox::New::game(Kind::StaffGift {
+                coins: 0,
+                item: String::new(),
+                vip_days: days,
+            })
+            .text(reason)
+            .action(Action::Vip)
+        }
+        _ => return None,
+    };
+    Some(n.from(from))
+}
+
+/// A warning stays at the top of the player's inbox this long.
+const WARNING_PINNED: i64 = 7 * 86_400;
+
 /// Reloads an online player's account into the lounge.
 async fn refresh(server: &Server, target: &User) {
     if let Ok(Some(fresh)) = server.store.user_by_id(target.id).await {
@@ -1096,6 +1207,11 @@ async fn resolve_report(
     }
     if !server.store.resolve_report(id, s.user.id, status, &note, now()).await? {
         return Err(err(StatusCode::NOT_FOUND, "No such report."));
+    }
+    // Those who reported the player hear that the staff acted (never how);
+    // a dismissal tells nobody.
+    if status == 1 && report.status != 1 {
+        moderation::thank_reporters(&server, &report, s.user.id).await;
     }
     log(&server, &s, "report", &format!("#{id}"), &format!("{}: {note}", body.status)).await;
     Ok(Json(json!({ "ok": true })))
@@ -1257,6 +1373,8 @@ async fn economy(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRe
                 "code": i.code, "name": i.name, "category": format!("{:?}", i.category).to_lowercase(),
                 "how": how, "coins": coins,
                 "achievement": match i.price { Price::Achievement(a) => Some(a), _ => None },
+                "rarity": snook_legend_proto::shop::rarity(i),
+                "bound": snook_legend_proto::shop::bound(i),
             })
         })
         .collect();
@@ -1328,7 +1446,7 @@ async fn system(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRes
 }
 
 /// A time as people read it, in UTC ("2026-11-21 20:00 UTC").
-fn utc(t: i64) -> String {
+pub(crate) fn utc(t: i64) -> String {
     // Days since 1970-01-01 to a civil date (Howard Hinnant's algorithm).
     let days = t.div_euclid(86_400);
     let secs = t.rem_euclid(86_400);
@@ -1607,7 +1725,9 @@ async fn announce(
     if text.is_empty() {
         return Err(err(StatusCode::BAD_REQUEST, "Write a message."));
     }
-    server.with(|l| l.announce_text(&text));
+    // Players named with "@" are mentioned (their lines light up).
+    let known = crate::moderation::known_mentions(&server, &text).await;
+    server.with(|l| l.announce_mentioning(&text, &known));
     log(&server, &s, "announce", "lounge", &text).await;
     Ok(Json(json!({ "ok": true })))
 }

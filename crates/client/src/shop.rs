@@ -6,13 +6,16 @@
 //!
 //! The server is the authority: this screen only asks it to buy, use or
 //! open a payment page, and shows what it answers.
+//!
+//! The shop sells: what is only won, or comes with an achievement, is in
+//! the collection (see [`crate::collection`]), drawn on this same screen.
 
 use macroquad::prelude::*;
 use snook_legend_proto::ClientMsg;
 use snook_legend_proto::shop::{Category, ITEMS, Item, Look, Price, VIP_GIFT};
 
 #[allow(unused_imports)]
-use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle};
+use crate::paint::{draw_circle, draw_circle_lines, draw_ellipse, draw_line, draw_rectangle};
 
 use crate::i18n::{t, tw};
 use crate::icons::Icon;
@@ -56,6 +59,10 @@ struct Confirm {
 pub struct ShopScreen {
     /// Signed out, "Sign in" (or an item's button) was pressed.
     sign_in: bool,
+    /// The collection is shown instead of the shop (see
+    /// [`ShopScreen::open_collection`]); `from_shop`: it was opened from
+    /// the shop (Back goes back there).
+    collection: Option<(crate::collection::CollectionScreen, bool)>,
     tab: Tab,
     /// The page of items shown.
     page: usize,
@@ -76,12 +83,15 @@ pub struct ShopScreen {
     pub dark_stage: bool,
     /// A few words to go with a gift.
     gift_message: String,
+    /// How wide the balance (and VIP) chips in the header are.
+    chips_w: f32,
 }
 
 impl Default for ShopScreen {
     fn default() -> Self {
         ShopScreen {
             sign_in: false,
+            collection: None,
             tab: Tab::Items(Category::Cloth),
             page: 0,
             focus: None,
@@ -93,12 +103,15 @@ impl Default for ShopScreen {
             done: None,
             dark_stage: false,
             gift_message: String::new(),
+            chips_w: 120.0,
         }
     }
 }
 
 /// Width of the list of categories.
 const SIDE_W: f32 = 216.0;
+/// The collection's header button, and the shop's.
+const SWITCH_W: f32 = 150.0;
 /// Space between the item cards.
 const GAP: f32 = 12.0;
 const CARD_MIN_W: f32 = 176.0;
@@ -106,7 +119,7 @@ const CARD_MIN_H: f32 = 200.0;
 const CARD_MAX_H: f32 = 264.0;
 /// Room under the cards for the page buttons.
 const FOOTER: f32 = 48.0;
-const GOOD: Color = Color::new(0.45, 0.95, 0.55, 1.0);
+pub(crate) const GOOD: Color = Color::new(0.45, 0.95, 0.55, 1.0);
 /// Text on a disabled button (as the toolkit draws it).
 const DIM: Color = Color::new(MUTED.r, MUTED.g, MUTED.b, 0.6);
 
@@ -178,7 +191,7 @@ pub fn cue_picture(ui: &Ui, code: &str, r: Rect, level: u8) {
 /// a big picture shows the butt half, where the patterns are) and how much
 /// thicker it is drawn.
 fn cue_zoom(r: Rect) -> (f32, f32) {
-    if r.h >= 60.0 { (0.56, (r.h / 38.0).clamp(1.0, 3.2)) } else { (1.0, 1.0) }
+    if r.h >= 60.0 { (0.56, (r.h / 32.0).clamp(1.0, 3.6)) } else { (1.0, 1.0) }
 }
 
 /// Where a point `k` along the cue (0: the butt, 1: the tip) is drawn.
@@ -267,16 +280,29 @@ pub fn preview(ui: &Ui, item: &Item, r: Rect) {
             let (span, z) = cue_zoom(r);
             if let Some(tex) = crate::cues::picture(item.code, span) {
                 let h = 12.6 * z;
+                let at = Rect::new(cue_x(r, 0.0), c.y - h / 2.0, cue_x(r, span) - cue_x(r, 0.0), h);
+                if snook_legend_proto::shop::rarity(item) >= snook_legend_proto::shop::Rarity::Epic
+                {
+                    // A soft light of the rarity's colour behind the finest.
+                    let rc =
+                        crate::collection::rarity_color(snook_legend_proto::shop::rarity(item));
+                    let k = 0.5 + 0.5 * (get_time() as f32 * 2.0).sin();
+                    let glow = Color::new(rc.r, rc.g, rc.b, 0.07 + 0.04 * k);
+                    draw_ellipse(at.x + at.w / 2.0, at.y + h / 2.0, at.w * 0.5, h * 1.1, glow);
+                }
                 draw_texture_ex(
                     &tex,
-                    cue_x(r, 0.0),
-                    c.y - h / 2.0,
+                    at.x,
+                    at.y,
                     Color::new(1.0, 1.0, 1.0, crate::paint::alpha()),
-                    DrawTextureParams {
-                        dest_size: Some(vec2(cue_x(r, span) - cue_x(r, 0.0), h)),
-                        ..Default::default()
-                    },
+                    DrawTextureParams { dest_size: Some(vec2(at.w, at.h)), ..Default::default() },
                 );
+                // The legendary ones shimmer.
+                if snook_legend_proto::shop::rarity(item)
+                    == snook_legend_proto::shop::Rarity::Legendary
+                {
+                    crate::collection::shimmer(at, get_time() as f32);
+                }
             }
         }
         Look::Chalk(col) => {
@@ -378,7 +404,7 @@ fn icon_label(ui: &Ui, r: Rect, icon: Option<Icon>, label: &str, size: f32, colo
 /// How a button looks: the call to action, an ordinary one, one that
 /// can't be pressed, or one for what can't be had yet (too few coins).
 #[derive(Clone, Copy, PartialEq)]
-enum Kind {
+pub(crate) enum Kind {
     Primary,
     Normal,
     Disabled,
@@ -388,7 +414,14 @@ enum Kind {
 /// A button with an icon by its label (see [`icon_label`]). A `Short` one
 /// is quiet like a disabled one, so it reads as out of reach, but it still
 /// answers the pointer (it explains what is missing). True when clicked.
-fn button(ui: &mut Ui, r: Rect, look: Kind, icon: Option<Icon>, label: &str, size: f32) -> bool {
+pub(crate) fn button(
+    ui: &mut Ui,
+    r: Rect,
+    look: Kind,
+    icon: Option<Icon>,
+    label: &str,
+    size: f32,
+) -> bool {
     let hover = ui.hovering(r);
     let (hit, color) = match look {
         Kind::Primary => (ui.primary_button(r, ""), WHITE),
@@ -408,7 +441,7 @@ fn button(ui: &mut Ui, r: Rect, look: Kind, icon: Option<Icon>, label: &str, siz
 }
 
 /// A chevron pointing left or right, centred on `c`.
-fn chevron(c: Vec2, s: f32, left: bool, color: Color) {
+pub(crate) fn chevron(c: Vec2, s: f32, left: bool, color: Color) {
     let d = if left { 1.0 } else { -1.0 };
     let tip = vec2(c.x - d * s * 0.22, c.y);
     for dy in [-1.0, 1.0] {
@@ -417,14 +450,14 @@ fn chevron(c: Vec2, s: f32, left: bool, color: Color) {
 }
 
 /// What the list of categories shows at the right end of a row.
-enum SideNote<'a> {
+pub(crate) enum SideNote<'a> {
     Count(&'a str),
     Icon(Icon),
 }
 
 /// A row of the list of categories: the label on the left, a count or an
 /// icon on the right, a gold bar by the one selected. True when clicked.
-fn side_tab(ui: &mut Ui, r: Rect, label: &str, note: SideNote, selected: bool) -> bool {
+pub(crate) fn side_tab(ui: &mut Ui, r: Rect, label: &str, note: SideNote, selected: bool) -> bool {
     ui.block(r);
     let hover = ui.hovering(r);
     if selected {
@@ -475,7 +508,10 @@ fn listed(item: &Item, online: &Online) -> bool {
         && online.offers.as_ref().is_none_or(|o| !o.welcome_price.is_empty());
     // The free reactions aren't sold (everyone has them).
     let free_reaction = item.category == Category::Reaction && item.price == Price::Free;
-    !free_reaction && (item.price != Price::Pack || pack_sold || online.can_use(item))
+    // What is only won, or comes with an achievement, is never for sale:
+    // the collection shows it, and how it is had.
+    let not_sold = matches!(item.price, Price::Earned | Price::Achievement(_));
+    !free_reaction && !not_sold && (item.price != Price::Pack || pack_sold || online.can_use(item))
 }
 
 /// The achievement an item comes with: (title, description).
@@ -515,8 +551,7 @@ fn status_line(
         Price::Coins(_) | Price::Pack | Price::Earned if usable => {
             small(Icon::Check, GOOD, t("yours"), MUTED)
         }
-        // TODO(0.12 collection): say how it is won.
-        Price::Earned => small(Icon::Lock, MUTED, t("achievement"), MUTED),
+        Price::Earned => small(Icon::Lock, MUTED, t("Only won"), MUTED),
         Price::Pack => small(Icon::Gift, MUTED, t("welcome pack"), MUTED),
         Price::Coins(n) => {
             // On sale: the old price struck through, the new one, "-30%".
@@ -548,6 +583,8 @@ fn status_line(
 
 impl ShopScreen {
     pub fn open(&mut self, online: &mut Online) {
+        // The shop, not the collection (see `open_collection`).
+        self.collection = None;
         self.confirm = None;
         self.gift_pick = None;
         self.done = None;
@@ -562,8 +599,26 @@ impl ShopScreen {
         }
     }
 
-    /// Opens on the tab of an item (back from the 3D preview), at its page.
+    /// Opens the collection (from the main menu): Back leaves it.
+    pub fn open_collection(&mut self, online: &mut Online) {
+        self.open(online);
+        let mut c = crate::collection::CollectionScreen::default();
+        c.open(online);
+        self.collection = Some((c, false));
+    }
+
+    /// The shop, not the collection (from a notice, the VIP page…).
+    pub fn close_collection(&mut self) {
+        self.collection = None;
+    }
+
+    /// Opens on the tab of an item (back from the 3D preview), at its page
+    /// (in the collection when it is open).
     pub fn show_item(&mut self, code: &str) {
+        if let Some((c, _)) = self.collection.as_mut() {
+            c.show_item(code);
+            return;
+        }
         if let Some(item) = snook_legend_proto::shop::item(code) {
             self.tab = Tab::Items(item.category);
             self.page = 0;
@@ -659,6 +714,9 @@ impl ShopScreen {
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         let mut action = ShopAction::None;
+        if self.collection.is_some() {
+            return self.collection_page(ui, online, r, modal);
+        }
         // Esc belongs to a dialog while one is open.
         if screen_header(ui, r, Icon::Shop, t("Shop"), None) || (!modal && ui.escape()) {
             action = ShopAction::Back;
@@ -689,13 +747,26 @@ impl ShopScreen {
             if hit {
                 self.tab = Tab::Coins;
             }
+            let mut left = x;
             if wallet.is_vip() {
                 let until =
                     tw("You are VIP until {d}.", &[("d", &crate::profile::date(wallet.vip_until))]);
-                let (_, hit) = chip(ui, x - 8.0, Icon::Crown, "VIP", GOLD, &until);
+                let (x, hit) = chip(ui, x - 8.0, Icon::Crown, "VIP", GOLD, &until);
+                left = x;
                 if hit {
                     self.tab = Tab::Vip;
                 }
+            }
+            self.chips_w = right - left;
+        }
+        // The way to the collection, left of the balance.
+        if signed_in {
+            let right = r.x + r.w - PAD - self.chips_w;
+            let b = Rect::new(right - SWITCH_W - 10.0, r.y + 20.0, SWITCH_W, 36.0);
+            if button(ui, b, Kind::Normal, Some(Icon::Star), t("Collection"), 14.0) && !modal {
+                let mut c = crate::collection::CollectionScreen::default();
+                c.open(online);
+                self.collection = Some((c, true));
             }
         }
         let line_y = r.y + HEADER_H - 4.0;
@@ -784,6 +855,61 @@ impl ShopScreen {
             }
             Tab::Coins => self.coins(ui, online, body),
             Tab::Vip => self.vip(ui, online, body),
+        }
+        action
+    }
+
+    /// The collection, on this screen: its header (Back, and the way to
+    /// the shop), then its categories and cards.
+    fn collection_page(
+        &mut self,
+        ui: &mut Ui,
+        online: &mut Online,
+        r: Rect,
+        modal: bool,
+    ) -> ShopAction {
+        let mut action = ShopAction::None;
+        let from_shop = self.collection.as_ref().is_some_and(|(_, f)| *f);
+        let subtitle = t("Everything you have, and how you got it");
+        let right = r.x + r.w - PAD - SWITCH_W - 12.0;
+        let back = crate::ranking::screen_header_until(
+            ui,
+            r,
+            Icon::Star,
+            t("Collection"),
+            Some(subtitle),
+            right,
+        );
+        if back || (!modal && ui.escape()) {
+            if from_shop {
+                self.collection = None;
+            } else {
+                action = ShopAction::Back;
+            }
+            return action;
+        }
+        let b = Rect::new(r.x + r.w - PAD - SWITCH_W, r.y + 20.0, SWITCH_W, 36.0);
+        if button(ui, b, Kind::Normal, Some(Icon::Shop), t("Shop"), 14.0) && !modal {
+            self.collection = None;
+            return action;
+        }
+        let line_y = r.y + HEADER_H - 4.0;
+        draw_line(r.x + PAD, line_y, r.x + r.w - PAD, line_y, 1.0, BORDER);
+        let top = r.y + HEADER_H + 12.0;
+        let area = Rect::new(r.x + PAD, top, r.w - 2.0 * PAD, r.y + r.h - PAD + 4.0 - top);
+        let Some((c, _)) = self.collection.as_mut() else { return action };
+        match c.draw(ui, online, area, modal) {
+            crate::collection::CollectionAction::None => {}
+            crate::collection::CollectionAction::Preview(code) => {
+                action = ShopAction::Preview(code);
+            }
+            crate::collection::CollectionAction::Shop(code) => {
+                self.collection = None;
+                match code {
+                    Some(code) => self.show_item(code),
+                    None => self.tab = Tab::Items(Category::Cloth),
+                }
+            }
         }
         action
     }
@@ -899,19 +1025,19 @@ impl ShopScreen {
             let usable = signed_in && online.can_use(item) || item.price == Price::Free;
             let equipped = signed_in && in_use == item.code;
             let featured = online.ops.featured(item);
-            rrect(c, 10.0, Color::new(1.0, 1.0, 1.0, if equipped { 0.07 } else { 0.035 }));
-            if equipped {
-                rrect_lines(c, 10.0, 2.0, GOLD);
-            } else if featured {
+            // In the colour of its rarity, its name in a corner (a star on
+            // those featured in a sale).
+            let rarity = snook_legend_proto::shop::rarity(item);
+            crate::collection::rarity_card(ui, c, rarity, equipped, get_time() as f32);
+            if featured && !equipped {
                 rrect_lines(c, 10.0, 1.5, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.6));
-            } else {
-                rrect_lines(c, 10.0, 1.0, BORDER);
             }
             if featured {
-                crate::icons::draw(Icon::Star, vec2(c.x + c.w - 16.0, c.y + 16.0), 14.0, GOLD);
+                crate::icons::draw(Icon::Star, vec2(c.x + 16.0, c.y + 16.0), 14.0, GOLD);
             }
             let inner = c.w - 24.0;
-            let pic = Rect::new(c.x + 12.0, c.y + 12.0, inner, (c.h - 120.0).max(40.0));
+            let top = if rarity > snook_legend_proto::shop::Rarity::Common { 30.0 } else { 12.0 };
+            let pic = Rect::new(c.x + 12.0, c.y + top, inner, (c.h - 108.0 - top).max(40.0));
             // A cue's level, under its picture (what it has won online).
             let level_info = (item.category == Category::Cue && signed_in)
                 .then(|| wallet.cue_wins(item.code))
@@ -1238,6 +1364,12 @@ impl ShopScreen {
             // Earned with an achievement: which one, and how.
             Price::Achievement(a) => {
                 let (title, desc) = achievement_of(a).unwrap_or((a, ""));
+                // A secret stays one until it is won.
+                let secret =
+                    snook_legend_proto::ACHIEVEMENTS.iter().any(|x| x.code == a && x.secret)
+                        && !online.has_achievement(a);
+                let (title, desc) =
+                    if secret { ("???", t("A secret achievement")) } else { (title, desc) };
                 button(ui, b, Kind::Disabled, Some(Icon::Medal), title, 13.0);
                 if ui.hovering(b) {
                     ui.tooltip(&tw("{title}: {how}", &[("title", &title), ("how", &desc)]), b);
@@ -1250,7 +1382,10 @@ impl ShopScreen {
                 button(ui, b, Kind::Disabled, Some(Icon::Gift), t("welcome pack"), 13.0);
             }
             Price::Earned => {
-                button(ui, b, Kind::Disabled, Some(Icon::Lock), t("achievement"), 13.0);
+                button(ui, b, Kind::Disabled, Some(Icon::Lock), t("Not yet yours"), 13.0);
+                if ui.hovering(b) {
+                    ui.tooltip(crate::collection::earned_hint(item.code), b);
+                }
             }
             Price::Coins(_) => {
                 button(ui, b, Kind::Disabled, Some(Icon::Lock), t("Sign in to buy"), 13.0);

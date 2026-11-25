@@ -2018,14 +2018,14 @@ your call	내가 지정
 {n} points to {tier} ({rules})	{tier}까지 {n}점 ({rules})
 {n} waiting	{n}명 대기 중
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	파울하면 상대가 자기 그룹의 공을 받아요. 볼 인 핸드는 브레이크 때만 있고, 8번 공의 포켓만 지정해요.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	파울하면 상대가 볼 인 핸드로 테이블 어디든 수구를 놓아요. 아무것도 지정하지 않고, 브레이크에서는 공 4개가 쿠션에 닿아야 해요.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	파울하면 상대가 볼 인 핸드로 테이블 어디든 수구를 놓아요. 8번 공을 칠 때마다 그 포켓만 지정하고, 브레이크에서는 공 4개가 쿠션에 닿아야 해요.
 A foul gives balls to the opponent	파울하면 상대에게 공을 줌
 Ball in hand on the break only	볼 인 핸드는 브레이크 때만
 Only the 8's pocket is called	8번 공의 포켓만 지정
 The most played in Brazil	브라질에서 가장 많이 치는 방식
 A foul gives ball in hand	파울하면 볼 인 핸드
 The break drives four balls to a cushion	브레이크에서 공 4개가 쿠션에 닿아야 함
-Any pocket counts	어느 포켓이든 인정
+Only the 8 is called, shot by shot	8번 공만 샷마다 지정
 The same all over the world	전 세계 공통
 Game type	게임 유형
 called: {pocket}	지정: {pocket}
@@ -2086,6 +2086,255 @@ Every player has it	모든 플레이어가 가지고 있어요
 Drag to make the chat taller or shorter	드래그해서 채팅 창 높이 조절하기
 Hide the result to see the table and the chat	결과를 숨기고 테이블과 채팅 보기
 Show the result	결과 보기
+{n} unread	읽지 않음 {n}개
+Everything read	모두 읽음
+Mark all as read	모두 읽음으로 표시
+Inbox	받은편지함
+No notifications yet. What the staff and the game tell you comes here.	아직 알림이 없습니다. 운영진과 게임이 알려 주는 내용이 여기에 옵니다.
+Nothing here.	여기엔 아무것도 없습니다.
+Pick a notification to read it.	읽을 알림을 고르세요.
+Pinned	고정됨
+From {name}	{name} 님이 보냄
+Pinned for {t} more	{t} 더 고정됨
+I read it	읽었습니다
+Delete	삭제
+Confirm you read it first.	먼저 읽었음을 확인하세요.
+It stays while it is pinned.	고정된 동안은 남아 있습니다.
+Equipped.	장착했습니다.
+Message from the staff	운영진의 메시지
+You were muted	채팅이 금지되었습니다
+You can't write to other players for {t} more.	앞으로 {t} 동안 다른 플레이어에게 글을 쓸 수 없습니다.
+The mute is over.	채팅 금지가 끝났습니다.
+You can chat again	다시 채팅할 수 있습니다
+The staff lifted your mute.	운영진이 채팅 금지를 해제했습니다.
+Your rating was adjusted	레이팅이 조정되었습니다
+{delta} under the {rules}: now {rating}.	{rules}에서 {delta}: 현재 {rating}.
+A game was annulled	게임이 무효 처리되었습니다
+Your game against {name} no longer counts ({delta} rating).	{name}와의 게임은 더 이상 반영되지 않습니다 (레이팅 {delta}).
+The staff ended a game	운영진이 게임을 종료했습니다
+Your game against {name} was given to you.	{name}와의 게임이 당신의 승리로 처리되었습니다.
+Your game against {name} was given to your opponent.	{name}와의 게임이 상대의 승리로 처리되었습니다.
+Your game against {name} ended without a result.	{name}와의 게임이 결과 없이 끝났습니다.
+Thank you for your report	신고해 주셔서 감사합니다
+The staff took action about {name}.	운영진이 {name}에 대해 조치를 취했습니다.
+{n} days of VIP	VIP {n}일
+A gift from the staff	운영진의 선물
+You won an item	아이템을 획득했습니다
+VIP item of the month	이달의 VIP 아이템
+Achievement unlocked	업적 달성
+A tournament is about to start	토너먼트가 곧 시작됩니다
+Tournament result	토너먼트 결과
+{name}: place {place}, {prize} coins.	{name}: {place}위, 코인 {prize}개.
+You were outbid	더 높은 입찰이 나왔습니다
+You won an auction	경매에서 낙찰받았습니다
+Maintenance	점검
+The server stops in {t} for about {n} min.	서버가 {t} 후 약 {n}분 동안 멈춥니다.
+The server stops for about {n} min.	서버가 약 {n}분 동안 멈춥니다.
+Notification	알림
+You are muted for {t} more.	앞으로 {t} 동안 채팅 금지입니다.
+You are muted for {t} more: {reason}	앞으로 {t} 동안 채팅 금지입니다: {reason}
+That word isn't allowed here: {word}	이 단어는 사용할 수 없습니다: {word}
+That can't be sent.	보낼 수 없습니다.
+New in your inbox: {title}	받은편지함에 새 알림: {title}
+{n} more	{n}개 더
+{name} mentioned you	{name}님이 회원님을 언급했습니다
+Inbox ({n} unread)	받은편지함 (읽지 않음 {n}개)
+Unpin	고정 해제
+Pin at the top of the chat	채팅 상단에 고정
+Names and countries	이름과 국가
+All	전체
+Staff	운영진
+Punishments	제재
+See the game	게임 보기
+Equip now	지금 장착
+Open the collection	컬렉션 열기
+Auctions	경매
+The staff ended your game without a result. Sign in again.	운영진이 게임을 결과 없이 종료했습니다. 다시 로그인하세요.
+A secret achievement: play to find it.	비밀 업적: 플레이해서 찾아보세요.
+Only won	획득으로만
+Collection	컬렉션
+Everything you have, and how you got it	가진 모든 것, 그리고 얻은 방법
+A secret achievement	비밀 업적
+Not yet yours	아직 내 것이 아님
+Rarest first	희귀한 순
+Newest first	최신 순
+By name	이름 순
+Reaction	리액션
+Bought for {n} coins	{n}코인에 구매
+Bought in the shop	상점에서 구매
+Gift from {name}	{name}님의 선물
+A present from the staff	운영진의 선물
+From the staff: {reason}	운영진: {reason}
+Champion of {name}	{name} 우승자
+Runner-up of {name}	{name} 준우승자
+Place {n} in {name}	{name} {n}위
+Achievement: {title}	업적: {title}
+Won at auction for {n} coins	경매에서 {n}코인에 낙찰
+VIP's item of the month · {month}	이달의 VIP 아이템 · {month}
+Prize of {name}	{name} 상품
+Yours	내 것
+VIP's item of the month: VIP members get it that month	이달의 VIP 아이템: 그달의 VIP 회원이 받습니다
+Only the season's champion wins it	시즌 챔피언만 얻을 수 있습니다
+Won in the official tournaments	공식 토너먼트에서 획득
+Only won: events, cups and seasons	획득으로만: 이벤트, 컵, 시즌
+In the welcome pack	웰컴 팩에 포함
+Yours while you are VIP	VIP인 동안 내 것
+Legendary cue	전설 큐
+Epic cue	에픽 큐
+{n} of {total} items	{n} / {total}개 아이템
+Sign in to see your collection.	로그인하고 컬렉션을 확인하세요.
+Missing too	없는 것도 보기
+Nothing of this rarity here.	이 희귀도의 아이템이 없습니다.
+None yet: they are waiting to be won.	아직 없음: 획득되기를 기다리고 있습니다.
+Page {a} of {b}	{a} / {b} 페이지
+In the shop	상점에서
+Everything you have	가진 모든 것
+Show reactions	리액션 표시
+Off: no reactions are shown during matches, from anyone.	끄기: 경기 중 누구의 리액션도 표시되지 않습니다.
+The colour of your aim line and ghost ball.	조준선과 고스트 볼의 색.
+For VIP members: the colour of the aim line and the ghost ball.	VIP 회원 전용: 조준선과 고스트 볼의 색.
+Aim colour	조준 색상
+Polished stone, veined right through	윤이 나는 돌, 결이 끝까지 이어진
+A night sky in every ball, under a clear coat	공마다 담긴 밤하늘, 클리어 코트 아래
+Lit from within, like neon	네온처럼 안에서 빛나는
+Cut glass: deep colour and a dazzling shine	커팅 유리: 깊은 색과 눈부신 광채
+White Carrara marble, gold castings and fluted columns	흰 카라라 대리석, 금빛 장식과 홈이 파인 기둥
+Black gloss on slab legs, with a neon glow beneath	판형 다리 위의 광택 블랙, 아래로 네온 불빛
+Woven carbon rails, red trim and a light strip	짠 카본 레일, 빨간 포인트와 조명 띠
+Dark walnut and polished copper on a riveted steel frame	리벳 강철 프레임 위의 짙은 월넛과 광낸 구리
+Frosted lacquer and silver, with a cold light beneath	서리 낀 래커와 은, 아래로 차가운 빛
+Black volcanic stone, cracked with molten orange	이글거리는 주황빛으로 갈라진 검은 화산암
+Rough pine on square posts, with iron castings	각진 다리 위의 거친 소나무, 철제 장식
+Black lacquer and gold: the season champion's table	블랙 래커와 금: 시즌 챔피언의 테이블
+The table alone under the spotlight, dark stands and TV lights	스포트라이트 아래 홀로 선 테이블, 어두운 관중석과 TV 조명
+Crimson velvet	진홍 벨벳
+Eclipse	일식
+Arena blue	아레나 블루
+Millennium gold	밀레니엄 골드
+Holly	호랑가시나무
+Winter frost	겨울 서리
+Rainforest	열대우림
+Bonfire	모닥불
+Spring meadow	봄의 들판
+Gold filigree	골드 필리그리
+Thunderbolt	벼락
+Damascus steel	다마스커스 강철
+Glacier	빙하
+Abalone	전복
+Volcano	화산
+Aurora	오로라
+Emperor	황제
+Untouchable	언터처블
+Midas	미다스
+Empire	제국
+Millennium	밀레니엄
+Four corners	네 모서리
+Back from the dead	죽음에서 돌아온 자
+Season champion	시즌 챔피언
+Candy cane	캔디 케인
+Countdown	카운트다운
+Carnival	카니발
+Easter egg	부활절 달걀
+Festa junina	페스타 주니나
+Spider web	거미줄
+Winter cup	윈터 컵
+Summer cup	서머 컵
+Anniversary	기념일
+World cup	월드컵
+New dawn	새로운 새벽
+Sakura	벚꽃
+Tide	조수
+Witching hour	마녀의 시간
+Diamond dust chalk	다이아몬드 가루 초크
+Champion's chalk	챔피언의 초크
+Marble	대리석
+Glow	글로우
+Crystal	크리스털
+Crown jewels	왕관의 보석
+Champion's gold	챔피언의 금
+Christmas baubles	크리스마스 장식 볼
+Haunted	유령의 집
+Copper works	구리 공방
+Carbon racer	카본 레이서
+Neon night	네온 나이트
+Ice palace	얼음 궁전
+Country barn	시골 헛간
+Pro arena	프로 아레나
+Obsidian	흑요석
+Prism	프리즘
+Phantom	팬텀
+Pro tour	프로 투어
+Rose garden	장미 정원
+Golden hour	골든 아워
+Hearts	하트
+Thunderstorm	뇌우
+Black hole	블랙홀
+Shooting stars	별똥별
+Snowfall	눈 내림
+Champion's fireworks	챔피언의 불꽃놀이
+Crown of glory	영광의 왕관
+Fingers crossed	행운을 빌어
+Call me	전화해
+Nerd	너드
+Money face	돈 얼굴
+Monocle	외알 안경
+Facepalm	페이스팜
+Shrug	으쓱
+Hands up	만세
+Melting	녹는 중
+Alien	외계인
+Clown	광대
+Little devil	꼬마 악마
+Angel	천사
+Bomb	폭탄
+Money bag	돈 자루
+Crystal ball	수정 구슬
+Tornado	토네이도
+Dragon	드래곤
+Santa	산타
+Snowflake	눈송이
+Summer sun	여름 태양
+Easter bunny	부활절 토끼
+Football	축구
+Balloon	풍선
+Season medal	시즌 메달
+Common	일반
+Rare	희귀
+Epic	에픽
+Legendary	전설
+Institution	터줏대감
+Play 2,500 rated games.	레이팅 게임을 2,500번 플레이하세요.
+Living legend	살아 있는 전설
+Win 1,000 rated games.	레이팅 게임에서 1,000승을 거두세요.
+The last word	마지막 한마디
+Win 500 rated games on the 8-ball.	8번 공으로 레이팅 게임 500승을 거두세요.
+Seventh heaven	일곱 번째 하늘
+Win 7 rated games in a row.	레이팅 게임에서 7연승을 거두세요.
+Clinical	정밀함
+Break and run 5 times.	브레이크 앤 런을 5번 달성하세요.
+Iron curtain	철의 장막
+Win 25 rated shutouts.	레이팅 게임에서 완봉승을 25번 거두세요.
+Win 10 tournaments.	토너먼트에서 10번 우승하세요.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	카니발 시즌(2월 1일 – 3월 10일)에 레이팅 게임에서 승리하세요.
+June festival	6월 축제
+Win a rated game during the June festivals (Jun 1 – Jun 30).	6월 축제 기간(6월 1일 – 6월 30일)에 레이팅 게임에서 승리하세요.
+Three in one	일타삼피
+Pocket three of your balls with one shot (not the break).	한 번의 샷으로 내 공 세 개를 넣으세요(브레이크 제외).
+Pocket balls in four different pockets with one shot (not the break).	한 번의 샷으로 서로 다른 네 포켓에 공을 넣으세요(브레이크 제외).
+Thunder break	천둥 브레이크
+Pocket five balls on the break.	브레이크에서 공 다섯 개를 넣으세요.
+Spotted	제자리
+Pocket the 8-ball on the break in a game under the official rules.	공식 규칙 경기에서 브레이크로 8번 공을 넣으세요.
+Win a rated game after being six balls behind.	공 여섯 개 차로 뒤지다가 레이팅 게임에서 승리하세요.
+Last stand	최후의 저항
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	상대가 8번 공에 도달했을 때 내 공이 다섯 개 이상 남은 상황에서 레이팅 게임에서 승리하세요.
+Stolen table	빼앗긴 테이블
+Win a rated game from your opponent's break without them getting another shot.	상대의 브레이크 이후 상대가 다시 치지 못하게 하고 레이팅 게임에서 승리하세요.
+Marathon	마라톤
+Win a rated game that lasted 60 shots or more.	60샷 이상 이어진 레이팅 게임에서 승리하세요.
+Ugly but it counts	못생겨도 승리는 승리
+Win a rated game in which you fouled four times or more.	파울을 네 번 이상 하고도 레이팅 게임에서 승리하세요.
+This item can't be given: it stays with whoever won it.	이 아이템은 선물할 수 없습니다: 획득한 사람에게 남습니다.
 Current prize: {n} coins	현재 상금: {n} 코인
 Champion wins: {item}	우승자 상품: {item}
 {h} h {m} min	{h}시간 {m}분
@@ -2093,7 +2342,6 @@ Champion wins: {item}	우승자 상품: {item}
 {s} s	{s}초
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	{d}일 연속: +{n} 코인. 내일: +{m}.
 Auctions ({n})	경매 ({n})
-Auctions	경매
 Supporters	후원자
 Maintenance in {t}: the server stops for about {m} min.	{t} 후 점검: 서버가 약 {m}분 동안 멈춥니다.
 Maintenance: the server is stopping. Games in progress go on.	점검: 서버가 멈추는 중입니다. 진행 중인 게임은 계속됩니다.

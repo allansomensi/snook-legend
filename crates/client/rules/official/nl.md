@@ -10,7 +10,7 @@
 Het 8-ball van internationale toernooien, zoals de World Pool-Billiard Association het speelt. Snook Legend heeft ook de Braziliaanse regels: kies de regels van je partijen in het hoofdmenu. Speel je met de Braziliaanse regels, lees dan hieronder de afstoot, het aangeven en de fouten, want die verschillen flink.
 
 ### Het doel
-Elke speler heeft een groep van zeven ballen: de hele (1 t/m 7) of de halve (9 t/m 15). Pot al die van jou en daarna de 8-bal, voordat je tegenstander dat doet.
+Elke speler heeft een groep van zeven ballen: de hele (1 t/m 7) of de halve (9 t/m 15). Pot al die van jou en daarna de 8-bal, in de pocket die je aangeeft, voordat je tegenstander dat doet.
 
 ### Jouw beurt
 Je blijft aan tafel zolang je een bal van je groep pot, in welke pocket ook, met een stoot zonder fout. Anders is de beurt aan de ander, en de gevallen ballen blijven erin.
@@ -37,8 +37,8 @@ Het is een fout, en de bal blijft eraf (alleen de 8 komt terug). Je tegenstander
 ### Open tafel
 Zolang de groepen niet vastliggen, is de tafel open: je mag elke bal eerst raken, behalve de 8. De groep van de eerste bal die je pot, wordt de jouwe. Is één groep al van tafel, dan mag je op de 8 spelen.
 
-### Niets aangeven
-Op toernooien wordt elke stoot aangegeven; hier geef je niets aan. Een bal van je groep (of de 8, als je erop speelt) die in welke pocket ook valt, met een stoot zonder fout, houdt je aan tafel, ook via een band of een andere bal.
+### De 8 aangeven
+Op toernooien wordt elke stoot aangegeven; hier geef je alleen de 8 aan. Een bal van je groep die in welke pocket ook valt, met een stoot zonder fout, houdt je aan tafel, ook via een band of een andere bal. Speel je op de 8, kies dan vóór de stoot zijn pocket: klik op de pocket en hij licht op (klik op een andere om te wisselen). Zonder aangegeven pocket kun je niet stoten, en elke stoot op de 8 geef je opnieuw aan.
 
 ### Safety
 Om de tafel aan je tegenstander te laten, speel je een stoot die geen van jouw ballen pot: de beurt gaat over, en wat viel blijft erin. Valt er toch een bal van je groep, dan blijf je aan tafel.
@@ -60,7 +60,7 @@ Heeft de partij een shotclock en loopt die af, dan is het een fout: je tegenstan
 ## De 8-bal
 
 ### Winnen
-Is je groep van tafel, pot dan de 8, in welke pocket ook, met een stoot zonder fout.
+Is je groep van tafel, pot dan de 8 in de pocket die je aangaf, met een stoot zonder fout.
 
 ### Verliezen op de 8
-Je verliest als je de 8 pot bij een fout of voordat je groep van tafel is, en als je de 8 van tafel speelt. Niets hiervan geldt bij de afstoot.
+Je verliest door de 8 te potten bij een fout, voordat je groep van tafel is of in een pocket die je niet aangaf, en door de 8 van tafel te spelen. Niets hiervan geldt bij de afstoot.

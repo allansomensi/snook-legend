@@ -7,8 +7,10 @@ use sqlx::{Row, query};
 use snook_legend_proto::CareerNumbers;
 use snook_legend_proto::replay::Replay;
 
+mod collection;
 mod correspondence;
 mod match_social;
+mod moderation;
 mod modes;
 mod msstore;
 mod ops;
@@ -51,15 +53,29 @@ fn replay_json(r: &Replay) -> String {
 }
 
 /// A stored game's replay. `calls`: played with the official rules' calls
-/// as they were until 0.11.1 (the `calls` column).
-fn replay_of(seed: i64, breaker: i16, strokes: &str, rules: &str, calls: bool) -> Option<Replay> {
+/// as they were until 0.11.1 (the `calls` column), and with the 8 called as
+/// since 0.12.0 (the `eight_call` column).
+fn replay_of(
+    seed: i64,
+    breaker: i16,
+    strokes: &str,
+    rules: &str,
+    (calls, eight_call): (bool, bool),
+) -> Option<Replay> {
     Some(Replay {
         seed: seed as u64,
         breaker: breaker as usize % 2,
         strokes: serde_json::from_str(strokes).ok()?,
         rules: Rules::parse(rules)?,
         calls,
+        eight_call,
     })
+}
+
+/// The calls a stored game was played with: its `calls` and `eight_call`
+/// columns (see [`replay_of`]).
+fn calls_of(r: &PgRow) -> (bool, bool) {
+    (r.get("calls"), r.get("eight_call"))
 }
 
 /// The prefix of the `users` columns that hold a player's record under
@@ -353,8 +369,8 @@ impl PgStore {
             *slot = row.map(|r| user(&r)).transpose()?;
         }
         let id: i64 = query(
-            "INSERT INTO matches (player0, player1, winner_seat, reason, rated, delta0, delta1, rating0, rating1, shots, tournament_id, ended_at, seed, breaker, strokes, rules, room_id, calls)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::jsonb, $16, $17, $18) RETURNING id",
+            "INSERT INTO matches (player0, player1, winner_seat, reason, rated, delta0, delta1, rating0, rating1, shots, tournament_id, ended_at, seed, breaker, strokes, rules, room_id, calls, eight_call)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15::jsonb, $16, $17, $18, $19) RETURNING id",
         )
         .bind(m.players[0])
         .bind(m.players[1])
@@ -374,6 +390,8 @@ impl PgStore {
         .bind(m.rules.code())
         .bind(m.room)
         .bind(m.replay.as_ref().is_some_and(|r| r.calls))
+        // (A game with no replay has none to play back.)
+        .bind(m.replay.as_ref().is_none_or(|r| r.eight_call))
         .fetch_one(&mut **tx)
         .await?
         .get("id");
@@ -428,9 +446,13 @@ impl PgStore {
         limit: u32,
     ) -> StoreResult<Vec<(i64, i32)>> {
         let rows = query(
-            "SELECT ended_at, CASE WHEN player0 = $1 THEN rating0 ELSE rating1 END AS rating
-             FROM matches WHERE rated AND rules = $3 AND (player0 = $1 OR player1 = $1)
-             ORDER BY ended_at DESC, id DESC LIMIT $2",
+            // With the ratings the staff put right (and the games called off).
+            "SELECT ended_at, rating FROM (
+                SELECT ended_at, id, CASE WHEN player0 = $1 THEN rating0 ELSE rating1 END AS rating
+                FROM matches WHERE rated AND rules = $3 AND (player0 = $1 OR player1 = $1)
+                UNION ALL
+                SELECT at, id, rating_after FROM rating_adjustments WHERE user_id = $1 AND rules = $3
+             ) h ORDER BY ended_at DESC, id DESC LIMIT $2",
         )
         .bind(user_id)
         .bind(limit as i64)
@@ -447,7 +469,7 @@ impl PgStore {
         let row = query(
             "SELECT m.id, m.winner_seat, m.rated, m.ended_at, m.rating0 - m.delta0 AS r0,
                     m.rating1 - m.delta1 AS r1, m.seed, m.breaker, m.strokes::text AS strokes, m.rules,
-                    m.calls, a.username AS n0, a.country AS c0, b.username AS n1, b.country AS c1
+                    m.calls, m.eight_call, a.username AS n0, a.country AS c0, b.username AS n1, b.country AS c1
              FROM matches m JOIN users a ON a.id = m.player0 JOIN users b ON b.id = m.player1
              WHERE m.id = $1 AND m.strokes IS NOT NULL",
         )
@@ -457,7 +479,7 @@ impl PgStore {
         let Some(r) = row else { return Ok(None) };
         let strokes: String = r.get("strokes");
         let Some(replay) =
-            replay_of(r.get("seed"), r.get("breaker"), &strokes, r.get("rules"), r.get("calls"))
+            replay_of(r.get("seed"), r.get("breaker"), &strokes, r.get("rules"), calls_of(&r))
         else {
             return Ok(None);
         };
@@ -480,7 +502,7 @@ impl PgStore {
     ) -> StoreResult<Vec<(i64, usize, Replay)>> {
         let rows = query(
             "SELECT id, CASE WHEN player0 = $1 THEN 0 ELSE 1 END AS seat, seed, breaker,
-                    strokes::text AS strokes, rules, calls
+                    strokes::text AS strokes, rules, calls, eight_call
              FROM matches WHERE (player0 = $1 OR player1 = $1) AND strokes IS NOT NULL
              ORDER BY ended_at DESC, id DESC LIMIT $2",
         )
@@ -497,7 +519,7 @@ impl PgStore {
                     r.get("breaker"),
                     &strokes,
                     r.get("rules"),
-                    r.get("calls"),
+                    calls_of(r),
                 )?;
                 Some((r.get("id"), r.get::<i32, _>("seat") as usize, replay))
             })
@@ -669,8 +691,8 @@ impl PgStore {
 
     pub async fn save_live(&self, m: &LiveMatch) -> StoreResult<()> {
         query(
-            "INSERT INTO live_matches (id, player0, player1, rated, seed, breaker, strokes, updated_at, rules, calls)
-             VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10)
+            "INSERT INTO live_matches (id, player0, player1, rated, seed, breaker, strokes, updated_at, rules, calls, eight_call)
+             VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11)
              ON CONFLICT (id) DO UPDATE SET strokes = EXCLUDED.strokes, updated_at = EXCLUDED.updated_at",
         )
         .bind(m.id)
@@ -683,6 +705,7 @@ impl PgStore {
         .bind(m.updated_at)
         .bind(m.replay.rules.code())
         .bind(m.replay.calls)
+        .bind(m.replay.eight_call)
         .execute(&self.pool)
         .await?;
         Ok(())
@@ -696,7 +719,7 @@ impl PgStore {
     pub async fn live_match_of(&self, user_id: i64) -> StoreResult<Option<LiveMatch>> {
         let row = query(
             "SELECT id, player0, player1, rated, seed, breaker, strokes::text AS strokes, updated_at,
-                    rules, calls
+                    rules, calls, eight_call
              FROM live_matches WHERE player0 = $1 OR player1 = $1 ORDER BY updated_at DESC LIMIT 1",
         )
         .bind(user_id)
@@ -713,7 +736,7 @@ impl PgStore {
                     r.get("breaker"),
                     &strokes,
                     r.get("rules"),
-                    r.get("calls"),
+                    calls_of(&r),
                 )?,
                 updated_at: r.get("updated_at"),
             })

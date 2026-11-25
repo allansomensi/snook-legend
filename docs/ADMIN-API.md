@@ -1,3 +1,53 @@
+# Staff API
+
+The staff portal's calls to the server (`/admin/api`). Every call needs the
+staff session's bearer token (`Authorization: Bearer …`); each area below
+says which role it needs. Errors answer `{"error": "…"}` with a 4xx status.
+
+## Collection and content
+
+### `GET /admin/api/users/{name}/collection`
+
+Moderators and administrators. Everything the player has, with how and when
+they got it: owned items, the items of their achievements, and the
+reactions those achievements bring (code `reaction_<code>`, also for
+reactions that are not shop items). Free items and those VIP members use
+while VIP are not listed. Read only (nothing is written to the audit log).
+
+```json
+{
+  "username": "ana",
+  "items": [
+    {"code": "cue_christmas", "name": "Candy cane", "category": "cue",
+     "rarity": "epic", "bound": true,
+     "origin": {"how": "staff", "reason": "Christmas 2026 winner"},
+     "acquired_at": 1798000000},
+    {"code": "cloth_blue", "name": "Electric blue", "category": "cloth",
+     "rarity": "common", "bound": false,
+     "origin": {"how": "bought", "price": 1000}, "acquired_at": 1797000000},
+    {"code": "reaction_fire", "name": null, "category": "reaction",
+     "rarity": null, "bound": false,
+     "origin": {"how": "achievement", "code": "streak_10"}, "acquired_at": 1796000000}
+  ]
+}
+```
+
+`origin.how` is one of `bought` (`price`), `gift` (`from`), `staff`
+(`reason`), `tournament` (`name`, `place`), `achievement` (`code`),
+`auction` (`price`), `vip_month` (`month`, `YYYY-MM`), `event` (`name`),
+`season` (`name`), `welcome_pack`, `unknown`. `acquired_at`: Unix seconds,
+0 when not known. Items owned before 0.12 have their origin worked out from
+how they were added (bought, a present, the welcome pack, the staff).
+
+### Changes to existing calls
+
+- `POST /admin/api/users/{name}/item` (administrators) also gives items
+  only won (`"how": "earned"` in the catalogue). The `reason` is kept as the
+  item's origin and shown to the player under it in the collection.
+- `GET /admin/api/economy`: each entry of `catalog` has `"rarity"`
+  (`common`, `rare`, `epic`, `legendary`) and `"bound"` (true: can't be
+  given nor auctioned).
+
 # Staff API and public API
 
 The staff portal (the website's `/admin` pages) is built from this document.
@@ -354,3 +404,244 @@ now or before), longest supporters first:
 ```json
 [{"username": "ana", "country": "BR", "since": 1700000000, "months": 5, "vip": true}]
 ```
+
+## Inbox & moderation
+
+What the staff tell one player goes to their **inbox** in the game. A
+notification is JSON as the game reads it (see `snook_legend_proto::inbox`):
+
+```json
+{"id": 41, "kind": "warning", "text": "Mind your words.", "from": "boss",
+ "created_at": 1795291200, "read_at": 0, "important": true,
+ "pinned_until": 1795896000, "action": {"to": "none"}}
+```
+
+`kind` carries its own fields (`{"kind": "muted", "until": …}`,
+`{"kind": "rating_adjusted", "rules": "official", "delta": -10, "rating": 1490,
+"match_id": 9001}`, `{"kind": "staff_gift", "coins": 500, "item": "", "vip_days": 7}`,
+`{"kind": "match_voided", "match_id": 9001, "opponent": "bob", "delta": 16}`,
+`{"kind": "match_ended", "match_id": 0, "opponent": "bob", "won": true}`,
+`{"kind": "report_acted", "username": "troll"}`, `unmuted`, `staff_message`,
+`achievement`…). `action` is the button: `{"to": "replay", "match_id": …}`,
+`{"to": "equip", "code": …}`, `{"to": "vip"}`, `{"to": "none"}`…
+
+### Preview
+
+Every endpoint below that notifies a player, and the player actions `warn`,
+`mute`, `unmute`, `coins`, `item` and `vip` (`POST /admin/api/users/{name}/{action}`),
+take `"preview": true` in their body: nothing is done, and the answer is the
+notification the player would get, worded in English, Portuguese and
+Spanish (the game words it in each of its languages):
+
+```json
+{"preview": true, "category": "staff",
+ "notification": {"id": 0, "kind": "warning", "text": "Mind your words.", "from": "boss",
+                  "created_at": 1795291200, "read_at": 0, "important": true,
+                  "pinned_until": 1795896000, "action": {"to": "none"}},
+ "rendered": {"en": {"title": "Warning from the staff", "body": "Mind your words."},
+              "pt": {"title": "Advertência da equipe", "body": "Mind your words."},
+              "es": {"title": "Advertencia del equipo", "body": "Mind your words."}}}
+```
+
+A preview of an action that tells nobody (`kick`, `ban`, …) answers 400.
+Actions that notify two players (annul, end a game) add
+`"players": [preview of seat 0, preview of seat 1]`.
+
+What the existing player actions now also do: **warn** → `warning`,
+important, pinned for 7 days; **mute** (`minutes`, `reason`) → `muted`,
+pinned until it ends (the game shows the reason whenever the player tries
+to write); **unmute** → `unmuted`; **coins** (positive), **item**, **vip** →
+`staff_gift` (an item also records its origin in the collection). Resolving
+a report with `"status": "actioned"` sends `report_acted` to the reporter
+and to whoever has an open report about the same player (never the
+punishment; a dismissal sends nothing).
+
+### Message a player
+
+`POST /admin/api/users/{name}/message` — staff (moderators not on staff).
+Audit: `message`.
+
+```json
+{"text": "Please change your status.", "important": true, "pinned_days": 3, "preview": false}
+```
+
+`text` up to 1000 characters; `important`: the player confirms reading it;
+`pinned_days` (0–366): kept at the top of the inbox. Answer:
+`{"ok": true, "id": 41}`.
+
+### Notifications sent, with read receipts
+
+`GET /admin/api/users/{name}/notifications?limit=100` — staff. Newest first,
+also those the player took out of their inbox (`deleted_at`):
+
+```json
+{"notifications": [
+  {"id": 41, "kind": "staff_message", "category": "staff", "text": "Please change your status.",
+   "from": "boss", "created_at": 1795291200, "read_at": 1795291260, "important": true,
+   "pinned_until": 1795550400, "action": {"to": "none"}, "deleted_at": null,
+   "title": "Message from the staff", "body": "Please change your status."}]}
+```
+
+`read_at`: null until read (for an important one: until confirmed).
+`GET /admin/api/users/{name}` also returns the latest 50 as
+`"notifications"`, plus `"renames"` (changes of name and country:
+`{"user_id", "kind": "name"|"country", "old", "new", "at", "by"}`, `by`
+empty when the player made it) and `"rating_adjustments"`
+(`{"id", "user_id", "rules", "delta", "rating_after", "reason", "match_id", "staff", "at"}`).
+Player objects (lists, detail, `GET /admin/api/me`) carry `"avatar"` (a code
+from the game's avatars).
+
+### Adjust a rating
+
+`POST /admin/api/users/{name}/rating` — administrators. Audit: `rating`.
+
+```json
+{"rules": "official", "delta": -40, "reason": "Rating farmed with a second account",
+ "match_id": 9001, "preview": false}
+```
+
+Either `delta` or `rating` (the rating to put); the result stays within
+100–4000. The peak goes up with it, or down by as much (never under the
+rating). The rating history (the player's chart) gets the change. The player
+gets `rating_adjusted` (important; with `match_id`, a button to watch it; the
+game must be one of theirs). Answer: `{"ok": true, "notification": 42, "user": {…player…}}`.
+
+### Timeline
+
+`GET /admin/api/users/{name}/timeline?limit=100&before=1795291200` — staff.
+Newest first; `next`: pass it as `before` for the next page (null: no more).
+
+```json
+{"items": [
+  {"type": "notification", "at": 1795291200, "id": 41, "kind": "warning", "title": "…", "read_at": null, …},
+  {"type": "staff_action", "at": 1795291100, "action": "mute", "staff": "boss", "details": "30 min: spam"},
+  {"type": "match", "at": 1795290000, "match_id": 9001, "opponent": "bob", "won": true, "rated": true,
+   "rules": "official", "delta": 12, "reason": "eight_ball", "correspondence": false},
+  {"type": "purchase", "at": 1795280000, "coins": -500, "reason": "buy cue_dragon"},
+  {"type": "payment", "at": 1795270000, "kind": "coins", "coins": 1200, "amount": 499, "currency": "brl",
+   "refunded": false, "test": false},
+  {"type": "report_sent", "at": 1795260000, "id": 7, "target": "troll", "reason": "Harassment", "status": 1},
+  {"type": "report_received", "at": 1795250000, "id": 8, "reporter": "ana", "reason": "Spam", "status": 0},
+  {"type": "profile_change", "at": 1795240000, "kind": "country", "old": "BR", "new": "PT", "by": ""},
+  {"type": "linked_account", "at": 1795230000, "username": "ana_alt"},
+  {"type": "account", "at": 1795000000, "username": "ana", "country": "BR"}],
+ "next": 1795000000}
+```
+
+`payment` items are for administrators only. `linked_account`: another
+account registered from the same address (the database keeps it; a
+server without one shows none).
+
+### Presents to many players
+
+`POST /admin/api/gifts/batch` — administrators. Audit: `gift` per player and
+`gift-batch` (target `batch`) for the whole.
+
+```json
+{"usernames": ["ana", "bob"], "text": "caio, dani\nedu", "coins": 500,
+ "item": "cue_winter_2026", "vip_days": 7, "reason": "Winter Cup finalists",
+ "message": "Thanks for playing!", "dry_run": true}
+```
+
+Names from `usernames` and/or pasted in `text` (commas, spaces, new lines;
+a leading `@` is fine), 500 at most, each once. At least one of `coins`
+(0–1,000,000), `item` (one sold for coins, a pack's or one only won) and
+`vip_days` (0–366). `dry_run` answers without giving anything:
+
+```json
+{"dry_run": true, "players": 4, "unknown": ["edu"], "already_own": ["bob"],
+ "notification": {…}}
+```
+
+Applied: `{"ok": true, "given": ["ana", "bob", "caio", "dani"], "unknown": ["edu"],
+"already_own": ["bob"]}`. Who has the item already gets the rest. Each gets
+`staff_gift` (with "Equip now" for the item).
+
+### A stored game, shot by shot
+
+`GET /admin/api/matches/{id}` — staff.
+
+```json
+{"match": {"id": 9001, "players": [12, 34], "names": ["ana", "bob"], "winner": 0,
+           "reason": "eight_ball", "rated": true, "rules": "official", "delta": [12, -12],
+           "ratings_after": [1512, 1488], "shots": 41, "ended_at": 1795290000,
+           "tournament": null, "room": 1795289000123, "voided_at": null},
+ "strokes": [
+   {"index": 0, "kind": "shot", "seat": 0, "player": "ana", "power": 6.2, "aim_degrees": 181.4,
+    "elevation_degrees": 0.0, "spin": {"side": -0.2, "top": 0.4}, "cue_ball": [635.0, 635.0],
+    "called": null, "timeout": false, "think_secs": 7.3,
+    "potted": [{"ball": 3, "pocket": "top_left"}], "fouls": [], "first_contact": 1,
+    "break": true, "continues": true},
+   {"index": 1, "kind": "time_foul", "seat": 1, "player": "bob", "think_secs": null}]}
+```
+
+`power`: the cue's speed (m/s); `spin`: where the tip struck (−1…1);
+`cue_ball`: where it was placed with the ball in hand (mm); `think_secs`:
+from the shot clock's start to the shot (games from 0.12 on; null
+before, and for what isn't a shot). `strokes` is null without a replay.
+
+### Annul a game
+
+`POST /admin/api/matches/{id}/void` — administrators. Audit: `match-void`
+per player. Body: `{"reason": "…", "preview": false}` (a reason is needed).
+
+Only a rated game, once (409 after). Both players' rating changes are given
+back (in their rating history), it leaves their rated games and wins, and a
+peak it made is worked out again. Each gets `match_voided` with a button to
+watch it. Answer: `{"ok": true, "match": {…as above, "voided_at": 1795291300…}}`.
+
+### End a stuck live game
+
+`POST /admin/api/live/{id}/end` — administrators (`id`: the live game's, from
+`GET /admin/api/live`). Audit: `match-end` per player.
+
+```json
+{"winner": 0, "reason": "Opponent's game froze", "preview": false}
+```
+
+`winner`: the seat (0 or 1) given the game: the other resigns it (rating as
+for a resignation; a tournament goes on). Without `winner`: ended without a
+result, nothing recorded, the players are sent back to sign in (refused for
+a tournament's game). Both get `match_ended`. Answer: `{"ok": true}`.
+
+### Banned words
+
+`GET /admin/api/words` — staff:
+
+```json
+{"words": [{"word": "puta", "lang": "pt", "added_by": "", "added_at": 0}], "max_word": 40}
+```
+
+`POST /admin/api/words` — staff. Audit: `banned-word` (target: the language).
+Body `{"word": "zonk", "lang": "en"}`: a word or a phrase (40 characters at
+most), `lang` a language code (`pt`, `en`, `es`, `pt-BR`…) or `*`. 409 if
+listed already.
+
+`POST /admin/api/words/remove` — staff. Audit: `banned-word-remove`. Same body.
+404 if not listed.
+
+`POST /admin/api/words/preview` — staff. `{"text": "Z0NK you"}` →
+
+```json
+{"blocked": true, "word": "zonk", "lang": "en", "tokens": ["zonk", "you"]}
+```
+
+(`tokens`: the text's words as matched: lower case, no accents, leetspeak
+read, repeated letters once.) Every list applies to every text; matching is
+by whole words (and runs of one- or two-letter words read together, for
+"p.u.t.a"). Refused: lounge and table chat, status messages, "looking for a
+game" notes, presents' messages and new usernames.
+
+### The pinned chat line
+
+`GET /admin/api/chat/pinned` — staff: `{"line": {…chat line…} | null}`.
+
+`POST /admin/api/chat/{id}/pin` — staff (`id` from `GET /admin/api/chat`).
+Audit: `chat-pin`. Answer `{"ok": true, "line": {…}}`; 404 for a line gone
+or deleted. One line at a time: it replaces the one pinned before. Deleting
+the line or clearing the chat takes it down.
+
+`POST /admin/api/chat/unpin` — staff. Audit: `chat-unpin`. 400 if none.
+
+Chat lines (`GET /admin/api/chat`, the pinned one) may carry `"mentions"`:
+the real usernames written with `@` (also in announcements).

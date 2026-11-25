@@ -17,24 +17,27 @@
 //! - Open table (4.4): the break never decides the groups. Before they are
 //!   decided any ball may be hit first but the 8 (unless a group is off the
 //!   table: then the shooter may claim it and play the 8), and the group of
-//!   the called ball legally made is the shooter's.
-//! - No calls (since 0.11.2, unlike 1.7 and 4.6): a ball of the shooter's
-//!   group (on an open table, of either group; on the 8, the 8) made in any
-//!   pocket on a shot without a foul keeps the table; on an open table the
-//!   first one made decides the groups. A game recorded until 0.11.1 keeps
-//!   the calls it was played with ([`EightBallGame::calls_shots`]): every
-//!   shot but the break is called, only a ball made in the called pocket
-//!   keeps the table (anything else made stays down), and no call is a
-//!   safety: play passes at the end of the shot.
+//!   the first ball legally made is the shooter's.
+//! - Only the 8 is called (since 0.12.0; 1.7 and 4.6 call every shot): a
+//!   ball of the shooter's group (on an open table, of either group) made
+//!   in any pocket on a shot without a foul keeps the table; on an open
+//!   table the first one made decides the groups. A shot at the 8 names its
+//!   pocket ([`EightBallGame::calls_shots`]): the 8 made there on a legal
+//!   shot wins, made anywhere else (or on a shot with no call) loses. Games
+//!   recorded before keep the calls they were played with: until 0.11.1
+//!   every shot but the break is called, only a ball made in the called
+//!   pocket keeps the table (anything else made stays down), and no call
+//!   is a safety: play passes at the end of the shot; from 0.11.2 to 0.11.x
+//!   nothing is called and the 8 wins in any pocket.
 //! - Fouls (4.9): a scratch or the cue ball off the table, no ball hit or
 //!   the wrong one hit first, no ball made and none driven to a cushion
 //!   after the contact, an object ball off the table (it stays off), a
 //!   ball behind the head string hit first from the cue ball in hand
 //!   behind it without crossing it (3.11), the shot clock (3.14). The
 //!   opponent has the cue ball in hand anywhere on the table.
-//! - Losing (4.8): making the 8 on a foul or before one's group is off the
-//!   table (with calls, also in a pocket not called); driving the 8 off the
-//!   table. Not on the break.
+//! - Losing (4.8): making the 8 on a foul, before one's group is off the
+//!   table or in a pocket not called (not in a game of 0.11.2 to 0.11.x);
+//!   driving the 8 off the table. Not on the break.
 //! - Spotting (4.7, 1.5): only the 8, after the break, on the foot spot or
 //!   the long string behind it. When the cue ball is in hand behind the
 //!   head string and every ball the shooter may hit lies behind it too,
@@ -51,8 +54,10 @@ impl EightBallGame {
         let shooter = self.current;
         let opponent = 1 - shooter;
         let call = pending.called_pocket;
-        // Without calls (games since 0.11.2), any pocket is the right one.
+        // Without calls (games since 0.11.2), any pocket is the right one
+        // for the group's balls; the 8's is called (since 0.12.0).
         let calls = self.calls;
+        let eight_called = calls || self.eight_call;
         let on_eight = self.is_on_eight(shooter);
         let open_table = self.groups[shooter].is_none();
         let from_kitchen = self.ball_in_hand == Some(BallInHand::Kitchen);
@@ -119,7 +124,7 @@ impl EightBallGame {
                 lost(GameOverReason::EightPocketedOnFoul)
             } else if !shooting_eight {
                 lost(GameOverReason::EightPocketedEarly)
-            } else if calls && call != Some(pocket) {
+            } else if eight_called && call != Some(pocket) {
                 lost(GameOverReason::EightInWrongPocket)
             } else {
                 Some(GameOver { winner: shooter, reason: GameOverReason::PocketedEight })

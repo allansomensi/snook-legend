@@ -1,8 +1,9 @@
 //! Tests of the official rules (WPA Rules of Play, 2025-09-15, "8-Ball"):
 //! one for each rule, the section it comes from in its name or its note.
 //! The helpers make games with calls (as recorded until 0.11.1, where the
-//! rules' calls hold); the ones without calls, as played since, have tests
-//! of their own (see "No calls" below).
+//! rules' calls hold); the ones without calls (0.11.2 to 0.11.x) and the
+//! ones with only the 8 called, as played since 0.12.0, have tests of their
+//! own (see "No calls" and "The 8 called" below).
 
 use super::tests::{layout, straight_shot};
 use super::*;
@@ -618,18 +619,25 @@ fn snapshots_keep_the_rules_and_the_choice() {
 }
 
 /// Random games under the official rules, random calls and random answers
-/// to the break's choices: groups are only ever decided by a called ball,
-/// a foul always gives the cue ball in hand anywhere (behind the head
-/// string after the break), a shot keeps the table only on its call, and
-/// every snapshot reads back.
+/// to the break's choices, in each of the three ways games were played
+/// (every shot called, nothing called, only the 8 called): groups are only
+/// ever decided by a called ball (with calls) or the first one made, a foul
+/// always gives the cue ball in hand anywhere (behind the head string after
+/// the break), a shot keeps the table only on its call (with calls), the 8
+/// wins only in its called pocket (but from 0.11.2 to 0.11.x), and every
+/// snapshot reads back.
 #[test]
 fn the_official_rules_hold_over_random_games() {
     let r = Table::default().spec.ball_radius;
     for seed in 0..60u64 {
-        // Every other game with the calls of the games recorded until 0.11.1.
-        let calls = seed % 2 == 0;
-        let mut g =
-            EightBallGame::new(seed, (seed % 2) as usize, Rules::Official).with_calls(calls);
+        // A third of the games with the calls of the games recorded until
+        // 0.11.1, a third with none (0.11.2 to 0.11.x), a third with the 8
+        // called (since 0.12.0).
+        let calls = seed % 3 == 0;
+        let eight_call = seed % 3 == 2;
+        let mut g = EightBallGame::new(seed, (seed % 2) as usize, Rules::Official)
+            .with_calls(calls)
+            .with_eight_call(eight_call);
         let mut rng = Rng::new(seed + 9000);
         for _ in 0..160 {
             if g.game_over().is_some() {
@@ -671,8 +679,17 @@ fn the_official_rules_hold_over_random_games() {
                     assert_eq!(first, Some(gr), "{report:?}");
                 }
             }
-            if !calls {
+            if !calls && !(eight_call && before.calls_the_eight()) {
                 assert_eq!(report.called, None, "nothing is called");
+            }
+            if let Some(o) = report.game_over.filter(|o| o.reason == GameOverReason::PocketedEight)
+            {
+                assert_eq!(o.winner, shooter);
+                if calls || eight_call {
+                    assert!(before.calls_shots(), "{report:?}");
+                    let eight = report.pocketed.iter().find(|(b, _)| *b == BallId::EIGHT);
+                    assert_eq!(eight.map(|(_, p)| *p), report.called, "{report:?}");
+                }
             }
             assert!(report.spotted.iter().all(|b| *b == BallId::EIGHT));
             if g.game_over().is_none() && g.pending_choice().is_none() {
@@ -710,9 +727,9 @@ fn the_official_rules_hold_over_random_games() {
     }
 }
 
-// ---- No calls (since 0.11.2) ------------------------------------------
+// ---- No calls (0.11.2 to 0.11.x) ---------------------------------------
 
-/// The games played since 0.11.2: nothing is called, a ball of one's group
+/// The games played from 0.11.2 to 0.11.x: nothing is called, a ball of one's group
 /// made in any pocket keeps the table, whatever pocket the game was told.
 #[test]
 fn without_calls_any_pocket_keeps_the_table() {
@@ -723,7 +740,7 @@ fn without_calls_any_pocket_keeps_the_table() {
         (12, DVec2::new(-0.3, 0.3)),
         (8, DVec2::new(-0.7, 0.0)),
     ];
-    let g = solids_to_shoot(&at).with_calls(false);
+    let g = solids_to_shoot(&at).with_calls(false).with_eight_call(false);
     assert!(!g.calls_shots() && !g.calls());
     let shot = pot(&g, 3, PocketId::FootLeft);
     for call in [Some(PocketId::FootLeft), Some(PocketId::HeadRight), None] {
@@ -739,7 +756,8 @@ fn without_calls_any_pocket_keeps_the_table() {
         (3, DVec2::new(-0.5, -0.3)),
         (8, DVec2::new(-0.7, 0.0)),
     ])
-    .with_calls(false);
+    .with_calls(false)
+    .with_eight_call(false);
     let mut played = theirs.clone();
     let shot = Shot::new(straight_shot(&theirs, BallId(12), PocketId::FootLeft, 2.0).yaw, 2.0);
     let report = played.play_shot(&shot, None).unwrap();
@@ -758,7 +776,8 @@ fn without_calls_the_first_ball_made_decides_the_groups() {
         (5, DVec2::new(-0.5, -0.3)),
         (8, DVec2::new(-0.7, 0.0)),
     ])
-    .with_calls(false);
+    .with_calls(false)
+    .with_eight_call(false);
     let shot = pot(&g, 11, PocketId::FootLeft);
     let mut played = g.clone();
     let report = played.play_shot(&shot, Some(PocketId::SideLeft)).unwrap();
@@ -775,7 +794,8 @@ fn without_calls_the_eight_wins_in_any_pocket() {
         (8, DVec2::new(0.3, 0.2)),
         (12, DVec2::new(0.0, -0.3)),
     ])
-    .with_calls(false);
+    .with_calls(false)
+    .with_eight_call(false);
     let shot = pot(&g, 8, PocketId::FootLeft);
     for call in [Some(PocketId::FootLeft), Some(PocketId::HeadLeft), None] {
         assert_eq!(
@@ -789,23 +809,205 @@ fn without_calls_the_eight_wins_in_any_pocket() {
         (8, DVec2::new(0.3, 0.2)),
         (2, DVec2::new(-0.6, 0.35)),
     ])
-    .with_calls(false);
+    .with_calls(false)
+    .with_eight_call(false);
     let wrong = pot(&early, 8, PocketId::FootLeft);
     let over = early.clone().play_shot(&wrong, None).unwrap().game_over;
     assert!(over.is_some_and(|o| o.winner == 1), "{over:?}");
 }
 
-/// A snapshot of a game without calls reads back so; one written before
-/// the field (0.11.1 and earlier) is a game with calls.
+/// A snapshot of a new game (no calls but the 8's) reads back so; one
+/// written before the 8's call (0.11.x) has none, and one written before
+/// the calls' field (0.11.1 and earlier) is a game with calls.
 #[test]
 fn a_snapshot_keeps_its_calls() {
     let g = EightBallGame::new(5, 0, Rules::Official);
-    assert!(!g.calls());
+    assert!(!g.calls() && g.eight_call());
     let text = serde_json::to_string(&g).unwrap();
     let back: EightBallGame = serde_json::from_str(&text).unwrap();
-    assert!(!back.calls());
+    assert!(!back.calls() && back.eight_call());
     let mut old: serde_json::Value = serde_json::from_str(&text).unwrap();
+    old.as_object_mut().unwrap().remove("eight_call");
+    let without: EightBallGame = serde_json::from_value(old.clone()).unwrap();
+    assert!(!without.calls() && !without.eight_call());
     old.as_object_mut().unwrap().remove("calls");
     let old: EightBallGame = serde_json::from_value(old).unwrap();
     assert!(old.calls());
+}
+
+// ---- The 8 called (since 0.12.0) ----------------------------------------
+
+/// The 8 alone with the solids' player to shoot, in a new game.
+fn on_the_eight() -> EightBallGame {
+    solids_to_shoot(&[
+        (0, DVec2::new(-0.2, 0.0)),
+        (8, DVec2::new(0.3, 0.2)),
+        (12, DVec2::new(0.0, -0.3)),
+    ])
+    .with_calls(false)
+    .with_eight_call(true)
+}
+
+/// A new game calls the 8 and nothing else: the group's balls count in any
+/// pocket (a call sent with them is dropped), a shot at the 8 is called.
+#[test]
+fn only_the_eight_is_called() {
+    assert!(EightBallGame::new(1, 0, Rules::Official).eight_call());
+    let g = solids_to_shoot(&[
+        (0, DVec2::new(0.2, 0.1)),
+        (3, DVec2::new(0.6, 0.25)),
+        (5, DVec2::new(-0.5, -0.3)),
+        (12, DVec2::new(-0.3, 0.3)),
+        (8, DVec2::new(-0.7, 0.0)),
+    ])
+    .with_calls(false);
+    assert!(g.eight_call() && !g.calls_shots() && !g.calls_the_eight());
+    let shot = pot(&g, 3, PocketId::FootLeft);
+    for call in [Some(PocketId::FootLeft), Some(PocketId::HeadRight), None] {
+        let mut played = g.clone();
+        let report = played.play_shot(&shot, call).unwrap();
+        assert!(report.continues && report.fouls.is_empty(), "{call:?}: {report:?}");
+        assert_eq!((report.called, played.current_player()), (None, 0));
+    }
+    // On the 8 the shot is called; not on the break, and not in a game
+    // with every shot called (that is its own call).
+    let g = on_the_eight();
+    assert!(g.calls_shots() && g.calls_the_eight());
+    assert!(!g.clone().with_calls(true).calls_the_eight());
+    assert!(!EightBallGame::new(1, 0, Rules::Official).calls_shots());
+    let mut brazilian = g.clone();
+    brazilian.rules = Rules::Brazilian;
+    assert!(!brazilian.calls_shots());
+    // The Brazilian rules' call of the 8 has nothing to do with it.
+    assert_eq!(g.called_pocket_of(0), None);
+}
+
+/// 4.8: the 8 made in the called pocket on a legal shot wins; made in
+/// another pocket, or on a shot that called none, it loses; missed, the
+/// turn passes as on any shot.
+#[test]
+fn the_eight_wins_only_in_the_called_pocket() {
+    let g = on_the_eight();
+    let shot = pot(&g, 8, PocketId::FootLeft);
+    let play = |call: Option<PocketId>| {
+        let mut played = g.clone();
+        let report = played.play_shot(&shot, call).unwrap();
+        (report, played)
+    };
+    let (report, played) = play(Some(PocketId::FootLeft));
+    assert_eq!(
+        report.game_over,
+        Some(GameOver { winner: 0, reason: GameOverReason::PocketedEight })
+    );
+    assert_eq!((report.called, played.game_over()), (Some(PocketId::FootLeft), report.game_over));
+    let lost = Some(GameOver { winner: 1, reason: GameOverReason::EightInWrongPocket });
+    assert_eq!(play(Some(PocketId::HeadLeft)).0.game_over, lost);
+    assert_eq!(play(None).0.game_over, lost);
+    // Missed: the turn passes, nothing more.
+    let soft = Shot::new(shot.yaw + 0.2, 0.9);
+    let mut missed = g.clone();
+    let report = missed.play_shot(&soft, Some(PocketId::FootLeft)).unwrap();
+    if !report.pocketed.iter().any(|(b, _)| *b == BallId::EIGHT) && !report.is_foul() {
+        assert_eq!(report.game_over, None, "{report:?}");
+        assert_eq!(missed.current_player(), 1);
+    }
+    // Made too early it still loses, whatever was called.
+    let early = solids_to_shoot(&[
+        (0, DVec2::new(-0.2, 0.0)),
+        (8, DVec2::new(0.3, 0.2)),
+        (2, DVec2::new(-0.6, 0.35)),
+    ])
+    .with_calls(false);
+    assert!(!early.calls_shots());
+    let wrong = pot(&early, 8, PocketId::FootLeft);
+    let over = early.clone().play_shot(&wrong, Some(PocketId::FootLeft)).unwrap().game_over;
+    assert!(over.is_some_and(|o| o.winner == 1), "{over:?}");
+}
+
+/// The 8's pocket is called by the player, as under the Brazilian rules:
+/// a shot at the 8 with no call is refused to a player (the game and the
+/// server ask for a pocket first); one at a ball of the group, or in a game
+/// without the 8's call, needs none. (The rules themselves still play a
+/// shot without a call, the way a game older than the call is replayed.)
+#[test]
+fn a_shot_at_the_eight_needs_a_call() {
+    let g = on_the_eight();
+    assert!(g.must_call_pocket() && g.may_call_pocket());
+    assert_eq!(g.check_eight_call(None), Err(ShotError::MustCallPocket));
+    assert_eq!(g.check_eight_call(Some(PocketId::SideLeft)), Ok(()));
+    let without = g.clone().with_eight_call(false);
+    assert!(!without.must_call_pocket() && !without.may_call_pocket());
+    assert_eq!(without.check_eight_call(None), Ok(()));
+    let all_called = g.clone().with_calls(true);
+    assert!(!all_called.must_call_pocket());
+    assert_eq!(all_called.check_eight_call(None), Ok(()));
+    let group = solids_to_shoot(&[
+        (0, DVec2::new(0.2, 0.1)),
+        (3, DVec2::new(0.6, 0.25)),
+        (12, DVec2::new(-0.3, 0.3)),
+        (8, DVec2::new(-0.7, 0.0)),
+    ])
+    .with_calls(false);
+    assert!(!group.must_call_pocket() && !group.may_call_pocket());
+    assert_eq!(group.check_eight_call(None), Ok(()));
+    // Each shot at the 8 is called afresh: nothing carries over.
+    let mut missed = g.clone();
+    let soft = Shot::new(pot(&g, 8, PocketId::FootLeft).yaw + 0.5, 0.6);
+    let report = missed.play_shot(&soft, Some(PocketId::FootLeft)).unwrap();
+    assert_eq!(missed.called_pocket_of(0), None, "{report:?}");
+}
+
+/// 4.4 with the 8 called: on an open table with a group off it, the
+/// shooter who plays the 8 calls it too.
+#[test]
+fn the_eight_on_an_open_table_is_called() {
+    let g =
+        open(&[(0, DVec2::new(-0.2, 0.0)), (8, DVec2::new(0.3, 0.2)), (12, DVec2::new(0.5, -0.3))])
+            .with_calls(false)
+            .with_eight_call(true);
+    assert!(g.is_on_eight(0) && g.calls_the_eight());
+    let shot = pot(&g, 8, PocketId::FootLeft);
+    let won = g.clone().play_shot(&shot, Some(PocketId::FootLeft)).unwrap().game_over;
+    assert_eq!(won, Some(GameOver { winner: 0, reason: GameOverReason::PocketedEight }));
+    let lost = g.clone().play_shot(&shot, Some(PocketId::SideRight)).unwrap().game_over;
+    assert_eq!(lost, Some(GameOver { winner: 1, reason: GameOverReason::EightInWrongPocket }));
+}
+
+/// A game that can't call the 8 (older than 0.12.0, against a newer
+/// server): the 8 counts as called in the pocket it went into, and the
+/// call is the shot's (the game replays the same with it).
+#[test]
+fn an_older_game_has_the_eight_called_where_it_went() {
+    let g = on_the_eight();
+    let shot = pot(&g, 8, PocketId::FootLeft);
+    let mut pending = g.prepare_shot(&shot, None).unwrap();
+    pending.simulation.run_to_rest();
+    g.call_the_eight_where_it_went(&mut pending);
+    assert_eq!(pending.called_pocket, Some(PocketId::FootLeft));
+    let mut played = g.clone();
+    let report = played.finish_shot(pending);
+    assert_eq!(
+        report.game_over,
+        Some(GameOver { winner: 0, reason: GameOverReason::PocketedEight })
+    );
+    let mut again = g.clone();
+    assert_eq!(again.play_shot(&shot, report.called).unwrap(), report);
+    // Missed, nothing is called; and a game without the 8's call calls
+    // nothing either.
+    let mut pending = g.prepare_shot(&Shot::new(shot.yaw + 0.3, 0.8), None).unwrap();
+    pending.simulation.run_to_rest();
+    g.call_the_eight_where_it_went(&mut pending);
+    let eight_down = pending
+        .simulation
+        .events()
+        .iter()
+        .any(|e| matches!(e, Event::Pocketed { ball, .. } if *ball == BallId::EIGHT));
+    if !eight_down {
+        assert_eq!(pending.called_pocket, None);
+    }
+    let without = on_the_eight().with_eight_call(false);
+    let mut pending = without.prepare_shot(&shot, None).unwrap();
+    pending.simulation.run_to_rest();
+    without.call_the_eight_where_it_went(&mut pending);
+    assert_eq!(pending.called_pocket, None);
 }

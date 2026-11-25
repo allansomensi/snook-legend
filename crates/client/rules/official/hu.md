@@ -10,7 +10,7 @@
 A nemzetközi versenyek nyolcas poolja, ahogy a World Pool-Billiard Association játssza. A Snook Legendben a brazil szabályok is megvannak: a játszmáid szabályait a főmenüben választhatod ki. Ha a brazil szabályok szerint játszol, olvasd el lent a kezdőlökést, a bemondást és a szabálytalanságokat, mert sokban különböznek.
 
 ### A cél
-Mindkét játékosnak hétgolyós csoportja van: teli (1–7) vagy csíkos (9–15). Rakd el az összes golyódat, aztán a 8-as golyót, mielőtt az ellenfeled megtenné.
+Mindkét játékosnak hétgolyós csoportja van: teli (1–7) vagy csíkos (9–15). Rakd el az összes golyódat, aztán a 8-as golyót a bemondott lyukba, mielőtt az ellenfeled megtenné.
 
 ### A te köröd
 Addig lökhetsz, amíg szabálytalanság nélküli lökéssel elrakod a csoportod egy golyóját, bármelyik lyukba. Különben a kör átszáll az ellenfélre, a beesett golyók pedig bent maradnak.
@@ -37,8 +37,8 @@ Ez szabálytalanság, és a golyó kint marad (csak a 8-as kerül vissza). Az el
 ### Nyitott asztal
 Amíg a csoportok nem dőltek el, az asztal nyitott: a 8-as kivételével bármelyik golyót eltalálhatod először. Az első golyó csoportja lesz a tiéd, amelyet elraksz. Ha az egyik csoport már elfogyott az asztalról, a 8-asra mehetsz.
 
-### Bemondás nélkül
-Versenyen minden lökést be kell mondani; itt semmit sem kell. A csoportod egy golyója (vagy a 8-as, ha arra jössz), amelyet bármelyik lyukba elraksz szabálytalanság nélkül, megtartja neked az asztalt, akkor is, ha falszélről vagy egy másik golyóról megy be.
+### A 8-as bemondása
+Versenyen minden lökést be kell mondani; itt csak a 8-ast. A csoportod egy golyója, amelyet bármelyik lyukba elraksz szabálytalanság nélkül, megtartja neked az asztalt, akkor is, ha falszélről vagy egy másik golyóról megy be. Amikor a 8-asra játszol, a lökés előtt válaszd ki a lyukát: kattints a lyukra, és kigyullad (egy másikra kattintva módosíthatod). Amíg nincs bemondott lyuk, nem lökhetsz, és a 8-asra tett minden lökésnél újra be kell mondani.
 
 ### Biztonsági lökés
 Ha át akarod adni az asztalt az ellenfelednek, játssz olyan lökést, amely egyik golyódat sem rakja el: a kör átszáll, és ami beesett, bent marad. Ha a csoportod egy golyója mégis beesik, az asztal a tiéd marad.
@@ -60,7 +60,7 @@ Ha a játszmában lökésóra van, és lejár, az szabálytalanság: az ellenfel
 ## A 8-as golyó
 
 ### Győzelem
-Ha a csoportod elfogyott az asztalról, rakd el a 8-ast, bármelyik lyukba, szabálytalanság nélküli lökéssel.
+Ha a csoportod elfogyott az asztalról, rakd el a 8-ast a bemondott lyukba, szabálytalanság nélküli lökéssel.
 
 ### Vereség a 8-asnál
-Veszítesz, ha a 8-ast szabálytalan lökéssel vagy a csoportod elfogyása előtt rakod el, és ha leütöd a 8-ast az asztalról. Egyik sem vonatkozik a kezdőlökésre.
+Veszítesz, ha a 8-ast szabálytalan lökéssel, a csoportod elfogyása előtt vagy nem a bemondott lyukba rakod el, és ha leütöd a 8-ast az asztalról. Egyik sem vonatkozik a kezdőlökésre.

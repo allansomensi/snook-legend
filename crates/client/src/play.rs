@@ -533,7 +533,7 @@ fn on_ball_or_pocket(m: &Match, scene: &Scene, p: DVec2) -> bool {
         .balls()
         .iter()
         .any(|b| b.in_play() && b.id != BallId::CUE && b.xy().distance(p) < r * 1.6)
-        || ((m.game.calls_shots() || m.game.may_call_pocket())
+        || (((m.game.calls_shots() && m.game.calls()) || m.game.may_call_pocket())
             && PocketId::ALL.into_iter().any(|id| scene.pocket_center(id).distance(p) < 0.12))
 }
 
@@ -553,9 +553,11 @@ fn click(m: &mut Match, scene: &Scene, at: Option<DVec2>) {
         .filter(|(_, d)| *d < 0.12)
         .min_by(|a, b| a.1.total_cmp(&b.1))
         .filter(|_| !on_ball);
-    // The official rules: a click on a pocket calls it for this shot; on
-    // the pocket already called, the call follows the aim again.
+    // The official rules with every shot called (a game recorded until
+    // 0.11.1): a click on a pocket calls it for this shot; on the pocket
+    // already called, the call follows the aim again.
     if m.game.calls_shots()
+        && m.game.calls()
         && m.is_human_turn()
         && let Some((id, _)) = nearest
     {
@@ -566,7 +568,9 @@ fn click(m: &mut Match, scene: &Scene, at: Option<DVec2>) {
         }
         return;
     }
-    // Calling a pocket for the 8 (only once: the call is then binding).
+    // Calling a pocket for the 8 (the Brazilian rules: until the first shot
+    // at it, the call is then binding; the official rules: on each shot at
+    // it). Another click on a pocket changes the call before the shot.
     if m.game.may_call_pocket()
         && let Some((id, _)) = nearest
     {
@@ -903,8 +907,9 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
         return out;
     }
 
-    // Pocket call for the 8-ball.
-    if m.game.needs_called_pocket() {
+    // Pocket call for the 8-ball (both rules): every pocket pulses until
+    // one is called, then the called one is lit.
+    if m.game.must_call_pocket() {
         let pulse = 0.5 + 0.5 * (time * 4.0).sin();
         for id in PocketId::ALL {
             let called = m.called_pocket == Some(id);
@@ -920,10 +925,11 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
         }
     }
 
-    // The official rules: a pocket the player called by clicking it. The
-    // call that follows the aim is never shown: it would say where the aim
-    // sends the ball (judging that is the shot).
+    // The official rules with every shot called: a pocket the player
+    // called by clicking it. The call that follows the aim is never shown:
+    // it would say where the aim sends the ball (judging that is the shot).
     if m.game.calls_shots()
+        && m.game.calls()
         && matches!(m.phase, Phase::Turn { .. })
         && m.replay.is_none()
         && m.call_locked
@@ -951,7 +957,8 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
     let Some(Stop { t, target, in_pocket }) = first_stop(&m.game, cue, dir) else {
         return out;
     };
-    let white = Color::new(1.0, 1.0, 1.0, 0.5);
+    // White, or the VIP's own colour (see `perks`).
+    let white = crate::perks::aim(0.5);
     let start = cue + dir * r;
     // The lines of the aim run at the height of the balls' centres, from
     // centre to centre: on the cloth they passed beside the ghost ball's
@@ -980,7 +987,7 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
             from: surface(start, line_y),
             to: surface(if in_pocket { ghost } else { ghost - dir * r }, line_y),
             width: 0.0012,
-            color: Color::new(1.0, 1.0, 1.0, 0.42),
+            color: crate::perks::aim(0.42),
         });
     }
     if in_pocket || t < 0.004 {

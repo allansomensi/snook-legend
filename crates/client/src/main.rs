@@ -9,12 +9,14 @@
 mod aa;
 mod advanced;
 mod analysis;
+mod arena_hall;
 mod assess;
 mod audio;
 mod avatars;
 mod banter;
 mod camera;
 mod channel;
+mod collection;
 mod config;
 mod coords;
 mod correspondence;
@@ -37,6 +39,7 @@ mod hud;
 mod i18n;
 mod icon;
 mod icons;
+mod inbox;
 mod instance;
 mod intro;
 mod keys;
@@ -54,11 +57,13 @@ mod observer;
 mod online;
 mod opponents;
 mod paint;
+mod perks;
 mod play;
 mod profile;
 mod ranking;
 mod reactions;
 mod report;
+mod reveal;
 mod room;
 mod rulesui;
 mod saved;
@@ -267,6 +272,8 @@ enum Screen {
     Ranking,
     Profile,
     Shop,
+    /// What the staff and the game told the player.
+    Inbox,
 }
 
 /// A LAN game: the server this computer hosts (if any) and the connection.
@@ -364,6 +371,7 @@ async fn main() {
     let mut ranking = Ranking::default();
     let mut profile = ProfileScreen::default();
     let mut shop = shop::ShopScreen::default();
+    let mut inbox = inbox::InboxScreen::default();
     // The shop item being tried on the 3D table, and since when.
     // An item of the shop looked at closely (see `showroom`).
     let mut showroom: Option<showroom::Showroom> = None;
@@ -446,6 +454,11 @@ async fn main() {
             if let Some(s) = showroom.as_mut() {
                 s.dev();
             }
+            screen = Screen::Shop;
+        }
+        Some("collection") => {
+            online.connect();
+            shop.open_collection(&mut online);
             screen = Screen::Shop;
         }
         Some(tab) if tab.starts_with("shop") => {
@@ -965,6 +978,13 @@ async fn main() {
             None => scene::Looks::of(&config.cloth, &config.balls),
         }
         .themed(&config.table, &config.hall);
+        // An official tournament's game is played in the pro arena.
+        if current.as_ref().and_then(|m| m.online.as_ref()).is_some_and(|o| o.tournament.is_some())
+            && !match_from_lan
+        {
+            looks.hall = snook_legend_proto::shop::HallStyle::Arena;
+        }
+        perks::update(&config.aim_color, config.show_reactions);
         // An item of the shop in the showroom: on its stage, or tried on
         // the table (in the hall of the setting chosen).
         let in_showroom = matches!(screen, Screen::Shop) && current.is_none();
@@ -1558,6 +1578,12 @@ async fn main() {
                                 }
                                 MenuAction::Shop => {
                                     shop.open(&mut online);
+                                    shop.close_collection();
+                                    back_to_lounge = false;
+                                    next = Some(Screen::Shop);
+                                }
+                                MenuAction::Collection => {
+                                    shop.open_collection(&mut online);
                                     back_to_lounge = false;
                                     next = Some(Screen::Shop);
                                 }
@@ -1583,6 +1609,16 @@ async fn main() {
                                     }
                                 },
                                 MenuAction::Settings => settings_open = true,
+                                MenuAction::Inbox => {
+                                    back_to_lounge = false;
+                                    if online.signed_in() {
+                                        inbox.open(&mut online);
+                                        next = Some(Screen::Inbox);
+                                    } else {
+                                        online.connect();
+                                        next = Some(Screen::Online);
+                                    }
+                                }
                                 MenuAction::WhatsNew => {
                                     whats_new = Some(whatsnew::WhatsNew::all());
                                 }
@@ -1790,6 +1826,11 @@ async fn main() {
                                 back_to_lounge = true;
                                 next = Some(Screen::Shop);
                             }
+                            OnlineAction::Inbox => {
+                                inbox.open(&mut online);
+                                back_to_lounge = true;
+                                next = Some(Screen::Inbox);
+                            }
                             OnlineAction::None => {}
                         },
                         Screen::Lan => {
@@ -1893,6 +1934,43 @@ async fn main() {
                                 ));
                             }
                             shop::ShopAction::None => {}
+                        },
+                        Screen::Inbox => match inbox.draw(&mut ui, &mut online) {
+                            inbox::InboxAction::None => {}
+                            inbox::InboxAction::Back => {
+                                next = Some(if back_to_lounge && online.signed_in() {
+                                    Screen::Online
+                                } else {
+                                    Screen::Menu
+                                })
+                            }
+                            inbox::InboxAction::Profile(name) => {
+                                profile.open(&name, &mut online);
+                                next = Some(Screen::Profile);
+                            }
+                            inbox::InboxAction::Shop(code) => {
+                                shop.open(&mut online);
+                                if !code.is_empty() {
+                                    shop.show_item(&code);
+                                }
+                                next = Some(Screen::Shop);
+                            }
+                            inbox::InboxAction::Vip => {
+                                shop.open(&mut online);
+                                shop.show_tab("shop-vip");
+                                next = Some(Screen::Shop);
+                            }
+                            inbox::InboxAction::Tournaments => {
+                                online.connect();
+                                next = Some(Screen::Online);
+                            }
+                            // The collection (on the item) and the auctions' page.
+                            inbox::InboxAction::Collection(code) => {
+                                shop.open_collection(&mut online);
+                                shop.show_item(&code);
+                                next = Some(Screen::Shop);
+                            }
+                            inbox::InboxAction::Auctions => online.open_auctions(),
                         },
                         Screen::Profile => match profile.draw(&mut ui, &mut online) {
                             ProfileAction::Back => {

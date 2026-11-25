@@ -2018,14 +2018,14 @@ your call	deine Ansage
 {n} points to {tier} ({rules})	Noch {n} Punkte bis {tier} ({rules})
 {n} waiting	{n} warten
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Ein Foul bringt dem Gegner Kugeln seiner Gruppe. Ball in Hand gibt es nur beim Anstoß, und nur die Tasche der 8 wird angesagt.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Ein Foul gibt dem Gegner Ball in Hand, überall auf dem Tisch. Nichts wird angesagt, und der Anstoß muss vier Kugeln an die Banden bringen.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Ein Foul gibt dem Gegner Ball in Hand, überall auf dem Tisch. Nur die Tasche der 8 wird angesagt, bei jedem Stoß auf sie, und der Anstoß muss vier Kugeln an die Banden bringen.
 A foul gives balls to the opponent	Ein Foul bringt dem Gegner Kugeln
 Ball in hand on the break only	Ball in Hand nur beim Anstoß
 Only the 8's pocket is called	Nur die Tasche der 8 wird angesagt
 The most played in Brazil	In Brasilien am meisten gespielt
 A foul gives ball in hand	Ein Foul gibt Ball in Hand
 The break drives four balls to a cushion	Beim Anstoß vier Kugeln an die Banden
-Any pocket counts	Jede Tasche zählt
+Only the 8 is called, shot by shot	Nur die 8 wird angesagt, Stoß für Stoß
 The same all over the world	Überall auf der Welt gleich
 Game type	Spielart
 called: {pocket}	angesagt: {pocket}
@@ -2086,6 +2086,255 @@ Every player has it	Haben alle Spieler
 Drag to make the chat taller or shorter	Ziehen, um den Chat höher oder niedriger zu machen
 Hide the result to see the table and the chat	Ergebnis ausblenden, um Tisch und Chat zu sehen
 Show the result	Ergebnis zeigen
+{n} unread	{n} ungelesen
+Everything read	Alles gelesen
+Mark all as read	Alle als gelesen markieren
+Inbox	Posteingang
+No notifications yet. What the staff and the game tell you comes here.	Noch keine Benachrichtigungen. Was dir das Team und das Spiel mitteilen, landet hier.
+Nothing here.	Hier ist nichts.
+Pick a notification to read it.	Wähle eine Benachrichtigung, um sie zu lesen.
+Pinned	Angeheftet
+From {name}	Von {name}
+Pinned for {t} more	Noch {t} angeheftet
+I read it	Gelesen
+Delete	Löschen
+Confirm you read it first.	Bestätige zuerst, dass du es gelesen hast.
+It stays while it is pinned.	Es bleibt, solange es angeheftet ist.
+Equipped.	Ausgerüstet.
+Message from the staff	Nachricht vom Team
+You were muted	Du wurdest stummgeschaltet
+You can't write to other players for {t} more.	Du kannst anderen Spielern noch {t} nicht schreiben.
+The mute is over.	Die Stummschaltung ist vorbei.
+You can chat again	Du kannst wieder chatten
+The staff lifted your mute.	Das Team hat deine Stummschaltung aufgehoben.
+Your rating was adjusted	Deine Wertung wurde angepasst
+{delta} under the {rules}: now {rating}.	{delta} unter den {rules}: jetzt {rating}.
+A game was annulled	Ein Spiel wurde annulliert
+Your game against {name} no longer counts ({delta} rating).	Dein Spiel gegen {name} zählt nicht mehr ({delta} Wertung).
+The staff ended a game	Das Team hat ein Spiel beendet
+Your game against {name} was given to you.	Das Spiel gegen {name} wurde dir zugesprochen.
+Your game against {name} was given to your opponent.	Das Spiel gegen {name} wurde deinem Gegner zugesprochen.
+Your game against {name} ended without a result.	Dein Spiel gegen {name} endete ohne Ergebnis.
+Thank you for your report	Danke für deine Meldung
+The staff took action about {name}.	Das Team hat in Bezug auf {name} gehandelt.
+{n} days of VIP	{n} Tage VIP
+A gift from the staff	Ein Geschenk vom Team
+You won an item	Du hast einen Gegenstand gewonnen
+VIP item of the month	VIP-Gegenstand des Monats
+Achievement unlocked	Erfolg freigeschaltet
+A tournament is about to start	Ein Turnier beginnt gleich
+Tournament result	Turnierergebnis
+{name}: place {place}, {prize} coins.	{name}: Platz {place}, {prize} Münzen.
+You were outbid	Du wurdest überboten
+You won an auction	Du hast eine Auktion gewonnen
+Maintenance	Wartung
+The server stops in {t} for about {n} min.	Der Server stoppt in {t} für etwa {n} Min.
+The server stops for about {n} min.	Der Server stoppt für etwa {n} Min.
+Notification	Benachrichtigung
+You are muted for {t} more.	Du bist noch {t} stummgeschaltet.
+You are muted for {t} more: {reason}	Du bist noch {t} stummgeschaltet: {reason}
+That word isn't allowed here: {word}	Dieses Wort ist hier nicht erlaubt: {word}
+That can't be sent.	Das kann nicht gesendet werden.
+New in your inbox: {title}	Neu im Posteingang: {title}
+{n} more	noch {n}
+{name} mentioned you	{name} hat dich erwähnt
+Inbox ({n} unread)	Posteingang ({n} ungelesen)
+Unpin	Lösen
+Pin at the top of the chat	Oben im Chat anheften
+Names and countries	Namen und Länder
+All	Alle
+Staff	Team
+Punishments	Strafen
+See the game	Spiel ansehen
+Equip now	Jetzt ausrüsten
+Open the collection	Sammlung öffnen
+Auctions	Auktionen
+The staff ended your game without a result. Sign in again.	Das Team hat dein Spiel ohne Ergebnis beendet. Melde dich erneut an.
+A secret achievement: play to find it.	Ein geheimer Erfolg: Spiel, um ihn zu finden.
+Only won	Nur zu gewinnen
+Collection	Sammlung
+Everything you have, and how you got it	Alles, was du hast, und wie du es bekommen hast
+A secret achievement	Ein geheimer Erfolg
+Not yet yours	Noch nicht deins
+Rarest first	Seltenste zuerst
+Newest first	Neueste zuerst
+By name	Nach Name
+Reaction	Reaktion
+Bought for {n} coins	Gekauft für {n} Münzen
+Bought in the shop	Im Shop gekauft
+Gift from {name}	Geschenk von {name}
+A present from the staff	Ein Geschenk des Teams
+From the staff: {reason}	Vom Team: {reason}
+Champion of {name}	Sieger von {name}
+Runner-up of {name}	Zweiter von {name}
+Place {n} in {name}	Platz {n} bei {name}
+Achievement: {title}	Erfolg: {title}
+Won at auction for {n} coins	Ersteigert für {n} Münzen
+VIP's item of the month · {month}	VIP-Artikel des Monats · {month}
+Prize of {name}	Preis von {name}
+Yours	Deins
+VIP's item of the month: VIP members get it that month	VIP-Artikel des Monats: VIP-Mitglieder bekommen ihn in diesem Monat
+Only the season's champion wins it	Nur der Saisonsieger gewinnt ihn
+Won in the official tournaments	Zu gewinnen in den offiziellen Turnieren
+Only won: events, cups and seasons	Nur zu gewinnen: Events, Pokale und Saisons
+In the welcome pack	Im Willkommenspaket
+Yours while you are VIP	Deins, solange du VIP bist
+Legendary cue	Legendäres Queue
+Epic cue	Episches Queue
+{n} of {total} items	{n} von {total} Artikeln
+Sign in to see your collection.	Melde dich an, um deine Sammlung zu sehen.
+Missing too	Auch fehlende
+Nothing of this rarity here.	Hier gibt es nichts dieser Seltenheit.
+None yet: they are waiting to be won.	Noch keine: Sie warten darauf, gewonnen zu werden.
+Page {a} of {b}	Seite {a} von {b}
+In the shop	Im Shop
+Everything you have	Alles, was du hast
+Show reactions	Reaktionen anzeigen
+Off: no reactions are shown during matches, from anyone.	Aus: Während der Partien werden keine Reaktionen gezeigt, von niemandem.
+The colour of your aim line and ghost ball.	Die Farbe deiner Ziellinie und der Geisterkugel.
+For VIP members: the colour of the aim line and the ghost ball.	Für VIP-Mitglieder: die Farbe der Ziellinie und der Geisterkugel.
+Aim colour	Zielfarbe
+Polished stone, veined right through	Polierter Stein, durch und durch geädert
+A night sky in every ball, under a clear coat	Ein Nachthimmel in jeder Kugel, unter dem Klarlack
+Lit from within, like neon	Von innen beleuchtet, wie Neon
+Cut glass: deep colour and a dazzling shine	Geschliffenes Glas: tiefe Farbe und blendender Glanz
+White Carrara marble, gold castings and fluted columns	Weißer Carrara-Marmor, goldene Beschläge und kannelierte Säulen
+Black gloss on slab legs, with a neon glow beneath	Glänzendes Schwarz auf Plattenbeinen, mit Neonleuchten darunter
+Woven carbon rails, red trim and a light strip	Banden aus geflochtenem Carbon, rote Akzente und ein Lichtstreifen
+Dark walnut and polished copper on a riveted steel frame	Dunkles Nussholz und poliertes Kupfer auf genietetem Stahlrahmen
+Frosted lacquer and silver, with a cold light beneath	Bereifter Lack und Silber, mit kaltem Licht darunter
+Black volcanic stone, cracked with molten orange	Schwarzes Vulkangestein, durchzogen von glühendem Orange
+Rough pine on square posts, with iron castings	Rohe Kiefer auf Vierkantbeinen, mit eisernen Beschlägen
+Black lacquer and gold: the season champion's table	Schwarzer Lack und Gold: der Tisch des Saisonsiegers
+The table alone under the spotlight, dark stands and TV lights	Der Tisch allein im Scheinwerferlicht, dunkle Ränge und TV-Licht
+Crimson velvet	Karmesinsamt
+Eclipse	Finsternis
+Arena blue	Arenablau
+Millennium gold	Jahrtausendgold
+Holly	Stechpalme
+Winter frost	Winterfrost
+Rainforest	Regenwald
+Bonfire	Lagerfeuer
+Spring meadow	Frühlingswiese
+Gold filigree	Goldfiligran
+Thunderbolt	Blitz
+Damascus steel	Damaszenerstahl
+Glacier	Gletscher
+Abalone	Abalone
+Volcano	Vulkan
+Aurora	Polarlicht
+Emperor	Kaiser
+Untouchable	Unantastbar
+Midas	Midas
+Empire	Imperium
+Millennium	Jahrtausend
+Four corners	Vier Ecken
+Back from the dead	Von den Toten zurück
+Season champion	Saisonsieger
+Candy cane	Zuckerstange
+Countdown	Countdown
+Carnival	Karneval
+Easter egg	Osterei
+Festa junina	Festa junina
+Spider web	Spinnennetz
+Winter cup	Winterpokal
+Summer cup	Sommerpokal
+Anniversary	Jubiläum
+World cup	Weltmeisterschaft
+New dawn	Neue Morgenröte
+Sakura	Sakura
+Tide	Gezeiten
+Witching hour	Geisterstunde
+Diamond dust chalk	Diamantstaub-Kreide
+Champion's chalk	Kreide des Siegers
+Marble	Marmor
+Glow	Leuchten
+Crystal	Kristall
+Crown jewels	Kronjuwelen
+Champion's gold	Siegergold
+Christmas baubles	Christbaumkugeln
+Haunted	Spuk
+Copper works	Kupferwerk
+Carbon racer	Carbon-Racer
+Neon night	Neonnacht
+Ice palace	Eispalast
+Country barn	Bauernscheune
+Pro arena	Profi-Arena
+Obsidian	Obsidian
+Prism	Prisma
+Phantom	Phantom
+Pro tour	Profi-Tour
+Rose garden	Rosengarten
+Golden hour	Goldene Stunde
+Hearts	Herzen
+Thunderstorm	Gewitter
+Black hole	Schwarzes Loch
+Shooting stars	Sternschnuppen
+Snowfall	Schneefall
+Champion's fireworks	Siegerfeuerwerk
+Crown of glory	Krone des Ruhms
+Fingers crossed	Daumen drücken
+Call me	Ruf mich an
+Nerd	Nerd
+Money face	Geldgesicht
+Monocle	Monokel
+Facepalm	Facepalm
+Shrug	Schulterzucken
+Hands up	Hände hoch
+Melting	Schmelzend
+Alien	Außerirdischer
+Clown	Clown
+Little devil	Teufelchen
+Angel	Engel
+Bomb	Bombe
+Money bag	Geldsack
+Crystal ball	Kristallkugel
+Tornado	Tornado
+Dragon	Drache
+Santa	Weihnachtsmann
+Snowflake	Schneeflocke
+Summer sun	Sommersonne
+Easter bunny	Osterhase
+Football	Fußball
+Balloon	Luftballon
+Season medal	Saisonmedaille
+Common	Gewöhnlich
+Rare	Selten
+Epic	Episch
+Legendary	Legendär
+Institution	Institution
+Play 2,500 rated games.	Spiele 2.500 gewertete Partien.
+Living legend	Lebende Legende
+Win 1,000 rated games.	Gewinne 1.000 gewertete Partien.
+The last word	Das letzte Wort
+Win 500 rated games on the 8-ball.	Gewinne 500 gewertete Partien mit der 8.
+Seventh heaven	Siebter Himmel
+Win 7 rated games in a row.	Gewinne 7 gewertete Partien in Folge.
+Clinical	Klinisch
+Break and run 5 times.	Schaffe 5-mal ein Break & Run.
+Iron curtain	Eiserner Vorhang
+Win 25 rated shutouts.	Gewinne 25 gewertete Partien zu null.
+Win 10 tournaments.	Gewinne 10 Turniere.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Gewinne in der Karnevalszeit (1. Feb. – 10. März) eine gewertete Partie.
+June festival	Junifest
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Gewinne während der Junifeste (1. – 30. Juni) eine gewertete Partie.
+Three in one	Drei auf einen Streich
+Pocket three of your balls with one shot (not the break).	Versenke drei deiner Kugeln mit einem Stoß (nicht beim Anstoß).
+Pocket balls in four different pockets with one shot (not the break).	Versenke Kugeln in vier verschiedenen Taschen mit einem Stoß (nicht beim Anstoß).
+Thunder break	Donnerbreak
+Pocket five balls on the break.	Versenke fünf Kugeln beim Anstoß.
+Spotted	Auf dem Punkt
+Pocket the 8-ball on the break in a game under the official rules.	Versenke die 8 beim Anstoß in einer Partie nach den offiziellen Regeln.
+Win a rated game after being six balls behind.	Gewinne eine gewertete Partie, nachdem du sechs Kugeln zurücklagst.
+Last stand	Letztes Gefecht
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Gewinne eine gewertete Partie, nachdem dein Gegner auf der 8 war, während du noch fünf oder mehr Kugeln hattest.
+Stolen table	Gestohlener Tisch
+Win a rated game from your opponent's break without them getting another shot.	Gewinne eine gewertete Partie nach dem Anstoß deines Gegners, ohne dass er noch einmal stößt.
+Marathon	Marathon
+Win a rated game that lasted 60 shots or more.	Gewinne eine gewertete Partie, die 60 Stöße oder mehr dauerte.
+Ugly but it counts	Hässlich, aber zählt
+Win a rated game in which you fouled four times or more.	Gewinne eine gewertete Partie, in der du vier oder mehr Fouls gespielt hast.
+This item can't be given: it stays with whoever won it.	Dieser Artikel kann nicht verschenkt werden: Er bleibt bei dem, der ihn gewonnen hat.
 Current prize: {n} coins	Aktueller Preis: {n} Münzen
 Champion wins: {item}	Der Sieger gewinnt: {item}
 {h} h {m} min	{h} Std {m} Min
@@ -2093,7 +2342,6 @@ Champion wins: {item}	Der Sieger gewinnt: {item}
 {s} s	{s} s
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Tag {d} in Folge: +{n} Münzen. Morgen: +{m}.
 Auctions ({n})	Auktionen ({n})
-Auctions	Auktionen
 Supporters	Unterstützer
 Maintenance in {t}: the server stops for about {m} min.	Wartung in {t}: Der Server ist etwa {m} Min nicht erreichbar.
 Maintenance: the server is stopping. Games in progress go on.	Wartung: Der Server fährt herunter. Laufende Spiele gehen weiter.

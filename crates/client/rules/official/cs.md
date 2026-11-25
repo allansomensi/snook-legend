@@ -10,7 +10,7 @@
 Osmička mezinárodních turnajů, jak ji hraje Světová poolbillardová asociace (WPA). Snook Legend má i brazilská pravidla: pravidla svých her si vybereš v hlavním menu. Pokud hraješ podle brazilských pravidel, přečti si níže rozstřel, ohlašování a fauly, protože se hodně liší.
 
 ### Cíl
-Každý hráč má skupinu sedmi koulí: plné (1 až 7) nebo půlené (9 až 15). Potop všechny své a pak osmičku dřív než soupeř.
+Každý hráč má skupinu sedmi koulí: plné (1 až 7) nebo půlené (9 až 15). Potop všechny své a pak osmičku do ohlášené díry dřív než soupeř.
 
 ### Tvůj tah
 Hraješ dál, dokud bez faulu potápíš koule své skupiny, do kterékoli díry. Jinak tah přechází na soupeře a koule, které spadly, zůstávají v dírách.
@@ -37,8 +37,8 @@ Je to faul a koule zůstává mimo stůl (vrací se jen osmička). Soupeř hraje
 ### Otevřený stůl
 Dokud nejsou skupiny určené, stůl je otevřený: jako první můžeš trefit kteroukoli kouli kromě osmičky. Skupina první koule, kterou potopíš, se stává tvou. Když už je jedna skupina celá mimo stůl, můžeš hrát na osmičku.
 
-### Bez ohlašování
-Na turnajích se ohlašuje každý šťouch; tady se neohlašuje nic. Koule tvé skupiny (nebo osmička, když hraješ na ni) potopená do kterékoli díry bez faulu ti nechává stůl, i od mantinelu nebo od jiné koule.
+### Ohlášení osmičky
+Na turnajích se ohlašuje každý šťouch; tady se ohlašuje jen osmička. Koule tvé skupiny potopená do kterékoli díry bez faulu ti nechává stůl, i od mantinelu nebo od jiné koule. Když hraješ na osmičku, vyber před šťouchem její díru: klikni na díru a rozsvítí se (kliknutím na jinou ji změníš). Bez ohlášené díry nemůžeš hrát a každý šťouch na osmičku se ohlašuje znovu.
 
 ### Safety
 Chceš-li nechat stůl soupeři, zahraj šťouch, který nepotopí žádnou tvou kouli: tah přechází a co spadlo, zůstane v díře. Koule tvé skupiny, která přesto spadne, ti stůl nechává.
@@ -60,7 +60,7 @@ Když má hra čas na šťouch a ten vyprší, je to faul: soupeř má bílou v 
 ## Osmička
 
 ### Výhra
-Jakmile je tvá skupina mimo stůl, potop osmičku, do kterékoli díry, bez faulu.
+Jakmile je tvá skupina mimo stůl, potop osmičku do ohlášené díry, bez faulu.
 
 ### Prohra na osmičce
-Prohráváš, když potopíš osmičku s faulem nebo dřív, než je tvá skupina mimo stůl, a když osmičku vyrazíš ze stolu. Nic z toho neplatí při rozstřelu.
+Prohráváš, když potopíš osmičku s faulem, dřív, než je tvá skupina mimo stůl, nebo do díry, kterou jsi neohlásil(a), a když osmičku vyrazíš ze stolu. Nic z toho neplatí při rozstřelu.

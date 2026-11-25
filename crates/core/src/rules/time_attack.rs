@@ -29,6 +29,8 @@ impl EightBallGame {
     pub fn time_attack(seed: u64) -> EightBallGame {
         let mut g = EightBallGame::new(seed, 0, Rules::Official);
         g.time_attack = true;
+        // Nothing is called against the clock: the 8 too goes in any pocket.
+        g.eight_call = false;
         g
     }
 
@@ -188,6 +190,8 @@ mod tests {
         // With only the 8 left, making it clears the table.
         let mut g = EightBallGame::time_attack(3);
         g.set_up_test_position(&[(BallId::CUE, cue), (BallId::EIGHT, eight)]);
+        // Nothing is called, the 8 neither.
+        assert!(!g.may_call_pocket() && g.check_eight_call(None).is_ok());
         let r = g.play_shot(&Shot::new(d.y.atan2(d.x), 2.0), None).unwrap();
         assert!(!penalised(&r));
         assert_eq!(g.balls_left(), 0);

@@ -804,21 +804,21 @@ async fn the_staff_panel_clears_statuses_and_notes_and_mutes_posting() {
     let (code, _) = request(&host, "DELETE", "/admin/api/seeks/eve", &token, "").await;
     assert_eq!(code, 404);
 
-    // Muted: no notes and no status messages.
+    // Muted: no notes and no status messages (the game is told why and
+    // until when).
     let (code, _) =
         request(&host, "POST", "/admin/api/users/eve/mute", &token, r#"{"minutes":10}"#).await;
     assert_eq!(code, 200);
+    use snook_legend_proto::moderation::{TextPlace, TextRefusal};
+    let muted = |place: TextPlace| {
+        move |m: &ServerMsg| {
+            matches!(m, ServerMsg::TextRefused { place: p, refusal: TextRefusal::Muted { .. } }
+                if *p == place)
+        }
+    };
     eve.send(ClientMsg::PostSeek { text: "hi".into(), rated: false, rules: Rules::Brazilian })
         .await;
-    eve.expect(
-        "muted",
-        |m| matches!(m, ServerMsg::Error { message } if message.starts_with("You are muted")),
-    )
-    .await;
+    eve.expect("muted", muted(TextPlace::Seek)).await;
     eve.send(ClientMsg::SetStatusMessage { text: "hi".into() }).await;
-    eve.expect(
-        "muted",
-        |m| matches!(m, ServerMsg::Error { message } if message.starts_with("You are muted")),
-    )
-    .await;
+    eve.expect("muted", muted(TextPlace::Status)).await;
 }

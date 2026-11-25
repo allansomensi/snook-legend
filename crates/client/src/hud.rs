@@ -271,12 +271,14 @@ const HISTORY_LOG: u64 = 9_202;
 /// The status line in the top bar, from `x`, at most `width` wide: what is
 /// in brackets at its end ("… to shoot (stripes)") goes on a second, quieter
 /// line; a long line without them wraps onto two.
-/// The official rules: the button that declares a safety (no pocket
-/// called), at the right end of the top bar on the player's turn (the
-/// status beside it says which pocket is called). Its width, to keep the
-/// status clear of it (0 when not shown).
+/// The official rules in a game recorded with every shot called (until
+/// 0.11.1): the button that declares a safety (no pocket called), at the
+/// right end of the top bar on the player's turn (the status beside it
+/// says which pocket is called). Its width, to keep the status clear of it
+/// (0 when not shown). With only the 8 called there is none: a shot at the
+/// 8 that calls nothing could only lose with it.
 fn draw_call(ui: &mut Ui, m: &mut Match) -> f32 {
-    if !m.game.calls_shots() || !m.is_human_turn() || m.replay.is_some() {
+    if !m.game.calls_shots() || !m.game.calls() || !m.is_human_turn() || m.replay.is_some() {
         return 0.0;
     }
     let sw = crate::ui::vw();
@@ -413,6 +415,18 @@ fn status_line(m: &Match) -> Option<String> {
                     "{name} is on the 8: click a pocket to call it",
                     &[("name", name)],
                 ));
+            }
+            // The official rules: each shot at the 8 calls its pocket, as
+            // the Brazilian rules' first one does: clicked by the player,
+            // then named.
+            if m.game.calls_the_eight() {
+                return Some(match m.called_pocket {
+                    Some(pocket) => tw(
+                        "{name} is on the 8: called pocket {pocket}",
+                        &[("name", name), ("pocket", &crate::i18n::pocket(pocket))],
+                    ),
+                    None => tw("{name} is on the 8: click a pocket to call it", &[("name", name)]),
+                });
             }
             // A drill: which try, and how many worked.
             if let Some(run) = &m.drill {
@@ -2574,6 +2588,11 @@ const REACTION_TIME: f32 = 2.8;
 fn draw_reactions(m: &mut Match, xs: [f32; 2], eye: Vec2) {
     let dt = get_frame_time();
     let Some(o) = m.online.as_mut() else { return };
+    // The setting "Show reactions" off: no one's are shown.
+    if !crate::perks::reactions_shown() {
+        o.reactions.clear();
+        return;
+    }
     let mut crowd = 0;
     for (seat, code, age) in &mut o.reactions {
         *age += dt;
@@ -2828,7 +2847,8 @@ fn turn_subtitle(m: &Match) -> String {
     if m.game.is_break() {
         return t("Break the rack").into();
     }
-    if m.game.needs_called_pocket() {
+    // (The official rules call the 8 on each shot at it.)
+    if m.game.must_call_pocket() {
         return match m.game.called_pocket_of(player) {
             Some(p) => tw("On the 8-ball: {pocket} pocket", &[("pocket", &crate::i18n::pocket(p))]),
             None => t("On the 8-ball: call a pocket").into(),
@@ -2958,7 +2978,7 @@ impl Hud {
         }
         let can_shoot = my_turn && !m.is_placing_cue_ball();
         if shoot_button(ui, shoot, can_shoot && m.aim.power > 0.02) {
-            if m.game.needs_called_pocket() && m.called_pocket.is_none() {
+            if m.game.must_call_pocket() && m.called_pocket.is_none() {
                 m.notify(t("Call a pocket for the 8-ball first: click a pocket."), true);
             } else if m.shoot() {
                 self.popover = None;

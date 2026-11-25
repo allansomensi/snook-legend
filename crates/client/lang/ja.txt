@@ -2018,14 +2018,14 @@ your call	あなたのコール
 {n} points to {tier} ({rules})	{tier}まであと{n}ポイント（{rules}）
 {n} waiting	{n}人待機中
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	ファウルすると、相手のグループの球が相手に与えられます。フリーボールはブレイク時のみで、コールするのは8番のポケットだけです。
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	ファウルすると、相手にフリーボール（テーブルのどこでも）が与えられます。コールは不要で、ブレイクでは4球以上をクッションに届かせる必要があります。
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	ファウルすると、相手にフリーボール（テーブルのどこでも）が与えられます。コールするのは8番を狙うショットのポケットだけで、ブレイクでは4球以上をクッションに届かせる必要があります。
 A foul gives balls to the opponent	ファウルで相手に球が渡る
 Ball in hand on the break only	フリーボールはブレイク時のみ
 Only the 8's pocket is called	コールは8番のポケットのみ
 The most played in Brazil	ブラジルで最も遊ばれているルール
 A foul gives ball in hand	ファウルでフリーボール
 The break drives four balls to a cushion	ブレイクは4球以上をクッションへ
-Any pocket counts	どのポケットでも有効
+Only the 8 is called, shot by shot	コールは8番だけ、ショットごと
 The same all over the world	世界共通のルール
 Game type	対戦の種類
 called: {pocket}	コール：{pocket}
@@ -2086,6 +2086,255 @@ Every player has it	全プレイヤーが使えます
 Drag to make the chat taller or shorter	ドラッグでチャットの高さを変更
 Hide the result to see the table and the chat	結果を隠してテーブルとチャットを見る
 Show the result	結果を表示
+{n} unread	未読 {n} 件
+Everything read	すべて既読
+Mark all as read	すべて既読にする
+Inbox	受信箱
+No notifications yet. What the staff and the game tell you comes here.	まだ通知はありません。運営とゲームからのお知らせはここに届きます。
+Nothing here.	ここには何もありません。
+Pick a notification to read it.	読む通知を選んでください。
+Pinned	ピン留め
+From {name}	{name} から
+Pinned for {t} more	あと {t} ピン留め
+I read it	読みました
+Delete	削除
+Confirm you read it first.	先に読んだことを確認してください。
+It stays while it is pinned.	ピン留め中は残ります。
+Equipped.	装備しました。
+Message from the staff	運営からのメッセージ
+You were muted	ミュートされました
+You can't write to other players for {t} more.	あと {t} は他のプレイヤーに書き込めません。
+The mute is over.	ミュートは終了しました。
+You can chat again	またチャットできます
+The staff lifted your mute.	運営がミュートを解除しました。
+Your rating was adjusted	レーティングが修正されました
+{delta} under the {rules}: now {rating}.	{rules}で {delta}：現在 {rating}。
+A game was annulled	対局が無効になりました
+Your game against {name} no longer counts ({delta} rating).	{name} との対局は無効になりました（レーティング {delta}）。
+The staff ended a game	運営が対局を終了しました
+Your game against {name} was given to you.	{name} との対局はあなたの勝ちになりました。
+Your game against {name} was given to your opponent.	{name} との対局は相手の勝ちになりました。
+Your game against {name} ended without a result.	{name} との対局は結果なしで終了しました。
+Thank you for your report	報告ありがとうございます
+The staff took action about {name}.	運営は {name} に対して措置を取りました。
+{n} days of VIP	VIP {n} 日分
+A gift from the staff	運営からのプレゼント
+You won an item	アイテムを獲得しました
+VIP item of the month	今月の VIP アイテム
+Achievement unlocked	実績を解除しました
+A tournament is about to start	まもなくトーナメントが始まります
+Tournament result	トーナメント結果
+{name}: place {place}, {prize} coins.	{name}：{place} 位、{prize} コイン。
+You were outbid	より高い入札がありました
+You won an auction	オークションで落札しました
+Maintenance	メンテナンス
+The server stops in {t} for about {n} min.	サーバーは {t} 後に約 {n} 分停止します。
+The server stops for about {n} min.	サーバーは約 {n} 分停止します。
+Notification	通知
+You are muted for {t} more.	あと {t} ミュート中です。
+You are muted for {t} more: {reason}	あと {t} ミュート中です：{reason}
+That word isn't allowed here: {word}	その言葉はここでは使えません：{word}
+That can't be sent.	送信できません。
+New in your inbox: {title}	受信箱に新着：{title}
+{n} more	あと {n} 件
+{name} mentioned you	{name} があなたにメンションしました
+Inbox ({n} unread)	受信箱（未読 {n} 件）
+Unpin	ピン留めを外す
+Pin at the top of the chat	チャットの上部にピン留め
+Names and countries	名前と国
+All	すべて
+Staff	運営
+Punishments	ペナルティ
+See the game	対局を見る
+Equip now	今すぐ装備
+Open the collection	コレクションを開く
+Auctions	オークション
+The staff ended your game without a result. Sign in again.	運営が対局を結果なしで終了しました。もう一度サインインしてください。
+A secret achievement: play to find it.	シークレット実績：プレイして見つけよう。
+Only won	獲得のみ
+Collection	コレクション
+Everything you have, and how you got it	持っているすべてと、その入手方法
+A secret achievement	シークレット実績
+Not yet yours	まだ持っていない
+Rarest first	レアな順
+Newest first	新しい順
+By name	名前順
+Reaction	リアクション
+Bought for {n} coins	{n}コインで購入
+Bought in the shop	ショップで購入
+Gift from {name}	{name}からのプレゼント
+A present from the staff	運営からのプレゼント
+From the staff: {reason}	運営より：{reason}
+Champion of {name}	{name}の優勝者
+Runner-up of {name}	{name}の準優勝者
+Place {n} in {name}	{name}で{n}位
+Achievement: {title}	実績：{title}
+Won at auction for {n} coins	オークションで{n}コインで落札
+VIP's item of the month · {month}	今月のVIPアイテム · {month}
+Prize of {name}	{name}の賞品
+Yours	あなたのもの
+VIP's item of the month: VIP members get it that month	今月のVIPアイテム：その月のVIPメンバーがもらえます
+Only the season's champion wins it	シーズンチャンピオンだけが手にできる
+Won in the official tournaments	公式トーナメントで獲得
+Only won: events, cups and seasons	獲得のみ：イベント、カップ、シーズン
+In the welcome pack	ウェルカムパックに収録
+Yours while you are VIP	VIPの間はあなたのもの
+Legendary cue	レジェンダリーキュー
+Epic cue	エピックキュー
+{n} of {total} items	{n} / {total} アイテム
+Sign in to see your collection.	ログインしてコレクションを見よう。
+Missing too	未入手も表示
+Nothing of this rarity here.	このレアリティのものはありません。
+None yet: they are waiting to be won.	まだありません：獲得されるのを待っています。
+Page {a} of {b}	{a} / {b} ページ
+In the shop	ショップへ
+Everything you have	持っているすべて
+Show reactions	リアクションを表示
+Off: no reactions are shown during matches, from anyone.	オフ：試合中は誰のリアクションも表示されません。
+The colour of your aim line and ghost ball.	あなたのエイムラインとゴーストボールの色。
+For VIP members: the colour of the aim line and the ghost ball.	VIPメンバー向け：エイムラインとゴーストボールの色。
+Aim colour	エイムの色
+Polished stone, veined right through	磨き上げた石、全体に走る石目
+A night sky in every ball, under a clear coat	ボールごとに夜空を閉じ込め、クリアコートで仕上げ
+Lit from within, like neon	ネオンのように内側から光る
+Cut glass: deep colour and a dazzling shine	カットガラス：深い色と目もくらむ輝き
+White Carrara marble, gold castings and fluted columns	白いカッラーラ大理石、金の金具、縦溝の柱
+Black gloss on slab legs, with a neon glow beneath	光沢のある黒に板状の脚、下からネオンの光
+Woven carbon rails, red trim and a light strip	編み込みカーボンのレール、赤のアクセントとライトライン
+Dark walnut and polished copper on a riveted steel frame	リベット留めの鋼フレームに濃いウォールナットと磨いた銅
+Frosted lacquer and silver, with a cold light beneath	霜のようなラッカーと銀、下から冷たい光
+Black volcanic stone, cracked with molten orange	黒い溶岩石、灼熱のオレンジがひび割れから覗く
+Rough pine on square posts, with iron castings	角脚に粗削りの松材、鉄の金具
+Black lacquer and gold: the season champion's table	黒のラッカーと金：シーズンチャンピオンのテーブル
+The table alone under the spotlight, dark stands and TV lights	スポットライトに浮かぶテーブル、暗いスタンドとテレビ照明
+Crimson velvet	クリムゾンベルベット
+Eclipse	エクリプス
+Arena blue	アリーナブルー
+Millennium gold	ミレニアムゴールド
+Holly	ヒイラギ
+Winter frost	冬の霜
+Rainforest	熱帯雨林
+Bonfire	焚き火
+Spring meadow	春の草原
+Gold filigree	ゴールドフィリグリー
+Thunderbolt	サンダーボルト
+Damascus steel	ダマスカス鋼
+Glacier	グレイシャー
+Abalone	アワビ
+Volcano	ボルケーノ
+Aurora	オーロラ
+Emperor	エンペラー
+Untouchable	アンタッチャブル
+Midas	ミダス
+Empire	エンパイア
+Millennium	ミレニアム
+Four corners	フォーコーナーズ
+Back from the dead	死からの帰還
+Season champion	シーズンチャンピオン
+Candy cane	キャンディケイン
+Countdown	カウントダウン
+Carnival	カーニバル
+Easter egg	イースターエッグ
+Festa junina	フェスタ・ジュニーナ
+Spider web	クモの巣
+Winter cup	ウィンターカップ
+Summer cup	サマーカップ
+Anniversary	アニバーサリー
+World cup	ワールドカップ
+New dawn	新たな夜明け
+Sakura	桜
+Tide	潮
+Witching hour	魔女の刻
+Diamond dust chalk	ダイヤモンドダストのチョーク
+Champion's chalk	チャンピオンのチョーク
+Marble	マーブル
+Glow	グロー
+Crystal	クリスタル
+Crown jewels	王冠の宝石
+Champion's gold	チャンピオンゴールド
+Christmas baubles	クリスマスオーナメント
+Haunted	ホーンテッド
+Copper works	銅の工房
+Carbon racer	カーボンレーサー
+Neon night	ネオンナイト
+Ice palace	氷の宮殿
+Country barn	田舎の納屋
+Pro arena	プロアリーナ
+Obsidian	黒曜石
+Prism	プリズム
+Phantom	ファントム
+Pro tour	プロツアー
+Rose garden	バラ園
+Golden hour	ゴールデンアワー
+Hearts	ハート
+Thunderstorm	雷雨
+Black hole	ブラックホール
+Shooting stars	流れ星
+Snowfall	降雪
+Champion's fireworks	チャンピオンの花火
+Crown of glory	栄光の王冠
+Fingers crossed	指を交差
+Call me	電話して
+Nerd	オタク
+Money face	お金の顔
+Monocle	片眼鏡
+Facepalm	フェイスパーム
+Shrug	肩をすくめる
+Hands up	バンザイ
+Melting	とろける
+Alien	エイリアン
+Clown	ピエロ
+Little devil	小悪魔
+Angel	天使
+Bomb	爆弾
+Money bag	お金の袋
+Crystal ball	水晶玉
+Tornado	竜巻
+Dragon	ドラゴン
+Santa	サンタ
+Snowflake	雪の結晶
+Summer sun	夏の太陽
+Easter bunny	イースターバニー
+Football	サッカー
+Balloon	風船
+Season medal	シーズンメダル
+Common	コモン
+Rare	レア
+Epic	エピック
+Legendary	レジェンダリー
+Institution	殿堂
+Play 2,500 rated games.	レート戦を2,500回プレイする。
+Living legend	生ける伝説
+Win 1,000 rated games.	レート戦で1,000勝する。
+The last word	最後の一言
+Win 500 rated games on the 8-ball.	8番ボールでレート戦に500勝する。
+Seventh heaven	有頂天
+Win 7 rated games in a row.	レート戦で7連勝する。
+Clinical	精密機械
+Break and run 5 times.	マスワリを5回達成する。
+Iron curtain	鉄のカーテン
+Win 25 rated shutouts.	レート戦で25回完封勝ちする。
+Win 10 tournaments.	トーナメントで10回優勝する。
+Win a rated game in Carnival season (Feb 1 – Mar 10).	カーニバルの時期（2月1日〜3月10日）にレート戦で勝つ。
+June festival	6月祭り
+Win a rated game during the June festivals (Jun 1 – Jun 30).	6月の祭りの期間（6月1日〜6月30日）にレート戦で勝つ。
+Three in one	一石三鳥
+Pocket three of your balls with one shot (not the break).	1ショットで自分のボールを3個ポケットする（ブレイクを除く）。
+Pocket balls in four different pockets with one shot (not the break).	1ショットで4つの異なるポケットにボールを入れる（ブレイクを除く）。
+Thunder break	サンダーブレイク
+Pocket five balls on the break.	ブレイクで5個のボールをポケットする。
+Spotted	スポット
+Pocket the 8-ball on the break in a game under the official rules.	公式ルールの試合でブレイク時に8番ボールをポケットする。
+Win a rated game after being six balls behind.	6球差をつけられてからレート戦に勝つ。
+Last stand	最後の抵抗
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	相手が8番ボールに進み、自分のボールが5個以上残っている状態からレート戦に勝つ。
+Stolen table	奪われたテーブル
+Win a rated game from your opponent's break without them getting another shot.	相手のブレイクの後、相手に一度も打たせずにレート戦に勝つ。
+Marathon	マラソン
+Win a rated game that lasted 60 shots or more.	60ショット以上続いたレート戦に勝つ。
+Ugly but it counts	泥臭くても勝ちは勝ち
+Win a rated game in which you fouled four times or more.	4回以上ファウルしたレート戦に勝つ。
+This item can't be given: it stays with whoever won it.	このアイテムは贈れません：獲得した人のものです。
 Current prize: {n} coins	現在の賞金：{n} コイン
 Champion wins: {item}	優勝賞品：{item}
 {h} h {m} min	{h}時間{m}分
@@ -2093,7 +2342,6 @@ Champion wins: {item}	優勝賞品：{item}
 {s} s	{s}秒
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	{d}日連続：+{n} コイン。明日：+{m}。
 Auctions ({n})	オークション（{n}）
-Auctions	オークション
 Supporters	サポーター
 Maintenance in {t}: the server stops for about {m} min.	{t}後にメンテナンス：サーバーは約{m}分停止します。
 Maintenance: the server is stopping. Games in progress go on.	メンテナンス：サーバーを停止中です。進行中の対局は続きます。

@@ -86,8 +86,6 @@ pub(super) struct Lobby {
     invites: HashSet<(String, String)>,
     queue: Vec<Searching>,
     tables: BTreeMap<u64, PairTable>,
-    /// Each online player's game's protocol.
-    protocols: HashMap<String, u32>,
     /// Each player's doubles records (from the store when they sign in;
     /// kept up to date by the results here).
     records: HashMap<String, PerRules<Record>>,
@@ -154,14 +152,11 @@ impl Room {
 }
 
 impl Lounge {
-    /// The protocol of `name`'s game (the connection says so after the
-    /// sign-in): doubles are for games that know them. The doubles tables
-    /// are sent to a game that does.
-    pub fn set_protocol(&mut self, name: &str, version: u32) {
-        let k = key(name);
-        self.doubles.protocols.insert(k.clone(), version);
-        if version >= MIN_PROTOCOL {
-            self.send(&k, ServerMsg::DoublesTables { tables: self.doubles_tables() });
+    /// The protocol of `k`'s game is known (see [`Lounge::set_protocol`]):
+    /// a game that knows doubles is sent the doubles tables.
+    pub(super) fn doubles_hello(&self, k: &str) {
+        if self.can_double(k) {
+            self.send(k, ServerMsg::DoublesTables { tables: self.doubles_tables() });
         }
     }
 
@@ -176,7 +171,7 @@ impl Lounge {
     }
 
     fn can_double(&self, k: &str) -> bool {
-        self.doubles.protocols.get(k).is_some_and(|v| *v >= MIN_PROTOCOL)
+        self.sessions.get(k).is_some_and(|s| s.protocol >= MIN_PROTOCOL)
     }
 
     /// The pair of `k` (them first), if they have a partner.
@@ -396,7 +391,6 @@ impl Lounge {
     /// A player left the lounge: their pair, and what it had going, end.
     pub(super) fn doubles_left(&mut self, k: &str) {
         self.leave_pair(k, false);
-        self.doubles.protocols.remove(k);
     }
 
     fn drop_search(&mut self, k: &str) -> bool {

@@ -7,7 +7,7 @@ use sqlx::{Row, query};
 use super::super::{AsyncChallenge, AsyncGame, MatchRecord, NewAsyncGame, StoreResult, User};
 use super::{PgStore, replay_json, replay_of};
 
-const GAME_COLUMNS: &str = "id, player0, player1, rated, seed, breaker, strokes::text AS strokes, rules, calls, \
+const GAME_COLUMNS: &str = "id, player0, player1, rated, seed, breaker, strokes::text AS strokes, rules, calls, eight_call, \
     turn, deadline, seen0, seen1, group0, group1, left0, left1, started_at, updated_at, \
     finished_at, winner, reason, timeout, delta0, delta1, rating0, rating1, match_id";
 
@@ -53,7 +53,7 @@ fn game(r: &PgRow) -> Result<AsyncGame, sqlx::Error> {
         r.try_get("breaker")?,
         &strokes,
         r.try_get("rules")?,
-        r.try_get("calls")?,
+        (r.try_get("calls")?, r.try_get("eight_call")?),
     )
     .ok_or_else(|| sqlx::Error::Decode("unreadable strokes".into()))?;
     let n = |c: &str| -> Result<u32, sqlx::Error> { Ok(r.try_get::<i32, _>(c)?.max(0) as u32) };

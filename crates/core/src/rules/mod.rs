@@ -41,8 +41,9 @@ pub enum Rules {
     #[default]
     Brazilian,
     /// The World Pool-Billiard Association's rules (the Rules of Play of
-    /// 2025-09-15, "8-Ball"): every shot but the break is called, and a
-    /// foul gives the opponent the cue ball in hand anywhere on the table.
+    /// 2025-09-15, "8-Ball"): a foul gives the opponent the cue ball in
+    /// hand anywhere on the table. Of the calls only the 8's is kept (see
+    /// [`EightBallGame::calls_shots`]).
     Official,
 }
 
@@ -346,8 +347,9 @@ pub struct ShotReport {
     /// True if the shooter keeps the table.
     pub continues: bool,
     pub game_over: Option<GameOver>,
-    /// The pocket the shot was called for: under the official rules every
-    /// shot's (none: a safety), under the Brazilian rules the 8's.
+    /// The pocket the shot was called for: under the official rules the
+    /// 8's on a shot at it (in a game recorded until 0.11.1 every shot's;
+    /// none: a safety), under the Brazilian rules the 8's.
     pub called: Option<PocketId>,
     /// The Brazilian rules: the shooter made one of the opponent's balls,
     /// which passed the turn, even if they made one of their own too.
@@ -411,8 +413,9 @@ pub enum ShotError {
     GameIsOver,
     /// The cue ball is in hand and its current position is not allowed.
     IllegalCueBallPosition,
-    /// The Brazilian rules: the shooter is on the eight and must nominate a
-    /// pocket.
+    /// The shooter is on the eight and must nominate a pocket: the
+    /// Brazilian rules, and the official rules since 0.12.0 (see
+    /// [`EightBallGame::check_eight_call`]).
     MustCallPocket,
     /// The official rules: a player has to decide how play goes on after
     /// the break first (see [`EightBallGame::choose`]).
@@ -492,6 +495,11 @@ pub struct EightBallGame {
     /// between two players.
     #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     time_attack: bool,
+    /// The official rules since 0.12.0: the 8 is called (the group's balls
+    /// are not), see [`Self::calls_shots`]. A game recorded from 0.11.2 to
+    /// 0.11.x was played without (the 8 won in any pocket) and keeps that.
+    /// Meaningless with `calls`, which calls the 8 too.
+    eight_call: bool,
 }
 
 /// What a snapshot holds (see [`EightBallGame`]).
@@ -514,6 +522,10 @@ struct GameData {
     calls: bool,
     #[serde(default)]
     time_attack: bool,
+    /// A snapshot written before the field (0.11.x and earlier) was of a
+    /// game without the 8's own call.
+    #[serde(default)]
+    eight_call: bool,
 }
 
 /// Games recorded before 0.11.2 were played with calls (see
@@ -593,6 +605,7 @@ impl TryFrom<GameData> for EightBallGame {
             choice: d.choice,
             calls: d.calls,
             time_attack: d.time_attack,
+            eight_call: d.eight_call,
         })
     }
 }
@@ -677,6 +690,7 @@ impl EightBallGame {
             choice: None,
             calls: false,
             time_attack: false,
+            eight_call: true,
         }
     }
 
@@ -691,6 +705,20 @@ impl EightBallGame {
     /// 0.11.1 (see [`Self::with_calls`]).
     pub fn calls(&self) -> bool {
         self.calls
+    }
+
+    /// This game played with the 8 called under the official rules (`true`,
+    /// a new game's: since 0.12.0), or with the 8 counting in any pocket
+    /// (`false`: a game recorded from 0.11.2 to 0.11.x). Only matters
+    /// without [`Self::with_calls`].
+    pub fn with_eight_call(mut self, eight_call: bool) -> Self {
+        self.eight_call = eight_call;
+        self
+    }
+
+    /// Played with the 8 called (see [`Self::with_eight_call`]).
+    pub fn eight_call(&self) -> bool {
+        self.eight_call
     }
 
     pub fn table(&self) -> &Table {
@@ -841,10 +869,31 @@ impl EightBallGame {
         self.called[player % 2]
     }
 
-    /// The Brazilian rules: the current player is on the 8 but hasn't
-    /// called a pocket yet.
+    /// The current player calls the 8's pocket now, by clicking it: under
+    /// the Brazilian rules on the 8 before the call is binding, under the
+    /// official rules (since 0.12.0) on each shot at the 8.
     pub fn may_call_pocket(&self) -> bool {
-        self.needs_called_pocket() && self.called[self.current].is_none()
+        (self.needs_called_pocket() && self.called[self.current].is_none())
+            || self.calls_the_eight()
+    }
+
+    /// This shot must name the 8's pocket (under either rules): there is no
+    /// shooting until a pocket is called (see [`Self::check_eight_call`]).
+    pub fn must_call_pocket(&self) -> bool {
+        self.needs_called_pocket() || self.calls_the_eight()
+    }
+
+    /// The official rules since 0.12.0: a shot at the 8 with no pocket
+    /// called is refused ([`ShotError::MustCallPocket`]), as the Brazilian
+    /// rules refuse one ([`Self::prepare_shot`]). Checked where a player
+    /// shoots (the game, the server), not by [`Self::prepare_shot`]: a game
+    /// that can't call the 8 (one older than 0.12.0, against a newer
+    /// server) plays it without a call, and replays so.
+    pub fn check_eight_call(&self, called_pocket: Option<PocketId>) -> Result<(), ShotError> {
+        if self.game_over.is_none() && self.calls_the_eight() && called_pocket.is_none() {
+            return Err(ShotError::MustCallPocket);
+        }
+        Ok(())
     }
 
     /// The Brazilian rules: the shooter must call a pocket for this shot
@@ -853,12 +902,42 @@ impl EightBallGame {
         self.rules == Rules::Brazilian && !self.break_on_rack() && self.is_on_eight(self.current)
     }
 
-    /// The official rules in a game recorded with calls (until 0.11.1):
-    /// this shot is called (every shot but the break; no call makes it a
-    /// safety). Since then nothing is called: a ball of the shooter's made
-    /// in any pocket keeps the table.
+    /// The official rules: this shot is called. Since 0.12.0 only the 8
+    /// is: a shot by a player on the 8 (their group off the table) names
+    /// the pocket it is for, and the 8 made anywhere else loses; the
+    /// group's balls count in any pocket. In a game recorded with calls
+    /// (until 0.11.1) every shot but the break is called (no call makes it
+    /// a safety); in one recorded from 0.11.2 to 0.11.x nothing is.
     pub fn calls_shots(&self) -> bool {
-        self.rules == Rules::Official && self.calls && !self.is_break && self.choice.is_none()
+        self.rules == Rules::Official
+            && !self.is_break
+            && self.choice.is_none()
+            && (self.calls || (self.eight_call && self.is_on_eight(self.current)))
+    }
+
+    /// The official rules since 0.12.0: this shot is called for the 8 only
+    /// (see [`Self::calls_shots`]); not in a game with every shot called.
+    pub fn calls_the_eight(&self) -> bool {
+        !self.calls && self.calls_shots()
+    }
+
+    /// For a game that can't call the 8 (one older than 0.12.0, which
+    /// plays the 8 in any pocket, against a newer server): the 8 made on
+    /// this shot at it counts as called in the pocket it went into. Called
+    /// once the simulation is at rest, before [`Self::finish_shot`]; the
+    /// call is then the shot's, and is recorded with it (so the game
+    /// replays the same).
+    pub fn call_the_eight_where_it_went(&self, pending: &mut PendingShot) {
+        if !self.calls_the_eight() {
+            return;
+        }
+        let pocket = pending.simulation.events().iter().find_map(|e| match *e {
+            Event::Pocketed { ball, pocket, .. } if ball == BallId::EIGHT => Some(pocket),
+            _ => None,
+        });
+        if let Some(pocket) = pocket {
+            pending.called_pocket = Some(pocket);
+        }
     }
 
     /// True if the cue ball may be placed (or left) at `p` given the
@@ -909,8 +988,8 @@ impl EightBallGame {
 
     /// Validates a shot and starts simulating it. `called_pocket` is the
     /// call: under the Brazilian rules the 8's (needed once on the 8, and
-    /// binding from then on), under the official rules this shot's (none:
-    /// a safety).
+    /// binding from then on), under the official rules this shot's when it
+    /// is called ([`Self::calls_shots`]; none: a safety), dropped when not.
     pub fn prepare_shot(
         &self,
         shot: &Shot,
@@ -937,8 +1016,9 @@ impl EightBallGame {
                 }
                 called
             }
-            // Nothing is called on the break, nor in a game without calls.
-            Rules::Official => called_pocket.filter(|_| self.calls && !self.is_break),
+            // Nothing is called on the break, nor (but for the 8) in a game
+            // since 0.11.2. (A pending choice was refused above.)
+            Rules::Official => called_pocket.filter(|_| self.calls_shots()),
         };
         // A tip beyond the edge of the ball is brought back to the edge, in
         // its direction (one so far out that its length overflows an f64 is

@@ -10,7 +10,7 @@
 La palla 8 dei tornei internazionali, come la gioca la World Pool-Billiard Association. Snook Legend ha anche le regole brasiliane: scegli le regole delle tue partite nel menu principale. Se giochi con le regole brasiliane, leggi qui sotto la spaccata, le chiamate e i falli, perché cambiano molto.
 
 ### L'obiettivo
-Ogni giocatore ha un gruppo di sette palle: piene (dalla 1 alla 7) o rigate (dalla 9 alla 15). Imbuca tutte le tue e poi la palla 8 prima del tuo avversario.
+Ogni giocatore ha un gruppo di sette palle: piene (dalla 1 alla 7) o rigate (dalla 9 alla 15). Imbuca tutte le tue e poi la palla 8, nella buca che chiami, prima del tuo avversario.
 
 ### Il tuo turno
 Continui a tirare finché imbuchi una palla del tuo gruppo, in qualsiasi buca, con un tiro senza fallo. Altrimenti il turno passa, e le palle entrate restano in buca.
@@ -37,8 +37,8 @@ Imbucare la 8 alla spaccata non fa né vincere né perdere: torna sul punto di f
 ### Tavolo aperto
 Finché i gruppi non sono decisi, il tavolo è aperto: puoi colpire per prima qualsiasi palla tranne la 8. Il gruppo della prima palla che imbuchi diventa il tuo. Se un gruppo è già tutto fuori dal tavolo, puoi giocare la 8.
 
-### Niente chiamate
-Nei tornei ogni tiro va chiamato; qui non si chiama nulla. Una palla del tuo gruppo (o la 8, quando sei sulla 8) imbucata in qualsiasi buca, con un tiro senza fallo, ti fa continuare a tirare, anche dopo una sponda o un'altra palla.
+### Chiamare la 8
+Nei tornei ogni tiro va chiamato; qui si chiama solo la 8. Una palla del tuo gruppo imbucata in qualsiasi buca, con un tiro senza fallo, ti fa continuare a tirare, anche dopo una sponda o un'altra palla. Quando tiri sulla 8, scegli la sua buca prima di tirare: clicca la buca e si illumina (clicca un'altra per cambiarla). Non puoi tirare senza chiamare la buca, e ogni tiro sulla 8 si chiama di nuovo.
 
 ### Difesa
 Per lasciare il tavolo all'avversario, gioca un tiro che non imbuchi nessuna delle tue palle: il turno passa, e ciò che è entrato resta in buca. Una palla del tuo gruppo che entra comunque ti fa continuare a tirare.
@@ -60,7 +60,7 @@ Quando la partita ha un tempo di tiro e il tempo scade, è fallo: l'avversario h
 ## La palla 8
 
 ### Vincere
-Quando il tuo gruppo è fuori dal tavolo, imbuca la 8, in qualsiasi buca, con un tiro senza fallo.
+Quando il tuo gruppo è fuori dal tavolo, imbuca la 8 nella buca chiamata, con un tiro senza fallo.
 
 ### Perdere sulla 8
-Perdi se imbuchi la 8 con un fallo o prima che il tuo gruppo sia fuori dal tavolo, e se mandi la 8 fuori dal tavolo. Niente di tutto questo vale alla spaccata.
+Perdi se imbuchi la 8 con un fallo, prima che il tuo gruppo sia fuori dal tavolo o in una buca che non hai chiamato, e se mandi la 8 fuori dal tavolo. Niente di tutto questo vale alla spaccata.

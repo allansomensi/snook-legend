@@ -2018,14 +2018,14 @@ your call	إعلانك
 {n} points to {tier} ({rules})	{n} نقطة للوصول إلى {tier} ({rules})
 {n} waiting	{n} في الانتظار
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	الخطأ يمنح الخصم كرات من مجموعته. الكرة البيضاء في اليد في الافتتاحية فقط، ولا يعلن إلا جيب الكرة 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	الخطأ يمنح الخصم الكرة البيضاء في اليد، في أي مكان على الطاولة. لا يُعلن أي جيب، ويجب أن توصل الافتتاحية أربع كرات إلى الحواف.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	الخطأ يمنح الخصم الكرة البيضاء في اليد، في أي مكان على الطاولة. لا يُعلن إلا جيب الكرة 8، في كل ضربة عليها، ويجب أن توصل الافتتاحية أربع كرات إلى الحواف.
 A foul gives balls to the opponent	الخطأ يمنح الخصم كرات
 Ball in hand on the break only	الكرة في اليد في الافتتاحية فقط
 Only the 8's pocket is called	لا يعلن إلا جيب الكرة 8
 The most played in Brazil	الأكثر لعبا في البرازيل
 A foul gives ball in hand	الخطأ يمنح الكرة في اليد
 The break drives four balls to a cushion	الافتتاحية توصل أربع كرات إلى الحواف
-Any pocket counts	أي جيب يُحتسب
+Only the 8 is called, shot by shot	لا تُعلن إلا الكرة 8، ضربة بضربة
 The same all over the world	هي نفسها في كل العالم
 Game type	نوع المباراة
 called: {pocket}	المعلن: {pocket}
@@ -2086,6 +2086,255 @@ Every player has it	لدى كل اللاعبين
 Drag to make the chat taller or shorter	اسحب لتكبير الدردشة أو تصغيرها
 Hide the result to see the table and the chat	أخفِ النتيجة لترى الطاولة والدردشة
 Show the result	اعرض النتيجة
+{n} unread	{n} غير مقروءة
+Everything read	كل شيء مقروء
+Mark all as read	تعليم الكل كمقروء
+Inbox	صندوق الوارد
+No notifications yet. What the staff and the game tell you comes here.	لا توجد إشعارات بعد. ما يخبرك به الفريق واللعبة يصل إلى هنا.
+Nothing here.	لا شيء هنا.
+Pick a notification to read it.	اختر إشعارًا لقراءته.
+Pinned	مثبّت
+From {name}	من {name}
+Pinned for {t} more	مثبّت لمدة {t} أخرى
+I read it	قرأته
+Delete	حذف
+Confirm you read it first.	أكّد أولًا أنك قرأته.
+It stays while it is pinned.	يبقى ما دام مثبّتًا.
+Equipped.	تم التجهيز.
+Message from the staff	رسالة من الفريق
+You were muted	تم كتمك
+You can't write to other players for {t} more.	لا يمكنك الكتابة للاعبين الآخرين لمدة {t} أخرى.
+The mute is over.	انتهى الكتم.
+You can chat again	يمكنك الدردشة مجددًا
+The staff lifted your mute.	رفع الفريق الكتم عنك.
+Your rating was adjusted	تم تعديل تقييمك
+{delta} under the {rules}: now {rating}.	{delta} في {rules}: الآن {rating}.
+A game was annulled	أُلغيت مباراة
+Your game against {name} no longer counts ({delta} rating).	مباراتك ضد {name} لم تعد تُحتسب ({delta} في التقييم).
+The staff ended a game	أنهى الفريق مباراة
+Your game against {name} was given to you.	مُنحت لك المباراة ضد {name}.
+Your game against {name} was given to your opponent.	مُنحت المباراة ضد {name} لخصمك.
+Your game against {name} ended without a result.	انتهت مباراتك ضد {name} بلا نتيجة.
+Thank you for your report	شكرًا على بلاغك
+The staff took action about {name}.	اتخذ الفريق إجراءً بشأن {name}.
+{n} days of VIP	{n} يومًا من VIP
+A gift from the staff	هدية من الفريق
+You won an item	ربحت عنصرًا
+VIP item of the month	عنصر VIP لهذا الشهر
+Achievement unlocked	إنجاز جديد
+A tournament is about to start	بطولة على وشك البدء
+Tournament result	نتيجة البطولة
+{name}: place {place}, {prize} coins.	{name}: المركز {place}، {prize} عملة.
+You were outbid	تم تجاوز مزايدتك
+You won an auction	ربحت مزادًا
+Maintenance	صيانة
+The server stops in {t} for about {n} min.	يتوقف الخادم بعد {t} لمدة {n} دقيقة تقريبًا.
+The server stops for about {n} min.	يتوقف الخادم لمدة {n} دقيقة تقريبًا.
+Notification	إشعار
+You are muted for {t} more.	أنت مكتوم لمدة {t} أخرى.
+You are muted for {t} more: {reason}	أنت مكتوم لمدة {t} أخرى: {reason}
+That word isn't allowed here: {word}	هذه الكلمة غير مسموح بها هنا: {word}
+That can't be sent.	لا يمكن إرسال هذا.
+New in your inbox: {title}	جديد في صندوق الوارد: {title}
+{n} more	{n} أخرى
+{name} mentioned you	أشار إليك {name}
+Inbox ({n} unread)	صندوق الوارد ({n} غير مقروءة)
+Unpin	إلغاء التثبيت
+Pin at the top of the chat	تثبيت أعلى الدردشة
+Names and countries	الأسماء والبلدان
+All	الكل
+Staff	الفريق
+Punishments	العقوبات
+See the game	شاهد المباراة
+Equip now	جهّزه الآن
+Open the collection	افتح المجموعة
+Auctions	المزادات
+The staff ended your game without a result. Sign in again.	أنهى الفريق مباراتك بلا نتيجة. سجّل الدخول مجددًا.
+A secret achievement: play to find it.	إنجاز سري: العب لتكتشفه.
+Only won	يُربح فقط
+Collection	المجموعة
+Everything you have, and how you got it	كل ما لديك، وكيف حصلت عليه
+A secret achievement	إنجاز سري
+Not yet yours	ليس لك بعد
+Rarest first	الأندر أولًا
+Newest first	الأحدث أولًا
+By name	حسب الاسم
+Reaction	تفاعل
+Bought for {n} coins	اشتُري مقابل {n} عملة
+Bought in the shop	اشتُري من المتجر
+Gift from {name}	هدية من {name}
+A present from the staff	هدية من الفريق
+From the staff: {reason}	من الفريق: {reason}
+Champion of {name}	بطل {name}
+Runner-up of {name}	وصيف {name}
+Place {n} in {name}	المركز {n} في {name}
+Achievement: {title}	إنجاز: {title}
+Won at auction for {n} coins	رُبح في مزاد مقابل {n} عملة
+VIP's item of the month · {month}	عنصر VIP للشهر · {month}
+Prize of {name}	جائزة {name}
+Yours	لك
+VIP's item of the month: VIP members get it that month	عنصر VIP للشهر: يحصل عليه أعضاء VIP في ذلك الشهر
+Only the season's champion wins it	لا يربحه إلا بطل الموسم
+Won in the official tournaments	يُربح في البطولات الرسمية
+Only won: events, cups and seasons	يُربح فقط: فعاليات وكؤوس ومواسم
+In the welcome pack	في حزمة الترحيب
+Yours while you are VIP	لك ما دمت عضو VIP
+Legendary cue	عصا أسطورية
+Epic cue	عصا ملحمية
+{n} of {total} items	{n} من {total} عنصرًا
+Sign in to see your collection.	سجّل الدخول لترى مجموعتك.
+Missing too	والناقصة أيضًا
+Nothing of this rarity here.	لا شيء بهذه الندرة هنا.
+None yet: they are waiting to be won.	لا شيء بعد: إنها تنتظر من يربحها.
+Page {a} of {b}	الصفحة {a} من {b}
+In the shop	في المتجر
+Everything you have	كل ما لديك
+Show reactions	إظهار التفاعلات
+Off: no reactions are shown during matches, from anyone.	إيقاف: لا تظهر أي تفاعلات أثناء المباريات، من أي أحد.
+The colour of your aim line and ghost ball.	لون خط التصويب والكرة الشبحية لديك.
+For VIP members: the colour of the aim line and the ghost ball.	لأعضاء VIP: لون خط التصويب والكرة الشبحية.
+Aim colour	لون التصويب
+Polished stone, veined right through	حجر مصقول، معرّق من طرف إلى طرف
+A night sky in every ball, under a clear coat	سماء ليلية في كل كرة، تحت الطلاء اللامع
+Lit from within, like neon	مضاءة من الداخل، مثل النيون
+Cut glass: deep colour and a dazzling shine	زجاج مشطوف: لون عميق وبريق مبهر
+White Carrara marble, gold castings and fluted columns	رخام كرارا أبيض وتجهيزات ذهبية وأعمدة محززة
+Black gloss on slab legs, with a neon glow beneath	أسود لامع على أرجل لوحية، مع توهج نيون من الأسفل
+Woven carbon rails, red trim and a light strip	حواف من الكربون المضفور ولمسات حمراء وشريط ضوئي
+Dark walnut and polished copper on a riveted steel frame	جوز داكن ونحاس مصقول على هيكل فولاذي مبرشم
+Frosted lacquer and silver, with a cold light beneath	ورنيش مُصقّع وفضة، مع ضوء بارد من الأسفل
+Black volcanic stone, cracked with molten orange	حجر بركاني أسود تشقّه خطوط برتقالية متوهجة
+Rough pine on square posts, with iron castings	صنوبر خشن على أرجل مربعة، مع تجهيزات حديدية
+Black lacquer and gold: the season champion's table	ورنيش أسود وذهب: طاولة بطل الموسم
+The table alone under the spotlight, dark stands and TV lights	الطاولة وحدها تحت الضوء، ومدرجات مظلمة وأضواء تلفزيونية
+Crimson velvet	مخمل قرمزي
+Eclipse	كسوف
+Arena blue	أزرق الحلبة
+Millennium gold	ذهب الألفية
+Holly	البهشية
+Winter frost	صقيع الشتاء
+Rainforest	الغابة المطيرة
+Bonfire	نار المخيم
+Spring meadow	مرج الربيع
+Gold filigree	زخرفة ذهبية
+Thunderbolt	صاعقة
+Damascus steel	فولاذ دمشقي
+Glacier	نهر جليدي
+Abalone	أذن البحر
+Volcano	بركان
+Aurora	الشفق
+Emperor	الإمبراطور
+Untouchable	لا يُمسّ
+Midas	ميداس
+Empire	الإمبراطورية
+Millennium	الألفية
+Four corners	الزوايا الأربع
+Back from the dead	عائد من الموت
+Season champion	بطل الموسم
+Candy cane	عصا الحلوى
+Countdown	العد التنازلي
+Carnival	كرنفال
+Easter egg	بيضة الفصح
+Festa junina	Festa junina
+Spider web	شبكة العنكبوت
+Winter cup	كأس الشتاء
+Summer cup	كأس الصيف
+Anniversary	الذكرى السنوية
+World cup	كأس العالم
+New dawn	فجر جديد
+Sakura	ساكورا
+Tide	المدّ
+Witching hour	ساعة الساحرات
+Diamond dust chalk	طباشير غبار الماس
+Champion's chalk	طباشير البطل
+Marble	رخام
+Glow	توهج
+Crystal	كريستال
+Crown jewels	جواهر التاج
+Champion's gold	ذهب البطل
+Christmas baubles	كرات عيد الميلاد
+Haunted	مسكون
+Copper works	ورشة النحاس
+Carbon racer	سباق الكربون
+Neon night	ليلة النيون
+Ice palace	قصر الجليد
+Country barn	حظيرة ريفية
+Pro arena	حلبة المحترفين
+Obsidian	سبج
+Prism	منشور
+Phantom	شبح
+Pro tour	جولة المحترفين
+Rose garden	حديقة الورود
+Golden hour	الساعة الذهبية
+Hearts	قلوب
+Thunderstorm	عاصفة رعدية
+Black hole	ثقب أسود
+Shooting stars	شهب
+Snowfall	تساقط الثلج
+Champion's fireworks	ألعاب البطل النارية
+Crown of glory	تاج المجد
+Fingers crossed	أصابع متقاطعة
+Call me	اتصل بي
+Nerd	مهووس
+Money face	وجه المال
+Monocle	مونوكل
+Facepalm	راحة على الوجه
+Shrug	هز الكتفين
+Hands up	الأيدي للأعلى
+Melting	أذوب
+Alien	كائن فضائي
+Clown	مهرج
+Little devil	شيطان صغير
+Angel	ملاك
+Bomb	قنبلة
+Money bag	كيس نقود
+Crystal ball	كرة بلورية
+Tornado	إعصار
+Dragon	تنين
+Santa	بابا نويل
+Snowflake	ندفة ثلج
+Summer sun	شمس الصيف
+Easter bunny	أرنب الفصح
+Football	كرة القدم
+Balloon	بالون
+Season medal	ميدالية الموسم
+Common	عادي
+Rare	نادر
+Epic	ملحمي
+Legendary	أسطوري
+Institution	مؤسسة
+Play 2,500 rated games.	العب 2500 مباراة مصنفة.
+Living legend	أسطورة حية
+Win 1,000 rated games.	فز في 1000 مباراة مصنفة.
+The last word	الكلمة الأخيرة
+Win 500 rated games on the 8-ball.	فز في 500 مباراة مصنفة بإدخال الكرة 8.
+Seventh heaven	السماء السابعة
+Win 7 rated games in a row.	فز في 7 مباريات مصنفة متتالية.
+Clinical	دقة جراح
+Break and run 5 times.	نظف الطاولة من الافتتاحية 5 مرات.
+Iron curtain	الستار الحديدي
+Win 25 rated shutouts.	حقق 25 انتصارًا نظيفًا في مباريات مصنفة.
+Win 10 tournaments.	فز في 10 بطولات.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	فز في مباراة مصنفة في موسم الكرنفال (1 فبراير – 10 مارس).
+June festival	احتفالات يونيو
+Win a rated game during the June festivals (Jun 1 – Jun 30).	فز في مباراة مصنفة خلال احتفالات يونيو (1 – 30 يونيو).
+Three in one	ثلاث في واحدة
+Pocket three of your balls with one shot (not the break).	أدخل ثلاثًا من كراتك بضربة واحدة (ليس في الافتتاحية).
+Pocket balls in four different pockets with one shot (not the break).	أدخل كرات في أربعة جيوب مختلفة بضربة واحدة (ليس في الافتتاحية).
+Thunder break	افتتاحية الرعد
+Pocket five balls on the break.	أدخل خمس كرات في الافتتاحية.
+Spotted	في المكان
+Pocket the 8-ball on the break in a game under the official rules.	أدخل الكرة 8 في الافتتاحية في مباراة بالقواعد الرسمية.
+Win a rated game after being six balls behind.	فز في مباراة مصنفة بعد أن كنت متأخرًا بست كرات.
+Last stand	الصمود الأخير
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	فز في مباراة مصنفة بعد أن وصل خصمك إلى الكرة 8 وكانت لديك خمس كرات أو أكثر.
+Stolen table	طاولة مسروقة
+Win a rated game from your opponent's break without them getting another shot.	فز في مباراة مصنفة من افتتاحية خصمك دون أن يضرب مرة أخرى.
+Marathon	ماراثون
+Win a rated game that lasted 60 shots or more.	فز في مباراة مصنفة استمرت 60 ضربة أو أكثر.
+Ugly but it counts	قبيح لكنه يُحسب
+Win a rated game in which you fouled four times or more.	فز في مباراة مصنفة ارتكبت فيها أربعة أخطاء أو أكثر.
+This item can't be given: it stays with whoever won it.	لا يمكن إهداء هذا العنصر: يبقى مع من ربحه.
 Current prize: {n} coins	الجائزة الحالية: {n} عملة
 Champion wins: {item}	يفوز البطل بـ: {item}
 {h} h {m} min	{h} س {m} د
@@ -2093,7 +2342,6 @@ Champion wins: {item}	يفوز البطل بـ: {item}
 {s} s	{s} ث
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	اليوم {d} على التوالي: +{n} عملة. غدًا: +{m}.
 Auctions ({n})	المزادات ({n})
-Auctions	المزادات
 Supporters	الداعمون
 Maintenance in {t}: the server stops for about {m} min.	صيانة بعد {t}: سيتوقف الخادم نحو {m} د.
 Maintenance: the server is stopping. Games in progress go on.	صيانة: الخادم يتوقف. المباريات الجارية تستمر.

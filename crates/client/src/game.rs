@@ -291,11 +291,14 @@ pub struct Match {
     pub controllers: [Controller; 2],
     pub phase: Phase,
     pub aim: Aim,
-    /// The pocket called for this shot: the 8's (the Brazilian rules), or
-    /// the shot's (the official rules: none is a safety).
+    /// The pocket called for this shot: the 8's, clicked by the player
+    /// (both rules; none yet: there is no shooting), or in an official game
+    /// recorded with every shot called (until 0.11.1) the shot's (none is
+    /// a safety).
     pub called_pocket: Option<PocketId>,
-    /// The official rules: the player chose the call (a pocket, or a
-    /// safety); otherwise it follows the aim (see [`Match::follow_call`]).
+    /// The official rules with every shot called (a game recorded until
+    /// 0.11.1): the player chose the call (a pocket, or a safety);
+    /// otherwise it follows the aim (see [`Match::follow_call`]).
     pub call_locked: bool,
     /// How long the computer has been weighing the choice a break left it.
     choice_wait: f32,
@@ -1503,8 +1506,10 @@ impl Match {
         }
         self.aim = Aim { yaw: self.game.default_aim(), ..Aim::default() };
         // The Brazilian rules: a pocket called for the 8 in an earlier visit
-        // still stands. The official rules: every shot is called afresh
-        // (from the aim, until the player picks a pocket or a safety).
+        // still stands. The official rules: each shot at the 8 is called
+        // afresh, by a click on a pocket (in a game recorded until 0.11.1,
+        // every shot, from the aim until the player picks a pocket or a
+        // safety).
         self.called_pocket = self.game.called_pocket_of(self.game.current_player());
         self.call_locked = false;
         // Ball in hand never locks the turn: the cue ball can be dragged at
@@ -1531,6 +1536,12 @@ impl Match {
         }
         self.replay = None;
         self.follow_call();
+        // The official rules: no shot at the 8 without its pocket called
+        // (the Brazilian rules refuse it in `prepare_shot`).
+        if let Err(e) = self.game.check_eight_call(self.called_pocket) {
+            self.shot_error(e);
+            return false;
+        }
         let shot = self.forced_shot.take().unwrap_or_else(|| self.shot_from_aim());
         match self.game.prepare_shot(&shot, self.called_pocket) {
             Ok(pending) => {
@@ -1968,23 +1979,32 @@ impl Match {
         true
     }
 
-    /// The official rules: while the player hasn't chosen the call, it is
-    /// the pocket their aim sends the object ball to (none: a safety).
+    /// The official rules in a game recorded with every shot called (until
+    /// 0.11.1): while the player hasn't chosen the call, it is the pocket
+    /// their aim sends the object ball to (none: a safety). Never shown.
+    /// (The 8's call alone, since 0.12.0, never follows the aim: the
+    /// player clicks the pocket, as under the Brazilian rules.)
     fn follow_call(&mut self) {
-        if self.call_locked || !self.game.calls_shots() || !self.is_human_turn() {
+        if self.call_locked
+            || !self.game.calls_shots()
+            || !self.game.calls()
+            || !self.is_human_turn()
+        {
             return;
         }
         self.called_pocket = crate::play::predicted_pocket(&self.game, self.aim.yaw);
     }
 
-    /// The official rules: the player calls `pocket` for this shot (none: a
-    /// safety) instead of the pocket their aim points at.
+    /// The official rules with every shot called: the player calls `pocket`
+    /// for this shot (none: a safety) instead of the pocket their aim
+    /// points at.
     pub fn set_call(&mut self, pocket: Option<PocketId>) {
         self.called_pocket = pocket;
         self.call_locked = true;
     }
 
-    /// The official rules: the call follows the aim again.
+    /// The official rules with every shot called: the call follows the aim
+    /// again.
     pub fn call_from_aim(&mut self) {
         self.call_locked = false;
         self.follow_call();
@@ -2026,9 +2046,10 @@ impl Match {
             let ready = turn.result.lock().unwrap_or_else(|e| e.into_inner()).take();
             match ready {
                 Some(decision) => {
-                    if let (Some(pocket), true) =
-                        (decision.called_pocket, self.game.may_call_pocket())
-                    {
+                    // (The official rules: its call of the 8 for this shot,
+                    // as a player says it before shooting.)
+                    let calls = self.game.may_call_pocket();
+                    if let (Some(pocket), true) = (decision.called_pocket, calls) {
                         let name = self.names[self.game.current_player()].clone();
                         let text = tw(
                             "{name} calls the 8-ball in the {pocket} pocket.",
@@ -2539,9 +2560,8 @@ impl OnlineMatch {
             at: 0,
             kind: ChatKind::Player,
             rating: self.ratings[self.seat],
-            id: 0,
             admin,
-            deleted: None,
+            ..Default::default()
         };
         let mut feed = FeedLine::chat(&line);
         feed.pending = true;
@@ -2734,9 +2754,14 @@ impl Match {
                     );
                     self.announce(text, true, 5.0);
                 }
+                // The opponent's call of the 8 (the Brazilian rules: the
+                // first; the official ones: each shot's), told as the shot
+                // is played.
                 if let Some(pocket) = called_pocket
                     && self.online.as_ref().is_some_and(|o| o.seat != seat)
-                    && self.game.called_pocket_of(seat).is_none()
+                    && ((self.game.needs_called_pocket()
+                        && self.game.called_pocket_of(seat).is_none())
+                        || self.game.calls_the_eight())
                 {
                     let text = tw(
                         "{name} calls the 8-ball in the {pocket} pocket.",
@@ -3079,6 +3104,7 @@ impl FeedLine {
             admin: line.admin,
             deleted: line.deleted,
             pending: false,
+            mentions: line.mentions.clone(),
         }
     }
 
@@ -3550,6 +3576,43 @@ mod tests {
                 Rules::Official => assert!(detail.contains("anywhere on the table"), "{detail}"),
                 Rules::Brazilian => assert!(detail.contains("Penalty"), "{detail}"),
             }
+        }
+    }
+
+    /// On the 8, under either rules, the player clicks the 8's pocket: the
+    /// aim calls nothing, and there is no shot until a pocket is called.
+    #[test]
+    fn the_eight_is_called_by_hand_under_both_rules() {
+        for rules in Rules::ALL {
+            let mut m = offline(rules, [Controller::Human; 2]);
+            // Player 0 on the 8 (solids, none left).
+            let mut v = serde_json::to_value(&m.game).unwrap();
+            v["is_break"] = false.into();
+            v["ball_in_hand"] = serde_json::Value::Null;
+            v["groups"] = serde_json::json!(["Solids", "Stripes"]);
+            m.game = serde_json::from_value(v).unwrap();
+            let r = m.game.table().spec.ball_radius;
+            m.game.set_up_test_position(&[
+                (BallId::CUE, DVec2::new(-0.3, 0.0)),
+                (BallId::EIGHT, DVec2::new(0.3, 0.0)),
+                (BallId(12), DVec2::new(0.0, 0.3 + r)),
+            ]);
+            m.begin_turn();
+            assert!(m.game.must_call_pocket() && m.game.may_call_pocket(), "{rules:?}");
+            m.aim.yaw = 0.0;
+            m.aim.power = 0.5;
+            m.update(0.01);
+            assert_eq!(m.called_pocket, None, "{rules:?}: the aim calls nothing");
+            assert!(!m.shoot(), "{rules:?}: no shot without a call");
+            assert!(matches!(m.phase, Phase::Turn { .. }));
+            assert!(
+                m.notices.iter().any(|n| n.text.contains("Call a pocket for the 8-ball first")),
+                "{rules:?}"
+            );
+            m.called_pocket = Some(PocketId::FootLeft);
+            m.update(0.01);
+            assert_eq!(m.called_pocket, Some(PocketId::FootLeft), "{rules:?}: the call stays");
+            assert!(m.shoot(), "{rules:?}");
         }
     }
 

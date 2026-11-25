@@ -42,6 +42,8 @@ enum Pane {
     Journey,
     /// Presents received and given (own profile).
     Gifts,
+    /// The names and countries the account had (when it changed any).
+    Renames,
     /// The advanced statistics (own profile; VIP, a preview otherwise).
     Advanced,
 }
@@ -143,6 +145,39 @@ fn age(created_at: i64) -> String {
         tw("member for {n} months", &[("n", &(days / 30))])
     } else {
         tw("member for {n} years", &[("n", &(days / 365))])
+    }
+}
+
+/// The names and countries the account had, newest first.
+fn renames(ui: &mut Ui, p: &Profile, list: Rect) {
+    use snook_legend_proto::moderation::ChangeKind;
+    let row_h = 46.0;
+    let visible = (list.h / row_h).floor().max(1.0) as usize;
+    for (k, c) in p.renames.iter().take(visible).enumerate() {
+        let r = Rect::new(list.x, list.y + k as f32 * row_h, list.w, row_h - 6.0);
+        rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, 0.035));
+        let mid = r.y + r.h / 2.0;
+        let (icon, what, old, new) = match c.kind {
+            ChangeKind::Country => {
+                let name = |code: &str| {
+                    let n = crate::flags::name(code);
+                    if n.is_empty() { code.to_string() } else { n.to_string() }
+                };
+                (Icon::Globe, t("Country"), name(&c.old), name(&c.new))
+            }
+            _ => (Icon::Pencil, t("Username"), c.old.clone(), c.new.clone()),
+        };
+        let badge = Rect::new(r.x + 8.0, mid - 13.0, 26.0, 26.0);
+        rrect(badge, 6.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.14));
+        crate::icons::draw(icon, vec2(badge.x + 13.0, mid), 14.0, GOLD);
+        let d = date(c.at);
+        let dw = ui.text_size(&d, 12.0, false).x;
+        ui.text(&d, r.x + r.w - 10.0 - dw, mid - 6.0, 12.0, MUTED, false);
+        let x = r.x + 44.0;
+        let room = r.w - 44.0 - dw - 20.0;
+        ui.text(what, x, r.y + 4.0, 12.0, MUTED, false);
+        let line = ui.ellipsize(&format!("{old} → {new}"), room, 14.0);
+        ui.text(&line, x, r.y + 20.0, 14.0, CREAM, true);
     }
 }
 
@@ -548,6 +583,11 @@ impl ProfileScreen {
         } else if matches!(self.pane, Pane::Gifts | Pane::Advanced) {
             self.pane = Pane::Games;
         }
+        if !p.renames.is_empty() {
+            panes.push((Pane::Renames, t("Names and countries")));
+        } else if self.pane == Pane::Renames {
+            self.pane = Pane::Games;
+        }
         let labels: Vec<&str> = panes.iter().map(|(_, l)| *l).collect();
         // The switch runs over the whole body and names the pane itself.
         let seg = Rect::new(body.x, body.y - 4.0, body.w, 28.0);
@@ -600,6 +640,7 @@ impl ProfileScreen {
             }
             Pane::Achievements => self.achievements(ui, &p, under),
             Pane::Journey => journey(ui, online, &p, self.rules, under),
+            Pane::Renames => renames(ui, &p, content),
         }
         if let Some(saved) = saved {
             ui.resume_input(saved);
@@ -1318,8 +1359,14 @@ impl ProfileScreen {
         }
         if let Some((a, at, c)) = tip {
             let level = a.level;
-            let title = t(a.title);
-            let desc = achievement_text(a);
+            // A secret stays one until it is won.
+            let hidden = a.secret && at.is_none();
+            let title = if hidden { "???" } else { t(a.title) };
+            let desc = if hidden {
+                t("A secret achievement: play to find it.").to_string()
+            } else {
+                achievement_text(a)
+            };
             let when = at
                 .map(|at| tw("Unlocked {date}", &[("date", &date(at))]))
                 .unwrap_or_else(|| t("Locked").to_string());

@@ -249,6 +249,11 @@ pub struct Config {
     /// When a setting that follows the account was last changed here and
     /// not sent yet (Unix seconds; 0: none waiting).
     pub settings_changed_at: i64,
+    /// Reactions sent during matches are shown (off: no one's are).
+    pub show_reactions: bool,
+    /// VIP: the colour of the aim line and the ghost ball (a code of
+    /// `perks::AIM_COLORS`; white for everyone else).
+    pub aim_color: String,
 }
 
 /// Muted players kept at most (the oldest go first).
@@ -353,6 +358,8 @@ impl Default for Config {
             last_version: env!("CARGO_PKG_VERSION").into(),
             next_breaker: 0,
             rules: None,
+            show_reactions: true,
+            aim_color: "white".into(),
             mute_chat: false,
             hide_reactions: false,
             muted_chat: Vec::new(),
@@ -547,6 +554,8 @@ impl Config {
                 "last_version" => c.last_version = v.chars().take(32).collect(),
                 "next_breaker" => c.next_breaker = u8::from(v == "1"),
                 "rules" => c.rules = Rules::parse(v),
+                "show_reactions" => c.show_reactions = v != "false",
+                "aim_color" => c.aim_color = v.chars().take(16).collect(),
                 "mute_chat" => c.mute_chat = v == "true",
                 "hide_reactions" => c.hide_reactions = v == "true",
                 "muted_chat" => c.muted_chat = names(v),
@@ -562,7 +571,7 @@ impl Config {
     }
 
     pub fn to_text(&self) -> String {
-        format!(
+        let mut text = format!(
             "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nhead_string = {}\ncoached = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nshadows = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\ntoken_server = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
@@ -627,7 +636,12 @@ impl Config {
             self.settings_synced_at,
             self.settings_changed_at,
             self.keys.to_text()
-        )
+        );
+        text.push_str(&format!(
+            "show_reactions = {}\naim_color = {}\n",
+            self.show_reactions, self.aim_color
+        ));
+        text
     }
 
     /// Writes the settings; failures are logged and otherwise ignored.

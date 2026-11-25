@@ -2,14 +2,16 @@
 """Generates the reaction atlas (crates/client/assets/reactions.png) from the
 pictures named in crates/proto/src/reactions.rs, in that order.
 
-Requirements: `pip install pillow`, `rsvg-convert` (librsvg) and the Twemoji
-SVGs (graphics CC-BY 4.0) unpacked somewhere:
+Requirements: `pip install pillow`, `rsvg-convert` (librsvg) or, without
+it, `pip install cairosvg`, and the Twemoji SVGs (graphics CC-BY 4.0)
+unpacked somewhere:
 
     npm pack @twemoji/svg@15.0.0 && tar xzf twemoji-svg-15.0.0.tgz
     python3 tools/gen_reactions.py path/to/package
 """
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -28,11 +30,16 @@ def main(svg_dir):
     with tempfile.TemporaryDirectory() as tmp:
         for i, art in enumerate(arts):
             png = os.path.join(tmp, art + ".png")
-            subprocess.run(
-                ["rsvg-convert", "-w", str(SIZE), "-h", str(SIZE), "-o", png,
-                 os.path.join(svg_dir, art + ".svg")],
-                check=True,
-            )
+            svg = os.path.join(svg_dir, art + ".svg")
+            if shutil.which("rsvg-convert"):
+                subprocess.run(
+                    ["rsvg-convert", "-w", str(SIZE), "-h", str(SIZE), "-o", png, svg],
+                    check=True,
+                )
+            else:
+                import cairosvg
+
+                cairosvg.svg2png(url=svg, write_to=png, output_width=SIZE, output_height=SIZE)
             atlas.paste(Image.open(png).convert("RGBA"), ((i % COLS) * SIZE, (i // COLS) * SIZE))
     out = os.path.join(ROOT, "crates/client/assets/reactions.png")
     atlas.save(out, optimize=True)

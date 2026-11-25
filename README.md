@@ -85,9 +85,11 @@ which every desktop installation has. How releases are made is described in
   table comes back and one of the opponent's stays off, the 8 alone on the
   break wins and the 8 with any other ball loses, a called pocket for the 8
   that is binding once made.
-- **The official rules (WPA)**, as in international tournaments: every shot
-  but the break is called (the called pocket follows your aim, a click calls
-  another, and **Safety** calls nothing), a legal break makes a ball or drives
+- **The official rules (WPA)**, as in international tournaments, with only
+  the 8 called: the group's balls count in any pocket, and each shot at the 8
+  calls its pocket (click it before shooting, as in the Brazilian rule; no
+  shot at the 8 without a call, and the 8 in another pocket loses), a legal
+  break makes a ball or drives
   four balls to a cushion, the break never decides the groups, the choices
   the break can leave (play the table as it lies, rack and break again, the
   other player breaks, the cue ball in hand behind the head string; the 8 made
@@ -220,7 +222,7 @@ A translation is one file, `crates/client/lang/<code>.txt` (plus the rules and
 | Spin | click/drag on the spin ball | ↑ / ↓ (follow/draw), Q / E (English) |
 | Cue elevation | elevation slider | W / S |
 | Ball in hand | drag the cue ball (any time while it is in hand; aiming and power work too) | B toggles, Enter confirms |
-| Call a pocket | the official rules: the pocket the aimed ball is heading for is called (a ring on it); click another to call it, or **Safety** in the top bar to call nothing. The Brazilian rule: click a pocket for the 8-ball (they glow when a call is needed; binding once made) | |
+| Call a pocket | click a pocket for the 8-ball (they glow when a call is needed, and the shot waits for it). The Brazilian rule: binding once made; the official rules: on each shot at the 8 (in a game recorded until 0.11.1, every shot is called: the pocket the aimed ball is heading for, a click calls another, **Safety** in the top bar calls nothing) | |
 | A choice after an official break | the buttons on the table | 1, 2, 3 |
 | Camera | drag with the right button to turn the table (goes 3D; the left button never moves the camera); wheel or the zoom bar to zoom; the camera icon goes back to the top view with no zoom | Tab 3D/top, C reset |
 | Replay of the last shot | the replay icon (top left) | R |

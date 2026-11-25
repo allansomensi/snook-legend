@@ -630,6 +630,21 @@ pub struct Payment {
     pub test: bool,
 }
 
+/// An item a player owns, as stored (see `crate::collection`).
+#[derive(Debug, Clone, PartialEq, Default)]
+pub struct OwnedRow {
+    pub code: String,
+    /// Unix seconds (0: not known).
+    pub acquired_at: i64,
+    /// How it was added: `coins`, `gift:<giver's id>`, `welcome pack`,
+    /// `staff`, `origin` (by [`Store::record_origin`])…
+    pub source: String,
+    /// The origin recorded for it (JSON of `collection::Origin`), if any.
+    pub origin: Option<String>,
+    /// The giver's name, for a present.
+    pub giver: Option<String>,
+}
+
 /// A Microsoft Store purchase being fulfilled (see `crate::msstore`).
 #[derive(Debug, Clone, PartialEq)]
 pub struct MsConsume {
@@ -1579,6 +1594,23 @@ impl Store {
     pub async fn revoke_items(&self, user_id: i64, codes: &[&str]) -> StoreResult<u64> {
         dispatch!(self, s => s.revoke_items(user_id, codes))
     }
+    /// Every item `user_id` owns, with when and how it was got, oldest
+    /// first (items that come with achievements or VIP are not owned).
+    pub async fn owned_items(&self, user_id: i64) -> StoreResult<Vec<OwnedRow>> {
+        dispatch!(self, s => s.owned_items(user_id))
+    }
+    /// Records how `user_id` got `code` (`origin`: JSON of
+    /// `collection::Origin`); the first origin recorded stays. Gives the
+    /// item if it wasn't owned yet: true when it was given now.
+    pub async fn record_origin(
+        &self,
+        user_id: i64,
+        code: &str,
+        origin: &str,
+        at: i64,
+    ) -> StoreResult<bool> {
+        dispatch!(self, s => s.record_origin(user_id, code, origin, at))
+    }
     pub async fn equip(&self, user_id: i64, category: &str, code: &str) -> StoreResult<()> {
         dispatch!(self, s => s.equip(user_id, category, code))
     }
@@ -2034,6 +2066,11 @@ pub const AUDIT_NOT_PLAYERS: &[&str] = &[
     "msstore-retry",
     "pin",
     "unpin",
+    "banned-word",
+    "banned-word-remove",
+    "chat-pin",
+    "chat-unpin",
+    "gift-batch",
     // Operations and the economy (0.12).
     "setting",
     "setting-reset",
@@ -2066,5 +2103,10 @@ pub fn day_of(t: i64) -> i64 {
     t.div_euclid(86_400)
 }
 
+mod moderation;
+pub use moderation::{
+    BannedWord, LinkedAccount, MatchRow, NewNotification, NotificationRow, ProfileChangeRow,
+    RatingAdjustment,
+};
 mod ops;
 pub use ops::*;

@@ -25,6 +25,7 @@ pub mod daily;
 pub mod dm;
 pub mod drills;
 pub mod events;
+pub mod feats;
 pub mod inbox;
 pub mod lan;
 pub mod limits;
@@ -32,6 +33,7 @@ pub mod lounge;
 pub mod maintenance;
 pub mod metrics;
 pub mod missions;
+pub mod moderation;
 pub mod msstore;
 pub mod official;
 pub mod ops;
@@ -48,6 +50,7 @@ pub mod social;
 pub mod store;
 pub mod time_attack;
 pub mod tournament;
+pub mod wordfilter;
 
 use std::collections::{HashMap, HashSet};
 use std::net::{IpAddr, SocketAddr};
@@ -524,6 +527,7 @@ impl Server {
                 let all = self.store.achievements(user.id).await.unwrap_or_default();
                 let codes: Vec<String> = all.into_iter().map(|(code, _)| code).collect();
                 let xp = new.len() as u32 * snook_legend_proto::xp::ACHIEVEMENT;
+                inbox::achievements(self, user.id, &new).await;
                 self.with(|l| {
                     for code in new {
                         l.notify(&user.username, ServerMsg::AchievementUnlocked { code });
@@ -551,6 +555,7 @@ impl Server {
                 let all = self.store.achievements(user.id).await.unwrap_or_default();
                 let codes: Vec<String> = all.into_iter().map(|(code, _)| code).collect();
                 let xp = new.len() as u32 * snook_legend_proto::xp::ACHIEVEMENT;
+                inbox::achievements(self, user.id, &new).await;
                 self.with(|l| {
                     for code in new {
                         l.notify(&user.username, ServerMsg::AchievementUnlocked { code });
@@ -707,6 +712,9 @@ pub fn spawn_background(server: Arc<Server>) {
             }
         }
     });
+    // The banned words as the staff left them.
+    let words = server.clone();
+    tokio::spawn(async move { moderation::reload_words(&words).await });
     // Correspondence games: turns that ran out (also right after a restart).
     if !server.config.settings.lan {
         tokio::spawn(correspondence::run(server.clone()));
@@ -748,7 +756,7 @@ pub fn spawn_background(server: Arc<Server>) {
 
 async fn run_effect(server: &Arc<Server>, effect: Effect) {
     match effect {
-        Effect::Simulate { room, turn, game, shot, called } => {
+        Effect::Simulate { room, turn, game, shot, called, eight_anywhere } => {
             let server = server.clone();
             tokio::spawn(async move {
                 let outcome = tokio::task::spawn_blocking(move || {
@@ -756,6 +764,9 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                     let mut pending =
                         game.prepare_shot(&shot, called).map_err(|e| e.to_string())?;
                     pending.simulation.run_to_rest();
+                    if eight_anywhere {
+                        game.call_the_eight_where_it_went(&mut pending);
+                    }
                     let duration = pending.simulation.time();
                     let report = game.finish_shot(pending);
                     Ok((game, report, duration))
@@ -809,7 +820,10 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                     server.invalidate_leaderboard();
                     // The shot analysis replays the game: off the effect queue.
                     let (s, r) = (server.clone(), record.clone());
-                    tokio::spawn(async move { analysis::after_match(&s, &r).await });
+                    tokio::spawn(async move {
+                        analysis::after_match(&s, &r).await;
+                        feats::after_match(&s, &r).await;
+                    });
                     // Coins for a rated game played (not two friends farming
                     // each other); left half way, only the one who stayed
                     // is paid.
@@ -918,6 +932,11 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
         Effect::ShotStats { user_id, bands } => {
             if let Err(e) = server.store.add_shot_stats(user_id, &bands).await {
                 tracing::warn!("shot statistics of {user_id}: {e}");
+            }
+        }
+        Effect::ShotTimes { room, times } => {
+            if let Err(e) = server.store.save_shot_times(room, &times, now()).await {
+                tracing::warn!(room, "how long the shots took: {e}");
             }
         }
         Effect::Pay { user_id, name, coins, reason, reference } => {
@@ -1081,6 +1100,9 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
             // could register it once its account was renamed or deleted.
             if server.is_reserved_name(&username) {
                 return fail("That username is taken.");
+            }
+            if let Some(why) = moderation::name_refusal(server, &username) {
+                return fail(&why);
             }
             if !valid_password(&password) {
                 return fail("Passwords need at least 8 characters (not only digits).");
@@ -1299,10 +1321,11 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         }
     };
     let mut hello = false;
-    // The rules the player plays (the game says so in its hello).
+    // The rules the player plays (the game says so in its hello), and its
+    // protocol (what it understands).
     let mut rules = Rules::default();
-    // The game's protocol (doubles are for games that know them).
-    let mut protocol = 0;
+    // The protocol of the player's game (its hello).
+    let mut protocol = PROTOCOL_VERSION;
     let mut user: Option<(User, bool)> = None;
     let mut failures = 0;
     let mut token_in_use: Option<String> = None;
@@ -1649,13 +1672,16 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             }
             ClientMsg::Missions => send(missions::message(&server, &me).await),
             msg if correspondence::is_msg(&msg) => {
-                correspondence::handle(&server, &me, msg, &send).await
+                correspondence::handle(&server, &me, protocol, msg, &send).await
             }
             msg if daily::is_msg(&msg) => daily::handle(&server, &me, msg, &send).await,
             msg if time_attack::is_msg(&msg) => time_attack::handle(&server, &me, msg, &send).await,
             msg if drills::is_msg(&msg) => drills::handle(&server, &me, msg, &send).await,
             msg if cup_medals::is_msg(&msg) => cup_medals::handle(&server, &me, msg, &send).await,
             msg if inbox::is_msg(&msg) => inbox::handle(&server, &me, msg, &send).await,
+            msg if moderation::is_msg(&msg) => moderation::handle(&server, &me, msg, &send).await,
+            // The mentions of players who aren't online are looked up first.
+            ClientMsg::Chat { text } => moderation::chat(&server, &me, text).await,
             msg if collection::is_msg(&msg) => collection::handle(&server, &me, msg, &send).await,
             msg if ops::is_msg(&msg) => ops::handle(&server, &me, msg, &send).await,
             msg if dm::is_msg(&msg) => dm::handle(&server, &me, msg, &send, &mut dm_bucket).await,
@@ -1781,8 +1807,19 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::SetCountry { country } => {
                 let country = country.trim().to_uppercase();
                 if valid_country(&country)
+                    && country != me.country
                     && server.store.set_country(me.id, &country).await.is_ok()
                 {
+                    use snook_legend_proto::moderation::ChangeKind;
+                    moderation::record_change(
+                        &server,
+                        me.id,
+                        ChangeKind::Country,
+                        &me.country,
+                        &country,
+                        None,
+                    )
+                    .await;
                     let mut fresh = me.clone();
                     fresh.country = country;
                     server.with(|l| {
@@ -2401,6 +2438,7 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                     cue_stats: Vec::new(),
                     trophies: Vec::new(),
                     reactions: Vec::new(),
+                    renames: Vec::new(),
                 }),
             });
         }
@@ -2423,6 +2461,7 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
         trophies_of(server, user.id),
     );
     let wallet = wallet.unwrap_or_default();
+    let renames = moderation::renames(server, user.id).await;
     let played = user.stats(now()).games + user.casual_games;
     let abandon_rate = (user.abandons * 100).checked_div(played).unwrap_or(0).min(100);
     let mut stats = user.stats(now());
@@ -2512,6 +2551,7 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                 })
                 .collect(),
             trophies,
+            renames,
         }),
     })
 }

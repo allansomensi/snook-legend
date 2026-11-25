@@ -66,8 +66,15 @@ shooter                     server                         opponent
   clock also waits the 3 s of the match's introduction); when it runs out the server plays a full-power shot where the
   player was aiming (under the official rules it is a foul instead:
   `time_foul`, the cue ball in hand for the opponent).
-- The official rules call every shot but the break: `shoot { called_pocket }`
-  names the pocket, and none is a safety. Some breaks leave a choice
+- The official rules call the 8 (since protocol 25; games recorded before
+  keep theirs: until 0.11.1 every shot but the break, from 0.11.2 to 0.11.x
+  nothing, as the game's `calls` and `eight_call` say): on a shot at the 8,
+  `shoot { called_pocket }` names its pocket (the player clicks it, as under
+  the Brazilian rules), and the 8 made anywhere else loses. A shot at the 8
+  without a call is refused (`shot_rejected`), as under the Brazilian rules.
+  A game of protocol 24 can't call it: its shots are taken without a call,
+  the server counts the 8 it makes as called in the pocket it went into, and
+  records that call with the stroke. Some breaks leave a choice
   (`game.choice`): the player to move answers `choose { turn, option }`
   (`play_on`, `cue_ball_in_hand`, `break_again`, `opponent_breaks`) and both
   get `chose { seat, option, game }`; the shot clock takes the first option.

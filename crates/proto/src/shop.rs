@@ -101,11 +101,38 @@ pub enum CueStyle {
     Chrome,
     /// A night sky: clouds of the accent colour and stars.
     Nebula,
+    /// Scrolls of fine gold (the accent) wire laid over lacquer.
+    Filigree,
+    /// Mother-of-pearl ovals and diamonds of the accent colour, shimmering
+    /// towards the ring colour.
+    Inlay,
+    /// Folded steel: wavy layers of the accent colour in the butt's.
+    Damascus,
+    /// Forked bolts of the accent colour, bright at their core.
+    Lightning,
+    /// Curtains of light, from the accent to the ring colour, over a night
+    /// sky.
+    Aurora,
+    /// Dark cracked stone with veins of glowing accent colour.
+    Lava,
+    /// Ice facets catching the light, of the accent colour.
+    Crystal,
+    /// Bold diagonal stripes of the accent colour (a candy cane, a flag).
+    Stripes,
+    /// Confetti of the accent and the ring colours (and white) scattered
+    /// over the butt colour.
+    Confetti,
+    /// Six-pointed snowflakes of the accent colour.
+    Snowflake,
+    /// A spider's web of the accent colour.
+    Web,
+    /// Strings of little triangular flags (the festas juninas' bunting).
+    Bunting,
 }
 
 impl CueStyle {
     /// Every style (the shop's tests check each one is drawn).
-    pub const ALL: [CueStyle; 10] = [
+    pub const ALL: [CueStyle; 22] = [
         CueStyle::Plain,
         CueStyle::Points,
         CueStyle::Spiral,
@@ -116,6 +143,18 @@ impl CueStyle {
         CueStyle::Scales,
         CueStyle::Chrome,
         CueStyle::Nebula,
+        CueStyle::Filigree,
+        CueStyle::Inlay,
+        CueStyle::Damascus,
+        CueStyle::Lightning,
+        CueStyle::Aurora,
+        CueStyle::Lava,
+        CueStyle::Crystal,
+        CueStyle::Stripes,
+        CueStyle::Confetti,
+        CueStyle::Snowflake,
+        CueStyle::Web,
+        CueStyle::Bunting,
     ];
 }
 
@@ -130,6 +169,27 @@ pub enum BallFinish {
     Metal,
     /// Old ivory: soft and warm.
     Matte,
+    /// Polished stone: fine veins through the colour.
+    Marble,
+    /// A night sky in each ball: specks of starlight under the clear coat.
+    Galaxy,
+    /// Lit from within, like neon.
+    Glow,
+    /// Cut glass: deep colour and a very bright clear coat.
+    Crystal,
+}
+
+impl BallFinish {
+    pub const ALL: [BallFinish; 8] = [
+        BallFinish::Gloss,
+        BallFinish::Pearl,
+        BallFinish::Metal,
+        BallFinish::Matte,
+        BallFinish::Marble,
+        BallFinish::Galaxy,
+        BallFinish::Glow,
+        BallFinish::Crystal,
+    ];
 }
 
 /// What a winning 8-ball does.
@@ -148,6 +208,36 @@ pub enum EffectKind {
     Coins,
     /// Fireworks above the table.
     Fireworks,
+    /// Bolts of lightning striking the pocket.
+    Lightning,
+    /// Snow drifting down over the table.
+    Snow,
+    /// Hearts floating up from the pocket.
+    Hearts,
+    /// A swirl of light sucked into the pocket.
+    Vortex,
+    /// Shooting stars streaking out of the pocket.
+    Stars,
+    /// A golden crown rising from the pocket in a burst of rays (VIP's own).
+    Crown,
+}
+
+impl EffectKind {
+    pub const ALL: [EffectKind; 13] = [
+        EffectKind::None,
+        EffectKind::Sparks,
+        EffectKind::Confetti,
+        EffectKind::Shockwave,
+        EffectKind::Flames,
+        EffectKind::Coins,
+        EffectKind::Fireworks,
+        EffectKind::Lightning,
+        EffectKind::Snow,
+        EffectKind::Hearts,
+        EffectKind::Vortex,
+        EffectKind::Stars,
+        EffectKind::Crown,
+    ];
 }
 
 /// The design of a table (the game builds it from code).
@@ -171,6 +261,44 @@ pub enum TableStyle {
     Heritage,
     /// Ivory lacquer and gold on fluted columns.
     Deco,
+    /// White Carrara marble rails, gold castings, fluted columns.
+    Marble,
+    /// Black gloss on slab legs, with a magenta and cyan glow beneath.
+    Neon,
+    /// Woven carbon rails, red trim, slab legs on a light strip.
+    Carbon,
+    /// Dark walnut and polished copper on a riveted steel frame.
+    Copper,
+    /// Frosted white-blue lacquer and silver, a cold light beneath.
+    Ice,
+    /// Black volcanic stone cracked with a glow of molten orange.
+    Volcano,
+    /// A country barn's table: rough pine on square posts, iron castings.
+    Rustic,
+    /// Black lacquer and gold: the season champion's table.
+    Champion,
+}
+
+impl TableStyle {
+    pub const ALL: [TableStyle; 17] = [
+        TableStyle::Classic,
+        TableStyle::Beach,
+        TableStyle::Club,
+        TableStyle::Modern,
+        TableStyle::Royal,
+        TableStyle::Industrial,
+        TableStyle::Tournament,
+        TableStyle::Heritage,
+        TableStyle::Deco,
+        TableStyle::Marble,
+        TableStyle::Neon,
+        TableStyle::Carbon,
+        TableStyle::Copper,
+        TableStyle::Ice,
+        TableStyle::Volcano,
+        TableStyle::Rustic,
+        TableStyle::Champion,
+    ];
 }
 
 /// The room around the table.
@@ -192,6 +320,24 @@ pub enum HallStyle {
     Deco,
     /// A penthouse at night: glass walls on the city, pale marble, oak.
     Penthouse,
+    /// A professional tournament arena: the table alone in a spotlight,
+    /// dark stands, banners and the scoreboard, TV lighting. Official
+    /// tournaments' finals are played in it.
+    Arena,
+}
+
+impl HallStyle {
+    pub const ALL: [HallStyle; 9] = [
+        HallStyle::Pool,
+        HallStyle::Beach,
+        HallStyle::Club,
+        HallStyle::Loft,
+        HallStyle::Lodge,
+        HallStyle::Arcade,
+        HallStyle::Deco,
+        HallStyle::Penthouse,
+        HallStyle::Arena,
+    ];
 }
 
 /// How an item looks (the game draws it; colours are sRGB).
@@ -437,8 +583,12 @@ const CLASSIC: [[u8; 3]; 7] = [
 
 const IVORY: [u8; 3] = [246, 242, 228];
 
+use BallFinish::{Crystal as Cut, Galaxy, Glow, Marble as Veined};
 use BallFinish::{Gloss, Matte, Metal, Pearl};
-use CueStyle::{Chrome, Flame, Gems, Marble, Nebula, Plain, Points, Scales, Spiral, Weave};
+use CueStyle::{
+    Aurora, Bunting, Chrome, Confetti, Crystal, Damascus, Filigree, Flame, Gems, Inlay, Lava,
+    Lightning, Marble, Nebula, Plain, Points, Scales, Snowflake, Spiral, Stripes, Weave, Web,
+};
 
 /// Every item, in the order the shop shows them.
 pub const ITEMS: &[Item] = &[
@@ -489,6 +639,17 @@ pub const ITEMS: &[Item] = &[
         [120, 92, 20],
     ),
     cloth("cloth_welcome", "Lagoon", Price::Pack, [14, 100, 112]),
+    // The finest, and those only won.
+    cloth("cloth_crimson", "Crimson velvet", Price::Coins(6000), [118, 10, 28]),
+    cloth("cloth_eclipse", "Eclipse", Price::Coins(12_000), [28, 18, 52]),
+    cloth("cloth_arena", "Arena blue", Price::Earned, [18, 76, 144]),
+    cloth("cloth_millennium", "Millennium gold", Price::Achievement("wins_1000"), [112, 86, 22]),
+    cloth("cloth_holly", "Holly", Price::Earned, [12, 66, 40]),
+    // VIP's items of the month: one each month, kept for good.
+    cloth("vip_month_2026_12", "Winter frost", Price::Earned, [52, 92, 128]),
+    cloth("vip_month_2027_03", "Rainforest", Price::Earned, [8, 72, 58]),
+    cloth("vip_month_2027_06", "Bonfire", Price::Earned, [112, 32, 18]),
+    cloth("vip_month_2027_09", "Spring meadow", Price::Earned, [62, 108, 38]),
     // Cues.
     cue("cue_classic", "Classic", Price::Free, [35, 20, 12], [20, 20, 24], [240, 238, 228], Plain),
     cue(
@@ -745,6 +906,281 @@ pub const ITEMS: &[Item] = &[
         [250, 236, 190],
         Spiral,
     ),
+    // The collector's cues: very dear, each a piece of craft.
+    cue_carbon(
+        "cue_filigree",
+        "Gold filigree",
+        Price::Coins(15_000),
+        [12, 10, 12],
+        [232, 186, 84],
+        [246, 214, 130],
+        Filigree,
+    ),
+    cue_carbon(
+        "cue_thunder",
+        "Thunderbolt",
+        Price::Coins(18_000),
+        [14, 16, 34],
+        [120, 200, 255],
+        [228, 236, 255],
+        Lightning,
+    ),
+    cue_carbon(
+        "cue_damascus",
+        "Damascus steel",
+        Price::Coins(20_000),
+        [70, 74, 82],
+        [168, 174, 186],
+        [36, 38, 42],
+        Damascus,
+    ),
+    cue_carbon(
+        "cue_glacier",
+        "Glacier",
+        Price::Coins(22_000),
+        [190, 222, 240],
+        [92, 170, 228],
+        [240, 248, 255],
+        Crystal,
+    ),
+    cue_carbon(
+        "cue_abalone",
+        "Abalone",
+        Price::Coins(25_000),
+        [10, 30, 52],
+        [120, 220, 210],
+        [214, 150, 230],
+        Inlay,
+    ),
+    cue_carbon(
+        "cue_volcano",
+        "Volcano",
+        Price::Coins(30_000),
+        [22, 16, 14],
+        [255, 110, 20],
+        [255, 210, 80],
+        Lava,
+    ),
+    cue_carbon(
+        "cue_aurora",
+        "Aurora",
+        Price::Coins(35_000),
+        [6, 12, 30],
+        [60, 240, 170],
+        [190, 90, 255],
+        Aurora,
+    ),
+    cue_carbon(
+        "cue_emperor",
+        "Emperor",
+        Price::Coins(60_000),
+        [44, 8, 66],
+        [246, 202, 96],
+        [250, 250, 255],
+        Filigree,
+    ),
+    // The near impossible: they come with the hardest achievements.
+    cue_carbon(
+        "cue_untouchable",
+        "Untouchable",
+        Price::Achievement("streak_10"),
+        [8, 8, 10],
+        [255, 206, 70],
+        [255, 244, 200],
+        Lightning,
+    ),
+    cue_carbon(
+        "cue_midas",
+        "Midas",
+        Price::Achievement("golden_break"),
+        [226, 178, 70],
+        [120, 70, 10],
+        [255, 236, 170],
+        Chrome,
+    ),
+    cue_carbon(
+        "cue_runner",
+        "Table runner",
+        Price::Achievement("runout_10"),
+        [30, 32, 40],
+        [210, 70, 60],
+        [230, 232, 240],
+        Damascus,
+    ),
+    cue_carbon(
+        "cue_empire",
+        "Empire",
+        Price::Achievement("tournament_win_10"),
+        [96, 6, 18],
+        [244, 200, 92],
+        [255, 236, 170],
+        Gems,
+    ),
+    cue_carbon(
+        "cue_millennium",
+        "Millennium",
+        Price::Achievement("wins_1000"),
+        [10, 6, 24],
+        [255, 190, 90],
+        [255, 240, 200],
+        Nebula,
+    ),
+    cue_carbon(
+        "cue_four_corners",
+        "Four corners",
+        Price::Achievement("secret_four_corners"),
+        [226, 240, 250],
+        [70, 150, 255],
+        [200, 230, 255],
+        Crystal,
+    ),
+    cue_carbon(
+        "cue_comeback",
+        "Back from the dead",
+        Price::Achievement("secret_comeback"),
+        [26, 20, 18],
+        [120, 255, 90],
+        [220, 255, 200],
+        Lava,
+    ),
+    // Only won: the season's champion, and the events and cups the game
+    // holds through the year.
+    cue_carbon(
+        "cue_season_champion",
+        "Season champion",
+        Price::Earned,
+        [12, 20, 56],
+        [250, 206, 90],
+        [255, 246, 210],
+        Filigree,
+    ),
+    cue(
+        "cue_christmas",
+        "Candy cane",
+        Price::Earned,
+        [246, 244, 240],
+        [214, 24, 40],
+        [40, 140, 70],
+        Stripes,
+    ),
+    cue_carbon(
+        "cue_new_year",
+        "Countdown",
+        Price::Earned,
+        [10, 10, 14],
+        [246, 206, 96],
+        [214, 220, 232],
+        Confetti,
+    ),
+    cue(
+        "cue_carnival",
+        "Carnival",
+        Price::Earned,
+        [36, 20, 90],
+        [255, 60, 170],
+        [255, 214, 40],
+        Confetti,
+    ),
+    cue(
+        "cue_easter",
+        "Easter egg",
+        Price::Earned,
+        [214, 196, 240],
+        [140, 220, 190],
+        [255, 200, 220],
+        Confetti,
+    ),
+    cue(
+        "cue_festa_junina",
+        "Festa junina",
+        Price::Earned,
+        [176, 128, 72],
+        [230, 50, 60],
+        [40, 120, 220],
+        Bunting,
+    ),
+    cue_carbon(
+        "cue_halloween",
+        "Spider web",
+        Price::Earned,
+        [18, 14, 20],
+        [255, 128, 20],
+        [150, 60, 200],
+        Web,
+    ),
+    cue_carbon(
+        "cue_winter_cup",
+        "Winter cup",
+        Price::Earned,
+        [20, 44, 92],
+        [226, 240, 255],
+        [180, 200, 230],
+        Snowflake,
+    ),
+    cue_carbon(
+        "cue_summer_cup",
+        "Summer cup",
+        Price::Earned,
+        [40, 10, 30],
+        [255, 170, 40],
+        [255, 90, 120],
+        Aurora,
+    ),
+    cue_carbon(
+        "cue_anniversary",
+        "Anniversary",
+        Price::Earned,
+        [236, 230, 218],
+        [200, 160, 70],
+        [150, 30, 50],
+        Filigree,
+    ),
+    cue(
+        "cue_world_cup",
+        "World cup",
+        Price::Earned,
+        [16, 120, 60],
+        [252, 214, 30],
+        [30, 60, 170],
+        Stripes,
+    ),
+    // VIP's cues of the month.
+    cue_carbon(
+        "vip_month_2027_01",
+        "New dawn",
+        Price::Earned,
+        [30, 16, 50],
+        [255, 190, 110],
+        [255, 236, 200],
+        Aurora,
+    ),
+    cue(
+        "vip_month_2027_04",
+        "Sakura",
+        Price::Earned,
+        [250, 220, 228],
+        [226, 110, 150],
+        [255, 246, 240],
+        Inlay,
+    ),
+    cue_carbon(
+        "vip_month_2027_07",
+        "Tide",
+        Price::Earned,
+        [12, 50, 88],
+        [100, 210, 230],
+        [230, 246, 250],
+        Damascus,
+    ),
+    cue_carbon(
+        "vip_month_2027_10",
+        "Witching hour",
+        Price::Earned,
+        [20, 8, 30],
+        [140, 255, 120],
+        [190, 120, 255],
+        Lightning,
+    ),
     // Chalk.
     chalk("chalk_blue", "Blue chalk", Price::Free, [40, 80, 150]),
     // The account level's own (never sold).
@@ -770,6 +1206,8 @@ pub const ITEMS: &[Item] = &[
     chalk("chalk_white", "White chalk", Price::Coins(750), [235, 235, 230]),
     chalk("chalk_gold", "Gold chalk", Price::Vip, [210, 170, 60]),
     chalk("chalk_silver", "Silver chalk", Price::Vip, [190, 196, 205]),
+    chalk("chalk_diamond", "Diamond dust chalk", Price::Coins(2500), [214, 232, 246]),
+    chalk("chalk_champion", "Champion's chalk", Price::Earned, [196, 30, 44]),
     // Balls.
     balls("balls_classic", "Classic", Price::Free, CLASSIC, [22, 22, 24], IVORY, Gloss),
     balls(
@@ -1002,6 +1440,176 @@ pub const ITEMS: &[Item] = &[
         [250, 240, 210],
         Metal,
     ),
+    balls(
+        "balls_marble",
+        "Marble",
+        Price::Coins(9000),
+        [
+            [236, 196, 70],
+            [40, 70, 150],
+            [190, 40, 40],
+            [110, 60, 150],
+            [226, 120, 50],
+            [40, 128, 90],
+            [120, 84, 60],
+        ],
+        [26, 26, 30],
+        [244, 240, 232],
+        Veined,
+    ),
+    balls(
+        "balls_glow",
+        "Glow",
+        Price::Coins(11_000),
+        [
+            [240, 255, 60],
+            [40, 140, 255],
+            [255, 40, 80],
+            [200, 80, 255],
+            [255, 160, 20],
+            [20, 255, 150],
+            [150, 96, 50],
+        ],
+        [16, 10, 28],
+        [250, 250, 255],
+        Glow,
+    ),
+    balls(
+        "balls_galaxy",
+        "Galaxy",
+        Price::Coins(15_000),
+        [
+            [255, 210, 90],
+            [40, 70, 220],
+            [230, 40, 90],
+            [140, 60, 230],
+            [255, 130, 60],
+            [30, 190, 170],
+            [120, 70, 60],
+        ],
+        [10, 8, 24],
+        [236, 236, 252],
+        Galaxy,
+    ),
+    balls(
+        "balls_crystal",
+        "Crystal",
+        Price::Coins(20_000),
+        [
+            [255, 214, 40],
+            [20, 80, 230],
+            [230, 20, 40],
+            [130, 40, 200],
+            [255, 120, 0],
+            [0, 170, 90],
+            [124, 72, 40],
+        ],
+        [20, 20, 30],
+        [250, 252, 255],
+        Cut,
+    ),
+    balls(
+        "balls_ruby",
+        "Crown jewels",
+        Price::Achievement("tournament_win_10"),
+        [
+            [250, 200, 60],
+            [16, 60, 170],
+            [200, 10, 40],
+            [100, 30, 160],
+            [240, 120, 30],
+            [10, 130, 80],
+            [116, 70, 40],
+        ],
+        [30, 4, 12],
+        [255, 244, 228],
+        Cut,
+    ),
+    balls(
+        "balls_champion",
+        "Champion's gold",
+        Price::Earned,
+        [
+            [250, 214, 90],
+            [40, 80, 180],
+            [210, 50, 40],
+            [120, 70, 170],
+            [236, 140, 50],
+            [40, 140, 90],
+            [128, 90, 50],
+        ],
+        [24, 18, 8],
+        [252, 238, 200],
+        Metal,
+    ),
+    balls(
+        "balls_christmas",
+        "Christmas baubles",
+        Price::Earned,
+        [
+            [250, 206, 60],
+            [30, 70, 170],
+            [210, 20, 40],
+            [130, 40, 140],
+            [240, 130, 40],
+            [20, 120, 60],
+            [118, 76, 46],
+        ],
+        [20, 40, 28],
+        [250, 246, 236],
+        Pearl,
+    ),
+    balls(
+        "balls_carnival",
+        "Carnival",
+        Price::Earned,
+        [
+            [255, 230, 0],
+            [0, 120, 255],
+            [255, 30, 120],
+            [160, 50, 255],
+            [255, 140, 0],
+            [0, 220, 140],
+            [140, 90, 50],
+        ],
+        [30, 10, 50],
+        [255, 252, 245],
+        Glow,
+    ),
+    balls(
+        "balls_halloween",
+        "Haunted",
+        Price::Earned,
+        [
+            [240, 200, 40],
+            [70, 50, 160],
+            [200, 40, 30],
+            [120, 40, 160],
+            [255, 120, 10],
+            [90, 170, 40],
+            [110, 70, 40],
+        ],
+        [16, 10, 18],
+        [232, 226, 210],
+        Matte,
+    ),
+    balls(
+        "balls_world_cup",
+        "World cup",
+        Price::Earned,
+        [
+            [255, 214, 0],
+            [10, 60, 180],
+            [220, 30, 40],
+            [100, 50, 170],
+            [255, 120, 20],
+            [0, 140, 70],
+            [116, 70, 34],
+        ],
+        [20, 20, 22],
+        [255, 255, 255],
+        Gloss,
+    ),
     // Tables.
     table("table_classic", "Classic", Price::Free, TableStyle::Classic),
     table("table_beach", "Beach bar", Price::Coins(4000), TableStyle::Beach),
@@ -1012,6 +1620,14 @@ pub const ITEMS: &[Item] = &[
     table("table_tournament", "Tournament", Price::Coins(7000), TableStyle::Tournament),
     table("table_heritage", "Victorian walnut", Price::Coins(8000), TableStyle::Heritage),
     table("table_deco", "Ivory deco", Price::Coins(8500), TableStyle::Deco),
+    table("table_copper", "Copper works", Price::Coins(9000), TableStyle::Copper),
+    table("table_carbon", "Carbon racer", Price::Coins(10_000), TableStyle::Carbon),
+    table("table_neon", "Neon night", Price::Coins(12_000), TableStyle::Neon),
+    table("table_marble", "Carrara marble", Price::Coins(15_000), TableStyle::Marble),
+    table("table_volcano", "Volcano", Price::Achievement("secret_comeback"), TableStyle::Volcano),
+    table("table_champion", "Champion's gold", Price::Earned, TableStyle::Champion),
+    table("table_ice", "Ice palace", Price::Earned, TableStyle::Ice),
+    table("table_rustic", "Country barn", Price::Earned, TableStyle::Rustic),
     // Halls.
     hall("hall_pool", "Pool hall", Price::Free, HallStyle::Pool),
     hall("hall_beach", "Beach bar", Price::Coins(4500), HallStyle::Beach),
@@ -1021,6 +1637,7 @@ pub const ITEMS: &[Item] = &[
     hall("hall_arcade", "Neon arcade", Price::Coins(7000), HallStyle::Arcade),
     hall("hall_deco", "Art deco lounge", Price::Coins(8000), HallStyle::Deco),
     hall("hall_penthouse", "Skyline penthouse", Price::Vip, HallStyle::Penthouse),
+    hall("hall_arena", "Pro arena", Price::Earned, HallStyle::Arena),
     // Frames.
     frame("frame_none", "No frame", Price::Free, [0, 0, 0], [0, 0, 0], false),
     frame("frame_bronze", "Bronze", Price::Coins(750), [176, 112, 60], [110, 66, 34], false),
@@ -1042,6 +1659,39 @@ pub const ITEMS: &[Item] = &[
         [170, 20, 30],
         true,
     ),
+    frame("frame_obsidian", "Obsidian", Price::Coins(5000), [70, 70, 84], [10, 10, 14], true),
+    frame("frame_prism", "Prism", Price::Coins(9000), [120, 240, 255], [255, 90, 200], true),
+    frame(
+        "frame_legend",
+        "Legend",
+        Price::Achievement("rating_2100"),
+        [255, 220, 120],
+        [120, 40, 200],
+        true,
+    ),
+    frame(
+        "frame_ruby",
+        "Ruby",
+        Price::Achievement("streak_10"),
+        [255, 120, 140],
+        [150, 0, 30],
+        true,
+    ),
+    frame(
+        "frame_phantom",
+        "Phantom",
+        Price::Achievement("secret_last_stand"),
+        [200, 255, 240],
+        [40, 70, 90],
+        true,
+    ),
+    frame("frame_season", "Season champion", Price::Earned, [255, 236, 160], [30, 50, 130], true),
+    frame("frame_pro", "Pro tour", Price::Earned, [240, 244, 250], [30, 120, 220], true),
+    // VIP's frames of the month.
+    frame("vip_month_2027_02", "Carnival", Price::Earned, [255, 214, 40], [220, 20, 150], true),
+    frame("vip_month_2027_05", "Rose garden", Price::Earned, [255, 190, 200], [40, 120, 70], true),
+    frame("vip_month_2027_08", "Golden hour", Price::Earned, [255, 220, 120], [230, 90, 30], true),
+    frame("vip_month_2027_11", "Ember", Price::Earned, [255, 160, 60], [50, 14, 10], true),
     // Name styles (VIP).
     Item {
         code: "name_tier",
@@ -1078,6 +1728,32 @@ pub const ITEMS: &[Item] = &[
     effect("effect_flames", "Flames", Price::Coins(3750), EffectKind::Flames, [255, 120, 30]),
     effect("effect_fireworks", "Fireworks", Price::Vip, EffectKind::Fireworks, [255, 220, 140]),
     effect("effect_royal", "Royal sparks", Price::Vip, EffectKind::Sparks, [200, 150, 255]),
+    effect("effect_hearts", "Hearts", Price::Coins(4000), EffectKind::Hearts, [255, 90, 140]),
+    effect(
+        "effect_lightning",
+        "Thunderstorm",
+        Price::Coins(6000),
+        EffectKind::Lightning,
+        [170, 200, 255],
+    ),
+    effect("effect_vortex", "Black hole", Price::Coins(12_000), EffectKind::Vortex, [170, 90, 255]),
+    effect(
+        "effect_stars",
+        "Shooting stars",
+        Price::Achievement("golden_break"),
+        EffectKind::Stars,
+        [255, 226, 140],
+    ),
+    effect("effect_snow", "Snowfall", Price::Earned, EffectKind::Snow, [230, 242, 255]),
+    effect(
+        "effect_champion",
+        "Champion's fireworks",
+        Price::Earned,
+        EffectKind::Fireworks,
+        [255, 196, 60],
+    ),
+    // VIP's own: no one else ever has it.
+    effect("effect_crown", "Crown of glory", Price::Vip, EffectKind::Crown, [255, 208, 90]),
     // Reactions (the free ones, achievements' and VIP's are not sold).
     reaction("reaction_thumbs_up", "Thumbs up", Price::Free, "thumbs_up"),
     reaction("reaction_eyes", "Eyes", Price::Coins(300), "eyes"),
@@ -1092,6 +1768,35 @@ pub const ITEMS: &[Item] = &[
     reaction("reaction_mind_blown", "Mind blown", Price::Coins(500), "mind_blown"),
     reaction("reaction_clover", "Lucky clover", Price::Coins(500), "clover"),
     reaction("reaction_popcorn", "Popcorn", Price::Coins(600), "popcorn"),
+    reaction("reaction_ok_hand", "OK", Price::Coins(800), "ok_hand"),
+    reaction("reaction_crossed_fingers", "Fingers crossed", Price::Coins(800), "crossed_fingers"),
+    reaction("reaction_call_me", "Call me", Price::Coins(800), "call_me"),
+    reaction("reaction_nerd", "Nerd", Price::Coins(900), "nerd"),
+    reaction("reaction_money_face", "Money face", Price::Coins(1000), "money_face"),
+    reaction("reaction_monocle", "Monocle", Price::Coins(1000), "monocle"),
+    reaction("reaction_facepalm", "Facepalm", Price::Coins(1200), "facepalm"),
+    reaction("reaction_shrug", "Shrug", Price::Coins(1200), "shrug"),
+    reaction("reaction_raised_hands", "Hands up", Price::Coins(1200), "raised_hands"),
+    reaction("reaction_melting", "Melting", Price::Coins(1500), "melting"),
+    reaction("reaction_ghost", "Ghost", Price::Coins(1500), "ghost"),
+    reaction("reaction_alien", "Alien", Price::Coins(1500), "alien"),
+    reaction("reaction_clown", "Clown", Price::Coins(2000), "clown"),
+    reaction("reaction_devil", "Little devil", Price::Coins(2000), "devil"),
+    reaction("reaction_angel", "Angel", Price::Coins(2000), "angel"),
+    reaction("reaction_bomb", "Bomb", Price::Coins(2500), "bomb"),
+    reaction("reaction_money_bag", "Money bag", Price::Coins(3000), "money_bag"),
+    reaction("reaction_crystal_ball", "Crystal ball", Price::Coins(4000), "crystal_ball"),
+    reaction("reaction_tornado", "Tornado", Price::Coins(5000), "tornado"),
+    reaction("reaction_volcano", "Volcano", Price::Coins(6000), "volcano"),
+    reaction("reaction_dragon", "Dragon", Price::Coins(9000), "dragon"),
+    // Only won (the events and cups through the year).
+    reaction("reaction_santa", "Santa", Price::Earned, "santa"),
+    reaction("reaction_snowflake", "Snowflake", Price::Earned, "snowflake"),
+    reaction("reaction_sun", "Summer sun", Price::Earned, "sun"),
+    reaction("reaction_rabbit", "Easter bunny", Price::Earned, "rabbit"),
+    reaction("reaction_soccer", "Football", Price::Earned, "soccer"),
+    reaction("reaction_balloon", "Balloon", Price::Earned, "balloon"),
+    reaction("reaction_season_medal", "Season medal", Price::Earned, "season_medal"),
 ];
 
 const fn reaction(code: &'static str, name: &'static str, price: Price, r: &'static str) -> Item {
@@ -1172,9 +1877,27 @@ pub fn cue_level_progress(wins: u32) -> f32 {
     (wins - from) as f32 / (next - from) as f32
 }
 
+/// Items rarer than their price says: the season champion's, the pro
+/// arena's and VIP's own victory animation.
+const LEGENDARY: &[&str] = &[
+    "cue_season_champion",
+    "table_champion",
+    "frame_season",
+    "balls_champion",
+    "effect_champion",
+    "reaction_season_medal",
+    "hall_arena",
+    "effect_crown",
+];
+
 /// How rare an item is. Items that are only won are at least epic; the
-/// most expensive ones and those of the hardest achievements are legendary.
+/// most expensive ones, the season champion's and those of the near
+/// impossible achievements (rubies) are legendary; a secret's or a
+/// diamond's are epic.
 pub fn rarity(item: &Item) -> Rarity {
+    if LEGENDARY.contains(&item.code) {
+        return Rarity::Legendary;
+    }
     match item.price {
         Price::Free | Price::Pack => Rarity::Common,
         Price::Coins(n) if n >= 10_000 => Rarity::Legendary,
@@ -1182,9 +1905,38 @@ pub fn rarity(item: &Item) -> Rarity {
         Price::Coins(n) if n >= 1_500 => Rarity::Rare,
         Price::Coins(_) => Rarity::Common,
         Price::Vip => Rarity::Epic,
-        Price::Achievement(_) => Rarity::Rare,
+        Price::Achievement(a) => achievement_rarity(a),
         Price::Earned => Rarity::Epic,
     }
+}
+
+/// How rare what comes with an achievement is (its medal: ruby is
+/// legendary; diamond and the secrets epic; the rest rare).
+pub fn achievement_rarity(code: &str) -> Rarity {
+    match crate::ACHIEVEMENTS.iter().find(|a| a.code == code) {
+        Some(a) if a.level >= crate::achievements::RUBY => Rarity::Legendary,
+        Some(a) if a.level >= 3 || a.secret => Rarity::Epic,
+        _ => Rarity::Rare,
+    }
+}
+
+/// How rare a reaction is: its item's rarity, or its achievement's (VIP's
+/// are epic, the free ones common).
+pub fn reaction_rarity(r: &crate::Reaction) -> Rarity {
+    if let Some(item) = r.item() {
+        return rarity(item);
+    }
+    match r.unlock {
+        None => Rarity::Common,
+        Some(_) if r.is_vip() => Rarity::Epic,
+        Some(a) => achievement_rarity(a),
+    }
+}
+
+/// Whether an item is never sold, only won: the shop doesn't show it (the
+/// collection does, with how it was won).
+pub fn earned_only(item: &Item) -> bool {
+    item.price == Price::Earned
 }
 
 /// Whether an item stays with the account that got it: it can't be given
@@ -1261,7 +2013,8 @@ mod tests {
             assert!(d.code.starts_with(c.code()));
         }
         for i in ITEMS {
-            assert!(i.code.starts_with(i.category.code()), "{}", i.code);
+            let vip_month = i.code.starts_with("vip_month_");
+            assert!(i.code.starts_with(i.category.code()) || vip_month, "{}", i.code);
             if let Price::Achievement(a) = i.price {
                 assert!(crate::ACHIEVEMENTS.iter().any(|x| x.code == a), "{a}");
             }
@@ -1293,6 +2046,104 @@ mod tests {
             let Look::Reaction(r) = i.look else { panic!("{}", i.code) };
             assert!(crate::reaction(r).is_some(), "{}", i.code);
             assert_eq!(i.code.strip_prefix(crate::reactions::ITEM_PREFIX), Some(r));
+        }
+    }
+
+    /// Rarity, items only won and items bound to their owner.
+    #[test]
+    fn rarity_and_items_only_won() {
+        for i in ITEMS {
+            let r = rarity(i);
+            match i.price {
+                // Never sold, never given: at least epic, kept by who won it.
+                Price::Earned => {
+                    assert!(r >= Rarity::Epic, "{}", i.code);
+                    assert!(bound(i) && i.coins().is_none() && earned_only(i), "{}", i.code);
+                }
+                Price::Achievement(a) => {
+                    assert!(r >= Rarity::Rare && bound(i), "{}", i.code);
+                    let level = crate::ACHIEVEMENTS.iter().find(|x| x.code == a).unwrap().level;
+                    if level == crate::achievements::RUBY {
+                        assert_eq!(r, Rarity::Legendary, "{}", i.code);
+                    }
+                }
+                Price::Coins(_) => assert!(!bound(i) && !earned_only(i), "{}", i.code),
+                Price::Free => assert_eq!(r, Rarity::Common, "{}", i.code),
+                Price::Vip | Price::Pack => {}
+            }
+        }
+        for code in LEGENDARY {
+            assert_eq!(item(code).map(rarity), Some(Rarity::Legendary), "{code}");
+        }
+        // Something of every rarity among the cues and the balls; epic and
+        // legendary tables and effects.
+        for c in [Category::Cue, Category::Table, Category::Balls, Category::Effect] {
+            for r in Rarity::ALL {
+                let wanted = matches!(c, Category::Cue | Category::Balls) || r >= Rarity::Epic;
+                let has = ITEMS.iter().any(|i| i.category == c && rarity(i) == r);
+                assert!(has || !wanted, "{c:?} {r:?}");
+            }
+        }
+        // The very dear cues are a real goal.
+        let dear = ITEMS.iter().filter(|i| i.category == Category::Cue).filter_map(Item::coins);
+        assert!(dear.filter(|n| *n >= 15_000).count() >= 5);
+        assert!(item("cue_emperor").and_then(Item::coins) >= Some(60_000));
+        // The champion's cue, and a VIP victory animation nobody else has.
+        assert_eq!(item("cue_season_champion").unwrap().price, Price::Earned);
+        let crown = item("effect_crown").unwrap();
+        assert_eq!(crown.price, Price::Vip);
+        assert!(matches!(crown.look, Look::Effect { kind: EffectKind::Crown, .. }));
+        assert_eq!(
+            ITEMS
+                .iter()
+                .filter(|i| matches!(i.look, Look::Effect { kind: EffectKind::Crown, .. }))
+                .count(),
+            1
+        );
+    }
+
+    /// VIP's item of the month, December 2026 to November 2027: one each
+    /// month, only won, a cloth, a cue and a frame in turn.
+    #[test]
+    fn vip_items_of_the_month() {
+        let order = [Category::Cloth, Category::Cue, Category::Frame];
+        for k in 0..12 {
+            let (y, m) = if k == 0 { (2026, 12) } else { (2027, k) };
+            let month = format!("{y}-{m:02}");
+            let i = vip_month_item(&month).unwrap_or_else(|| panic!("no item for {month}"));
+            assert_eq!(i.price, Price::Earned, "{month}");
+            assert_eq!(i.category, order[k as usize % 3], "{month}");
+        }
+        assert!(vip_month_item("2026-11").is_none());
+    }
+
+    /// Every style, finish and kind the game can draw is worn by an item.
+    #[test]
+    fn every_look_is_used() {
+        let looks: Vec<Look> = ITEMS.iter().map(|i| i.look).collect();
+        for s in CueStyle::ALL {
+            assert!(
+                looks.iter().any(|l| matches!(l, Look::Cue { style, .. } if *style == s)),
+                "{s:?}"
+            );
+        }
+        for f in BallFinish::ALL {
+            assert!(
+                looks.iter().any(|l| matches!(l, Look::Balls { finish, .. } if *finish == f)),
+                "{f:?}"
+            );
+        }
+        for k in EffectKind::ALL {
+            assert!(
+                looks.iter().any(|l| matches!(l, Look::Effect { kind, .. } if *kind == k)),
+                "{k:?}"
+            );
+        }
+        for t in TableStyle::ALL {
+            assert!(looks.contains(&Look::Table(t)), "{t:?}");
+        }
+        for h in HallStyle::ALL {
+            assert!(looks.contains(&Look::Hall(h)), "{h:?}");
         }
     }
 

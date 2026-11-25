@@ -20,9 +20,9 @@ use snook_legend_core::{
 };
 use snook_legend_proto::replay::{Replay, Stroke, shot_difficulty};
 use snook_legend_proto::{
-    AimState, ChatKind, ChatLine, ClientMsg, FeaturedMatch, MAX_ROOM_PASSWORD, MatchResult,
-    PlayerInfo, PlayerStatus, SPECTATOR_SEAT, ServerMsg, TableInfo, TournamentInfo,
-    TournamentState, clean_chat, clean_text, is_quick_phrase,
+    AimState, ChatKind, ChatLine, ClientMsg, EIGHT_CALL_PROTOCOL, FeaturedMatch, MAX_ROOM_PASSWORD,
+    MatchResult, PROTOCOL_VERSION, PlayerInfo, PlayerStatus, SPECTATOR_SEAT, ServerMsg, TableInfo,
+    TournamentInfo, TournamentState, clean_chat, clean_text, is_quick_phrase,
 };
 use tokio::sync::Notify;
 use tokio::sync::mpsc::{Sender, UnboundedSender, error::TrySendError};
@@ -33,8 +33,11 @@ use crate::store::{LiveMatch, MatchRecord, TournamentRecord, User};
 
 mod doubles;
 mod match_social;
+mod moderation;
 mod social;
 mod tournaments;
+
+pub use moderation::{INBOX_PROTOCOL, refusal_text};
 
 pub use match_social::{PHRASES_ONLY, phrases_only};
 pub use social::SEEK_LIFETIME;
@@ -106,6 +109,10 @@ pub enum Effect {
         game: Box<EightBallGame>,
         shot: Shot,
         called: Option<PocketId>,
+        /// The shooter's game can't call the 8 (older than
+        /// [`EIGHT_CALL_PROTOCOL`]): the 8 counts as called in the pocket
+        /// it goes into ([`EightBallGame::call_the_eight_where_it_went`]).
+        eight_anywhere: bool,
     },
     /// Keep an official tournament once over (the website shows it), and
     /// tell its players how they did (see `crate::official`).
@@ -141,6 +148,12 @@ pub enum Effect {
         record: Box<crate::store::DoublesRecord>,
         /// The teams' players (lower-case names).
         keys: [[String; 2]; 2],
+    },
+    /// How long each shot of a finished game was thought over (tenths of
+    /// a second, one per stroke; None for what isn't a shot).
+    ShotTimes {
+        room: i64,
+        times: Vec<Option<u32>>,
     },
     /// Give (or give back) coins: a tournament prize or refund.
     Pay {
@@ -269,6 +282,10 @@ pub struct Session {
     pub pastime: snook_legend_proto::activity::Pastime,
     /// Their friends (lower-case names): told what this player is doing.
     pub friends: HashSet<String>,
+    /// The protocol of the player's game (its hello): one older than
+    /// [`EIGHT_CALL_PROTOCOL`] can't call the 8 under the official rules,
+    /// and the 8 counts as called in the pocket it goes into.
+    pub protocol: u32,
 }
 
 impl Session {
@@ -343,6 +360,9 @@ struct Room {
     /// Seats that left as they resigned (that resignation waiting for the
     /// shot): back in the lounge as soon as the game is over.
     leaving: [bool; 2],
+    /// How long each shot was thought over: (its stroke's index, tenths of
+    /// a second from the shot clock's start). Not kept across a restart.
+    think: Vec<(usize, u32)>,
     /// A rated game: what each seat stands to win and lose (see
     /// [`ServerMsg::MatchStarted`]).
     stakes: Option<[[i32; 2]; 2]>,
@@ -455,6 +475,8 @@ pub struct Lounge {
     cup_called_off: Option<i64>,
     /// Doubles: pairs of partners, their searches and tables.
     doubles: doubles::Lobby,
+    /// The banned words, the pinned line, why players were muted.
+    moderation: moderation::Moderation,
 }
 
 struct Queued {
@@ -833,6 +855,7 @@ impl Lounge {
                 rules,
                 pastime: Default::default(),
                 friends: HashSet::new(),
+                protocol: PROTOCOL_VERSION,
             },
         );
         let players: Vec<PlayerInfo> = self.sessions.keys().filter_map(|k| self.info(k)).collect();
@@ -1116,7 +1139,7 @@ impl Lounge {
         let (conn_id, tx, kill, ip) = (s.conn_id, s.tx.clone(), s.kill.clone(), s.ip.clone());
         let (blocked, look, achievements) =
             (s.blocked.clone(), s.look.clone(), s.achievements.clone());
-        let (guest, rules) = (s.guest, s.rules);
+        let (guest, rules, protocol) = (s.guest, s.rules, s.protocol);
         let friends = s.friends.clone();
         // Their friends know them by the new name.
         for other in self.sessions.values_mut() {
@@ -1160,6 +1183,7 @@ impl Lounge {
         }
         self.join(conn_id, user, guest, rules, tx, kill, token, ip, blocked);
         self.set_friends(&name, friends);
+        self.set_protocol(&name, protocol);
         self.set_achievements(&name, achievements);
         self.set_look(&name, look);
     }
@@ -1219,6 +1243,11 @@ impl Lounge {
 
     /// A message from the staff in the lounge chat.
     pub fn announce_text(&mut self, text: &str) {
+        self.announce_line(text, Vec::new());
+    }
+
+    /// An announcement that mentions players (their usernames).
+    fn announce_line(&mut self, text: &str, mentions: Vec<String>) {
         let text = clean_chat(text);
         if text.is_empty() {
             return;
@@ -1228,10 +1257,8 @@ impl Lounge {
             text,
             at: now(),
             kind: ChatKind::Announcement,
-            rating: 0,
-            id: 0,
-            admin: false,
-            deleted: None,
+            mentions,
+            ..Default::default()
         };
         let line = self.push_chat(line);
         self.broadcast(&ServerMsg::Chat { line });
@@ -1308,6 +1335,7 @@ impl Lounge {
             self.chat_deleted.insert(id, by);
             self.broadcast(&ServerMsg::ChatDeleted { id, by });
         }
+        self.unpin_deleted(Some(id));
     }
 
     /// The lounge chat as the staff see it: every line still kept, with its
@@ -1330,6 +1358,7 @@ impl Lounge {
                 serde_json::json!({
                     "id": l.id, "from": l.from, "text": l.text, "at": l.at,
                     "kind": l.kind, "rating": l.rating, "admin": l.admin, "deleted": deleted,
+                    "mentions": l.mentions,
                 })
             })
             .collect()
@@ -1360,6 +1389,7 @@ impl Lounge {
             self.chat_deleted.insert(id, by);
             self.broadcast(&ServerMsg::ChatDeleted { id, by });
         }
+        self.unpin_deleted(Some(id));
         true
     }
 
@@ -1374,12 +1404,10 @@ impl Lounge {
             text: format!("The chat was cleared by {by}."),
             at: now(),
             kind: ChatKind::System,
-            rating: 0,
-            id: 0,
-            admin: false,
-            deleted: None,
+            ..Default::default()
         };
         self.push_chat(line);
+        self.unpin_deleted(None);
     }
 
     /// Recent chat lines involving `target`, attached to a report.
@@ -1504,7 +1532,7 @@ impl Lounge {
             return;
         }
         match msg {
-            ClientMsg::Chat { text } => self.chat(&k, &text),
+            ClientMsg::Chat { text } => self.chat_mentioning(&k, &text, &[]),
             ClientMsg::DeleteChat { id, silent } => self.delete_chat(&k, id, silent),
             ClientMsg::ClearChat => {
                 if let Some(s) =
@@ -1667,6 +1695,8 @@ impl Lounge {
             | ClientMsg::InboxRead { .. }
             | ClientMsg::InboxDelete { .. }
             | ClientMsg::Collection
+            | ClientMsg::PinChat { .. }
+            | ClientMsg::UnpinChat
             | ClientMsg::Auctions
             | ClientMsg::Bid { .. }
             | ClientMsg::SetCredits { .. }
@@ -1739,18 +1769,22 @@ impl Lounge {
     }
 
     /// Checks the chat limits; the text to send, or None (with an error sent).
-    fn chat_allowed(&mut self, k: &str, text: &str) -> Option<String> {
+    fn chat_allowed(
+        &mut self,
+        k: &str,
+        text: &str,
+        place: snook_legend_proto::moderation::TextPlace,
+    ) -> Option<String> {
         let text = clean_chat(text);
         if text.is_empty() {
             return None;
         }
-        let nowt = now();
-        let s = self.sessions.get_mut(k)?;
-        if s.user.is_muted(nowt) {
-            let mins = (s.user.muted_until.unwrap_or(nowt) - nowt + 59) / 60;
-            self.error(k, format!("You are muted for {mins} more minutes."));
+        // Muted (why and until when), or a word the chat doesn't allow.
+        if let Some(refusal) = self.text_refusal(k, &text) {
+            self.refuse(k, place, refusal);
             return None;
         }
+        let s = self.sessions.get_mut(k)?;
         if !self.settings.lan && s.user.chat_restricted() {
             let reason = chat_off_reason(&s.user);
             self.error(k, reason);
@@ -1777,8 +1811,12 @@ impl Lounge {
         Some(text)
     }
 
-    fn chat(&mut self, k: &str, text: &str) {
-        let Some(text) = self.chat_allowed(k, text) else { return };
+    /// A line in the lounge chat; the mentions of players who aren't online
+    /// are among `known` (looked up in the store).
+    fn chat_mentioning(&mut self, k: &str, text: &str, known: &[String]) {
+        use snook_legend_proto::moderation::TextPlace;
+        let Some(text) = self.chat_allowed(k, text, TextPlace::Chat) else { return };
+        let mentions = self.mentions_in(&text, known);
         let s = &self.sessions[k];
         let sender = s.user.id;
         let line = ChatLine {
@@ -1787,9 +1825,9 @@ impl Lounge {
             at: now(),
             kind: ChatKind::Player,
             rating: s.shown_rating(),
-            id: 0,
             admin: s.user.role == snook_legend_proto::Role::Admin,
-            deleted: None,
+            mentions,
+            ..Default::default()
         };
         let line = self.push_chat(line);
         self.chat_authors.insert(line.id, sender);
@@ -1805,7 +1843,8 @@ impl Lounge {
         if self.room_of(k).is_none() {
             return;
         }
-        let Some(text) = self.chat_allowed(k, text) else { return };
+        let place = snook_legend_proto::moderation::TextPlace::MatchChat;
+        let Some(text) = self.chat_allowed(k, text, place) else { return };
         let s = &self.sessions[k];
         let line = ChatLine {
             from: s.user.username.clone(),
@@ -1813,9 +1852,8 @@ impl Lounge {
             at: now(),
             kind: ChatKind::Player,
             rating: s.shown_rating(),
-            id: 0,
             admin: s.user.role == snook_legend_proto::Role::Admin,
-            deleted: None,
+            ..Default::default()
         };
         let sender = s.user.id;
         let Some(id) = s.room else { return };
@@ -1886,6 +1924,17 @@ impl Lounge {
             .filter_map(|l| self.shown(l))
             .collect();
         self.send(k, ServerMsg::ChatHistory { lines });
+        self.send_pinned(k);
+    }
+
+    /// The protocol of `name`'s game, from its hello (see
+    /// [`Session::protocol`]): what it understands (the inbox, see
+    /// [`INBOX_PROTOCOL`]) and whether it calls the 8.
+    pub fn set_protocol(&mut self, name: &str, protocol: u32) {
+        if let Some(s) = self.sessions.get_mut(&key(name)) {
+            s.protocol = protocol;
+        }
+        self.doubles_hello(&key(name));
     }
 
     /// Sets what others see of `name`'s shop items (and tells everyone).
@@ -2683,6 +2732,7 @@ impl Lounge {
             private,
             resigning: None,
             leaving: [false, false],
+            think: Vec::new(),
             stakes,
             spectator_chat: VecDeque::new(),
             chat_total: 0,
@@ -2853,12 +2903,15 @@ impl Lounge {
         if !finite {
             return reject(self, "Invalid shot.");
         }
-        if let Err(e) = self.start_shot(id, seat, shot, called, cue_ball, false) {
+        // A game older than the 8's call plays the 8 in any pocket.
+        let eight_anywhere = self.sessions.get(k).is_some_and(|s| s.protocol < EIGHT_CALL_PROTOCOL);
+        if let Err(e) = self.start_shot(id, seat, shot, called, cue_ball, false, eight_anywhere) {
             reject(self, &e);
         }
     }
 
     /// Accepts a shot: tells both players straight away and has it simulated.
+    #[allow(clippy::too_many_arguments)]
     fn start_shot(
         &mut self,
         id: u64,
@@ -2867,8 +2920,15 @@ impl Lounge {
         called: Option<PocketId>,
         cue_ball: Option<DVec2>,
         timeout: bool,
+        eight_anywhere: bool,
     ) -> Result<(), String> {
         let room = self.rooms.get_mut(&id).ok_or("No such game.")?;
+        // A shot at the 8 names its pocket, under the official rules as
+        // under the Brazilian ones (refused before anything moves); but for
+        // a game that can't (see `eight_anywhere`).
+        if !eight_anywhere {
+            room.game.check_eight_call(called).map_err(|e| format!("Can't shoot: {e}."))?;
+        }
         if let Some(p) = cue_ball
             && room.game.ball_in_hand().is_some()
             && room.game.ball(BallId::CUE).xy() != p
@@ -2880,6 +2940,11 @@ impl Lounge {
         room.game.prepare_shot(&shot, called).map_err(|e| format!("Can't shoot: {e}."))?;
         let turn = room.game.shots_taken();
         let cue_ball = room.game.ball_in_hand().map(|_| room.game.ball(BallId::CUE).xy());
+        // How long it was thought over: since the shot clock started.
+        let clock = self.settings.shot_clock;
+        let left = room.deadline.saturating_duration_since(Instant::now());
+        let think = clock.saturating_sub(left).as_millis().div_ceil(100) as u32;
+        room.think.push((room.replay.strokes.len(), think));
         room.busy = Some(turn);
         room.shot_at = Instant::now();
         room.idle[seat % 2] = 0;
@@ -2888,7 +2953,7 @@ impl Lounge {
             ServerMsg::ShotTaken { seat, turn, shot, called_pocket: called, cue_ball, timeout };
         let game = Box::new(room.game.clone());
         self.send_room(id, &msg);
-        self.effect(Effect::Simulate { room: id, turn, game, shot, called });
+        self.effect(Effect::Simulate { room: id, turn, game, shot, called, eight_anywhere });
         Ok(())
     }
 
@@ -2910,6 +2975,8 @@ impl Lounge {
             Err(e) => {
                 tracing::error!(room = id, "shot simulation failed: {e}");
                 room.replay.strokes.pop();
+                let strokes = room.replay.strokes.len();
+                room.think.retain(|(stroke, _)| *stroke < strokes);
                 let msg = ServerMsg::ShotRejected {
                     turn,
                     reason: "The server could not play that shot.".into(),
@@ -2932,6 +2999,15 @@ impl Lounge {
             if let Some(band) = shot_difficulty(&room.game, shot, &report) {
                 room.bands[shooter].push(band);
             }
+        }
+        // The call the shot was played with, as recorded: the 8's pocket,
+        // for a game older than the 8's call (see `eight_anywhere`), so the
+        // game replays the same. (Under the official rules a call the
+        // shot didn't need was dropped: the stroke keeps it, to no effect.)
+        if room.game.calls_the_eight()
+            && let Some(Stroke::Shot { called, .. }) = room.replay.strokes.last_mut()
+        {
+            *called = report.called;
         }
         room.game = game;
         let next = room.game.current_player();
@@ -3236,6 +3312,9 @@ impl Lounge {
                 *self.records_pending.entry(id).or_default() += 1;
             }
             self.effect(Effect::RecordMatch { record, keys: keys.clone(), farmed });
+            let room = &self.rooms[&id];
+            let times = moderation::shot_times(&room.think, room.replay.strokes.len());
+            self.effect(Effect::ShotTimes { room: id as i64, times });
         }
         tracing::info!(room = id, "match finished: {:?}", over);
         if let Some((tid, round, index)) = tournament {
@@ -3802,6 +3881,7 @@ impl Lounge {
             private: true,
             resigning: None,
             leaving: [false, false],
+            think: Vec::new(),
             stakes,
             spectator_chat: VecDeque::new(),
             chat_total: 0,
@@ -4051,7 +4131,14 @@ mod tests {
         let game = Box::new(EightBallGame::new(1, 0, Rules::Official));
         let shot = Shot { yaw: 0.0, elevation: 0.0, tip: DVec2::ZERO, speed: 1.0 };
         l.effect(Effect::DeleteLive(1));
-        l.effect(Effect::Simulate { room: 1, turn: 0, game, shot, called: None });
+        l.effect(Effect::Simulate {
+            room: 1,
+            turn: 0,
+            game,
+            shot,
+            called: None,
+            eight_anywhere: false,
+        });
         assert!(matches!(shots.try_recv(), Ok(Effect::Simulate { .. })));
         assert!(matches!(effects.try_recv(), Ok(Effect::DeleteLive(1))));
         assert!(effects.try_recv().is_err());

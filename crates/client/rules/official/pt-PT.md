@@ -10,7 +10,7 @@
 A bola 8 dos torneios internacionais, tal como a World Pool-Billiard Association a joga. O Snook Legend também tem as regras brasileiras: escolhe as regras das tuas partidas no menu principal. Se jogas com as regras brasileiras, lê a abertura, o cantar e as faltas abaixo, porque mudam bastante.
 
 ### O objetivo
-Cada jogador tem um grupo de sete bolas: as lisas (1 a 7) ou as riscadas (9 a 15). Mete todas as tuas e depois a bola 8 antes do teu adversário.
+Cada jogador tem um grupo de sete bolas: as lisas (1 a 7) ou as riscadas (9 a 15). Mete todas as tuas e depois a bola 8, no buraco que cantares, antes do teu adversário.
 
 ### A tua vez
 Continuas a jogar enquanto meteres uma bola do teu grupo, em qualquer buraco, numa jogada sem falta. Senão, a vez passa, e as bolas que entraram ficam dentro.
@@ -37,8 +37,8 @@ Meter a 8 na abertura não ganha nem perde: ela volta ao ponto de pé, e continu
 ### Mesa aberta
 Enquanto os grupos não estão decididos, a mesa está aberta: podes tocar primeiro em qualquer bola, menos na 8. O grupo da primeira bola que meteres passa a ser o teu. Se um dos grupos já saiu todo da mesa, podes jogar a 8.
 
-### Sem cantar
-Nos torneios todas as jogadas são cantadas; aqui nada se canta. Uma bola do teu grupo (ou a 8, quando estás nela) que entre em qualquer buraco, numa jogada sem falta, mantém a vez, também de tabela ou por intermédio de outra bola.
+### Cantar a 8
+Nos torneios todas as jogadas são cantadas; aqui só a 8 se canta. Uma bola do teu grupo que entre em qualquer buraco, numa jogada sem falta, mantém a vez, também de tabela ou por intermédio de outra bola. Quando jogas na 8, escolhe o buraco dela antes de jogar: clica no buraco, e ele fica aceso (clica noutro para mudar). Não podes jogar sem cantar o buraco, e cada jogada na 8 é cantada de novo.
 
 ### Defesa
 Para deixares a mesa ao adversário, joga uma jogada que não meta nenhuma bola tua: a vez passa, e o que entrou fica dentro. Uma bola do teu grupo que entre mesmo assim mantém a vez.
@@ -60,7 +60,7 @@ Quando a partida tem tempo por jogada e ele se esgota, é falta: o adversário f
 ## A bola 8
 
 ### Ganhar
-Quando o teu grupo tiver saído todo da mesa, mete a 8, em qualquer buraco, numa jogada sem falta.
+Quando o teu grupo tiver saído todo da mesa, mete a 8 no buraco que cantaste, numa jogada sem falta.
 
 ### Perder na 8
-Perdes se meteres a 8 numa falta ou antes de o teu grupo sair da mesa, e se atirares a 8 para fora da mesa. Nada disto vale na abertura.
+Perdes se meteres a 8 numa falta, antes de o teu grupo ter saído da mesa ou num buraco que não cantaste, e se atirares a 8 para fora da mesa. Nada disto se aplica à abertura.

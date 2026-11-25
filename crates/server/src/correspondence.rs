@@ -34,7 +34,7 @@ use snook_legend_proto::correspondence::{
     MAX_RECEIVED_CHALLENGES, MAX_SENT_CHALLENGES, RECENT_FINISHED, TURN_SECS, summary,
 };
 use snook_legend_proto::replay::{Replay, Stroke, apply};
-use snook_legend_proto::{ClientMsg, PlayerInfo, PlayerStatus, ServerMsg};
+use snook_legend_proto::{ClientMsg, EIGHT_CALL_PROTOCOL, PlayerInfo, PlayerStatus, ServerMsg};
 
 use crate::limits::Bucket;
 use crate::lounge::{key, player_info};
@@ -109,7 +109,16 @@ pub fn is_msg(msg: &ClientMsg) -> bool {
 }
 
 /// Handles a correspondence message from a signed-in player with an account.
-pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl Fn(ServerMsg)) {
+///
+/// `protocol`: the version of the player's game (one older than
+/// [`EIGHT_CALL_PROTOCOL`] can't call the 8 under the official rules).
+pub async fn handle(
+    server: &Arc<Server>,
+    me: &User,
+    protocol: u32,
+    msg: ClientMsg,
+    send: &impl Fn(ServerMsg),
+) {
     if server.config.settings.lan {
         return send(ServerMsg::Error { message: "Daily games need an account.".into() });
     }
@@ -127,7 +136,8 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
         ClientMsg::CorrCancel { id } => cancel(server, me, id, send).await,
         ClientMsg::CorrOpen { id } => open(server, me, id, send).await,
         ClientMsg::CorrShoot { id, turn, shot, called_pocket, cue_ball } => {
-            shoot(server, me, id, turn, shot, called_pocket, cue_ball, send).await
+            let eight_anywhere = protocol < EIGHT_CALL_PROTOCOL;
+            shoot(server, me, id, turn, (shot, called_pocket, cue_ball), eight_anywhere, send).await
         }
         ClientMsg::CorrChoose { id, turn, option } => {
             choose(server, me, id, turn, option, send).await
@@ -535,9 +545,8 @@ async fn shoot(
     me: &User,
     id: i64,
     turn: u32,
-    shot: Shot,
-    called: Option<PocketId>,
-    cue_ball: Option<glam::DVec2>,
+    (shot, called, cue_ball): (Shot, Option<PocketId>, Option<glam::DVec2>),
+    eight_anywhere: bool,
     send: &impl Fn(ServerMsg),
 ) {
     let reject = |reason: &str, game: EightBallGame| {
@@ -587,15 +596,26 @@ async fn shoot(
             return Err("The cue ball can't be placed there.".to_string());
         }
         let placed = game.ball_in_hand().map(|_| game.ball(BallId::CUE).xy());
+        // A shot at the 8 names its pocket (but for a game older than the
+        // 8's call, see below).
+        if !eight_anywhere {
+            game.check_eight_call(called).map_err(|e| format!("Can't shoot: {e}."))?;
+        }
         let mut pending =
             game.prepare_shot(&shot, called).map_err(|e| format!("Can't shoot: {e}."))?;
         pending.simulation.run_to_rest();
+        // A game older than the 8's call: the 8 counts as called in the
+        // pocket it goes into (recorded so, the game replays the same).
+        if eight_anywhere {
+            game.call_the_eight_where_it_went(&mut pending);
+        }
+        let called = if game.calls_the_eight() { pending.called_pocket } else { called };
         let report = game.finish_shot(pending);
-        Ok((game, report, placed))
+        Ok((game, report, placed, called))
     })
     .await
     .unwrap_or_else(|e| Err(format!("simulation panicked: {e}")));
-    let (end, report, placed) = match played {
+    let (end, report, placed, called) = match played {
         Ok(p) => p,
         Err(reason) => return reject(&reason, table),
     };

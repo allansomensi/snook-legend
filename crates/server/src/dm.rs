@@ -70,9 +70,10 @@ pub async fn handle(
                 return;
             }
             let at = now();
-            if me.is_muted(at) {
-                let mins = (me.muted_until.unwrap_or(at) - at + 59) / 60;
-                return error(&format!("You are muted for {mins} more minutes."));
+            // Muted (why, until when), or a word the chat doesn't allow.
+            let place = snook_legend_proto::moderation::TextPlace::Direct;
+            if let Some(msg) = crate::moderation::refusal(server, &me, &text, place) {
+                return send(msg);
             }
             if me.chat_restricted() {
                 return error(chat_off_reason(&me));

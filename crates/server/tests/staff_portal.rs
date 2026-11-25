@@ -179,16 +179,26 @@ async fn the_portal_manages_players() {
     let (_, v) = get("/admin/api/users?q=AN&sort=rating-official").await;
     assert_eq!(names(&v), ["ana"]);
 
-    // A warning reaches a player online at once…
+    // A warning reaches a player online at once (in their inbox)…
     let (code, v) = post("/admin/api/users/ana/warn", r#"{"reason":"Mind your words."}"#).await;
     assert_eq!(code, 200, "{v}");
-    let text = ana.notice("Mind your words.").await;
-    assert!(text.starts_with("Warning from the staff"), "{text}");
-    // …and an offline one when they next sign in, once.
+    let warned = |m: &ServerMsg| {
+        matches!(m, ServerMsg::InboxNew { item, .. }
+            if item.kind == snook_legend_proto::inbox::Kind::Warning)
+    };
+    let ServerMsg::InboxNew { item, .. } = ana.expect("the warning", warned).await else {
+        unreachable!()
+    };
+    assert_eq!(item.text, "Mind your words.");
+    // …and an offline one when they next sign in (still to confirm).
     let (code, _) = post("/admin/api/users/bia/warn", r#"{"reason":"No spamming."}"#).await;
     assert_eq!(code, 200);
     let mut bia = Client::login(&s.url, "bia").await;
-    bia.notice("No spamming.").await;
+    bia.expect(
+        "the inbox",
+        |m| matches!(m, ServerMsg::Inbox { items, unread: 1 } if items[0].text == "No spamming."),
+    )
+    .await;
     let (_, v) = get("/admin/api/users/bia").await;
     let warning = &v["notes"][0];
     assert_eq!(
@@ -262,6 +272,22 @@ async fn the_portal_manages_players() {
     let (code, _) =
         post("/admin/api/users/caio/revoke", r#"{"item":"chalk_red","reason":"again"}"#).await;
     assert_eq!(code, 400);
+
+    // An item only won, given for an event: in the collection with why.
+    let (code, v) = post(
+        "/admin/api/users/caio/item",
+        r#"{"item":"cue_christmas","reason":"Christmas 2026 winner"}"#,
+    )
+    .await;
+    assert_eq!(code, 200, "{v}");
+    let (code, v) = get("/admin/api/users/caio/collection").await;
+    assert_eq!(code, 200, "{v}");
+    let cue = v["items"].as_array().unwrap().iter().find(|i| i["code"] == "cue_christmas").cloned();
+    let cue = cue.expect("the cue is in the collection");
+    assert_eq!(cue["origin"]["how"], "staff");
+    assert_eq!(cue["origin"]["reason"], "Christmas 2026 winner");
+    assert_eq!(cue["rarity"], "epic");
+    assert_eq!(cue["bound"], true);
 
     // The audit log, searched: by target, by action, by words, paged.
     let (_, v) = get("/admin/api/audit?target=CAIO").await;

@@ -38,7 +38,9 @@ What was reviewed in the game before the release, what changed and why.
   fouls in a muted red: easy to tell from what people write.
 - **Calling the 8**: clicking a pocket on the table calls it (the pockets
   glow and the status line says so). The panel that used to cover the left
-  of the table is gone. The call is binding for the rest of the game.
+  of the table is gone. Under the Brazilian rules the call is binding for
+  the rest of the game; under the official rules each shot at the 8 is
+  called the same way, afresh. No shot at the 8 until a pocket is called.
 - **Folded chat**: a pulsing dot on the Chat button and the newest message
   for five seconds above it, so nothing is missed without opening it.
 - **Reactions**: a small button by the chat opens a grid of pictures (locked

@@ -10,8 +10,14 @@ use macroquad::prelude::*;
 
 pub mod doubles;
 mod gifts;
+mod inbox;
 pub mod ops;
 mod social;
+
+pub use inbox::{
+    action_label, category_color, category_name, draw_badge, draw_envelope, inbox_button,
+    refusal_text, wording,
+};
 pub use social::{STATUS_COLOR, sub_line};
 
 use crate::i18n::{t, tw};
@@ -61,6 +67,8 @@ pub enum OnlineAction {
     Shop,
     /// The shop, on the VIP page.
     ShopVip,
+    /// The inbox.
+    Inbox,
     /// A game against the computer while "Play now" keeps looking.
     PracticeWhileWaiting,
     /// A table to oneself (free practice) while "Play now" keeps looking.
@@ -153,6 +161,9 @@ pub struct Online {
     /// used to end the match and forget the saved session).
     held: std::cell::RefCell<Vec<ClientMsg>>,
     pub wallet: Option<WalletView>,
+    /// Everything this player has, with how and when they got it (see
+    /// `collection`); None until it is asked for.
+    pub collection: Option<Vec<snook_legend_proto::collection::OwnedItem>>,
     pub offers: Option<ShopOffers>,
     /// The Microsoft Store build's coin packs (see msstore.rs).
     pub store_shop: crate::msstore::StoreShop,
@@ -371,6 +382,10 @@ pub struct Online {
     staff_shown: Option<f64>,
     /// The account password typed into the e-mail offer.
     offer_password: String,
+    /// The notifications from the staff and the game.
+    inbox: inbox::Inbox,
+    /// The line the staff pinned at the top of the lounge's chat.
+    pub pinned_chat: Option<snook_legend_proto::ChatLine>,
     /// The settings that follow the account (see `sync.rs`).
     pub sync: crate::sync::SettingsSync,
     /// Direct messages with friends (see `dm.rs`).
@@ -728,6 +743,7 @@ impl Online {
             queue: None,
             corr: Default::default(),
             wallet: None,
+            collection: None,
             offers: None,
             store_shop: Default::default(),
             looks_changed: false,
@@ -801,6 +817,8 @@ impl Online {
             staff_warnings: Vec::new(),
             staff_shown: None,
             offer_password: String::new(),
+            inbox: Default::default(),
+            pinned_chat: None,
             sync: Default::default(),
             dms: Default::default(),
             advanced: None,
@@ -1478,6 +1496,19 @@ impl Online {
                     ..Default::default()
                 });
             }
+            ServerMsg::Inbox { items, unread } => self.inbox_arrived(items, unread),
+            ServerMsg::InboxNew { item, unread } => self.inbox_new(item, unread),
+            ServerMsg::ChatPinned { line } => self.pinned_chat = line,
+            ServerMsg::TextRefused { place, refusal } => match current.as_mut() {
+                // At the table: the game's own chat says it.
+                Some(m)
+                    if m.is_online()
+                        && place == snook_legend_proto::moderation::TextPlace::MatchChat =>
+                {
+                    m.handle_server(ServerMsg::Error { message: refusal_text(&refusal) })
+                }
+                _ => self.text_refused(place, refusal),
+            },
             ServerMsg::ChatHistory { lines } => {
                 self.chat = lines.iter().map(FeedLine::chat).collect();
                 self.chat_scroll = 0;
@@ -1495,6 +1526,7 @@ impl Online {
                     }
                 }
                 if !self.friends.blocked.iter().any(|b| b.eq_ignore_ascii_case(&line.from)) {
+                    self.mentioned(&line);
                     self.chat.push(FeedLine::chat(&line));
                     if self.chat.len() > 200 {
                         self.chat.remove(0);
@@ -1767,12 +1799,12 @@ impl Online {
                     }
                     _ => "",
                 };
-                let text = tw("+{n} coins · {why}", &[("n", &amount), ("why", &why)]);
                 let boost = match reason.as_str() {
                     "game" | "win" => self.boost(snook_legend_proto::events::EventKind::Coins),
                     _ => 1,
                 };
-                self.toast(with_boost(text, boost), true);
+                // The coins count up at the top of the screen (see `reveal`).
+                crate::reveal::coins(amount as i64, with_boost(why.to_string(), boost));
             }
             ServerMsg::Age { minor, chat_allowed, phrases_only } => {
                 self.age = Some(AgeState { minor, chat_allowed, phrases_only });
@@ -1849,6 +1881,14 @@ impl Online {
             }
             ServerMsg::Wallet { coins, vip_until, owned, equipped, cue_wins } => {
                 let wallet = WalletView { coins, vip_until, owned, equipped, cue_wins };
+                crate::perks::set_vip(wallet.is_vip());
+                // Something new: the collection, if it was looked at, is asked
+                // for again (with how it was got).
+                let grew =
+                    self.wallet.as_ref().is_some_and(|w| w.owned.len() != wallet.owned.len());
+                if grew && self.collection.is_some() {
+                    self.send(ClientMsg::Collection);
+                }
                 // A cue that just reached a new level (a game was won).
                 use snook_legend_proto::shop::{Category, cue_level};
                 let cue = self.effective(&wallet, Category::Cue);
@@ -2050,6 +2090,7 @@ impl Online {
             ServerMsg::SeekRemoved { username } => self.social.removed(&username),
             ServerMsg::NewGifts { gifts } => self.gifts_arrived(gifts, current.is_some()),
             ServerMsg::Gifts { gifts } => self.gifts.history = Some(gifts),
+            ServerMsg::Collection { items } => self.collection = Some(items),
             ServerMsg::GiftThanked { by, code } => self.gift_thanked(&by, &code),
             ServerMsg::Settings { data, updated_at } => {
                 if let Some(account) = self.account().map(str::to_string) {
@@ -2228,6 +2269,7 @@ impl Online {
         self.offers = None;
         self.staff_warnings.clear();
         self.staff_shown = None;
+        self.inbox = Default::default();
         self.profile = None;
         self.friends = FriendsData::default();
         self.unread_friend_requests = false;
@@ -2409,7 +2451,7 @@ impl Online {
 
     /// A warning from the staff is waiting to be read.
     pub fn staff_warning_open(&self) -> bool {
-        !self.staff_warnings.is_empty()
+        !self.staff_warnings.is_empty() || self.important_open()
     }
 
     /// The oldest warning from the staff, over whatever page is up (not a
@@ -2418,6 +2460,8 @@ impl Online {
     pub fn draw_staff_warning(&mut self, ui: &mut Ui) {
         let Some(text) = self.staff_warnings.first().cloned() else {
             self.staff_shown = None;
+            // An important notification of the inbox, the same way.
+            self.draw_important(ui);
             return;
         };
         let now = get_time();
@@ -2475,6 +2519,7 @@ impl Online {
 
     /// Short messages (achievements, declined invitations…), on top of everything.
     pub fn draw_toasts(&self, ui: &Ui, bottom: f32) {
+        crate::reveal::draw_coins(ui);
         // In the lounge they stay clear of the chat field at the bottom.
         let bottom = self.toast_floor.take().map_or(bottom, |floor| bottom.min(floor));
         let sw = crate::ui::vw();
@@ -3199,6 +3244,11 @@ impl Online {
             ) {
                 action = OnlineAction::Ranking;
             }
+            // The inbox, with what isn't read yet.
+            right -= gap + 36.0;
+            if inbox_button(ui, Rect::new(right, by, 36.0, 36.0), self.inbox_unread()) {
+                action = OnlineAction::Inbox;
+            }
             // The coins, which open the shop.
             let coins = self.wallet.as_ref().map(|w| w.coins).unwrap_or(0).to_string();
             let cw = ui.text_size(&coins, 15.0, true).x + 46.0;
@@ -3492,6 +3542,15 @@ impl Online {
         rrect(log, 6.0, Color::new(0.0, 0.0, 0.0, 0.25));
         let me = self.me.as_ref().map(|m| m.username.clone());
         let admin = self.me.as_ref().is_some_and(|m| m.role == snook_legend_proto::Role::Admin);
+        let staff = self.me.as_ref().is_some_and(|m| m.role.is_staff()) && !self.lan;
+        // The line the staff pinned, above the chat.
+        let log = match self.pinned_chat.clone().filter(|_| !self.chat_off()) {
+            Some(line) => {
+                let used = self.draw_pinned(ui, &line, log, staff);
+                Rect::new(log.x, log.y + used, log.w, log.h - used)
+            }
+            None => log,
+        };
         if self.chat.is_empty() {
             ui.block(log);
             if self.chat_off() {
@@ -3514,11 +3573,25 @@ impl Online {
                 empty_state(ui, log, Glyph::Chat, t("No messages yet."), None);
             }
         } else {
-            let (scroll, act) =
-                ui.chat_log(LOUNGE_LOG, log, &self.chat, me.as_deref(), admin, self.chat_scroll);
+            let (scroll, act) = ui.chat_log_ex(
+                LOUNGE_LOG,
+                log,
+                &self.chat,
+                me.as_deref(),
+                admin,
+                staff,
+                self.chat_scroll,
+            );
             self.chat_scroll = scroll;
-            if let Some(crate::ui::ChatAction::Delete { id, silent }) = act {
-                self.send(ClientMsg::DeleteChat { id, silent });
+            match act {
+                Some(crate::ui::ChatAction::Delete { id, silent }) => {
+                    self.send(ClientMsg::DeleteChat { id, silent });
+                }
+                Some(crate::ui::ChatAction::Pin { id }) => self.send(ClientMsg::PinChat { id }),
+                Some(crate::ui::ChatAction::Profile(name)) => {
+                    action = OnlineAction::Profile(name);
+                }
+                None => {}
             }
         }
         // Administrators: clear the chat (a second click confirms).
@@ -3594,9 +3667,8 @@ impl Online {
                     at: 0,
                     kind: snook_legend_proto::ChatKind::Player,
                     rating: me.rating_in(self.rules),
-                    id: 0,
                     admin: me.role == snook_legend_proto::Role::Admin,
-                    deleted: None,
+                    ..Default::default()
                 };
                 let mut feed = FeedLine::chat(&line);
                 feed.pending = true;

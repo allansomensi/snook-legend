@@ -60,6 +60,10 @@ pub fn build(quality: Quality, table: Vec2, style: HallStyle) -> Kit {
             more::penthouse(&mut kit, quality, table);
             more::penthouse_lamp(&mut kit, reach);
         }
+        HallStyle::Arena => {
+            crate::arena_hall::arena(&mut kit, quality, table);
+            crate::arena_hall::arena_lamp(&mut kit, reach);
+        }
     }
     if quality >= Quality::High {
         let (shade, warm) = match style {
@@ -71,12 +75,14 @@ pub fn build(quality: Quality, table: Vec2, style: HallStyle) -> Kit {
             HallStyle::Arcade => (0.2, Color::new(0.95, 0.92, 1.0, 1.0)),
             HallStyle::Deco => (0.16, Color::new(1.0, 0.88, 0.68, 1.0)),
             HallStyle::Penthouse => (0.1, Color::new(1.0, 0.95, 0.85, 1.0)),
+            HallStyle::Arena => (0.2, Color::new(0.96, 0.97, 1.0, 1.0)),
         };
         match style {
             // Long lamps (a canopy, a box, a bar) light a long block of haze.
             HallStyle::Club => box_haze(&mut kit, vec2(0.85 + grow, 0.3), warm),
             HallStyle::Arcade => box_haze(&mut kit, vec2(0.83 + grow, 0.19), warm),
             HallStyle::Penthouse => box_haze(&mut kit, vec2(0.87 + grow, 0.05), warm),
+            HallStyle::Arena => box_haze(&mut kit, vec2(0.95 + grow, 0.4), warm),
             _ => lamp_haze(&mut kit, quality, reach, shade, warm),
         }
     }
@@ -170,6 +176,7 @@ pub fn tint(style: HallStyle) -> Vec3 {
         HallStyle::Arcade => vec3(0.08, 0.03, 0.10),
         HallStyle::Deco => vec3(0.09, 0.08, 0.06),
         HallStyle::Penthouse => vec3(0.10, 0.11, 0.15),
+        HallStyle::Arena => vec3(0.04, 0.05, 0.10),
     }
 }
 
@@ -185,6 +192,7 @@ pub fn mirror_fade(style: HallStyle) -> f32 {
         HallStyle::Arcade => 0.5,
         HallStyle::Deco => 0.7,
         HallStyle::Penthouse => 0.8,
+        HallStyle::Arena => 1.0,
     }
 }
 
@@ -2138,6 +2146,7 @@ mod tests {
                 HallStyle::Arcade,
                 HallStyle::Deco,
                 HallStyle::Penthouse,
+                HallStyle::Arena,
             ] {
                 let kit = build(q, table, style);
                 let verts: usize = kit.parts.iter().map(|p| p.mesh.len()).sum();

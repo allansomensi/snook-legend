@@ -996,7 +996,7 @@ impl Versus {
                 };
                 say(ui, text, 13.0, ALERT, &mut y);
             }
-            let b = Rect::new(x, y + 4.0, w.min(240.0), 40.0);
+            let b = Rect::new(x, y + 4.0, w, 40.0);
             if self.daily_starting.is_some() {
                 crate::ui::spinner(vec2(b.x + 12.0, b.y + 20.0), 8.0, GOLD);
                 ui.text(t("Setting up the table…"), b.x + 30.0, b.y + 12.0, 14.0, MUTED, false);
@@ -1437,11 +1437,8 @@ impl Versus {
         ui.text(&players, x + w - pw, r.y + 15.0, 12.0, MUTED, false);
         if info.board.is_empty() {
             let text = t("Nobody has played today's table yet. Be the first!");
-            let mut y = r.y + 52.0;
-            for l in ui.wrap(text, w, 14.0) {
-                ui.text(&l, x, y, 14.0, MUTED, false);
-                y += 19.0;
-            }
+            let area = Rect::new(r.x, r.y + 44.0, r.w, r.h - 52.0);
+            crate::ranking::empty_state(ui, area, Icon::Table, text);
             return;
         }
         let row_h = 28.0;

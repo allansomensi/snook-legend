@@ -374,6 +374,8 @@ impl WhatsNew {
         }
         if max_scroll > 0.0 {
             crate::settings::clip(None);
+            let view = Rect::new(body.x - 4.0, body.y, body.w + 8.0, body.h);
+            Ui::scroll_fades(r, view, self.scroll > 0.5, self.scroll < max_scroll - 0.5);
             let track = Rect::new(r.x + r.w - 15.0, body.y, 4.0, body.h);
             crate::ui::rrect(track, 2.0, Color::new(1.0, 1.0, 1.0, 0.06));
             let bar = (track.h * body.h / content).max(20.0);

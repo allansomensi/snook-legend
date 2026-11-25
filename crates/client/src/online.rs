@@ -200,6 +200,8 @@ pub struct Online {
     /// medal (code, seconds shown).
     achievement_cards: VecDeque<(String, f32)>,
     freeze_cards: bool,
+    /// A dialog was up when the card was to be drawn: it waits, unseen.
+    cards_held: bool,
     pub me: Option<PlayerInfo>,
     players: Vec<PlayerInfo>,
     chat: Vec<FeedLine>,
@@ -336,6 +338,11 @@ pub struct Online {
     /// Where toasts must stay above this frame: the lounge sets it (its chat
     /// field is at the bottom), [`Online::draw_toasts`] takes it.
     toast_floor: std::cell::Cell<Option<f32>>,
+    /// The left edge of the room the toasts have this frame (the main
+    /// menu: right of its column, so they never cover its buttons).
+    pub toast_left: std::cell::Cell<Option<f32>>,
+    /// The same at the top: where the main menu's title ends.
+    pub card_left: std::cell::Cell<Option<f32>>,
     /// Recent opponents and the "looking for a game" board.
     social: social::Social,
     /// Presents from friends.
@@ -735,6 +742,7 @@ impl Online {
             toasts: VecDeque::new(),
             achievement_cards: VecDeque::new(),
             freeze_cards: false,
+            cards_held: false,
             me: None,
             players: Vec::new(),
             chat: Vec::new(),
@@ -823,6 +831,8 @@ impl Online {
             quit_for_update: false,
             form_focused: false,
             toast_floor: std::cell::Cell::new(None),
+            toast_left: std::cell::Cell::new(None),
+            card_left: std::cell::Cell::new(None),
             social: social::Social {
                 // Development aid (screenshots): SNOOK_LEGEND_RECENT=1 opens
                 // the Friends tab on the people played recently.
@@ -1012,7 +1022,8 @@ impl Online {
         self.toasts.retain(|t| t.1 > 0.0);
         if let Some(card) = self.achievement_cards.front_mut() {
             // (Held still for screenshots: see `dev_toasts`.)
-            card.1 += if self.freeze_cards { 0.0 } else { dt };
+            // (Held while a dialog is up: it waits for it to close.)
+            card.1 += if self.freeze_cards || self.cards_held { 0.0 } else { dt };
             if card.1 >= ACHIEVEMENT_CARD_SECS {
                 self.achievement_cards.pop_front();
             }
@@ -2594,13 +2605,28 @@ impl Online {
     /// its medal, its metal, its title and what it was for. It slides down,
     /// stays a few seconds (a click puts it away) and fades out.
     fn draw_achievement_card(&mut self, ui: &Ui) {
-        let Some((code, age)) = self.achievement_cards.front().cloned() else { return };
+        // (Set for this frame only, by the main menu.)
+        let card_left = self.card_left.take();
+        let Some((code, age)) = self.achievement_cards.front().cloned() else {
+            self.cards_held = false;
+            return;
+        };
+        // A dialog is up (a message from the staff, a confirmation…): the
+        // card waits for it instead of drawing over it.
+        self.cards_held = ui.dialog_up();
+        if self.cards_held {
+            return;
+        }
         let Some(a) = snook_legend_proto::ACHIEVEMENTS.iter().find(|a| a.code == code) else {
             self.achievement_cards.pop_front();
             return;
         };
         let sw = crate::ui::vw();
-        let w = 460.0f32.min(sw - 24.0);
+        // On the main menu: right of its title, under the player's card
+        // (narrower if need be, not over the game's name); elsewhere at the
+        // top, in the middle.
+        let beside = card_left.map(|l| sw - l - 20.0).filter(|room| *room >= 340.0);
+        let w = beside.unwrap_or(460.0).min(460.0).min(sw - 24.0);
         let medal = 72.0;
         let pad = 16.0;
         let text_x = pad + medal + 14.0;
@@ -2612,7 +2638,11 @@ impl Online {
         let enter = (age / 0.35).min(1.0);
         let ease = 1.0 - (1.0 - enter).powi(3);
         let alpha = ((ACHIEVEMENT_CARD_SECS - age) / 0.5).clamp(0.0, 1.0);
-        let r = Rect::new((sw - w) / 2.0, 14.0 - (1.0 - ease) * (h + 20.0), w, h);
+        let (cx, top) = match beside {
+            Some(room) => (sw - 20.0 - room / 2.0, 86.0),
+            None => (sw / 2.0, 14.0),
+        };
+        let r = Rect::new(cx - w / 2.0, top - (1.0 - ease) * (h + top + 6.0), w, h);
         if ui.clicked(r)
             && age > 0.4
             && let Some(card) = self.achievement_cards.front_mut()
@@ -2640,10 +2670,10 @@ impl Online {
             }
             rrect_lines(r, 12.0, 1.2, fade(metal, 0.7));
             crate::ui::top_light(r, 12.0, 0.08 * alpha);
-            // The medal settles with a small overshoot; it shrinks as the card goes.
+            // The medal settles with a small overshoot; it fades with the card.
             let k = ((age - 0.1) / 0.45).clamp(0.0, 1.0);
             let pop = 1.0 + 0.1 * (k * std::f32::consts::PI).sin() * (1.0 - k);
-            crate::medal_art::draw(mc, medal * pop * (0.6 + 0.4 * alpha), level, false);
+            crate::medal_art::draw_faded(mc, medal * pop, level, false, alpha);
             let x = r.x + text_x;
             let mut y = r.y + pad;
             let (head, hs) = ui.fitted(&heading, 11.0, text_w * 0.62, true);
@@ -2670,8 +2700,11 @@ impl Online {
         // In the lounge they stay clear of the chat field at the bottom.
         let bottom = self.toast_floor.take().map_or(bottom, |floor| bottom.min(floor));
         let sw = crate::ui::vw();
+        // The room they have: the screen, or right of the main menu's column.
+        let left = self.toast_left.take().filter(|l| sw - l > 260.0).unwrap_or(0.0);
+        let mid = (left + sw) / 2.0;
         // Long messages wrap (up to three lines) rather than being cut.
-        let max_text = (sw - 72.0).min(520.0);
+        let max_text = (sw - left - 72.0).min(520.0);
         let mut toasts = Vec::new();
         let mut y = bottom;
         for (text, ttl, good) in self.toasts.iter().rev() {
@@ -2680,7 +2713,7 @@ impl Online {
             let text_w = lines.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max);
             let h = lines.len() as f32 * 20.0 + 16.0;
             y -= h + 8.0;
-            let r = Rect::new((sw - text_w - 40.0) / 2.0, y, text_w + 40.0, h);
+            let r = Rect::new(mid - (text_w + 40.0) / 2.0, y, text_w + 40.0, h);
             toasts.push((r, lines, ttl.min(1.0), *good));
         }
         // Drawn over everything at the end of the frame: they float above the

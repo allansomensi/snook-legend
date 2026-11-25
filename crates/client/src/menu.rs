@@ -53,6 +53,12 @@ pub struct Menu {
     /// And of each place along the bottom.
     dock_hover: [f32; 8],
     shade: Option<Texture2D>,
+    /// Where the menu's column (cards and the row of places) ends on the
+    /// right, as last drawn: notices go to the right of it.
+    pub column_right: f32,
+    /// And where the game's name ends (what pops up at the top keeps
+    /// clear of it).
+    pub title_right: f32,
 }
 
 /// The game's name, drawn by `tools/gen_wordmark.py` (gold lit from above,
@@ -237,7 +243,7 @@ impl Menu {
         // run under the player card.
         let room = sw - player_card_w(sw) - EDGE - 24.0 - tx;
         let cap = (m.title * 0.73).min(room * WORDMARK_CAP_H / WORDMARK.w).max(m.title * 0.4);
-        draw_wordmark(tx, top + (m.title * 0.8 - cap) - 2.0, cap);
+        self.title_right = tx + draw_wordmark(tx, top + (m.title * 0.8 - cap) - 2.0, cap);
         let tagline = top + m.emblem * 0.8;
         ui.text(
             t("eight-ball pool"),
@@ -306,6 +312,7 @@ impl Menu {
             })
             .fold(0.0, f32::max);
         let w = (sw * 0.36).clamp(300.0, 440.0).max(needed).min(sw - left - EDGE);
+        self.column_right = left + w;
         let h = m.card_h;
         let block = m.rules_block() + 4.0 * h + 3.0 * m.gap;
         let below = 24.0 + m.icon + EDGE;

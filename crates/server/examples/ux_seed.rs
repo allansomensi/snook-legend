@@ -13,7 +13,7 @@
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
-use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, Rules};
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, Rules, ServerMsg};
 use snook_legend_server::store::{MatchRecord, NewUser, SessionKind};
 use snook_legend_server::{Config, Server, inbox, new_token, now, serve, token_hash};
 use tokio::net::TcpListener;
@@ -180,7 +180,7 @@ async fn main() {
             reason: snook_legend_core::GameOverReason::PocketedEight,
             rated: true,
             rules: if g % 3 == 0 { Rules::Official } else { Rules::Brazilian },
-            delta: [12, -12],
+            delta: if g % 2 == 0 { [12, -12] } else { [-12, 12] },
             ratings_after: [1500, 1500],
             shots: 25,
             tournament: None,
@@ -234,6 +234,40 @@ async fn main() {
     inbox::send(&server, ana, inbox::New::game(Kind::Maintenance { at: t0 + 7_200, minutes: 15 }))
         .await;
 
+    // Auctions: three going on (one with bids), one over.
+    let items: Vec<&str> = snook_legend_proto::shop::ITEMS
+        .iter()
+        .enumerate()
+        .filter(|(k, _)| k % 3 != 0)
+        .map(|(_, i)| i.code)
+        .step_by(7)
+        .take(4)
+        .collect();
+    for (k, code) in items.iter().enumerate() {
+        let ends_at = if k == 3 { t0 - 3_600 } else { t0 + 3_600 * (2 + 20 * k as i64) };
+        let id = store
+            .add_auction(&snook_legend_server::store::NewAuction {
+                code,
+                starts_at: t0 - 86_400,
+                ends_at,
+                min_bid: 500 * (k as i64 + 1),
+                min_increment: 50,
+                by: ana,
+                at: t0 - 86_400,
+            })
+            .await
+            .unwrap();
+        if k % 2 == 0 {
+            store.credit(ids[2], 50_000, "staff", None, t0).await.unwrap();
+            let _ = store.bid(id, ids[2], 900 * (k as i64 + 1), t0 - 600, 120, 120).await;
+        }
+    }
+    // The supporters in the credits.
+    for &id in [ana, ids[2], ids[4], ids[10], ids[16]].iter() {
+        store.set_vip(id, t0 + 86_400 * 30, true).await.unwrap();
+        store.set_credits(id, true, t0).await.unwrap();
+    }
+
     let listener = TcpListener::bind(addr).await.unwrap();
     tokio::spawn(serve(listener, server.clone()));
     snook_legend_server::spawn_background(server.clone());
@@ -281,7 +315,45 @@ async fn main() {
                 }
                 _ => {}
             }
-            while let Some(Ok(_)) = ws.next().await {}
+            // A ping now and then, or the server lets them go when idle (and
+            // the lounge empties in a long run of screenshots).
+            let mut tick = tokio::time::interval(Duration::from_secs(25));
+            loop {
+                tokio::select! {
+                    m = ws.next() => {
+                        let Some(Ok(m)) = m else { break };
+                        // Wei, Aisha and Tomasz take any invitation and greet the table
+                        // (the screenshots of an online game, its chat).
+                        let Message::Text(text) = m else { continue };
+                        let Ok(msg) = snook_legend_proto::parse_server(&text) else { continue };
+                        if !["Wei", "Aisha", "Tomasz"].contains(&name.as_str()) {
+                            continue;
+                        }
+                        match msg {
+                            ServerMsg::Invited { from, .. } => {
+                                let _ = ws.send(send(ClientMsg::AnswerInvite { from, accept: true })).await;
+                            }
+                            ServerMsg::MatchStarted { .. } => {
+                                for text in ["Good luck, have fun!", "Nice break 👏"] {
+                                    let text = text.to_string();
+                                    let _ = ws.send(send(ClientMsg::MatchChat { text })).await;
+                                }
+                            }
+                            // The game's window closed: resign and go back
+                            // to the lounge, free for the next screenshot.
+                            ServerMsg::OpponentConnection { connected: false, .. } => {
+                                let _ = ws.send(send(ClientMsg::Resign)).await;
+                                let _ = ws.send(send(ClientMsg::LeaveMatch)).await;
+                            }
+                            ServerMsg::MatchEnded { .. } | ServerMsg::OpponentLeft => {
+                                let _ = ws.send(send(ClientMsg::LeaveMatch)).await;
+                            }
+                            _ => {}
+                        }
+                    }
+                    _ = tick.tick() => { let _ = ws.send(send(ClientMsg::Ping)).await; }
+                }
+            }
         });
     }
     std::future::pending::<()>().await;

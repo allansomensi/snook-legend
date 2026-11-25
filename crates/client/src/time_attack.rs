@@ -355,7 +355,7 @@ pub fn draw_tab(ui: &mut Ui, online: &mut Online, asked: &mut Option<i64>, body:
             if online.time_attack.refused == Some(Refused::NoAttemptsLeft) {
                 say(ui, t("No attempts left today: come back tomorrow."), 13.0, ALERT, &mut y);
             }
-            let b = Rect::new(x, y + 4.0, w.min(240.0), 40.0);
+            let b = Rect::new(x, y + 4.0, w, 40.0);
             if info.attempts_left > 0 && ui.primary_button(b, t("Start an attempt")) {
                 online.time_attack.refused = None;
                 online.send(ClientMsg::TimeAttackStart);
@@ -369,7 +369,7 @@ pub fn draw_tab(ui: &mut Ui, online: &mut Online, asked: &mut Option<i64>, body:
     } else {
         say(ui, t("Sign in to put your times on the week's table."), 14.0, CREAM, &mut y);
     }
-    let practice = Rect::new(x, y + 2.0, w.min(240.0), 36.0);
+    let practice = Rect::new(x, y + 2.0, w, 36.0);
     if ui.button(practice, t("Practice (not counted)"), true) {
         offline_start = true;
     }
@@ -394,11 +394,10 @@ fn draw_board(ui: &mut Ui, info: Option<&Info>, online: &Online, r: Rect) {
     let row_h = 28.0;
     let mut y = r.y + 44.0;
     if info.board.is_empty() {
+        // The board's place, empty: centred, as everywhere else.
         let text = t("Nobody has cleared the table this week yet. Be the first!");
-        for l in ui.wrap(text, w, 14.0) {
-            ui.text(&l, x, y, 14.0, MUTED, false);
-            y += 19.0;
-        }
+        let area = Rect::new(r.x, y, r.w, r.h - 52.0 - winners_h);
+        crate::ranking::empty_state(ui, area, crate::icons::Icon::Hourglass, text);
     } else {
         let rows = (((r.h - 52.0 - winners_h) / row_h).floor().max(1.0)) as usize;
         for (k, e) in info.board.iter().take(rows).enumerate() {

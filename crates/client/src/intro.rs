@@ -16,10 +16,34 @@ use crate::i18n::{t, tw};
 use crate::paint::{draw_circle, draw_rectangle};
 use crate::ui::{CREAM, GOLD, MUTED, Ui, rrect, rrect_lines, tier_color};
 
-/// How long it shows (seconds): sliding in, held, fading out.
-pub const LENGTH: f32 = 3.2;
-const IN: f32 = 0.45;
-const OUT: f32 = 0.5;
+/// How long it shows (seconds): coming in, held, going.
+pub const LENGTH: f32 = 3.4;
+/// The cards' slide in.
+const IN: f32 = 0.55;
+/// When the "VS" lands (its impact), and how long it takes.
+const VS_AT: f32 = 0.38;
+const VS_IN: f32 = 0.32;
+/// When the stakes and the rules come up.
+const STAKES_AT: f32 = 0.62;
+/// Everything is in (what a screenshot holds).
+const SETTLED: f32 = 1.25;
+/// The way out: the cards part a little as everything fades.
+const OUT: f32 = 0.45;
+
+fn smooth(a: f32, b: f32, x: f32) -> f32 {
+    let t = ((x - a) / (b - a)).clamp(0.0, 1.0);
+    t * t * (3.0 - 2.0 * t)
+}
+
+fn ease_out_cubic(t: f32) -> f32 {
+    1.0 - (1.0 - t.clamp(0.0, 1.0)).powi(3)
+}
+
+/// Out with a small overshoot (`k`: how much), settling at 1.
+fn ease_out_back(t: f32, k: f32) -> f32 {
+    let t = t.clamp(0.0, 1.0) - 1.0;
+    1.0 + (k + 1.0) * t * t * t + k * t * t
+}
 
 /// The introduction of a match about to start.
 #[derive(Debug, Clone, PartialEq)]
@@ -83,64 +107,125 @@ impl Intro {
     /// Draws it over the table; false once it is over or skipped (the
     /// caller drops it).
     pub fn draw(&mut self, ui: &mut Ui, dt: f32) -> bool {
-        self.age = if self.hold { (self.age + dt).min(IN + 0.4) } else { self.age + dt };
+        self.age = if self.hold { (self.age + dt).min(hold_at()) } else { self.age + dt };
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         let keys = [KeyCode::Escape, KeyCode::Space, KeyCode::Enter];
         let skip = ui.clicked(Rect::new(0.0, 0.0, sw, sh))
             || (!ui.wants_keyboard && keys.iter().any(|k| is_key_pressed(*k)));
-        // (Not the click that started the game.)
-        if (skip && self.age > 0.15) || self.age >= LENGTH {
+        // (Not the click that started the game.) Skipped, it still goes
+        // out smoothly: straight to its way out.
+        if skip && self.age > 0.15 && self.age < LENGTH - OUT {
+            self.age = LENGTH - OUT;
+        }
+        if self.age >= LENGTH {
             return false;
         }
-        // In, held, out.
-        let enter = (self.age / IN).min(1.0);
-        let ease = 1.0 - (1.0 - enter).powi(3);
-        let fade = ((LENGTH - self.age) / OUT).clamp(0.0, 1.0);
+        let age = self.age;
+        // How far out it has gone (0 in, 1 gone), eased.
+        let going = smooth(LENGTH - OUT, LENGTH, age);
         let saved = crate::paint::opacity();
-        crate::paint::set_opacity(saved * fade);
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.02, 0.015, 0.01, 0.78 * ease));
-        // The two cards come in from the sides; this player's on the left.
-        let w = (sw * 0.34).clamp(220.0, 360.0);
-        let h = 300.0f32.min(sh - 80.0);
-        let gap = (sw * 0.06).clamp(56.0, 110.0);
-        let y = (sh - h) / 2.0 - 10.0;
+        let layer = |k: f32| crate::paint::set_opacity(saved * k * (1.0 - going));
+        // The table dims behind.
+        layer(1.0);
+        let dim = smooth(0.0, 0.3, age);
+        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.02, 0.015, 0.01, 0.8 * dim));
+
+        // The cards' size and place: side by side, the badge between them.
+        let badge = 34.0f32;
+        let gap = (sw * 0.05).clamp(badge * 2.0 + 8.0, 104.0);
+        let w = ((sw - gap - 32.0) / 2.0).clamp(200.0, 360.0);
+        let h = 304.0f32.min(sh - 120.0).max(260.0);
+        let y = ((sh - h) / 2.0 - 22.0).max(12.0);
         let left_x = sw / 2.0 - gap / 2.0 - w;
         let right_x = sw / 2.0 + gap / 2.0;
-        let slide = (1.0 - ease) * (sw / 2.0);
+        // Each slides in from its side (this player's from the left), the
+        // second a beat later, with a hint of overshoot; on the way out
+        // they part a little.
         let (first, second) = (self.seat, 1 - self.seat);
-        card(ui, self, first, Rect::new(left_x - slide, y, w, h));
-        card(ui, self, second, Rect::new(right_x + slide, y, w, h));
-        // "VS" between them, landing with a little bounce.
-        let pop = if enter < 1.0 { 0.0 } else { ((self.age - IN) / 0.25).min(1.0) };
-        let scale = 1.0 + 0.35 * (1.0 - pop) * (pop * std::f32::consts::PI).sin().max(0.0);
-        let vs_size = 46.0 * scale * pop.max(0.01);
+        let stakes = smooth(STAKES_AT, STAKES_AT + 0.35, age);
+        let part = going * 28.0;
+        for (k, (seat, x, side)) in
+            [(first, left_x, -1.0f32), (second, right_x, 1.0f32)].into_iter().enumerate()
+        {
+            let t = ((age - k as f32 * 0.08) / IN).clamp(0.0, 1.0);
+            let slide = (1.0 - ease_out_back(t, 0.9)) * (w * 0.9 + gap);
+            layer(smooth(0.0, 0.6, t));
+            card(ui, self, seat, Rect::new(x + side * (slide + part), y, w, h), stakes);
+        }
+
+        // "VS" lands between them: it comes down from large, settles with
+        // a small bounce, and a ring of light spreads from the impact.
         let c = vec2(sw / 2.0, y + h / 2.0);
-        draw_circle(c.x, c.y, 34.0 * pop, Color::new(0.08, 0.05, 0.03, 0.95));
-        crate::paint::draw_circle_lines(c.x, c.y, 34.0 * pop, 2.0, GOLD);
-        if pop > 0.05 {
-            ui.text_centered(
-                &t("vs").to_uppercase(),
+        let v = ((age - VS_AT) / VS_IN).clamp(0.0, 1.0);
+        if v > 0.0 {
+            let scale = 1.0 + 0.7 * (1.0 - ease_out_back(v, 1.6)) * (1.0 - going * 0.2);
+            let scale = scale.max(0.6) * (1.0 - 0.12 * going);
+            let r = badge * scale;
+            layer(smooth(0.0, 0.35, v));
+            // A soft glow behind it.
+            for i in 0..4 {
+                let g = r * (1.25 + 0.22 * i as f32);
+                draw_circle(c.x, c.y, g, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.045));
+            }
+            crate::ui::soft_shadow(Rect::new(c.x - r, c.y - r, 2.0 * r, 2.0 * r), r, 0.9);
+            draw_circle(c.x, c.y, r, Color::new(0.11, 0.07, 0.04, 1.0));
+            draw_circle(c.x, c.y - r * 0.08, r * 0.86, Color::new(0.16, 0.105, 0.06, 1.0));
+            crate::paint::draw_circle_lines(c.x, c.y, r, 2.5, GOLD);
+            crate::paint::draw_circle_lines(
                 c.x,
-                c.y - vs_size * 0.55,
-                vs_size,
-                GOLD,
+                c.y,
+                r - 5.0 * scale,
+                1.0,
+                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.35),
+            );
+            // The word fits inside the ring, whatever the language.
+            let word = t("vs").to_uppercase();
+            let room = r * 1.3;
+            let size = (26.0 * scale)
+                .min(26.0 * scale * room / ui.text_size(&word, 26.0 * scale, true).x.max(1.0));
+            let ty = crate::ranking::caps_y(c.y, size);
+            ui.text_centered(&word, c.x, ty + 1.5, size, Color::new(0.0, 0.0, 0.0, 0.5), true);
+            ui.text_centered(&word, c.x, ty, size, GOLD, true);
+            // The impact's ring of light.
+            let ring = ((age - VS_AT - VS_IN * 0.55) / 0.5).clamp(0.0, 1.0);
+            if ring > 0.0 && ring < 1.0 {
+                let e = ease_out_cubic(ring);
+                layer(1.0 - ring);
+                crate::paint::draw_circle_lines(
+                    c.x,
+                    c.y,
+                    badge * (1.0 + 1.3 * e),
+                    2.0 * (1.0 - e) + 0.5,
+                    Color::new(1.0, 0.9, 0.6, 0.8),
+                );
+            }
+        }
+
+        // Under them: the rules, and whether it counts for the rating.
+        let rules = smooth(STAKES_AT + 0.1, STAKES_AT + 0.45, age);
+        if rules > 0.0 {
+            layer(rules);
+            let kind = if self.rated { t("Rated game") } else { t("Casual game") };
+            let line = format!("{} · {}", crate::i18n::rules_name(self.rules), kind);
+            let (line, size) = ui.fitted(&line, 16.0, sw - 64.0, true);
+            let ly = y + h + 18.0 + (1.0 - ease_out_cubic(rules)) * 8.0;
+            let lw = ui.text_size(&line, size, true).x + 36.0;
+            let pill = Rect::new((sw - lw) / 2.0, ly, lw, 32.0);
+            rrect(pill, 16.0, Color::new(0.0, 0.0, 0.0, 0.6));
+            rrect_lines(pill, 16.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.3));
+            let color = if self.rated { GOLD } else { CREAM };
+            ui.text_centered(
+                &line,
+                sw / 2.0,
+                crate::ranking::text_y(ly + 16.0, size),
+                size,
+                color,
                 true,
             );
+            let hint = t("Click to skip");
+            ui.text_centered(hint, sw / 2.0, ly + 42.0, 12.0, MUTED, false);
         }
-        // Under them: the rules, and whether it counts for the rating.
-        let kind = if self.rated { t("Rated game") } else { t("Casual game") };
-        let line = format!("{} · {}", crate::i18n::rules_name(self.rules), kind);
-        let ly = y + h + 22.0;
-        let lw = ui.text_size(&line, 16.0, true).x + 36.0;
-        rrect(
-            Rect::new((sw - lw) / 2.0, ly - 6.0, lw, 30.0),
-            15.0,
-            Color::new(0.0, 0.0, 0.0, 0.55),
-        );
-        ui.text_centered(&line, sw / 2.0, ly, 16.0, if self.rated { GOLD } else { CREAM }, true);
-        let hint = t("Click to skip");
-        ui.text_centered(hint, sw / 2.0, ly + 38.0, 12.0, MUTED, false);
         crate::paint::set_opacity(saved);
         // Nothing under it takes a click while it shows.
         ui.block(Rect::new(0.0, 0.0, sw, sh));
@@ -148,48 +233,98 @@ impl Intro {
     }
 }
 
+/// Where a held introduction (screenshots) stops: all in, or the moment
+/// in `SNOOK_LEGEND_INTRO` (`0.4s`: seconds) to see the animation midway.
+fn hold_at() -> f32 {
+    crate::dev::var("SNOOK_LEGEND_INTRO")
+        .and_then(|v| v.strip_suffix('s').and_then(|v| v.parse::<f32>().ok()))
+        .filter(|v| *v > 0.0 && *v < LENGTH)
+        .unwrap_or(SETTLED)
+}
+
 /// One player's card: picture, name and flag, rating and league, and in a
-/// rated game what they stand to win and lose.
-pub fn card(ui: &mut Ui, intro: &Intro, seat: usize, r: Rect) {
+/// rated game what they stand to win and lose (`stakes`: how far those
+/// have come up, 0 to 1).
+pub fn card(ui: &mut Ui, intro: &Intro, seat: usize, r: Rect, stakes: f32) {
     let p = &intro.players[seat];
     let tier = p.tier_in(intro.rules);
     let accent = tier_color(tier);
-    rrect(r, 14.0, Color::new(0.07, 0.045, 0.03, 0.96));
-    rrect_lines(r, 14.0, 2.0, Color::new(accent.r, accent.g, accent.b, 0.85));
+    crate::ui::soft_shadow(r, 14.0, 0.8);
+    crate::ui::rrect_gradient(
+        r,
+        14.0,
+        Color::new(0.11, 0.075, 0.05, 0.98),
+        Color::new(0.055, 0.035, 0.025, 0.98),
+    );
+    // A band of the league's colour along the top, and the edge in it.
+    crate::ui::rrect_gradient(
+        Rect::new(r.x, r.y, r.w, 64.0),
+        14.0,
+        Color::new(accent.r, accent.g, accent.b, 0.16),
+        Color::new(accent.r, accent.g, accent.b, 0.0),
+    );
+    rrect_lines(r, 14.0, 1.5, Color::new(accent.r, accent.g, accent.b, 0.85));
+    crate::ui::top_light(r, 14.0, 0.06);
+    // "You" (this player's card), a small tag clear of the picture.
+    let cx = r.x + r.w / 2.0;
+    let who = if seat == intro.seat && !intro.spectating { t("You") } else { "" };
+    if !who.is_empty() {
+        let tw_ = ui.text_size(who, 11.0, true).x + 16.0;
+        let tag = Rect::new(cx - tw_ / 2.0, r.y + 10.0, tw_, 18.0);
+        rrect(tag, 9.0, Color::new(accent.r, accent.g, accent.b, 0.22));
+        ui.text_centered(who, cx, crate::ranking::text_y(tag.y + 9.0, 11.0), 11.0, CREAM, true);
+    }
     // Picture.
-    let c = vec2(r.x + r.w / 2.0, r.y + 70.0);
-    draw_circle(c.x, c.y, 50.0, Color::new(accent.r, accent.g, accent.b, 0.25));
+    let c = vec2(cx, r.y + 82.0);
+    draw_circle(c.x, c.y, 49.0, Color::new(accent.r, accent.g, accent.b, 0.3));
+    crate::paint::draw_circle_lines(
+        c.x,
+        c.y,
+        49.0,
+        2.0,
+        Color::new(accent.r, accent.g, accent.b, 0.9),
+    );
     crate::avatars::draw(&p.avatar, c, 44.0);
-    // Name and flag, centred.
-    let name_size = 22.0;
+    // Name and flag, centred as a whole (the flag, the name, the crown).
     let max = r.w - 28.0;
-    let w = ui.text_size(&p.username, name_size, true).x.min(max) + 30.0;
-    ui.player_name(p, r.x + (r.w - w.min(max)) / 2.0, r.y + 130.0, name_size, max);
+    let crown = |size: f32| if p.vip { size + 4.0 } else { 0.0 };
+    let flag = |size: f32| {
+        if p.country.is_empty() { 0.0 } else { crate::flags::width((size * 0.78).round()) + 6.0 }
+    };
+    let mut size = 22.0f32;
+    while size > 16.0 && ui.text_size(&p.username, size, true).x + crown(size) + flag(size) > max {
+        size -= 1.0;
+    }
+    let total = (ui.text_size(&p.username, size, true).x + crown(size) + flag(size)).min(max);
+    ui.player_name(p, cx - total / 2.0, r.y + 144.0, size, max);
     // Rating and league.
     let rating = p.rating_in(intro.rules);
     let line =
         if p.guest { t("Guest").to_string() } else { format!("{rating} · {}", t(tier.name())) };
-    ui.text_centered(&line, c.x, r.y + 166.0, 17.0, accent, true);
+    let (line, ls) = ui.fitted(&line, 17.0, max, true);
+    ui.text_centered(&line, cx, r.y + 176.0, ls, accent, true);
     // An epic or legendary cue shows: the card glows in its rarity's colour,
     // with a gem and the cue's name.
     if let Some(rarity) = crate::collection::rare_cue(&p.cue) {
         let gem = crate::collection::rare_cue_badge(r, rarity, get_time() as f32);
         let tip = crate::collection::rare_cue_tip(&p.cue, rarity);
         let color = crate::collection::rarity_color(rarity);
-        let (text, size) = ui.fitted(&tip, 12.0, r.w - 28.0, true);
-        ui.text_centered(&text, c.x, r.y + 190.0, size, color, true);
+        let (text, size) = ui.fitted(&tip, 12.0, max, true);
+        ui.text_centered(&text, cx, r.y + 200.0, size, color, true);
         if ui.hovering(gem) {
             ui.tooltip(&tip, gem);
         }
     }
-    let who = if seat == intro.seat && !intro.spectating { t("You") } else { "" };
-    if !who.is_empty() {
-        ui.text_centered(who, c.x, r.y + 12.0, 12.0, MUTED, true);
+    // At stake: they come up once the cards are in.
+    if stakes <= 0.0 {
+        return;
     }
-    // At stake.
-    if let Some(stakes) = intro.stakes {
-        let [win, loss] = stakes[seat];
-        let y = r.y + r.h - 62.0;
+    let saved = crate::paint::opacity();
+    crate::paint::set_opacity(saved * stakes);
+    let rise = (1.0 - ease_out_cubic(stakes)) * 10.0;
+    if let Some(at_stake) = intro.stakes {
+        let [win, loss] = at_stake[seat];
+        let y = r.y + r.h - 62.0 + rise;
         let half = (r.w - 36.0) / 2.0;
         let good = Color::new(0.45, 0.88, 0.5, 1.0);
         let bad = Color::new(1.0, 0.5, 0.42, 1.0);
@@ -198,16 +333,21 @@ pub fn card(ui: &mut Ui, intro: &Intro, seat: usize, r: Rect) {
                 .into_iter()
                 .enumerate()
         {
-            let b = Rect::new(r.x + 12.0 + k as f32 * (half + 12.0), y, half, 48.0);
+            let b = Rect::new(r.x + 12.0 + k as f32 * (half + 12.0), y, half, 50.0);
             rrect(b, 9.0, Color::new(1.0, 1.0, 1.0, 0.05));
-            ui.text_centered(label, b.x + b.w / 2.0, b.y + 5.0, 12.0, MUTED, true);
-            ui.text_centered(&value, b.x + b.w / 2.0, b.y + 20.0, 20.0, color, true);
+            rrect_lines(b, 9.0, 1.0, Color::new(color.r, color.g, color.b, 0.25));
+            let (label, size) = ui.fitted(label, 12.0, half - 12.0, true);
+            ui.text_centered(&label, b.x + b.w / 2.0, b.y + 6.0, size, MUTED, true);
+            ui.text_centered(&value, b.x + b.w / 2.0, b.y + 21.0, 20.0, color, true);
         }
         let hint = tw("{n} rating points at stake", &[("n", &win.max(-loss))]);
-        ui.text_centered(&hint, c.x, y - 24.0, 12.0, CREAM, false);
+        let (hint, size) = ui.fitted(&hint, 12.0, max, false);
+        ui.text_centered(&hint, cx, y - 22.0, size, CREAM, false);
     } else if !intro.rated {
-        ui.text_centered(t("No rating at stake"), c.x, r.y + r.h - 40.0, 13.0, MUTED, false);
+        let (text, size) = ui.fitted(t("No rating at stake"), 13.0, max, false);
+        ui.text_centered(&text, cx, r.y + r.h - 40.0 + rise, size, MUTED, false);
     }
+    crate::paint::set_opacity(saved);
 }
 
 #[cfg(test)]

@@ -1873,8 +1873,9 @@ fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
     rrect(frame, 8.0, Color::new(1.0, 1.0, 1.0, 0.03));
     // Which rules: inside the chart, in its corner (the cards above switch them).
     let tag_w = crate::rulesui::tag_w(ui, rules, 12.0);
-    crate::rulesui::tag(ui, rules, frame.x + frame.w - tag_w - 10.0, frame.y + 14.0, 12.0);
-    let chart = Rect::new(frame.x + 44.0, frame.y + 30.0, frame.w - 58.0, frame.h - 44.0);
+    crate::rulesui::tag(ui, rules, frame.x + frame.w - tag_w - 10.0, frame.y + 10.0, 12.0);
+    // (The chart starts under the tag: the line and its labels never meet it.)
+    let chart = Rect::new(frame.x + 44.0, frame.y + 44.0, frame.w - 58.0, frame.h - 58.0);
     let lo = pts.iter().map(|p| p.1).min().unwrap_or(0) - 15;
     let hi = pts.iter().map(|p| p.1).max().unwrap_or(0) + 15;
     let span = (hi - lo).max(1) as f32;
@@ -1890,7 +1891,9 @@ fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
         let lw = ui.text_size(&label, 11.0, false).x;
         ui.text(&label, chart.x - 8.0 - lw, text_y(y, 11.0), 11.0, MUTED, false);
     }
-    // The leagues it crosses, dashed, named at the right.
+    // The leagues it crosses, dashed, named at the left (over the line, on
+    // a dark chip: drawn after it).
+    let mut league_names = Vec::new();
     for tier in snook_legend_proto::Tier::ALL {
         let m = tier.min_rating();
         if m > lo && m < hi {
@@ -1902,9 +1905,11 @@ fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
                 draw_line(x, y, e, y, 1.0, Color::new(c.r, c.g, c.b, 0.35));
                 x += 10.0;
             }
+            // Named at the left, clear of the rating now (at the right end).
             let name = t(tier.name());
-            let nw = ui.text_size(name, 11.0, true).x;
-            ui.text(name, chart.x + chart.w - nw, y - 15.0, 11.0, c, true);
+            let below = y - 15.0 < chart.y - 6.0;
+            let ny = if below { y + 3.0 } else { y - 15.0 };
+            league_names.push((name, ny, c));
         }
     }
     // A soft fill under the line, then the line, green up and red down.
@@ -1936,6 +1941,15 @@ fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
             draw_circle(c.x, c.y, 2.5, Color::new(0.85, 0.8, 0.7, 0.9));
         }
     }
+    for (name, y, c) in league_names {
+        let w = ui.text_size(name, 11.0, true).x + 10.0;
+        rrect(
+            Rect::new(chart.x + 1.0, y - 1.0, w, 15.0),
+            7.0,
+            Color::new(0.06, 0.045, 0.035, 0.85),
+        );
+        ui.text(name, chart.x + 6.0, y, 11.0, c, true);
+    }
     // The rating now, by its point.
     let last = at(pts.len() - 1, pts[pts.len() - 1].1);
     draw_circle(last.x, last.y, 5.0, GOLD);
@@ -1965,7 +1979,7 @@ fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     let c = &p.career;
     if c.games == 0 && p.abandon_rate == 0 {
         if p.cue_wins.is_empty() && p.cue_stats.is_empty() {
-            empty_state(ui, area, Icon::Star, t("No games yet."));
+            empty_state(ui, area, Icon::Star, t("No shots yet."));
         } else {
             cue_card(ui, p, Rect::new(area.x, area.y, area.w, CUE_CARD_H));
         }

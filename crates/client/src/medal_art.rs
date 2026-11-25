@@ -29,6 +29,12 @@ thread_local! {
 /// Draws the medal of `level` (0 bronze … 4 ruby) `size` high (the picture
 /// is square), centred on `c`. `locked`: in grey, faint.
 pub fn draw(c: Vec2, size: f32, level: u8, locked: bool) {
+    draw_faded(c, size, level, locked, 1.0);
+}
+
+/// [`draw`], `alpha` opaque (times the layer's opacity and a screen's fade):
+/// a medal fades out with the card it is on, at its size.
+pub fn draw_faded(c: Vec2, size: f32, level: u8, locked: bool, alpha: f32) {
     let pixels = size * crate::ui::ui_scale();
     let step = STEPS.iter().copied().find(|s| *s as f32 >= pixels * 0.95).unwrap_or(STEPS[7]);
     let level = level.min(4);
@@ -48,7 +54,7 @@ pub fn draw(c: Vec2, size: f32, level: u8, locked: bool) {
         &texture,
         c.x - size / 2.0,
         c.y - size / 2.0,
-        WHITE,
+        Color::new(1.0, 1.0, 1.0, (alpha * crate::paint::alpha()).clamp(0.0, 1.0)),
         DrawTextureParams { dest_size: Some(vec2(size, size)), ..Default::default() },
     );
 }
@@ -236,17 +242,124 @@ fn stone(p: Vec2, level: u8) -> Vec3 {
     // some bright.
     let inner = 0.25 + 0.9 * hash(id, level as i32);
     if level == 3 {
-        // A diamond: near white, with a little fire (colour) in the facets.
-        let hue = hash(id, 77) * std::f32::consts::TAU;
-        let fire = vec3(hue.cos(), (hue + 2.1).cos(), (hue + 4.2).cos()) * 0.12;
-        let v = 0.34 + sky * 0.75 * inner + 0.38 * inner * inner;
-        vec3(0.82, 0.9, 1.0) * v + fire * inner + Vec3::splat(spec * 1.4)
+        diamond(p / BEZEL)
     } else {
         let deep = vec3(0.62, 0.02, 0.07);
         deep * (0.25 + 1.1 * sky * inner)
             + vec3(1.0, 0.45, 0.5) * 0.25 * inner * inner
             + Vec3::splat(spec * 1.2)
     }
+}
+
+/// A round brilliant seen from above at `p` (stone radii): the octagonal
+/// table, eight star facets, eight kites and sixteen upper girdle facets,
+/// each either lit (near white, a few with fire) or dark (the black of the
+/// studio seen through the stone), arranged so the light comes from the
+/// top left. That contrast, not a pale tint, is what reads as a diamond at
+/// every size.
+fn diamond(p: Vec2) -> Vec3 {
+    use std::f32::consts::{PI, TAU};
+    let rho = p.length();
+    // Angle from the top, clockwise; eight table vertices at k·45°.
+    let theta = (p.x.atan2(-p.y) + TAU) % TAU;
+    let s = theta / TAU * 8.0;
+    let f = s.fract();
+    let tri = (f - 0.5).abs() * 2.0; // 1 at a table vertex, 0 between
+    // The octagon's own radius for the table.
+    let oct = rho * ((f - 0.5) * PI / 4.0).cos() / (PI / 8.0).cos();
+    let star_tip = 0.5 + 0.3 * (1.0 - tri);
+    let kite_foot = 1.0 - 0.2 * (1.0 - tri);
+    // The facet's kind (tilt from facing the viewer) and its middle angle.
+    let vertex = s.round();
+    let (kind, tilt, mid) = if oct < 0.5 {
+        (0, 0.0, 0.0)
+    } else if rho < star_tip {
+        (1, 0.42, (s.floor() + 0.5) / 8.0 * TAU)
+    } else if rho < kite_foot {
+        (2, 0.62, vertex / 8.0 * TAU)
+    } else {
+        let half = (s * 2.0).floor();
+        (3, 0.85, (half + 0.5) / 16.0 * TAU)
+    };
+    // Lit or dark: the light comes from the top left (an angle of 315°),
+    // the facets facing it or facing straight away light up (the light
+    // goes in through one side and out through the other), those across
+    // stay dark; a hash breaks the symmetry like a real stone's.
+    let id = kind * 100
+        + match kind {
+            1 => s.floor() as i32,
+            2 => vertex as i32 % 8,
+            3 => (s * 2.0).floor() as i32,
+            _ => 0,
+        };
+    let toward = (mid - 1.75 * PI).cos(); // 1 facing the light
+    // (Light past 1: `tone` gives it a soft shoulder, so white needs ~2.)
+    let mut v = if kind == 0 {
+        // The table: a sheet of light at the top left fading to silver.
+        let k = (-p.x * 0.6 - p.y * 0.8) / 0.5;
+        // Flat glass: straight-edged reflections, not a gradient (that
+        // would read as a dome).
+        let v = if k > 0.15 {
+            2.4
+        } else if k > -0.35 {
+            1.25
+        } else {
+            0.75
+        };
+        // Its octagon outlined by a darker line.
+        v * (1.0 - 0.45 * smooth(0.44, 0.5, oct))
+    } else {
+        // Neighbours alternate, as the cut's arrows do; the side towards
+        // the light is a little brighter; a few break the pattern.
+        let parity = (id + kind) % 2 == 0;
+        let dark = !parity && hash(id, 3) < 0.6 + 0.25 * toward.min(0.0);
+        if !dark {
+            1.5 + 0.5 * toward + 0.4 * hash(id, 5)
+        } else {
+            0.06 + 0.16 * hash(id, 7) + 0.1 * toward.max(0.0)
+        }
+    };
+    // The facets' edges catch a thin line of light.
+    let edge = [
+        (oct - 0.5).abs(),
+        (rho - star_tip).abs() * if kind == 0 { 9.0 } else { 1.0 },
+        (rho - kite_foot).abs(),
+        (f - 0.5).abs().min(f).min(1.0 - f) * rho * 0.8,
+    ]
+    .into_iter()
+    .fold(f32::MAX, f32::min);
+    if kind > 0 {
+        v += 0.35 * (1.0 - smooth(0.0, 0.035, edge));
+    }
+    // The girdle: a dark line where the stone meets the setting.
+    v *= 1.0 - 0.7 * smooth(0.93, 1.0, rho);
+    let _ = tilt;
+    let white = vec3(0.93, 0.97, 1.0);
+    let mut c = white * v;
+    // Fire: a few lit facets throw a spectral colour.
+    if kind > 1 && v > 1.0 && hash(id, 11) > 0.72 {
+        let fire = [vec3(1.0, 0.55, 0.12), vec3(0.25, 0.55, 1.0), vec3(0.35, 1.0, 0.55)]
+            [(hash(id, 13) * 2.99) as usize];
+        c = c.lerp(fire * v * 0.75, 0.75);
+    }
+    // The dark facets are a deep steel blue rather than flat black.
+    if v < 0.5 {
+        c += vec3(0.02, 0.05, 0.12);
+    }
+    c
+}
+
+/// A star-shaped glint (a long cross and a short one), centred on `d` = 0,
+/// `len` its arms' length; the light it adds.
+fn glint(d: Vec2, len: f32) -> f32 {
+    let arm = |a: f32, b: f32| {
+        (1.0 - (a.abs() / len)).max(0.0).powi(2) * (-(b / (len * 0.07)).powi(2)).exp()
+    };
+    let diag = vec2(d.x + d.y, d.x - d.y) * std::f32::consts::FRAC_1_SQRT_2;
+    let core = (-(d.length() / (len * 0.16)).powi(2)).exp();
+    (arm(d.x, d.y) + arm(d.y, d.x))
+        .max(0.6 * (arm(diag.x * 1.8, diag.y) + arm(diag.y * 1.8, diag.x)))
+        + core
 }
 
 /// One sample of the picture at `q` (0 to 1, y down): premultiplied colour
@@ -372,6 +485,17 @@ fn sample(q: Vec2, level: u8, px: f32, fine: bool) -> Vec4 {
             tone((m * (0.13 + sky * 1.05) * grain + m.lerp(Vec3::ONE, 0.45) * spec) * ao)
         };
         over(c, edge);
+    }
+    // The diamond's glint, at the top left of the stone: never thinner
+    // than about a pixel, so it sparkles at small sizes too.
+    if level == 3 {
+        let at = centre + vec2(-0.3, -0.34) * BEZEL * radius;
+        let len = (0.12f32).max(px * 4.0);
+        let g = glint((q - at) / len * 0.12, 0.12);
+        if g > 0.002 {
+            let a = (g * 0.95).min(1.0);
+            out = vec4(1.0, 1.0, 1.0, 1.0) * a + out * (1.0 - a);
+        }
     }
     out
 }

@@ -373,12 +373,80 @@ impl Default for Config {
 
 /// Where the settings, the session, the tour and the saved games live.
 /// The folder of the game's earlier name ([`folders`]) is moved over the
-/// first time (see [`move_old_folder`]), so nobody loses anything.
+/// first time (see [`move_old_folder`]), so nobody loses anything; on
+/// Windows, so is the Microsoft Store build's (see [`adopt_store_folder`]).
 pub fn config_dir() -> Option<PathBuf> {
     let (new, old) = folders()?;
     static MOVED: std::sync::Once = std::sync::Once::new();
-    MOVED.call_once(|| move_old_folder(&old, &new));
+    MOVED.call_once(|| {
+        move_old_folder(&old, &new);
+        // The Store build keeps its files where Windows puts them for it;
+        // the installer's and the zip's build takes them over once.
+        if cfg!(all(windows, not(feature = "store")))
+            && let Some(local) = std::env::var_os("LOCALAPPDATA")
+        {
+            adopt_store_folder(std::path::Path::new(&local), &new);
+        }
+    });
     Some(new)
+}
+
+/// The name of the marker left in the folder once the Store build's files
+/// were taken over (they are never copied twice).
+const FROM_STORE: &str = "from-store.txt";
+
+/// The Microsoft Store build (MSIX) reads and writes `%APPDATA%\Snook
+/// Legend`, but Windows keeps that folder for it in
+/// `%LOCALAPPDATA%\Packages\<package>\LocalCache\Roaming\Snook Legend`:
+/// a player who moves to the installer or the zip would find no tour, no
+/// settings and no saved games. When this build's folder has no tour
+/// (`ladder.json`) or doesn't exist, the Store's folder (`local` is
+/// `%LOCALAPPDATA%`; the one with a tour, else the latest) is copied over
+/// once, never over a file already there. Nothing happens without one.
+fn adopt_store_folder(local: &std::path::Path, new: &std::path::Path) {
+    if new.join("ladder.json").exists() || new.join(FROM_STORE).exists() {
+        return;
+    }
+    let Some(store) = store_folder(local) else { return };
+    if copy_missing(&store, new).is_ok() {
+        let _ = std::fs::write(new.join(FROM_STORE), store.display().to_string());
+    }
+}
+
+/// The Store build's folder among `local\Packages\*`: the one with a tour,
+/// else the one changed last.
+fn store_folder(local: &std::path::Path) -> Option<PathBuf> {
+    let mut found: Vec<(bool, std::time::SystemTime, PathBuf)> =
+        std::fs::read_dir(local.join("Packages"))
+            .ok()?
+            .flatten()
+            .map(|e| e.path().join("LocalCache").join("Roaming").join("Snook Legend"))
+            .filter(|p| p.is_dir())
+            .map(|p| {
+                let when = std::fs::metadata(&p)
+                    .and_then(|m| m.modified())
+                    .unwrap_or(std::time::SystemTime::UNIX_EPOCH);
+                (p.join("ladder.json").exists(), when, p)
+            })
+            .collect();
+    found.sort();
+    found.pop().map(|(.., p)| p)
+}
+
+/// Copies the folder `from` into `to` (made if missing), files and
+/// subfolders, leaving every file already in `to` as it is.
+fn copy_missing(from: &std::path::Path, to: &std::path::Path) -> std::io::Result<()> {
+    std::fs::create_dir_all(to)?;
+    for entry in std::fs::read_dir(from)? {
+        let entry = entry?;
+        let target = to.join(entry.file_name());
+        if entry.file_type()?.is_dir() {
+            copy_missing(&entry.path(), &target)?;
+        } else if !target.exists() {
+            std::fs::copy(entry.path(), &target)?;
+        }
+    }
+    Ok(())
 }
 
 /// The folder (named after the game) and the one of its earlier name,
@@ -408,20 +476,7 @@ fn move_old_folder(old: &std::path::Path, new: &std::path::Path) {
     if std::fs::rename(old, new).is_ok() {
         return;
     }
-    fn copy(from: &std::path::Path, to: &std::path::Path) -> std::io::Result<()> {
-        std::fs::create_dir_all(to)?;
-        for entry in std::fs::read_dir(from)? {
-            let entry = entry?;
-            let target = to.join(entry.file_name());
-            if entry.file_type()?.is_dir() {
-                copy(&entry.path(), &target)?;
-            } else {
-                std::fs::copy(entry.path(), &target)?;
-            }
-        }
-        Ok(())
-    }
-    if copy(old, new).is_err() {
+    if copy_missing(old, new).is_err() {
         // Half a copy is worse than none: the old folder is read again
         // next time.
         let _ = std::fs::remove_dir_all(new);
@@ -710,6 +765,45 @@ mod tests {
         std::fs::write(old.join("settings.ini"), "volume = 0.9\n").unwrap();
         move_old_folder(&old, &new);
         assert_eq!(std::fs::read_to_string(new.join("settings.ini")).unwrap(), "volume = 0.5\n");
+        let _ = std::fs::remove_dir_all(&base);
+    }
+
+    #[test]
+    fn the_store_builds_folder_is_taken_over_once() {
+        let base = std::env::temp_dir().join(format!("snook-store-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&base);
+        let local = base.join("Local");
+        let new = base.join("Roaming").join("Snook Legend");
+        // Nothing to take: nothing happens.
+        adopt_store_folder(&local, &new);
+        assert!(!new.exists());
+        let package =
+            |name: &str| local.join("Packages").join(name).join("LocalCache/Roaming/Snook Legend");
+        // Another app's package, and the game's with a tour and saved games.
+        std::fs::create_dir_all(local.join("Packages/Other.App/LocalCache/Roaming")).unwrap();
+        let store = package("SnookLegend.SnookLegend_abc123");
+        std::fs::create_dir_all(store.join("saves")).unwrap();
+        std::fs::write(store.join("ladder.json"), "{\"won\":3}").unwrap();
+        std::fs::write(store.join("settings.ini"), "volume = 0.3\n").unwrap();
+        std::fs::write(store.join("saves/1.json"), "{}").unwrap();
+        // This build's folder already has its own settings: they stay.
+        std::fs::create_dir_all(&new).unwrap();
+        std::fs::write(new.join("settings.ini"), "volume = 0.8\n").unwrap();
+        adopt_store_folder(&local, &new);
+        assert_eq!(std::fs::read_to_string(new.join("ladder.json")).unwrap(), "{\"won\":3}");
+        assert_eq!(std::fs::read_to_string(new.join("settings.ini")).unwrap(), "volume = 0.8\n");
+        assert!(new.join("saves/1.json").exists());
+        assert!(new.join(FROM_STORE).exists());
+        // Once only: what the player deleted since isn't brought back.
+        std::fs::remove_file(new.join("ladder.json")).unwrap();
+        adopt_store_folder(&local, &new);
+        assert!(!new.join("ladder.json").exists());
+        // A folder that has its tour is never touched.
+        let other = base.join("Roaming2").join("Snook Legend");
+        std::fs::create_dir_all(&other).unwrap();
+        std::fs::write(other.join("ladder.json"), "{}").unwrap();
+        adopt_store_folder(&local, &other);
+        assert!(!other.join("saves").exists());
         let _ = std::fs::remove_dir_all(&base);
     }
 

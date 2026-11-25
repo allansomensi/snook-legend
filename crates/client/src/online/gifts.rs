@@ -80,6 +80,11 @@ impl Online {
 
     /// The gift dialog is on screen (the screen under it ignores Esc).
     pub fn gift_dialog_open(&self) -> bool {
+        // Development aid (screenshots): SNOOK_LEGEND_QUIET_REWARDS keeps
+        // the rewards and presents off the screens they would cover.
+        if crate::dev::flag("SNOOK_LEGEND_QUIET_REWARDS") {
+            return false;
+        }
         ((!self.gifts.new.is_empty() && !self.gifts.later) || !self.gifts.rewards.is_empty())
             && self.signed_in()
     }

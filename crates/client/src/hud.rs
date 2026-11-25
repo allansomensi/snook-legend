@@ -655,7 +655,6 @@ impl Hud {
         }
 
         self.draw_turn_banner(ui, m);
-        draw_video_bar(ui, m);
         // The opponent lost their connection: the time they have left.
         crate::table_social::reconnection(ui, m);
 
@@ -678,6 +677,8 @@ impl Hud {
                 action = HudAction::Lounge;
             }
         }
+        // A recorded game's controls, in the bottom bar (over it: drawn after).
+        draw_video_bar(ui, m);
 
         // Menu, the overhead view and the replay, in the top bar.
         if !self.paused {
@@ -1070,7 +1071,7 @@ impl Hud {
             let title = tw("{name} wins!", &[("name", &m.names[over.winner])]);
             // Wide enough for the title with a margin (long computer names).
             let w =
-                crate::ui::clamp_soft(ui.text_size(&title, 28.0, true).x + 64.0, 420.0, sw - 20.0);
+                crate::ui::clamp_soft(ui.text_size(&title, 28.0, true).x + 100.0, 420.0, sw - 20.0);
             let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 95.0 - STATS_H / 2.0, w, 190.0);
             ui.panel(r);
             replay_now |= replay_button(ui, m, r);
@@ -1078,7 +1079,35 @@ impl Hud {
             let stats_w = 420.0f32.min(w);
             let stats = Rect::new((sw - stats_w) / 2.0, r.y + r.h + 8.0, stats_w, STATS_H - 8.0);
             draw_match_stats(ui, m, stats, view);
-            ui.text_centered(&title, sw / 2.0, r.y + 18.0, 28.0, GOLD, true);
+            // The player beat the computer: the title in gold with a trophy
+            // and a glow of gold along the top; lost to it: plainer, no
+            // trophy (two players at one computer: always the winner's gold).
+            let human = |seat: usize| matches!(m.controllers[seat], Controller::Human);
+            let lost = !human(over.winner) && human(1 - over.winner);
+            if !lost {
+                crate::ui::rrect_gradient(
+                    Rect::new(r.x + 1.0, r.y + 1.0, r.w - 2.0, 56.0),
+                    crate::ui::PANEL_RADIUS - 1.0,
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12),
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.0),
+                );
+                let tw_ = ui.text_size(&title, 28.0, true).x;
+                crate::icons::draw(
+                    Icon::Trophy,
+                    vec2(sw / 2.0 - tw_ / 2.0 - 22.0, r.y + 33.0),
+                    24.0,
+                    GOLD,
+                );
+            }
+            let color = if lost { CREAM } else { GOLD };
+            ui.text_centered(
+                &title,
+                sw / 2.0 + if lost { 0.0 } else { 14.0 },
+                r.y + 18.0,
+                28.0,
+                color,
+                true,
+            );
             ui.text_centered(
                 &crate::i18n::result_line(
                     over.reason,
@@ -1962,7 +1991,7 @@ impl Hud {
     /// one to write to).
     fn draw_history(&mut self, ui: &mut Ui, m: &mut Match) {
         // Above the replay's controls when they would be in the way.
-        let bar = video_bar_rect();
+        let bar = video_bar_rect(m);
         let bottom = if m.video.is_some() && bar.x < 12.0 + chat_w() + 8.0 {
             bar.y - 4.0
         } else {
@@ -2046,12 +2075,24 @@ impl Hud {
             return;
         }
         self.reactions_from = Some(b);
-        const COLS: usize = 7;
-        const CELL: f32 = 40.0;
+        // As many columns as it takes to stay above the bottom bar and
+        // under the top one (a tall list ran over both), cells a little
+        // smaller on a narrow window.
         let n = snook_legend_proto::REACTIONS.len();
-        let rows = n.div_ceil(COLS);
-        let w = COLS as f32 * CELL + 16.0;
-        let h = rows as f32 * CELL + 40.0;
+        let room = popover_room(b).max(200.0);
+        let mut cols = 7usize;
+        let mut cell = 40.0f32;
+        while (n.div_ceil(cols) as f32 * cell + 40.0 > room) && cols < 18 {
+            cols += 1;
+        }
+        let wide = crate::ui::vw() - 24.0;
+        if cols as f32 * cell + 16.0 > wide {
+            cell = ((wide - 16.0) / cols as f32).max(28.0);
+        }
+
+        let rows = n.div_ceil(cols);
+        let w = cols as f32 * cell + 16.0;
+        let h = rows as f32 * cell + 40.0;
         // Above the button, or below it when the chat reaches the top.
         let p = popover_rect(b, w, h);
         ui.panel(p);
@@ -2069,12 +2110,16 @@ impl Hud {
         );
         let mut chosen = None;
         let mut tip: Option<(String, Rect)> = None;
-        for (k, r) in snook_legend_proto::REACTIONS.iter().enumerate() {
+        // The ones this player has first, then those still to win.
+        let mut order: Vec<&snook_legend_proto::Reaction> =
+            snook_legend_proto::REACTIONS.iter().collect();
+        order.sort_by_key(|r| !r.available(&o.unlocked, &o.bought, o.vip));
+        for (k, r) in order.into_iter().enumerate() {
             let c = Rect::new(
-                p.x + 8.0 + (k % COLS) as f32 * CELL,
-                p.y + 32.0 + (k / COLS) as f32 * CELL,
-                CELL,
-                CELL,
+                p.x + 8.0 + (k % cols) as f32 * cell,
+                p.y + 32.0 + (k / cols) as f32 * cell,
+                cell,
+                cell,
             );
             let center = vec2(c.x + c.w / 2.0, c.y + c.h / 2.0);
             let unlocked = r.available(&o.unlocked, &o.bought, o.vip);
@@ -2212,10 +2257,17 @@ fn media_button(ui: &mut Ui, r: Rect, kind: Media, tip: &str) -> bool {
 }
 
 /// Where the replay's controls go.
-fn video_bar_rect() -> Rect {
+fn video_bar_rect(m: &Match) -> Rect {
     let sw = crate::ui::vw();
     let w = (sw - 24.0).min(680.0);
-    Rect::new((sw - w) / 2.0, crate::ui::vh() - BOTTOM_BAR - 64.0, w, 52.0)
+    // In the bottom bar (no cue to set up while a recorded game plays), not
+    // over the table; above it when the spectator's bar has it.
+    let y = if m.is_spectating() {
+        crate::ui::vh() - BOTTOM_BAR - 64.0
+    } else {
+        crate::ui::vh() - BOTTOM_BAR + (BOTTOM_BAR - 52.0) / 2.0
+    };
+    Rect::new((sw - w) / 2.0, y, w, 52.0)
 }
 
 /// The list of controls (H), with the keys the player has chosen (a line
@@ -2298,7 +2350,7 @@ fn draw_video_bar(ui: &mut Ui, m: &mut Match) {
         return;
     }
     let marks: Vec<Option<crate::game::ShotMark>> = v.marks.clone();
-    let r = video_bar_rect();
+    let r = video_bar_rect(m);
     ui.panel(r);
     // The shot on screen: the one being played, or the next to come.
     let pos = m.video_position();

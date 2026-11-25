@@ -267,6 +267,57 @@ fn draw_styled_name_preview(ui: &Ui, label: &str, c: Vec2, style: Option<([u8; 3
     }
 }
 
+/// A cube of chalk seen from above at an angle, `s` its edge on screen,
+/// centred on `c`: the chalk face on top (with the dish a cue tip wore
+/// into it), the two sides in their paper wrapper, lit from the top left,
+/// and its shadow.
+pub fn chalk_cube(c: Vec2, s: f32, col: Color) {
+    use crate::paint::draw_triangle;
+    let lit = |k: f32| Color::new(col.r * k, col.g * k, col.b * k, 1.0);
+    // The cube's corners: the top face's (back, left, front, right), then
+    // the bottom's (left, front, right).
+    let (dx, dy, h) = (s * 0.86, s * 0.48, s * 0.95);
+    let top = c - vec2(0.0, h * 0.45);
+    let back = top - vec2(0.0, dy);
+    let left = top - vec2(dx, 0.0);
+    let front = top + vec2(0.0, dy);
+    let right = top + vec2(dx, 0.0);
+    let down = vec2(0.0, h);
+    // A soft shadow on the felt.
+    draw_ellipse(
+        c.x + s * 0.12,
+        front.y + h - dy * 0.15,
+        dx * 1.25,
+        dy * 0.75,
+        Color::new(0.0, 0.0, 0.0, 0.35),
+    );
+    // The sides: the wrapper (the chalk's colour, printed with a band of
+    // cream), the left lit, the right in shade.
+    for (a, b, k) in [(left, front, 0.82), (front, right, 0.55)] {
+        draw_triangle(a, b, b + down, lit(k));
+        draw_triangle(a, a + down, b + down, lit(k));
+        // The printed band across the middle.
+        let (m0, m1) = (0.36, 0.6);
+        let band = Color::new(0.93 * k + 0.05, 0.88 * k + 0.05, 0.76 * k + 0.05, 1.0);
+        draw_triangle(a + down * m0, b + down * m0, b + down * m1, band);
+        draw_triangle(a + down * m0, a + down * m1, b + down * m1, band);
+    }
+    // The edge between the two sides catches the light.
+    draw_line(front.x, front.y, front.x, front.y + h, 1.2, lit(1.15));
+    // The top: the bare chalk, a little lighter, its powder grain.
+    let face = lit(1.12);
+    draw_triangle(back, left, front, face);
+    draw_triangle(back, right, front, face);
+    // The dish worn by the tip, an ellipse in perspective, shaded at the
+    // back and lit at the front.
+    let dish = Color::new(col.r * 0.62, col.g * 0.62, col.b * 0.62, 1.0);
+    draw_ellipse(top.x, top.y, dx * 0.42, dy * 0.42, dish);
+    draw_ellipse(top.x, top.y + dy * 0.08, dx * 0.34, dy * 0.3, lit(0.95));
+    // Its rim and the cube's top edges, crisp.
+    draw_line(left.x, left.y, front.x, front.y, 1.0, lit(1.3));
+    draw_line(front.x, front.y, right.x, right.y, 1.0, lit(0.9));
+}
+
 /// A small picture of an item.
 pub fn preview(ui: &Ui, item: &Item, r: Rect) {
     let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
@@ -305,18 +356,7 @@ pub fn preview(ui: &Ui, item: &Item, r: Rect) {
                 }
             }
         }
-        Look::Chalk(col) => {
-            let s = r.h.min(r.w) * 0.42;
-            let top = Color::new(
-                col[0] as f32 / 255.0 * 1.2,
-                col[1] as f32 / 255.0 * 1.2,
-                col[2] as f32 / 255.0 * 1.2,
-                1.0,
-            );
-            draw_rectangle(c.x - s / 2.0, c.y - s / 2.0 + 6.0, s, s * 0.8, rgb(col));
-            draw_rectangle(c.x - s / 2.0, c.y - s / 2.0, s, 8.0, top);
-            draw_circle(c.x, c.y - s / 2.0 + 4.0, s * 0.22, Color::new(0.0, 0.0, 0.0, 0.25));
-        }
+        Look::Chalk(col) => chalk_cube(c, r.h.min(r.w) * 0.36, rgb(col)),
         Look::Balls { colors, eight, ivory, .. } => {
             // A rack of fifteen on the classic cloth, apex up: solids,
             // stripes and the 8 in the middle of the third row.
@@ -1778,7 +1818,12 @@ impl ShopScreen {
         let exclusives: Vec<String> =
             ITEMS.iter().filter(|i| i.price == Price::Vip).map(|i| t(i.name).to_string()).collect();
         let perks = [
-            tw("{n} coins every month", &[("n", &offers.vip_coins)]),
+            // (Not "0 coins" before the server said how many.)
+            if offers.vip_coins > 0 {
+                tw("{n} coins every month", &[("n", &offers.vip_coins)])
+            } else {
+                String::new()
+            },
             t("A crown by your name, everywhere (lounge, profile, ranking)").to_string(),
             t("Name colours for the lounge and exclusive frames, cloth, cues, balls and effects")
                 .to_string(),
@@ -1804,7 +1849,8 @@ impl ShopScreen {
         // The perks on a card edged in gold, under the crown and the name.
         let pad = 20.0;
         let text_w = area.w - 2.0 * pad - 24.0;
-        let wrapped: Vec<Vec<String>> = perks.iter().map(|p| ui.wrap(p, text_w, 15.0)).collect();
+        let wrapped: Vec<Vec<String>> =
+            perks.iter().filter(|p| !p.is_empty()).map(|p| ui.wrap(p, text_w, 15.0)).collect();
         let list_h: f32 = wrapped.iter().map(|l| l.len() as f32 * 20.0 + 6.0).sum();
         let card = Rect::new(area.x, area.y, area.w, pad + 30.0 + 14.0 + list_h + pad - 6.0);
         rrect_gradient(

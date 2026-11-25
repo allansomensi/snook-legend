@@ -1885,7 +1885,9 @@ fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
         let lw = ui.text_size(&label, 11.0, false).x;
         ui.text(&label, chart.x - 8.0 - lw, text_y(y, 11.0), 11.0, MUTED, false);
     }
-    // The leagues it crosses, dashed, named at the right.
+    // The leagues it crosses, dashed, named at the left (over the line, on
+    // a dark chip: drawn after it).
+    let mut league_names = Vec::new();
     for tier in snook_legend_proto::Tier::ALL {
         let m = tier.min_rating();
         if m > lo && m < hi {
@@ -1901,7 +1903,7 @@ fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
             let name = t(tier.name());
             let below = y - 15.0 < chart.y - 6.0;
             let ny = if below { y + 3.0 } else { y - 15.0 };
-            ui.text(name, chart.x + 6.0, ny, 11.0, c, true);
+            league_names.push((name, ny, c));
         }
     }
     // A soft fill under the line, then the line, green up and red down.
@@ -1932,6 +1934,15 @@ fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
             let c = at(k, *r);
             draw_circle(c.x, c.y, 2.5, Color::new(0.85, 0.8, 0.7, 0.9));
         }
+    }
+    for (name, y, c) in league_names {
+        let w = ui.text_size(name, 11.0, true).x + 10.0;
+        rrect(
+            Rect::new(chart.x + 1.0, y - 1.0, w, 15.0),
+            7.0,
+            Color::new(0.06, 0.045, 0.035, 0.85),
+        );
+        ui.text(name, chart.x + 6.0, y, 11.0, c, true);
     }
     // The rating now, by its point.
     let last = at(pts.len() - 1, pts[pts.len() - 1].1);

@@ -550,6 +550,11 @@ impl Lounge {
             self.error(k, "Give the tournament a name (at least 3 characters).");
             return false;
         }
+        // Shown to everyone: the banned words apply as in the chat.
+        if let Some(refusal) = self.text_refusal(k, &name) {
+            self.refuse(k, snook_legend_proto::moderation::TextPlace::Chat, refusal);
+            return false;
+        }
         if room_password(password.map(str::to_string)).is_err() {
             self.error(k, UNUSABLE_PASSWORD);
             return false;

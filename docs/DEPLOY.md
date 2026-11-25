@@ -104,8 +104,9 @@ Players can also change it under **Settings → Game → Game server**.
 
 A restart keeps every account and result; players reconnect by themselves.
 On SIGTERM the server stops starting games, lets the games in progress go
-on for `SNOOK_LEGEND_DRAIN_SECS` and saves what is left, which the next
-server picks up when the players reconnect. A maintenance scheduled in
+on for `SNOOK_LEGEND_DRAIN_SECS` and saves what is left (doubles games
+too, since 0.12.1), which the next server picks up when the players
+reconnect. A maintenance scheduled in
 the staff portal does the same at its time and then ends the process
 cleanly (exit code 0): the host must start it again by itself (Render and
 Docker's `restart: always` do; with systemd, `Restart=always`).

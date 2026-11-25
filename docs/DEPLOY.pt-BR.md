@@ -17,8 +17,10 @@ e do Neon também servem, com os limites abaixo.
   em `/admin`: um app Next.js só, no repositório `snooklegend.app`. O painel
   fala com a API da equipe do servidor (`/admin/api`), que só responde ao
   navegador vindo do endereço do site (`SNOOK_LEGEND_ADMIN_ORIGIN`). O servidor também expõe
-  `GET /api/leaderboard?rules=brazilian|official` (o ranking de cada regra; a
-  brasileira quando omitido) e `GET /api/status` (JSON público, com CORS) para o site
+  `GET /api/leaderboard?rules=brazilian|official&mode=singles|doubles` (o
+  ranking de cada regra, a brasileira quando omitido; `mode=doubles`: pelo
+  rating de duplas) e `GET /api/status` (a versão, o protocolo e quantos
+  estão online, também por regra; JSON público, com CORS) para o site
   mostrar o ranking e quantos estão online.
 
 ## O que saber sobre os planos
@@ -30,7 +32,7 @@ limites dos planos gratuitos, para quem for testar:
 |---|---|---|
 | Render Free | dorme após 15 min sem tráfego; acorda em ~30–60 s | A primeira conexão do dia demora. O jogo avisa ("o servidor está acordando") e tenta de novo sozinho. Um plano pago não dorme. |
 | Render Free | 750 h/mês por conta | Dá para 1 serviço ligado 24/7 (744 h). Não crie um segundo serviço grátis ligado. |
-| Render Free | reinicia a cada deploy | Partidas em andamento são perdidas no deploy. Faça deploys em horários calmos. |
+| Render Free | reinicia a cada deploy | As partidas em andamento passam para o servidor novo (veja "Atualizar e manutenção"), mas quem joga espera a troca. Faça deploys em horários calmos. |
 | Render Free | 512 MB RAM, CPU compartilhada | Suficiente para dezenas de jogadores simultâneos. A simulação das tacadas roda fora do lock principal. |
 | Neon Free | 0,5 GB, suspende após 5 min parado | Centenas de milhares de partidas cabem. Acordar o banco leva <1 s. |
 
@@ -81,9 +83,15 @@ As outras variáveis já vêm no `render.yaml`:
 | `SNOOK_LEGEND_CLIENT_IP_HEADER` | `cf-connecting-ip,true-client-ip,x-forwarded-for` | O Render fica atrás da Cloudflare: o servidor lê o IP real do jogador desses cabeçalhos. Sem isso todos parecem vir do mesmo IP e os limites anti-abuso (contas por IP, conexões por IP) bloqueariam gente inocente. O painel avisa se isso acontecer. |
 | `SNOOK_LEGEND_TRUSTED_PROXIES` | (não precisa) | De quais proxies o servidor acredita nesses cabeçalhos. Sem a variável: só de redes privadas, que é de onde o proxy do Render conecta. Uma conexão vinda de outro lugar conta pelo próprio IP, diga o cabeçalho o que disser (ninguém escapa dos limites por IP inventando um cabeçalho). Só defina se o seu proxy vier de um IP público, por exemplo `203.0.113.0/24`. |
 | `SNOOK_LEGEND_DB_POOL` | `5` | Conexões com o banco (o Neon grátis aceita bem). |
-| `SNOOK_LEGEND_SHOT_CLOCK` | `30` | Segundos por tacada nas partidas online. |
-| `SNOOK_LEGEND_MOTD` | (opcional) | Mensagem de boas-vindas do salão. |
+| `SNOOK_LEGEND_SHOT_CLOCK` | `30` | Segundos por tacada nas partidas online (10–120). Só o valor inicial: depois, muda-se no painel (veja abaixo). |
+| `SNOOK_LEGEND_MOTD` | (opcional) | Mensagem de boas-vindas do salão. Só o valor inicial, como a anterior. |
 | `RUST_LOG` | `info` | Nível dos logs (veja em **Logs** no Render). |
+
+Desde a 0.12, `SNOOK_LEGEND_MOTD`, `SNOOK_LEGEND_SHOT_CLOCK` e
+`SNOOK_LEGEND_CUP` só dão os valores iniciais: a página **Configurações**
+do painel da equipe muda esses valores (e os limites de conexão, a parte da
+casa nos torneios e os números da economia) com o servidor rodando, e o que
+ela define fica guardado no banco, valendo também depois de reiniciar.
 
 > Alternativa sem Blueprint: **New → Web Service → Existing image**, usando a
 > imagem `ghcr.io/allansomensi/snook-legend-server:latest` publicada pelo workflow de
@@ -169,6 +177,26 @@ salão, chat, mesas, torneios e partidas como no online.
    **Render → snook-legend-server → Manual Deploy → Deploy latest reference**.
    Confira em `https://<seu-serviço>.onrender.com/api/status`: `version`
    deve ser a nova.
+
+## Atualizar e manutenção
+
+Reiniciar mantém todas as contas e resultados; os jogadores se reconectam
+sozinhos. Ao receber o SIGTERM (um deploy no Render), o servidor para de
+começar partidas (a fila e as mesas fecham, as de duplas também), deixa as
+partidas em andamento seguirem por `SNOOK_LEGEND_DRAIN_SECS` segundos e
+salva o que sobrar; o servidor novo retoma essas partidas quando os
+jogadores voltam (as de duplas também, desde a 0.12.1).
+
+Uma **manutenção agendada** no painel da equipe faz o mesmo na hora
+marcada e depois encerra o processo de forma limpa (código de saída 0): o
+host tem que iniciá-lo de novo sozinho. O Render faz isso; no Docker, use
+`restart: always`; no systemd, `Restart=always`.
+
+Quando as mensagens mudam de forma incompatível, o `PROTOCOL_VERSION` em
+`crates/proto` sobe e os jogos mais antigos são avisados para atualizar.
+Atualize o servidor junto com cada versão (ou antes): um jogo mais novo que
+o servidor não joga online até ele ser atualizado (passo 6.4).
+`GET /api/status` mostra a versão que está rodando.
 
 ## 7. Servidor sempre acordado
 
@@ -382,4 +410,4 @@ Atualize os endereços no **Microsoft Partner Center** e na **Stripe**
 | Jogadores recebem "Muitas contas novas desta rede" sem motivo | `SNOOK_LEGEND_CLIENT_IP_HEADER` ausente. O painel mostra o aviso "Every player comes from the same address". |
 | "Saiu uma nova versão do jogo" com o jogo já atualizado | O servidor ainda roda a versão anterior: faça o deploy da imagem nova (passo 6.4). A partir da 0.3.1 o jogo percebe isso sozinho e diz que o servidor está sendo atualizado. |
 | "Esta versão do Snook Legend está desatualizada" | O jogo é mais antigo que o servidor: atualize o jogo. |
-| Partida em andamento sumiu | Deploy ou o Render reiniciou a instância (o salão e as partidas ficam na memória; contas e resultados ficam no banco). |
+| Partida em andamento sumiu | O servidor caiu sem aviso (falta de memória, falha da instância): o salão fica na memória; contas e resultados ficam no banco. Num deploy ou numa manutenção agendada as partidas passam para o servidor novo; uma partida que nenhum jogador retoma dentro do tempo de reconexão é encerrada. |

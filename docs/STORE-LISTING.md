@@ -52,21 +52,22 @@ FEITO PARA ENXERGAR BEM
 Mesa iluminada por igual, bolas com números sempre legíveis e sombras suaves. Um placar que mostra as bolas de cada jogador na ordem em que caíram. Prefere jogar só de cima? Uma opção trava a câmera na vista de cima. Roda em praticamente qualquer PC, de notebooks antigos a máquinas gamer, com gráficos de Baixo a Ultra.
 
 DUAS REGRAS
-Jogue na regra brasileira, a dos bares e salões, com bolas de penalidade (falta passa a vez e elimina as menores bolas do adversário), ou na regra oficial da WPA, a dos torneios internacionais, com todas as tacadas cantadas e bola na mão em qualquer lugar depois de uma falta. Cada regra tem o seu rating e o seu ranking mundial, e você troca de regra quando quiser. As regras completas ficam a um clique, no menu e durante a partida.
+Jogue na regra brasileira, a dos bares e salões, com bolas de penalidade (falta passa a vez e elimina as menores bolas do adversário), ou na regra oficial da WPA, a dos torneios internacionais, em que as bolas do seu grupo valem em qualquer caçapa, a 8 é cantada (um clique na caçapa) e a falta dá bola na mão em qualquer lugar. Cada regra tem o seu rating e o seu ranking mundial, e você troca de regra quando quiser. As regras completas ficam a um clique, no menu e durante a partida.
 
 Em 27 idiomas, entre eles português, inglês, espanhol, francês, alemão, italiano, russo, turco, árabe, hindi, chinês, japonês e coreano.
 
 ### Novidades desta versão
 
-Versão 0.11.2: na regra oficial vale qualquer caçapa.
-• Na regra oficial não se canta mais nada: uma bola do seu grupo em qualquer caçapa mantém a vez, e a 8 vale em qualquer caçapa.
-• No fim de uma partida online, dá para esconder o resultado e ver a mesa e o chat.
+Versão 0.12.0: duplas, contra o relógio e a 8 cantada na regra oficial.
+• Duplas e contra o relógio: jogue 2 contra 2 com um amigo (os parceiros se revezam na mesa), com ranking de duplas para cada regra. Ou limpe a mesa contra o relógio e suba no ranking da semana.
+• Regra oficial: cante a 8. As bolas do grupo continuam valendo em qualquer caçapa, mas a 8 precisa ser cantada: clique na caçapa antes de tacar. A 8 em outra caçapa perde.
+• Sua coleção: todos os seus itens, com a raridade e como e quando você ganhou cada um. Dezenas de itens novos e 49 reações novas.
+• Caixa de entrada: mensagens da equipe, prêmios, torneios e conquistas ficam lá até você ler.
+• Amigos: mensagens entre amigos, o que cada amigo está fazendo, um ranking de amigos e suas configurações em qualquer computador.
+• Na mesa: uma abertura com o que está em jogo, um chat para espectadores e um modo observador.
+• Torneios oficiais com prêmio ao vivo, um leilão semanal de itens raros e promoções na loja. Para VIP: um item do mês, cor da mira e estatísticas avançadas.
 
 Da versão 0.11.1: livre assim que a partida acaba, e um chat melhor.
-• Quando a partida termina, os dois jogadores aparecem livres no salão na hora.
-• O chat da partida fica mais alto ou mais baixo arrastando a borda de cima, e todos os chats têm uma barra de rolagem para arrastar.
-• Muito mais caracteres chineses e japoneses no chat, e as escritas da Índia, do Sri Lanka, de Mianmar, do Camboja e da Etiópia.
-• Numa janela pequena, abrir as frases rápidas não envia mais uma delas.
 
 Da versão 0.11.0: medalhas de rubi, 26 reações novas e um perfil mais claro.
 
@@ -133,21 +134,22 @@ MADE TO SEE CLEARLY
 An evenly lit table, balls whose numbers always read and soft shadows. A score panel that shows each player's balls in the order they went down. Rather play from above? An option locks the camera to the top view. Runs on practically any PC, from old laptops to gaming rigs, with graphics from Low to Ultra.
 
 TWO RULES
-Play the Brazilian rule, the one of bars and pool halls, with penalty balls (a foul passes the turn and takes your opponent's lowest balls off the table), or the official WPA rules of international tournaments, with every shot called and ball in hand anywhere after a foul. Each has its own rating and world ranking, and you switch whenever you like. The full rules are a click away, in the menu and during a game.
+Play the Brazilian rule, the one of bars and pool halls, with penalty balls (a foul passes the turn and takes your opponent's lowest balls off the table), or the official WPA rules of international tournaments, where your group's balls count in any pocket, the 8 is called (a click on the pocket) and a foul gives ball in hand anywhere. Each has its own rating and world ranking, and you switch whenever you like. The full rules are a click away, in the menu and during a game.
 
 In 27 languages, including English, Portuguese, Spanish, French, German, Italian, Russian, Turkish, Arabic, Hindi, Chinese, Japanese and Korean.
 
 ### What's new in this version
 
-Version 0.11.2: under the official rules, any pocket counts.
-• Under the official rules nothing is called: a ball of your group in any pocket keeps the table, and the 8 wins in any pocket.
-• At the end of an online game, the result can be hidden to see the table and the chat.
+Version 0.12.0: doubles, against the clock and the 8 called under the official rules.
+• Doubles and against the clock: play 2 against 2 with a friend (partners take turns at the table), with a doubles ranking for each rules. Or clear the table against the clock and climb the week's ranking.
+• Official rules: call the 8. The group's balls still count in any pocket, but the 8 must be called: click the pocket before the shot. The 8 in another pocket loses.
+• Your collection: every item you have, with its rarity and how and when you got it. Dozens of new items and 49 new reactions.
+• Inbox: messages from the staff, prizes, tournaments and achievements stay there until you read them.
+• Friends: messages between friends, what each friend is doing, a friends' ranking and your settings on every computer.
+• At the table: an intro with what is at stake, a chat for spectators and an observer mode.
+• Official tournaments with a live prize pool, a weekly auction of rare items and sales in the shop. For VIP: an item of the month, an aim colour and advanced statistics.
 
 From version 0.11.1: free as soon as the game ends, and a better chat.
-• When a game ends, both players show as free in the lounge at once.
-• The match chat gets taller or shorter by dragging its top edge, and every chat has a scroll bar to drag.
-• Many more Chinese and Japanese characters in the chat, and the scripts of India, Sri Lanka, Myanmar, Cambodia and Ethiopia.
-• In a small window, opening the quick phrases no longer sends one.
 
 From version 0.11.0: ruby medals, 26 new reactions and a clearer profile.
 
@@ -214,21 +216,22 @@ HECHO PARA VER BIEN
 Una mesa iluminada por igual, bolas con números siempre legibles y sombras suaves. Un marcador que muestra las bolas de cada jugador en el orden en que entraron. ¿Prefieres jugar desde arriba? Una opción fija la cámara en la vista superior. Funciona en prácticamente cualquier PC, desde portátiles antiguos hasta equipos gamer, con gráficos de Bajo a Ultra.
 
 DOS REGLAS
-Juega con la regla brasileña, la de los bares y salones, con bolas de penalización (la falta pasa el turno y elimina las bolas más bajas del rival), o con la regla oficial de la WPA, la de los torneos internacionales, con todos los tiros cantados y bola en mano en cualquier lugar tras una falta. Cada regla tiene su rating y su ranking mundial, y cambias de regla cuando quieras. Las reglas completas están a un clic, en el menú y durante la partida.
+Juega con la regla brasileña, la de los bares y salones, con bolas de penalización (la falta pasa el turno y elimina las bolas más bajas del rival), o con la regla oficial de la WPA, la de los torneos internacionales, en la que las bolas de tu grupo valen en cualquier tronera, la 8 se canta (un clic en la tronera) y la falta da bola en mano en cualquier lugar. Cada regla tiene su rating y su ranking mundial, y cambias de regla cuando quieras. Las reglas completas están a un clic, en el menú y durante la partida.
 
 En 27 idiomas, entre ellos español, inglés, portugués, francés, alemán, italiano, ruso, turco, árabe, hindi, chino, japonés y coreano.
 
 ### Novedades de esta versión
 
-Versión 0.11.2: en la regla oficial vale cualquier tronera.
-• En la regla oficial ya no se canta nada: una bola de tu grupo en cualquier tronera mantiene el turno, y la 8 vale en cualquier tronera.
-• Al final de una partida online, se puede ocultar el resultado para ver la mesa y el chat.
+Versión 0.12.0: dobles, contrarreloj y la 8 cantada en la regla oficial.
+• Dobles y contrarreloj: juega 2 contra 2 con un amigo (los compañeros se turnan en la mesa), con un ranking de dobles para cada regla. O limpia la mesa contrarreloj y sube en el ranking de la semana.
+• Regla oficial: canta la 8. Las bolas de tu grupo siguen valiendo en cualquier tronera, pero la 8 hay que cantarla: haz clic en la tronera antes del tiro. La 8 en otra tronera pierde.
+• Tu colección: todos tus objetos, con su rareza y cómo y cuándo los conseguiste. Decenas de objetos nuevos y 49 reacciones nuevas.
+• Buzón: los mensajes del equipo, premios, torneos y logros se quedan ahí hasta que los leas.
+• Amigos: mensajes entre amigos, qué está haciendo cada amigo, un ranking de amigos y tus ajustes en cada ordenador.
+• En la mesa: una introducción con lo que se juega, un chat para espectadores y un modo observador.
+• Torneos oficiales con un bote de premios en vivo, una subasta semanal de objetos raros y ofertas en la tienda. Para VIP: un objeto del mes, un color de mira y estadísticas avanzadas.
 
 De la versión 0.11.1: libre en cuanto acaba la partida, y un chat mejor.
-• Cuando la partida termina, los dos jugadores aparecen libres en el salón al instante.
-• El chat de la partida se hace más alto o más bajo arrastrando su borde superior, y todos los chats tienen una barra de desplazamiento para arrastrar.
-• Muchos más caracteres chinos y japoneses en el chat, y las escrituras de la India, Sri Lanka, Myanmar, Camboya y Etiopía.
-• En una ventana pequeña, abrir las frases rápidas ya no envía una.
 
 De la versión 0.11.0: medallas de rubí, 26 reacciones nuevas y un perfil más claro.
 

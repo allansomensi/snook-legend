@@ -30,7 +30,7 @@ pub fn detect(replay: &Replay, seat: usize) -> Result<Vec<&'static str>, String>
     let other = 1 - seat;
     let mut game = replay.start();
     let mut feats: Vec<&'static str> = Vec::new();
-    let mut add = |code: &'static str, feats: &mut Vec<&'static str>| {
+    let add = |code: &'static str, feats: &mut Vec<&'static str>| {
         if !feats.contains(&code) {
             feats.push(code);
         }

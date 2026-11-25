@@ -45,6 +45,7 @@ const APPLIED: &[(&str, &str)] = &[
     ("0024_match_rooms.sql", "df4e9458e2e9922d55f505ae3ae8570c176290f4a8bf2790c11a70ca0e2b6f67"),
     ("0025_daily_time.sql", "28b481dfd9ff63dfb352b9267c3010513c6765633955b408ac94d6107b2ec246"),
     ("0026_official_calls.sql", "fb6160ecd7534115fc277a8de3ebe2da42037d4522fd9f03d0bf6978b354905c"),
+    ("0029_collection.sql", "9fdd751a2aa01be6a027816e02f442589d797b945ead585c3ef679666fe4c546"),
 ];
 
 #[test]

@@ -888,7 +888,8 @@ async fn user_action(
             use snook_legend_proto::shop::Price;
             match snook_legend_proto::shop::item(&body.item).map(|i| i.price) {
                 None => return Err(err(StatusCode::BAD_REQUEST, "No such item.")),
-                Some(Price::Coins(_) | Price::Pack) => {}
+                // (Items only won, too: the staff award them for events.)
+                Some(Price::Coins(_) | Price::Pack | Price::Earned) => {}
                 Some(_) => {
                     return Err(err(
                         StatusCode::BAD_REQUEST,
@@ -900,6 +901,9 @@ async fn user_action(
                 return Err(err(StatusCode::CONFLICT, "They already have it."));
             }
             server.store.grant_item(target.id, &body.item, "staff", t).await?;
+            let origin =
+                snook_legend_proto::collection::Origin::Staff { reason: reason.to_string() };
+            crate::collection::record(&server, target.id, &body.item, origin).await;
             crate::shop::push_wallet(&server, &target).await;
             log(&server, &s, "item", &target.username, &format!("{}: {reason}", body.item)).await;
         }

@@ -420,7 +420,8 @@ pub struct CollectionScreen {
     category: Category,
     rarity: Option<Rarity>,
     sort: Sort,
-    /// Shows what is still missing too (greyed, with how it is had).
+    /// Shows what is still missing too (greyed, with how it is had): off
+    /// at first, the collection shows what the player has.
     missing: bool,
     page: usize,
     wheel_at: f64,
@@ -434,7 +435,7 @@ impl Default for CollectionScreen {
             category: Category::Cue,
             rarity: None,
             sort: Sort::Rarity,
-            missing: true,
+            missing: false,
             page: 0,
             wheel_at: 0.0,
             focus: None,

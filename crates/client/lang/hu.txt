@@ -2516,3 +2516,5 @@ Not all four players are at the table.	Nincs mind a négy játékos az asztalná
 Hide opponent	Ellenfél rejtve
 Everyone's reactions are shown during matches.	Mérkőzés közben mindenki reakciója látszik.
 with {name}	{name} társaként
+{n} trophies	{n} trófea
+The only player that day	Aznap az egyetlen játékos

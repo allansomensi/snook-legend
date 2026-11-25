@@ -2516,3 +2516,5 @@ Not all four players are at the table.	चारों खिलाड़ी ट
 Hide opponent	प्रतिद्वंद्वी छिपाएँ
 Everyone's reactions are shown during matches.	मैच के दौरान सबकी प्रतिक्रियाएँ दिखती हैं।
 with {name}	{name} के साथ
+{n} trophies	{n} ट्रॉफ़ियाँ
+The only player that day	उस दिन के इकलौते खिलाड़ी

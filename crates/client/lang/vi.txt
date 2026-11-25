@@ -2516,3 +2516,5 @@ Not all four players are at the table.	Chưa đủ cả bốn người chơi t�
 Hide opponent	Ẩn đối thủ
 Everyone's reactions are shown during matches.	Biểu cảm của mọi người được hiển thị trong trận.
 with {name}	cùng {name}
+{n} trophies	{n} cúp
+The only player that day	Người chơi duy nhất hôm đó

@@ -2516,3 +2516,5 @@ Not all four players are at the table.	네 명이 모두 테이블에 있지 않
 Hide opponent	상대 숨기기
 Everyone's reactions are shown during matches.	경기 중 모두의 리액션이 표시됩니다.
 with {name}	{name}와 함께
+{n} trophies	트로피 {n}개
+The only player that day	그날의 유일한 참가자

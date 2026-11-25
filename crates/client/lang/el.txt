@@ -2516,3 +2516,5 @@ Not all four players are at the table.	Δεν είναι και οι τέσσε�
 Hide opponent	Απόκρυψη αντιπάλου
 Everyone's reactions are shown during matches.	Οι αντιδράσεις όλων εμφανίζονται στους αγώνες.
 with {name}	με {name}
+{n} trophies	{n} τρόπαια
+The only player that day	Ο μόνος παίκτης εκείνη τη μέρα

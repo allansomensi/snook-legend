@@ -2516,3 +2516,5 @@ Not all four players are at the table.	Niet alle vier spelers zitten aan tafel.
 Hide opponent	Rivaal verbergen
 Everyone's reactions are shown during matches.	Ieders reacties worden tijdens potjes getoond.
 with {name}	met {name}
+{n} trophies	{n} trofeeën
+The only player that day	Enige speler die dag

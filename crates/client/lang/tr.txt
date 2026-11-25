@@ -2516,3 +2516,5 @@ Not all four players are at the table.	Dört oyuncunun hepsi masada değil.
 Hide opponent	Rakibi gizle
 Everyone's reactions are shown during matches.	Maçlarda herkesin tepkileri gösterilir.
 with {name}	{name} ile
+{n} trophies	{n} kupa
+The only player that day	O günün tek oyuncusu

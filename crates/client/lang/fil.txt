@@ -2516,3 +2516,5 @@ Not all four players are at the table.	Hindi kumpleto ang apat na manlalaro sa m
 Hide opponent	Itago kalaban
 Everyone's reactions are shown during matches.	Ipinapakita ang reaksiyon ng lahat habang may laro.
 with {name}	kasama si {name}
+{n} trophies	{n} tropeo
+The only player that day	Nag-iisang manlalaro noong araw na iyon

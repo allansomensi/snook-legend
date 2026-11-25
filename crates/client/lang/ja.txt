@@ -2516,3 +2516,5 @@ Not all four players are at the table.	4人全員が台にそろっていませ�
 Hide opponent	相手を非表示
 Everyone's reactions are shown during matches.	対戦中は全員のリアクションが表示されます。
 with {name}	{name}と
+{n} trophies	トロフィー {n} 個
+The only player that day	その日の唯一の参加者

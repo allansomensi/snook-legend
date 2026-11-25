@@ -2516,3 +2516,5 @@ Not all four players are at the table.	Не все четверо игроков
 Hide opponent	Скрыть соперника
 Everyone's reactions are shown during matches.	Во время матчей видны реакции всех.
 with {name}	с {name}
+{n} trophies	Трофеев: {n}
+The only player that day	Единственный игрок в тот день

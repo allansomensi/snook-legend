@@ -2259,7 +2259,9 @@ async fn main() {
             let in_lounge =
                 matches!(screen, Screen::Online) && online.stage == online::Stage::Lounge;
             let on_menu = matches!(screen, Screen::Menu);
-            if on_menu {
+            // Not over a dialog ("What's new", an offer, the rules…): the
+            // links are drawn after them.
+            if on_menu && !show_news && !offer_up && !ui.dialog_up() {
                 online.draw_ops_links(&mut ui);
             }
             online.draw_ops(&mut ui, on_menu || in_lounge);

@@ -2516,3 +2516,5 @@ Not all four players are at the table.	ผู้เล่นทั้งสี�
 Hide opponent	ซ่อนคู่แข่ง
 Everyone's reactions are shown during matches.	แสดงรีแอคชันของทุกคนระหว่างแมตช์
 with {name}	กับ {name}
+{n} trophies	{n} ถ้วยรางวัล
+The only player that day	ผู้เล่นคนเดียวในวันนั้น

@@ -2516,3 +2516,5 @@ Not all four players are at the table.	ليس اللاعبون الأربعة ج
 Hide opponent	إخفاء الخصم
 Everyone's reactions are shown during matches.	تظهر تفاعلات الجميع أثناء المباريات.
 with {name}	مع {name}
+{n} trophies	{n} كؤوس
+The only player that day	اللاعب الوحيد في ذلك اليوم

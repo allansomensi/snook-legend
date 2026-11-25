@@ -66,8 +66,10 @@ pub struct ProfileScreen {
     status_edit: Option<String>,
     /// The first present shown in the Gifts pane.
     gifts_first: usize,
-    /// The first trophy shown.
+    /// The first trophy row shown.
     trophies_first: usize,
+    /// The trophy group opened to show each one (kind, tournament's name).
+    trophies_open: Option<(snook_legend_proto::TrophyKind, String)>,
     /// The rules whose rating, rank, league and chart are shown (a rating
     /// card each, in the header).
     rules: Rules,
@@ -348,6 +350,7 @@ impl ProfileScreen {
         self.status_edit = None;
         self.gifts_first = 0;
         self.trophies_first = 0;
+        self.trophies_open = None;
         self.asked_signed_in = online.signed_in();
         online.request_profile(name);
         // Presents put off with "Later": they are shown again here.
@@ -1466,56 +1469,179 @@ impl ProfileScreen {
         }
     }
 
-    /// The trophy shelf: what they won, newest first, with the date.
+    /// The trophy shelf: what they won, newest first. The same trophy won
+    /// again (the daily challenge, the computer tour, a cup held every
+    /// season) stacks into one row with how many; a click opens the stack
+    /// to show each one with its date.
     fn trophies(&mut self, ui: &mut Ui, p: &Profile, list: Rect) {
-        use snook_legend_proto::TrophyKind;
-        let shelf: Vec<_> = p.trophies.iter().filter(|t| t.kind != TrophyKind::Other).collect();
-        if shelf.is_empty() {
+        use snook_legend_proto::{Trophy, TrophyKind};
+        // Stacks in the order of their newest trophy (the list comes newest
+        // first; sorted again in case it doesn't).
+        let mut sorted: Vec<&Trophy> =
+            p.trophies.iter().filter(|t| t.kind != TrophyKind::Other).collect();
+        if sorted.is_empty() {
             empty_state(ui, list, Icon::Trophy, t("No trophies yet."));
             return;
         }
+        sorted.sort_by_key(|t| std::cmp::Reverse(t.at));
+        let key = |t: &Trophy| {
+            let name =
+                if t.kind == TrophyKind::Tournament { t.name.clone() } else { String::new() };
+            (t.kind, name)
+        };
+        let mut stacks: Vec<((TrophyKind, String), Vec<&Trophy>)> = Vec::new();
+        for trophy in sorted {
+            let k = key(trophy);
+            match stacks.iter_mut().find(|(sk, _)| *sk == k) {
+                Some((_, v)) => v.push(trophy),
+                None => stacks.push((k, vec![trophy])),
+            }
+        }
+        if self
+            .trophies_open
+            .as_ref()
+            .is_some_and(|o| !stacks.iter().any(|(k, v)| k == o && v.len() > 1))
+        {
+            self.trophies_open = None;
+        }
+        // The rows: a stack, then (opened) each of its trophies.
+        enum Row<'a> {
+            Stack(usize),
+            One(&'a Trophy),
+        }
+        let mut rows: Vec<Row> = Vec::new();
+        for (k, (sk, v)) in stacks.iter().enumerate() {
+            rows.push(Row::Stack(k));
+            if v.len() > 1 && self.trophies_open.as_ref() == Some(sk) {
+                rows.extend(v.iter().map(|t| Row::One(t)));
+            }
+        }
         let row_h = 52.0;
         let visible = (list.h / row_h).floor().max(1.0) as usize;
-        self.trophies_first = ui.scroll_list(list, self.trophies_first, shelf.len(), visible);
-        let scrolls = shelf.len() > visible;
-        for (k, trophy) in shelf.iter().skip(self.trophies_first).take(visible).enumerate() {
-            let w = list.w - if scrolls { 12.0 } else { 0.0 };
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, w, row_h - 6.0);
-            rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, 0.035));
-            let mid = r.y + r.h / 2.0;
-            let (icon, color, title, sub) = match trophy.kind {
-                TrophyKind::Tournament => (
-                    Icon::Trophy,
-                    GOLD,
-                    crate::i18n::tournament_name(&trophy.name),
-                    tw("Tournament won · {n} players", &[("n", &trophy.players)]),
-                ),
-                TrophyKind::Ladder => (
-                    Icon::Crown,
-                    Color::new(0.75, 0.55, 0.95, 1.0),
-                    t("The computer tour").to_string(),
-                    t("All fifteen opponents beaten").to_string(),
-                ),
-                _ => (
-                    Icon::Star,
-                    Color::new(0.45, 0.75, 1.0, 1.0),
-                    t("Daily challenge").to_string(),
-                    tw("First of {n} players", &[("n", &trophy.players)]),
-                ),
-            };
-            let badge = Rect::new(r.x + 8.0, mid - 15.0, 30.0, 30.0);
-            rrect(badge, 6.0, Color::new(color.r, color.g, color.b, 0.18));
-            crate::icons::draw(icon, vec2(badge.x + 15.0, mid), 16.0, color);
-            let d = date(trophy.at);
-            let dw = ui.text_size(&d, 12.0, false).x;
-            let rx = r.x + r.w - 12.0;
-            ui.text(&d, rx - dw, text_y(mid, 12.0), 12.0, MUTED, false);
-            let x = badge.x + badge.w + 12.0;
-            let room = rx - dw - 12.0 - x;
-            let (title, size) = ui.fitted(&title, 14.0, room, true);
-            ui.text(&title, x, mid - 17.0, size, CREAM, true);
-            let sub = ui.ellipsize(&sub, room, 12.0);
-            ui.text(&sub, x, mid + 3.0, 12.0, MUTED, false);
+        self.trophies_first = ui.scroll_list(list, self.trophies_first, rows.len(), visible);
+        let scrolls = rows.len() > visible;
+        let w = list.w - if scrolls { 12.0 } else { 0.0 };
+        let daily = |players: u32| {
+            if players <= 1 {
+                t("The only player that day").to_string()
+            } else {
+                tw("First of {n} players", &[("n", &players)])
+            }
+        };
+        let mut toggle = None;
+        for (k, row) in rows.iter().skip(self.trophies_first).take(visible).enumerate() {
+            let y = list.y + k as f32 * row_h;
+            match row {
+                Row::Stack(i) => {
+                    let (sk, v) = &stacks[*i];
+                    let newest = v[0];
+                    let count = v.len();
+                    let r = Rect::new(list.x, y, w, row_h - 6.0);
+                    let open = self.trophies_open.as_ref() == Some(sk);
+                    let hover = count > 1 && ui.hovering(r);
+                    let fill = if hover || open { 0.06 } else { 0.035 };
+                    rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, fill));
+                    if open {
+                        rrect_lines(r, 6.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.35));
+                    }
+                    let mid = r.y + r.h / 2.0;
+                    let (icon, color, title) = match sk.0 {
+                        TrophyKind::Tournament => {
+                            (Icon::Trophy, GOLD, crate::i18n::tournament_name(&newest.name))
+                        }
+                        TrophyKind::Ladder => (
+                            Icon::Crown,
+                            Color::new(0.75, 0.55, 0.95, 1.0),
+                            t("The computer tour").to_string(),
+                        ),
+                        _ => (
+                            Icon::Star,
+                            Color::new(0.45, 0.75, 1.0, 1.0),
+                            t("Daily challenge").to_string(),
+                        ),
+                    };
+                    let sub = if count > 1 {
+                        tw("{n} trophies", &[("n", &count)])
+                    } else {
+                        match sk.0 {
+                            TrophyKind::Tournament => {
+                                tw("Tournament won · {n} players", &[("n", &newest.players)])
+                            }
+                            TrophyKind::Ladder => t("All fifteen opponents beaten").to_string(),
+                            _ => daily(newest.players),
+                        }
+                    };
+                    let badge = Rect::new(r.x + 8.0, mid - 15.0, 30.0, 30.0);
+                    rrect(badge, 6.0, Color::new(color.r, color.g, color.b, 0.18));
+                    crate::icons::draw(icon, vec2(badge.x + 15.0, mid), 16.0, color);
+                    // How many, on the badge's corner.
+                    if count > 1 {
+                        let n = format!("×{count}");
+                        let nw = ui.text_size(&n, 10.0, true).x + 8.0;
+                        let pill = Rect::new(
+                            badge.x + badge.w - nw + 6.0,
+                            badge.y + badge.h - 8.0,
+                            nw,
+                            14.0,
+                        );
+                        rrect(pill, 7.0, color);
+                        ui.text(
+                            &n,
+                            pill.x + 4.0,
+                            text_y(pill.y + 7.0, 10.0),
+                            10.0,
+                            Color::new(0.08, 0.06, 0.04, 1.0),
+                            true,
+                        );
+                    }
+                    let d = date(newest.at);
+                    let dw = ui.text_size(&d, 12.0, false).x;
+                    let mut rx = r.x + r.w - 12.0;
+                    if count > 1 {
+                        // A chevron: down when closed, up when open.
+                        let c = vec2(rx - 5.0, mid);
+                        let col = if hover || open { GOLD } else { MUTED };
+                        let (a, b) = if open { (-3.0, 3.0) } else { (3.0, -3.0) };
+                        draw_line(c.x - 5.0, c.y - a, c.x, c.y - b, 1.6, col);
+                        draw_line(c.x, c.y - b, c.x + 5.0, c.y - a, 1.6, col);
+                        rx -= 22.0;
+                    }
+                    ui.text(&d, rx - dw, text_y(mid, 12.0), 12.0, MUTED, false);
+                    let x = badge.x + badge.w + 12.0;
+                    let room = rx - dw - 12.0 - x;
+                    let (title, size) = ui.fitted(&title, 14.0, room, true);
+                    ui.text(&title, x, mid - 17.0, size, CREAM, true);
+                    let sub = ui.ellipsize(&sub, room, 12.0);
+                    ui.text(&sub, x, mid + 3.0, 12.0, MUTED, false);
+                    if hover && ui.clicked(r) {
+                        toggle = Some(sk.clone());
+                    }
+                }
+                Row::One(trophy) => {
+                    // Under its stack, indented, with a line down the side.
+                    let r = Rect::new(list.x + 22.0, y, w - 22.0, row_h - 6.0);
+                    draw_line(list.x + 23.0, y - 6.0, list.x + 23.0, y + row_h - 6.0, 1.0, BORDER);
+                    rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, 0.02));
+                    let mid = r.y + r.h / 2.0;
+                    let text = match trophy.kind {
+                        TrophyKind::Tournament => {
+                            tw("Tournament won · {n} players", &[("n", &trophy.players)])
+                        }
+                        TrophyKind::Ladder => t("All fifteen opponents beaten").to_string(),
+                        _ => daily(trophy.players),
+                    };
+                    let d = date(trophy.at);
+                    let dw = ui.text_size(&d, 12.0, false).x;
+                    let rx = r.x + r.w - 12.0;
+                    ui.text(&d, rx - dw, text_y(mid, 12.0), 12.0, MUTED, false);
+                    let text = ui.ellipsize(&text, rx - dw - 24.0 - (r.x + 16.0), 13.0);
+                    ui.text(&text, r.x + 16.0, text_y(mid, 13.0), 13.0, CREAM, false);
+                }
+            }
+        }
+        if let Some(k) = toggle {
+            self.trophies_open =
+                if self.trophies_open.as_ref() == Some(&k) { None } else { Some(k) };
         }
     }
 

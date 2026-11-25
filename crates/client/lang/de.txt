@@ -2516,3 +2516,5 @@ Not all four players are at the table.	Nicht alle vier Spieler sind am Tisch.
 Hide opponent	Gegner ausblenden
 Everyone's reactions are shown during matches.	Die Reaktionen aller werden in Partien angezeigt.
 with {name}	mit {name}
+{n} trophies	{n} Trophäen
+The only player that day	Einziger Spieler an dem Tag

@@ -2516,3 +2516,5 @@ Not all four players are at the table.	Ne všichni čtyři hráči jsou u stolu.
 Hide opponent	Skrýt soupeře
 Everyone's reactions are shown during matches.	Během zápasů se zobrazují reakce všech.
 with {name}	s {name}
+{n} trophies	Trofeje: {n}
+The only player that day	Jediný hráč toho dne

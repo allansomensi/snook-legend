@@ -2516,3 +2516,5 @@ Not all four players are at the table.	Nu toți cei patru jucători sunt la mas�
 Hide opponent	Ascunde rivalul
 Everyone's reactions are shown during matches.	Reacțiile tuturor sunt afișate în timpul meciurilor.
 with {name}	cu {name}
+{n} trophies	{n} trofee
+The only player that day	Singurul jucător în acea zi

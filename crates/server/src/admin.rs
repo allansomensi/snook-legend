@@ -30,6 +30,7 @@ use crate::{Server, new_token, now, token_hash};
 
 mod collection;
 mod moderation;
+mod modes;
 mod ops;
 
 const ADMIN_SESSION: i64 = 8 * 60 * 60;
@@ -70,6 +71,7 @@ pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
         .route("/admin/api/events", get(list_events).post(create_event))
         .route("/admin/api/events/{id}/cancel", post(cancel_event))
         .merge(moderation::routes())
+        .merge(modes::routes())
         .merge(ops::router())
         // The panel sends small JSON bodies (the longest a note on the
         // board); anyone can post to the sign-in.
@@ -608,6 +610,7 @@ async fn user_detail(
         server.store.payments_of(u.id, 50),
     );
     let msstore = server.store.ms_consumes_of(u.id, 50).await?;
+    let doubles = server.store.doubles_records(u.id).await?;
     let notes = server.store.staff_notes(u.id, 100).await?;
     let computer = computer_record(&server, u.id).await?;
     let search =
@@ -671,6 +674,7 @@ async fn user_detail(
         "renames": renames?,
         "notifications": sent,
         "rating_adjustments": adjustments?,
+        "doubles_ratings": modes::records_json(&doubles),
         "private_hidden": !admin,
     })))
 }

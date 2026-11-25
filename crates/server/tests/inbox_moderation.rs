@@ -713,6 +713,99 @@ async fn ratings_put_right_and_games_called_off() {
     assert!(ats.windows(2).all(|w| w[0] >= w[1]));
 }
 
+/// The staff API of the modes: doubles games listed and annulled, a
+/// week's table against the clock, a player's attempts, one taken off.
+#[tokio::test]
+async fn the_staff_look_after_the_modes() {
+    use snook_legend_server::store::DoublesRecord;
+    let s = start().await;
+    let boss = token(&s.host, "boss").await;
+    let mut ana = Client::register(&s.url, "ana").await;
+    let mut ids = Vec::new();
+    for n in ["bia", "caio", "duda"] {
+        let _ = Client::register(&s.url, n).await;
+    }
+    for n in ["ana", "bia", "caio", "duda"] {
+        ids.push(s.server.store.user_by_name(n).await.unwrap().unwrap().id);
+    }
+    let t = snook_legend_server::now();
+    let record = DoublesRecord {
+        players: [[ids[0], ids[1]], [ids[2], ids[3]]],
+        winner: 0,
+        reason: GameOverReason::PocketedEight,
+        rated: true,
+        rules: Rules::Official,
+        deltas: [[14, 10], [-12, -12]],
+        shots: 20,
+        ended_at: t,
+        replay: Some(Replay::new(3, 0, Rules::Official)),
+        room: Some(4242),
+    };
+    assert!(s.server.store.record_doubles(&record).await.unwrap());
+    let get = |path: &str| {
+        let (host, boss, path) = (s.host.clone(), boss.clone(), path.to_string());
+        async move { request(&host, "GET", &path, &boss, "").await }
+    };
+    let (code, v) = get("/admin/api/doubles?player=caio").await;
+    assert_eq!(code, 200, "{v}");
+    assert_eq!(v["live"], serde_json::json!([]));
+    assert_eq!(v["games"][0]["teams"][1][0], "caio");
+    assert_eq!(v["games"][0]["deltas"][0][0], 14);
+    let id = v["games"][0]["id"].as_i64().unwrap();
+    let (_, v) = get("/admin/api/doubles?player=boss").await;
+    assert_eq!(v["games"], serde_json::json!([]));
+    let (code, v) = get(&format!("/admin/api/doubles/{id}")).await;
+    assert_eq!(code, 200, "{v}");
+    assert_eq!(v["game"]["strokes"], 0);
+    let (_, v) = get("/admin/api/users/ana").await;
+    assert_eq!(v["doubles_ratings"]["official"]["rating"], 1214, "{v}");
+    // Annulled: the four changes given back, each told.
+    let path = format!("/admin/api/doubles/{id}/void");
+    let (code, v) = request(&s.host, "POST", &path, &boss, r#"{"reason":"boosting"}"#).await;
+    assert_eq!(code, 200, "{v}");
+    assert!(v["game"]["voided_at"].is_i64());
+    let (item, _) = ana.notified().await;
+    assert_eq!(
+        item.kind,
+        Kind::MatchVoided { match_id: -id, opponent: "caio & duda".into(), delta: 14 }
+    );
+    let (_, v) = get("/admin/api/users/ana").await;
+    assert_eq!(v["doubles_ratings"]["official"]["games"], 0);
+    let (code, _) = request(&s.host, "POST", &path, &boss, r#"{"reason":"again"}"#).await;
+    assert_eq!(code, 409);
+    let (_, v) = get("/admin/api/audit?action=doubles-void").await;
+    assert_eq!(v["entries"].as_array().unwrap().len(), 4, "{v}");
+
+    // Against the clock: the week's table, Bia's attempts, one taken off.
+    let week = snook_legend_proto::time_attack::week_of(t);
+    let store = &s.server.store;
+    for (k, ms) in [(1, 61_000), (2, 45_000)] {
+        let a = store.time_attack_start(ids[1], 1, k, 7, 10).await.unwrap().unwrap();
+        store.time_attack_finish(ids[1], a, k + 1, week, t, Some((ms, 12, 1))).await.unwrap();
+    }
+    let (code, v) = get("/admin/api/time-attack").await;
+    assert_eq!(code, 200, "{v}");
+    assert_eq!((v["week"].as_i64(), v["players"].as_i64()), (Some(week), Some(1)));
+    assert_eq!(v["board"][0]["ms"], 45_000);
+    let (_, v) = get(&format!("/admin/api/time-attack?week={}", week - 1)).await;
+    assert_eq!(v["board"], serde_json::json!([]));
+    let (code, v) = get("/admin/api/users/bia/time-attack").await;
+    assert_eq!(code, 200, "{v}");
+    assert_eq!(v["attempts"][0]["fouls"], 1);
+    assert_eq!(v["attempts"][0]["shots"], 12);
+    let attempt = v["attempts"][0]["id"].as_i64().unwrap();
+    let path = format!("/admin/api/time-attack/attempts/{attempt}/remove");
+    let (code, v) = request(&s.host, "POST", &path, &boss, r#"{"reason":"cheating"}"#).await;
+    assert_eq!(code, 200, "{v}");
+    assert_eq!(v["best_ms"], 61_000);
+    let (code, _) = request(&s.host, "POST", &path, &boss, r#"{"reason":"cheating"}"#).await;
+    assert_eq!(code, 409);
+    let (_, v) = get("/admin/api/time-attack").await;
+    assert_eq!(v["board"][0]["ms"], 61_000);
+    let (_, v) = get("/admin/api/audit?action=time-attack-remove").await;
+    assert_eq!(v["entries"].as_array().unwrap().len(), 1, "{v}");
+}
+
 #[tokio::test]
 async fn presents_to_many_at_once() {
     let s = start().await;

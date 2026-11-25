@@ -60,6 +60,18 @@ pub(super) struct Doubles {
     pub deltas: Option<[[i32; 2]; 2]>,
 }
 
+/// A doubles game in this server, as the staff see it.
+#[derive(Debug, Clone, serde::Serialize)]
+pub struct LiveDoubles {
+    pub id: u64,
+    /// The teams' usernames (`[team][player]`).
+    pub teams: [[String; 2]; 2],
+    pub rated: bool,
+    pub rules: Rules,
+    pub shots: u32,
+    pub finished: bool,
+}
+
 /// A pair looking for another pair.
 #[derive(Debug, Clone)]
 struct Searching {
@@ -1042,6 +1054,31 @@ impl Lounge {
         if let Some(r) = self.rooms.get_mut(&new_id) {
             r.chat = chat;
         }
+    }
+
+    /// The doubles games in this server (being played or just over), for
+    /// the staff: id, the teams' usernames, rated, rules, strokes so far,
+    /// over.
+    pub fn live_doubles(&self) -> Vec<LiveDoubles> {
+        let mut out: Vec<LiveDoubles> = self
+            .rooms
+            .values()
+            .filter_map(|r| {
+                let d = r.doubles.as_ref()?;
+                Some(LiveDoubles {
+                    id: r.id,
+                    teams: [0, 1].map(|t| {
+                        [r.users[t].username.clone(), d.partner_users[t].username.clone()]
+                    }),
+                    rated: r.rated,
+                    rules: r.game.rules(),
+                    shots: r.game.shots_taken(),
+                    finished: r.finished,
+                })
+            })
+            .collect();
+        out.sort_by_key(|g| g.id);
+        out
     }
 
     /// Who is online and may play doubles (the staff panel: pairs and

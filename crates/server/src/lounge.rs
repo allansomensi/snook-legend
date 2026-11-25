@@ -32,6 +32,7 @@ use crate::now;
 use crate::store::{LiveMatch, MatchRecord, Record, TournamentRecord, User};
 
 mod doubles;
+pub use doubles::LiveDoubles;
 mod match_social;
 mod moderation;
 mod social;

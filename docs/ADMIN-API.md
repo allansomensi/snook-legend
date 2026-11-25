@@ -666,3 +666,109 @@ the real usernames written with `@` (also in announcements). A note on the
 lounge's board (`POST /admin/api/board`) mentions players the same way:
 the game shows them in gold (a click opens the profile) and a player
 mentioned in a note just pinned is told so, as for the chat.
+
+## Modes
+
+The staff calls for 0.12's modes (`crates/server/src/admin/modes.rs`).
+
+### Doubles games
+
+`GET /admin/api/doubles?player=ana&before=120&limit=50` — staff. The
+doubles games being played (or just over) in this server, `live`, and the
+stored ones, `games`, newest first (`player`: only theirs, 404 for no such
+player; `before`: the previous page's `next`, null when there is no more;
+`limit` 1–200, 50 by default).
+
+```json
+{"live": [{"id": 1795289000123, "teams": [["ana", "bia"], ["caio", "duda"]],
+           "rated": true, "rules": "official", "shots": 14, "finished": false}],
+ "games": [{"id": 120, "room": 1795280000456, "teams": [["ana", "bia"], ["caio", "duda"]],
+            "countries": [["BR", "BR"], ["PT", "BR"]], "player_ids": [[12, 13], [14, 15]],
+            "winner": 0, "reason": "eight_ball", "rated": true, "rules": "official",
+            "deltas": [[14, 10], [-12, -12]], "shots": 41, "ended_at": 1795290000,
+            "replay": true, "voided_at": null}],
+ "next": null}
+```
+
+`teams`, `deltas`: `[team][player]`, the team's first player first;
+`winner`: the team. A live game's `id` is the lounge's (the room); a
+stored game's `room` is the same number.
+
+`GET /admin/api/doubles/{id}` — staff: `{"game": {…as above…, "strokes": 41,
+"replay_data": {…the replay: seed, breaker, rules, strokes…}}}` (`strokes`
+and `replay_data` null without a replay).
+
+### Annul a doubles game
+
+`POST /admin/api/doubles/{id}/void` — administrators. Audit: `doubles-void`
+per player (target: the player; details: the game, the change given back,
+the reason). Body: `{"reason": "…", "preview": false}` (a reason is needed;
+`preview` answers the notification and each player's in `players`).
+
+Only a rated game, once (400 for a casual game, 409 after). The four rating
+changes are given back: each player's doubles rating under the game's rules
+goes back by their change, the game leaves their rated games (and wins),
+and a peak it made goes back to the rating before it. Each of the four gets
+`match_voided` (`opponent`: the other team, "caio & duda"; `match_id`: the
+game's id made negative, with a button to watch it). Answer: `{"ok": true,
+"game": {…as above, "voided_at": 1795291300…}}`. A player's history shows
+the game as casual from then on.
+
+### A player's doubles ratings
+
+`GET /admin/api/users/{name}` also answers `"doubles_ratings"`:
+
+```json
+{"brazilian": {"rating": 1200, "peak_rating": 1200, "games": 0, "wins": 0},
+ "official": {"rating": 1214, "peak_rating": 1230, "games": 9, "wins": 5}}
+```
+
+### Against the clock: a week's table
+
+`GET /admin/api/time-attack?week=2946&limit=100` — staff. The week's table
+(`week`: its number, `time_attack::week_of`; this week by default; `limit`
+1–500): the players' bests, quickest first (the earlier on a tie; the
+banned and deleted left out, as the game shows it).
+
+```json
+{"week": 2946, "this_week": 2946, "starts_at": 1795737600, "ends_at": 1796342400,
+ "players": 37, "prizes": [100, 60, 30],
+ "board": [{"place": 1, "user_id": 12, "username": "ana", "country": "BR",
+            "ms": 45210, "time": "0:45.2", "at": 1795740000}]}
+```
+
+`prizes`: the coins of the first three as set now (a past week's were
+paid with the setting of its Monday: see the ledger, reference
+`time_attack:{week}:{place}`).
+
+### A player's attempts
+
+`GET /admin/api/users/{name}/time-attack?limit=100` — staff. Newest first:
+
+```json
+{"username": "bia",
+ "this_week": {"week": 2946, "best_ms": 61000, "place": 4},
+ "attempts": [{"id": 881, "username": "bia", "day": 20620, "started_ms": 1795740000000,
+               "finished_ms": 1795740061000, "ms": 61000, "time": "1:01.0", "shots": 12,
+               "fouls": 1, "week": 2946, "at": 1795740061, "counted": true,
+               "removed_at": null, "removed_reason": null}]}
+```
+
+`ms`, `shots` (the strokes played) and `fouls` are null for an attempt not
+cleared, refused or never sent (`finished_ms` null); `ms` is the time
+counted (the clock plus 10 s a foul). `counted`: it is in the week's
+ranking (`week`, `at`) and wasn't taken off.
+
+### Take an attempt off the ranking
+
+`POST /admin/api/time-attack/attempts/{id}/remove` — administrators. Audit:
+`time-attack-remove` (target: the player; details: the attempt, its time,
+its week, the reason). Body: `{"reason": "Times impossible for a human"}`
+(a reason is needed).
+
+Only a counted attempt, once (409 otherwise). The player's best of that
+week is worked out again from their other attempts of the week (none left:
+they leave its table). Answer: `{"ok": true, "attempt": {…as above,
+"counted": false, "removed_at": …}, "best_ms": 61000}` (`best_ms`: their
+best of the week now, null if none). A prize already paid for that week is
+not taken back (the ledger has it: an adjustment of the wallet takes it).

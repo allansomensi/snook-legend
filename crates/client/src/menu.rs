@@ -51,7 +51,7 @@ pub struct Menu {
     /// Hover animation of each item (0..1).
     hover: [f32; 4],
     /// And of each place along the bottom.
-    dock_hover: [f32; 5],
+    dock_hover: [f32; 8],
     shade: Option<Texture2D>,
 }
 

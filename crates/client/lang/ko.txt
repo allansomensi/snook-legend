@@ -2086,3 +2086,67 @@ Every player has it	모든 플레이어가 가지고 있어요
 Drag to make the chat taller or shorter	드래그해서 채팅 창 높이 조절하기
 Hide the result to see the table and the chat	결과를 숨기고 테이블과 채팅 보기
 Show the result	결과 보기
+{n} unread	읽지 않음 {n}개
+Everything read	모두 읽음
+Mark all as read	모두 읽음으로 표시
+Inbox	받은편지함
+No notifications yet. What the staff and the game tell you comes here.	아직 알림이 없습니다. 운영진과 게임이 알려 주는 내용이 여기에 옵니다.
+Nothing here.	여기엔 아무것도 없습니다.
+Pick a notification to read it.	읽을 알림을 고르세요.
+Pinned	고정됨
+From {name}	{name} 님이 보냄
+Pinned for {t} more	{t} 더 고정됨
+I read it	읽었습니다
+Delete	삭제
+Confirm you read it first.	먼저 읽었음을 확인하세요.
+It stays while it is pinned.	고정된 동안은 남아 있습니다.
+Equipped.	장착했습니다.
+Message from the staff	운영진의 메시지
+You were muted	채팅이 금지되었습니다
+You can't write to other players for {t} more.	앞으로 {t} 동안 다른 플레이어에게 글을 쓸 수 없습니다.
+The mute is over.	채팅 금지가 끝났습니다.
+You can chat again	다시 채팅할 수 있습니다
+The staff lifted your mute.	운영진이 채팅 금지를 해제했습니다.
+Your rating was adjusted	레이팅이 조정되었습니다
+{delta} under the {rules}: now {rating}.	{rules}에서 {delta}: 현재 {rating}.
+A game was annulled	게임이 무효 처리되었습니다
+Your game against {name} no longer counts ({delta} rating).	{name}와의 게임은 더 이상 반영되지 않습니다 (레이팅 {delta}).
+The staff ended a game	운영진이 게임을 종료했습니다
+Your game against {name} was given to you.	{name}와의 게임이 당신의 승리로 처리되었습니다.
+Your game against {name} was given to your opponent.	{name}와의 게임이 상대의 승리로 처리되었습니다.
+Your game against {name} ended without a result.	{name}와의 게임이 결과 없이 끝났습니다.
+Thank you for your report	신고해 주셔서 감사합니다
+The staff took action about {name}.	운영진이 {name}에 대해 조치를 취했습니다.
+{n} days of VIP	VIP {n}일
+A gift from the staff	운영진의 선물
+You won an item	아이템을 획득했습니다
+VIP item of the month	이달의 VIP 아이템
+Achievement unlocked	업적 달성
+A tournament is about to start	토너먼트가 곧 시작됩니다
+Tournament result	토너먼트 결과
+{name}: place {place}, {prize} coins.	{name}: {place}위, 코인 {prize}개.
+You were outbid	더 높은 입찰이 나왔습니다
+You won an auction	경매에서 낙찰받았습니다
+Maintenance	점검
+The server stops in {t} for about {n} min.	서버가 {t} 후 약 {n}분 동안 멈춥니다.
+The server stops for about {n} min.	서버가 약 {n}분 동안 멈춥니다.
+Notification	알림
+You are muted for {t} more.	앞으로 {t} 동안 채팅 금지입니다.
+You are muted for {t} more: {reason}	앞으로 {t} 동안 채팅 금지입니다: {reason}
+That word isn't allowed here: {word}	이 단어는 사용할 수 없습니다: {word}
+That can't be sent.	보낼 수 없습니다.
+New in your inbox: {title}	받은편지함에 새 알림: {title}
+{n} more	{n}개 더
+{name} mentioned you	{name}님이 회원님을 언급했습니다
+Inbox ({n} unread)	받은편지함 (읽지 않음 {n}개)
+Unpin	고정 해제
+Pin at the top of the chat	채팅 상단에 고정
+Names and countries	이름과 국가
+All	전체
+Staff	운영진
+Punishments	제재
+See the game	게임 보기
+Equip now	지금 장착
+Open the collection	컬렉션 열기
+Auctions	경매
+The staff ended your game without a result. Sign in again.	운영진이 게임을 결과 없이 종료했습니다. 다시 로그인하세요.

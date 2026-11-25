@@ -2086,3 +2086,67 @@ Every player has it	Την έχουν όλοι οι παίκτες
 Drag to make the chat taller or shorter	Σύρε για να κάνεις τη συνομιλία ψηλότερη ή χαμηλότερη
 Hide the result to see the table and the chat	Κρύψε το αποτέλεσμα για να δεις το τραπέζι και τη συνομιλία
 Show the result	Δείξε το αποτέλεσμα
+{n} unread	{n} μη αναγνωσμένα
+Everything read	Όλα διαβασμένα
+Mark all as read	Σήμανση όλων ως αναγνωσμένα
+Inbox	Εισερχόμενα
+No notifications yet. What the staff and the game tell you comes here.	Καμία ειδοποίηση ακόμα. Ό,τι σου λένε η ομάδα και το παιχνίδι έρχεται εδώ.
+Nothing here.	Τίποτα εδώ.
+Pick a notification to read it.	Διάλεξε μια ειδοποίηση για να τη διαβάσεις.
+Pinned	Καρφιτσωμένο
+From {name}	Από {name}
+Pinned for {t} more	Καρφιτσωμένο για ακόμα {t}
+I read it	Το διάβασα
+Delete	Διαγραφή
+Confirm you read it first.	Επιβεβαίωσε πρώτα ότι το διάβασες.
+It stays while it is pinned.	Μένει όσο είναι καρφιτσωμένο.
+Equipped.	Εξοπλίστηκε.
+Message from the staff	Μήνυμα από την ομάδα
+You were muted	Σε έκαναν σίγαση
+You can't write to other players for {t} more.	Δεν μπορείς να γράφεις σε άλλους παίκτες για ακόμα {t}.
+The mute is over.	Η σίγαση έληξε.
+You can chat again	Μπορείς να συνομιλείς ξανά
+The staff lifted your mute.	Η ομάδα ήρε τη σίγασή σου.
+Your rating was adjusted	Η βαθμολογία σου διορθώθηκε
+{delta} under the {rules}: now {rating}.	{delta} στους {rules}: τώρα {rating}.
+A game was annulled	Ένα παιχνίδι ακυρώθηκε
+Your game against {name} no longer counts ({delta} rating).	Το παιχνίδι σου με {name} δεν μετράει πια ({delta} βαθμολογία).
+The staff ended a game	Η ομάδα τερμάτισε ένα παιχνίδι
+Your game against {name} was given to you.	Το παιχνίδι με {name} δόθηκε σε σένα.
+Your game against {name} was given to your opponent.	Το παιχνίδι με {name} δόθηκε στον αντίπαλο.
+Your game against {name} ended without a result.	Το παιχνίδι σου με {name} έληξε χωρίς αποτέλεσμα.
+Thank you for your report	Ευχαριστούμε για την αναφορά σου
+The staff took action about {name}.	Η ομάδα έλαβε μέτρα για τον/την {name}.
+{n} days of VIP	{n} ημέρες VIP
+A gift from the staff	Ένα δώρο από την ομάδα
+You won an item	Κέρδισες ένα αντικείμενο
+VIP item of the month	Αντικείμενο VIP του μήνα
+Achievement unlocked	Επίτευγμα ξεκλειδώθηκε
+A tournament is about to start	Ένα τουρνουά ξεκινά σύντομα
+Tournament result	Αποτέλεσμα τουρνουά
+{name}: place {place}, {prize} coins.	{name}: θέση {place}, {prize} νομίσματα.
+You were outbid	Σε ξεπέρασαν στην προσφορά
+You won an auction	Κέρδισες μια δημοπρασία
+Maintenance	Συντήρηση
+The server stops in {t} for about {n} min.	Ο διακομιστής σταματά σε {t} για περίπου {n} λεπτά.
+The server stops for about {n} min.	Ο διακομιστής σταματά για περίπου {n} λεπτά.
+Notification	Ειδοποίηση
+You are muted for {t} more.	Είσαι σε σίγαση για ακόμα {t}.
+You are muted for {t} more: {reason}	Είσαι σε σίγαση για ακόμα {t}: {reason}
+That word isn't allowed here: {word}	Αυτή η λέξη δεν επιτρέπεται εδώ: {word}
+That can't be sent.	Αυτό δεν μπορεί να σταλεί.
+New in your inbox: {title}	Νέο στα εισερχόμενα: {title}
+{n} more	ακόμα {n}
+{name} mentioned you	Ο/Η {name} σε ανέφερε
+Inbox ({n} unread)	Εισερχόμενα ({n} μη αναγνωσμένα)
+Unpin	Ξεκαρφίτσωμα
+Pin at the top of the chat	Καρφίτσωμα στην κορυφή της συνομιλίας
+Names and countries	Ονόματα και χώρες
+All	Όλα
+Staff	Ομάδα
+Punishments	Ποινές
+See the game	Δες το παιχνίδι
+Equip now	Εξόπλισε τώρα
+Open the collection	Άνοιξε τη συλλογή
+Auctions	Δημοπρασίες
+The staff ended your game without a result. Sign in again.	Η ομάδα τερμάτισε το παιχνίδι σου χωρίς αποτέλεσμα. Συνδέσου ξανά.

@@ -2086,3 +2086,67 @@ Every player has it	सभी खिलाड़ियों के पास �
 Drag to make the chat taller or shorter	चैट को लंबा या छोटा करने के लिए खींचें
 Hide the result to see the table and the chat	टेबल और चैट देखने के लिए नतीजा छिपाएँ
 Show the result	नतीजा दिखाएँ
+{n} unread	{n} अपठित
+Everything read	सब पढ़ लिया
+Mark all as read	सभी को पढ़ा हुआ मानें
+Inbox	इनबॉक्स
+No notifications yet. What the staff and the game tell you comes here.	अभी कोई सूचना नहीं। टीम और गेम जो बताते हैं, वह यहाँ आता है।
+Nothing here.	यहाँ कुछ नहीं है।
+Pick a notification to read it.	पढ़ने के लिए एक सूचना चुनें।
+Pinned	पिन किया
+From {name}	{name} की ओर से
+Pinned for {t} more	{t} और पिन रहेगा
+I read it	मैंने पढ़ लिया
+Delete	हटाएँ
+Confirm you read it first.	पहले पुष्टि करें कि आपने पढ़ लिया।
+It stays while it is pinned.	पिन रहने तक यह रहेगा।
+Equipped.	लगा दिया गया।
+Message from the staff	टीम का संदेश
+You were muted	आपको म्यूट किया गया
+You can't write to other players for {t} more.	आप {t} और अन्य खिलाड़ियों को नहीं लिख सकते।
+The mute is over.	म्यूट खत्म हो गया।
+You can chat again	आप फिर से चैट कर सकते हैं
+The staff lifted your mute.	टीम ने आपका म्यूट हटा दिया।
+Your rating was adjusted	आपकी रेटिंग समायोजित की गई
+{delta} under the {rules}: now {rating}.	{rules} में {delta}: अब {rating}।
+A game was annulled	एक खेल रद्द किया गया
+Your game against {name} no longer counts ({delta} rating).	{name} के खिलाफ आपका खेल अब नहीं गिना जाएगा (रेटिंग {delta})।
+The staff ended a game	टीम ने एक खेल खत्म किया
+Your game against {name} was given to you.	{name} के खिलाफ खेल आपको दिया गया।
+Your game against {name} was given to your opponent.	{name} के खिलाफ खेल आपके प्रतिद्वंद्वी को दिया गया।
+Your game against {name} ended without a result.	{name} के खिलाफ आपका खेल बिना नतीजे के खत्म हुआ।
+Thank you for your report	आपकी रिपोर्ट के लिए धन्यवाद
+The staff took action about {name}.	टीम ने {name} के बारे में कार्रवाई की।
+{n} days of VIP	{n} दिन का VIP
+A gift from the staff	टीम की ओर से उपहार
+You won an item	आपने एक आइटम जीता
+VIP item of the month	महीने का VIP आइटम
+Achievement unlocked	उपलब्धि अनलॉक
+A tournament is about to start	एक टूर्नामेंट शुरू होने वाला है
+Tournament result	टूर्नामेंट का नतीजा
+{name}: place {place}, {prize} coins.	{name}: {place}वाँ स्थान, {prize} सिक्के।
+You were outbid	आपकी बोली से ऊँची बोली लगी
+You won an auction	आपने एक नीलामी जीती
+Maintenance	रखरखाव
+The server stops in {t} for about {n} min.	सर्वर {t} में लगभग {n} मिनट के लिए रुकेगा।
+The server stops for about {n} min.	सर्वर लगभग {n} मिनट के लिए रुकेगा।
+Notification	सूचना
+You are muted for {t} more.	आप {t} और म्यूट हैं।
+You are muted for {t} more: {reason}	आप {t} और म्यूट हैं: {reason}
+That word isn't allowed here: {word}	यह शब्द यहाँ अनुमत नहीं है: {word}
+That can't be sent.	यह भेजा नहीं जा सकता।
+New in your inbox: {title}	आपके इनबॉक्स में नया: {title}
+{n} more	{n} और
+{name} mentioned you	{name} ने आपका ज़िक्र किया
+Inbox ({n} unread)	इनबॉक्स ({n} अपठित)
+Unpin	अनपिन करें
+Pin at the top of the chat	चैट के ऊपर पिन करें
+Names and countries	नाम और देश
+All	सभी
+Staff	टीम
+Punishments	दंड
+See the game	खेल देखें
+Equip now	अभी लगाएँ
+Open the collection	संग्रह खोलें
+Auctions	नीलामियाँ
+The staff ended your game without a result. Sign in again.	टीम ने आपका खेल बिना नतीजे के खत्म कर दिया। फिर से साइन इन करें।

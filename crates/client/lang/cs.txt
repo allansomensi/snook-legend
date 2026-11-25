@@ -2086,3 +2086,67 @@ Every player has it	Mají ji všichni hráči
 Drag to make the chat taller or shorter	Tažením chat zvětšíš nebo zmenšíš
 Hide the result to see the table and the chat	Skryj výsledek a uvidíš stůl i chat
 Show the result	Ukázat výsledek
+{n} unread	{n} nepřečtených
+Everything read	Vše přečteno
+Mark all as read	Označit vše jako přečtené
+Inbox	Schránka
+No notifications yet. What the staff and the game tell you comes here.	Zatím žádná oznámení. Co ti sdělí tým a hra, přijde sem.
+Nothing here.	Nic tu není.
+Pick a notification to read it.	Vyber oznámení a přečti si ho.
+Pinned	Připnuto
+From {name}	Od {name}
+Pinned for {t} more	Připnuto ještě {t}
+I read it	Přečetl jsem
+Delete	Smazat
+Confirm you read it first.	Nejdřív potvrď, že sis to přečetl.
+It stays while it is pinned.	Zůstane, dokud je připnuté.
+Equipped.	Nasazeno.
+Message from the staff	Zpráva od týmu
+You were muted	Byl jsi umlčen
+You can't write to other players for {t} more.	Ještě {t} nemůžeš psát ostatním hráčům.
+The mute is over.	Umlčení skončilo.
+You can chat again	Můžeš zase psát
+The staff lifted your mute.	Tým zrušil tvé umlčení.
+Your rating was adjusted	Tvoje hodnocení bylo upraveno
+{delta} under the {rules}: now {rating}.	{delta} v {rules}: nyní {rating}.
+A game was annulled	Hra byla anulována
+Your game against {name} no longer counts ({delta} rating).	Tvoje hra proti {name} se už nepočítá ({delta} hodnocení).
+The staff ended a game	Tým ukončil hru
+Your game against {name} was given to you.	Hra proti {name} byla přiznána tobě.
+Your game against {name} was given to your opponent.	Hra proti {name} byla přiznána soupeři.
+Your game against {name} ended without a result.	Tvoje hra proti {name} skončila bez výsledku.
+Thank you for your report	Díky za nahlášení
+The staff took action about {name}.	Tým vůči {name} zakročil.
+{n} days of VIP	{n} dní VIP
+A gift from the staff	Dárek od týmu
+You won an item	Získal jsi předmět
+VIP item of the month	VIP předmět měsíce
+Achievement unlocked	Úspěch odemčen
+A tournament is about to start	Turnaj brzy začne
+Tournament result	Výsledek turnaje
+{name}: place {place}, {prize} coins.	{name}: {place}. místo, {prize} mincí.
+You were outbid	Někdo tě přeplatil
+You won an auction	Vyhrál jsi aukci
+Maintenance	Údržba
+The server stops in {t} for about {n} min.	Server se za {t} zastaví asi na {n} min.
+The server stops for about {n} min.	Server se zastaví asi na {n} min.
+Notification	Oznámení
+You are muted for {t} more.	Jsi umlčen ještě {t}.
+You are muted for {t} more: {reason}	Jsi umlčen ještě {t}: {reason}
+That word isn't allowed here: {word}	Toto slovo tu není povoleno: {word}
+That can't be sent.	To nelze odeslat.
+New in your inbox: {title}	Nové ve schránce: {title}
+{n} more	ještě {n}
+{name} mentioned you	{name} tě zmínil
+Inbox ({n} unread)	Schránka ({n} nepřečtených)
+Unpin	Odepnout
+Pin at the top of the chat	Připnout nahoru do chatu
+Names and countries	Jména a země
+All	Vše
+Staff	Tým
+Punishments	Tresty
+See the game	Zobrazit hru
+Equip now	Nasadit hned
+Open the collection	Otevřít sbírku
+Auctions	Aukce
+The staff ended your game without a result. Sign in again.	Tým ukončil tvou hru bez výsledku. Přihlas se znovu.

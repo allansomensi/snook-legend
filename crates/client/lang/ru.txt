@@ -2086,3 +2086,67 @@ Every player has it	Есть у всех игроков
 Drag to make the chat taller or shorter	Тяните, чтобы сделать чат выше или ниже
 Hide the result to see the table and the chat	Скройте итог, чтобы видеть стол и чат
 Show the result	Показать итог
+{n} unread	{n} непрочитанных
+Everything read	Всё прочитано
+Mark all as read	Отметить всё прочитанным
+Inbox	Входящие
+No notifications yet. What the staff and the game tell you comes here.	Уведомлений пока нет. Здесь появится всё, что сообщат команда и игра.
+Nothing here.	Здесь пусто.
+Pick a notification to read it.	Выберите уведомление, чтобы прочитать его.
+Pinned	Закреплено
+From {name}	От {name}
+Pinned for {t} more	Закреплено ещё {t}
+I read it	Прочитано
+Delete	Удалить
+Confirm you read it first.	Сначала подтвердите, что прочитали.
+It stays while it is pinned.	Остаётся, пока закреплено.
+Equipped.	Экипировано.
+Message from the staff	Сообщение от команды
+You were muted	Вам запретили писать
+You can't write to other players for {t} more.	Вы не можете писать другим игрокам ещё {t}.
+The mute is over.	Запрет закончился.
+You can chat again	Вы снова можете писать
+The staff lifted your mute.	Команда сняла запрет.
+Your rating was adjusted	Ваш рейтинг скорректирован
+{delta} under the {rules}: now {rating}.	{delta} по {rules}: теперь {rating}.
+A game was annulled	Партия аннулирована
+Your game against {name} no longer counts ({delta} rating).	Ваша партия против {name} больше не засчитывается ({delta} рейтинга).
+The staff ended a game	Команда завершила партию
+Your game against {name} was given to you.	Партия против {name} присуждена вам.
+Your game against {name} was given to your opponent.	Партия против {name} присуждена сопернику.
+Your game against {name} ended without a result.	Ваша партия против {name} завершилась без результата.
+Thank you for your report	Спасибо за жалобу
+The staff took action about {name}.	Команда приняла меры в отношении {name}.
+{n} days of VIP	{n} дн. VIP
+A gift from the staff	Подарок от команды
+You won an item	Вы выиграли предмет
+VIP item of the month	VIP-предмет месяца
+Achievement unlocked	Достижение получено
+A tournament is about to start	Скоро начнётся турнир
+Tournament result	Итог турнира
+{name}: place {place}, {prize} coins.	{name}: {place}-е место, {prize} монет.
+You were outbid	Вашу ставку перебили
+You won an auction	Вы выиграли аукцион
+Maintenance	Техобслуживание
+The server stops in {t} for about {n} min.	Сервер остановится через {t} примерно на {n} мин.
+The server stops for about {n} min.	Сервер остановится примерно на {n} мин.
+Notification	Уведомление
+You are muted for {t} more.	Вам нельзя писать ещё {t}.
+You are muted for {t} more: {reason}	Вам нельзя писать ещё {t}: {reason}
+That word isn't allowed here: {word}	Это слово здесь запрещено: {word}
+That can't be sent.	Это нельзя отправить.
+New in your inbox: {title}	Новое во входящих: {title}
+{n} more	ещё {n}
+{name} mentioned you	{name} упомянул вас
+Inbox ({n} unread)	Входящие ({n} непрочитанных)
+Unpin	Открепить
+Pin at the top of the chat	Закрепить вверху чата
+Names and countries	Имена и страны
+All	Все
+Staff	Команда
+Punishments	Наказания
+See the game	Посмотреть партию
+Equip now	Надеть сейчас
+Open the collection	Открыть коллекцию
+Auctions	Аукционы
+The staff ended your game without a result. Sign in again.	Команда завершила вашу партию без результата. Войдите снова.

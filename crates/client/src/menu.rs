@@ -40,6 +40,8 @@ pub enum MenuAction {
     Shop,
     Settings,
     Quit,
+    /// The inbox (signed in; else the sign-in first).
+    Inbox,
 }
 
 #[derive(Default)]
@@ -462,6 +464,8 @@ impl Menu {
         let dock = [
             (Icon::Trophy, t("Ranking"), Some(t("World ranking")), MenuAction::Ranking),
             (Icon::Person, t("Profile"), None, MenuAction::Profile),
+            // (Drawn as an envelope: see below.)
+            (Icon::List, t("Inbox"), None, MenuAction::Inbox),
             (Icon::Shop, t("Shop"), None, MenuAction::Shop),
             (Icon::Book, t("Rules"), Some(t("Rules of the game")), MenuAction::Rules(rules)),
             (Icon::Gear, t("Settings"), None, MenuAction::Settings),
@@ -503,8 +507,17 @@ impl Menu {
             ui.block(r);
             card_surface(r, 10.0, false, a, pressed);
             let color = mix(CREAM, GOLD, a);
+            // The inbox's envelope (the icon font has none).
+            let envelope = matches!(act, MenuAction::Inbox);
+            let draw_icon = |c: Vec2, s: f32| {
+                if envelope {
+                    crate::online::draw_envelope(c, s, color);
+                } else {
+                    crate::icons::draw(icon, c, s, color);
+                }
+            };
             if show_labels {
-                crate::icons::draw(icon, vec2(r.x + r.w / 2.0, r.y + dh * 0.38), 21.0, color);
+                draw_icon(vec2(r.x + r.w / 2.0, r.y + dh * 0.38), 21.0);
                 ui.text_centered(
                     name,
                     r.x + r.w / 2.0,
@@ -514,7 +527,7 @@ impl Menu {
                     true,
                 );
             } else {
-                crate::icons::draw(icon, vec2(r.x + r.w / 2.0, r.y + dh / 2.0), 22.0, color);
+                draw_icon(vec2(r.x + r.w / 2.0, r.y + dh / 2.0), 22.0);
             }
             if hover {
                 if let Some(tip) = tip.or((!show_labels).then_some(name)) {
@@ -528,6 +541,10 @@ impl Menu {
             // Presents waiting: a dot on the profile.
             if k == 1 && online.gift_badge() {
                 draw_circle(r.x + r.w - 8.0, r.y + 8.0, 4.5, crate::ui::ALERT);
+            }
+            // What isn't read yet in the inbox.
+            if envelope {
+                crate::online::draw_badge(ui, r, online.inbox_unread());
             }
         }
         // Quitting: plain, apart from the rest.

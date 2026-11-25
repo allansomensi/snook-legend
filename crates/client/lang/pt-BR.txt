@@ -2086,3 +2086,67 @@ Every player has it	Todos os jogadores têm
 Drag to make the chat taller or shorter	Arraste para deixar o chat mais alto ou mais baixo
 Hide the result to see the table and the chat	Esconda o resultado para ver a mesa e o chat
 Show the result	Ver o resultado
+{n} unread	{n} não lidas
+Everything read	Tudo lido
+Mark all as read	Marcar tudo como lido
+Inbox	Caixa de entrada
+No notifications yet. What the staff and the game tell you comes here.	Nenhuma notificação ainda. O que a equipe e o jogo te avisarem chega aqui.
+Nothing here.	Nada aqui.
+Pick a notification to read it.	Escolha uma notificação para ler.
+Pinned	Fixado
+From {name}	De {name}
+Pinned for {t} more	Fixado por mais {t}
+I read it	Li
+Delete	Excluir
+Confirm you read it first.	Confirme primeiro que você leu.
+It stays while it is pinned.	Fica enquanto estiver fixado.
+Equipped.	Equipado.
+Message from the staff	Mensagem da equipe
+You were muted	Você foi silenciado
+You can't write to other players for {t} more.	Você não pode escrever para outros jogadores por mais {t}.
+The mute is over.	O silenciamento acabou.
+You can chat again	Você pode conversar de novo
+The staff lifted your mute.	A equipe retirou o seu silenciamento.
+Your rating was adjusted	Sua pontuação foi ajustada
+{delta} under the {rules}: now {rating}.	{delta} nas {rules}: agora {rating}.
+A game was annulled	Uma partida foi anulada
+Your game against {name} no longer counts ({delta} rating).	Sua partida contra {name} não conta mais ({delta} de pontuação).
+The staff ended a game	A equipe encerrou uma partida
+Your game against {name} was given to you.	A partida contra {name} foi dada a você.
+Your game against {name} was given to your opponent.	A partida contra {name} foi dada ao seu adversário.
+Your game against {name} ended without a result.	Sua partida contra {name} terminou sem resultado.
+Thank you for your report	Obrigado pela sua denúncia
+The staff took action about {name}.	A equipe tomou providências sobre {name}.
+{n} days of VIP	{n} dias de VIP
+A gift from the staff	Um presente da equipe
+You won an item	Você ganhou um item
+VIP item of the month	Item VIP do mês
+Achievement unlocked	Conquista desbloqueada
+A tournament is about to start	Um torneio vai começar
+Tournament result	Resultado do torneio
+{name}: place {place}, {prize} coins.	{name}: {place}º lugar, {prize} moedas.
+You were outbid	Seu lance foi superado
+You won an auction	Você venceu um leilão
+Maintenance	Manutenção
+The server stops in {t} for about {n} min.	O servidor para em {t} por cerca de {n} min.
+The server stops for about {n} min.	O servidor para por cerca de {n} min.
+Notification	Notificação
+You are muted for {t} more.	Você está silenciado por mais {t}.
+You are muted for {t} more: {reason}	Você está silenciado por mais {t}: {reason}
+That word isn't allowed here: {word}	Essa palavra não é permitida aqui: {word}
+That can't be sent.	Isso não pode ser enviado.
+New in your inbox: {title}	Novo na sua caixa de entrada: {title}
+{n} more	mais {n}
+{name} mentioned you	{name} mencionou você
+Inbox ({n} unread)	Caixa de entrada ({n} não lidas)
+Unpin	Desafixar
+Pin at the top of the chat	Fixar no topo do chat
+Names and countries	Nomes e países
+All	Todas
+Staff	Equipe
+Punishments	Punições
+See the game	Ver a partida
+Equip now	Equipar agora
+Open the collection	Abrir a coleção
+Auctions	Leilões
+The staff ended your game without a result. Sign in again.	A equipe encerrou sua partida sem resultado. Entre de novo.

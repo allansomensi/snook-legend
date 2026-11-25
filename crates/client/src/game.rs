@@ -2962,6 +2962,7 @@ impl FeedLine {
             admin: line.admin,
             deleted: line.deleted,
             pending: false,
+            mentions: line.mentions.clone(),
         }
     }
 

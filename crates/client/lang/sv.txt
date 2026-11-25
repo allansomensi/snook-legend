@@ -2086,3 +2086,67 @@ Every player has it	Alla spelare har den
 Drag to make the chat taller or shorter	Dra för att göra chatten högre eller lägre
 Hide the result to see the table and the chat	Dölj resultatet för att se bordet och chatten
 Show the result	Visa resultatet
+{n} unread	{n} olästa
+Everything read	Allt läst
+Mark all as read	Markera allt som läst
+Inbox	Inkorg
+No notifications yet. What the staff and the game tell you comes here.	Inga aviseringar än. Det teamet och spelet berättar för dig hamnar här.
+Nothing here.	Här finns inget.
+Pick a notification to read it.	Välj en avisering för att läsa den.
+Pinned	Fäst
+From {name}	Från {name}
+Pinned for {t} more	Fäst i {t} till
+I read it	Jag har läst
+Delete	Ta bort
+Confirm you read it first.	Bekräfta först att du har läst.
+It stays while it is pinned.	Det ligger kvar så länge det är fäst.
+Equipped.	Utrustad.
+Message from the staff	Meddelande från teamet
+You were muted	Du har blivit tystad
+You can't write to other players for {t} more.	Du kan inte skriva till andra spelare på {t} till.
+The mute is over.	Tystnaden är över.
+You can chat again	Du kan chatta igen
+The staff lifted your mute.	Teamet hävde din tystnad.
+Your rating was adjusted	Ditt betyg har justerats
+{delta} under the {rules}: now {rating}.	{delta} enligt {rules}: nu {rating}.
+A game was annulled	Ett parti ogiltigförklarades
+Your game against {name} no longer counts ({delta} rating).	Ditt parti mot {name} räknas inte längre ({delta} i betyg).
+The staff ended a game	Teamet avslutade ett parti
+Your game against {name} was given to you.	Partiet mot {name} tilldelades dig.
+Your game against {name} was given to your opponent.	Partiet mot {name} tilldelades din motståndare.
+Your game against {name} ended without a result.	Ditt parti mot {name} slutade utan resultat.
+Thank you for your report	Tack för din anmälan
+The staff took action about {name}.	Teamet har vidtagit åtgärder mot {name}.
+{n} days of VIP	{n} dagar VIP
+A gift from the staff	En gåva från teamet
+You won an item	Du vann ett föremål
+VIP item of the month	Månadens VIP-föremål
+Achievement unlocked	Prestation upplåst
+A tournament is about to start	En turnering börjar snart
+Tournament result	Turneringsresultat
+{name}: place {place}, {prize} coins.	{name}: plats {place}, {prize} mynt.
+You were outbid	Du blev överbjuden
+You won an auction	Du vann en auktion
+Maintenance	Underhåll
+The server stops in {t} for about {n} min.	Servern stannar om {t} i cirka {n} min.
+The server stops for about {n} min.	Servern stannar i cirka {n} min.
+Notification	Avisering
+You are muted for {t} more.	Du är tystad i {t} till.
+You are muted for {t} more: {reason}	Du är tystad i {t} till: {reason}
+That word isn't allowed here: {word}	Det ordet är inte tillåtet här: {word}
+That can't be sent.	Det kan inte skickas.
+New in your inbox: {title}	Nytt i inkorgen: {title}
+{n} more	{n} till
+{name} mentioned you	{name} nämnde dig
+Inbox ({n} unread)	Inkorg ({n} olästa)
+Unpin	Lossa
+Pin at the top of the chat	Fäst högst upp i chatten
+Names and countries	Namn och länder
+All	Alla
+Staff	Team
+Punishments	Straff
+See the game	Se partiet
+Equip now	Utrusta nu
+Open the collection	Öppna samlingen
+Auctions	Auktioner
+The staff ended your game without a result. Sign in again.	Teamet avslutade ditt parti utan resultat. Logga in igen.

@@ -9,7 +9,13 @@ use std::collections::VecDeque;
 use macroquad::prelude::*;
 
 mod gifts;
+mod inbox;
 mod social;
+
+pub use inbox::{
+    action_label, category_color, category_name, draw_badge, draw_envelope, inbox_button,
+    refusal_text, wording,
+};
 pub use social::{STATUS_COLOR, sub_line};
 
 use crate::i18n::{t, tw};
@@ -59,6 +65,8 @@ pub enum OnlineAction {
     Shop,
     /// The shop, on the VIP page.
     ShopVip,
+    /// The inbox.
+    Inbox,
     /// A game against the computer while "Play now" keeps looking.
     PracticeWhileWaiting,
     /// A table to oneself (free practice) while "Play now" keeps looking.
@@ -365,6 +373,10 @@ pub struct Online {
     staff_shown: Option<f64>,
     /// The account password typed into the e-mail offer.
     offer_password: String,
+    /// The notifications from the staff and the game.
+    inbox: inbox::Inbox,
+    /// The line the staff pinned at the top of the lounge's chat.
+    pub pinned_chat: Option<snook_legend_proto::ChatLine>,
 }
 
 /// How many players online play one of the rules (the menu and the
@@ -774,6 +786,8 @@ impl Online {
             staff_warnings: Vec::new(),
             staff_shown: None,
             offer_password: String::new(),
+            inbox: Default::default(),
+            pinned_chat: None,
         }
     }
 
@@ -1406,6 +1420,19 @@ impl Online {
                     ..Default::default()
                 });
             }
+            ServerMsg::Inbox { items, unread } => self.inbox_arrived(items, unread),
+            ServerMsg::InboxNew { item, unread } => self.inbox_new(item, unread),
+            ServerMsg::ChatPinned { line } => self.pinned_chat = line,
+            ServerMsg::TextRefused { place, refusal } => match current.as_mut() {
+                // At the table: the game's own chat says it.
+                Some(m)
+                    if m.is_online()
+                        && place == snook_legend_proto::moderation::TextPlace::MatchChat =>
+                {
+                    m.handle_server(ServerMsg::Error { message: refusal_text(&refusal) })
+                }
+                _ => self.text_refused(place, refusal),
+            },
             ServerMsg::ChatHistory { lines } => {
                 self.chat = lines.iter().map(FeedLine::chat).collect();
                 self.chat_scroll = 0;
@@ -1423,6 +1450,7 @@ impl Online {
                     }
                 }
                 if !self.friends.blocked.iter().any(|b| b.eq_ignore_ascii_case(&line.from)) {
+                    self.mentioned(&line);
                     self.chat.push(FeedLine::chat(&line));
                     if self.chat.len() > 200 {
                         self.chat.remove(0);
@@ -2017,6 +2045,7 @@ impl Online {
         self.offers = None;
         self.staff_warnings.clear();
         self.staff_shown = None;
+        self.inbox = Default::default();
         self.profile = None;
         self.friends = FriendsData::default();
         self.unread_friend_requests = false;
@@ -2197,7 +2226,7 @@ impl Online {
 
     /// A warning from the staff is waiting to be read.
     pub fn staff_warning_open(&self) -> bool {
-        !self.staff_warnings.is_empty()
+        !self.staff_warnings.is_empty() || self.important_open()
     }
 
     /// The oldest warning from the staff, over whatever page is up (not a
@@ -2206,6 +2235,8 @@ impl Online {
     pub fn draw_staff_warning(&mut self, ui: &mut Ui) {
         let Some(text) = self.staff_warnings.first().cloned() else {
             self.staff_shown = None;
+            // An important notification of the inbox, the same way.
+            self.draw_important(ui);
             return;
         };
         let now = get_time();
@@ -2987,6 +3018,11 @@ impl Online {
             ) {
                 action = OnlineAction::Ranking;
             }
+            // The inbox, with what isn't read yet.
+            right -= gap + 36.0;
+            if inbox_button(ui, Rect::new(right, by, 36.0, 36.0), self.inbox_unread()) {
+                action = OnlineAction::Inbox;
+            }
             // The coins, which open the shop.
             let coins = self.wallet.as_ref().map(|w| w.coins).unwrap_or(0).to_string();
             let cw = ui.text_size(&coins, 15.0, true).x + 46.0;
@@ -3269,6 +3305,15 @@ impl Online {
         rrect(log, 6.0, Color::new(0.0, 0.0, 0.0, 0.25));
         let me = self.me.as_ref().map(|m| m.username.clone());
         let admin = self.me.as_ref().is_some_and(|m| m.role == snook_legend_proto::Role::Admin);
+        let staff = self.me.as_ref().is_some_and(|m| m.role.is_staff()) && !self.lan;
+        // The line the staff pinned, above the chat.
+        let log = match self.pinned_chat.clone().filter(|_| !self.chat_off()) {
+            Some(line) => {
+                let used = self.draw_pinned(ui, &line, log, staff);
+                Rect::new(log.x, log.y + used, log.w, log.h - used)
+            }
+            None => log,
+        };
         if self.chat.is_empty() {
             ui.block(log);
             if self.chat_off() {
@@ -3291,11 +3336,25 @@ impl Online {
                 empty_state(ui, log, Glyph::Chat, t("No messages yet."), None);
             }
         } else {
-            let (scroll, act) =
-                ui.chat_log(LOUNGE_LOG, log, &self.chat, me.as_deref(), admin, self.chat_scroll);
+            let (scroll, act) = ui.chat_log_ex(
+                LOUNGE_LOG,
+                log,
+                &self.chat,
+                me.as_deref(),
+                admin,
+                staff,
+                self.chat_scroll,
+            );
             self.chat_scroll = scroll;
-            if let Some(crate::ui::ChatAction::Delete { id, silent }) = act {
-                self.send(ClientMsg::DeleteChat { id, silent });
+            match act {
+                Some(crate::ui::ChatAction::Delete { id, silent }) => {
+                    self.send(ClientMsg::DeleteChat { id, silent });
+                }
+                Some(crate::ui::ChatAction::Pin { id }) => self.send(ClientMsg::PinChat { id }),
+                Some(crate::ui::ChatAction::Profile(name)) => {
+                    action = OnlineAction::Profile(name);
+                }
+                None => {}
             }
         }
         // Administrators: clear the chat (a second click confirms).

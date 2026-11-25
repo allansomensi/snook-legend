@@ -2086,3 +2086,67 @@ Every player has it	全プレイヤーが使えます
 Drag to make the chat taller or shorter	ドラッグでチャットの高さを変更
 Hide the result to see the table and the chat	結果を隠してテーブルとチャットを見る
 Show the result	結果を表示
+{n} unread	未読 {n} 件
+Everything read	すべて既読
+Mark all as read	すべて既読にする
+Inbox	受信箱
+No notifications yet. What the staff and the game tell you comes here.	まだ通知はありません。運営とゲームからのお知らせはここに届きます。
+Nothing here.	ここには何もありません。
+Pick a notification to read it.	読む通知を選んでください。
+Pinned	ピン留め
+From {name}	{name} から
+Pinned for {t} more	あと {t} ピン留め
+I read it	読みました
+Delete	削除
+Confirm you read it first.	先に読んだことを確認してください。
+It stays while it is pinned.	ピン留め中は残ります。
+Equipped.	装備しました。
+Message from the staff	運営からのメッセージ
+You were muted	ミュートされました
+You can't write to other players for {t} more.	あと {t} は他のプレイヤーに書き込めません。
+The mute is over.	ミュートは終了しました。
+You can chat again	またチャットできます
+The staff lifted your mute.	運営がミュートを解除しました。
+Your rating was adjusted	レーティングが修正されました
+{delta} under the {rules}: now {rating}.	{rules}で {delta}：現在 {rating}。
+A game was annulled	対局が無効になりました
+Your game against {name} no longer counts ({delta} rating).	{name} との対局は無効になりました（レーティング {delta}）。
+The staff ended a game	運営が対局を終了しました
+Your game against {name} was given to you.	{name} との対局はあなたの勝ちになりました。
+Your game against {name} was given to your opponent.	{name} との対局は相手の勝ちになりました。
+Your game against {name} ended without a result.	{name} との対局は結果なしで終了しました。
+Thank you for your report	報告ありがとうございます
+The staff took action about {name}.	運営は {name} に対して措置を取りました。
+{n} days of VIP	VIP {n} 日分
+A gift from the staff	運営からのプレゼント
+You won an item	アイテムを獲得しました
+VIP item of the month	今月の VIP アイテム
+Achievement unlocked	実績を解除しました
+A tournament is about to start	まもなくトーナメントが始まります
+Tournament result	トーナメント結果
+{name}: place {place}, {prize} coins.	{name}：{place} 位、{prize} コイン。
+You were outbid	より高い入札がありました
+You won an auction	オークションで落札しました
+Maintenance	メンテナンス
+The server stops in {t} for about {n} min.	サーバーは {t} 後に約 {n} 分停止します。
+The server stops for about {n} min.	サーバーは約 {n} 分停止します。
+Notification	通知
+You are muted for {t} more.	あと {t} ミュート中です。
+You are muted for {t} more: {reason}	あと {t} ミュート中です：{reason}
+That word isn't allowed here: {word}	その言葉はここでは使えません：{word}
+That can't be sent.	送信できません。
+New in your inbox: {title}	受信箱に新着：{title}
+{n} more	あと {n} 件
+{name} mentioned you	{name} があなたにメンションしました
+Inbox ({n} unread)	受信箱（未読 {n} 件）
+Unpin	ピン留めを外す
+Pin at the top of the chat	チャットの上部にピン留め
+Names and countries	名前と国
+All	すべて
+Staff	運営
+Punishments	ペナルティ
+See the game	対局を見る
+Equip now	今すぐ装備
+Open the collection	コレクションを開く
+Auctions	オークション
+The staff ended your game without a result. Sign in again.	運営が対局を結果なしで終了しました。もう一度サインインしてください。

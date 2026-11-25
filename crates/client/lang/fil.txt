@@ -2086,3 +2086,67 @@ Every player has it	Mayroon nito ang lahat ng manlalaro
 Drag to make the chat taller or shorter	I-drag para palakihin o paliitin ang chat
 Hide the result to see the table and the chat	Itago ang resulta para makita ang mesa at ang chat
 Show the result	Ipakita ang resulta
+{n} unread	{n} hindi pa nababasa
+Everything read	Nabasa na lahat
+Mark all as read	Markahang nabasa lahat
+Inbox	Inbox
+No notifications yet. What the staff and the game tell you comes here.	Wala pang abiso. Dito darating ang sinasabi sa iyo ng staff at ng laro.
+Nothing here.	Walang laman dito.
+Pick a notification to read it.	Pumili ng abiso para basahin.
+Pinned	Naka-pin
+From {name}	Mula kay {name}
+Pinned for {t} more	Naka-pin pa nang {t}
+I read it	Nabasa ko na
+Delete	Burahin
+Confirm you read it first.	Kumpirmahin muna na nabasa mo ito.
+It stays while it is pinned.	Mananatili ito habang naka-pin.
+Equipped.	Naisuot na.
+Message from the staff	Mensahe mula sa staff
+You were muted	Na-mute ka
+You can't write to other players for {t} more.	Hindi ka makakasulat sa ibang manlalaro nang {t} pa.
+The mute is over.	Tapos na ang mute.
+You can chat again	Puwede ka nang mag-chat ulit
+The staff lifted your mute.	Inalis ng staff ang mute mo.
+Your rating was adjusted	Inayos ang rating mo
+{delta} under the {rules}: now {rating}.	{delta} sa {rules}: ngayon ay {rating}.
+A game was annulled	Pinawalang-bisa ang isang laro
+Your game against {name} no longer counts ({delta} rating).	Hindi na bilang ang laro mo laban kay {name} ({delta} rating).
+The staff ended a game	Tinapos ng staff ang isang laro
+Your game against {name} was given to you.	Ibinigay sa iyo ang laro laban kay {name}.
+Your game against {name} was given to your opponent.	Ibinigay sa kalaban mo ang laro laban kay {name}.
+Your game against {name} ended without a result.	Natapos nang walang resulta ang laro mo laban kay {name}.
+Thank you for your report	Salamat sa ulat mo
+The staff took action about {name}.	Kumilos ang staff tungkol kay {name}.
+{n} days of VIP	{n} araw ng VIP
+A gift from the staff	Regalo mula sa staff
+You won an item	Nanalo ka ng item
+VIP item of the month	VIP item ng buwan
+Achievement unlocked	Na-unlock ang achievement
+A tournament is about to start	Magsisimula na ang isang torneo
+Tournament result	Resulta ng torneo
+{name}: place {place}, {prize} coins.	{name}: pang-{place} na puwesto, {prize} barya.
+You were outbid	Nalampasan ang bid mo
+You won an auction	Nanalo ka sa subasta
+Maintenance	Maintenance
+The server stops in {t} for about {n} min.	Hihinto ang server sa loob ng {t} nang mga {n} min.
+The server stops for about {n} min.	Hihinto ang server nang mga {n} min.
+Notification	Abiso
+You are muted for {t} more.	Naka-mute ka pa nang {t}.
+You are muted for {t} more: {reason}	Naka-mute ka pa nang {t}: {reason}
+That word isn't allowed here: {word}	Hindi pinapayagan ang salitang iyan dito: {word}
+That can't be sent.	Hindi iyan maipapadala.
+New in your inbox: {title}	Bago sa inbox mo: {title}
+{n} more	{n} pa
+{name} mentioned you	Binanggit ka ni {name}
+Inbox ({n} unread)	Inbox ({n} hindi pa nababasa)
+Unpin	I-unpin
+Pin at the top of the chat	I-pin sa itaas ng chat
+Names and countries	Mga pangalan at bansa
+All	Lahat
+Staff	Staff
+Punishments	Mga parusa
+See the game	Panoorin ang laro
+Equip now	Isuot ngayon
+Open the collection	Buksan ang koleksyon
+Auctions	Mga subasta
+The staff ended your game without a result. Sign in again.	Tinapos ng staff ang laro mo nang walang resulta. Mag-sign in ulit.

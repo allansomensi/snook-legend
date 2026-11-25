@@ -82,6 +82,11 @@ pub struct BoardNote {
     /// A button under the note.
     #[serde(default)]
     pub action: Option<NoteAction>,
+    /// The players the note mentions with `@name` (their usernames as they
+    /// are written, filled in by the server: only real players), as in the
+    /// lounge chat (see [`ChatLine::mentions`]).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub mentions: Vec<String>,
 }
 
 /// What a note on the board is about (its colour).

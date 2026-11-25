@@ -662,4 +662,7 @@ the line or clearing the chat takes it down.
 `POST /admin/api/chat/unpin` — staff. Audit: `chat-unpin`. 400 if none.
 
 Chat lines (`GET /admin/api/chat`, the pinned one) may carry `"mentions"`:
-the real usernames written with `@` (also in announcements).
+the real usernames written with `@` (also in announcements). A note on the
+lounge's board (`POST /admin/api/board`) mentions players the same way:
+the game shows them in gold (a click opens the profile) and a player
+mentioned in a note just pinned is told so, as for the chat.

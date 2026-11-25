@@ -71,10 +71,15 @@ pub async fn chat(server: &Server, me: &User, text: String) {
 
 /// The usernames among the `@names` of `text` (online or not).
 pub async fn known_mentions(server: &Server, text: &str) -> Vec<String> {
+    known_mentions_in(&server.store, text).await
+}
+
+/// [`known_mentions`], looked up in `store`.
+pub async fn known_mentions_in(store: &crate::store::Store, text: &str) -> Vec<String> {
     use snook_legend_proto::moderation::{MAX_MENTIONS, mention_candidates};
     let mut known = Vec::new();
     for c in mention_candidates(text).into_iter().take(MAX_MENTIONS) {
-        if let Ok(Some(u)) = server.store.user_by_name(&c).await
+        if let Ok(Some(u)) = store.user_by_name(&c).await
             && u.deleted_at.is_none()
         {
             known.push(u.username);

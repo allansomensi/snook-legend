@@ -812,6 +812,16 @@ async fn the_lounge_pins_a_line_and_mentions_players() {
     bia.expect("pinned", |m| matches!(m, ServerMsg::ChatPinned { line: Some(_) })).await;
     request(&s.host, "POST", &format!("/admin/api/chat/{}/delete", line.id), &boss, "{}").await;
     bia.expect("unpinned", |m| matches!(m, ServerMsg::ChatPinned { line: None })).await;
+    // A note on the board mentions players too (online or not).
+    let body = r#"{"text":"Well done @Bia and @caio, not @nobody"}"#;
+    let (code, v) = request(&s.host, "POST", "/admin/api/board", &boss, body).await;
+    assert_eq!(code, 200, "{v}");
+    let ServerMsg::Board { notes } =
+        bia.expect("board", |m| matches!(m, ServerMsg::Board { notes } if !notes.is_empty())).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(notes[0].mentions, ["bia", "caio"]);
 }
 
 #[tokio::test]

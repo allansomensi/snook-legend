@@ -11,6 +11,7 @@ use macroquad::prelude::*;
 pub mod doubles;
 mod gifts;
 mod inbox;
+mod notes;
 pub mod ops;
 mod social;
 
@@ -519,6 +520,27 @@ pub fn draw_note(
     n: &snook_legend_proto::BoardNote,
     card: Rect,
 ) -> Option<snook_legend_proto::NoteAction> {
+    match draw_note_for(ui, n, card, None) {
+        Some(NoteClick::Action(a)) => Some(a),
+        _ => None,
+    }
+}
+
+/// What was clicked on a note.
+pub enum NoteClick {
+    /// Its button.
+    Action(snook_legend_proto::NoteAction),
+    /// A player it mentions.
+    Profile(String),
+}
+
+/// Draws a note in `card` as `me` sees it (lit when it mentions them).
+pub fn draw_note_for(
+    ui: &mut Ui,
+    n: &snook_legend_proto::BoardNote,
+    card: Rect,
+    me: Option<&str>,
+) -> Option<NoteClick> {
     let color = note_color(n.kind);
     let tint = Color::new(color.r, color.g, color.b, if n.pinned { 0.13 } else { 0.07 });
     rrect(card, 8.0, tint);
@@ -533,10 +555,12 @@ pub fn draw_note(
             color,
         );
     }
-    let lines = ui.wrap(&n.text, card.w - 44.0, 14.0);
-    for (i, l) in lines.iter().enumerate() {
-        ui.text(l, card.x + 14.0, card.y + 10.0 + i as f32 * 19.0, 14.0, CREAM, false);
+    if me.is_some_and(|m| notes::mentions(n, m)) {
+        rrect(card, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08));
     }
+    let lines = ui.wrap(&n.text, card.w - 44.0, 14.0);
+    let (x, y) = (card.x + 14.0, card.y + 10.0);
+    let profile = notes::draw_lines(ui, n, &lines, x, y, 19.0, CREAM);
     let by = if n.author.is_empty() {
         crate::profile::date(n.at)
     } else {
@@ -544,11 +568,14 @@ pub fn draw_note(
     };
     let by_y = card.y + 14.0 + lines.len() as f32 * 19.0;
     ui.text(&by, card.x + 14.0, by_y, 12.0, MUTED, false);
-    let a = n.action?;
+    let Some(a) = n.action else { return profile.map(NoteClick::Profile) };
     let label = note_button(a);
     let bw = ui.text_size(label, 14.0, true).x + 36.0;
     let b = Rect::new(card.x + 14.0, by_y + 22.0, bw.min(card.w - 28.0), 28.0);
-    ui.button(b, label, true).then_some(a)
+    if ui.button(b, label, true) {
+        return Some(NoteClick::Action(a));
+    }
+    profile.map(NoteClick::Profile)
 }
 
 /// Under the format of a new arena tournament.
@@ -1900,7 +1927,10 @@ impl Online {
             ServerMsg::Missions { daily, weekly, day_ends, week_ends } => {
                 self.missions = Some(MissionsView { daily, weekly, day_ends, week_ends });
             }
-            ServerMsg::Board { notes } => self.board = notes,
+            ServerMsg::Board { notes } => {
+                self.board_mentions(&notes);
+                self.board = notes;
+            }
             ServerMsg::InviteCode { code } => self.invite_code = Some(code),
             ServerMsg::Draining { secs } => {
                 self.draining =
@@ -4268,8 +4298,11 @@ impl Online {
             if y + h > bottom {
                 break;
             }
-            if let Some(a) = draw_note(ui, n, Rect::new(area.x, y, area.w, h)) {
-                action = self.note_action(a);
+            let me = self.me.as_ref().map(|m| m.username.clone());
+            match draw_note_for(ui, n, Rect::new(area.x, y, area.w, h), me.as_deref()) {
+                Some(NoteClick::Action(a)) => action = self.note_action(a),
+                Some(NoteClick::Profile(name)) => action = Some(OnlineAction::Profile(name)),
+                None => {}
             }
             y += h + 8.0;
         }

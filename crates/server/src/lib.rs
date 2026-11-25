@@ -343,8 +343,8 @@ impl Server {
         let mut lounge = Lounge::new(config.settings.clone(), tx);
         lounge.simulate_on(shots_tx);
         let effects_pending = lounge.pending_effects();
-        if let Ok(notes) = store.board_notes(now()).await {
-            lounge.set_board(notes.into_iter().map(board_note).collect());
+        if let Ok(notes) = board_notes(&store).await {
+            lounge.set_board(notes);
         }
         let ops = ops::Ops::new(&config);
         let server = Arc::new(Server {
@@ -375,11 +375,8 @@ impl Server {
 
     /// Reads the board again and shows it to everyone.
     pub async fn refresh_board(&self) {
-        match self.store.board_notes(now()).await {
-            Ok(notes) => {
-                let notes = notes.into_iter().map(board_note).collect();
-                self.with(|l| l.set_board(notes));
-            }
+        match board_notes(&self.store).await {
+            Ok(notes) => self.with(|l| l.set_board(notes)),
             Err(e) => tracing::error!("the board: {e}"),
         }
     }
@@ -2200,8 +2197,20 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
     )
 }
 
+/// The notes on the board as players see them, with the players each
+/// mentions (`@name`) looked up.
+async fn board_notes(store: &Store) -> store::StoreResult<Vec<snook_legend_proto::BoardNote>> {
+    let mut notes = Vec::new();
+    for n in store.board_notes(now()).await? {
+        let mentions = moderation::known_mentions_in(store, &n.text).await;
+        notes.push(snook_legend_proto::BoardNote { mentions, ..board_note(n) });
+    }
+    Ok(notes)
+}
+
 fn board_note(n: crate::store::BoardNote) -> snook_legend_proto::BoardNote {
     snook_legend_proto::BoardNote {
+        mentions: Vec::new(),
         id: n.id,
         text: n.text,
         author: n.author,

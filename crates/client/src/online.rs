@@ -340,6 +340,8 @@ pub struct Online {
     /// The left edge of the room the toasts have this frame (the main
     /// menu: right of its column, so they never cover its buttons).
     pub toast_left: std::cell::Cell<Option<f32>>,
+    /// The same at the top: where the main menu's title ends.
+    pub card_left: std::cell::Cell<Option<f32>>,
     /// Recent opponents and the "looking for a game" board.
     social: social::Social,
     /// Presents from friends.
@@ -803,6 +805,7 @@ impl Online {
             form_focused: false,
             toast_floor: std::cell::Cell::new(None),
             toast_left: std::cell::Cell::new(None),
+            card_left: std::cell::Cell::new(None),
             social: social::Social {
                 // Development aid (screenshots): SNOOK_LEGEND_RECENT=1 opens
                 // the Friends tab on the people played recently.
@@ -2572,6 +2575,8 @@ impl Online {
     /// its medal, its metal, its title and what it was for. It slides down,
     /// stays a few seconds (a click puts it away) and fades out.
     fn draw_achievement_card(&mut self, ui: &Ui) {
+        // (Set for this frame only, by the main menu.)
+        let card_left = self.card_left.take();
         let Some((code, age)) = self.achievement_cards.front().cloned() else {
             self.cards_held = false;
             return;
@@ -2587,7 +2592,11 @@ impl Online {
             return;
         };
         let sw = crate::ui::vw();
-        let w = 460.0f32.min(sw - 24.0);
+        // On the main menu: right of its title, under the player's card
+        // (narrower if need be, not over the game's name); elsewhere at the
+        // top, in the middle.
+        let beside = card_left.map(|l| sw - l - 20.0).filter(|room| *room >= 340.0);
+        let w = beside.unwrap_or(460.0).min(460.0).min(sw - 24.0);
         let medal = 72.0;
         let pad = 16.0;
         let text_x = pad + medal + 14.0;
@@ -2599,10 +2608,8 @@ impl Online {
         let enter = (age / 0.35).min(1.0);
         let ease = 1.0 - (1.0 - enter).powi(3);
         let alpha = ((ACHIEVEMENT_CARD_SECS - age) / 0.5).clamp(0.0, 1.0);
-        // On the main menu: right of its column, under the player's card
-        // (not over the game's name); elsewhere at the top, in the middle.
-        let (cx, top) = match self.toast_left.get().filter(|l| sw - l > w + 24.0) {
-            Some(left) => ((left + sw) / 2.0, 86.0),
+        let (cx, top) = match beside {
+            Some(room) => (sw - 20.0 - room / 2.0, 86.0),
             None => (sw / 2.0, 14.0),
         };
         let r = Rect::new(cx - w / 2.0, top - (1.0 - ease) * (h + top + 6.0), w, h);

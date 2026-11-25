@@ -2326,6 +2326,7 @@ async fn main() {
         }
         if current.is_none() && matches!(screen, Screen::Menu) {
             online.toast_left.set(Some(menu.column_right + 16.0));
+            online.card_left.set(Some(menu.title_right + 16.0));
         }
         online.draw_toasts(&ui, toast_bottom);
         if let Some(l) = &mut lan {

@@ -56,6 +56,9 @@ pub struct Menu {
     /// Where the menu's column (cards and the row of places) ends on the
     /// right, as last drawn: notices go to the right of it.
     pub column_right: f32,
+    /// And where the game's name ends (what pops up at the top keeps
+    /// clear of it).
+    pub title_right: f32,
 }
 
 /// The game's name, drawn by `tools/gen_wordmark.py` (gold lit from above,
@@ -240,7 +243,7 @@ impl Menu {
         // run under the player card.
         let room = sw - player_card_w(sw) - EDGE - 24.0 - tx;
         let cap = (m.title * 0.73).min(room * WORDMARK_CAP_H / WORDMARK.w).max(m.title * 0.4);
-        draw_wordmark(tx, top + (m.title * 0.8 - cap) - 2.0, cap);
+        self.title_right = tx + draw_wordmark(tx, top + (m.title * 0.8 - cap) - 2.0, cap);
         let tagline = top + m.emblem * 0.8;
         ui.text(
             t("eight-ball pool"),

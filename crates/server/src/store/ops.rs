@@ -426,8 +426,14 @@ impl Store {
         dispatch!(self, s => s.cancel_auction(id, at))
     }
     /// Settles an auction that ended: the winner gets the item, in the same
-    /// step. The row as settled (None: not over, or settled already).
-    pub async fn settle_auction(&self, id: i64, at: i64) -> StoreResult<Option<AuctionRow>> {
+    /// step. The row as settled (None: not over, or settled already), and
+    /// whether the item was given: a winner who has it already (got it
+    /// meanwhile) gets the bid back instead.
+    pub async fn settle_auction(
+        &self,
+        id: i64,
+        at: i64,
+    ) -> StoreResult<Option<(AuctionRow, bool)>> {
         dispatch!(self, s => s.settle_auction(id, at))
     }
     /// The bids made, newest first: (bidder, amount, when).

@@ -188,15 +188,24 @@ pub async fn tick(server: &Server) {
 
 /// Settles auction `id` (over): the winner gets the item and is told.
 pub async fn settle(server: &Server, id: i64) {
-    let row = match server.store.settle_auction(id, now()).await {
-        Ok(Some(row)) => row,
+    let (row, given) = match server.store.settle_auction(id, now()).await {
+        Ok(Some(settled)) => settled,
         Ok(None) => return,
         Err(e) => {
             tracing::error!("settling auction {id}: {e}");
             return;
         }
     };
-    if let Some(winner) = row.leader_id {
+    if let Some(winner) = row.leader_id
+        && !given
+    {
+        // They got the item meanwhile (bought or given it): the bid came
+        // back instead.
+        tracing::info!(user = winner, auction = id, price = row.bid, "auction won, item owned");
+        if let Ok(Some(u)) = server.store.user_by_id(winner).await {
+            crate::shop::push_wallet(server, &u).await;
+        }
+    } else if let Some(winner) = row.leader_id {
         tracing::info!(user = winner, auction = id, price = row.bid, item = %row.code, "auction won");
         let origin = Origin::Auction { price: row.bid };
         crate::collection::record(server, winner, &row.code, origin).await;

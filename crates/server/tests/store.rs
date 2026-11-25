@@ -659,6 +659,7 @@ async fn memory_store() {
     staff_tools(&Store::memory()).await;
     audit_fixes(&Store::memory()).await;
     match_social(&Store::memory()).await;
+    ops_and_modes(&Store::memory()).await;
 }
 
 #[tokio::test]
@@ -684,6 +685,7 @@ async fn postgres_store() {
     staff_tools(&Store::postgres(&url, 3).await.unwrap()).await;
     audit_fixes(&Store::postgres(&url, 3).await.unwrap()).await;
     match_social(&Store::postgres(&url, 3).await.unwrap()).await;
+    ops_and_modes(&Store::postgres(&url, 3).await.unwrap()).await;
 }
 
 /// Settings kept with the account, direct messages (a conversation keeps
@@ -1135,4 +1137,254 @@ async fn staff_tools(store: &Store) {
     let br = countries.iter().find(|(c, _)| c == "BR").map(|x| x.1).unwrap_or(0);
     assert!(br >= 2);
     assert!(countries.windows(2).all(|w| w[0].1 >= w[1].1));
+}
+
+/// Operations, the economy and the new modes of 0.12 (migrations 0028 and
+/// 0031) behave the same in memory and in the database: auctions with
+/// their held coins, the daily streak, promotions, maintenance, official
+/// tournaments, the credits, the staff's analytics and exports, the
+/// attempts against the clock and the doubles records.
+async fn ops_and_modes(store: &Store) {
+    use snook_legend_server::store::{
+        AttemptFinish, BidOutcome, DoublesRecord, Export, NewAuction, NewPromotion, OfficialRecord,
+    };
+    let t = 1_800_000_000;
+    let make = |name: &'static str| async move { store.create_user(&new_user(name)).await };
+    let a = make("op_a").await.unwrap().unwrap().id;
+    let b = make("op_b").await.unwrap().unwrap().id;
+    let c = make("op_c").await.unwrap().unwrap().id;
+    let e = make("op_e").await.unwrap().unwrap().id;
+    for u in [a, b, c] {
+        store.credit(u, 1000, "staff: test", None, t).await.unwrap();
+    }
+
+    // Auctions: a bid is held, the one outbid gets theirs back, the leader
+    // raising puts in only the difference, a late bid moves the end.
+    let new = NewAuction {
+        code: "cloth_blue",
+        starts_at: t - 10,
+        ends_at: t + 3600,
+        min_bid: 100,
+        min_increment: 50,
+        by: a,
+        at: t,
+    };
+    let id = store.add_auction(&new).await.unwrap();
+    assert_eq!(store.bid(id, a, 50, t, 120, 120).await.unwrap(), BidOutcome::TooLow(100));
+    assert_eq!(store.bid(id, a, 5000, t, 120, 120).await.unwrap(), BidOutcome::NotEnoughCoins);
+    assert_eq!(store.wallet(a).await.unwrap().coins, 1000, "nothing taken");
+    let placed = store.bid(id, a, 100, t, 120, 120).await.unwrap();
+    assert_eq!(placed, BidOutcome::Placed { outbid: None, ends_at: t + 3600 });
+    assert_eq!(store.wallet(a).await.unwrap().coins, 900, "held");
+    // The leader raises: 1000 in all is enough (900 left plus the 100 held).
+    let placed = store.bid(id, a, 1000, t + 1, 120, 120).await.unwrap();
+    assert_eq!(placed, BidOutcome::Placed { outbid: Some((a, 100)), ends_at: t + 3600 });
+    assert_eq!(store.wallet(a).await.unwrap().coins, 0);
+    let refused = store.bid(id, b, 1100, t + 2, 120, 120).await.unwrap();
+    assert_eq!(refused, BidOutcome::NotEnoughCoins);
+    assert_eq!(store.wallet(a).await.unwrap().coins, 0, "a refused bid gives nothing back");
+    store.credit(b, 500, "staff: test", None, t).await.unwrap();
+    let placed = store.bid(id, b, 1100, t + 3550, 120, 120).await.unwrap();
+    assert_eq!(placed, BidOutcome::Placed { outbid: Some((a, 1000)), ends_at: t + 3670 });
+    assert_eq!(store.wallet(a).await.unwrap().coins, 1000, "back at once");
+    assert_eq!(store.wallet(b).await.unwrap().coins, 400);
+    let row = store.auction(id).await.unwrap().unwrap();
+    assert_eq!((row.leader.as_str(), row.bid, row.bids, row.ends_at), ("op_b", 1100, 3, t + 3670));
+    assert_eq!(store.auction_bids(id, 10).await.unwrap().len(), 3);
+    assert_eq!(store.settle_auction(id, t + 3600).await.unwrap(), None, "not over yet");
+    let (row, given) = store.settle_auction(id, t + 3670).await.unwrap().expect("settled");
+    assert!(given, "the item given");
+    assert_eq!((row.leader.as_str(), row.bid, row.settled_at), ("op_b", 1100, Some(t + 3670)));
+    assert!(store.wallet(b).await.unwrap().owned.iter().any(|o| o == "cloth_blue"));
+    assert_eq!(store.wallet(b).await.unwrap().coins, 400, "the coins left the economy");
+    assert_eq!(store.settle_auction(id, t + 3700).await.unwrap(), None, "once");
+    assert_eq!(store.cancel_auction(id, t + 3700).await.unwrap(), None, "settled already");
+    // Called off: the leader's coins come back.
+    let id2 = store.add_auction(&NewAuction { code: "cloth_red", ..new.clone() }).await.unwrap();
+    store.bid(id2, c, 200, t, 120, 120).await.unwrap();
+    assert_eq!(store.cancel_auction(id2, t + 1).await.unwrap(), Some(Some((c, 200))));
+    assert_eq!(store.wallet(c).await.unwrap().coins, 1000);
+    assert_eq!(store.cancel_auction(id2, t + 2).await.unwrap(), None);
+    // Won by a player who got the item meanwhile: the bid comes back,
+    // nothing is lost.
+    let id3 = store.add_auction(&NewAuction { code: "cloth_red", ..new.clone() }).await.unwrap();
+    store.bid(id3, c, 300, t, 120, 120).await.unwrap();
+    store.grant_item(c, "cloth_red", "staff", t + 5).await.unwrap();
+    assert_eq!(store.wallet(c).await.unwrap().coins, 700);
+    let (row, given) = store.settle_auction(id3, t + 3600).await.unwrap().expect("settled");
+    assert!(!given, "had it already");
+    assert_eq!(row.leader_id, Some(c));
+    assert_eq!(store.wallet(c).await.unwrap().coins, 1000, "the bid back: they had it already");
+    let mut list = store.auctions(10).await.unwrap();
+    list.sort_by_key(|r| r.id);
+    assert_eq!(list.iter().map(|r| r.id).collect::<Vec<_>>(), [id, id2, id3]);
+    assert_eq!(list[0].created_by, "op_a");
+
+    // The daily bonus's streak: once a day, a day in a row adds a step.
+    let day = t / 86_400;
+    let claim = store.claim_daily_streak(a, day, 50, 10, 7).await.unwrap().unwrap();
+    assert_eq!((claim.day, claim.coins), (1, 50));
+    assert_eq!(store.claim_daily_streak(a, day, 50, 10, 7).await.unwrap(), None);
+    let claim = store.claim_daily_streak(a, day + 1, 50, 10, 7).await.unwrap().unwrap();
+    assert_eq!((claim.day, claim.coins), (2, 60));
+    let claim = store.claim_daily_streak(a, day + 3, 50, 10, 7).await.unwrap().unwrap();
+    assert_eq!((claim.day, claim.coins), (1, 50), "a day missed starts again");
+
+    // Promotions.
+    let codes = vec!["cloth_blue".to_string()];
+    let p = NewPromotion {
+        title: "Sale",
+        kind: "discount",
+        percent: 30,
+        codes: &codes,
+        categories: &[],
+        starts_at: t,
+        ends_at: t + 86_400,
+        by: a,
+        at: t,
+    };
+    let pid = store.add_promotion(&p).await.unwrap();
+    assert!(store.update_promotion(pid, &NewPromotion { percent: 40, ..p.clone() }).await.unwrap());
+    let rows = store.promotions(10).await.unwrap();
+    assert_eq!((rows[0].percent, rows[0].codes.clone()), (40, codes.clone()));
+    assert_eq!((rows[0].created_by.as_str(), rows[0].created_at), ("op_a", t));
+    assert!(store.cancel_promotion(pid, t + 5).await.unwrap());
+    assert!(!store.cancel_promotion(pid, t + 6).await.unwrap());
+    assert!(!store.update_promotion(pid, &p).await.unwrap(), "called off: kept as it was");
+
+    // Maintenance: started once, then neither started nor called off.
+    let m = store.add_maintenance(t + 600, 15, "Update", a, t).await.unwrap();
+    assert!(store.start_maintenance(m, t + 600).await.unwrap());
+    assert!(!store.start_maintenance(m, t + 601).await.unwrap());
+    assert!(!store.cancel_maintenance(m, t + 601).await.unwrap());
+    let rows = store.maintenances(5).await.unwrap();
+    assert_eq!((rows[0].minutes, rows[0].started_at), (15, Some(t + 600)));
+    assert_eq!(rows[0].created_by, "op_a");
+
+    // Official tournaments, kept once.
+    let record = OfficialRecord {
+        key: "event:1".into(),
+        event_id: None,
+        name: "Cup".into(),
+        rules: Rules::Official,
+        format: "knockout".into(),
+        size: 4,
+        players: 4,
+        rated: true,
+        entry_fee: 50,
+        prize_pool: 180,
+        prizes: vec![126, 36],
+        item_prize: String::new(),
+        champion_id: Some(b),
+        runner_up_id: Some(a),
+        detail: "{}".into(),
+        starts_at: t,
+        ends_at: t + 3600,
+    };
+    let oid = store.record_official(&record).await.unwrap().expect("kept");
+    assert_eq!(store.record_official(&record).await.unwrap(), None, "once");
+    assert_eq!(store.official(oid).await.unwrap(), Some((oid, record.clone())));
+    assert_eq!(store.officials_won(b).await.unwrap(), [(oid, "Cup".to_string(), t + 3600)]);
+    assert_eq!(store.officials(10).await.unwrap().len(), 1);
+
+    // The credits: for VIP members, now or before.
+    store.add_vip(c, t, 30 * 86_400).await.unwrap();
+    store.set_credits(c, true, t).await.unwrap();
+    assert!(store.in_credits(c).await.unwrap());
+    let sup = store.supporters(t).await.unwrap();
+    assert_eq!(sup.iter().map(|s| s.username.as_str()).collect::<Vec<_>>(), ["op_c"]);
+    store.set_credits(c, false, t).await.unwrap();
+    assert!(store.supporters(t).await.unwrap().is_empty());
+
+    // The analytics and exports read the ledger.
+    let days = store.coin_days(day - 1, day + 5).await.unwrap();
+    let staff: i64 = days.iter().filter(|d| d.reason == "staff: test").map(|d| d.credited).sum();
+    assert_eq!(staff, 3500);
+    let bids: i64 =
+        days.iter().filter(|d| d.reason.starts_with("auction bid")).map(|d| d.debited).sum();
+    assert_eq!(bids, 100 + 1000 + 1100 + 200 + 300);
+    store.item_sales(0).await.unwrap();
+    store.countries(0).await.unwrap();
+    store.hour_samples(0).await.unwrap();
+    let vip = store.vip_members(0).await.unwrap();
+    assert!(vip.iter().any(|m| m.user_id == c && m.gifted_months == 0));
+    for kind in Export::ALL {
+        let rows = store.export_page(kind, t - 86_400, t + 4 * 86_400, 0, 2000).await;
+        let rows = rows.unwrap_or_else(|e| panic!("export {}: {e}", kind.code()));
+        for (_, fields) in &rows {
+            assert_eq!(fields.len(), kind.header().len(), "{}", kind.code());
+        }
+        if kind == Export::Ledger {
+            let bid = format!("auction bid #{id}");
+            assert!(rows.iter().any(|(_, f)| f[3] == "op_b" && f[4] == "-1100" && f[5] == bid));
+        }
+        if kind == Export::Daily {
+            assert_eq!(rows.len(), 6, "a row a day");
+        }
+    }
+    let players = store.export_page(Export::Players, 0, i64::MAX / 2, 0, 2000).await.unwrap();
+    let row = players.iter().find(|(_, f)| f[1] == "op_b").expect("listed");
+    assert_eq!((row.1[3].as_str(), row.1[12].as_str()), ("player", "400"));
+
+    // Against the clock: two attempts a day, one at a time, the best of
+    // the week, each prize once.
+    let week = 2900;
+    let first = store.time_attack_start(a, day, 1000, 7, 2).await.unwrap().expect("one left");
+    let second = store.time_attack_start(a, day, 2000, 8, 2).await.unwrap().expect("one left");
+    assert_eq!(store.time_attack_start(a, day, 3000, 9, 2).await.unwrap(), None);
+    assert_eq!(store.time_attack_attempts(a, day).await.unwrap(), 2);
+    let open = store.time_attack_open(a).await.unwrap().expect("under way");
+    assert_eq!((open.id, open.seed, open.started_ms), (second, 8, 2000));
+    let gone = store.time_attack_finish(a, first, 2500, week, t, Some((9000, 9, 0))).await;
+    assert_eq!(gone.unwrap(), AttemptFinish::NotStarted, "given up when the next began");
+    let done = store.time_attack_finish(a, second, 2500, week, t, Some((60_000, 12, 1))).await;
+    assert_eq!(done.unwrap(), AttemptFinish::Counted { best: true });
+    assert_eq!(store.time_attack_open(a).await.unwrap(), None);
+    let again = store.time_attack_finish(a, second, 2600, week, t, Some((1, 1, 0))).await;
+    assert_eq!(again.unwrap(), AttemptFinish::NotStarted, "once");
+    let bt = store.time_attack_start(b, day, 1000, 1, 2).await.unwrap().unwrap();
+    store.time_attack_finish(b, bt, 1500, week, t + 5, Some((50_000, 9, 0))).await.unwrap();
+    let ct = store.time_attack_start(c, day, 1000, 1, 2).await.unwrap().unwrap();
+    store.time_attack_finish(c, ct, 1500, week, t + 9, Some((50_000, 9, 0))).await.unwrap();
+    let ct = store.time_attack_start(c, day, 1600, 1, 2).await.unwrap().unwrap();
+    let worse = store.time_attack_finish(c, ct, 1700, week, t + 20, Some((70_000, 9, 0))).await;
+    assert_eq!(worse.unwrap(), AttemptFinish::Counted { best: false });
+    let (board, players) = store.time_attack_board(week, 2).await.unwrap();
+    let names: Vec<_> = board.iter().map(|r| (r.username.as_str(), r.ms)).collect();
+    assert_eq!(names, [("op_b", 50_000), ("op_c", 50_000)], "the earlier first on a tie");
+    assert_eq!(players, 3);
+    assert_eq!(store.time_attack_best(a, week).await.unwrap(), Some((60_000, Some(3))));
+    assert_eq!(store.time_attack_best(a, week + 1).await.unwrap(), None);
+    store.set_ban(b, Some(i64::MAX / 4), Some("test")).await.unwrap();
+    assert_eq!(store.time_attack_best(b, week).await.unwrap(), Some((50_000, None)), "off it");
+    assert_eq!(store.time_attack_best(a, week).await.unwrap(), Some((60_000, Some(2))));
+    assert_eq!(store.time_attack_board(week, 10).await.unwrap().1, 2);
+    store.set_ban(b, None, None).await.unwrap();
+    assert!(store.time_attack_prize(week, 1, b, 300, 50_000, t).await.unwrap());
+    assert!(!store.time_attack_prize(week, 1, c, 300, 50_000, t).await.unwrap(), "once");
+
+    // Doubles: each player's record moves with a rated game, once a room.
+    let d = DoublesRecord {
+        players: [[a, b], [c, e]],
+        winner: 0,
+        reason: GameOverReason::PocketedEight,
+        rated: true,
+        rules: Rules::Brazilian,
+        deltas: [[10, 12], [-11, -9]],
+        shots: 30,
+        ended_at: t,
+        replay: None,
+        room: Some(77),
+    };
+    assert!(store.record_doubles(&d).await.unwrap());
+    assert!(!store.record_doubles(&d).await.unwrap(), "once");
+    let ra = store.doubles_records(a).await.unwrap();
+    assert_eq!((ra.brazilian.rating, ra.brazilian.games, ra.brazilian.wins), (1210, 1, 1));
+    assert_eq!(ra.official.games, 0);
+    let re = store.doubles_records(e).await.unwrap();
+    let re = (re.brazilian.rating, re.brazilian.peak_rating, re.brazilian.wins);
+    assert_eq!(re, (1191, 1200, 0));
+    let board = store.doubles_leaderboard(Rules::Brazilian, 10, t).await.unwrap();
+    let names: Vec<_> = board.iter().map(|r| (r.username.as_str(), r.rating)).collect();
+    assert_eq!(names, [("op_b", 1212), ("op_a", 1210), ("op_e", 1191), ("op_c", 1189)]);
 }

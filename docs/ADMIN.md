@@ -144,5 +144,28 @@ ends, and an experience or coin notice says "(×2)" while a boost runs.
 Calling an event off stops a boost at once; a tournament that is open for
 sign-up is called off with every fee back (one that started plays on).
 
+## Collection and items only won
+
+Every item a player has keeps how and when they got it (bought for so many
+coins, a friend's present, the welcome pack, an achievement, a tournament,
+an event, VIP's item of the month, from the staff with the reason given).
+The player sees it in the game's *Collection*; the portal shows it on the
+player's page (`GET /admin/api/users/{name}/collection`, see
+[ADMIN-API.md](ADMIN-API.md#collection-and-content)).
+
+- **Items only won** (the catalogue's `earned`: the seasonal and event
+  cues, tables and ball sets, the season champion's set, the pro arena,
+  VIP's items of the month) are never sold. Administrators award them with
+  **Give an item** on the player's page: the reason they write ("Christmas
+  2026 winner") is what the player reads under the item.
+- **Rarity** (common, rare, epic, legendary) is shown in the shop, the
+  collection and the portal's catalogue. Items only won are at least epic.
+- **Bound items** (`bound`: those of achievements, those only won, VIP's
+  and the free ones) stay with whoever got them: they can't be given to a
+  friend nor put up for auction.
+- **Secret achievements** are shown as "???" in the game until won; the
+  server sees them in each rated game's replay (three balls with one shot,
+  a comeback from six balls behind, the 8 on an official break…).
+
 Every staff action is written to the audit log with who, what, whom and
 when, and shows on the player's *Moderation* tab.

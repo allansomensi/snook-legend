@@ -28,6 +28,8 @@ use snook_legend_proto::{
 use crate::store::{SessionKind, User};
 use crate::{Server, new_token, now, token_hash};
 
+mod collection;
+
 const ADMIN_SESSION: i64 = 8 * 60 * 60;
 pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
     Router::new()
@@ -39,6 +41,7 @@ pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
         .route("/admin/api/users", get(users))
         .route("/admin/api/users/{name}", get(user_detail))
         .route("/admin/api/users/{name}/{action}", post(user_action))
+        .route("/admin/api/users/{name}/collection", get(collection::collection))
         .route("/admin/api/reports", get(reports))
         .route("/admin/api/reports/{id}", post(resolve_report))
         .route("/admin/api/audit", get(audit))
@@ -1258,6 +1261,8 @@ async fn economy(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRe
                 "code": i.code, "name": i.name, "category": format!("{:?}", i.category).to_lowercase(),
                 "how": how, "coins": coins,
                 "achievement": match i.price { Price::Achievement(a) => Some(a), _ => None },
+                "rarity": snook_legend_proto::shop::rarity(i),
+                "bound": snook_legend_proto::shop::bound(i),
             })
         })
         .collect();

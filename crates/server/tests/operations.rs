@@ -275,7 +275,8 @@ async fn auctions_hold_bids_and_give_them_back() {
     let placed = store.bid(id, a, 300, late, 120, 120).await.unwrap();
     assert_eq!(placed, BidOutcome::Placed { outbid: Some((b, 150)), ends_at: late + 120 });
     assert_eq!(store.settle_auction(id, t + 3600).await.unwrap(), None, "not over yet");
-    let row = store.settle_auction(id, late + 120).await.unwrap().expect("settled");
+    let (row, given) = store.settle_auction(id, late + 120).await.unwrap().expect("settled");
+    assert!(given);
     assert_eq!((row.leader.as_str(), row.bid), ("ana", 300));
     assert!(store.wallet(a).await.unwrap().owned.iter().any(|o| o == "cloth_blue"));
     assert_eq!(store.wallet(a).await.unwrap().coins, 700, "the coins left the economy");

@@ -507,7 +507,11 @@ impl PgStore {
         Ok(Some(back))
     }
 
-    pub async fn settle_auction(&self, id: i64, at: i64) -> StoreResult<Option<AuctionRow>> {
+    pub async fn settle_auction(
+        &self,
+        id: i64,
+        at: i64,
+    ) -> StoreResult<Option<(AuctionRow, bool)>> {
         let mut tx = self.pool.begin().await?;
         let Some(a) = query(
             "UPDATE auctions SET settled_at = $2
@@ -521,8 +525,9 @@ impl PgStore {
         else {
             return Ok(None);
         };
+        let mut given = false;
         if let Some(winner) = a.get::<Option<i64>, _>("leader_id") {
-            query(
+            given = query(
                 "INSERT INTO owned_items (user_id, code, acquired_at, source)
                  VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING",
             )
@@ -531,10 +536,32 @@ impl PgStore {
             .bind(at)
             .bind(format!("auction:{id}"))
             .execute(&mut *tx)
-            .await?;
+            .await?
+            .rows_affected()
+                > 0;
+            if !given {
+                // Got meanwhile (bought, a present): the bid goes back.
+                let held: i64 = a.get("bid");
+                query("UPDATE wallets SET coins = coins + $2 WHERE user_id = $1")
+                    .bind(winner)
+                    .bind(held)
+                    .execute(&mut *tx)
+                    .await?;
+                query(
+                    "INSERT INTO coin_ledger (user_id, delta, reason, reference, at)
+                     VALUES ($1, $2, $3, $4, $5)",
+                )
+                .bind(winner)
+                .bind(held)
+                .bind(format!("auction refund #{id}"))
+                .bind(format!("auction-owned:{id}"))
+                .bind(at)
+                .execute(&mut *tx)
+                .await?;
+            }
         }
         tx.commit().await?;
-        self.auction(id).await
+        Ok(self.auction(id).await?.map(|row| (row, given)))
     }
 
     pub async fn auction_bids(&self, id: i64, limit: u32) -> StoreResult<Vec<(String, i64, i64)>> {

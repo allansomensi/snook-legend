@@ -356,7 +356,7 @@ impl MemoryStore {
         Ok(Some(back))
     }
 
-    pub fn settle_auction(&self, id: i64, at: i64) -> StoreResult<Option<AuctionRow>> {
+    pub fn settle_auction(&self, id: i64, at: i64) -> StoreResult<Option<(AuctionRow, bool)>> {
         let mut s = self.lock();
         let Some(k) = s.ops.auctions.iter().position(|(r, _)| {
             r.id == id && r.cancelled_at.is_none() && r.settled_at.is_none() && r.ends_at <= at
@@ -365,13 +365,29 @@ impl MemoryStore {
         };
         s.ops.auctions[k].0.settled_at = Some(at);
         let (row, by) = s.ops.auctions[k].clone();
+        let mut given = false;
         if let Some(winner) = row.leader_id {
             let w = s.wallets.entry(winner).or_default();
-            if !w.owned.contains(&row.code) {
+            if w.owned.contains(&row.code) {
+                // Got meanwhile (bought, a present): the bid goes back.
+                w.coins += row.bid;
+                s.ledger.push((
+                    winner,
+                    row.bid,
+                    format!("auction refund #{id}"),
+                    Some(format!("auction-owned:{id}")),
+                    at,
+                ));
+            } else {
                 w.owned.push(row.code.clone());
+                s.acquired.insert(
+                    (winner, row.code.clone()),
+                    super::collection::acquired(at, &format!("auction:{id}")),
+                );
+                given = true;
             }
         }
-        Ok(Some(Self::auction_row(&s, &row, by)))
+        Ok(Some((Self::auction_row(&s, &row, by), given)))
     }
 
     pub fn auction_bids(&self, id: i64, limit: u32) -> StoreResult<Vec<(String, i64, i64)>> {

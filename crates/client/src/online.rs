@@ -3357,9 +3357,8 @@ impl Online {
                     at: 0,
                     kind: snook_legend_proto::ChatKind::Player,
                     rating: me.rating_in(self.rules),
-                    id: 0,
                     admin: me.role == snook_legend_proto::Role::Admin,
-                    deleted: None,
+                    ..Default::default()
                 };
                 let mut feed = FeedLine::chat(&line);
                 feed.pending = true;

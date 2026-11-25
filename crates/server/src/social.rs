@@ -39,13 +39,13 @@ pub async fn handle(
                 error("Something went wrong. Please try again.");
                 return None;
             };
-            let t = now();
-            if fresh.is_muted(t) {
-                let mins = (fresh.muted_until.unwrap_or(t) - t + 59) / 60;
-                error(&format!("You are muted for {mins} more minutes."));
+            let text = clean_status(&text);
+            // Muted (why, until when), or a word the chat doesn't allow.
+            let place = snook_legend_proto::moderation::TextPlace::Status;
+            if let Some(msg) = crate::moderation::refusal(server, &fresh, &text, place) {
+                send(msg);
                 return None;
             }
-            let text = clean_status(&text);
             if fresh.chat_restricted() && !text.is_empty() {
                 error(crate::lounge::chat_off_reason(&fresh));
                 return None;

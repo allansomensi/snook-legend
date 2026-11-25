@@ -179,16 +179,26 @@ async fn the_portal_manages_players() {
     let (_, v) = get("/admin/api/users?q=AN&sort=rating-official").await;
     assert_eq!(names(&v), ["ana"]);
 
-    // A warning reaches a player online at once…
+    // A warning reaches a player online at once (in their inbox)…
     let (code, v) = post("/admin/api/users/ana/warn", r#"{"reason":"Mind your words."}"#).await;
     assert_eq!(code, 200, "{v}");
-    let text = ana.notice("Mind your words.").await;
-    assert!(text.starts_with("Warning from the staff"), "{text}");
-    // …and an offline one when they next sign in, once.
+    let warned = |m: &ServerMsg| {
+        matches!(m, ServerMsg::InboxNew { item, .. }
+            if item.kind == snook_legend_proto::inbox::Kind::Warning)
+    };
+    let ServerMsg::InboxNew { item, .. } = ana.expect("the warning", warned).await else {
+        unreachable!()
+    };
+    assert_eq!(item.text, "Mind your words.");
+    // …and an offline one when they next sign in (still to confirm).
     let (code, _) = post("/admin/api/users/bia/warn", r#"{"reason":"No spamming."}"#).await;
     assert_eq!(code, 200);
     let mut bia = Client::login(&s.url, "bia").await;
-    bia.notice("No spamming.").await;
+    bia.expect(
+        "the inbox",
+        |m| matches!(m, ServerMsg::Inbox { items, unread: 1 } if items[0].text == "No spamming."),
+    )
+    .await;
     let (_, v) = get("/admin/api/users/bia").await;
     let warning = &v["notes"][0];
     assert_eq!(

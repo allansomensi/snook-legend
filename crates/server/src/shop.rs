@@ -209,14 +209,12 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
                 snook_legend_proto::clean_text(&message, snook_legend_proto::MAX_GIFT_MESSAGE)
             };
             let t = now();
-            // (The lounge's copy of the account follows mutes by the staff.)
-            let muted_until = server
-                .with(|l| l.session_user(&me.username).map(|u| u.muted_until))
-                .unwrap_or(me.muted_until)
-                .filter(|until| *until > t);
-            if let Some(until) = muted_until.filter(|_| !message.is_empty()) {
-                let mins = (until - t + 59) / 60;
-                return error(&format!("You are muted for {mins} more minutes."));
+            // Muted (why, until when), or a word the chat doesn't allow.
+            let place = snook_legend_proto::moderation::TextPlace::Gift;
+            if !message.is_empty()
+                && let Some(msg) = crate::moderation::refusal(server, me, &message, place)
+            {
+                return send(msg);
             }
             let gift = crate::store::NewGift {
                 from: me.id,

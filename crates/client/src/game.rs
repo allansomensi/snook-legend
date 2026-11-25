@@ -2465,9 +2465,8 @@ impl OnlineMatch {
             at: 0,
             kind: ChatKind::Player,
             rating: self.ratings[self.seat],
-            id: 0,
             admin,
-            deleted: None,
+            ..Default::default()
         };
         let mut feed = FeedLine::chat(&line);
         feed.pending = true;

@@ -248,6 +248,10 @@ pub async fn change_username(
         error("Usernames have 3–16 letters, digits or underscores.");
         return None;
     }
+    if let Some(why) = crate::moderation::name_refusal(server, name) {
+        error(&why);
+        return None;
+    }
     if server.is_reserved_name(name) && !name.eq_ignore_ascii_case(&fresh.username) {
         error("That username is taken.");
         return None;
@@ -280,6 +284,9 @@ pub async fn change_username(
         }
     }
     tracing::info!(user = me.id, from = %fresh.username, to = name, "username changed");
+    use snook_legend_proto::moderation::ChangeKind;
+    crate::moderation::record_change(server, me.id, ChangeKind::Name, &fresh.username, name, None)
+        .await;
     fresh.username = name.to_string();
     fresh.name_changes += 1;
     server.invalidate_leaderboard();
@@ -296,6 +303,8 @@ pub async fn signed_in(server: &Server, user: &User) {
     let _ = server.store.mark_active(user.id, day).await;
     // Warnings from the staff written while the player was away.
     deliver_warnings(server, user).await;
+    // The inbox (warnings and all), and why they are muted if they are.
+    crate::inbox::signed_in(server, user).await;
     if server.config.settings.lan {
         return;
     }
@@ -430,6 +439,7 @@ pub async fn level_rewards(server: &Server, user: &User, before: i64, after: i64
         match server.store.add_achievements(user.id, &codes, t).await {
             Ok(fresh) if !fresh.is_empty() => {
                 unlocked = true;
+                crate::inbox::achievements(server, user.id, &fresh).await;
                 let all = server.store.achievements(user.id).await.unwrap_or_default();
                 let all: Vec<String> = all.into_iter().map(|(code, _)| code).collect();
                 server.with(|l| {
@@ -451,6 +461,10 @@ pub async fn level_rewards(server: &Server, user: &User, before: i64, after: i64
 /// Shows the player the staff's warnings they haven't seen (each once).
 pub async fn deliver_warnings(server: &Server, user: &User) {
     let Ok(warnings) = server.store.take_warnings(user.id, now()).await else { return };
+    // A game with an inbox has them there (pinned, to confirm).
+    if server.with(|l| l.has_inbox(&user.username)) {
+        return;
+    }
     for text in warnings {
         server.with(|l| l.notify(&user.username, ServerMsg::Notice { text: warning_text(&text) }));
     }

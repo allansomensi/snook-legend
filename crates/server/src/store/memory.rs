@@ -8,6 +8,7 @@ use snook_legend_proto::{LeaderboardEntry, PerRules, Role, Rules};
 use snook_legend_proto::CareerNumbers;
 
 mod correspondence;
+mod moderation;
 mod msstore;
 
 use super::{
@@ -104,6 +105,8 @@ struct Inner {
     drills: BTreeMap<(i64, String), (u32, i64)>,
     /// user -> (challenge rating, stars, when)
     challenge: HashMap<i64, (u32, u32, i64)>,
+    /// The inbox and the moderation (see `moderation.rs`).
+    moderation: moderation::State,
 }
 
 impl Inner {
@@ -486,6 +489,10 @@ impl MemoryStore {
             })
             .take(limit as usize)
             .collect();
+        // With the ratings the staff put right (and the games called off).
+        list.extend(s.adjusted_ratings(user_id, rules));
+        list.sort_by_key(|(at, _)| std::cmp::Reverse(*at));
+        list.truncate(limit as usize);
         list.reverse();
         Ok(list)
     }

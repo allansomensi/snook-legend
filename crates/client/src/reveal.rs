@@ -258,7 +258,7 @@ mod tests {
 
     #[test]
     fn the_box_bursts_before_the_card_shows() {
-        assert!(BURST < SHOWN);
+        const { assert!(BURST < SHOWN) };
         assert!(smooth(0.0, 1.0, 0.5) > 0.4 && smooth(0.0, 1.0, 2.0) == 1.0);
     }
 }

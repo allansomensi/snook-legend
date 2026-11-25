@@ -375,7 +375,7 @@ pub fn pattern(style: CueStyle, p: Paint, u: f32, v: f32) -> Color {
             let t = (u * 3.0 + v * 2.0).fract();
             if t < 0.36 {
                 a
-            } else if t < 0.42 || t > 0.94 {
+            } else if !(0.42..=0.94).contains(&t) {
                 ring
             } else {
                 b

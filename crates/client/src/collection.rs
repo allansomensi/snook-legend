@@ -140,7 +140,7 @@ pub fn coins_text(n: i64) -> String {
     let digits = n.abs().to_string();
     let mut out = String::new();
     for (k, ch) in digits.chars().enumerate() {
-        if k > 0 && (digits.len() - k) % 3 == 0 {
+        if k > 0 && (digits.len() - k).is_multiple_of(3) {
             out.push('\u{2009}');
         }
         out.push(ch);
@@ -784,10 +784,11 @@ impl CollectionScreen {
             } else if had && e.category() == Category::Reaction {
                 button(ui, b, Kind::Disabled, Some(Icon::Check), t("In your reactions"), 13.0);
             } else if had {
-                if button(ui, b, Kind::Normal, None, t("Use"), 14.0) && !modal {
-                    if let Some(i) = item {
-                        online.send(ClientMsg::Equip { code: i.code.to_string() });
-                    }
+                if button(ui, b, Kind::Normal, None, t("Use"), 14.0)
+                    && !modal
+                    && let Some(i) = item
+                {
+                    online.send(ClientMsg::Equip { code: i.code.to_string() });
                 }
             } else {
                 match item.map(|i| i.price) {

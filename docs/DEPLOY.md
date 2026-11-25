@@ -23,8 +23,8 @@ Render and Neon are fine for testing. This page is the reference.
 | `SNOOK_LEGEND_CLIENT_IP_HEADER` | — | headers with the client's real address behind a proxy, tried in order, e.g. `cf-connecting-ip,true-client-ip,x-forwarded-for` |
 | `SNOOK_LEGEND_TRUSTED_PROXIES` | private networks | the proxies whose address headers are believed (networks such as `203.0.113.0/24, 2001:db8::/32`; `*`: any). A connection from anywhere else is counted by its own address, whatever its headers say, so nobody can dodge the limits per address by sending a header. The default fits hosts whose proxy connects from a private network (Render, Fly, a reverse proxy on the same machine) |
 | `SNOOK_LEGEND_PROXY_HOPS` | `1` | with `x-forwarded-for`: proxies that append to it (the address is taken that many entries from the right) |
-| `SNOOK_LEGEND_MOTD` | a welcome line | message shown in the lounge |
-| `SNOOK_LEGEND_SHOT_CLOCK` | `30` | seconds per shot (10–120) |
+| `SNOOK_LEGEND_MOTD` | a welcome line | message shown in the lounge (the first value: the portal's *Settings* change it live) |
+| `SNOOK_LEGEND_SHOT_CLOCK` | `30` | seconds per shot (10–120; the first value: see the portal's *Settings*) |
 | `SNOOK_LEGEND_STRIPE_*` | — | real-money purchases through Stripe (see `crates/server/src/payments.rs`) |
 | `SNOOK_LEGEND_MSSTORE_*` | — | coin packs bought in the Microsoft Store (see [MSSTORE.md](MSSTORE.md)) |
 | `SNOOK_LEGEND_SITE_URL` | `https://snooklegend.app` | the game's website, with the terms of use and the privacy policy: the server's old addresses for them (`/termos`, `/privacy`…) and `/` lead there, permanently |
@@ -105,7 +105,16 @@ Players can also change it under **Settings → Game → Game server**.
 A restart keeps every account and result; players reconnect by themselves.
 On SIGTERM the server stops starting games, lets the games in progress go
 on for `SNOOK_LEGEND_DRAIN_SECS` and saves what is left, which the next
-server picks up when the players reconnect. When messages
+server picks up when the players reconnect. A maintenance scheduled in
+the staff portal does the same at its time and then ends the process
+cleanly (exit code 0): the host must start it again by itself (Render and
+Docker's `restart: always` do; with systemd, `Restart=always`).
+
+Since 0.12 the environment variables of the lounge (`SNOOK_LEGEND_MOTD`,
+`SNOOK_LEGEND_SHOT_CLOCK`, `SNOOK_LEGEND_CUP`) only give the first values:
+the portal's *Settings* page changes them (and connection limits, the
+tournaments' house cut, the economy's numbers) while the server runs, and
+what it sets is kept in the database. When messages
 change incompatibly, `PROTOCOL_VERSION` in `crates/proto` is bumped and older
 games are told to update.
 

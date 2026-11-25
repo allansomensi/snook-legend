@@ -1867,8 +1867,9 @@ fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
     rrect(frame, 8.0, Color::new(1.0, 1.0, 1.0, 0.03));
     // Which rules: inside the chart, in its corner (the cards above switch them).
     let tag_w = crate::rulesui::tag_w(ui, rules, 12.0);
-    crate::rulesui::tag(ui, rules, frame.x + frame.w - tag_w - 10.0, frame.y + 14.0, 12.0);
-    let chart = Rect::new(frame.x + 44.0, frame.y + 30.0, frame.w - 58.0, frame.h - 44.0);
+    crate::rulesui::tag(ui, rules, frame.x + frame.w - tag_w - 10.0, frame.y + 10.0, 12.0);
+    // (The chart starts under the tag: the line and its labels never meet it.)
+    let chart = Rect::new(frame.x + 44.0, frame.y + 44.0, frame.w - 58.0, frame.h - 58.0);
     let lo = pts.iter().map(|p| p.1).min().unwrap_or(0) - 15;
     let hi = pts.iter().map(|p| p.1).max().unwrap_or(0) + 15;
     let span = (hi - lo).max(1) as f32;
@@ -1896,9 +1897,11 @@ fn rating_chart(ui: &mut Ui, p: &Profile, rules: Rules, area: Rect) {
                 draw_line(x, y, e, y, 1.0, Color::new(c.r, c.g, c.b, 0.35));
                 x += 10.0;
             }
+            // Named at the left, clear of the rating now (at the right end).
             let name = t(tier.name());
-            let nw = ui.text_size(name, 11.0, true).x;
-            ui.text(name, chart.x + chart.w - nw, y - 15.0, 11.0, c, true);
+            let below = y - 15.0 < chart.y - 6.0;
+            let ny = if below { y + 3.0 } else { y - 15.0 };
+            ui.text(name, chart.x + 6.0, ny, 11.0, c, true);
         }
     }
     // A soft fill under the line, then the line, green up and red down.
@@ -1959,7 +1962,7 @@ fn numbers(ui: &mut Ui, p: &Profile, area: Rect) {
     let c = &p.career;
     if c.games == 0 && p.abandon_rate == 0 {
         if p.cue_wins.is_empty() && p.cue_stats.is_empty() {
-            empty_state(ui, area, Icon::Star, t("No games yet."));
+            empty_state(ui, area, Icon::Star, t("No shots yet."));
         } else {
             cue_card(ui, p, Rect::new(area.x, area.y, area.w, CUE_CARD_H));
         }

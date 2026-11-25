@@ -67,9 +67,16 @@ impl Setup {
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
         ui.panel(r);
         let x = r.x + PAD;
+        // Header: back, then the title (as on the other setup screens).
+        let mut action = SetupAction::None;
+        let back = Rect::new(x, r.y + 20.0, 36.0, 36.0);
+        if ui.icon_button(back, crate::icons::Icon::Back, t("Back"), true) || ui.escape() {
+            action = SetupAction::Back;
+        }
         let (icon, title) = (crate::icons::Icon::People, t("Two players"));
-        crate::icons::draw(icon, vec2(x + 13.0, r.y + 35.0), 26.0, GOLD);
-        ui.text(title, x + 38.0, r.y + 22.0, 24.0, GOLD, true);
+        crate::icons::draw(icon, vec2(x + 62.0, r.y + 38.0), 24.0, GOLD);
+        let (title, size) = ui.fitted(title, 24.0, inner - 84.0, true);
+        ui.text(&title, x + 84.0, r.y + 25.0, size, GOLD, true);
         let mut y = r.y + HEADER_H;
         let label = |ui: &Ui, text: &str, x: f32, y: f32| ui.text(text, x, y, 13.0, MUTED, true);
         let hint = |ui: &Ui, lines: &[String], y: f32| {
@@ -130,12 +137,9 @@ impl Setup {
         }
         hint(ui, &clock_lines, y + LABEL_H + CONTROL_H);
 
-        let by = r.y + r.h - 24.0 - 42.0;
-        let mut action = SetupAction::None;
-        if ui.button(Rect::new(x, by, 150.0, 42.0), t("Back"), true) || ui.escape() {
-            action = SetupAction::Back;
-        }
-        if ui.primary_button(Rect::new(x + inner - 220.0, by, 220.0, 42.0), t("Play")) || enter {
+        // One clear call to action, the width of the form.
+        let by = r.y + r.h - 24.0 - 44.0;
+        if ui.primary_button(Rect::new(x, by, inner, 44.0), t("Play")) || enter {
             action = SetupAction::Start(MatchSettings::from_config(MatchMode::HotSeat, config));
         }
         action

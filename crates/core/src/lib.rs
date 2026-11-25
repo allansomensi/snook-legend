@@ -24,6 +24,7 @@ pub use rules::{
 };
 pub mod ai;
 pub mod assess;
+pub mod doubles;
 pub mod personalities;
 pub mod rating;
 pub mod stats;

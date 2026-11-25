@@ -19,6 +19,7 @@ mod official;
 mod official_tests;
 #[cfg(test)]
 mod tests;
+pub mod time_attack;
 
 use glam::DVec2;
 use serde::{Deserialize, Serialize};
@@ -486,6 +487,11 @@ pub struct EightBallGame {
     /// played without them; one recorded before keeps them, so it replays
     /// and goes on as it was played.
     calls: bool,
+    /// A rack cleared against the clock by one player (see
+    /// [`time_attack`]): its own rules, never sent in a snapshot of a game
+    /// between two players.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    time_attack: bool,
 }
 
 /// What a snapshot holds (see [`EightBallGame`]).
@@ -506,6 +512,8 @@ struct GameData {
     /// game with calls.
     #[serde(default = "with_calls")]
     calls: bool,
+    #[serde(default)]
+    time_attack: bool,
 }
 
 /// Games recorded before 0.11.2 were played with calls (see
@@ -584,6 +592,7 @@ impl TryFrom<GameData> for EightBallGame {
             rack_seed: d.rack_seed,
             choice: d.choice,
             calls: d.calls,
+            time_attack: d.time_attack,
         })
     }
 }
@@ -667,6 +676,7 @@ impl EightBallGame {
             rack_seed: seed,
             choice: None,
             calls: false,
+            time_attack: false,
         }
     }
 
@@ -968,6 +978,9 @@ impl EightBallGame {
     pub fn finish_shot(&mut self, mut pending: PendingShot) -> ShotReport {
         if !pending.simulation.is_settled() {
             pending.simulation.run_to_rest();
+        }
+        if self.time_attack {
+            return self.finish_time_attack(pending);
         }
         match self.rules {
             Rules::Brazilian => self.finish_brazilian(pending),

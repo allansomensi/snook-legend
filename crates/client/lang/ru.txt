@@ -2086,3 +2086,51 @@ Every player has it	Есть у всех игроков
 Drag to make the chat taller or shorter	Тяните, чтобы сделать чат выше или ниже
 Hide the result to see the table and the chat	Скройте итог, чтобы видеть стол и чат
 Show the result	Показать итог
+Current prize: {n} coins	Текущий приз: {n} монет
+Champion wins: {item}	Чемпион получает: {item}
+{h} h {m} min	{h} ч {m} мин
+{m} min	{m} мин
+{s} s	{s} с
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	День {d} подряд: +{n} монет. Завтра: +{m}.
+Auctions ({n})	Аукционы ({n})
+Auctions	Аукционы
+Supporters	Спонсоры
+Maintenance in {t}: the server stops for about {m} min.	Техработы через {t}: сервер остановится примерно на {m} мин.
+Maintenance: the server is stopping. Games in progress go on.	Техработы: сервер останавливается. Идущие партии продолжаются.
+Your coins: {n}	Ваши монеты: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Редкие предметы за самую высокую ставку. Ваша ставка замораживается; если кто-то даст больше, монеты сразу вернутся. Ставка в последние две минуты продлевает торги на две.
+No auctions right now. Come back soon!	Сейчас аукционов нет. Заходите позже!
+Current bid: {n} coins	Текущая ставка: {n} монет
+No bids yet · from {n} coins	Ставок пока нет · от {n} монет
+Ended without bids	Завершён без ставок
+You won it!	Вы выиграли!
+Won by {name}	Выиграл {name}
+Opens in {t}	Откроется через {t}
+You lead · ends in {t}	Вы лидируете · конец через {t}
+Ends in {t}	Конец через {t}
+{name} leads · ends in {t}	{name} лидирует · конец через {t}
+Yours already	Уже ваше
+Raise	Повысить
+Bid	Ставка
+Your bid (at least {n}):	Ваша ставка (не меньше {n}):
+Place bid	Сделать ставку
+Thank you to the VIP members who keep the game going, now and before.	Спасибо VIP-участникам, которые поддерживают игру, сейчас и раньше.
+Nobody in the credits yet.	В титрах пока никого.
+since {d} · {n} months	с {d} · {n} мес.
+Show my name in the supporters' credits	Показывать моё имя в титрах спонсоров
+{title}: ends in {t}	{title}: конец через {t}
+An item of the month, yours to keep even if you cancel	Предмет месяца — ваш навсегда, даже если отмените подписку
+If VIP ends, you keep	Если VIP закончится, останется
+If VIP ends, you lose	Если VIP закончится, пропадёт
+The items of the month you got	Полученные предметы месяца
+Everything you bought, and your coins	Всё купленное и ваши монеты
+Your ratings, trophies and achievements	Ваши рейтинги, трофеи и достижения
+VIP's cloths, cues and frames (back when you return)	VIP-сукна, кии и рамки (вернутся, когда вернётесь)
+The monthly coins and the next months' items	Ежемесячные монеты и предметы следующих месяцев
+The crown, and replays beyond your last 10 games	Корона и повторы сверх последних 10 партий
+Your free changes are used: another costs {n} coins.	Бесплатные смены закончились: ещё одна стоит {n} монет.
+Bid at least {n} coins.	Ставка должна быть не меньше {n} монет.
+The server stops for maintenance in {n} min.	Сервер остановится на техработы через {n} мин.
+This auction is not open.	Этот аукцион не открыт.
+The credits are for VIP members, now or before.	Титры — для VIP-участников, нынешних или бывших.
+The server stops for maintenance now. Games in progress go on.	Сервер останавливается на техработы. Идущие партии продолжаются.

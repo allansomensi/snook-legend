@@ -9,6 +9,7 @@ use std::collections::VecDeque;
 use macroquad::prelude::*;
 
 mod gifts;
+pub mod ops;
 mod social;
 pub use social::{STATUS_COLOR, sub_line};
 
@@ -320,6 +321,8 @@ pub struct Online {
     social: social::Social,
     /// Presents from friends.
     gifts: gifts::Gifts,
+    /// Promotions, auctions, maintenance, the daily streak, the credits.
+    pub ops: ops::OpsView,
     /// The server's verdict on the ladder's reward (taken by the ladder).
     pub ladder_claim: Option<snook_legend_proto::ladder::ClaimResult>,
     /// The style asked for a ghost opponent, and the answer once it came.
@@ -610,6 +613,11 @@ pub struct AccountView {
     pub payment_email: Option<String>,
     /// Username changes left (see `snook_legend_proto::MAX_NAME_CHANGES`).
     pub name_changes_left: u32,
+    /// What a change costs once the free ones are used (0: none).
+    pub name_change_price: u32,
+    /// VIP now or before: may appear in the supporters' credits.
+    pub supporter: bool,
+    pub in_credits: bool,
 }
 
 const MAX_RECONNECTS: u32 = 15;
@@ -755,6 +763,7 @@ impl Online {
                 ..Default::default()
             },
             gifts: Default::default(),
+            ops: Default::default(),
             ladder_claim: None,
             ghost: None,
             daily: None,
@@ -1171,6 +1180,11 @@ impl Online {
                     | ServerMsg::Inbox { .. }
                     | ServerMsg::InboxNew { .. }
                     | ServerMsg::Collection { .. }
+                    | ServerMsg::Promotions { .. }
+                    | ServerMsg::Auctions { .. }
+                    | ServerMsg::AuctionUpdated { .. }
+                    | ServerMsg::Supporters { .. }
+                    | ServerMsg::DailyStreak { .. }
             )
         {
             return save;
@@ -1655,7 +1669,9 @@ impl Online {
             }
             ServerMsg::CoinsEarned { amount, reason } => {
                 let why = match reason.as_str() {
-                    "daily" => t("daily bonus"),
+                    // Said with its streak (`ServerMsg::DailyStreak`, which
+                    // the server sends with it since 0.12).
+                    "daily" => return save,
                     "win" => t("for the win"),
                     "game" => t("for the game"),
                     "prize" => t("tournament prize"),
@@ -1697,14 +1713,33 @@ impl Online {
                     }
                 }
             }
-            ServerMsg::Account { recovery_email, payment_email, name_changes_left } => {
+            ServerMsg::Account {
+                recovery_email,
+                payment_email,
+                name_changes_left,
+                name_change_price,
+                supporter,
+                in_credits,
+            } => {
                 // After a payment, without a recovery e-mail: offer the one paid with.
                 if recovery_email.is_none() && !config.email_offer_declined {
                     self.email_offer = payment_email.clone();
                 }
-                self.account =
-                    Some(AccountView { recovery_email, payment_email, name_changes_left });
+                self.account = Some(AccountView {
+                    recovery_email,
+                    payment_email,
+                    name_changes_left,
+                    name_change_price,
+                    supporter,
+                    in_credits,
+                });
             }
+            msg @ (ServerMsg::Promotions { .. }
+            | ServerMsg::Auctions { .. }
+            | ServerMsg::AuctionUpdated { .. }
+            | ServerMsg::Maintenance { .. }
+            | ServerMsg::Supporters { .. }
+            | ServerMsg::DailyStreak { .. }) => self.ops_message(msg),
             ServerMsg::AccountDeleted => {
                 self.forget_account();
                 self.auto_resume = false;
@@ -2023,6 +2058,7 @@ impl Online {
         self.corr = Default::default();
         self.social = Default::default();
         self.gifts = Default::default();
+        self.ops.forget_account();
         self.achievements.clear();
         self.achievements_of.clear();
         // What they wrote (and what waited for their chat to be on).
@@ -4704,8 +4740,15 @@ impl Online {
             facts.push(tw("Entry {n} coins", &[("n", &tour.entry_fee)]));
         }
         // A themed tournament's prizes are put up by the house, entry or not.
-        if tour.prizes[0] > 0 {
+        if tour.prize_pool > 0 {
+            // The pool as it stands (it grows with every entry).
+            let n = ops::thousands(tour.prize_pool as i64);
+            facts.push(tw("Current prize: {n} coins", &[("n", &n)]));
+        } else if tour.prizes[0] > 0 {
             facts.push(tw("Prizes {a} + {b}", &[("a", &tour.prizes[0]), ("b", &tour.prizes[1])]));
+        }
+        if let Some(item) = snook_legend_proto::shop::item(&tour.item_prize) {
+            facts.push(tw("Champion wins: {item}", &[("item", &t(item.name))]));
         }
         let now = crate::game::unix_now();
         if let Some(start) = tour.starts_at.filter(|_| tour.state == TournamentState::Registering) {

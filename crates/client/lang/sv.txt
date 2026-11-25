@@ -2086,3 +2086,51 @@ Every player has it	Alla spelare har den
 Drag to make the chat taller or shorter	Dra för att göra chatten högre eller lägre
 Hide the result to see the table and the chat	Dölj resultatet för att se bordet och chatten
 Show the result	Visa resultatet
+Current prize: {n} coins	Nuvarande pris: {n} mynt
+Champion wins: {item}	Mästaren vinner: {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Dag {d} i rad: +{n} mynt. I morgon: +{m}.
+Auctions ({n})	Auktioner ({n})
+Auctions	Auktioner
+Supporters	Supportrar
+Maintenance in {t}: the server stops for about {m} min.	Underhåll om {t}: servern stannar i cirka {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Underhåll: servern stannar. Pågående partier fortsätter.
+Your coins: {n}	Dina mynt: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Sällsynta föremål till högsta budet. Ditt bud hålls inne; bjuder någon mer får du tillbaka mynten direkt. Ett bud under de två sista minuterna ger två till.
+No auctions right now. Come back soon!	Inga auktioner just nu. Kom tillbaka snart!
+Current bid: {n} coins	Nuvarande bud: {n} mynt
+No bids yet · from {n} coins	Inga bud än · från {n} mynt
+Ended without bids	Slutade utan bud
+You won it!	Du vann den!
+Won by {name}	Vunnen av {name}
+Opens in {t}	Öppnar om {t}
+You lead · ends in {t}	Du leder · slutar om {t}
+Ends in {t}	Slutar om {t}
+{name} leads · ends in {t}	{name} leder · slutar om {t}
+Yours already	Redan din
+Raise	Höj
+Bid	Bjud
+Your bid (at least {n}):	Ditt bud (minst {n}):
+Place bid	Lägg bud
+Thank you to the VIP members who keep the game going, now and before.	Tack till VIP-medlemmarna som håller spelet igång, nu och tidigare.
+Nobody in the credits yet.	Ingen i eftertexterna än.
+since {d} · {n} months	sedan {d} · {n} månader
+Show my name in the supporters' credits	Visa mitt namn i supportrarnas eftertexter
+{title}: ends in {t}	{title}: slutar om {t}
+An item of the month, yours to keep even if you cancel	Ett månadens föremål, ditt för alltid även om du avslutar
+If VIP ends, you keep	Om VIP slutar behåller du
+If VIP ends, you lose	Om VIP slutar förlorar du
+The items of the month you got	Månadens föremål du fått
+Everything you bought, and your coins	Allt du köpt, och dina mynt
+Your ratings, trophies and achievements	Dina rankningar, troféer och prestationer
+VIP's cloths, cues and frames (back when you return)	VIP-dukar, köer och ramar (tillbaka när du kommer tillbaka)
+The monthly coins and the next months' items	Månadsmynten och kommande månaders föremål
+The crown, and replays beyond your last 10 games	Kronan, och repriser utöver dina 10 senaste partier
+Your free changes are used: another costs {n} coins.	Dina gratis byten är slut: ett till kostar {n} mynt.
+Bid at least {n} coins.	Bjud minst {n} mynt.
+The server stops for maintenance in {n} min.	Servern stannar för underhåll om {n} min.
+This auction is not open.	Den här auktionen är inte öppen.
+The credits are for VIP members, now or before.	Eftertexterna är för VIP-medlemmar, nuvarande eller tidigare.
+The server stops for maintenance now. Games in progress go on.	Servern stannar för underhåll nu. Pågående partier fortsätter.

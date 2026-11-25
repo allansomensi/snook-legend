@@ -2086,3 +2086,51 @@ Every player has it	Minden játékosnak megvan
 Drag to make the chat taller or shorter	Húzd a csevegés magasításához vagy alacsonyításához
 Hide the result to see the table and the chat	Rejtsd el az eredményt, hogy lásd az asztalt és a csevegést
 Show the result	Eredmény mutatása
+Current prize: {n} coins	Jelenlegi nyeremény: {n} érme
+Champion wins: {item}	A bajnok nyer: {item}
+{h} h {m} min	{h} ó {m} p
+{m} min	{m} p
+{s} s	{s} mp
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	{d}. nap egymás után: +{n} érme. Holnap: +{m}.
+Auctions ({n})	Aukciók ({n})
+Auctions	Aukciók
+Supporters	Támogatók
+Maintenance in {t}: the server stops for about {m} min.	Karbantartás {t} múlva: a szerver kb. {m} percre leáll.
+Maintenance: the server is stopping. Games in progress go on.	Karbantartás: a szerver leáll. A folyamatban lévő játékok folytatódnak.
+Your coins: {n}	Érméid: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Ritka tárgyak a legmagasabb ajánlatért. Az ajánlatod zárolva van; ha valaki többet ad, az érméid azonnal visszajönnek. Az utolsó két percben tett ajánlat két percet ad hozzá.
+No auctions right now. Come back soon!	Most nincs aukció. Nézz vissza hamarosan!
+Current bid: {n} coins	Jelenlegi ajánlat: {n} érme
+No bids yet · from {n} coins	Még nincs ajánlat · {n} érmétől
+Ended without bids	Ajánlat nélkül zárult
+You won it!	Megnyerted!
+Won by {name}	Nyertes: {name}
+Opens in {t}	Nyit {t} múlva
+You lead · ends in {t}	Te vezetsz · vége {t} múlva
+Ends in {t}	Vége {t} múlva
+{name} leads · ends in {t}	{name} vezet · vége {t} múlva
+Yours already	Már a tiéd
+Raise	Emelés
+Bid	Licitálás
+Your bid (at least {n}):	Ajánlatod (legalább {n}):
+Place bid	Ajánlat leadása
+Thank you to the VIP members who keep the game going, now and before.	Köszönjük a VIP-tagoknak, akik életben tartják a játékot, most és korábban.
+Nobody in the credits yet.	Még senki sincs a stáblistán.
+since {d} · {n} months	{d} óta · {n} hónap
+Show my name in the supporters' credits	Nevem mutatása a támogatók stáblistáján
+{title}: ends in {t}	{title}: vége {t} múlva
+An item of the month, yours to keep even if you cancel	A hónap tárgya, örökre a tiéd, akkor is, ha lemondod
+If VIP ends, you keep	Ha a VIP lejár, megmarad
+If VIP ends, you lose	Ha a VIP lejár, elveszik
+The items of the month you got	A kapott havi tárgyak
+Everything you bought, and your coins	Minden, amit vettél, és az érméid
+Your ratings, trophies and achievements	Pontszámaid, trófeáid és eredményeid
+VIP's cloths, cues and frames (back when you return)	VIP posztók, dákók és keretek (visszatérnek, ha visszatérsz)
+The monthly coins and the next months' items	A havi érmék és a következő hónapok tárgyai
+The crown, and replays beyond your last 10 games	A korona és az utolsó 10 játékodon túli visszajátszások
+Your free changes are used: another costs {n} coins.	Elfogytak az ingyenes változtatások: a következő {n} érme.
+Bid at least {n} coins.	Legalább {n} érmét ajánlj.
+The server stops for maintenance in {n} min.	A szerver {n} perc múlva karbantartás miatt leáll.
+This auction is not open.	Ez az aukció nincs nyitva.
+The credits are for VIP members, now or before.	A stáblista a jelenlegi és korábbi VIP-tagoké.
+The server stops for maintenance now. Games in progress go on.	A szerver most karbantartás miatt leáll. A folyamatban lévő játékok folytatódnak.

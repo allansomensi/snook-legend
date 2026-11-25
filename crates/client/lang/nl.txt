@@ -2086,3 +2086,51 @@ Every player has it	Elke speler heeft deze
 Drag to make the chat taller or shorter	Sleep om de chat hoger of lager te maken
 Hide the result to see the table and the chat	Verberg de uitslag om de tafel en de chat te zien
 Show the result	Uitslag tonen
+Current prize: {n} coins	Huidige prijs: {n} munten
+Champion wins: {item}	De kampioen wint: {item}
+{h} h {m} min	{h} u {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Dag {d} op rij: +{n} munten. Morgen: +{m}.
+Auctions ({n})	Veilingen ({n})
+Auctions	Veilingen
+Supporters	Supporters
+Maintenance in {t}: the server stops for about {m} min.	Onderhoud over {t}: de server stopt ongeveer {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Onderhoud: de server stopt. Lopende potjes gaan door.
+Your coins: {n}	Jouw munten: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Zeldzame items voor het hoogste bod. Je bod wordt vastgehouden; biedt iemand meer, dan krijg je je munten meteen terug. Een bod in de laatste twee minuten geeft er twee bij.
+No auctions right now. Come back soon!	Nu geen veilingen. Kom snel terug!
+Current bid: {n} coins	Huidig bod: {n} munten
+No bids yet · from {n} coins	Nog geen biedingen · vanaf {n} munten
+Ended without bids	Geëindigd zonder biedingen
+You won it!	Je hebt hem gewonnen!
+Won by {name}	Gewonnen door {name}
+Opens in {t}	Opent over {t}
+You lead · ends in {t}	Jij leidt · eindigt over {t}
+Ends in {t}	Eindigt over {t}
+{name} leads · ends in {t}	{name} leidt · eindigt over {t}
+Yours already	Al van jou
+Raise	Verhogen
+Bid	Bieden
+Your bid (at least {n}):	Jouw bod (minstens {n}):
+Place bid	Bod plaatsen
+Thank you to the VIP members who keep the game going, now and before.	Dank aan de VIP-leden die het spel draaiende houden, nu en vroeger.
+Nobody in the credits yet.	Nog niemand in de aftiteling.
+since {d} · {n} months	sinds {d} · {n} maanden
+Show my name in the supporters' credits	Mijn naam tonen bij de supporters
+{title}: ends in {t}	{title}: eindigt over {t}
+An item of the month, yours to keep even if you cancel	Een item van de maand, voor altijd van jou, ook als je opzegt
+If VIP ends, you keep	Stopt VIP, dan houd je
+If VIP ends, you lose	Stopt VIP, dan verlies je
+The items of the month you got	De items van de maand die je kreeg
+Everything you bought, and your coins	Alles wat je kocht, en je munten
+Your ratings, trophies and achievements	Je ratings, trofeeën en prestaties
+VIP's cloths, cues and frames (back when you return)	VIP-lakens, -keuen en -lijsten (terug als je terugkomt)
+The monthly coins and the next months' items	De maandelijkse munten en de items van de komende maanden
+The crown, and replays beyond your last 10 games	De kroon, en herhalingen voorbij je laatste 10 potjes
+Your free changes are used: another costs {n} coins.	Je gratis wijzigingen zijn op: nog een kost {n} munten.
+Bid at least {n} coins.	Bied minstens {n} munten.
+The server stops for maintenance in {n} min.	De server stopt over {n} min voor onderhoud.
+This auction is not open.	Deze veiling is niet open.
+The credits are for VIP members, now or before.	De aftiteling is voor VIP-leden, nu of vroeger.
+The server stops for maintenance now. Games in progress go on.	De server stopt nu voor onderhoud. Lopende potjes gaan door.

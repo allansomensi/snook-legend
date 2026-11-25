@@ -2086,3 +2086,51 @@ Every player has it	Her oyuncuda var
 Drag to make the chat taller or shorter	Sohbeti uzatmak veya kısaltmak için sürükle
 Hide the result to see the table and the chat	Masayı ve sohbeti görmek için sonucu gizle
 Show the result	Sonucu göster
+Current prize: {n} coins	Güncel ödül: {n} jeton
+Champion wins: {item}	Şampiyon kazanır: {item}
+{h} h {m} min	{h} sa {m} dk
+{m} min	{m} dk
+{s} s	{s} sn
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Üst üste {d}. gün: +{n} jeton. Yarın: +{m}.
+Auctions ({n})	Açık artırmalar ({n})
+Auctions	Açık artırmalar
+Supporters	Destekçiler
+Maintenance in {t}: the server stops for about {m} min.	{t} sonra bakım: sunucu yaklaşık {m} dk duracak.
+Maintenance: the server is stopping. Games in progress go on.	Bakım: sunucu duruyor. Süren oyunlar devam ediyor.
+Your coins: {n}	Jetonların: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	En yüksek teklife nadir eşyalar. Teklifin tutulur; biri daha fazla verirse jetonların hemen geri gelir. Son iki dakikadaki teklif iki dakika ekler.
+No auctions right now. Come back soon!	Şu an açık artırma yok. Yakında tekrar gel!
+Current bid: {n} coins	Güncel teklif: {n} jeton
+No bids yet · from {n} coins	Henüz teklif yok · {n} jetondan başlıyor
+Ended without bids	Teklifsiz bitti
+You won it!	Kazandın!
+Won by {name}	Kazanan: {name}
+Opens in {t}	{t} sonra açılıyor
+You lead · ends in {t}	Öndesin · {t} sonra bitiyor
+Ends in {t}	{t} sonra bitiyor
+{name} leads · ends in {t}	{name} önde · {t} sonra bitiyor
+Yours already	Zaten senin
+Raise	Artır
+Bid	Teklif ver
+Your bid (at least {n}):	Teklifin (en az {n}):
+Place bid	Teklifi gönder
+Thank you to the VIP members who keep the game going, now and before.	Oyunu ayakta tutan VIP üyelerine, şimdi ve önceden, teşekkürler.
+Nobody in the credits yet.	Henüz jenerikte kimse yok.
+since {d} · {n} months	{d} tarihinden beri · {n} ay
+Show my name in the supporters' credits	Adımı destekçiler jeneriğinde göster
+{title}: ends in {t}	{title}: {t} sonra bitiyor
+An item of the month, yours to keep even if you cancel	Ayın eşyası, iptal etsen bile sonsuza dek senin
+If VIP ends, you keep	VIP biterse kalır
+If VIP ends, you lose	VIP biterse gider
+The items of the month you got	Aldığın ayın eşyaları
+Everything you bought, and your coins	Satın aldığın her şey ve jetonların
+Your ratings, trophies and achievements	Puanların, kupaların ve başarımların
+VIP's cloths, cues and frames (back when you return)	VIP çuhaları, istekaları ve çerçeveleri (dönünce geri gelir)
+The monthly coins and the next months' items	Aylık jetonlar ve gelecek ayların eşyaları
+The crown, and replays beyond your last 10 games	Taç ve son 10 oyunun ötesindeki tekrarlar
+Your free changes are used: another costs {n} coins.	Ücretsiz değişikliklerin bitti: bir tane daha {n} jeton.
+Bid at least {n} coins.	En az {n} jeton teklif et.
+The server stops for maintenance in {n} min.	Sunucu {n} dk sonra bakım için duracak.
+This auction is not open.	Bu açık artırma açık değil.
+The credits are for VIP members, now or before.	Jenerik, şimdiki veya eski VIP üyeleri içindir.
+The server stops for maintenance now. Games in progress go on.	Sunucu şimdi bakım için duruyor. Süren oyunlar devam ediyor.

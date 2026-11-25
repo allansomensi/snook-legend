@@ -2086,3 +2086,51 @@ Every player has it	Dimiliki semua pemain
 Drag to make the chat taller or shorter	Seret untuk meninggikan atau memendekkan chat
 Hide the result to see the table and the chat	Sembunyikan hasil untuk melihat meja dan chat
 Show the result	Tampilkan hasil
+Current prize: {n} coins	Hadiah saat ini: {n} koin
+Champion wins: {item}	Juara mendapat: {item}
+{h} h {m} min	{h} j {m} mnt
+{m} min	{m} mnt
+{s} s	{s} dtk
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Hari ke-{d} berturut-turut: +{n} koin. Besok: +{m}.
+Auctions ({n})	Lelang ({n})
+Auctions	Lelang
+Supporters	Pendukung
+Maintenance in {t}: the server stops for about {m} min.	Pemeliharaan dalam {t}: server berhenti sekitar {m} mnt.
+Maintenance: the server is stopping. Games in progress go on.	Pemeliharaan: server sedang berhenti. Permainan yang berjalan tetap lanjut.
+Your coins: {n}	Koinmu: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Item langka untuk tawaran tertinggi. Tawaranmu ditahan; jika ada yang menawar lebih, koinmu langsung kembali. Tawaran di dua menit terakhir menambah dua menit.
+No auctions right now. Come back soon!	Tidak ada lelang sekarang. Kembali lagi nanti!
+Current bid: {n} coins	Tawaran saat ini: {n} koin
+No bids yet · from {n} coins	Belum ada tawaran · mulai {n} koin
+Ended without bids	Berakhir tanpa tawaran
+You won it!	Kamu menang!
+Won by {name}	Dimenangkan {name}
+Opens in {t}	Dibuka dalam {t}
+You lead · ends in {t}	Kamu memimpin · berakhir dalam {t}
+Ends in {t}	Berakhir dalam {t}
+{name} leads · ends in {t}	{name} memimpin · berakhir dalam {t}
+Yours already	Sudah milikmu
+Raise	Naikkan
+Bid	Tawar
+Your bid (at least {n}):	Tawaranmu (minimal {n}):
+Place bid	Kirim tawaran
+Thank you to the VIP members who keep the game going, now and before.	Terima kasih kepada anggota VIP yang menjaga game ini, kini dan dulu.
+Nobody in the credits yet.	Belum ada siapa pun di kredit.
+since {d} · {n} months	sejak {d} · {n} bulan
+Show my name in the supporters' credits	Tampilkan namaku di kredit pendukung
+{title}: ends in {t}	{title}: berakhir dalam {t}
+An item of the month, yours to keep even if you cancel	Item bulan ini, milikmu selamanya meski kamu berhenti
+If VIP ends, you keep	Jika VIP berakhir, kamu tetap punya
+If VIP ends, you lose	Jika VIP berakhir, kamu kehilangan
+The items of the month you got	Item bulanan yang kamu dapat
+Everything you bought, and your coins	Semua yang kamu beli, dan koinmu
+Your ratings, trophies and achievements	Rating, trofi, dan pencapaianmu
+VIP's cloths, cues and frames (back when you return)	Kain, stik, dan bingkai VIP (kembali saat kamu kembali)
+The monthly coins and the next months' items	Koin bulanan dan item bulan-bulan berikutnya
+The crown, and replays beyond your last 10 games	Mahkota, dan tayangan ulang di luar 10 permainan terakhir
+Your free changes are used: another costs {n} coins.	Perubahan gratismu habis: satu lagi seharga {n} koin.
+Bid at least {n} coins.	Tawar minimal {n} koin.
+The server stops for maintenance in {n} min.	Server berhenti untuk pemeliharaan dalam {n} mnt.
+This auction is not open.	Lelang ini tidak dibuka.
+The credits are for VIP members, now or before.	Kredit untuk anggota VIP, sekarang atau dulu.
+The server stops for maintenance now. Games in progress go on.	Server berhenti untuk pemeliharaan sekarang. Permainan yang berjalan tetap lanjut.

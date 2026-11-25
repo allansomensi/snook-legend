@@ -2086,3 +2086,51 @@ Every player has it	Την έχουν όλοι οι παίκτες
 Drag to make the chat taller or shorter	Σύρε για να κάνεις τη συνομιλία ψηλότερη ή χαμηλότερη
 Hide the result to see the table and the chat	Κρύψε το αποτέλεσμα για να δεις το τραπέζι και τη συνομιλία
 Show the result	Δείξε το αποτέλεσμα
+Current prize: {n} coins	Τρέχον έπαθλο: {n} νομίσματα
+Champion wins: {item}	Ο πρωταθλητής κερδίζει: {item}
+{h} h {m} min	{h} ώ {m} λ
+{m} min	{m} λ
+{s} s	{s} δ
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Μέρα {d} στη σειρά: +{n} νομίσματα. Αύριο: +{m}.
+Auctions ({n})	Δημοπρασίες ({n})
+Auctions	Δημοπρασίες
+Supporters	Υποστηρικτές
+Maintenance in {t}: the server stops for about {m} min.	Συντήρηση σε {t}: ο διακομιστής σταματά για περίπου {m} λ.
+Maintenance: the server is stopping. Games in progress go on.	Συντήρηση: ο διακομιστής σταματά. Τα παιχνίδια σε εξέλιξη συνεχίζουν.
+Your coins: {n}	Τα νομίσματά σου: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Σπάνια αντικείμενα για την υψηλότερη προσφορά. Η προσφορά σου δεσμεύεται· αν κάποιος δώσει περισσότερα, τα νομίσματα επιστρέφουν αμέσως. Προσφορά στα δύο τελευταία λεπτά προσθέτει δύο ακόμα.
+No auctions right now. Come back soon!	Δεν υπάρχουν δημοπρασίες τώρα. Έλα ξανά σύντομα!
+Current bid: {n} coins	Τρέχουσα προσφορά: {n} νομίσματα
+No bids yet · from {n} coins	Καμία προσφορά ακόμα · από {n} νομίσματα
+Ended without bids	Έληξε χωρίς προσφορές
+You won it!	Το κέρδισες!
+Won by {name}	Το κέρδισε ο {name}
+Opens in {t}	Ανοίγει σε {t}
+You lead · ends in {t}	Προηγείσαι · λήγει σε {t}
+Ends in {t}	Λήγει σε {t}
+{name} leads · ends in {t}	Προηγείται ο {name} · λήγει σε {t}
+Yours already	Ήδη δικό σου
+Raise	Αύξηση
+Bid	Προσφορά
+Your bid (at least {n}):	Η προσφορά σου (τουλάχιστον {n}):
+Place bid	Κάνε προσφορά
+Thank you to the VIP members who keep the game going, now and before.	Ευχαριστούμε τα μέλη VIP που κρατούν το παιχνίδι ζωντανό, τώρα και πριν.
+Nobody in the credits yet.	Κανείς στους τίτλους ακόμα.
+since {d} · {n} months	από {d} · {n} μήνες
+Show my name in the supporters' credits	Εμφάνιση του ονόματός μου στους τίτλους υποστηρικτών
+{title}: ends in {t}	{title}: λήγει σε {t}
+An item of the month, yours to keep even if you cancel	Ένα αντικείμενο του μήνα, δικό σου για πάντα ακόμα κι αν ακυρώσεις
+If VIP ends, you keep	Αν λήξει το VIP, κρατάς
+If VIP ends, you lose	Αν λήξει το VIP, χάνεις
+The items of the month you got	Τα αντικείμενα του μήνα που πήρες
+Everything you bought, and your coins	Ό,τι αγόρασες, και τα νομίσματά σου
+Your ratings, trophies and achievements	Τις βαθμολογίες, τα τρόπαια και τα επιτεύγματά σου
+VIP's cloths, cues and frames (back when you return)	Τσόχες, στέκες και πλαίσια VIP (επιστρέφουν όταν επιστρέψεις)
+The monthly coins and the next months' items	Τα μηνιαία νομίσματα και τα αντικείμενα των επόμενων μηνών
+The crown, and replays beyond your last 10 games	Το στέμμα, και τις επαναλήψεις πέρα από τα 10 τελευταία παιχνίδια
+Your free changes are used: another costs {n} coins.	Οι δωρεάν αλλαγές τελείωσαν: μία ακόμα κοστίζει {n} νομίσματα.
+Bid at least {n} coins.	Πρόσφερε τουλάχιστον {n} νομίσματα.
+The server stops for maintenance in {n} min.	Ο διακομιστής σταματά για συντήρηση σε {n} λ.
+This auction is not open.	Αυτή η δημοπρασία δεν είναι ανοιχτή.
+The credits are for VIP members, now or before.	Οι τίτλοι είναι για μέλη VIP, τωρινά ή παλαιότερα.
+The server stops for maintenance now. Games in progress go on.	Ο διακομιστής σταματά τώρα για συντήρηση. Τα παιχνίδια σε εξέλιξη συνεχίζουν.

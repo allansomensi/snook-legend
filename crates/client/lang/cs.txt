@@ -2086,3 +2086,51 @@ Every player has it	Mají ji všichni hráči
 Drag to make the chat taller or shorter	Tažením chat zvětšíš nebo zmenšíš
 Hide the result to see the table and the chat	Skryj výsledek a uvidíš stůl i chat
 Show the result	Ukázat výsledek
+Current prize: {n} coins	Aktuální výhra: {n} mincí
+Champion wins: {item}	Vítěz získá: {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	{d}. den v řadě: +{n} mincí. Zítra: +{m}.
+Auctions ({n})	Aukce ({n})
+Auctions	Aukce
+Supporters	Podporovatelé
+Maintenance in {t}: the server stops for about {m} min.	Údržba za {t}: server se zastaví asi na {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Údržba: server se zastavuje. Rozehrané hry pokračují.
+Your coins: {n}	Tvoje mince: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Vzácné předměty za nejvyšší nabídku. Tvá nabídka je blokována; když někdo nabídne víc, mince se ti hned vrátí. Nabídka v posledních dvou minutách přidá dvě.
+No auctions right now. Come back soon!	Teď nejsou žádné aukce. Vrať se brzy!
+Current bid: {n} coins	Aktuální nabídka: {n} mincí
+No bids yet · from {n} coins	Zatím bez nabídek · od {n} mincí
+Ended without bids	Skončila bez nabídek
+You won it!	Vyhrál jsi!
+Won by {name}	Vyhrál {name}
+Opens in {t}	Začíná za {t}
+You lead · ends in {t}	Vedeš · konec za {t}
+Ends in {t}	Konec za {t}
+{name} leads · ends in {t}	{name} vede · konec za {t}
+Yours already	Už je tvůj
+Raise	Zvýšit
+Bid	Přihodit
+Your bid (at least {n}):	Tvá nabídka (aspoň {n}):
+Place bid	Podat nabídku
+Thank you to the VIP members who keep the game going, now and before.	Díky členům VIP, kteří hru drží při životě, dnes i dříve.
+Nobody in the credits yet.	V titulcích zatím nikdo není.
+since {d} · {n} months	od {d} · {n} měs.
+Show my name in the supporters' credits	Zobrazit mé jméno v titulcích podporovatelů
+{title}: ends in {t}	{title}: konec za {t}
+An item of the month, yours to keep even if you cancel	Předmět měsíce, tvůj navždy i po zrušení
+If VIP ends, you keep	Když VIP skončí, zůstane ti
+If VIP ends, you lose	Když VIP skončí, ztratíš
+The items of the month you got	Získané předměty měsíce
+Everything you bought, and your coins	Vše, co sis koupil, a tvé mince
+Your ratings, trophies and achievements	Tvé ratingy, trofeje a úspěchy
+VIP's cloths, cues and frames (back when you return)	VIP sukna, tága a rámečky (vrátí se, až se vrátíš)
+The monthly coins and the next months' items	Měsíční mince a předměty dalších měsíců
+The crown, and replays beyond your last 10 games	Korunku a záznamy nad posledních 10 her
+Your free changes are used: another costs {n} coins.	Bezplatné změny jsou vyčerpány: další stojí {n} mincí.
+Bid at least {n} coins.	Nabídni aspoň {n} mincí.
+The server stops for maintenance in {n} min.	Server se kvůli údržbě zastaví za {n} min.
+This auction is not open.	Tato aukce není otevřená.
+The credits are for VIP members, now or before.	Titulky jsou pro členy VIP, současné i bývalé.
+The server stops for maintenance now. Games in progress go on.	Server se teď zastavuje kvůli údržbě. Rozehrané hry pokračují.

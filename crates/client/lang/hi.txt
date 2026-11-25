@@ -2086,3 +2086,51 @@ Every player has it	सभी खिलाड़ियों के पास �
 Drag to make the chat taller or shorter	चैट को लंबा या छोटा करने के लिए खींचें
 Hide the result to see the table and the chat	टेबल और चैट देखने के लिए नतीजा छिपाएँ
 Show the result	नतीजा दिखाएँ
+Current prize: {n} coins	मौजूदा इनाम: {n} सिक्के
+Champion wins: {item}	चैंपियन जीतता है: {item}
+{h} h {m} min	{h} घं {m} मि
+{m} min	{m} मि
+{s} s	{s} से
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	लगातार {d}वाँ दिन: +{n} सिक्के। कल: +{m}।
+Auctions ({n})	नीलामियाँ ({n})
+Auctions	नीलामियाँ
+Supporters	समर्थक
+Maintenance in {t}: the server stops for about {m} min.	{t} में रखरखाव: सर्वर लगभग {m} मि के लिए रुकेगा।
+Maintenance: the server is stopping. Games in progress go on.	रखरखाव: सर्वर रुक रहा है। चल रहे गेम जारी रहेंगे।
+Your coins: {n}	आपके सिक्के: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	सबसे ऊँची बोली पर दुर्लभ आइटम। आपकी बोली रोकी जाती है; कोई ज़्यादा बोली लगाए तो सिक्के तुरंत लौट आते हैं। आखिरी दो मिनट में बोली दो मिनट और जोड़ती है।
+No auctions right now. Come back soon!	अभी कोई नीलामी नहीं। जल्द लौटें!
+Current bid: {n} coins	मौजूदा बोली: {n} सिक्के
+No bids yet · from {n} coins	अभी कोई बोली नहीं · {n} सिक्कों से
+Ended without bids	बिना बोली के खत्म
+You won it!	आप जीत गए!
+Won by {name}	{name} ने जीता
+Opens in {t}	{t} में खुलेगी
+You lead · ends in {t}	आप आगे हैं · {t} में खत्म
+Ends in {t}	{t} में खत्म
+{name} leads · ends in {t}	{name} आगे · {t} में खत्म
+Yours already	पहले से आपका
+Raise	बढ़ाएँ
+Bid	बोली
+Your bid (at least {n}):	आपकी बोली (कम से कम {n}):
+Place bid	बोली लगाएँ
+Thank you to the VIP members who keep the game going, now and before.	उन VIP सदस्यों का धन्यवाद जो खेल को चलाते हैं, अभी और पहले।
+Nobody in the credits yet.	क्रेडिट में अभी कोई नहीं।
+since {d} · {n} months	{d} से · {n} महीने
+Show my name in the supporters' credits	समर्थकों के क्रेडिट में मेरा नाम दिखाएँ
+{title}: ends in {t}	{title}: {t} में खत्म
+An item of the month, yours to keep even if you cancel	महीने का आइटम, रद्द करने पर भी हमेशा आपका
+If VIP ends, you keep	VIP खत्म होने पर आपके पास रहता है
+If VIP ends, you lose	VIP खत्म होने पर आप खोते हैं
+The items of the month you got	आपको मिले महीने के आइटम
+Everything you bought, and your coins	आपकी हर खरीदी चीज़, और आपके सिक्के
+Your ratings, trophies and achievements	आपकी रेटिंग, ट्रॉफ़ियाँ और उपलब्धियाँ
+VIP's cloths, cues and frames (back when you return)	VIP कपड़े, क्यू और फ़्रेम (लौटने पर वापस)
+The monthly coins and the next months' items	मासिक सिक्के और अगले महीनों के आइटम
+The crown, and replays beyond your last 10 games	ताज, और आखिरी 10 गेम से पुराने रीप्ले
+Your free changes are used: another costs {n} coins.	आपके मुफ़्त बदलाव खत्म: एक और की कीमत {n} सिक्के।
+Bid at least {n} coins.	कम से कम {n} सिक्कों की बोली लगाएँ।
+The server stops for maintenance in {n} min.	सर्वर {n} मि में रखरखाव के लिए रुकेगा।
+This auction is not open.	यह नीलामी खुली नहीं है।
+The credits are for VIP members, now or before.	क्रेडिट मौजूदा या पूर्व VIP सदस्यों के लिए हैं।
+The server stops for maintenance now. Games in progress go on.	सर्वर अभी रखरखाव के लिए रुक रहा है। चल रहे गेम जारी रहेंगे।

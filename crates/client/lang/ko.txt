@@ -2086,3 +2086,51 @@ Every player has it	모든 플레이어가 가지고 있어요
 Drag to make the chat taller or shorter	드래그해서 채팅 창 높이 조절하기
 Hide the result to see the table and the chat	결과를 숨기고 테이블과 채팅 보기
 Show the result	결과 보기
+Current prize: {n} coins	현재 상금: {n} 코인
+Champion wins: {item}	우승자 상품: {item}
+{h} h {m} min	{h}시간 {m}분
+{m} min	{m}분
+{s} s	{s}초
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	{d}일 연속: +{n} 코인. 내일: +{m}.
+Auctions ({n})	경매 ({n})
+Auctions	경매
+Supporters	후원자
+Maintenance in {t}: the server stops for about {m} min.	{t} 후 점검: 서버가 약 {m}분 동안 멈춥니다.
+Maintenance: the server is stopping. Games in progress go on.	점검: 서버가 멈추는 중입니다. 진행 중인 게임은 계속됩니다.
+Your coins: {n}	내 코인: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	최고 입찰자에게 희귀 아이템을. 입찰한 코인은 보관되며, 누군가 더 높게 입찰하면 바로 돌려받습니다. 마지막 2분 안에 입찰하면 2분이 늘어납니다.
+No auctions right now. Come back soon!	지금은 경매가 없습니다. 곧 다시 오세요!
+Current bid: {n} coins	현재 입찰가: {n} 코인
+No bids yet · from {n} coins	아직 입찰 없음 · {n} 코인부터
+Ended without bids	입찰 없이 종료
+You won it!	낙찰받았습니다!
+Won by {name}	{name} 낙찰
+Opens in {t}	{t} 후 시작
+You lead · ends in {t}	선두입니다 · {t} 후 종료
+Ends in {t}	{t} 후 종료
+{name} leads · ends in {t}	{name} 선두 · {t} 후 종료
+Yours already	이미 보유
+Raise	올리기
+Bid	입찰
+Your bid (at least {n}):	입찰가 (최소 {n}):
+Place bid	입찰하기
+Thank you to the VIP members who keep the game going, now and before.	지금도 예전에도 게임을 지켜 준 VIP 회원들께 감사드립니다.
+Nobody in the credits yet.	아직 크레딧에 아무도 없습니다.
+since {d} · {n} months	{d}부터 · {n}개월
+Show my name in the supporters' credits	후원자 크레딧에 내 이름 표시
+{title}: ends in {t}	{title}: {t} 후 종료
+An item of the month, yours to keep even if you cancel	이달의 아이템, 해지해도 영원히 내 것
+If VIP ends, you keep	VIP가 끝나도 남는 것
+If VIP ends, you lose	VIP가 끝나면 잃는 것
+The items of the month you got	받은 이달의 아이템
+Everything you bought, and your coins	구매한 모든 것과 코인
+Your ratings, trophies and achievements	레이팅, 트로피, 업적
+VIP's cloths, cues and frames (back when you return)	VIP 천, 큐, 프레임 (돌아오면 다시 사용)
+The monthly coins and the next months' items	매달 코인과 다음 달 아이템
+The crown, and replays beyond your last 10 games	왕관, 그리고 최근 10게임 이전의 리플레이
+Your free changes are used: another costs {n} coins.	무료 변경을 모두 썼습니다: 한 번 더는 {n} 코인입니다.
+Bid at least {n} coins.	최소 {n} 코인을 입찰하세요.
+The server stops for maintenance in {n} min.	서버가 {n}분 후 점검으로 멈춥니다.
+This auction is not open.	이 경매는 열려 있지 않습니다.
+The credits are for VIP members, now or before.	크레딧은 현재 또는 과거 VIP 회원을 위한 것입니다.
+The server stops for maintenance now. Games in progress go on.	서버가 지금 점검으로 멈춥니다. 진행 중인 게임은 계속됩니다.

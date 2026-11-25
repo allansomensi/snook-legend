@@ -2086,3 +2086,51 @@ Every player has it	Todos os jogadores a têm
 Drag to make the chat taller or shorter	Arrasta para tornar o chat mais alto ou mais baixo
 Hide the result to see the table and the chat	Esconde o resultado para veres a mesa e o chat
 Show the result	Ver o resultado
+Current prize: {n} coins	Prémio atual: {n} moedas
+Champion wins: {item}	O campeão ganha: {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	{d}.º dia seguido: +{n} moedas. Amanhã: +{m}.
+Auctions ({n})	Leilões ({n})
+Auctions	Leilões
+Supporters	Apoiantes
+Maintenance in {t}: the server stops for about {m} min.	Manutenção dentro de {t}: o servidor para durante cerca de {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Manutenção: o servidor está a parar. Os jogos em curso continuam.
+Your coins: {n}	As tuas moedas: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Itens raros para a maior licitação. A tua licitação fica reservada; se alguém licitar mais, as tuas moedas voltam de imediato. Uma licitação nos dois últimos minutos dá mais dois.
+No auctions right now. Come back soon!	Nenhum leilão de momento. Volta em breve!
+Current bid: {n} coins	Licitação atual: {n} moedas
+No bids yet · from {n} coins	Ainda sem licitações · a partir de {n} moedas
+Ended without bids	Terminou sem licitações
+You won it!	Ganhaste!
+Won by {name}	Arrematado por {name}
+Opens in {t}	Abre dentro de {t}
+You lead · ends in {t}	Estás à frente · termina dentro de {t}
+Ends in {t}	Termina dentro de {t}
+{name} leads · ends in {t}	{name} está à frente · termina dentro de {t}
+Yours already	Já é teu
+Raise	Aumentar
+Bid	Licitar
+Your bid (at least {n}):	A tua licitação (pelo menos {n}):
+Place bid	Confirmar licitação
+Thank you to the VIP members who keep the game going, now and before.	Obrigado aos membros VIP que mantêm o jogo vivo, agora e antes.
+Nobody in the credits yet.	Ainda ninguém nos créditos.
+since {d} · {n} months	desde {d} · {n} meses
+Show my name in the supporters' credits	Mostrar o meu nome nos créditos dos apoiantes
+{title}: ends in {t}	{title}: termina dentro de {t}
+An item of the month, yours to keep even if you cancel	Um item do mês, teu para sempre mesmo que canceles
+If VIP ends, you keep	Se o VIP acabar, manténs
+If VIP ends, you lose	Se o VIP acabar, perdes
+The items of the month you got	Os itens do mês que recebeste
+Everything you bought, and your coins	Tudo o que compraste, e as tuas moedas
+Your ratings, trophies and achievements	As tuas classificações, troféus e conquistas
+VIP's cloths, cues and frames (back when you return)	Panos, tacos e molduras VIP (voltam quando voltares)
+The monthly coins and the next months' items	As moedas mensais e os itens dos próximos meses
+The crown, and replays beyond your last 10 games	A coroa, e as repetições além dos teus últimos 10 jogos
+Your free changes are used: another costs {n} coins.	As tuas mudanças grátis acabaram: outra custa {n} moedas.
+Bid at least {n} coins.	Licita pelo menos {n} moedas.
+The server stops for maintenance in {n} min.	O servidor para para manutenção dentro de {n} min.
+This auction is not open.	Este leilão não está aberto.
+The credits are for VIP members, now or before.	Os créditos são para membros VIP, atuais ou antigos.
+The server stops for maintenance now. Games in progress go on.	O servidor está a parar para manutenção agora. Os jogos em curso continuam.

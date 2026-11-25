@@ -2086,3 +2086,51 @@ Every player has it	Mayroon nito ang lahat ng manlalaro
 Drag to make the chat taller or shorter	I-drag para palakihin o paliitin ang chat
 Hide the result to see the table and the chat	Itago ang resulta para makita ang mesa at ang chat
 Show the result	Ipakita ang resulta
+Current prize: {n} coins	Kasalukuyang premyo: {n} barya
+Champion wins: {item}	Mapapanalunan ng kampeon: {item}
+{h} h {m} min	{h} o {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Ika-{d} araw nang sunod-sunod: +{n} barya. Bukas: +{m}.
+Auctions ({n})	Mga subasta ({n})
+Auctions	Mga subasta
+Supporters	Mga tagasuporta
+Maintenance in {t}: the server stops for about {m} min.	Maintenance sa loob ng {t}: hihinto ang server nang mga {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Maintenance: humihinto ang server. Tuloy ang mga larong nagaganap.
+Your coins: {n}	Iyong barya: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Mga bihirang item para sa pinakamataas na bid. Hawak ang iyong bid; kapag may mas mataas, babalik agad ang barya mo. Ang bid sa huling dalawang minuto ay nagdadagdag ng dalawa.
+No auctions right now. Come back soon!	Walang subasta ngayon. Bumalik ka agad!
+Current bid: {n} coins	Kasalukuyang bid: {n} barya
+No bids yet · from {n} coins	Wala pang bid · mula {n} barya
+Ended without bids	Natapos nang walang bid
+You won it!	Nanalo ka!
+Won by {name}	Napanalunan ni {name}
+Opens in {t}	Magbubukas sa loob ng {t}
+You lead · ends in {t}	Nangunguna ka · matatapos sa {t}
+Ends in {t}	Matatapos sa {t}
+{name} leads · ends in {t}	Nangunguna si {name} · matatapos sa {t}
+Yours already	Iyo na
+Raise	Taasan
+Bid	Mag-bid
+Your bid (at least {n}):	Iyong bid (hindi bababa sa {n}):
+Place bid	Ilagay ang bid
+Thank you to the VIP members who keep the game going, now and before.	Salamat sa mga VIP na nagpapatuloy sa laro, ngayon at noon.
+Nobody in the credits yet.	Wala pang nasa credits.
+since {d} · {n} months	mula {d} · {n} buwan
+Show my name in the supporters' credits	Ipakita ang pangalan ko sa credits ng mga tagasuporta
+{title}: ends in {t}	{title}: matatapos sa {t}
+An item of the month, yours to keep even if you cancel	Item ng buwan, iyo habambuhay kahit mag-cancel ka
+If VIP ends, you keep	Kapag natapos ang VIP, iyo pa rin
+If VIP ends, you lose	Kapag natapos ang VIP, mawawala
+The items of the month you got	Ang mga item ng buwan na nakuha mo
+Everything you bought, and your coins	Lahat ng binili mo, at ang iyong barya
+Your ratings, trophies and achievements	Ang iyong rating, tropeo at nakamit
+VIP's cloths, cues and frames (back when you return)	Mga tela, tako at frame ng VIP (babalik pagbalik mo)
+The monthly coins and the next months' items	Ang buwanang barya at mga item ng susunod na buwan
+The crown, and replays beyond your last 10 games	Ang korona, at mga replay lampas sa huling 10 laro
+Your free changes are used: another costs {n} coins.	Ubos na ang libreng pagpalit: ang isa pa ay {n} barya.
+Bid at least {n} coins.	Mag-bid ng hindi bababa sa {n} barya.
+The server stops for maintenance in {n} min.	Hihinto ang server para sa maintenance sa loob ng {n} min.
+This auction is not open.	Hindi bukas ang subastang ito.
+The credits are for VIP members, now or before.	Ang credits ay para sa mga VIP, ngayon o dati.
+The server stops for maintenance now. Games in progress go on.	Humihinto na ang server para sa maintenance. Tuloy ang mga larong nagaganap.

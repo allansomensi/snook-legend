@@ -2086,3 +2086,51 @@ Every player has it	O au toți jucătorii
 Drag to make the chat taller or shorter	Trage ca să faci chatul mai înalt sau mai scund
 Hide the result to see the table and the chat	Ascunde rezultatul ca să vezi masa și chatul
 Show the result	Arată rezultatul
+Current prize: {n} coins	Premiul actual: {n} monede
+Champion wins: {item}	Campionul câștigă: {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Ziua {d} la rând: +{n} monede. Mâine: +{m}.
+Auctions ({n})	Licitații ({n})
+Auctions	Licitații
+Supporters	Susținători
+Maintenance in {t}: the server stops for about {m} min.	Mentenanță peste {t}: serverul se oprește aproximativ {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Mentenanță: serverul se oprește. Jocurile în desfășurare continuă.
+Your coins: {n}	Monedele tale: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Obiecte rare pentru cea mai mare ofertă. Oferta ta e rezervată; dacă cineva oferă mai mult, monedele îți revin imediat. O ofertă în ultimele două minute mai adaugă două.
+No auctions right now. Come back soon!	Nicio licitație acum. Revino curând!
+Current bid: {n} coins	Oferta actuală: {n} monede
+No bids yet · from {n} coins	Nicio ofertă încă · de la {n} monede
+Ended without bids	Încheiată fără oferte
+You won it!	Ai câștigat-o!
+Won by {name}	Câștigată de {name}
+Opens in {t}	Începe în {t}
+You lead · ends in {t}	Conduci · se termină în {t}
+Ends in {t}	Se termină în {t}
+{name} leads · ends in {t}	{name} conduce · se termină în {t}
+Yours already	Deja al tău
+Raise	Mărește
+Bid	Licitează
+Your bid (at least {n}):	Oferta ta (cel puțin {n}):
+Place bid	Trimite oferta
+Thank you to the VIP members who keep the game going, now and before.	Mulțumim membrilor VIP care țin jocul în viață, acum și înainte.
+Nobody in the credits yet.	Încă nimeni în credite.
+since {d} · {n} months	din {d} · {n} luni
+Show my name in the supporters' credits	Arată-mi numele în creditele susținătorilor
+{title}: ends in {t}	{title}: se termină în {t}
+An item of the month, yours to keep even if you cancel	Un obiect al lunii, al tău pentru totdeauna chiar dacă renunți
+If VIP ends, you keep	Dacă VIP se termină, păstrezi
+If VIP ends, you lose	Dacă VIP se termină, pierzi
+The items of the month you got	Obiectele lunii primite
+Everything you bought, and your coins	Tot ce ai cumpărat și monedele tale
+Your ratings, trophies and achievements	Ratingurile, trofeele și realizările tale
+VIP's cloths, cues and frames (back when you return)	Postavurile, tacurile și ramele VIP (revin când revii)
+The monthly coins and the next months' items	Monedele lunare și obiectele lunilor următoare
+The crown, and replays beyond your last 10 games	Coroana și reluările dincolo de ultimele 10 jocuri
+Your free changes are used: another costs {n} coins.	Schimbările gratuite s-au terminat: încă una costă {n} monede.
+Bid at least {n} coins.	Oferă cel puțin {n} monede.
+The server stops for maintenance in {n} min.	Serverul se oprește pentru mentenanță în {n} min.
+This auction is not open.	Această licitație nu este deschisă.
+The credits are for VIP members, now or before.	Creditele sunt pentru membrii VIP, actuali sau foști.
+The server stops for maintenance now. Games in progress go on.	Serverul se oprește acum pentru mentenanță. Jocurile în desfășurare continuă.

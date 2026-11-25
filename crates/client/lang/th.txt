@@ -2086,3 +2086,51 @@ Every player has it	ผู้​เล่น​ทุก​คน​มี
 Drag to make the chat taller or shorter	ลาก​เพื่อ​ปรับ​ความ​สูง​ของ​แชท
 Hide the result to see the table and the chat	ซ่อน​ผล​เพื่อ​ดู​โต๊ะ​และ​แชท
 Show the result	แสดง​ผล
+Current prize: {n} coins	รางวัลตอนนี้: {n} เหรียญ
+Champion wins: {item}	แชมป์ได้รับ: {item}
+{h} h {m} min	{h} ชม. {m} นาที
+{m} min	{m} นาที
+{s} s	{s} วินาที
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	วันที่ {d} ติดต่อกัน: +{n} เหรียญ พรุ่งนี้: +{m}
+Auctions ({n})	ประมูล ({n})
+Auctions	ประมูล
+Supporters	ผู้สนับสนุน
+Maintenance in {t}: the server stops for about {m} min.	ปิดปรับปรุงในอีก {t}: เซิร์ฟเวอร์หยุดประมาณ {m} นาที
+Maintenance: the server is stopping. Games in progress go on.	ปิดปรับปรุง: เซิร์ฟเวอร์กำลังหยุด เกมที่เล่นอยู่ดำเนินต่อ
+Your coins: {n}	เหรียญของคุณ: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	ไอเทมหายากสำหรับราคาสูงสุด ราคาที่คุณเสนอจะถูกกันไว้ ถ้ามีคนเสนอมากกว่า เหรียญจะคืนทันที การเสนอในสองนาทีสุดท้ายจะเพิ่มอีกสองนาที
+No auctions right now. Come back soon!	ตอนนี้ไม่มีการประมูล กลับมาเร็วๆ นี้!
+Current bid: {n} coins	ราคาปัจจุบัน: {n} เหรียญ
+No bids yet · from {n} coins	ยังไม่มีผู้เสนอ · เริ่มที่ {n} เหรียญ
+Ended without bids	จบโดยไม่มีผู้เสนอ
+You won it!	คุณชนะ!
+Won by {name}	{name} ชนะ
+Opens in {t}	เปิดในอีก {t}
+You lead · ends in {t}	คุณนำ · จบในอีก {t}
+Ends in {t}	จบในอีก {t}
+{name} leads · ends in {t}	{name} นำ · จบในอีก {t}
+Yours already	เป็นของคุณแล้ว
+Raise	เพิ่มราคา
+Bid	เสนอราคา
+Your bid (at least {n}):	ราคาของคุณ (อย่างน้อย {n}):
+Place bid	ยืนยันราคา
+Thank you to the VIP members who keep the game going, now and before.	ขอบคุณสมาชิก VIP ที่ทำให้เกมนี้อยู่ต่อ ทั้งตอนนี้และก่อนหน้า
+Nobody in the credits yet.	ยังไม่มีใครในรายชื่อ
+since {d} · {n} months	ตั้งแต่ {d} · {n} เดือน
+Show my name in the supporters' credits	แสดงชื่อฉันในรายชื่อผู้สนับสนุน
+{title}: ends in {t}	{title}: จบในอีก {t}
+An item of the month, yours to keep even if you cancel	ไอเทมประจำเดือน เป็นของคุณตลอดไปแม้ยกเลิก
+If VIP ends, you keep	ถ้า VIP หมด คุณยังมี
+If VIP ends, you lose	ถ้า VIP หมด คุณเสีย
+The items of the month you got	ไอเทมประจำเดือนที่ได้รับ
+Everything you bought, and your coins	ทุกอย่างที่คุณซื้อ และเหรียญของคุณ
+Your ratings, trophies and achievements	เรตติ้ง ถ้วยรางวัล และความสำเร็จของคุณ
+VIP's cloths, cues and frames (back when you return)	ผ้า คิว และกรอบ VIP (กลับมาเมื่อคุณกลับมา)
+The monthly coins and the next months' items	เหรียญรายเดือนและไอเทมของเดือนถัดไป
+The crown, and replays beyond your last 10 games	มงกุฎ และรีเพลย์เกินกว่า 10 เกมล่าสุด
+Your free changes are used: another costs {n} coins.	สิทธิ์เปลี่ยนฟรีหมดแล้ว: เปลี่ยนอีกครั้งใช้ {n} เหรียญ
+Bid at least {n} coins.	เสนอราคาอย่างน้อย {n} เหรียญ
+The server stops for maintenance in {n} min.	เซิร์ฟเวอร์จะหยุดปิดปรับปรุงในอีก {n} นาที
+This auction is not open.	การประมูลนี้ยังไม่เปิด
+The credits are for VIP members, now or before.	รายชื่อนี้สำหรับสมาชิก VIP ทั้งปัจจุบันและอดีต
+The server stops for maintenance now. Games in progress go on.	เซิร์ฟเวอร์กำลังหยุดปิดปรับปรุงตอนนี้ เกมที่เล่นอยู่ดำเนินต่อ

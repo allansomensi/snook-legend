@@ -2086,3 +2086,51 @@ Every player has it	所有玩家都有
 Drag to make the chat taller or shorter	拖动以调整聊天框高度
 Hide the result to see the table and the chat	隐藏结果以查看球台和聊天
 Show the result	显示结果
+Current prize: {n} coins	当前奖金：{n} 金币
+Champion wins: {item}	冠军奖品：{item}
+{h} h {m} min	{h}小时{m}分
+{m} min	{m}分
+{s} s	{s}秒
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	连续第{d}天：+{n} 金币。明天：+{m}。
+Auctions ({n})	拍卖（{n}）
+Auctions	拍卖
+Supporters	支持者
+Maintenance in {t}: the server stops for about {m} min.	{t}后维护：服务器将停止约{m}分钟。
+Maintenance: the server is stopping. Games in progress go on.	维护：服务器正在停止。进行中的对局继续。
+Your coins: {n}	你的金币：{n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	稀有物品归出价最高者。你的出价会被冻结；有人出价更高时金币立即退回。最后两分钟内出价会再延长两分钟。
+No auctions right now. Come back soon!	现在没有拍卖。稍后再来！
+Current bid: {n} coins	当前出价：{n} 金币
+No bids yet · from {n} coins	尚无出价 · {n} 金币起
+Ended without bids	无人出价，已结束
+You won it!	你拍到了！
+Won by {name}	{name} 拍得
+Opens in {t}	{t}后开始
+You lead · ends in {t}	你领先 · {t}后结束
+Ends in {t}	{t}后结束
+{name} leads · ends in {t}	{name} 领先 · {t}后结束
+Yours already	已拥有
+Raise	加价
+Bid	出价
+Your bid (at least {n}):	你的出价（至少 {n}）：
+Place bid	确认出价
+Thank you to the VIP members who keep the game going, now and before.	感谢一直支持游戏的 VIP 会员，现在和过去。
+Nobody in the credits yet.	鸣谢名单中还没有人。
+since {d} · {n} months	自 {d} · {n} 个月
+Show my name in the supporters' credits	在支持者鸣谢中显示我的名字
+{title}: ends in {t}	{title}：{t}后结束
+An item of the month, yours to keep even if you cancel	每月物品，即使取消也永久属于你
+If VIP ends, you keep	VIP 结束后你保留
+If VIP ends, you lose	VIP 结束后你失去
+The items of the month you got	已获得的每月物品
+Everything you bought, and your coins	你购买的一切和你的金币
+Your ratings, trophies and achievements	你的评分、奖杯和成就
+VIP's cloths, cues and frames (back when you return)	VIP 台呢、球杆和头像框（回来后恢复）
+The monthly coins and the next months' items	每月金币和之后月份的物品
+The crown, and replays beyond your last 10 games	皇冠，以及最近 10 局之外的回放
+Your free changes are used: another costs {n} coins.	免费改名次数已用完：再改一次需 {n} 金币。
+Bid at least {n} coins.	请至少出价 {n} 金币。
+The server stops for maintenance in {n} min.	服务器将在 {n} 分钟后停机维护。
+This auction is not open.	此拍卖未开放。
+The credits are for VIP members, now or before.	鸣谢名单面向现任或曾经的 VIP 会员。
+The server stops for maintenance now. Games in progress go on.	服务器现在停机维护。进行中的对局继续。

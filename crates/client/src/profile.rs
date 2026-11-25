@@ -1550,7 +1550,10 @@ impl ProfileScreen {
         // The height follows the text (it wraps differently per language):
         // the title, the four sections as laid out below, and Close.
         let lines = (email_note.len() + delete_note.len()) as f32 * 17.0;
-        let h = 70.0 + 144.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines;
+        // A supporter (VIP now or before) chooses to be in the credits.
+        let supporter = online.account.as_ref().is_some_and(|a| a.supporter);
+        let credits_h = if supporter { 34.0 } else { 0.0 };
+        let h = 70.0 + 144.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines + credits_h;
         // Taller than the window (a large interface size): the dialog
         // scrolls with the wheel, so every control stays in reach.
         let room = sh - 20.0;
@@ -1587,7 +1590,15 @@ impl ProfileScreen {
         ui.text(t("Username"), x, y, 15.0, GOLD, true);
         y += 24.0;
         let left = online.account.as_ref().map(|a| a.name_changes_left);
+        // Once the free changes are used, another costs coins (if the
+        // server sells them).
+        let price = online.account.as_ref().map_or(0, |a| a.name_change_price);
+        let can_change = left.is_some_and(|n| n > 0 || price > 0);
         let note = match left {
+            Some(0) if price > 0 => tw(
+                "Your free changes are used: another costs {n} coins.",
+                &[("n", &crate::online::ops::thousands(price as i64))],
+            ),
             Some(0) => t("You can't change your username again.").to_string(),
             Some(n) => tw(
                 "{n} of {total} name changes left",
@@ -1608,7 +1619,7 @@ impl ProfileScreen {
         let both = [t("Change"), t("Click again to confirm")];
         let bw = both.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max) + 32.0;
         let field = Rect::new(x, y, fw - bw - 10.0, 34.0);
-        if left.is_some_and(|n| n > 0) {
+        if can_change {
             if ui.focus == Some(75) {
                 focused = Some((75, y));
             }
@@ -1617,9 +1628,7 @@ impl ProfileScreen {
                 ui.text(t("New username"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
             }
         }
-        let ok = left.is_some_and(|n| n > 0)
-            && snook_legend_proto::valid_username(&wanted)
-            && wanted != current;
+        let ok = can_change && snook_legend_proto::valid_username(&wanted) && wanted != current;
         if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), label, ok) {
             if form.confirm_rename.is_some() {
                 online.send(ClientMsg::ChangeUsername { username: wanted.clone() });
@@ -1632,6 +1641,16 @@ impl ProfileScreen {
             }
         }
         y += 34.0 + 12.0;
+        if supporter {
+            let mut show = online.account.as_ref().is_some_and(|a| a.in_credits);
+            if ui.checkbox(x, y, t("Show my name in the supporters' credits"), &mut show) {
+                online.send(ClientMsg::SetCredits { show });
+                if let Some(a) = online.account.as_mut() {
+                    a.in_credits = show;
+                }
+            }
+            y += credits_h;
+        }
         draw_line(x, y, x + fw, y, 1.0, BORDER);
         y += 13.0;
         // Recovery e-mail.

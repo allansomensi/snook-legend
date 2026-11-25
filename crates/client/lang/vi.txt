@@ -2086,3 +2086,51 @@ Every player has it	Mọi người chơi đều có
 Drag to make the chat taller or shorter	Kéo để làm khung trò chuyện cao hơn hoặc thấp hơn
 Hide the result to see the table and the chat	Ẩn kết quả để xem bàn và khung trò chuyện
 Show the result	Xem kết quả
+Current prize: {n} coins	Giải thưởng hiện tại: {n} xu
+Champion wins: {item}	Nhà vô địch nhận: {item}
+{h} h {m} min	{h} giờ {m} phút
+{m} min	{m} phút
+{s} s	{s} giây
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Ngày thứ {d} liên tiếp: +{n} xu. Ngày mai: +{m}.
+Auctions ({n})	Đấu giá ({n})
+Auctions	Đấu giá
+Supporters	Người ủng hộ
+Maintenance in {t}: the server stops for about {m} min.	Bảo trì sau {t}: máy chủ dừng khoảng {m} phút.
+Maintenance: the server is stopping. Games in progress go on.	Bảo trì: máy chủ đang dừng. Các ván đang chơi vẫn tiếp tục.
+Your coins: {n}	Xu của bạn: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Vật phẩm hiếm cho giá cao nhất. Giá bạn đặt được giữ lại; nếu ai trả cao hơn, xu trả lại ngay. Đặt giá trong hai phút cuối sẽ thêm hai phút.
+No auctions right now. Come back soon!	Hiện chưa có đấu giá. Hãy quay lại sớm!
+Current bid: {n} coins	Giá hiện tại: {n} xu
+No bids yet · from {n} coins	Chưa có ai đặt · từ {n} xu
+Ended without bids	Kết thúc không có giá
+You won it!	Bạn đã thắng!
+Won by {name}	{name} đã thắng
+Opens in {t}	Mở sau {t}
+You lead · ends in {t}	Bạn dẫn đầu · kết thúc sau {t}
+Ends in {t}	Kết thúc sau {t}
+{name} leads · ends in {t}	{name} dẫn đầu · kết thúc sau {t}
+Yours already	Đã là của bạn
+Raise	Nâng giá
+Bid	Đặt giá
+Your bid (at least {n}):	Giá của bạn (ít nhất {n}):
+Place bid	Gửi giá
+Thank you to the VIP members who keep the game going, now and before.	Cảm ơn các thành viên VIP đã giữ cho trò chơi tồn tại, nay và trước đây.
+Nobody in the credits yet.	Chưa có ai trong danh sách.
+since {d} · {n} months	từ {d} · {n} tháng
+Show my name in the supporters' credits	Hiện tên tôi trong danh sách người ủng hộ
+{title}: ends in {t}	{title}: kết thúc sau {t}
+An item of the month, yours to keep even if you cancel	Vật phẩm của tháng, của bạn mãi mãi kể cả khi hủy
+If VIP ends, you keep	Khi hết VIP, bạn giữ
+If VIP ends, you lose	Khi hết VIP, bạn mất
+The items of the month you got	Các vật phẩm của tháng đã nhận
+Everything you bought, and your coins	Mọi thứ bạn đã mua, và xu của bạn
+Your ratings, trophies and achievements	Xếp hạng, cúp và thành tích của bạn
+VIP's cloths, cues and frames (back when you return)	Vải, cơ và khung VIP (có lại khi bạn quay lại)
+The monthly coins and the next months' items	Xu hằng tháng và vật phẩm các tháng sau
+The crown, and replays beyond your last 10 games	Vương miện, và phát lại ngoài 10 ván gần nhất
+Your free changes are used: another costs {n} coins.	Đã hết lượt đổi miễn phí: thêm một lượt giá {n} xu.
+Bid at least {n} coins.	Hãy đặt ít nhất {n} xu.
+The server stops for maintenance in {n} min.	Máy chủ dừng để bảo trì sau {n} phút.
+This auction is not open.	Phiên đấu giá này chưa mở.
+The credits are for VIP members, now or before.	Danh sách dành cho thành viên VIP, hiện tại hoặc trước đây.
+The server stops for maintenance now. Games in progress go on.	Máy chủ đang dừng để bảo trì. Các ván đang chơi vẫn tiếp tục.

@@ -1169,6 +1169,10 @@ async fn main() {
         // The chat with other players' dialog is over every screen and game
         // (drawn near the end): nothing under it takes the pointer. Saved
         // first, given back last.
+        // The auctions' and the credits' pages, the same way (they open
+        // over the main menu, the lounge and the shop).
+        let ops_saved = (!settings_open && current.is_none() && online.ops_page_open())
+            .then(|| ui.suspend_input());
         let chat_saved = (!settings_open && online.chat_dialog_open).then(|| ui.suspend_input());
         let ask_saved = ask_rules.then(|| ui.suspend_input());
         // The offer before the invitation: drawn over it, it is given the
@@ -2037,6 +2041,20 @@ async fn main() {
         }
         if !settings_open {
             online.draw_chat_dialog(&mut ui, &config);
+        }
+        // A maintenance planned (on the main menu and in the lounge), the
+        // ways to the auctions and the credits (main menu), and their pages.
+        if let Some(saved) = ops_saved {
+            ui.resume_input(saved);
+        }
+        if current.is_none() && !settings_open && waiting.is_none() {
+            let in_lounge =
+                matches!(screen, Screen::Online) && online.stage == online::Stage::Lounge;
+            let on_menu = matches!(screen, Screen::Menu);
+            if on_menu {
+                online.draw_ops_links(&mut ui);
+            }
+            online.draw_ops(&mut ui, on_menu || in_lounge);
         }
         // A warning from the staff, over everything else, until OK.
         if current.is_none() && !settings_open && waiting.is_none() {

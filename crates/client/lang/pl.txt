@@ -2086,3 +2086,51 @@ Every player has it	Ma ją każdy gracz
 Drag to make the chat taller or shorter	Przeciągnij, aby wydłużyć lub skrócić czat
 Hide the result to see the table and the chat	Ukryj wynik, aby widzieć stół i czat
 Show the result	Pokaż wynik
+Current prize: {n} coins	Obecna nagroda: {n} monet
+Champion wins: {item}	Mistrz wygrywa: {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Dzień {d} z rzędu: +{n} monet. Jutro: +{m}.
+Auctions ({n})	Aukcje ({n})
+Auctions	Aukcje
+Supporters	Wspierający
+Maintenance in {t}: the server stops for about {m} min.	Przerwa techniczna za {t}: serwer stanie na około {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Przerwa techniczna: serwer się zatrzymuje. Trwające gry toczą się dalej.
+Your coins: {n}	Twoje monety: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Rzadkie przedmioty za najwyższą ofertę. Twoja oferta jest zablokowana; gdy ktoś da więcej, monety wracają od razu. Oferta w ostatnich dwóch minutach dodaje dwie.
+No auctions right now. Come back soon!	Teraz nie ma aukcji. Wróć niedługo!
+Current bid: {n} coins	Obecna oferta: {n} monet
+No bids yet · from {n} coins	Brak ofert · od {n} monet
+Ended without bids	Zakończona bez ofert
+You won it!	Wygrałeś!
+Won by {name}	Wygrał {name}
+Opens in {t}	Start za {t}
+You lead · ends in {t}	Prowadzisz · koniec za {t}
+Ends in {t}	Koniec za {t}
+{name} leads · ends in {t}	{name} prowadzi · koniec za {t}
+Yours already	Już twoje
+Raise	Podbij
+Bid	Licytuj
+Your bid (at least {n}):	Twoja oferta (co najmniej {n}):
+Place bid	Złóż ofertę
+Thank you to the VIP members who keep the game going, now and before.	Dziękujemy członkom VIP, którzy utrzymują grę, dziś i dawniej.
+Nobody in the credits yet.	Na razie nikogo w podziękowaniach.
+since {d} · {n} months	od {d} · {n} mies.
+Show my name in the supporters' credits	Pokaż moje imię w podziękowaniach dla wspierających
+{title}: ends in {t}	{title}: koniec za {t}
+An item of the month, yours to keep even if you cancel	Przedmiot miesiąca, twój na zawsze, nawet po rezygnacji
+If VIP ends, you keep	Gdy VIP się skończy, zachowujesz
+If VIP ends, you lose	Gdy VIP się skończy, tracisz
+The items of the month you got	Otrzymane przedmioty miesiąca
+Everything you bought, and your coins	Wszystko, co kupiłeś, i swoje monety
+Your ratings, trophies and achievements	Swoje rankingi, trofea i osiągnięcia
+VIP's cloths, cues and frames (back when you return)	Sukna, kije i ramki VIP (wrócą, gdy wrócisz)
+The monthly coins and the next months' items	Comiesięczne monety i przedmioty kolejnych miesięcy
+The crown, and replays beyond your last 10 games	Koronę i powtórki poza ostatnimi 10 grami
+Your free changes are used: another costs {n} coins.	Darmowe zmiany wykorzystane: kolejna kosztuje {n} monet.
+Bid at least {n} coins.	Zaoferuj co najmniej {n} monet.
+The server stops for maintenance in {n} min.	Serwer zatrzyma się na przerwę techniczną za {n} min.
+This auction is not open.	Ta aukcja nie jest otwarta.
+The credits are for VIP members, now or before.	Podziękowania są dla członków VIP, obecnych lub dawnych.
+The server stops for maintenance now. Games in progress go on.	Serwer zatrzymuje się teraz na przerwę techniczną. Trwające gry toczą się dalej.

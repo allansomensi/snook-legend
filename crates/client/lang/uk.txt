@@ -2086,3 +2086,51 @@ Every player has it	Є в усіх гравців
 Drag to make the chat taller or shorter	Тягніть, щоб зробити чат вищим або нижчим
 Hide the result to see the table and the chat	Сховайте підсумок, щоб бачити стіл і чат
 Show the result	Показати підсумок
+Current prize: {n} coins	Поточний приз: {n} монет
+Champion wins: {item}	Чемпіон отримує: {item}
+{h} h {m} min	{h} год {m} хв
+{m} min	{m} хв
+{s} s	{s} с
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	День {d} поспіль: +{n} монет. Завтра: +{m}.
+Auctions ({n})	Аукціони ({n})
+Auctions	Аукціони
+Supporters	Прихильники
+Maintenance in {t}: the server stops for about {m} min.	Техроботи через {t}: сервер зупиниться приблизно на {m} хв.
+Maintenance: the server is stopping. Games in progress go on.	Техроботи: сервер зупиняється. Поточні партії тривають.
+Your coins: {n}	Ваші монети: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Рідкісні предмети за найвищу ставку. Вашу ставку заморожено; якщо хтось дасть більше, монети одразу повернуться. Ставка в останні дві хвилини подовжує торги на дві.
+No auctions right now. Come back soon!	Зараз аукціонів немає. Заходьте згодом!
+Current bid: {n} coins	Поточна ставка: {n} монет
+No bids yet · from {n} coins	Ставок ще немає · від {n} монет
+Ended without bids	Завершено без ставок
+You won it!	Ви виграли!
+Won by {name}	Виграв {name}
+Opens in {t}	Відкриється через {t}
+You lead · ends in {t}	Ви лідируєте · кінець через {t}
+Ends in {t}	Кінець через {t}
+{name} leads · ends in {t}	{name} лідирує · кінець через {t}
+Yours already	Уже ваше
+Raise	Підвищити
+Bid	Ставка
+Your bid (at least {n}):	Ваша ставка (щонайменше {n}):
+Place bid	Зробити ставку
+Thank you to the VIP members who keep the game going, now and before.	Дякуємо VIP-учасникам, які підтримують гру, зараз і раніше.
+Nobody in the credits yet.	У титрах поки нікого.
+since {d} · {n} months	з {d} · {n} міс.
+Show my name in the supporters' credits	Показувати моє ім'я в титрах прихильників
+{title}: ends in {t}	{title}: кінець через {t}
+An item of the month, yours to keep even if you cancel	Предмет місяця — ваш назавжди, навіть якщо скасуєте
+If VIP ends, you keep	Якщо VIP завершиться, залишиться
+If VIP ends, you lose	Якщо VIP завершиться, зникне
+The items of the month you got	Отримані предмети місяця
+Everything you bought, and your coins	Усе куплене і ваші монети
+Your ratings, trophies and achievements	Ваші рейтинги, трофеї та досягнення
+VIP's cloths, cues and frames (back when you return)	VIP-сукна, киї та рамки (повернуться, коли повернетеся)
+The monthly coins and the next months' items	Щомісячні монети й предмети наступних місяців
+The crown, and replays beyond your last 10 games	Корона і повтори понад останні 10 партій
+Your free changes are used: another costs {n} coins.	Безкоштовні зміни закінчилися: ще одна коштує {n} монет.
+Bid at least {n} coins.	Ставка має бути щонайменше {n} монет.
+The server stops for maintenance in {n} min.	Сервер зупиниться на техроботи через {n} хв.
+This auction is not open.	Цей аукціон не відкритий.
+The credits are for VIP members, now or before.	Титри — для VIP-учасників, теперішніх або колишніх.
+The server stops for maintenance now. Games in progress go on.	Сервер зупиняється на техроботи. Поточні партії тривають.

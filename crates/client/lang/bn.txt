@@ -2086,3 +2086,51 @@ Every player has it	সব খেলোয়াড়ের কাছে আছ
 Drag to make the chat taller or shorter	চ্যাট লম্বা বা ছোট করতে টানুন
 Hide the result to see the table and the chat	টেবিল আর চ্যাট দেখতে ফলাফল লুকান
 Show the result	ফলাফল দেখুন
+Current prize: {n} coins	বর্তমান পুরস্কার: {n} কয়েন
+Champion wins: {item}	চ্যাম্পিয়ন পায়: {item}
+{h} h {m} min	{h} ঘ {m} মি
+{m} min	{m} মি
+{s} s	{s} সে
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	টানা {d}তম দিন: +{n} কয়েন। আগামীকাল: +{m}।
+Auctions ({n})	নিলাম ({n})
+Auctions	নিলাম
+Supporters	সমর্থক
+Maintenance in {t}: the server stops for about {m} min.	{t} পরে রক্ষণাবেক্ষণ: সার্ভার প্রায় {m} মি বন্ধ থাকবে।
+Maintenance: the server is stopping. Games in progress go on.	রক্ষণাবেক্ষণ: সার্ভার বন্ধ হচ্ছে। চলমান খেলা চলবে।
+Your coins: {n}	তোমার কয়েন: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	সর্বোচ্চ দরে দুর্লভ আইটেম। তোমার দর আটকে রাখা হয়; কেউ বেশি দিলে কয়েন সঙ্গে সঙ্গে ফেরত আসে। শেষ দুই মিনিটে দর দিলে আরও দুই মিনিট যোগ হয়।
+No auctions right now. Come back soon!	এখন কোনো নিলাম নেই। শিগগির আবার এসো!
+Current bid: {n} coins	বর্তমান দর: {n} কয়েন
+No bids yet · from {n} coins	এখনো কোনো দর নেই · {n} কয়েন থেকে
+Ended without bids	দর ছাড়াই শেষ
+You won it!	তুমি জিতেছ!
+Won by {name}	জিতেছে {name}
+Opens in {t}	{t} পরে খুলবে
+You lead · ends in {t}	তুমি এগিয়ে · {t} পরে শেষ
+Ends in {t}	{t} পরে শেষ
+{name} leads · ends in {t}	{name} এগিয়ে · {t} পরে শেষ
+Yours already	আগেই তোমার
+Raise	বাড়াও
+Bid	দর দাও
+Your bid (at least {n}):	তোমার দর (কমপক্ষে {n}):
+Place bid	দর জমা দাও
+Thank you to the VIP members who keep the game going, now and before.	যেসব VIP সদস্য খেলাটি চালু রাখে, এখন ও আগে, তাদের ধন্যবাদ।
+Nobody in the credits yet.	ক্রেডিটে এখনো কেউ নেই।
+since {d} · {n} months	{d} থেকে · {n} মাস
+Show my name in the supporters' credits	সমর্থকদের ক্রেডিটে আমার নাম দেখাও
+{title}: ends in {t}	{title}: {t} পরে শেষ
+An item of the month, yours to keep even if you cancel	মাসের আইটেম, বাতিল করলেও চিরকাল তোমার
+If VIP ends, you keep	VIP শেষ হলে যা থাকে
+If VIP ends, you lose	VIP শেষ হলে যা হারাও
+The items of the month you got	পাওয়া মাসের আইটেমগুলো
+Everything you bought, and your coins	তোমার কেনা সব কিছু, আর তোমার কয়েন
+Your ratings, trophies and achievements	তোমার রেটিং, ট্রফি আর অর্জন
+VIP's cloths, cues and frames (back when you return)	VIP কাপড়, কিউ আর ফ্রেম (ফিরলে আবার পাবে)
+The monthly coins and the next months' items	মাসিক কয়েন আর পরের মাসগুলোর আইটেম
+The crown, and replays beyond your last 10 games	মুকুট, আর শেষ ১০টি খেলার বাইরের রিপ্লে
+Your free changes are used: another costs {n} coins.	তোমার বিনামূল্যের পরিবর্তন শেষ: আরেকটির দাম {n} কয়েন।
+Bid at least {n} coins.	কমপক্ষে {n} কয়েন দর দাও।
+The server stops for maintenance in {n} min.	সার্ভার {n} মি পরে রক্ষণাবেক্ষণের জন্য বন্ধ হবে।
+This auction is not open.	এই নিলাম খোলা নেই।
+The credits are for VIP members, now or before.	ক্রেডিট বর্তমান বা আগের VIP সদস্যদের জন্য।
+The server stops for maintenance now. Games in progress go on.	সার্ভার এখন রক্ষণাবেক্ষণের জন্য বন্ধ হচ্ছে। চলমান খেলা চলবে।

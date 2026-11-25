@@ -2086,3 +2086,51 @@ Every player has it	全プレイヤーが使えます
 Drag to make the chat taller or shorter	ドラッグでチャットの高さを変更
 Hide the result to see the table and the chat	結果を隠してテーブルとチャットを見る
 Show the result	結果を表示
+Current prize: {n} coins	現在の賞金：{n} コイン
+Champion wins: {item}	優勝賞品：{item}
+{h} h {m} min	{h}時間{m}分
+{m} min	{m}分
+{s} s	{s}秒
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	{d}日連続：+{n} コイン。明日：+{m}。
+Auctions ({n})	オークション（{n}）
+Auctions	オークション
+Supporters	サポーター
+Maintenance in {t}: the server stops for about {m} min.	{t}後にメンテナンス：サーバーは約{m}分停止します。
+Maintenance: the server is stopping. Games in progress go on.	メンテナンス：サーバーを停止中です。進行中の対局は続きます。
+Your coins: {n}	所持コイン：{n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	最高入札者にレアアイテム。入札したコインは預かられ、誰かがより高く入札するとすぐに戻ります。残り2分以内の入札で終了が2分延びます。
+No auctions right now. Come back soon!	現在オークションはありません。また来てね！
+Current bid: {n} coins	現在の入札：{n} コイン
+No bids yet · from {n} coins	入札なし · {n} コインから
+Ended without bids	入札なしで終了
+You won it!	落札しました！
+Won by {name}	{name}が落札
+Opens in {t}	{t}後に開始
+You lead · ends in {t}	あなたがトップ · 残り{t}
+Ends in {t}	残り{t}
+{name} leads · ends in {t}	{name}がトップ · 残り{t}
+Yours already	所持済み
+Raise	上乗せ
+Bid	入札
+Your bid (at least {n}):	入札額（{n}以上）：
+Place bid	入札する
+Thank you to the VIP members who keep the game going, now and before.	ゲームを支えてくれるVIPメンバーの皆さん、今も昔もありがとう。
+Nobody in the credits yet.	クレジットにはまだ誰もいません。
+since {d} · {n} months	{d}から · {n}か月
+Show my name in the supporters' credits	サポーターのクレジットに名前を表示する
+{title}: ends in {t}	{title}：残り{t}
+An item of the month, yours to keep even if you cancel	毎月のアイテム。解約してもずっとあなたのもの
+If VIP ends, you keep	VIPが終わっても残るもの
+If VIP ends, you lose	VIPが終わると失うもの
+The items of the month you got	受け取った毎月のアイテム
+Everything you bought, and your coins	購入したすべてとコイン
+Your ratings, trophies and achievements	レーティング、トロフィー、実績
+VIP's cloths, cues and frames (back when you return)	VIPのラシャ、キュー、フレーム（戻れば再び使用可）
+The monthly coins and the next months' items	毎月のコインと今後の月のアイテム
+The crown, and replays beyond your last 10 games	王冠と、直近10局より前のリプレイ
+Your free changes are used: another costs {n} coins.	無料の変更は使い切りました：次は {n} コインです。
+Bid at least {n} coins.	{n} コイン以上で入札してください。
+The server stops for maintenance in {n} min.	サーバーは{n}分後にメンテナンスのため停止します。
+This auction is not open.	このオークションは開いていません。
+The credits are for VIP members, now or before.	クレジットは現在または過去のVIPメンバー向けです。
+The server stops for maintenance now. Games in progress go on.	サーバーはメンテナンスのため停止します。進行中の対局は続きます。

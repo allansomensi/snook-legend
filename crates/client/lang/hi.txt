@@ -2150,3 +2150,133 @@ Equip now	अभी लगाएँ
 Open the collection	संग्रह खोलें
 Auctions	नीलामियाँ
 The staff ended your game without a result. Sign in again.	टीम ने आपका खेल बिना नतीजे के खत्म कर दिया। फिर से साइन इन करें।
+Current prize: {n} coins	मौजूदा इनाम: {n} सिक्के
+Champion wins: {item}	चैंपियन जीतता है: {item}
+{h} h {m} min	{h} घं {m} मि
+{m} min	{m} मि
+{s} s	{s} से
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	लगातार {d}वाँ दिन: +{n} सिक्के। कल: +{m}।
+Auctions ({n})	नीलामियाँ ({n})
+Auctions	नीलामियाँ
+Supporters	समर्थक
+Maintenance in {t}: the server stops for about {m} min.	{t} में रखरखाव: सर्वर लगभग {m} मि के लिए रुकेगा।
+Maintenance: the server is stopping. Games in progress go on.	रखरखाव: सर्वर रुक रहा है। चल रहे गेम जारी रहेंगे।
+Your coins: {n}	आपके सिक्के: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	सबसे ऊँची बोली पर दुर्लभ आइटम। आपकी बोली रोकी जाती है; कोई ज़्यादा बोली लगाए तो सिक्के तुरंत लौट आते हैं। आखिरी दो मिनट में बोली दो मिनट और जोड़ती है।
+No auctions right now. Come back soon!	अभी कोई नीलामी नहीं। जल्द लौटें!
+Current bid: {n} coins	मौजूदा बोली: {n} सिक्के
+No bids yet · from {n} coins	अभी कोई बोली नहीं · {n} सिक्कों से
+Ended without bids	बिना बोली के खत्म
+You won it!	आप जीत गए!
+Won by {name}	{name} ने जीता
+Opens in {t}	{t} में खुलेगी
+You lead · ends in {t}	आप आगे हैं · {t} में खत्म
+Ends in {t}	{t} में खत्म
+{name} leads · ends in {t}	{name} आगे · {t} में खत्म
+Yours already	पहले से आपका
+Raise	बढ़ाएँ
+Bid	बोली
+Your bid (at least {n}):	आपकी बोली (कम से कम {n}):
+Place bid	बोली लगाएँ
+Thank you to the VIP members who keep the game going, now and before.	उन VIP सदस्यों का धन्यवाद जो खेल को चलाते हैं, अभी और पहले।
+Nobody in the credits yet.	क्रेडिट में अभी कोई नहीं।
+since {d} · {n} months	{d} से · {n} महीने
+Show my name in the supporters' credits	समर्थकों के क्रेडिट में मेरा नाम दिखाएँ
+{title}: ends in {t}	{title}: {t} में खत्म
+An item of the month, yours to keep even if you cancel	महीने का आइटम, रद्द करने पर भी हमेशा आपका
+If VIP ends, you keep	VIP खत्म होने पर आपके पास रहता है
+If VIP ends, you lose	VIP खत्म होने पर आप खोते हैं
+The items of the month you got	आपको मिले महीने के आइटम
+Everything you bought, and your coins	आपकी हर खरीदी चीज़, और आपके सिक्के
+Your ratings, trophies and achievements	आपकी रेटिंग, ट्रॉफ़ियाँ और उपलब्धियाँ
+VIP's cloths, cues and frames (back when you return)	VIP कपड़े, क्यू और फ़्रेम (लौटने पर वापस)
+The monthly coins and the next months' items	मासिक सिक्के और अगले महीनों के आइटम
+The crown, and replays beyond your last 10 games	ताज, और आखिरी 10 गेम से पुराने रीप्ले
+Your free changes are used: another costs {n} coins.	आपके मुफ़्त बदलाव खत्म: एक और की कीमत {n} सिक्के।
+Bid at least {n} coins.	कम से कम {n} सिक्कों की बोली लगाएँ।
+The server stops for maintenance in {n} min.	सर्वर {n} मि में रखरखाव के लिए रुकेगा।
+This auction is not open.	यह नीलामी खुली नहीं है।
+The credits are for VIP members, now or before.	क्रेडिट मौजूदा या पूर्व VIP सदस्यों के लिए हैं।
+The server stops for maintenance now. Games in progress go on.	सर्वर अभी रखरखाव के लिए रुक रहा है। चल रहे गेम जारी रहेंगे।
+Play online: your games are added up here as they end.	ऑनलाइन खेलें: आपके खेल खत्म होते ही यहाँ जुड़ते जाते हैं।
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	देखें कि आप हर पॉकेट और हर कट कोण पर कितनी गेंदें डालते हैं, हफ़्ते-दर-हफ़्ते कैसे सुधरते हैं, और अपनी लीग के खिलाड़ियों के मुकाबले कहाँ हैं।
+Advanced statistics	उन्नत आँकड़े
+Become VIP	VIP बनें
+By pocket	पॉकेट के अनुसार
+By cut angle	कट कोण के अनुसार
+The white mark: your league.	सफ़ेद निशान: आपकी लीग।
+Week by week	हफ़्ते-दर-हफ़्ते
+Against your league	आपकी लीग के मुकाबले
+{tier}: {n} players	{tier}: {n} खिलाड़ी
+You	आप
+League	लीग
+{pocket}: {n} points above	{pocket}: {n} अंक ऊपर
+{pocket}: {n} points below	{pocket}: {n} अंक नीचे
+Messages with {name}	{name} के साथ संदेश
+No messages with {name} yet. Say hello!	{name} के साथ अभी कोई संदेश नहीं। नमस्ते कहें!
+Write a message… (Enter to send)	संदेश लिखें… (भेजने के लिए Enter)
+You can write to your friends only.	आप केवल अपने दोस्तों को लिख सकते हैं।
+Choose a quick phrase…	कोई त्वरित वाक्य चुनें…
+Looking for a game ({rules})	खेल ढूँढ रहे हैं ({rules})
+At a table, waiting ({rules})	टेबल पर इंतज़ार में ({rules})
+Playing a tournament game against {name}	{name} के खिलाफ़ टूर्नामेंट का खेल खेल रहे हैं
+Playing against {name}	{name} के खिलाफ़ खेल रहे हैं
+Watching {name}'s game	{name} का खेल देख रहे हैं
+In {name}	{name} में
+Playing the computer	कंप्यूटर के खिलाफ़ खेल रहे हैं
+Practising	अभ्यास कर रहे हैं
+In the daily challenge	दैनिक चुनौती में
+Doing drills	ड्रिल कर रहे हैं
+On the tour	टूर पर
+Away	दूर
+Victory by abandonment	विरोधी के छोड़ने से जीत
+Players (administrator)	खिलाड़ी (व्यवस्थापक)
+Spectators	दर्शक
+Chat (muted)	चैट (म्यूट)
+Say something to the others watching (the players don't see it).	बाकी दर्शकों से कुछ कहें (खिलाड़ी इसे नहीं देखते)।
+Rated game	रेटेड खेल
+Casual game	आकस्मिक खेल
+Click to skip	छोड़ने के लिए क्लिक करें
+Guest	अतिथि
+Win	जीत
+Loss	हार
+{n} rating points at stake	{n} रेटिंग अंक दाँव पर
+No rating at stake	कोई रेटिंग दाँव पर नहीं
+Hide the shot's numbers	शॉट के अंक छिपाएँ
+Show the shot's numbers	शॉट के अंक दिखाएँ
+Last shot	आखिरी शॉट
+No shot yet.	अभी कोई शॉट नहीं।
+Balls left	बची हुई गेंदें
+Right side	दायाँ स्पिन
+Left side	बायाँ स्पिन
+Centre ball	गेंद का बीच
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	केवल त्वरित वाक्य (कोई मुक्त पाठ नहीं)
+Messages	संदेश
+World	विश्व
+Friends ranking	दोस्तों की रैंकिंग
+You and your friends · rated games	आप और आपके दोस्त · रेटेड खेल
+Add friends to see where you stand among them.	दोस्त जोड़ें और देखें कि उनके बीच आप कहाँ हैं।
+Chat and reactions	चैट और प्रतिक्रियाएँ
+Mute the opponent's chat	विरोधी की चैट म्यूट करें
+Their messages in online games are not shown (yours still reach them).	ऑनलाइन खेलों में उनके संदेश नहीं दिखते (आपके संदेश उन तक पहुँचते रहते हैं)।
+Hide the opponent's reactions	विरोधी की प्रतिक्रियाएँ छिपाएँ
+The reactions they send at the table are not shown.	टेबल पर भेजी गई उनकी प्रतिक्रियाएँ नहीं दिखतीं।
+Players muted from a game: {n}	किसी खेल से म्यूट किए गए खिलाड़ी: {n}
+Unmute them all	सबको अनम्यूट करें
+This game counts for the rating: +{win} if you win, {loss} if you lose.	यह खेल रेटिंग में गिना जाता है: जीतने पर +{win}, हारने पर {loss}।
+This game counts for the rating.	यह खेल रेटिंग में गिना जाता है।
+A casual game: the rating doesn't change.	आकस्मिक खेल: रेटिंग नहीं बदलती।
+{name} lost the connection	{name} का कनेक्शन टूट गया
+If they don't come back in time, you win by abandonment.	अगर वे समय पर नहीं लौटे, तो आप उनके छोड़ने से जीतेंगे।
+Mute {name}	{name} को म्यूट करें
+Mute {name}'s chat	{name} की चैट म्यूट करें
+Hide {name}'s reactions	{name} की प्रतिक्रियाएँ छिपाएँ
+Remembered for your next games against them.	उनके खिलाफ़ आपके अगले खेलों के लिए याद रखा जाएगा।
+Broadcast	प्रसारण
+3D	3D
+You can only send messages to your friends.	आप केवल अपने दोस्तों को संदेश भेज सकते हैं।
+You can't send messages to this player.	आप इस खिलाड़ी को संदेश नहीं भेज सकते।
+Your chat is set to the quick phrases only.	आपकी चैट केवल त्वरित वाक्यों तक सीमित है।
+These settings can't be kept.	ये सेटिंग्स सहेजी नहीं जा सकतीं।
+You aren't watching a game.	आप कोई खेल नहीं देख रहे हैं।

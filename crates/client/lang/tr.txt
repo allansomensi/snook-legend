@@ -2150,3 +2150,133 @@ Equip now	Şimdi kuşan
 Open the collection	Koleksiyonu aç
 Auctions	Açık artırmalar
 The staff ended your game without a result. Sign in again.	Ekip oyununu sonuçsuz bitirdi. Yeniden giriş yap.
+Current prize: {n} coins	Güncel ödül: {n} jeton
+Champion wins: {item}	Şampiyon kazanır: {item}
+{h} h {m} min	{h} sa {m} dk
+{m} min	{m} dk
+{s} s	{s} sn
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Üst üste {d}. gün: +{n} jeton. Yarın: +{m}.
+Auctions ({n})	Açık artırmalar ({n})
+Auctions	Açık artırmalar
+Supporters	Destekçiler
+Maintenance in {t}: the server stops for about {m} min.	{t} sonra bakım: sunucu yaklaşık {m} dk duracak.
+Maintenance: the server is stopping. Games in progress go on.	Bakım: sunucu duruyor. Süren oyunlar devam ediyor.
+Your coins: {n}	Jetonların: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	En yüksek teklife nadir eşyalar. Teklifin tutulur; biri daha fazla verirse jetonların hemen geri gelir. Son iki dakikadaki teklif iki dakika ekler.
+No auctions right now. Come back soon!	Şu an açık artırma yok. Yakında tekrar gel!
+Current bid: {n} coins	Güncel teklif: {n} jeton
+No bids yet · from {n} coins	Henüz teklif yok · {n} jetondan başlıyor
+Ended without bids	Teklifsiz bitti
+You won it!	Kazandın!
+Won by {name}	Kazanan: {name}
+Opens in {t}	{t} sonra açılıyor
+You lead · ends in {t}	Öndesin · {t} sonra bitiyor
+Ends in {t}	{t} sonra bitiyor
+{name} leads · ends in {t}	{name} önde · {t} sonra bitiyor
+Yours already	Zaten senin
+Raise	Artır
+Bid	Teklif ver
+Your bid (at least {n}):	Teklifin (en az {n}):
+Place bid	Teklifi gönder
+Thank you to the VIP members who keep the game going, now and before.	Oyunu ayakta tutan VIP üyelerine, şimdi ve önceden, teşekkürler.
+Nobody in the credits yet.	Henüz jenerikte kimse yok.
+since {d} · {n} months	{d} tarihinden beri · {n} ay
+Show my name in the supporters' credits	Adımı destekçiler jeneriğinde göster
+{title}: ends in {t}	{title}: {t} sonra bitiyor
+An item of the month, yours to keep even if you cancel	Ayın eşyası, iptal etsen bile sonsuza dek senin
+If VIP ends, you keep	VIP biterse kalır
+If VIP ends, you lose	VIP biterse gider
+The items of the month you got	Aldığın ayın eşyaları
+Everything you bought, and your coins	Satın aldığın her şey ve jetonların
+Your ratings, trophies and achievements	Puanların, kupaların ve başarımların
+VIP's cloths, cues and frames (back when you return)	VIP çuhaları, istekaları ve çerçeveleri (dönünce geri gelir)
+The monthly coins and the next months' items	Aylık jetonlar ve gelecek ayların eşyaları
+The crown, and replays beyond your last 10 games	Taç ve son 10 oyunun ötesindeki tekrarlar
+Your free changes are used: another costs {n} coins.	Ücretsiz değişikliklerin bitti: bir tane daha {n} jeton.
+Bid at least {n} coins.	En az {n} jeton teklif et.
+The server stops for maintenance in {n} min.	Sunucu {n} dk sonra bakım için duracak.
+This auction is not open.	Bu açık artırma açık değil.
+The credits are for VIP members, now or before.	Jenerik, şimdiki veya eski VIP üyeleri içindir.
+The server stops for maintenance now. Games in progress go on.	Sunucu şimdi bakım için duruyor. Süren oyunlar devam ediyor.
+Play online: your games are added up here as they end.	Çevrimiçi oyna: oyunların bittikçe burada toplanır.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Cep cep ve kesme açısına göre nasıl top soktuğunu, hafta hafta nasıl geliştiğini ve liginin oyuncularıyla nasıl karşılaştırıldığını gör.
+Advanced statistics	Gelişmiş istatistikler
+Become VIP	VIP ol
+By pocket	Cebe göre
+By cut angle	Kesme açısına göre
+The white mark: your league.	Beyaz işaret: ligin.
+Week by week	Hafta hafta
+Against your league	Liginle karşılaştırma
+{tier}: {n} players	{tier}: {n} oyuncu
+You	Sen
+League	Lig
+{pocket}: {n} points above	{pocket}: {n} puan üstte
+{pocket}: {n} points below	{pocket}: {n} puan altta
+Messages with {name}	{name} ile mesajlar
+No messages with {name} yet. Say hello!	{name} ile henüz mesaj yok. Merhaba de!
+Write a message… (Enter to send)	Bir mesaj yaz… (göndermek için Enter)
+You can write to your friends only.	Yalnızca arkadaşlarına yazabilirsin.
+Choose a quick phrase…	Hızlı bir ifade seç…
+Looking for a game ({rules})	Oyun arıyor ({rules})
+At a table, waiting ({rules})	Bir masada bekliyor ({rules})
+Playing a tournament game against {name}	{name} ile turnuva oyunu oynuyor
+Playing against {name}	{name} ile oynuyor
+Watching {name}'s game	{name} oyununu izliyor
+In {name}	{name} içinde
+Playing the computer	Bilgisayara karşı oynuyor
+Practising	Antrenman yapıyor
+In the daily challenge	Günün mücadelesinde
+Doing drills	Alıştırma yapıyor
+On the tour	Turda
+Away	Uzakta
+Victory by abandonment	Hükmen galibiyet
+Players (administrator)	Oyuncular (yönetici)
+Spectators	İzleyiciler
+Chat (muted)	Sohbet (sessizde)
+Say something to the others watching (the players don't see it).	Diğer izleyicilere bir şey söyle (oyuncular görmez).
+Rated game	Puanlı oyun
+Casual game	Dostluk oyunu
+Click to skip	Geçmek için tıkla
+Guest	Misafir
+Win	Galibiyet
+Loss	Mağlubiyet
+{n} rating points at stake	{n} puan söz konusu
+No rating at stake	Puan söz konusu değil
+Hide the shot's numbers	Vuruşun sayılarını gizle
+Show the shot's numbers	Vuruşun sayılarını göster
+Last shot	Son vuruş
+No shot yet.	Henüz vuruş yok.
+Balls left	Kalan toplar
+Right side	Sağ falso
+Left side	Sol falso
+Centre ball	Topun ortası
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Yalnızca hızlı ifadeler (serbest metin yok)
+Messages	Mesajlar
+World	Dünya
+Friends ranking	Arkadaş sıralaması
+You and your friends · rated games	Sen ve arkadaşların · puanlı oyunlar
+Add friends to see where you stand among them.	Aralarındaki yerini görmek için arkadaş ekle.
+Chat and reactions	Sohbet ve tepkiler
+Mute the opponent's chat	Rakibin sohbetini sessize al
+Their messages in online games are not shown (yours still reach them).	Çevrimiçi oyunlardaki mesajları gösterilmez (seninkiler ona ulaşmaya devam eder).
+Hide the opponent's reactions	Rakibin tepkilerini gizle
+The reactions they send at the table are not shown.	Masada gönderdiği tepkiler gösterilmez.
+Players muted from a game: {n}	Bir oyunda sessize alınan oyuncular: {n}
+Unmute them all	Hepsinin sesini aç
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Bu oyun puana sayılır: kazanırsan +{win}, kaybedersen {loss}.
+This game counts for the rating.	Bu oyun puana sayılır.
+A casual game: the rating doesn't change.	Dostluk oyunu: puan değişmez.
+{name} lost the connection	{name} bağlantıyı kaybetti
+If they don't come back in time, you win by abandonment.	Zamanında dönmezse hükmen kazanırsın.
+Mute {name}	{name} oyuncusunu sessize al
+Mute {name}'s chat	{name} sohbetini sessize al
+Hide {name}'s reactions	{name} tepkilerini gizle
+Remembered for your next games against them.	Ona karşı sonraki oyunların için hatırlanır.
+Broadcast	Yayın
+3D	3D
+You can only send messages to your friends.	Yalnızca arkadaşlarına mesaj gönderebilirsin.
+You can't send messages to this player.	Bu oyuncuya mesaj gönderemezsin.
+Your chat is set to the quick phrases only.	Sohbetin hızlı ifadelerle sınırlı.
+These settings can't be kept.	Bu ayarlar saklanamıyor.
+You aren't watching a game.	Hiçbir oyunu izlemiyorsun.

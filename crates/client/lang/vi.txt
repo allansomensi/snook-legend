@@ -2150,3 +2150,133 @@ Equip now	Trang bị ngay
 Open the collection	Mở bộ sưu tập
 Auctions	Đấu giá
 The staff ended your game without a result. Sign in again.	Đội ngũ đã kết thúc ván của bạn mà không có kết quả. Hãy đăng nhập lại.
+Current prize: {n} coins	Giải thưởng hiện tại: {n} xu
+Champion wins: {item}	Nhà vô địch nhận: {item}
+{h} h {m} min	{h} giờ {m} phút
+{m} min	{m} phút
+{s} s	{s} giây
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Ngày thứ {d} liên tiếp: +{n} xu. Ngày mai: +{m}.
+Auctions ({n})	Đấu giá ({n})
+Auctions	Đấu giá
+Supporters	Người ủng hộ
+Maintenance in {t}: the server stops for about {m} min.	Bảo trì sau {t}: máy chủ dừng khoảng {m} phút.
+Maintenance: the server is stopping. Games in progress go on.	Bảo trì: máy chủ đang dừng. Các ván đang chơi vẫn tiếp tục.
+Your coins: {n}	Xu của bạn: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Vật phẩm hiếm cho giá cao nhất. Giá bạn đặt được giữ lại; nếu ai trả cao hơn, xu trả lại ngay. Đặt giá trong hai phút cuối sẽ thêm hai phút.
+No auctions right now. Come back soon!	Hiện chưa có đấu giá. Hãy quay lại sớm!
+Current bid: {n} coins	Giá hiện tại: {n} xu
+No bids yet · from {n} coins	Chưa có ai đặt · từ {n} xu
+Ended without bids	Kết thúc không có giá
+You won it!	Bạn đã thắng!
+Won by {name}	{name} đã thắng
+Opens in {t}	Mở sau {t}
+You lead · ends in {t}	Bạn dẫn đầu · kết thúc sau {t}
+Ends in {t}	Kết thúc sau {t}
+{name} leads · ends in {t}	{name} dẫn đầu · kết thúc sau {t}
+Yours already	Đã là của bạn
+Raise	Nâng giá
+Bid	Đặt giá
+Your bid (at least {n}):	Giá của bạn (ít nhất {n}):
+Place bid	Gửi giá
+Thank you to the VIP members who keep the game going, now and before.	Cảm ơn các thành viên VIP đã giữ cho trò chơi tồn tại, nay và trước đây.
+Nobody in the credits yet.	Chưa có ai trong danh sách.
+since {d} · {n} months	từ {d} · {n} tháng
+Show my name in the supporters' credits	Hiện tên tôi trong danh sách người ủng hộ
+{title}: ends in {t}	{title}: kết thúc sau {t}
+An item of the month, yours to keep even if you cancel	Vật phẩm của tháng, của bạn mãi mãi kể cả khi hủy
+If VIP ends, you keep	Khi hết VIP, bạn giữ
+If VIP ends, you lose	Khi hết VIP, bạn mất
+The items of the month you got	Các vật phẩm của tháng đã nhận
+Everything you bought, and your coins	Mọi thứ bạn đã mua, và xu của bạn
+Your ratings, trophies and achievements	Xếp hạng, cúp và thành tích của bạn
+VIP's cloths, cues and frames (back when you return)	Vải, cơ và khung VIP (có lại khi bạn quay lại)
+The monthly coins and the next months' items	Xu hằng tháng và vật phẩm các tháng sau
+The crown, and replays beyond your last 10 games	Vương miện, và phát lại ngoài 10 ván gần nhất
+Your free changes are used: another costs {n} coins.	Đã hết lượt đổi miễn phí: thêm một lượt giá {n} xu.
+Bid at least {n} coins.	Hãy đặt ít nhất {n} xu.
+The server stops for maintenance in {n} min.	Máy chủ dừng để bảo trì sau {n} phút.
+This auction is not open.	Phiên đấu giá này chưa mở.
+The credits are for VIP members, now or before.	Danh sách dành cho thành viên VIP, hiện tại hoặc trước đây.
+The server stops for maintenance now. Games in progress go on.	Máy chủ đang dừng để bảo trì. Các ván đang chơi vẫn tiếp tục.
+Play online: your games are added up here as they end.	Chơi trực tuyến: các ván của bạn được cộng dồn ở đây khi kết thúc.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Xem bạn đưa bi vào từng lỗ và theo từng góc cắt ra sao, tiến bộ qua từng tuần thế nào và so với người chơi cùng giải đấu ra sao.
+Advanced statistics	Thống kê nâng cao
+Become VIP	Trở thành VIP
+By pocket	Theo lỗ
+By cut angle	Theo góc cắt
+The white mark: your league.	Vạch trắng: giải đấu của bạn.
+Week by week	Theo từng tuần
+Against your league	So với giải đấu của bạn
+{tier}: {n} players	{tier}: {n} người chơi
+You	Bạn
+League	Giải đấu
+{pocket}: {n} points above	{pocket}: cao hơn {n} điểm
+{pocket}: {n} points below	{pocket}: thấp hơn {n} điểm
+Messages with {name}	Tin nhắn với {name}
+No messages with {name} yet. Say hello!	Chưa có tin nhắn nào với {name}. Hãy chào nhau!
+Write a message… (Enter to send)	Viết tin nhắn… (Enter để gửi)
+You can write to your friends only.	Bạn chỉ có thể nhắn cho bạn bè.
+Choose a quick phrase…	Chọn một câu nhanh…
+Looking for a game ({rules})	Đang tìm ván ({rules})
+At a table, waiting ({rules})	Ở một bàn, đang chờ ({rules})
+Playing a tournament game against {name}	Đang chơi ván giải đấu với {name}
+Playing against {name}	Đang chơi với {name}
+Watching {name}'s game	Đang xem ván của {name}
+In {name}	Trong {name}
+Playing the computer	Đang chơi với máy
+Practising	Đang luyện tập
+In the daily challenge	Trong thử thách hằng ngày
+Doing drills	Đang làm bài tập
+On the tour	Trong giải tour
+Away	Vắng mặt
+Victory by abandonment	Thắng do đối thủ bỏ cuộc
+Players (administrator)	Người chơi (quản trị viên)
+Spectators	Khán giả
+Chat (muted)	Trò chuyện (đã tắt tiếng)
+Say something to the others watching (the players don't see it).	Nói gì đó với những người xem khác (người chơi không thấy).
+Rated game	Ván tính điểm
+Casual game	Ván giao hữu
+Click to skip	Bấm để bỏ qua
+Guest	Khách
+Win	Thắng
+Loss	Thua
+{n} rating points at stake	{n} điểm xếp hạng đang được đặt cược
+No rating at stake	Không có điểm xếp hạng nào bị đặt cược
+Hide the shot's numbers	Ẩn số liệu cú đánh
+Show the shot's numbers	Hiện số liệu cú đánh
+Last shot	Cú đánh gần nhất
+No shot yet.	Chưa có cú đánh nào.
+Balls left	Bi còn lại
+Right side	Xoáy phải
+Left side	Xoáy trái
+Centre ball	Giữa bi
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Chỉ các câu nhanh (không nhập tự do)
+Messages	Tin nhắn
+World	Thế giới
+Friends ranking	Xếp hạng bạn bè
+You and your friends · rated games	Bạn và bạn bè · ván tính điểm
+Add friends to see where you stand among them.	Thêm bạn bè để xem bạn đứng ở đâu giữa họ.
+Chat and reactions	Trò chuyện và biểu cảm
+Mute the opponent's chat	Tắt tiếng trò chuyện của đối thủ
+Their messages in online games are not shown (yours still reach them).	Tin nhắn của họ trong các ván trực tuyến sẽ không hiện (tin của bạn vẫn đến được họ).
+Hide the opponent's reactions	Ẩn biểu cảm của đối thủ
+The reactions they send at the table are not shown.	Các biểu cảm họ gửi tại bàn sẽ không hiện.
+Players muted from a game: {n}	Người chơi bị tắt tiếng từ một ván: {n}
+Unmute them all	Bật tiếng lại tất cả
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Ván này tính điểm xếp hạng: +{win} nếu bạn thắng, {loss} nếu bạn thua.
+This game counts for the rating.	Ván này tính điểm xếp hạng.
+A casual game: the rating doesn't change.	Ván giao hữu: điểm xếp hạng không đổi.
+{name} lost the connection	{name} đã mất kết nối
+If they don't come back in time, you win by abandonment.	Nếu họ không quay lại kịp, bạn thắng do đối thủ bỏ cuộc.
+Mute {name}	Tắt tiếng {name}
+Mute {name}'s chat	Tắt tiếng trò chuyện của {name}
+Hide {name}'s reactions	Ẩn biểu cảm của {name}
+Remembered for your next games against them.	Được ghi nhớ cho các ván sau của bạn với họ.
+Broadcast	Phát sóng
+3D	3D
+You can only send messages to your friends.	Bạn chỉ có thể gửi tin nhắn cho bạn bè.
+You can't send messages to this player.	Bạn không thể gửi tin nhắn cho người chơi này.
+Your chat is set to the quick phrases only.	Trò chuyện của bạn bị giới hạn ở các câu nhanh.
+These settings can't be kept.	Không thể lưu các cài đặt này.
+You aren't watching a game.	Bạn không xem ván nào cả.

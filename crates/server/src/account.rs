@@ -34,11 +34,22 @@ pub fn valid_email(e: &str) -> bool {
         && e.chars().all(|c| c.is_ascii_graphic())
 }
 
-pub(crate) fn account_msg(user: &User, payment_email: Option<String>) -> ServerMsg {
+pub(crate) async fn account_msg(
+    server: &Server,
+    user: &User,
+    payment_email: Option<String>,
+) -> ServerMsg {
+    let (wallet, in_credits) =
+        tokio::join!(server.store.wallet(user.id), server.store.in_credits(user.id));
+    let price = server.ops.settings.int(crate::settings::NAME_CHANGE_PRICE).max(0);
     ServerMsg::Account {
         recovery_email: user.recovery_email.clone(),
         payment_email,
         name_changes_left: MAX_NAME_CHANGES.saturating_sub(user.name_changes),
+        // Staff keep their names (see `change_username`).
+        name_change_price: if user.role.is_staff() { 0 } else { price as u32 },
+        supporter: wallet.is_ok_and(|w| w.vip_until > 0),
+        in_credits: in_credits.unwrap_or(false),
     }
 }
 
@@ -97,7 +108,7 @@ pub async fn handle(
     match msg {
         ClientMsg::Account => {
             let email = server.store.payment_email(me.id).await.ok().flatten();
-            send(account_msg(&fresh, email));
+            send(account_msg(server, &fresh, email).await);
         }
         ClientMsg::ChangePassword { old, new } => {
             if !valid_password(&new) {
@@ -153,7 +164,7 @@ pub async fn handle(
             }
             let mut fresh = fresh;
             fresh.recovery_email = email.clone();
-            send(account_msg(&fresh, payment));
+            send(account_msg(server, &fresh, payment).await);
             send(ServerMsg::Notice {
                 text: if email.is_some() {
                     "Recovery e-mail saved.".into()
@@ -227,10 +238,18 @@ pub async fn change_username(
         error("Something went wrong. Please try again.");
         return None;
     };
-    if fresh.name_changes >= MAX_NAME_CHANGES {
-        error("You can't change your username again.");
-        return None;
-    }
+    // Once the free changes are used, a change costs coins (a sink: see
+    // `settings::NAME_CHANGE_PRICE`; 0: no more changes).
+    let price = if fresh.name_changes >= MAX_NAME_CHANGES {
+        let price = server.ops.settings.int(crate::settings::NAME_CHANGE_PRICE);
+        if price <= 0 {
+            error("You can't change your username again.");
+            return None;
+        }
+        price
+    } else {
+        0
+    };
     // Staff keep their names: an administrator is made by name (see
     // `SNOOK_LEGEND_ADMINS`), and a listed name left behind by a rename
     // would make whoever took it next an administrator.
@@ -267,21 +286,44 @@ pub async fn change_username(
         error(why);
         return None;
     }
-    match server.store.change_username(me.id, name, MAX_NAME_CHANGES).await {
-        Ok(Rename::Done) => {}
-        Ok(Rename::Taken) => {
-            error("That username is taken.");
-            return None;
+    // A paid change: the coins first (given back if the name can't be had).
+    let paid = if price > 0 {
+        let reference = format!("name:{}:{}:{}", me.id, fresh.name_changes, crate::now_millis());
+        match server.store.spend(me.id, price, "name change", Some(&reference), now()).await {
+            Ok(true) => Some(reference),
+            Ok(false) => {
+                error("Not enough coins.");
+                return None;
+            }
+            Err(e) => {
+                tracing::error!("paying a username change: {e}");
+                error("Something went wrong. Please try again.");
+                return None;
+            }
         }
-        Ok(Rename::NoChangesLeft) => {
-            error("You can't change your username again.");
-            return None;
-        }
+    } else {
+        None
+    };
+    let limit = if paid.is_some() { u32::MAX } else { MAX_NAME_CHANGES };
+    let failed = match server.store.change_username(me.id, name, limit).await {
+        Ok(Rename::Done) => None,
+        Ok(Rename::Taken) => Some("That username is taken."),
+        Ok(Rename::NoChangesLeft) => Some("You can't change your username again."),
         Err(e) => {
             tracing::error!("username change: {e}");
-            error("Something went wrong. Please try again.");
-            return None;
+            Some("Something went wrong. Please try again.")
         }
+    };
+    if let Some(why) = failed {
+        if let Some(reference) = &paid {
+            let back = format!("refund:{reference}");
+            crate::pay(server, me.id, &me.username, price, "refund", &back).await;
+        }
+        error(why);
+        return None;
+    }
+    if paid.is_some() {
+        crate::shop::push_wallet(server, me).await;
     }
     tracing::info!(user = me.id, from = %fresh.username, to = name, "username changed");
     use snook_legend_proto::moderation::ChangeKind;
@@ -291,7 +333,7 @@ pub async fn change_username(
     fresh.name_changes += 1;
     server.invalidate_leaderboard();
     let payment = server.store.payment_email(me.id).await.ok().flatten();
-    send(account_msg(&fresh, payment));
+    send(account_msg(server, &fresh, payment).await);
     send(ServerMsg::Notice { text: "Username changed.".into() });
     Some(fresh)
 }
@@ -310,14 +352,8 @@ pub async fn signed_in(server: &Server, user: &User) {
     }
     // The events running and coming (double experience, a themed cup…).
     crate::events::signed_in(server, user);
-    if let Ok(true) = server.store.claim_daily(user.id, day, DAILY_BONUS).await {
-        server.with(|l| {
-            l.notify(
-                &user.username,
-                ServerMsg::CoinsEarned { amount: DAILY_BONUS as u32, reason: "daily".into() },
-            )
-        });
-    }
+    // The daily bonus, with its streak (see `crate::ops::daily_bonus`).
+    crate::ops::daily_bonus(server, user).await;
     crate::missions::push(server, user).await;
     // Where the account level stands (for its bar in the game).
     server.with(|l| l.notify(&user.username, ServerMsg::Xp { xp: user.xp, gained: 0 }));

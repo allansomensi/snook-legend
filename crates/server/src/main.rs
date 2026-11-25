@@ -12,8 +12,8 @@
 //! | `SNOOK_LEGEND_CLIENT_IP_HEADER` | — | headers with the real client address behind a proxy, tried in order (e.g. `cf-connecting-ip,true-client-ip,x-forwarded-for`) |
 //! | `SNOOK_LEGEND_PROXY_HOPS` | `1` | proxies that append to `X-Forwarded-For` |
 //! | `SNOOK_LEGEND_TRUSTED_PROXIES` | private networks | where the proxy connects from (`10.0.0.0/8,…`; `*`: anywhere): the address headers of anyone else are ignored |
-//! | `SNOOK_LEGEND_MOTD` | a welcome line | message shown in the lounge |
-//! | `SNOOK_LEGEND_SHOT_CLOCK` | `30` | seconds per shot |
+//! | `SNOOK_LEGEND_MOTD` | a welcome line | message shown in the lounge (first value: the portal's settings change it live) |
+//! | `SNOOK_LEGEND_SHOT_CLOCK` | `30` | seconds per shot (first value: see the portal's settings) |
 //! | `SNOOK_LEGEND_STRIPE_SECRET` | — | Stripe secret key (payments; see `payments.rs`) |
 //! | `SNOOK_LEGEND_STRIPE_WEBHOOK_SECRET` | — | Stripe webhook signing secret |
 //! | `SNOOK_LEGEND_MSSTORE_TENANT_ID`, `_CLIENT_ID`, `_CLIENT_SECRET` | — | Microsoft Entra app for Store purchases (see `msstore.rs`) |
@@ -23,7 +23,7 @@
 //! | `SNOOK_LEGEND_SITE_URL` | `https://snooklegend.app` | the game's website, with the terms of use and the privacy policy: the server's old addresses for them (`/termos`, `/privacy`…) and `/` lead there |
 //! | `SNOOK_LEGEND_ADMIN_ORIGIN` | — | the website's origin, where the staff portal is (`https://snooklegend.app`, pages `/admin`): the only one allowed to call `/admin/api` from a browser; `/admin` here leads there |
 //! | `SNOOK_LEGEND_DRAIN_SECS` | `240` | on SIGTERM: how long games in progress may go on before they are handed to the next server |
-//! | `SNOOK_LEGEND_CUP` | — | the weekly cup, e.g. `sat 20:00` (options: `60m`, `fee=100`, `utc-3`, `official` for the official rules) |
+//! | `SNOOK_LEGEND_CUP` | — | the weekly cup's first settings, e.g. `sat 20:00` (options: `60m`, `fee=100`, `utc-3`, `official` for the official rules); the portal's settings change it live |
 //! | `RUST_LOG` | `info` | log filter |
 
 use std::time::Duration;
@@ -175,6 +175,7 @@ async fn main() {
         let _ = ctrl_c.await;
     };
     let serving = tokio::spawn(serve(listener, server.clone()));
+    let maintenance = server.clone();
     tokio::select! {
         result = serving => {
             if let Ok(Err(e)) = result {
@@ -184,6 +185,12 @@ async fn main() {
         _ = shutdown => {
             // Keep serving while the games in progress finish.
             tracing::info!("shutting down: draining for up to {drain_secs} s");
+            snook_legend_server::drain(server, drain_secs).await;
+        }
+        // A maintenance scheduled in the portal: the same drain, then the
+        // process ends (cleanly) and the host starts it again.
+        _ = maintenance.ops.maintenance.due() => {
+            tracing::info!("maintenance: draining for up to {drain_secs} s, then stopping");
             snook_legend_server::drain(server, drain_secs).await;
         }
     }

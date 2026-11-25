@@ -2150,3 +2150,133 @@ Equip now	Nasadit hned
 Open the collection	Otevřít sbírku
 Auctions	Aukce
 The staff ended your game without a result. Sign in again.	Tým ukončil tvou hru bez výsledku. Přihlas se znovu.
+Current prize: {n} coins	Aktuální výhra: {n} mincí
+Champion wins: {item}	Vítěz získá: {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	{d}. den v řadě: +{n} mincí. Zítra: +{m}.
+Auctions ({n})	Aukce ({n})
+Auctions	Aukce
+Supporters	Podporovatelé
+Maintenance in {t}: the server stops for about {m} min.	Údržba za {t}: server se zastaví asi na {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Údržba: server se zastavuje. Rozehrané hry pokračují.
+Your coins: {n}	Tvoje mince: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Vzácné předměty za nejvyšší nabídku. Tvá nabídka je blokována; když někdo nabídne víc, mince se ti hned vrátí. Nabídka v posledních dvou minutách přidá dvě.
+No auctions right now. Come back soon!	Teď nejsou žádné aukce. Vrať se brzy!
+Current bid: {n} coins	Aktuální nabídka: {n} mincí
+No bids yet · from {n} coins	Zatím bez nabídek · od {n} mincí
+Ended without bids	Skončila bez nabídek
+You won it!	Vyhrál jsi!
+Won by {name}	Vyhrál {name}
+Opens in {t}	Začíná za {t}
+You lead · ends in {t}	Vedeš · konec za {t}
+Ends in {t}	Konec za {t}
+{name} leads · ends in {t}	{name} vede · konec za {t}
+Yours already	Už je tvůj
+Raise	Zvýšit
+Bid	Přihodit
+Your bid (at least {n}):	Tvá nabídka (aspoň {n}):
+Place bid	Podat nabídku
+Thank you to the VIP members who keep the game going, now and before.	Díky členům VIP, kteří hru drží při životě, dnes i dříve.
+Nobody in the credits yet.	V titulcích zatím nikdo není.
+since {d} · {n} months	od {d} · {n} měs.
+Show my name in the supporters' credits	Zobrazit mé jméno v titulcích podporovatelů
+{title}: ends in {t}	{title}: konec za {t}
+An item of the month, yours to keep even if you cancel	Předmět měsíce, tvůj navždy i po zrušení
+If VIP ends, you keep	Když VIP skončí, zůstane ti
+If VIP ends, you lose	Když VIP skončí, ztratíš
+The items of the month you got	Získané předměty měsíce
+Everything you bought, and your coins	Vše, co sis koupil, a tvé mince
+Your ratings, trophies and achievements	Tvé ratingy, trofeje a úspěchy
+VIP's cloths, cues and frames (back when you return)	VIP sukna, tága a rámečky (vrátí se, až se vrátíš)
+The monthly coins and the next months' items	Měsíční mince a předměty dalších měsíců
+The crown, and replays beyond your last 10 games	Korunku a záznamy nad posledních 10 her
+Your free changes are used: another costs {n} coins.	Bezplatné změny jsou vyčerpány: další stojí {n} mincí.
+Bid at least {n} coins.	Nabídni aspoň {n} mincí.
+The server stops for maintenance in {n} min.	Server se kvůli údržbě zastaví za {n} min.
+This auction is not open.	Tato aukce není otevřená.
+The credits are for VIP members, now or before.	Titulky jsou pro členy VIP, současné i bývalé.
+The server stops for maintenance now. Games in progress go on.	Server se teď zastavuje kvůli údržbě. Rozehrané hry pokračují.
+Play online: your games are added up here as they end.	Hraj online: tvé partie se tu sčítají, jakmile skončí.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Podívej se, jak potápíš kapsu po kapse a podle úhlu seříznutí, jak se zlepšuješ týden po týdnu a jak si stojíš proti hráčům své ligy.
+Advanced statistics	Pokročilé statistiky
+Become VIP	Staň se VIP
+By pocket	Podle kapsy
+By cut angle	Podle úhlu seříznutí
+The white mark: your league.	Bílá značka: tvá liga.
+Week by week	Týden po týdnu
+Against your league	Proti tvé lize
+{tier}: {n} players	{tier}: {n} hráčů
+You	Ty
+League	Liga
+{pocket}: {n} points above	{pocket}: o {n} bodů výš
+{pocket}: {n} points below	{pocket}: o {n} bodů níž
+Messages with {name}	Zprávy s {name}
+No messages with {name} yet. Say hello!	Zatím žádné zprávy s {name}. Pozdrav!
+Write a message… (Enter to send)	Napiš zprávu… (Enter odešle)
+You can write to your friends only.	Psát můžeš jen svým přátelům.
+Choose a quick phrase…	Vyber rychlou frázi…
+Looking for a game ({rules})	Hledá partii ({rules})
+At a table, waiting ({rules})	U stolu, čeká ({rules})
+Playing a tournament game against {name}	Hraje turnajovou partii proti {name}
+Playing against {name}	Hraje proti {name}
+Watching {name}'s game	Sleduje partii hráče {name}
+In {name}	V {name}
+Playing the computer	Hraje proti počítači
+Practising	Trénuje
+In the daily challenge	V denní výzvě
+Doing drills	Dělá cvičení
+On the tour	Na tour
+Away	Pryč
+Victory by abandonment	Výhra skrečí
+Players (administrator)	Hráči (administrátor)
+Spectators	Diváci
+Chat (muted)	Chat (ztlumený)
+Say something to the others watching (the players don't see it).	Napiš něco ostatním divákům (hráči to nevidí).
+Rated game	Hodnocená partie
+Casual game	Přátelská partie
+Click to skip	Klikni pro přeskočení
+Guest	Host
+Win	Výhra
+Loss	Prohra
+{n} rating points at stake	Ve hře je {n} bodů hodnocení
+No rating at stake	Žádné hodnocení ve hře
+Hide the shot's numbers	Skrýt čísla šťouchu
+Show the shot's numbers	Zobrazit čísla šťouchu
+Last shot	Poslední šťouch
+No shot yet.	Zatím žádný šťouch.
+Balls left	Zbývající koule
+Right side	Faleš vpravo
+Left side	Faleš vlevo
+Centre ball	Střed koule
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Jen rychlé fráze (žádný volný text)
+Messages	Zprávy
+World	Svět
+Friends ranking	Žebříček přátel
+You and your friends · rated games	Ty a tví přátelé · hodnocené partie
+Add friends to see where you stand among them.	Přidej si přátele a uvidíš, kde mezi nimi stojíš.
+Chat and reactions	Chat a reakce
+Mute the opponent's chat	Ztlumit chat soupeře
+Their messages in online games are not shown (yours still reach them).	Jeho zprávy v online partiích se nezobrazují (tvoje k němu dál dorazí).
+Hide the opponent's reactions	Skrýt reakce soupeře
+The reactions they send at the table are not shown.	Reakce, které posílá ke stolu, se nezobrazují.
+Players muted from a game: {n}	Hráči ztlumení v partii: {n}
+Unmute them all	Zrušit ztlumení všech
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Tato partie se počítá do hodnocení: +{win}, když vyhraješ, {loss}, když prohraješ.
+This game counts for the rating.	Tato partie se počítá do hodnocení.
+A casual game: the rating doesn't change.	Přátelská partie: hodnocení se nemění.
+{name} lost the connection	{name} ztratil spojení
+If they don't come back in time, you win by abandonment.	Pokud se nevrátí včas, vyhráváš skrečí.
+Mute {name}	Ztlumit {name}
+Mute {name}'s chat	Ztlumit chat hráče {name}
+Hide {name}'s reactions	Skrýt reakce hráče {name}
+Remembered for your next games against them.	Zapamatováno pro tvé další partie proti němu.
+Broadcast	Přenos
+3D	3D
+You can only send messages to your friends.	Zprávy můžeš posílat jen svým přátelům.
+You can't send messages to this player.	Tomuto hráči nemůžeš posílat zprávy.
+Your chat is set to the quick phrases only.	Tvůj chat je omezen na rychlé fráze.
+These settings can't be kept.	Tato nastavení nelze uložit.
+You aren't watching a game.	Nesleduješ žádnou partii.

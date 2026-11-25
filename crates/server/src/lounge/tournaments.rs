@@ -24,8 +24,12 @@ const ARENA_MAX: usize = 64;
 /// How long an arena lasts (the weekly cup sets its own).
 const ARENA_LENGTH: Duration = Duration::from_secs(30 * 60);
 /// The entry fee goes to the prizes: 70% to the champion, 20% to the
-/// runner-up; the rest leaves circulation (the house's share).
+/// runner-up; the rest leaves circulation (the house's share, see
+/// [`HOUSE_CUT`]: with another cut these shares of what is left stay).
 const PRIZE_SHARES: [u32; 2] = [70, 20];
+/// The house's share of the entry fees (percent) unless the staff set
+/// another (`tournament_house_cut_percent`, see `crate::settings`).
+pub const HOUSE_CUT: u32 = 10;
 pub const MAX_ENTRY_FEE: u32 = 1000;
 /// The champion's share of a prize the house adds (the runner-up has the rest).
 const HOUSE_PRIZE_SHARE: u32 = 70;
@@ -33,8 +37,9 @@ const HOUSE_PRIZE_SHARE: u32 = 70;
 const HOUSE_PRIZE_MIN_PLAYERS: usize = 4;
 /// The most coins the house may add to a tournament's prizes.
 pub const MAX_HOUSE_PRIZE: u32 = 100_000;
-/// Seats a knockout may have.
-pub const KNOCKOUT_SIZES: [u32; 3] = [4, 8, 16];
+/// Seats a knockout the server organises may have (players' own have 4, 8
+/// or 16).
+pub const KNOCKOUT_SIZES: [u32; 4] = [4, 8, 16, 32];
 /// How long an arena may last (minutes).
 pub const ARENA_MINUTES: std::ops::RangeInclusive<u32> = 10..=180;
 /// The weekly cup opens for sign-up this long before it starts.
@@ -56,6 +61,22 @@ pub struct ScheduledTournament {
     pub starts_at: i64,
     /// An arena closes then.
     pub ends_at: i64,
+    /// The champion's share of the prizes, percent (the runner-up has the
+    /// rest); 0: the usual shares.
+    pub champion_share: u32,
+    /// An item the champion wins too (shop code; empty: none).
+    pub item_prize: String,
+}
+
+/// An official tournament (the weekly cup, the staff's) open for sign-up
+/// and starting soon: who to remind (see `crate::official`).
+#[derive(Debug, Clone, PartialEq)]
+pub struct OfficialStart {
+    pub id: u64,
+    pub name: String,
+    pub starts_at: i64,
+    /// The accounts signed up (and waiting for a seat).
+    pub players: Vec<i64>,
 }
 
 /// The weekly cup: an arena organised by the server.
@@ -71,6 +92,11 @@ pub struct Cup {
     pub minutes: u32,
     pub entry_fee: u32,
     pub rules: Rules,
+    /// An arena (the usual) or a knockout of `size` seats.
+    pub format: TournamentFormat,
+    pub size: u32,
+    /// Coins the house adds to the prizes.
+    pub house_prize: u32,
 }
 
 impl Cup {
@@ -87,6 +113,9 @@ impl Cup {
             minutes: 60,
             entry_fee: 0,
             rules: Rules::Brazilian,
+            format: TournamentFormat::Arena,
+            size: 16,
+            house_prize: 0,
         };
         let days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
         let names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -195,6 +224,14 @@ pub(super) struct Tournament {
     met: HashMap<(String, String), u32>,
     /// What everyone was last told about it (unchanged: nothing is sent).
     shown: Option<TournamentInfo>,
+    /// The house's share of the entry fees, percent (as set when it opened).
+    house_cut: u32,
+    /// The champion's share of the prizes, percent (0: the usual shares).
+    champion_share: u32,
+    /// An item the champion wins too (shop code; empty: none).
+    item_prize: String,
+    /// The staff's event it came from (official tournaments).
+    event_id: Option<i64>,
 }
 
 impl Tournament {
@@ -221,15 +258,31 @@ impl Tournament {
         [fees[0] + house[0], fees[1] + house[1]]
     }
 
+    /// The fees' prizes: what the house's cut leaves, shared 70:20 (the
+    /// usual) or as the staff set.
     fn fee_prizes(&self) -> [u32; 2] {
-        let pot = self.pot();
-        PRIZE_SHARES.map(|share| pot * share / 100)
+        let pot = self.pot() as u64;
+        let kept = 100 - self.house_cut.min(100) as u64;
+        if self.champion_share > 0 {
+            let pool = pot * kept / 100;
+            let champion = pool * self.champion_share.min(100) as u64 / 100;
+            return [champion as u32, (pool - champion) as u32];
+        }
+        PRIZE_SHARES.map(|share| (pot * share as u64 * kept / 9000) as u32)
     }
 
-    /// The house's prize, paid out whole: 70% and 30%.
+    /// The house's prize, paid out whole: 70% and 30% (or as the staff set).
     fn house_prizes(&self) -> [u32; 2] {
-        let champion = self.house_prize * HOUSE_PRIZE_SHARE / 100;
+        let share = if self.champion_share > 0 { self.champion_share } else { HOUSE_PRIZE_SHARE };
+        let champion = self.house_prize * share.min(100) / 100;
         [champion, self.house_prize - champion]
+    }
+
+    /// The coins to be won as they stand: the fees less the house's cut,
+    /// and the house's prize.
+    fn prize_pool(&self) -> u64 {
+        let kept = 100 - self.house_cut.min(100) as u64;
+        self.pot() as u64 * kept / 100 + self.house_prize as u64
     }
 
     /// `k` earned their share of the house's prize: the tournament had a
@@ -262,6 +315,106 @@ impl Tournament {
 
     fn is_arena(&self) -> bool {
         self.format == TournamentFormat::Arena
+    }
+
+    /// An official tournament (the weekly cup, the staff's) just crowned,
+    /// as it is kept and told to its players; `paid`: the coins each
+    /// account won. None for a player's own tournament.
+    fn official(&self, paid: &[(i64, u32)]) -> Option<crate::official::Finished> {
+        use crate::official::{Entrant, Finished};
+        if !self.host.is_empty() {
+            return None;
+        }
+        let account = |k: &str| self.profiles.get(k).filter(|(_, guest)| !guest).map(|(u, _)| u);
+        let id_of = |k: &Option<String>| k.as_deref().and_then(account).map(|u| u.id);
+        // Seeds by rating, as the bracket was drawn.
+        let mut seeded: Vec<&String> = self.players.iter().collect();
+        seeded.sort_by(|a, b| self.rating_of(b).cmp(&self.rating_of(a)).then(a.cmp(b)));
+        let players: Vec<Entrant> = seeded
+            .iter()
+            .enumerate()
+            .filter_map(|(i, k)| {
+                let u = account(k)?;
+                Some(Entrant {
+                    user_id: u.id,
+                    username: u.username.clone(),
+                    country: u.country.clone(),
+                    seed: i as u32 + 1,
+                })
+            })
+            .collect();
+        let champion = self.bracket.as_ref().and_then(|b| b.champion()).or(self.champion.as_ref());
+        let champion_id = champion.and_then(|c| account(c)).map(|u| u.id);
+        let mut places: Vec<(i64, u32)> = Vec::new();
+        let mut rounds = Vec::new();
+        let mut standings = Vec::new();
+        let mut runner_up = None;
+        if let Some(b) = &self.bracket {
+            let n = b.rounds.len();
+            for (r, round) in b.rounds.iter().enumerate() {
+                let mut row = Vec::new();
+                for slot in round {
+                    let [a, c] = [id_of(&slot.players[0]), id_of(&slot.players[1])];
+                    let winner = slot.winner.and_then(|w| id_of(&slot.players[w]));
+                    row.push([a, c, winner]);
+                    // The loser's place: second in the final, third in the
+                    // semi-finals, fifth in the quarter-finals…
+                    if let Some(w) = slot.winner
+                        && let Some(loser) = id_of(&slot.players[1 - w])
+                    {
+                        let place = (1u32 << (n - 1 - r)) + 1;
+                        places.push((loser, place));
+                        if r + 1 == n {
+                            runner_up = Some(loser);
+                        }
+                    }
+                }
+                rounds.push(row);
+            }
+        } else {
+            let list = self.standings(|k| self.rating_of(k));
+            for (i, (k, score)) in list.iter().enumerate() {
+                let Some(u) = account(k) else { continue };
+                standings.push((u.id, score.points, score.games, score.streak));
+                if score.games > 0 {
+                    places.push((u.id, i as u32 + 1));
+                }
+            }
+            runner_up = list
+                .iter()
+                .filter(|(_, s)| s.games > 0)
+                .nth(1)
+                .and_then(|(k, _)| account(k))
+                .map(|u| u.id);
+        }
+        if let Some(c) = champion_id {
+            places.retain(|(u, _)| *u != c);
+            places.insert(0, (c, 1));
+        }
+        let coins = |user: i64| paid.iter().find(|(u, _)| *u == user).map_or(0, |(_, c)| *c);
+        let prizes = [champion_id.map_or(0, coins), runner_up.map_or(0, coins)];
+        let ends_at = now();
+        Some(Finished {
+            lounge_id: self.id,
+            event_id: self.event_id,
+            name: self.name.clone(),
+            rules: self.rules,
+            format: self.format,
+            size: if self.is_arena() { self.players.len() as u32 } else { self.size },
+            rated: self.rated,
+            entry_fee: self.entry_fee,
+            prize_pool: self.prize_pool(),
+            prizes,
+            item_prize: self.item_prize.clone(),
+            starts_at: self.starts_at.unwrap_or(ends_at),
+            ends_at,
+            players,
+            rounds,
+            standings,
+            places: places.into_iter().map(|(u, p)| (u, p, coins(u) as i64)).collect(),
+            champion: champion_id,
+            runner_up,
+        })
     }
 
     /// Still playing (not knocked out, not withdrawn).
@@ -343,6 +496,8 @@ impl Lounge {
                 Vec::new()
             },
             ends_at: t.ends_at,
+            prize_pool: t.prize_pool(),
+            item_prize: t.item_prize.clone(),
         }
     }
 
@@ -486,6 +641,10 @@ impl Lounge {
             champion: None,
             met: HashMap::new(),
             shown: None,
+            house_cut: self.settings.house_cut,
+            champion_share: 0,
+            item_prize: String::new(),
+            event_id: None,
         };
         self.tournaments.insert(id, t);
         // In a tournament: out of the "Play now" queue.
@@ -1291,6 +1450,7 @@ impl Lounge {
         for k in waiting {
             self.refund(id, &k);
         }
+        let paid: Vec<(i64, u32)> = paid_out.iter().map(|(id, _, c)| (*id, *c)).collect();
         for (user_id, username, coins) in paid_out {
             self.effect(Effect::Pay {
                 user_id,
@@ -1302,6 +1462,9 @@ impl Lounge {
         }
         if !record.players.is_empty() {
             self.effect(Effect::RecordTournament(record));
+        }
+        if let Some(official) = self.tournaments.get(&id).and_then(|t| t.official(&paid)) {
+            self.effect(Effect::RecordOfficial(Box::new(official)));
         }
         if announced {
             self.announce_text(&format!("{display} won the tournament \u{201c}{name}\u{201d}!"));
@@ -1375,6 +1538,29 @@ impl Lounge {
         }
         self.schedule_cup(t_now);
         self.schedule_events(t_now);
+    }
+
+    /// The official tournaments (the weekly cup, the staff's) open for
+    /// sign-up that start by `until`, with who signed up: they are reminded.
+    pub fn official_starting(&self, until: i64) -> Vec<OfficialStart> {
+        self.tournaments
+            .values()
+            .filter(|t| t.host.is_empty() && t.state == TournamentState::Registering)
+            .filter(|t| t.starts_at.is_some_and(|s| s <= until))
+            .map(|t| OfficialStart {
+                id: t.id,
+                name: t.name.clone(),
+                starts_at: t.starts_at.unwrap_or_default(),
+                players: t
+                    .players
+                    .iter()
+                    .chain(&t.waitlist)
+                    .filter_map(|k| t.profiles.get(k))
+                    .filter(|(_, guest)| !guest)
+                    .map(|(u, _)| u.id)
+                    .collect(),
+            })
+            .collect()
     }
 
     /// The staff's themed tournaments (see `crate::events`): what the server
@@ -1452,6 +1638,10 @@ impl Lounge {
                     champion: None,
                     met: HashMap::new(),
                     shown: None,
+                    house_cut: self.settings.house_cut,
+                    champion_share: s.champion_share,
+                    item_prize: s.item_prize.clone(),
+                    event_id: Some(s.event_id),
                 },
             );
             self.event_tournaments.insert(s.event_id, id);
@@ -1484,13 +1674,14 @@ impl Lounge {
         }
         let id = self.new_id();
         let end = start + cup.minutes as i64 * 60;
+        let arena = cup.format == TournamentFormat::Arena;
         self.tournaments.insert(
             id,
             Tournament {
                 id,
                 name: cup.name.clone(),
                 host: String::new(),
-                size: ARENA_MAX as u32,
+                size: if arena { ARENA_MAX as u32 } else { cup.size },
                 rated: true,
                 rules: cup.rules,
                 password: None,
@@ -1501,19 +1692,23 @@ impl Lounge {
                 missing_since: HashMap::new(),
                 opened_at: Instant::now(),
                 finished_at: None,
-                format: TournamentFormat::Arena,
+                format: cup.format,
                 entry_fee: cup.entry_fee,
                 paid: HashMap::new(),
                 waitlist: Vec::new(),
-                house_prize: 0,
+                house_prize: cup.house_prize,
                 played_wins: HashMap::new(),
                 starts_at: Some(start),
-                ends_at: Some(end),
+                ends_at: arena.then_some(end),
                 arena: HashMap::new(),
                 withdrawn: HashSet::new(),
                 champion: None,
                 met: HashMap::new(),
                 shown: None,
+                house_cut: self.settings.house_cut,
+                champion_share: 0,
+                item_prize: String::new(),
+                event_id: None,
             },
         );
         self.announce_text(&format!(
@@ -1594,6 +1789,10 @@ mod tests {
             champion: None,
             met: HashMap::new(),
             shown: None,
+            house_cut: HOUSE_CUT,
+            champion_share: 0,
+            item_prize: String::new(),
+            event_id: None,
         };
         assert_eq!(knockout(4).house_prizes(), [700, 300]);
         let mut t = knockout(4);
@@ -1608,6 +1807,59 @@ mod tests {
         arena.arena.insert("p1".into(), ArenaScore { points: 3, ..Default::default() });
         arena.arena.insert("p2".into(), ArenaScore::default());
         assert!(arena.earns_house_prize("p1") && !arena.earns_house_prize("p2"));
+    }
+
+    /// The entry fees less the house's cut make the prizes: the usual 70:20
+    /// of the fees with the usual cut, the staff's split of what is left
+    /// otherwise; the pool shown is what the cut leaves plus the house's.
+    #[test]
+    fn prizes_follow_the_cut_and_the_split() {
+        use super::*;
+        let mut t = Tournament {
+            id: 1,
+            name: "Cup".into(),
+            host: String::new(),
+            size: 8,
+            rated: true,
+            rules: Rules::Official,
+            password: None,
+            state: TournamentState::Registering,
+            players: (0..10).map(|i| format!("p{i}")).collect(),
+            profiles: HashMap::new(),
+            bracket: None,
+            missing_since: HashMap::new(),
+            opened_at: Instant::now(),
+            finished_at: None,
+            format: TournamentFormat::Knockout,
+            entry_fee: 100,
+            paid: (0..10).map(|i| (format!("p{i}"), format!("ref{i}"))).collect(),
+            waitlist: Vec::new(),
+            house_prize: 0,
+            played_wins: HashMap::new(),
+            starts_at: None,
+            ends_at: None,
+            arena: HashMap::new(),
+            withdrawn: HashSet::new(),
+            champion: None,
+            met: HashMap::new(),
+            shown: None,
+            house_cut: HOUSE_CUT,
+            champion_share: 0,
+            item_prize: String::new(),
+            event_id: None,
+        };
+        assert_eq!(t.fee_prizes(), [700, 200]);
+        assert_eq!(t.prize_pool(), 900);
+        t.house_cut = 20;
+        assert_eq!(t.fee_prizes(), [622, 177], "70:20 of what an 80% pool holds");
+        assert_eq!(t.prize_pool(), 800);
+        t.champion_share = 70;
+        t.house_prize = 1000;
+        assert_eq!(t.fee_prizes(), [560, 240]);
+        assert_eq!(t.house_prizes(), [700, 300]);
+        assert_eq!(t.prize_pool(), 1800);
+        t.house_cut = 0;
+        assert_eq!(t.prize_pool(), 2000, "no cut: every fee is a prize");
     }
 
     #[test]

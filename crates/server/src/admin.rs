@@ -29,6 +29,7 @@ use crate::store::{SessionKind, User};
 use crate::{Server, new_token, now, token_hash};
 
 mod moderation;
+mod ops;
 
 const ADMIN_SESSION: i64 = 8 * 60 * 60;
 pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
@@ -67,6 +68,7 @@ pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
         .route("/admin/api/events", get(list_events).post(create_event))
         .route("/admin/api/events/{id}/cancel", post(cancel_event))
         .merge(moderation::routes())
+        .merge(ops::router())
         // The panel sends small JSON bodies (the longest a note on the
         // board); anyone can post to the sign-in.
         .layer(DefaultBodyLimit::max(MAX_BODY))
@@ -1384,7 +1386,8 @@ async fn economy(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRe
 /// The server itself: what runs, how it is set up, how busy it is.
 async fn system(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiResult {
     staff(&server, &headers).await?;
-    let r = server.config.settings.clone();
+    // As in force now (see `crate::settings`).
+    let r = server.with(|l| l.settings.clone());
     let (online, addresses, games, live, queue, draining) = server.with(|l| {
         (
             l.online_count(),
@@ -1521,6 +1524,15 @@ struct EventBody {
     entry_fee: u32,
     #[serde(default)]
     prize: u32,
+    /// A tournament's: the champion's share of the prizes, percent (the
+    /// runner-up has the rest; 0: the usual 70:20 of the fees, 70:30 of the
+    /// house's prize).
+    #[serde(default)]
+    champion_share: u32,
+    /// A tournament's: an item the champion wins too (an item that is only
+    /// won; empty: none).
+    #[serde(default)]
+    item_prize: String,
 }
 
 /// Events at once (running or coming) at most: a mistake can't fill the
@@ -1588,7 +1600,7 @@ async fn create_event(
             }
             "knockout" => {
                 if !crate::lounge::KNOCKOUT_SIZES.contains(&body.size) {
-                    return Err(bad("A knockout has 4, 8 or 16 seats."));
+                    return Err(bad("A knockout has 4, 8, 16 or 32 seats."));
                 }
                 if length > 24 * 3600 {
                     return Err(bad("A knockout ends within a day of its start."));
@@ -1603,9 +1615,21 @@ async fn create_event(
         if body.prize > crate::lounge::MAX_HOUSE_PRIZE {
             return Err(bad("The house adds 100,000 coins at most."));
         }
+        if body.champion_share != 0 && !(50..=100).contains(&body.champion_share) {
+            return Err(bad("The champion's share is 50% to 100% of the prizes."));
+        }
+        if !body.item_prize.is_empty()
+            && !snook_legend_proto::shop::item(&body.item_prize)
+                .is_some_and(|i| i.price == snook_legend_proto::shop::Price::Earned)
+        {
+            return Err(bad("The item prize must be an item that is only won."));
+        }
         let size = if format == "knockout" { body.size } else { 0 };
         (1, format, size, body.rated, body.entry_fee, body.prize)
     };
+    let tournament = !kind.is_boost();
+    let champion_share = if tournament { body.champion_share } else { 0 };
+    let item_prize = if tournament { body.item_prize.as_str() } else { "" };
     if server.store.events_after(t).await?.len() >= MAX_OPEN_EVENTS {
         return Err(bad("Too many events are running or coming. Call some off first."));
     }
@@ -1621,6 +1645,8 @@ async fn create_event(
         rules: body.rules,
         entry_fee,
         prize,
+        champion_share,
+        item_prize,
         created_by: s.user.id,
         at: t,
     };
@@ -1715,7 +1741,11 @@ async fn motd(
 ) -> ApiResult {
     let s = staff(&server, &headers).await?;
     require_admin(&s)?;
-    server.with(|l| l.set_motd(&body.text));
+    // Kept like the other live settings (it survives a restart).
+    let text = json!(clean_text(&body.text, 300));
+    crate::settings::set(&server, crate::settings::MOTD, Some(&text), s.user.id)
+        .await
+        .map_err(|e| err(StatusCode::BAD_REQUEST, e))?;
     log(&server, &s, "motd", "lounge", &clean_text(&body.text, 300)).await;
     Ok(Json(json!({ "ok": true })))
 }

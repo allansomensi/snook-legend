@@ -94,7 +94,7 @@ impl Client {
 
     async fn age(&mut self) -> (Option<bool>, bool) {
         match self.expect("age", |m| matches!(m, ServerMsg::Age { .. })).await {
-            ServerMsg::Age { minor, chat_allowed } => (minor, chat_allowed),
+            ServerMsg::Age { minor, chat_allowed, .. } => (minor, chat_allowed),
             _ => unreachable!(),
         }
     }
@@ -116,7 +116,7 @@ fn refused_with(msgs: &[ServerMsg], why: &str) -> bool {
 /// The age group and chat among `msgs` (the last told).
 fn age_in(msgs: &[ServerMsg]) -> Option<(Option<bool>, bool)> {
     msgs.iter().rev().find_map(|m| match m {
-        ServerMsg::Age { minor, chat_allowed } => Some((*minor, *chat_allowed)),
+        ServerMsg::Age { minor, chat_allowed, .. } => Some((*minor, *chat_allowed)),
         _ => None,
     })
 }
@@ -158,11 +158,11 @@ async fn players_under_18_chat_only_once_a_guardian_allows_it() {
     kid.send(ClientMsg::SetAge { minor: false }).await;
     assert_eq!(kid.age().await, (Some(true), false));
     // An adult has no chat to allow.
-    adult.send(ClientMsg::AllowChat { allowed: false }).await;
+    adult.send(ClientMsg::AllowChat { allowed: false, phrases_only: None }).await;
     assert_eq!(adult.age().await, (Some(false), false));
 
     // A guardian turns the chat on: both ways.
-    kid.send(ClientMsg::AllowChat { allowed: true }).await;
+    kid.send(ClientMsg::AllowChat { allowed: true, phrases_only: None }).await;
     assert_eq!(kid.age().await, (Some(true), true));
     // (Each line is awaited where it is sent: the other connection's ping
     // may otherwise be answered before the line is even read.)
@@ -180,7 +180,7 @@ async fn players_under_18_chat_only_once_a_guardian_allows_it() {
     })
     .await;
     // And off again.
-    kid.send(ClientMsg::AllowChat { allowed: false }).await;
+    kid.send(ClientMsg::AllowChat { allowed: false, phrases_only: None }).await;
     assert_eq!(kid.age().await, (Some(true), false));
     kid.send(ClientMsg::Chat { text: "tchau".into() }).await;
     assert!(refused(&kid.drain().await));
@@ -229,13 +229,13 @@ async fn the_chat_is_off_until_the_player_turns_it_on() {
     let mut kid = Client::register(&url, "Kid", None).await;
     assert_eq!(kid.age().await, (None, false));
     kid.send(ClientMsg::SetAge { minor: true }).await;
-    kid.send(ClientMsg::AllowChat { allowed: true }).await;
+    kid.send(ClientMsg::AllowChat { allowed: true, phrases_only: None }).await;
     assert_eq!(kid.age().await, (Some(true), false));
     assert_eq!(kid.age().await, (Some(true), true));
     kid.send(ClientMsg::Chat { text: "oi".into() }).await;
     kid.expect("own line", |m| matches!(m, ServerMsg::Chat { line } if line.text == "oi")).await;
     // And no way to say 18 or older afterwards.
-    kid.send(ClientMsg::AllowChat { allowed: false }).await;
+    kid.send(ClientMsg::AllowChat { allowed: false, phrases_only: None }).await;
     assert_eq!(kid.age().await, (Some(true), false));
     kid.send(ClientMsg::SetAge { minor: false }).await;
     assert_eq!(kid.age().await, (Some(true), false));

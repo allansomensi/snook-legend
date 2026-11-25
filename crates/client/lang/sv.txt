@@ -2150,3 +2150,133 @@ Equip now	Utrusta nu
 Open the collection	Öppna samlingen
 Auctions	Auktioner
 The staff ended your game without a result. Sign in again.	Teamet avslutade ditt parti utan resultat. Logga in igen.
+Current prize: {n} coins	Nuvarande pris: {n} mynt
+Champion wins: {item}	Mästaren vinner: {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Dag {d} i rad: +{n} mynt. I morgon: +{m}.
+Auctions ({n})	Auktioner ({n})
+Auctions	Auktioner
+Supporters	Supportrar
+Maintenance in {t}: the server stops for about {m} min.	Underhåll om {t}: servern stannar i cirka {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Underhåll: servern stannar. Pågående partier fortsätter.
+Your coins: {n}	Dina mynt: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Sällsynta föremål till högsta budet. Ditt bud hålls inne; bjuder någon mer får du tillbaka mynten direkt. Ett bud under de två sista minuterna ger två till.
+No auctions right now. Come back soon!	Inga auktioner just nu. Kom tillbaka snart!
+Current bid: {n} coins	Nuvarande bud: {n} mynt
+No bids yet · from {n} coins	Inga bud än · från {n} mynt
+Ended without bids	Slutade utan bud
+You won it!	Du vann den!
+Won by {name}	Vunnen av {name}
+Opens in {t}	Öppnar om {t}
+You lead · ends in {t}	Du leder · slutar om {t}
+Ends in {t}	Slutar om {t}
+{name} leads · ends in {t}	{name} leder · slutar om {t}
+Yours already	Redan din
+Raise	Höj
+Bid	Bjud
+Your bid (at least {n}):	Ditt bud (minst {n}):
+Place bid	Lägg bud
+Thank you to the VIP members who keep the game going, now and before.	Tack till VIP-medlemmarna som håller spelet igång, nu och tidigare.
+Nobody in the credits yet.	Ingen i eftertexterna än.
+since {d} · {n} months	sedan {d} · {n} månader
+Show my name in the supporters' credits	Visa mitt namn i supportrarnas eftertexter
+{title}: ends in {t}	{title}: slutar om {t}
+An item of the month, yours to keep even if you cancel	Ett månadens föremål, ditt för alltid även om du avslutar
+If VIP ends, you keep	Om VIP slutar behåller du
+If VIP ends, you lose	Om VIP slutar förlorar du
+The items of the month you got	Månadens föremål du fått
+Everything you bought, and your coins	Allt du köpt, och dina mynt
+Your ratings, trophies and achievements	Dina rankningar, troféer och prestationer
+VIP's cloths, cues and frames (back when you return)	VIP-dukar, köer och ramar (tillbaka när du kommer tillbaka)
+The monthly coins and the next months' items	Månadsmynten och kommande månaders föremål
+The crown, and replays beyond your last 10 games	Kronan, och repriser utöver dina 10 senaste partier
+Your free changes are used: another costs {n} coins.	Dina gratis byten är slut: ett till kostar {n} mynt.
+Bid at least {n} coins.	Bjud minst {n} mynt.
+The server stops for maintenance in {n} min.	Servern stannar för underhåll om {n} min.
+This auction is not open.	Den här auktionen är inte öppen.
+The credits are for VIP members, now or before.	Eftertexterna är för VIP-medlemmar, nuvarande eller tidigare.
+The server stops for maintenance now. Games in progress go on.	Servern stannar för underhåll nu. Pågående partier fortsätter.
+Play online: your games are added up here as they end.	Spela online: dina partier läggs ihop här när de är slut.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Se hur du sänker hål för hål och efter snittvinkel, hur du utvecklas vecka för vecka och hur du står dig mot spelarna i din liga.
+Advanced statistics	Avancerad statistik
+Become VIP	Bli VIP
+By pocket	Per hål
+By cut angle	Per snittvinkel
+The white mark: your league.	Det vita strecket: din liga.
+Week by week	Vecka för vecka
+Against your league	Mot din liga
+{tier}: {n} players	{tier}: {n} spelare
+You	Du
+League	Liga
+{pocket}: {n} points above	{pocket}: {n} poäng över
+{pocket}: {n} points below	{pocket}: {n} poäng under
+Messages with {name}	Meddelanden med {name}
+No messages with {name} yet. Say hello!	Inga meddelanden med {name} än. Säg hej!
+Write a message… (Enter to send)	Skriv ett meddelande… (Enter för att skicka)
+You can write to your friends only.	Du kan bara skriva till dina vänner.
+Choose a quick phrase…	Välj en snabbfras…
+Looking for a game ({rules})	Letar efter ett parti ({rules})
+At a table, waiting ({rules})	Vid ett bord, väntar ({rules})
+Playing a tournament game against {name}	Spelar ett turneringsparti mot {name}
+Playing against {name}	Spelar mot {name}
+Watching {name}'s game	Tittar på partiet med {name}
+In {name}	I {name}
+Playing the computer	Spelar mot datorn
+Practising	Tränar
+In the daily challenge	I dagens utmaning
+Doing drills	Gör övningar
+On the tour	På touren
+Away	Borta
+Victory by abandonment	Seger genom uppgivet parti
+Players (administrator)	Spelare (administratör)
+Spectators	Åskådare
+Chat (muted)	Chatt (tystad)
+Say something to the others watching (the players don't see it).	Säg något till de andra som tittar (spelarna ser det inte).
+Rated game	Rankat parti
+Casual game	Vänskapsparti
+Click to skip	Klicka för att hoppa över
+Guest	Gäst
+Win	Vinst
+Loss	Förlust
+{n} rating points at stake	{n} rankingpoäng står på spel
+No rating at stake	Ingen ranking på spel
+Hide the shot's numbers	Dölj stötens siffror
+Show the shot's numbers	Visa stötens siffror
+Last shot	Senaste stöten
+No shot yet.	Ingen stöt än.
+Balls left	Kvarvarande bollar
+Right side	Högereffekt
+Left side	Vänstereffekt
+Centre ball	Boll i mitten
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Bara snabbfraserna (ingen fri text)
+Messages	Meddelanden
+World	Världen
+Friends ranking	Vänrankning
+You and your friends · rated games	Du och dina vänner · rankade partier
+Add friends to see where you stand among them.	Lägg till vänner för att se var du står bland dem.
+Chat and reactions	Chatt och reaktioner
+Mute the opponent's chat	Tysta motståndarens chatt
+Their messages in online games are not shown (yours still reach them).	Hans meddelanden i onlinepartier visas inte (dina når honom fortfarande).
+Hide the opponent's reactions	Dölj motståndarens reaktioner
+The reactions they send at the table are not shown.	Reaktionerna han skickar vid bordet visas inte.
+Players muted from a game: {n}	Spelare tystade i ett parti: {n}
+Unmute them all	Slå på alla igen
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Det här partiet räknas till rankingen: +{win} om du vinner, {loss} om du förlorar.
+This game counts for the rating.	Det här partiet räknas till rankingen.
+A casual game: the rating doesn't change.	Vänskapsparti: rankingen ändras inte.
+{name} lost the connection	{name} tappade anslutningen
+If they don't come back in time, you win by abandonment.	Kommer han inte tillbaka i tid vinner du genom uppgivet parti.
+Mute {name}	Tysta {name}
+Mute {name}'s chat	Tysta chatten från {name}
+Hide {name}'s reactions	Dölj reaktionerna från {name}
+Remembered for your next games against them.	Kom ihåg till dina nästa partier mot honom.
+Broadcast	Sändning
+3D	3D
+You can only send messages to your friends.	Du kan bara skicka meddelanden till dina vänner.
+You can't send messages to this player.	Du kan inte skicka meddelanden till den här spelaren.
+Your chat is set to the quick phrases only.	Din chatt är begränsad till snabbfraserna.
+These settings can't be kept.	De här inställningarna kan inte sparas.
+You aren't watching a game.	Du tittar inte på något parti.

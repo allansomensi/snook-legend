@@ -8,8 +8,10 @@ use snook_legend_proto::CareerNumbers;
 use snook_legend_proto::replay::Replay;
 
 mod correspondence;
+mod match_social;
 mod moderation;
 mod msstore;
+mod ops;
 
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
@@ -89,7 +91,8 @@ const USER_COLUMNS: &str = "id, username, password_hash, country, role, rating, 
     games, wins, official_rating, official_peak_rating, official_games, official_wins, \
     eight_wins, casual_games, streak, best_streak, runouts, shutouts, \
     tournaments_played, tournaments_won, created_at, last_seen, banned_until, ban_reason, muted_until, \
-    recovery_email, deleted_at, abandons, status_message, xp, name_changes, avatar, minor, chat_allowed_at";
+    recovery_email, deleted_at, abandons, status_message, xp, name_changes, avatar, minor, chat_allowed_at, \
+    chat_phrases_only";
 
 fn user(r: &PgRow) -> Result<User, sqlx::Error> {
     let n = |c: &str| -> Result<u32, sqlx::Error> { Ok(r.try_get::<i32, _>(c)?.max(0) as u32) };
@@ -135,6 +138,7 @@ fn user(r: &PgRow) -> Result<User, sqlx::Error> {
         avatar: r.try_get("avatar")?,
         minor: r.try_get("minor")?,
         chat_allowed_at: r.try_get("chat_allowed_at")?,
+        chat_phrases_only: r.try_get("chat_phrases_only")?,
     })
 }
 
@@ -1035,7 +1039,7 @@ impl PgStore {
         query(
             "UPDATE users SET username = $2, password_hash = '', country = '',
                 recovery_email = NULL, deleted_at = $3, register_ip = '', status_message = '',
-                avatar = '', minor = NULL, chat_allowed_at = NULL
+                avatar = '', minor = NULL, chat_allowed_at = NULL, chat_phrases_only = FALSE
              WHERE id = $1",
         )
         .bind(user_id)
@@ -1061,6 +1065,10 @@ impl PgStore {
             "UPDATE payments SET email = NULL WHERE user_id = $1",
             // The keys to their Microsoft account's purchases go too.
             "UPDATE msstore_consumes SET store_key = NULL WHERE user_id = $1",
+            // Their settings and conversations go too.
+            "DELETE FROM account_settings WHERE user_id = $1",
+            "DELETE FROM direct_messages WHERE from_id = $1 OR to_id = $1",
+            "DELETE FROM shot_weeks WHERE user_id = $1",
         ] {
             query(sql).bind(user_id).execute(&mut *tx).await?;
         }
@@ -2431,8 +2439,10 @@ impl PgStore {
     pub async fn add_event(&self, e: &super::NewEvent<'_>) -> StoreResult<i64> {
         let row = query(
             "INSERT INTO events (kind, title, multiplier, starts_at, ends_at, format, size, rated,
-                                 rules, entry_fee, prize, created_by, created_at)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id",
+                                 rules, entry_fee, prize, created_by, created_at,
+                                 champion_share, item_prize)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+             RETURNING id",
         )
         .bind(e.kind)
         .bind(e.title)
@@ -2447,6 +2457,8 @@ impl PgStore {
         .bind(e.prize as i32)
         .bind(e.created_by)
         .bind(e.at)
+        .bind(e.champion_share as i16)
+        .bind(e.item_prize)
         .fetch_one(&self.pool)
         .await?;
         Ok(row.get("id"))
@@ -2484,6 +2496,8 @@ impl PgStore {
                 rules: Rules::parse(r.get("rules")).unwrap_or_default(),
                 entry_fee: n(r, "entry_fee"),
                 prize: n(r, "prize"),
+                champion_share: r.get::<i16, _>("champion_share").clamp(0, 100) as u32,
+                item_prize: r.get("item_prize"),
                 created_by: r.get("author"),
                 created_at: r.get("created_at"),
                 cancelled_at: r.get("cancelled_at"),

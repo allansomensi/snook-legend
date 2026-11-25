@@ -2150,3 +2150,133 @@ Equip now	Equipar ahora
 Open the collection	Abrir la colección
 Auctions	Subastas
 The staff ended your game without a result. Sign in again.	El equipo terminó tu partida sin resultado. Vuelve a iniciar sesión.
+Current prize: {n} coins	Premio actual: {n} monedas
+Champion wins: {item}	El campeón gana: {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Día {d} seguido: +{n} monedas. Mañana: +{m}.
+Auctions ({n})	Subastas ({n})
+Auctions	Subastas
+Supporters	Mecenas
+Maintenance in {t}: the server stops for about {m} min.	Mantenimiento en {t}: el servidor se detiene unos {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Mantenimiento: el servidor se está deteniendo. Las partidas en curso siguen.
+Your coins: {n}	Tus monedas: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Objetos raros para la puja más alta. Tu puja queda reservada; si alguien puja más, tus monedas vuelven al instante. Una puja en los dos últimos minutos da dos más.
+No auctions right now. Come back soon!	No hay subastas ahora. ¡Vuelve pronto!
+Current bid: {n} coins	Puja actual: {n} monedas
+No bids yet · from {n} coins	Aún sin pujas · desde {n} monedas
+Ended without bids	Terminó sin pujas
+You won it!	¡Lo ganaste!
+Won by {name}	Ganado por {name}
+Opens in {t}	Abre en {t}
+You lead · ends in {t}	Vas primero · termina en {t}
+Ends in {t}	Termina en {t}
+{name} leads · ends in {t}	{name} va primero · termina en {t}
+Yours already	Ya es tuyo
+Raise	Subir
+Bid	Pujar
+Your bid (at least {n}):	Tu puja (al menos {n}):
+Place bid	Confirmar puja
+Thank you to the VIP members who keep the game going, now and before.	Gracias a los miembros VIP que mantienen vivo el juego, hoy y antes.
+Nobody in the credits yet.	Aún no hay nadie en los créditos.
+since {d} · {n} months	desde {d} · {n} meses
+Show my name in the supporters' credits	Mostrar mi nombre en los créditos de mecenas
+{title}: ends in {t}	{title}: termina en {t}
+An item of the month, yours to keep even if you cancel	Un objeto del mes, tuyo para siempre aunque canceles
+If VIP ends, you keep	Si termina el VIP, conservas
+If VIP ends, you lose	Si termina el VIP, pierdes
+The items of the month you got	Los objetos del mes que recibiste
+Everything you bought, and your coins	Todo lo que compraste, y tus monedas
+Your ratings, trophies and achievements	Tus puntuaciones, trofeos y logros
+VIP's cloths, cues and frames (back when you return)	Paños, tacos y marcos VIP (vuelven cuando vuelvas)
+The monthly coins and the next months' items	Las monedas mensuales y los objetos de los próximos meses
+The crown, and replays beyond your last 10 games	La corona, y las repeticiones más allá de tus últimas 10 partidas
+Your free changes are used: another costs {n} coins.	Tus cambios gratis se agotaron: otro cuesta {n} monedas.
+Bid at least {n} coins.	Puja al menos {n} monedas.
+The server stops for maintenance in {n} min.	El servidor se detiene por mantenimiento en {n} min.
+This auction is not open.	Esta subasta no está abierta.
+The credits are for VIP members, now or before.	Los créditos son para miembros VIP, actuales o anteriores.
+The server stops for maintenance now. Games in progress go on.	El servidor se detiene por mantenimiento ahora. Las partidas en curso siguen.
+Play online: your games are added up here as they end.	Juega en línea: tus partidas se suman aquí cuando terminan.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Mira cómo embocas tronera por tronera y por ángulo de corte, cómo progresas semana a semana y cómo te comparas con los jugadores de tu liga.
+Advanced statistics	Estadísticas avanzadas
+Become VIP	Hazte VIP
+By pocket	Por tronera
+By cut angle	Por ángulo de corte
+The white mark: your league.	La marca blanca: tu liga.
+Week by week	Semana a semana
+Against your league	Frente a tu liga
+{tier}: {n} players	{tier}: {n} jugadores
+You	Tú
+League	Liga
+{pocket}: {n} points above	{pocket}: {n} puntos por encima
+{pocket}: {n} points below	{pocket}: {n} puntos por debajo
+Messages with {name}	Mensajes con {name}
+No messages with {name} yet. Say hello!	Aún no hay mensajes con {name}. ¡Saluda!
+Write a message… (Enter to send)	Escribe un mensaje… (Enter para enviar)
+You can write to your friends only.	Solo puedes escribir a tus amigos.
+Choose a quick phrase…	Elige una frase rápida…
+Looking for a game ({rules})	Buscando partida ({rules})
+At a table, waiting ({rules})	En una mesa, esperando ({rules})
+Playing a tournament game against {name}	Jugando una partida de torneo contra {name}
+Playing against {name}	Jugando contra {name}
+Watching {name}'s game	Viendo la partida de {name}
+In {name}	En {name}
+Playing the computer	Jugando contra la computadora
+Practising	Practicando
+In the daily challenge	En el desafío del día
+Doing drills	Haciendo ejercicios
+On the tour	En el circuito
+Away	Ausente
+Victory by abandonment	Victoria por abandono
+Players (administrator)	Jugadores (administrador)
+Spectators	Espectadores
+Chat (muted)	Chat (silenciado)
+Say something to the others watching (the players don't see it).	Di algo a los demás espectadores (los jugadores no lo ven).
+Rated game	Partida con rating
+Casual game	Partida amistosa
+Click to skip	Haz clic para saltar
+Guest	Invitado
+Win	Victoria
+Loss	Derrota
+{n} rating points at stake	{n} puntos de rating en juego
+No rating at stake	Sin rating en juego
+Hide the shot's numbers	Ocultar los números del tiro
+Show the shot's numbers	Mostrar los números del tiro
+Last shot	Último tiro
+No shot yet.	Aún no hay tiros.
+Balls left	Bolas restantes
+Right side	Efecto a la derecha
+Left side	Efecto a la izquierda
+Centre ball	Bola al centro
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Solo las frases rápidas (sin texto libre)
+Messages	Mensajes
+World	Mundo
+Friends ranking	Ranking de amigos
+You and your friends · rated games	Tú y tus amigos · partidas con rating
+Add friends to see where you stand among them.	Agrega amigos para ver tu posición entre ellos.
+Chat and reactions	Chat y reacciones
+Mute the opponent's chat	Silenciar el chat del rival
+Their messages in online games are not shown (yours still reach them).	Sus mensajes en las partidas en línea no se muestran (los tuyos le siguen llegando).
+Hide the opponent's reactions	Ocultar las reacciones del rival
+The reactions they send at the table are not shown.	Las reacciones que envía en la mesa no se muestran.
+Players muted from a game: {n}	Jugadores silenciados en una partida: {n}
+Unmute them all	Reactivarlos a todos
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Esta partida cuenta para el rating: +{win} si ganas, {loss} si pierdes.
+This game counts for the rating.	Esta partida cuenta para el rating.
+A casual game: the rating doesn't change.	Partida amistosa: el rating no cambia.
+{name} lost the connection	{name} perdió la conexión
+If they don't come back in time, you win by abandonment.	Si no vuelve a tiempo, ganas por abandono.
+Mute {name}	Silenciar a {name}
+Mute {name}'s chat	Silenciar el chat de {name}
+Hide {name}'s reactions	Ocultar las reacciones de {name}
+Remembered for your next games against them.	Se recuerda para tus próximas partidas contra él.
+Broadcast	Transmisión
+3D	3D
+You can only send messages to your friends.	Solo puedes enviar mensajes a tus amigos.
+You can't send messages to this player.	No puedes enviar mensajes a este jugador.
+Your chat is set to the quick phrases only.	Tu chat está limitado a las frases rápidas.
+These settings can't be kept.	Esta configuración no se puede guardar.
+You aren't watching a game.	No estás viendo ninguna partida.

@@ -40,6 +40,10 @@ pub enum TextPlace {
     Gift,
     /// A new username.
     Username,
+    /// A direct message to a friend.
+    Direct,
+    /// The chat of a game's spectators.
+    SpectatorChat,
     #[serde(other)]
     Other,
 }

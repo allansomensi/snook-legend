@@ -28,6 +28,7 @@ use snook_legend_proto::{
 use crate::store::{SessionKind, User};
 use crate::{Server, new_token, now, token_hash};
 
+mod collection;
 mod moderation;
 mod ops;
 
@@ -42,6 +43,7 @@ pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
         .route("/admin/api/users", get(users))
         .route("/admin/api/users/{name}", get(user_detail))
         .route("/admin/api/users/{name}/{action}", post(user_action))
+        .route("/admin/api/users/{name}/collection", get(collection::collection))
         .route("/admin/api/reports", get(reports))
         .route("/admin/api/reports/{id}", post(resolve_report))
         .route("/admin/api/audit", get(audit))
@@ -929,7 +931,8 @@ async fn user_action(
             use snook_legend_proto::shop::Price;
             match snook_legend_proto::shop::item(&body.item).map(|i| i.price) {
                 None => return Err(err(StatusCode::BAD_REQUEST, "No such item.")),
-                Some(Price::Coins(_) | Price::Pack) => {}
+                // (Items only won, too: the staff award them for events.)
+                Some(Price::Coins(_) | Price::Pack | Price::Earned) => {}
                 Some(_) => {
                     return Err(err(
                         StatusCode::BAD_REQUEST,
@@ -941,7 +944,8 @@ async fn user_action(
                 return Err(err(StatusCode::CONFLICT, "They already have it."));
             }
             server.store.grant_item(target.id, &body.item, "staff", t).await?;
-            let origin = snook_legend_proto::collection::Origin::Staff { reason: reason.clone() };
+            let origin =
+                snook_legend_proto::collection::Origin::Staff { reason: reason.to_string() };
             crate::collection::record(&server, target.id, &body.item, origin).await;
             crate::shop::push_wallet(&server, &target).await;
             if let Some(n) = inbox_notice(&action, &body, &reason, &s, t) {
@@ -1369,6 +1373,8 @@ async fn economy(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRe
                 "code": i.code, "name": i.name, "category": format!("{:?}", i.category).to_lowercase(),
                 "how": how, "coins": coins,
                 "achievement": match i.price { Price::Achievement(a) => Some(a), _ => None },
+                "rarity": snook_legend_proto::shop::rarity(i),
+                "bound": snook_legend_proto::shop::bound(i),
             })
         })
         .collect();

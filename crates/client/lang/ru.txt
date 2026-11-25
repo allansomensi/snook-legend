@@ -2150,6 +2150,191 @@ Equip now	Надеть сейчас
 Open the collection	Открыть коллекцию
 Auctions	Аукционы
 The staff ended your game without a result. Sign in again.	Команда завершила вашу партию без результата. Войдите снова.
+A secret achievement: play to find it.	Секретное достижение: играйте, чтобы его найти.
+Only won	Только выиграть
+Collection	Коллекция
+Everything you have, and how you got it	Всё, что у вас есть, и как вы это получили
+A secret achievement	Секретное достижение
+Not yet yours	Пока не ваше
+Rarest first	Сначала самые редкие
+Newest first	Сначала новые
+By name	По названию
+Reaction	Реакция
+Bought for {n} coins	Куплено за {n} мон.
+Bought in the shop	Куплено в магазине
+Gift from {name}	Подарок от {name}
+A present from the staff	Подарок от команды
+From the staff: {reason}	От команды: {reason}
+Champion of {name}	Чемпион {name}
+Runner-up of {name}	Финалист {name}
+Place {n} in {name}	{n}-е место в {name}
+Achievement: {title}	Достижение: {title}
+Won at auction for {n} coins	Выиграно на аукционе за {n} мон.
+VIP's item of the month · {month}	VIP-предмет месяца · {month}
+Prize of {name}	Приз: {name}
+Yours	Ваше
+VIP's item of the month: VIP members get it that month	VIP-предмет месяца: участники VIP получают его в этом месяце
+Only the season's champion wins it	Его выигрывает только чемпион сезона
+Won in the official tournaments	Разыгрывается в официальных турнирах
+Only won: events, cups and seasons	Только выиграть: события, кубки и сезоны
+In the welcome pack	В приветственном наборе
+Yours while you are VIP	Ваше, пока вы VIP
+Legendary cue	Легендарный кий
+Epic cue	Эпический кий
+{n} of {total} items	{n} из {total} предметов
+Sign in to see your collection.	Войдите, чтобы увидеть свою коллекцию.
+Missing too	И недостающие
+Nothing of this rarity here.	Здесь нет ничего такой редкости.
+None yet: they are waiting to be won.	Пока ничего: они ждут, когда их выиграют.
+Page {a} of {b}	Страница {a} из {b}
+In the shop	В магазине
+Everything you have	Всё, что у вас есть
+Show reactions	Показывать реакции
+Off: no reactions are shown during matches, from anyone.	Выкл.: во время партий не показываются ничьи реакции.
+The colour of your aim line and ghost ball.	Цвет вашей прицельной линии и шара-призрака.
+For VIP members: the colour of the aim line and the ghost ball.	Для участников VIP: цвет прицельной линии и шара-призрака.
+Aim colour	Цвет прицела
+Polished stone, veined right through	Полированный камень с прожилками насквозь
+A night sky in every ball, under a clear coat	Ночное небо в каждом шаре, под лаком
+Lit from within, like neon	Светятся изнутри, как неон
+Cut glass: deep colour and a dazzling shine	Гранёное стекло: глубокий цвет и ослепительный блеск
+White Carrara marble, gold castings and fluted columns	Белый каррарский мрамор, золотая фурнитура и колонны с каннелюрами
+Black gloss on slab legs, with a neon glow beneath	Глянцевый чёрный на ножках-плитах, с неоновой подсветкой снизу
+Woven carbon rails, red trim and a light strip	Борта из плетёного карбона, красная отделка и световая полоса
+Dark walnut and polished copper on a riveted steel frame	Тёмный орех и полированная медь на клёпаной стальной раме
+Frosted lacquer and silver, with a cold light beneath	Матовый лак и серебро, с холодным светом снизу
+Black volcanic stone, cracked with molten orange	Чёрный вулканический камень в трещинах раскалённого оранжевого
+Rough pine on square posts, with iron castings	Грубая сосна на квадратных ножках, с железной фурнитурой
+Black lacquer and gold: the season champion's table	Чёрный лак и золото: стол чемпиона сезона
+The table alone under the spotlight, dark stands and TV lights	Стол один в луче прожектора, тёмные трибуны и телевизионный свет
+Crimson velvet	Багровый бархат
+Eclipse	Затмение
+Arena blue	Синяя арена
+Millennium gold	Золото тысячелетия
+Holly	Остролист
+Winter frost	Зимний иней
+Rainforest	Тропический лес
+Bonfire	Костёр
+Spring meadow	Весенний луг
+Gold filigree	Золотая филигрань
+Thunderbolt	Молния
+Damascus steel	Дамасская сталь
+Glacier	Ледник
+Abalone	Морское ушко
+Volcano	Вулкан
+Aurora	Полярное сияние
+Emperor	Император
+Untouchable	Неприкасаемый
+Midas	Мидас
+Empire	Империя
+Millennium	Тысячелетие
+Four corners	Четыре угла
+Back from the dead	Восставший из мёртвых
+Season champion	Чемпион сезона
+Candy cane	Рождественская трость
+Countdown	Обратный отсчёт
+Carnival	Карнавал
+Easter egg	Пасхальное яйцо
+Festa junina	Festa junina
+Spider web	Паутина
+Winter cup	Зимний кубок
+Summer cup	Летний кубок
+Anniversary	Годовщина
+World cup	Чемпионат мира
+New dawn	Новый рассвет
+Sakura	Сакура
+Tide	Прилив
+Witching hour	Колдовской час
+Diamond dust chalk	Мел из алмазной пыли
+Champion's chalk	Мел чемпиона
+Marble	Мрамор
+Glow	Сияние
+Crystal	Хрусталь
+Crown jewels	Драгоценности короны
+Champion's gold	Золото чемпиона
+Christmas baubles	Ёлочные шары
+Haunted	С привидениями
+Copper works	Медная мастерская
+Carbon racer	Карбоновый болид
+Neon night	Неоновая ночь
+Ice palace	Ледяной дворец
+Country barn	Деревенский амбар
+Pro arena	Профессиональная арена
+Obsidian	Обсидиан
+Prism	Призма
+Phantom	Фантом
+Pro tour	Профессиональный тур
+Rose garden	Розовый сад
+Golden hour	Золотой час
+Hearts	Сердца
+Thunderstorm	Гроза
+Black hole	Чёрная дыра
+Shooting stars	Падающие звёзды
+Snowfall	Снегопад
+Champion's fireworks	Салют чемпиона
+Crown of glory	Корона славы
+Fingers crossed	Скрещённые пальцы
+Call me	Позвони мне
+Nerd	Ботаник
+Money face	Денежная морда
+Monocle	Монокль
+Facepalm	Фейспалм
+Shrug	Пожать плечами
+Hands up	Руки вверх
+Melting	Таю
+Alien	Инопланетянин
+Clown	Клоун
+Little devil	Чертёнок
+Angel	Ангел
+Bomb	Бомба
+Money bag	Мешок денег
+Crystal ball	Хрустальный шар
+Tornado	Торнадо
+Dragon	Дракон
+Santa	Дед Мороз
+Snowflake	Снежинка
+Summer sun	Летнее солнце
+Easter bunny	Пасхальный кролик
+Football	Футбол
+Balloon	Воздушный шар
+Season medal	Медаль сезона
+Common	Обычный
+Rare	Редкий
+Epic	Эпический
+Legendary	Легендарный
+Institution	Учреждение
+Play 2,500 rated games.	Сыграйте 2500 рейтинговых партий.
+Living legend	Живая легенда
+Win 1,000 rated games.	Выиграйте 1000 рейтинговых партий.
+The last word	Последнее слово
+Win 500 rated games on the 8-ball.	Выиграйте 500 рейтинговых партий, забив восьмёрку.
+Seventh heaven	Седьмое небо
+Win 7 rated games in a row.	Выиграйте 7 рейтинговых партий подряд.
+Clinical	Хирургическая точность
+Break and run 5 times.	Выиграйте партию с кия 5 раз.
+Iron curtain	Железный занавес
+Win 25 rated shutouts.	Одержите 25 сухих побед в рейтинговых партиях.
+Win 10 tournaments.	Выиграйте 10 турниров.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Выиграйте рейтинговую партию во время карнавала (1 февр. – 10 марта).
+June festival	Июньский праздник
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Выиграйте рейтинговую партию во время июньских праздников (1–30 июня).
+Three in one	Три за раз
+Pocket three of your balls with one shot (not the break).	Забейте три своих шара одним ударом (не на разбое).
+Pocket balls in four different pockets with one shot (not the break).	Забейте шары в четыре разные лузы одним ударом (не на разбое).
+Thunder break	Громовой разбой
+Pocket five balls on the break.	Забейте пять шаров на разбое.
+Spotted	В точку
+Pocket the 8-ball on the break in a game under the official rules.	Забейте восьмёрку на разбое в партии по официальным правилам.
+Win a rated game after being six balls behind.	Выиграйте рейтинговую партию, уступая шесть шаров.
+Last stand	Последний рубеж
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Выиграйте рейтинговую партию после того, как соперник вышел на восьмёрку, а у вас оставалось пять шаров или больше.
+Stolen table	Украденный стол
+Win a rated game from your opponent's break without them getting another shot.	Выиграйте рейтинговую партию после разбоя соперника, не дав ему больше ударить.
+Marathon	Марафон
+Win a rated game that lasted 60 shots or more.	Выиграйте рейтинговую партию, длившуюся 60 ударов или больше.
+Ugly but it counts	Некрасиво, но засчитано
+Win a rated game in which you fouled four times or more.	Выиграйте рейтинговую партию, в которой вы сделали четыре фола или больше.
+This item can't be given: it stays with whoever won it.	Этот предмет нельзя подарить: он остаётся у того, кто его выиграл.
 Current prize: {n} coins	Текущий приз: {n} монет
 Champion wins: {item}	Чемпион получает: {item}
 {h} h {m} min	{h} ч {m} мин
@@ -2157,7 +2342,6 @@ Champion wins: {item}	Чемпион получает: {item}
 {s} s	{s} с
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	День {d} подряд: +{n} монет. Завтра: +{m}.
 Auctions ({n})	Аукционы ({n})
-Auctions	Аукционы
 Supporters	Спонсоры
 Maintenance in {t}: the server stops for about {m} min.	Техработы через {t}: сервер остановится примерно на {m} мин.
 Maintenance: the server is stopping. Games in progress go on.	Техработы: сервер останавливается. Идущие партии продолжаются.

@@ -273,6 +273,22 @@ async fn the_portal_manages_players() {
         post("/admin/api/users/caio/revoke", r#"{"item":"chalk_red","reason":"again"}"#).await;
     assert_eq!(code, 400);
 
+    // An item only won, given for an event: in the collection with why.
+    let (code, v) = post(
+        "/admin/api/users/caio/item",
+        r#"{"item":"cue_christmas","reason":"Christmas 2026 winner"}"#,
+    )
+    .await;
+    assert_eq!(code, 200, "{v}");
+    let (code, v) = get("/admin/api/users/caio/collection").await;
+    assert_eq!(code, 200, "{v}");
+    let cue = v["items"].as_array().unwrap().iter().find(|i| i["code"] == "cue_christmas").cloned();
+    let cue = cue.expect("the cue is in the collection");
+    assert_eq!(cue["origin"]["how"], "staff");
+    assert_eq!(cue["origin"]["reason"], "Christmas 2026 winner");
+    assert_eq!(cue["rarity"], "epic");
+    assert_eq!(cue["bound"], true);
+
     // The audit log, searched: by target, by action, by words, paged.
     let (_, v) = get("/admin/api/audit?target=CAIO").await;
     let entries = v["entries"].as_array().unwrap();

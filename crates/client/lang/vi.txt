@@ -2150,6 +2150,191 @@ Equip now	Trang bị ngay
 Open the collection	Mở bộ sưu tập
 Auctions	Đấu giá
 The staff ended your game without a result. Sign in again.	Đội ngũ đã kết thúc ván của bạn mà không có kết quả. Hãy đăng nhập lại.
+A secret achievement: play to find it.	Một thành tích bí mật: hãy chơi để khám phá.
+Only won	Chỉ có thể thắng được
+Collection	Bộ sưu tập
+Everything you have, and how you got it	Mọi thứ bạn có, và cách bạn có được
+A secret achievement	Một thành tích bí mật
+Not yet yours	Chưa phải của bạn
+Rarest first	Hiếm nhất trước
+Newest first	Mới nhất trước
+By name	Theo tên
+Reaction	Biểu cảm
+Bought for {n} coins	Mua với giá {n} xu
+Bought in the shop	Mua trong cửa hàng
+Gift from {name}	Quà của {name}
+A present from the staff	Quà từ đội ngũ
+From the staff: {reason}	Từ đội ngũ: {reason}
+Champion of {name}	Vô địch {name}
+Runner-up of {name}	Á quân {name}
+Place {n} in {name}	Hạng {n} tại {name}
+Achievement: {title}	Thành tích: {title}
+Won at auction for {n} coins	Thắng đấu giá với {n} xu
+VIP's item of the month · {month}	Vật phẩm VIP của tháng · {month}
+Prize of {name}	Giải thưởng của {name}
+Yours	Của bạn
+VIP's item of the month: VIP members get it that month	Vật phẩm VIP của tháng: thành viên VIP nhận được trong tháng đó
+Only the season's champion wins it	Chỉ nhà vô địch mùa giải mới giành được
+Won in the official tournaments	Giành được ở các giải đấu chính thức
+Only won: events, cups and seasons	Chỉ có thể thắng được: sự kiện, cúp và mùa giải
+In the welcome pack	Trong gói chào mừng
+Yours while you are VIP	Của bạn khi bạn còn là VIP
+Legendary cue	Cơ huyền thoại
+Epic cue	Cơ sử thi
+{n} of {total} items	{n} trên {total} vật phẩm
+Sign in to see your collection.	Đăng nhập để xem bộ sưu tập của bạn.
+Missing too	Cả những món còn thiếu
+Nothing of this rarity here.	Không có gì thuộc độ hiếm này ở đây.
+None yet: they are waiting to be won.	Chưa có: chúng đang chờ được giành lấy.
+Page {a} of {b}	Trang {a} / {b}
+In the shop	Trong cửa hàng
+Everything you have	Mọi thứ bạn có
+Show reactions	Hiện biểu cảm
+Off: no reactions are shown during matches, from anyone.	Tắt: không hiện biểu cảm của ai trong các ván đấu.
+The colour of your aim line and ghost ball.	Màu đường ngắm và bi ảo của bạn.
+For VIP members: the colour of the aim line and the ghost ball.	Dành cho thành viên VIP: màu đường ngắm và bi ảo.
+Aim colour	Màu ngắm
+Polished stone, veined right through	Đá đánh bóng, vân chạy xuyên suốt
+A night sky in every ball, under a clear coat	Một bầu trời đêm trong mỗi viên bi, dưới lớp phủ bóng
+Lit from within, like neon	Phát sáng từ bên trong, như đèn neon
+Cut glass: deep colour and a dazzling shine	Pha lê cắt: màu sâu và độ lấp lánh chói lóa
+White Carrara marble, gold castings and fluted columns	Đá cẩm thạch Carrara trắng, phụ kiện vàng và cột có rãnh
+Black gloss on slab legs, with a neon glow beneath	Đen bóng trên chân dạng tấm, có ánh neon bên dưới
+Woven carbon rails, red trim and a light strip	Băng đệm sợi carbon đan, điểm nhấn đỏ và một dải đèn
+Dark walnut and polished copper on a riveted steel frame	Gỗ óc chó sẫm và đồng đánh bóng trên khung thép tán đinh
+Frosted lacquer and silver, with a cold light beneath	Sơn mài phủ sương và bạc, có ánh sáng lạnh bên dưới
+Black volcanic stone, cracked with molten orange	Đá núi lửa đen, nứt vỡ với màu cam rực
+Rough pine on square posts, with iron castings	Gỗ thông thô trên chân vuông, có phụ kiện sắt
+Black lacquer and gold: the season champion's table	Sơn mài đen và vàng: bàn của nhà vô địch mùa giải
+The table alone under the spotlight, dark stands and TV lights	Chiếc bàn một mình dưới đèn sân khấu, khán đài tối và đèn truyền hình
+Crimson velvet	Nhung đỏ thẫm
+Eclipse	Nhật thực
+Arena blue	Xanh đấu trường
+Millennium gold	Vàng thiên niên kỷ
+Holly	Cây ô rô
+Winter frost	Sương giá mùa đông
+Rainforest	Rừng mưa
+Bonfire	Lửa trại
+Spring meadow	Đồng cỏ mùa xuân
+Gold filigree	Chạm vàng
+Thunderbolt	Sấm sét
+Damascus steel	Thép Damascus
+Glacier	Sông băng
+Abalone	Bào ngư
+Volcano	Núi lửa
+Aurora	Cực quang
+Emperor	Hoàng đế
+Untouchable	Bất khả xâm phạm
+Midas	Midas
+Empire	Đế chế
+Millennium	Thiên niên kỷ
+Four corners	Bốn góc
+Back from the dead	Trở về từ cõi chết
+Season champion	Nhà vô địch mùa giải
+Candy cane	Kẹo gậy
+Countdown	Đếm ngược
+Carnival	Lễ hội Carnival
+Easter egg	Trứng Phục sinh
+Festa junina	Festa junina
+Spider web	Mạng nhện
+Winter cup	Cúp mùa đông
+Summer cup	Cúp mùa hè
+Anniversary	Kỷ niệm
+World cup	Cúp thế giới
+New dawn	Bình minh mới
+Sakura	Sakura
+Tide	Thủy triều
+Witching hour	Giờ phù thủy
+Diamond dust chalk	Phấn bụi kim cương
+Champion's chalk	Phấn của nhà vô địch
+Marble	Cẩm thạch
+Glow	Phát sáng
+Crystal	Pha lê
+Crown jewels	Châu báu vương miện
+Champion's gold	Vàng của nhà vô địch
+Christmas baubles	Quả châu Giáng sinh
+Haunted	Ma ám
+Copper works	Xưởng đồng
+Carbon racer	Xe đua carbon
+Neon night	Đêm neon
+Ice palace	Cung điện băng
+Country barn	Kho thóc đồng quê
+Pro arena	Đấu trường chuyên nghiệp
+Obsidian	Đá vỏ chai
+Prism	Lăng kính
+Phantom	Bóng ma
+Pro tour	Giải chuyên nghiệp
+Rose garden	Vườn hồng
+Golden hour	Giờ vàng
+Hearts	Trái tim
+Thunderstorm	Giông bão
+Black hole	Hố đen
+Shooting stars	Sao băng
+Snowfall	Tuyết rơi
+Champion's fireworks	Pháo hoa của nhà vô địch
+Crown of glory	Vương miện vinh quang
+Fingers crossed	Bắt chéo ngón tay
+Call me	Gọi cho tôi
+Nerd	Mọt sách
+Money face	Mặt tiền
+Monocle	Kính một mắt
+Facepalm	Ôm mặt
+Shrug	Nhún vai
+Hands up	Giơ tay lên
+Melting	Tan chảy
+Alien	Người ngoài hành tinh
+Clown	Chú hề
+Little devil	Tiểu quỷ
+Angel	Thiên thần
+Bomb	Quả bom
+Money bag	Túi tiền
+Crystal ball	Quả cầu pha lê
+Tornado	Lốc xoáy
+Dragon	Rồng
+Santa	Ông già Noel
+Snowflake	Bông tuyết
+Summer sun	Mặt trời mùa hè
+Easter bunny	Thỏ Phục sinh
+Football	Bóng đá
+Balloon	Bóng bay
+Season medal	Huy chương mùa giải
+Common	Thường
+Rare	Hiếm
+Epic	Sử thi
+Legendary	Huyền thoại
+Institution	Tượng đài
+Play 2,500 rated games.	Chơi 2.500 ván xếp hạng.
+Living legend	Huyền thoại sống
+Win 1,000 rated games.	Thắng 1.000 ván xếp hạng.
+The last word	Lời cuối cùng
+Win 500 rated games on the 8-ball.	Thắng 500 ván xếp hạng bằng bi số 8.
+Seventh heaven	Chín tầng mây
+Win 7 rated games in a row.	Thắng liên tiếp 7 ván xếp hạng.
+Clinical	Chuẩn xác
+Break and run 5 times.	Phá bi dọn bàn 5 lần.
+Iron curtain	Bức màn sắt
+Win 25 rated shutouts.	Thắng trắng 25 ván xếp hạng.
+Win 10 tournaments.	Thắng 10 giải đấu.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Thắng một ván xếp hạng trong mùa lễ hội Carnival (1/2 – 10/3).
+June festival	Lễ hội tháng Sáu
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Thắng một ván xếp hạng trong các lễ hội tháng Sáu (1/6 – 30/6).
+Three in one	Ba trong một
+Pocket three of your balls with one shot (not the break).	Đưa ba bi của bạn vào lỗ chỉ với một cú đánh (không tính cú phá).
+Pocket balls in four different pockets with one shot (not the break).	Đưa bi vào bốn lỗ khác nhau chỉ với một cú đánh (không tính cú phá).
+Thunder break	Cú phá sấm sét
+Pocket five balls on the break.	Đưa năm bi vào lỗ khi phá.
+Spotted	Đúng chỗ
+Pocket the 8-ball on the break in a game under the official rules.	Đưa bi số 8 vào lỗ khi phá trong ván chơi theo luật chính thức.
+Win a rated game after being six balls behind.	Thắng một ván xếp hạng sau khi bị dẫn sáu bi.
+Last stand	Trận chiến cuối cùng
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Thắng một ván xếp hạng sau khi đối thủ đã tới bi số 8 trong khi bạn vẫn còn năm bi trở lên.
+Stolen table	Bàn bị đánh cắp
+Win a rated game from your opponent's break without them getting another shot.	Thắng một ván xếp hạng từ cú phá của đối thủ mà không để họ đánh thêm lần nào.
+Marathon	Marathon
+Win a rated game that lasted 60 shots or more.	Thắng một ván xếp hạng kéo dài 60 cú đánh trở lên.
+Ugly but it counts	Xấu nhưng vẫn tính
+Win a rated game in which you fouled four times or more.	Thắng một ván xếp hạng mà bạn phạm bốn lỗi trở lên.
+This item can't be given: it stays with whoever won it.	Vật phẩm này không thể tặng: nó thuộc về người đã giành được.
 Current prize: {n} coins	Giải thưởng hiện tại: {n} xu
 Champion wins: {item}	Nhà vô địch nhận: {item}
 {h} h {m} min	{h} giờ {m} phút
@@ -2157,7 +2342,6 @@ Champion wins: {item}	Nhà vô địch nhận: {item}
 {s} s	{s} giây
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Ngày thứ {d} liên tiếp: +{n} xu. Ngày mai: +{m}.
 Auctions ({n})	Đấu giá ({n})
-Auctions	Đấu giá
 Supporters	Người ủng hộ
 Maintenance in {t}: the server stops for about {m} min.	Bảo trì sau {t}: máy chủ dừng khoảng {m} phút.
 Maintenance: the server is stopping. Games in progress go on.	Bảo trì: máy chủ đang dừng. Các ván đang chơi vẫn tiếp tục.

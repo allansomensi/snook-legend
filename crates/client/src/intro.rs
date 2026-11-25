@@ -146,6 +146,18 @@ pub fn card(ui: &mut Ui, intro: &Intro, seat: usize, r: Rect) {
     let line =
         if p.guest { t("Guest").to_string() } else { format!("{rating} · {}", t(tier.name())) };
     ui.text_centered(&line, c.x, r.y + 166.0, 17.0, accent, true);
+    // An epic or legendary cue shows: the card glows in its rarity's colour,
+    // with a gem and the cue's name.
+    if let Some(rarity) = crate::collection::rare_cue(&p.cue) {
+        let gem = crate::collection::rare_cue_badge(r, rarity, get_time() as f32);
+        let tip = crate::collection::rare_cue_tip(&p.cue, rarity);
+        let color = crate::collection::rarity_color(rarity);
+        let (text, size) = ui.fitted(&tip, 12.0, r.w - 28.0, true);
+        ui.text_centered(&text, c.x, r.y + 190.0, size, color, true);
+        if ui.hovering(gem) {
+            ui.tooltip(&tip, gem);
+        }
+    }
     let who = if seat == intro.seat && !intro.spectating { t("You") } else { "" };
     if !who.is_empty() {
         ui.text_centered(who, c.x, r.y + 12.0, 12.0, MUTED, true);

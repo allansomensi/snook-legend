@@ -20,6 +20,7 @@ pub mod daily;
 pub mod dm;
 pub mod drills;
 pub mod events;
+pub mod feats;
 pub mod ghost;
 pub mod inbox;
 pub mod ladder;

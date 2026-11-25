@@ -7,6 +7,7 @@ use sqlx::{Row, query};
 use snook_legend_proto::CareerNumbers;
 use snook_legend_proto::replay::Replay;
 
+mod collection;
 mod correspondence;
 mod match_social;
 mod moderation;

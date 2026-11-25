@@ -11,6 +11,7 @@ use axum::extract::State;
 use axum::http::{HeaderMap, StatusCode};
 use axum::response::{Html, IntoResponse, Response};
 use serde_json::Value;
+use snook_legend_proto::collection::Origin;
 use snook_legend_proto::shop::{
     self, COIN_PACKS, Category, Price, VIP_GIFT, VIP_GIFT_SECS, VIP_MONTHLY_COINS, VIP_PLAN,
     WELCOME_COINS, WELCOME_ITEMS, WELCOME_PACK,
@@ -178,6 +179,8 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
             match server.store.buy_item(me.id, item.code, price as i64, now()).await {
                 Ok(BuyOutcome::Bought) => {
                     tracing::info!(user = me.id, item = item.code, price, "item bought");
+                    let origin = Origin::Bought { price: price as i64 };
+                    crate::collection::record(server, me.id, item.code, origin).await;
                     // Bought to be used: put it on straight away (a
                     // reaction is simply kept).
                     if item.category != Category::Reaction {
@@ -196,6 +199,11 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
         }
         ClientMsg::GiftItem { to, code, message } => {
             let Some(item) = shop::item(&code) else { return error("No such item.") };
+            // Items won (achievements', champions', events') stay with whoever
+            // won them.
+            if shop::bound(item) {
+                return error("This item can't be given: it stays with whoever won it.");
+            }
             let Some(_) = item.coins() else {
                 return error("Only items sold for coins can be given.");
             };
@@ -235,6 +243,8 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
             {
                 Ok((BuyOutcome::Bought, gift_id)) => {
                     tracing::info!(from = me.id, to = friend.id, item = item.code, "item given");
+                    let origin = Origin::Gift { from: me.username.clone() };
+                    crate::collection::record(server, friend.id, item.code, origin).await;
                     send(ServerMsg::ItemBought {
                         code: item.code.to_string(),
                         gift_to: Some(friend.username.clone()),
@@ -719,6 +729,7 @@ async fn welcome_paid(server: &Server, user: &User, obj: &Value) -> Result<(), S
         .map_err(err)?;
     for code in WELCOME_ITEMS {
         server.store.grant_item(user.id, code, "welcome pack", now()).await.map_err(err)?;
+        crate::collection::record(server, user.id, code, Origin::WelcomePack).await;
     }
     let applied = server
         .store

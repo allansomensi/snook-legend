@@ -7,6 +7,7 @@ use snook_legend_proto::{LeaderboardEntry, PerRules, Role, Rules};
 
 use snook_legend_proto::CareerNumbers;
 
+mod collection;
 mod correspondence;
 mod match_social;
 mod moderation;
@@ -109,6 +110,8 @@ struct Inner {
     challenge: HashMap<i64, (u32, u32, i64)>,
     /// The inbox and the moderation (see `moderation.rs`).
     moderation: moderation::State,
+    /// (user, item) -> when and how it was got (see `collection.rs`).
+    acquired: HashMap<(i64, String), collection::Acquired>,
     /// Operations and the economy (see `ops.rs`).
     ops: ops::State,
     /// user -> (settings, saved at) (see `match_social.rs`).
@@ -1829,23 +1832,19 @@ impl MemoryStore {
         }
         w.coins -= price;
         w.owned.push(code.to_string());
+        s.acquired.insert((user_id, code.to_string()), collection::acquired(at, "coins"));
         s.ledger.push((user_id, -price, format!("buy {code}"), None, at));
         Ok(BuyOutcome::Bought)
     }
 
-    pub fn grant_item(
-        &self,
-        user_id: i64,
-        code: &str,
-        _source: &str,
-        _at: i64,
-    ) -> StoreResult<bool> {
+    pub fn grant_item(&self, user_id: i64, code: &str, source: &str, at: i64) -> StoreResult<bool> {
         let mut s = self.lock();
         let w = s.wallets.entry(user_id).or_default();
         if w.owned.iter().any(|o| o == code) {
             return Ok(false);
         }
         w.owned.push(code.to_string());
+        s.acquired.insert((user_id, code.to_string()), collection::acquired(at, source));
         Ok(true)
     }
 
@@ -1854,7 +1853,9 @@ impl MemoryStore {
         let Some(w) = s.wallets.get_mut(&user_id) else { return Ok(0) };
         let before = w.owned.len();
         w.owned.retain(|o| !codes.contains(&o.as_str()));
-        Ok((before - w.owned.len()) as u64)
+        let removed = (before - w.owned.len()) as u64;
+        s.acquired.retain(|(u, c), _| *u != user_id || !codes.contains(&c.as_str()));
+        Ok(removed)
     }
 
     pub fn equip(&self, user_id: i64, category: &str, code: &str) -> StoreResult<()> {
@@ -2084,6 +2085,8 @@ impl MemoryStore {
         }
         payer.coins -= price;
         s.wallets.entry(to).or_default().owned.push(code.to_string());
+        s.acquired
+            .insert((to, code.to_string()), collection::acquired(at, &format!("gift:{from}")));
         s.ledger.push((from, -price, format!("gift {code} to {to}"), None, at));
         let id = s.add_gift(gift);
         Ok((BuyOutcome::Bought, Some(id)))

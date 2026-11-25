@@ -941,7 +941,7 @@ impl Scene {
             toward,
             40,
             12,
-            Color::new(1.0, 1.0, 1.0, 0.30),
+            crate::perks::aim(0.30),
         );
         self.materials.use_blended(Surface::lit(0.6, 60.0, 0.0, 0.0));
         b.build_dynamic(&self.white).draw();
@@ -1191,7 +1191,8 @@ pub fn cue_mesh(
         });
     }
     m.frustum(1.10, 0.0125, 1.115, 0.0126, 16, c(ring)); // ring
-    m.frustum(1.115, 0.0126, 1.35, 0.0138, 16, c(accent)); // wrap
+    // The wrap (a dark leather on the finest, see `cues::wrap_color`).
+    m.frustum(1.115, 0.0126, 1.35, 0.0138, 16, crate::cues::wrap_color(style, paint));
     if crate::cues::paints_sleeve(style) {
         // The finest cues carry the pattern on the butt sleeve too.
         m.painted_frustum(1.35, 0.0138, 1.47, 0.0148, round, along / 3, |u, v| {
@@ -1420,6 +1421,22 @@ pub fn ball_surface(finish: BallFinish) -> Surface {
         }
         BallFinish::Matte => {
             Surface { specular: 0.025, shininess: 9.0, rim: 0.0, coat: 0.03, ..Surface::BALL }
+        }
+        // Polished stone: a hard, even polish.
+        BallFinish::Marble => {
+            Surface { specular: 0.09, shininess: 48.0, rim: 0.03, coat: 0.14, ..Surface::BALL }
+        }
+        // A deep clear coat over the stars.
+        BallFinish::Galaxy => {
+            Surface { specular: 0.12, shininess: 60.0, rim: 0.10, coat: 0.2, ..Surface::BALL }
+        }
+        // Lit from within: a strong rim of light and a soft sheen.
+        BallFinish::Glow => {
+            Surface { specular: 0.06, shininess: 26.0, rim: 0.34, coat: 0.08, ..Surface::BALL }
+        }
+        // Cut glass: the brightest glints and reflections of all.
+        BallFinish::Crystal => {
+            Surface { specular: 0.36, shininess: 110.0, rim: 0.16, coat: 0.38, ..Surface::BALL }
         }
     }
 }

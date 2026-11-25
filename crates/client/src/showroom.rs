@@ -1126,6 +1126,10 @@ impl Showroom {
                 BallFinish::Pearl => t("A pearly sheen that shifts with the light"),
                 BallFinish::Metal => t("Brushed metal, bright as a mirror"),
                 BallFinish::Matte => t("Old ivory: soft, warm and matte"),
+                BallFinish::Marble => t("Polished stone, veined right through"),
+                BallFinish::Galaxy => t("A night sky in every ball, under a clear coat"),
+                BallFinish::Glow => t("Lit from within, like neon"),
+                BallFinish::Crystal => t("Cut glass: deep colour and a dazzling shine"),
             }
             .to_string(),
             Look::Table(style) => table_description(style).to_string(),
@@ -1272,6 +1276,14 @@ fn table_description(style: TableStyle) -> &'static str {
         TableStyle::Tournament => t("A pro tournament table: charcoal rails, block legs, chrome"),
         TableStyle::Heritage => t("Figured walnut on barley-twist legs, brass and leather"),
         TableStyle::Deco => t("Ivory lacquer and gold on fluted columns"),
+        TableStyle::Marble => t("White Carrara marble, gold castings and fluted columns"),
+        TableStyle::Neon => t("Black gloss on slab legs, with a neon glow beneath"),
+        TableStyle::Carbon => t("Woven carbon rails, red trim and a light strip"),
+        TableStyle::Copper => t("Dark walnut and polished copper on a riveted steel frame"),
+        TableStyle::Ice => t("Frosted lacquer and silver, with a cold light beneath"),
+        TableStyle::Volcano => t("Black volcanic stone, cracked with molten orange"),
+        TableStyle::Rustic => t("Rough pine on square posts, with iron castings"),
+        TableStyle::Champion => t("Black lacquer and gold: the season champion's table"),
     }
 }
 
@@ -1285,6 +1297,7 @@ fn hall_description(style: HallStyle) -> &'static str {
         HallStyle::Arcade => t("A black mirror floor, neon tubes and arcade cabinets"),
         HallStyle::Deco => t("A marble chessboard floor, gold, velvet and mirrors"),
         HallStyle::Penthouse => t("Glass walls on the city at night, pale marble and oak"),
+        HallStyle::Arena => t("The table alone under the spotlight, dark stands and TV lights"),
     }
 }
 
@@ -1306,7 +1319,7 @@ mod tests {
                 assert_eq!(s.clamp(view), view, "{}: {label}", item.code);
             }
             if matches!(s.kind, Kind::Table | Kind::Cloth) {
-                assert_eq!(s.settings.len(), 9, "{}: the studio and the eight halls", item.code);
+                assert_eq!(s.settings.len(), 10, "{}: the studio and the nine halls", item.code);
             }
         }
         assert!(Showroom::open("frame_gold", &snook_legend_core::Table::default()).is_none());

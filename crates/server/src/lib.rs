@@ -25,6 +25,7 @@ pub mod daily;
 pub mod dm;
 pub mod drills;
 pub mod events;
+pub mod feats;
 pub mod inbox;
 pub mod lan;
 pub mod limits;
@@ -793,7 +794,10 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                     server.invalidate_leaderboard();
                     // The shot analysis replays the game: off the effect queue.
                     let (s, r) = (server.clone(), record.clone());
-                    tokio::spawn(async move { analysis::after_match(&s, &r).await });
+                    tokio::spawn(async move {
+                        analysis::after_match(&s, &r).await;
+                        feats::after_match(&s, &r).await;
+                    });
                     // Coins for a rated game played (not two friends farming
                     // each other); left half way, only the one who stayed
                     // is paid.

@@ -27,6 +27,8 @@ pub struct Palette {
     pub colors: [[u8; 3]; 7],
     pub eight: [u8; 3],
     pub ivory: [u8; 3],
+    /// Marble veins and galaxy stars are painted into the balls.
+    pub finish: snook_legend_proto::shop::BallFinish,
 }
 
 impl Palette {
@@ -35,10 +37,15 @@ impl Palette {
         let item = snook_legend_proto::shop::item(code)
             .or_else(|| snook_legend_proto::shop::item("balls_classic"));
         match item.map(|i| i.look) {
-            Some(snook_legend_proto::shop::Look::Balls { colors, eight, ivory, .. }) => {
-                Palette { colors, eight, ivory }
+            Some(snook_legend_proto::shop::Look::Balls { colors, eight, ivory, finish }) => {
+                Palette { colors, eight, ivory, finish }
             }
-            _ => Palette { colors: [[255, 204, 10]; 7], eight: [22, 22, 24], ivory: IVORY },
+            _ => Palette {
+                colors: [[255, 204, 10]; 7],
+                eight: [22, 22, 24],
+                ivory: IVORY,
+                finish: snook_legend_proto::shop::BallFinish::Gloss,
+            },
         }
     }
 }
@@ -173,6 +180,7 @@ fn ball_surface_f(id: BallId, p: Vec3, pal: &Palette, label: Option<&Label>, px:
         _ => 1.0,
     };
     let mut c = mix(f(ivory), color, band);
+    c = finish_pattern(pal.finish, p, c, px);
     // A large number circle with big, bold digits: readable from across the table.
     let spot_angle: f32 = 0.56;
     for (s, e1) in [(Vec3::Z, Vec3::X), (-Vec3::Z, -Vec3::X)] {
@@ -188,6 +196,56 @@ fn ball_surface_f(id: BallId, p: Vec3, pal: &Palette, label: Option<&Label>, px:
         }
     }
     c
+}
+
+/// What a finish paints into a ball's body (`p`: the direction on the ball;
+/// `c`: its colour there): veins through marble, stars in a galaxy. Kept
+/// gentle, so that every ball keeps its own colour at a glance.
+fn finish_pattern(
+    finish: snook_legend_proto::shop::BallFinish,
+    p: Vec3,
+    c: [f32; 3],
+    px: f32,
+) -> [f32; 3] {
+    use snook_legend_proto::shop::BallFinish;
+    match finish {
+        BallFinish::Marble => {
+            // Veins winding through the stone: one bold, finer ones round it.
+            let warp = (p.y * 3.1 + p.z * 2.3).sin() * 0.9 + (p.x * 4.7 - p.z * 1.9).sin() * 0.5;
+            let vein = (p.x * 5.0 + p.y * 3.0 + warp * 1.6).sin();
+            let fine = (p.z * 11.0 - p.y * 7.0 + warp * 3.0).sin();
+            let bold = coverage(0.07 - vein.abs(), px * 6.0);
+            let thin = coverage(0.03 - fine.abs(), px * 6.0) * 0.5;
+            let cloud = 1.0 + 0.06 * ((p.x * 2.0 + p.y).sin() * (p.z * 3.0 - p.x).cos());
+            let base = c.map(|v| (v * cloud).min(255.0));
+            let light = base.map(|v| v + (255.0 - v) * 0.55);
+            let k = (bold + thin).min(1.0);
+            [0, 1, 2].map(|i| base[i] + (light[i] - base[i]) * k)
+        }
+        BallFinish::Galaxy => {
+            // Starlight: tiny specks, a few bright ones, and a faint swirl of
+            // lighter dust through the colour.
+            let q = p * 34.0;
+            let cell = (q.x.floor() as i32, q.y.floor() as i32, q.z.floor() as i32);
+            let h = hash(cell.0, cell.1 * 7919 + cell.2, 77);
+            let f = q - Vec3::new(q.x.floor(), q.y.floor(), q.z.floor()) - Vec3::splat(0.5);
+            let d = f.length();
+            let star =
+                if h > 0.86 { coverage(0.16 - d, 0.12) * (0.5 + (h - 0.86) / 0.28) } else { 0.0 };
+            let dust = ((p.x * 3.0 + p.y * 5.0).sin() * (p.z * 4.0 - p.y * 2.0).cos()).max(0.0);
+            // A cool nebula drifting through the colour.
+            let nebula = [150.0, 160.0, 255.0];
+            let base: [f32; 3] =
+                [0, 1, 2].map(|i| c[i] * (0.82 + 0.16 * dust) + (nebula[i] - c[i]) * 0.14 * dust);
+            [0, 1, 2].map(|i| base[i] + (255.0 - base[i]) * star.min(1.0))
+        }
+        BallFinish::Glow => {
+            // Brighter and more saturated, as if lit from inside.
+            let mean = (c[0] + c[1] + c[2]) / 3.0;
+            c.map(|v| (mean + (v - mean) * 1.15).clamp(0.0, 255.0))
+        }
+        _ => c,
+    }
 }
 
 /// [`ball_surface_f`] at the centre of a texel of a 1024-wide texture.

@@ -2150,6 +2150,191 @@ Equip now	Equipar agora
 Open the collection	Abrir a coleção
 Auctions	Leilões
 The staff ended your game without a result. Sign in again.	A equipe encerrou sua partida sem resultado. Entre de novo.
+A secret achievement: play to find it.	Uma conquista secreta: jogue para descobri-la.
+Only won	Só se ganha
+Collection	Coleção
+Everything you have, and how you got it	Tudo o que você tem, e como conseguiu
+A secret achievement	Uma conquista secreta
+Not yet yours	Ainda não é seu
+Rarest first	Mais raros primeiro
+Newest first	Mais recentes primeiro
+By name	Por nome
+Reaction	Reação
+Bought for {n} coins	Comprado por {n} moedas
+Bought in the shop	Comprado na loja
+Gift from {name}	Presente de {name}
+A present from the staff	Um presente da equipe
+From the staff: {reason}	Da equipe: {reason}
+Champion of {name}	Campeão de {name}
+Runner-up of {name}	Vice-campeão de {name}
+Place {n} in {name}	{n}º lugar em {name}
+Achievement: {title}	Conquista: {title}
+Won at auction for {n} coins	Arrematado em leilão por {n} moedas
+VIP's item of the month · {month}	Item VIP do mês · {month}
+Prize of {name}	Prêmio de {name}
+Yours	Seu
+VIP's item of the month: VIP members get it that month	Item VIP do mês: os membros VIP ganham naquele mês
+Only the season's champion wins it	Só o campeão da temporada ganha
+Won in the official tournaments	Ganho nos torneios oficiais
+Only won: events, cups and seasons	Só se ganha: eventos, copas e temporadas
+In the welcome pack	No pacote de boas-vindas
+Yours while you are VIP	Seu enquanto você for VIP
+Legendary cue	Taco lendário
+Epic cue	Taco épico
+{n} of {total} items	{n} de {total} itens
+Sign in to see your collection.	Entre para ver sua coleção.
+Missing too	Mostrar os que faltam
+Nothing of this rarity here.	Nada dessa raridade aqui.
+None yet: they are waiting to be won.	Nenhum ainda: estão esperando para ser ganhos.
+Page {a} of {b}	Página {a} de {b}
+In the shop	Na loja
+Everything you have	Tudo o que você tem
+Show reactions	Mostrar reações
+Off: no reactions are shown during matches, from anyone.	Desligado: nenhuma reação é mostrada nas partidas, de ninguém.
+The colour of your aim line and ghost ball.	A cor da sua linha de mira e da bola fantasma.
+For VIP members: the colour of the aim line and the ghost ball.	Para membros VIP: a cor da linha de mira e da bola fantasma.
+Aim colour	Cor da mira
+Polished stone, veined right through	Pedra polida, com veios por inteiro
+A night sky in every ball, under a clear coat	Um céu noturno em cada bola, sob o verniz
+Lit from within, like neon	Iluminadas por dentro, como neon
+Cut glass: deep colour and a dazzling shine	Vidro lapidado: cor profunda e um brilho deslumbrante
+White Carrara marble, gold castings and fluted columns	Mármore de Carrara branco, ferragens douradas e colunas caneladas
+Black gloss on slab legs, with a neon glow beneath	Preto brilhante sobre pés de placa, com um brilho neon por baixo
+Woven carbon rails, red trim and a light strip	Bordas de carbono trançado, detalhes vermelhos e uma faixa de luz
+Dark walnut and polished copper on a riveted steel frame	Nogueira escura e cobre polido sobre estrutura de aço rebitado
+Frosted lacquer and silver, with a cold light beneath	Laca fosca e prata, com uma luz fria por baixo
+Black volcanic stone, cracked with molten orange	Pedra vulcânica negra, rachada de laranja incandescente
+Rough pine on square posts, with iron castings	Pinho rústico sobre pés quadrados, com ferragens de ferro
+Black lacquer and gold: the season champion's table	Laca preta e ouro: a mesa do campeão da temporada
+The table alone under the spotlight, dark stands and TV lights	A mesa sozinha sob o holofote, arquibancadas escuras e luzes de TV
+Crimson velvet	Veludo carmim
+Eclipse	Eclipse
+Arena blue	Azul arena
+Millennium gold	Ouro do milênio
+Holly	Azevinho
+Winter frost	Geada de inverno
+Rainforest	Floresta tropical
+Bonfire	Fogueira
+Spring meadow	Campo de primavera
+Gold filigree	Filigrana de ouro
+Thunderbolt	Raio
+Damascus steel	Aço damasco
+Glacier	Geleira
+Abalone	Abalone
+Volcano	Vulcão
+Aurora	Aurora
+Emperor	Imperador
+Untouchable	Intocável
+Midas	Midas
+Empire	Império
+Millennium	Milênio
+Four corners	Quatro cantos
+Back from the dead	De volta dos mortos
+Season champion	Campeão da temporada
+Candy cane	Bengala de Natal
+Countdown	Contagem regressiva
+Carnival	Carnaval
+Easter egg	Ovo de Páscoa
+Festa junina	Festa junina
+Spider web	Teia de aranha
+Winter cup	Copa de inverno
+Summer cup	Copa de verão
+Anniversary	Aniversário
+World cup	Copa do Mundo
+New dawn	Novo amanhecer
+Sakura	Sakura
+Tide	Maré
+Witching hour	Hora das bruxas
+Diamond dust chalk	Giz de pó de diamante
+Champion's chalk	Giz do campeão
+Marble	Mármore
+Glow	Brilho
+Crystal	Cristal
+Crown jewels	Joias da coroa
+Champion's gold	Ouro do campeão
+Christmas baubles	Bolas de Natal
+Haunted	Assombrado
+Copper works	Oficina de cobre
+Carbon racer	Carbono de corrida
+Neon night	Noite neon
+Ice palace	Palácio de gelo
+Country barn	Celeiro do interior
+Pro arena	Arena profissional
+Obsidian	Obsidiana
+Prism	Prisma
+Phantom	Fantasma
+Pro tour	Circuito profissional
+Rose garden	Jardim de rosas
+Golden hour	Hora dourada
+Hearts	Corações
+Thunderstorm	Tempestade
+Black hole	Buraco negro
+Shooting stars	Estrelas cadentes
+Snowfall	Nevasca
+Champion's fireworks	Fogos do campeão
+Crown of glory	Coroa de glória
+Fingers crossed	Dedos cruzados
+Call me	Me liga
+Nerd	Nerd
+Money face	Cara de dinheiro
+Monocle	Monóculo
+Facepalm	Facepalm
+Shrug	Sei lá
+Hands up	Mãos para o alto
+Melting	Derretendo
+Alien	Alienígena
+Clown	Palhaço
+Little devil	Diabinho
+Angel	Anjo
+Bomb	Bomba
+Money bag	Saco de dinheiro
+Crystal ball	Bola de cristal
+Tornado	Tornado
+Dragon	Dragão
+Santa	Papai Noel
+Snowflake	Floco de neve
+Summer sun	Sol de verão
+Easter bunny	Coelho da Páscoa
+Football	Futebol
+Balloon	Balão
+Season medal	Medalha da temporada
+Common	Comum
+Rare	Raro
+Epic	Épico
+Legendary	Lendário
+Institution	Instituição
+Play 2,500 rated games.	Jogue 2.500 partidas valendo rating.
+Living legend	Lenda viva
+Win 1,000 rated games.	Vença 1.000 partidas valendo rating.
+The last word	A última palavra
+Win 500 rated games on the 8-ball.	Vença 500 partidas valendo rating na bola 8.
+Seventh heaven	Sétimo céu
+Win 7 rated games in a row.	Vença 7 partidas valendo rating seguidas.
+Clinical	Clínico
+Break and run 5 times.	Faça 5 vezes a saída e limpe a mesa.
+Iron curtain	Cortina de ferro
+Win 25 rated shutouts.	Vença 25 partidas valendo rating sem o adversário encaçapar nenhuma bola.
+Win 10 tournaments.	Vença 10 torneios.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Vença uma partida valendo rating na época do Carnaval (1/fev – 10/mar).
+June festival	Festa junina
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Vença uma partida valendo rating durante as festas juninas (1/jun – 30/jun).
+Three in one	Três de uma vez
+Pocket three of your balls with one shot (not the break).	Encaçape três bolas suas numa só tacada (fora a saída).
+Pocket balls in four different pockets with one shot (not the break).	Encaçape bolas em quatro caçapas diferentes numa só tacada (fora a saída).
+Thunder break	Saída trovão
+Pocket five balls on the break.	Encaçape cinco bolas na saída.
+Spotted	Na marca
+Pocket the 8-ball on the break in a game under the official rules.	Encaçape a bola 8 na saída numa partida pela regra oficial.
+Win a rated game after being six balls behind.	Vença uma partida valendo rating depois de estar seis bolas atrás.
+Last stand	Última resistência
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Vença uma partida valendo rating depois que o adversário estava na bola 8 e você ainda tinha cinco bolas ou mais.
+Stolen table	Mesa roubada
+Win a rated game from your opponent's break without them getting another shot.	Vença uma partida valendo rating a partir da saída do adversário sem que ele dê outra tacada.
+Marathon	Maratona
+Win a rated game that lasted 60 shots or more.	Vença uma partida valendo rating que durou 60 tacadas ou mais.
+Ugly but it counts	Feio, mas vale
+Win a rated game in which you fouled four times or more.	Vença uma partida valendo rating em que você cometeu quatro faltas ou mais.
+This item can't be given: it stays with whoever won it.	Este item não pode ser dado: fica com quem o ganhou.
 Current prize: {n} coins	Prêmio atual: {n} moedas
 Champion wins: {item}	O campeão ganha: {item}
 {h} h {m} min	{h} h {m} min
@@ -2157,7 +2342,6 @@ Champion wins: {item}	O campeão ganha: {item}
 {s} s	{s} s
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	{d}º dia seguido: +{n} moedas. Amanhã: +{m}.
 Auctions ({n})	Leilões ({n})
-Auctions	Leilões
 Supporters	Apoiadores
 Maintenance in {t}: the server stops for about {m} min.	Manutenção em {t}: o servidor para por cerca de {m} min.
 Maintenance: the server is stopping. Games in progress go on.	Manutenção: o servidor está parando. As partidas em andamento continuam.

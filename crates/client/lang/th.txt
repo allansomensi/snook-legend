@@ -2150,6 +2150,191 @@ Equip now	สวมใส่เลย
 Open the collection	เปิดคอลเลกชัน
 Auctions	การประมูล
 The staff ended your game without a result. Sign in again.	ทีมงานจบเกมของคุณโดยไม่มีผล ลงชื่อเข้าใช้อีกครั้ง
+A secret achievement: play to find it.	ความ​สำเร็จ​ลับ: เล่น​เพื่อ​ค้นหา
+Only won	ได้​จาก​การ​ชนะ​เท่านั้น
+Collection	คอลเลกชัน
+Everything you have, and how you got it	ทุก​อย่าง​ที่​คุณ​มี และ​ได้​มา​อย่างไร
+A secret achievement	ความ​สำเร็จ​ลับ
+Not yet yours	ยัง​ไม่​ใช่​ของ​คุณ
+Rarest first	หายาก​ที่สุด​ก่อน
+Newest first	ใหม่​ที่สุด​ก่อน
+By name	ตาม​ชื่อ
+Reaction	รีแอคชัน
+Bought for {n} coins	ซื้อ​ด้วย {n} เหรียญ
+Bought in the shop	ซื้อ​จาก​ร้านค้า
+Gift from {name}	ของขวัญ​จาก {name}
+A present from the staff	ของขวัญ​จาก​ทีมงาน
+From the staff: {reason}	จาก​ทีมงาน: {reason}
+Champion of {name}	แชมป์ {name}
+Runner-up of {name}	รอง​แชมป์ {name}
+Place {n} in {name}	อันดับ {n} ใน {name}
+Achievement: {title}	ความ​สำเร็จ: {title}
+Won at auction for {n} coins	ชนะ​การ​ประมูล​ด้วย {n} เหรียญ
+VIP's item of the month · {month}	ไอเทม VIP ประจำ​เดือน · {month}
+Prize of {name}	รางวัล​จาก {name}
+Yours	ของ​คุณ
+VIP's item of the month: VIP members get it that month	ไอเทม VIP ประจำ​เดือน: สมาชิก VIP ได้​รับ​ใน​เดือน​นั้น
+Only the season's champion wins it	มี​แต่​แชมป์​ประจำ​ฤดูกาล​ที่​ได้​รับ
+Won in the official tournaments	ได้​จาก​ทัวร์นาเมนต์​ทางการ
+Only won: events, cups and seasons	ได้​จาก​การ​ชนะ​เท่านั้น: อีเวนต์ ถ้วย และ​ฤดูกาล
+In the welcome pack	อยู่​ใน​แพ็ก​ต้อนรับ
+Yours while you are VIP	ของ​คุณ​ตราบ​ที่​คุณ​เป็น VIP
+Legendary cue	ไม้คิว​ระดับ​ตำนาน
+Epic cue	ไม้คิว​ระดับ​มหากาพย์
+{n} of {total} items	{n} จาก {total} ไอเทม
+Sign in to see your collection.	ลงชื่อ​เข้า​ใช้​เพื่อ​ดู​คอลเลกชัน​ของ​คุณ
+Missing too	รวม​ที่​ยัง​ขาด
+Nothing of this rarity here.	ไม่​มี​ระดับ​ความ​หายาก​นี้​ที่​นี่
+None yet: they are waiting to be won.	ยัง​ไม่​มี: กำลัง​รอ​ให้​คุณ​ชนะ
+Page {a} of {b}	หน้า {a} จาก {b}
+In the shop	ใน​ร้านค้า
+Everything you have	ทุก​อย่าง​ที่​คุณ​มี
+Show reactions	แสดง​รีแอคชัน
+Off: no reactions are shown during matches, from anyone.	ปิด: ไม่​แสดง​รีแอคชัน​ของ​ใคร​ระหว่าง​แมตช์
+The colour of your aim line and ghost ball.	สี​ของ​เส้น​เล็ง​และ​ลูก​เงา​ของ​คุณ
+For VIP members: the colour of the aim line and the ghost ball.	สำหรับ​สมาชิก VIP: สี​ของ​เส้น​เล็ง​และ​ลูก​เงา
+Aim colour	สี​เส้น​เล็ง
+Polished stone, veined right through	หิน​ขัด​เงา มี​ลาย​ทะลุ​ตลอด
+A night sky in every ball, under a clear coat	ท้องฟ้า​ยาม​ค่ำคืน​ใน​ทุก​ลูก ใต้​ชั้น​เคลือบ​เงา
+Lit from within, like neon	เรือง​แสง​จาก​ภายใน เหมือน​นีออน
+Cut glass: deep colour and a dazzling shine	แก้ว​เจียระไน: สี​ลึก​และ​ประกาย​ระยิบ
+White Carrara marble, gold castings and fluted columns	หินอ่อน​คาร์รารา​สีขาว อุปกรณ์​สีทอง และ​เสา​ร่อง
+Black gloss on slab legs, with a neon glow beneath	ดำ​เงา​บน​ขา​แผ่น พร้อม​แสง​นีออน​ด้าน​ล่าง
+Woven carbon rails, red trim and a light strip	ราง​คาร์บอน​ถัก ลวดลาย​สีแดง และ​แถบ​ไฟ
+Dark walnut and polished copper on a riveted steel frame	วอลนัต​เข้ม​และ​ทองแดง​ขัด​เงา​บน​โครง​เหล็ก​ย้ำ​หมุด
+Frosted lacquer and silver, with a cold light beneath	แล็กเกอร์​ฝ้า​และ​เงิน พร้อม​แสง​เย็น​ด้าน​ล่าง
+Black volcanic stone, cracked with molten orange	หิน​ภูเขาไฟ​สีดำ แตก​ร้าว​ด้วย​สี​ส้ม​ลุก​โชน
+Rough pine on square posts, with iron castings	ไม้สน​หยาบ​บน​ขา​สี่เหลี่ยม พร้อม​อุปกรณ์​เหล็ก
+Black lacquer and gold: the season champion's table	แล็กเกอร์​ดำ​และ​ทอง: โต๊ะ​ของ​แชมป์​ประจำ​ฤดูกาล
+The table alone under the spotlight, dark stands and TV lights	โต๊ะ​ตัว​เดียว​ใต้​สปอตไลต์ อัฒจันทร์​มืด และ​ไฟ​ทีวี
+Crimson velvet	กำมะหยี่​แดง​เข้ม
+Eclipse	สุริยุปราคา
+Arena blue	น้ำเงิน​อารีนา
+Millennium gold	ทอง​แห่ง​สหัสวรรษ
+Holly	ฮอลลี
+Winter frost	น้ำค้าง​แข็ง​ฤดูหนาว
+Rainforest	ป่า​ฝน
+Bonfire	กองไฟ
+Spring meadow	ทุ่ง​หญ้า​ฤดูใบไม้ผลิ
+Gold filigree	ลาย​ฉลุ​ทอง
+Thunderbolt	อัสนี
+Damascus steel	เหล็ก​ดามัสกัส
+Glacier	ธารน้ำแข็ง
+Abalone	หอย​เป๋าฮื้อ
+Volcano	ภูเขาไฟ
+Aurora	แสง​เหนือ
+Emperor	จักรพรรดิ
+Untouchable	ไร้​เทียมทาน
+Midas	ไมดาส
+Empire	จักรวรรดิ
+Millennium	สหัสวรรษ
+Four corners	สี่​มุม
+Back from the dead	คืน​ชีพ
+Season champion	แชมป์​ประจำ​ฤดูกาล
+Candy cane	ลูกอม​ไม้เท้า
+Countdown	นับ​ถอยหลัง
+Carnival	คาร์นิวัล
+Easter egg	ไข่​อีสเตอร์
+Festa junina	Festa junina
+Spider web	ใย​แมงมุม
+Winter cup	ถ้วย​ฤดูหนาว
+Summer cup	ถ้วย​ฤดูร้อน
+Anniversary	ครบรอบ
+World cup	ฟุตบอล​โลก
+New dawn	รุ่ง​อรุณ​ใหม่
+Sakura	ซากุระ
+Tide	กระแส​น้ำ
+Witching hour	ยาม​แม่มด
+Diamond dust chalk	ชอล์ก​ผง​เพชร
+Champion's chalk	ชอล์ก​ของ​แชมป์
+Marble	หินอ่อน
+Glow	เรือง​แสง
+Crystal	คริสตัล
+Crown jewels	มงกุฎ​เพชร
+Champion's gold	ทอง​ของ​แชมป์
+Christmas baubles	ลูก​บอล​คริสต์มาส
+Haunted	ผี​สิง
+Copper works	โรง​งาน​ทองแดง
+Carbon racer	รถ​แข่ง​คาร์บอน
+Neon night	ราตรี​นีออน
+Ice palace	พระ​ราชวัง​น้ำแข็ง
+Country barn	ยุ้ง​ฉาง​ชนบท
+Pro arena	อารีนา​มือ​อาชีพ
+Obsidian	หิน​ออบซิเดียน
+Prism	ปริซึม
+Phantom	ภูต​ผี
+Pro tour	ทัวร์​มือ​อาชีพ
+Rose garden	สวน​กุหลาบ
+Golden hour	ชั่วโมง​ทอง
+Hearts	หัวใจ
+Thunderstorm	พายุ​ฝน​ฟ้า​คะนอง
+Black hole	หลุม​ดำ
+Shooting stars	ดาว​ตก
+Snowfall	หิมะ​ตก
+Champion's fireworks	พลุ​ของ​แชมป์
+Crown of glory	มงกุฎ​แห่ง​เกียรติยศ
+Fingers crossed	ไขว้​นิ้ว
+Call me	โทร​หา​ฉัน
+Nerd	เนิร์ด
+Money face	หน้า​เงิน
+Monocle	แว่น​ข้าง​เดียว
+Facepalm	กุม​ขมับ
+Shrug	ยัก​ไหล่
+Hands up	ชู​มือ
+Melting	ละลาย
+Alien	มนุษย์​ต่าง​ดาว
+Clown	ตัวตลก
+Little devil	ปีศาจ​น้อย
+Angel	นางฟ้า
+Bomb	ระเบิด
+Money bag	ถุง​เงิน
+Crystal ball	ลูกแก้ว​วิเศษ
+Tornado	ทอร์นาโด
+Dragon	มังกร
+Santa	ซานตา
+Snowflake	เกล็ด​หิมะ
+Summer sun	ดวง​อาทิตย์​ฤดูร้อน
+Easter bunny	กระต่าย​อีสเตอร์
+Football	ฟุตบอล
+Balloon	ลูกโป่ง
+Season medal	เหรียญ​ประจำ​ฤดูกาล
+Common	ธรรมดา
+Rare	หายาก
+Epic	มหากาพย์
+Legendary	ตำนาน
+Institution	สถาบัน
+Play 2,500 rated games.	เล่น​เกม​จัดอันดับ 2,500 เกม
+Living legend	ตำนาน​ที่​มี​ชีวิต
+Win 1,000 rated games.	ชนะ​เกม​จัดอันดับ 1,000 เกม
+The last word	คำ​สุดท้าย
+Win 500 rated games on the 8-ball.	ชนะ​เกม​จัดอันดับ​ด้วย​ลูก 8 จำนวน 500 เกม
+Seventh heaven	สวรรค์​ชั้น​เจ็ด
+Win 7 rated games in a row.	ชนะ​เกม​จัดอันดับ 7 เกม​ติดต่อกัน
+Clinical	แม่นยำ​ดั่ง​ศัลยแพทย์
+Break and run 5 times.	เบรก​เก็บ​เรียบ 5 ครั้ง
+Iron curtain	ม่าน​เหล็ก
+Win 25 rated shutouts.	ชนะ​เกม​จัดอันดับ​แบบ​คลีนชีต 25 ครั้ง
+Win 10 tournaments.	ชนะ​ทัวร์นาเมนต์ 10 ครั้ง
+Win a rated game in Carnival season (Feb 1 – Mar 10).	ชนะ​เกม​จัดอันดับ​ใน​ช่วง​คาร์นิวัล (1 ก.พ. – 10 มี.ค.)
+June festival	เทศกาล​เดือน​มิถุนายน
+Win a rated game during the June festivals (Jun 1 – Jun 30).	ชนะ​เกม​จัดอันดับ​ระหว่าง​เทศกาล​เดือน​มิถุนายน (1 – 30 มิ.ย.)
+Three in one	สาม​ใน​หนึ่ง
+Pocket three of your balls with one shot (not the break).	แทง​ลูก​ของ​คุณ​ลง 3 ลูก​ใน​ไม้​เดียว (ไม่​นับ​เบรก)
+Pocket balls in four different pockets with one shot (not the break).	แทง​ลูก​ลง​สี่​หลุม​ต่างกัน​ใน​ไม้​เดียว (ไม่​นับ​เบรก)
+Thunder break	เบรก​สายฟ้า
+Pocket five balls on the break.	แทง​ลูก​ลง 5 ลูก​ตอน​เบรก
+Spotted	ตรง​จุด
+Pocket the 8-ball on the break in a game under the official rules.	แทง​ลูก 8 ลง​ตอน​เบรก​ใน​เกม​กติกา​ทางการ
+Win a rated game after being six balls behind.	ชนะ​เกม​จัดอันดับ​หลัง​จาก​ตาม​หลัง​หก​ลูก
+Last stand	หยัด​ยืน​ครั้ง​สุดท้าย
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	ชนะ​เกม​จัดอันดับ​หลัง​จาก​คู่​แข่ง​อยู่​ที่​ลูก 8 แล้ว​ขณะ​ที่​คุณ​ยัง​เหลือ​ห้า​ลูก​ขึ้นไป
+Stolen table	โต๊ะ​ที่​ถูก​ขโมย
+Win a rated game from your opponent's break without them getting another shot.	ชนะ​เกม​จัดอันดับ​ตั้งแต่​เบรก​ของ​คู่​แข่ง​โดย​ไม่​ให้​เขา​ได้​แทง​อีก
+Marathon	มาราธอน
+Win a rated game that lasted 60 shots or more.	ชนะ​เกม​จัดอันดับ​ที่​ยาว 60 ไม้​ขึ้นไป
+Ugly but it counts	ไม่​สวย แต่​นับ
+Win a rated game in which you fouled four times or more.	ชนะ​เกม​จัดอันดับ​ที่​คุณ​ทำ​ฟาวล์​สี่​ครั้ง​ขึ้นไป
+This item can't be given: it stays with whoever won it.	ไอเทม​นี้​มอบ​ให้​ใคร​ไม่​ได้: อยู่​กับ​ผู้​ที่​ชนะ​มา
 Current prize: {n} coins	รางวัลตอนนี้: {n} เหรียญ
 Champion wins: {item}	แชมป์ได้รับ: {item}
 {h} h {m} min	{h} ชม. {m} นาที
@@ -2157,7 +2342,6 @@ Champion wins: {item}	แชมป์ได้รับ: {item}
 {s} s	{s} วินาที
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	วันที่ {d} ติดต่อกัน: +{n} เหรียญ พรุ่งนี้: +{m}
 Auctions ({n})	ประมูล ({n})
-Auctions	ประมูล
 Supporters	ผู้สนับสนุน
 Maintenance in {t}: the server stops for about {m} min.	ปิดปรับปรุงในอีก {t}: เซิร์ฟเวอร์หยุดประมาณ {m} นาที
 Maintenance: the server is stopping. Games in progress go on.	ปิดปรับปรุง: เซิร์ฟเวอร์กำลังหยุด เกมที่เล่นอยู่ดำเนินต่อ

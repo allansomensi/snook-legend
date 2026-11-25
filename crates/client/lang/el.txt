@@ -2150,6 +2150,191 @@ Equip now	Εξόπλισε τώρα
 Open the collection	Άνοιξε τη συλλογή
 Auctions	Δημοπρασίες
 The staff ended your game without a result. Sign in again.	Η ομάδα τερμάτισε το παιχνίδι σου χωρίς αποτέλεσμα. Συνδέσου ξανά.
+A secret achievement: play to find it.	Ένα μυστικό επίτευγμα: παίξε για να το βρεις.
+Only won	Μόνο κερδίζεται
+Collection	Συλλογή
+Everything you have, and how you got it	Όλα όσα έχεις, και πώς τα απέκτησες
+A secret achievement	Ένα μυστικό επίτευγμα
+Not yet yours	Δεν είναι ακόμα δικό σου
+Rarest first	Τα σπανιότερα πρώτα
+Newest first	Τα νεότερα πρώτα
+By name	Κατά όνομα
+Reaction	Αντίδραση
+Bought for {n} coins	Αγοράστηκε για {n} νομίσματα
+Bought in the shop	Αγοράστηκε από το κατάστημα
+Gift from {name}	Δώρο από {name}
+A present from the staff	Ένα δώρο από την ομάδα
+From the staff: {reason}	Από την ομάδα: {reason}
+Champion of {name}	Πρωταθλητής του {name}
+Runner-up of {name}	Φιναλίστ του {name}
+Place {n} in {name}	{n}η θέση στο {name}
+Achievement: {title}	Επίτευγμα: {title}
+Won at auction for {n} coins	Κερδήθηκε σε δημοπρασία για {n} νομίσματα
+VIP's item of the month · {month}	Αντικείμενο VIP του μήνα · {month}
+Prize of {name}	Έπαθλο του {name}
+Yours	Δικό σου
+VIP's item of the month: VIP members get it that month	Αντικείμενο VIP του μήνα: τα μέλη VIP το παίρνουν εκείνον τον μήνα
+Only the season's champion wins it	Μόνο ο πρωταθλητής της σεζόν το κερδίζει
+Won in the official tournaments	Κερδίζεται στα επίσημα τουρνουά
+Only won: events, cups and seasons	Μόνο κερδίζεται: εκδηλώσεις, κύπελλα και σεζόν
+In the welcome pack	Στο πακέτο καλωσορίσματος
+Yours while you are VIP	Δικό σου όσο είσαι VIP
+Legendary cue	Θρυλική στέκα
+Epic cue	Επική στέκα
+{n} of {total} items	{n} από {total} αντικείμενα
+Sign in to see your collection.	Συνδέσου για να δεις τη συλλογή σου.
+Missing too	Και όσα λείπουν
+Nothing of this rarity here.	Τίποτα αυτής της σπανιότητας εδώ.
+None yet: they are waiting to be won.	Τίποτα ακόμα: περιμένουν να τα κερδίσεις.
+Page {a} of {b}	Σελίδα {a} από {b}
+In the shop	Στο κατάστημα
+Everything you have	Όλα όσα έχεις
+Show reactions	Εμφάνιση αντιδράσεων
+Off: no reactions are shown during matches, from anyone.	Ανενεργό: δεν εμφανίζονται αντιδράσεις κανενός στις παρτίδες.
+The colour of your aim line and ghost ball.	Το χρώμα της γραμμής σκόπευσης και της μπάλας-φάντασμα.
+For VIP members: the colour of the aim line and the ghost ball.	Για μέλη VIP: το χρώμα της γραμμής σκόπευσης και της μπάλας-φάντασμα.
+Aim colour	Χρώμα σκόπευσης
+Polished stone, veined right through	Γυαλισμένη πέτρα, με νερά από άκρη σε άκρη
+A night sky in every ball, under a clear coat	Ένας νυχτερινός ουρανός σε κάθε μπάλα, κάτω από το βερνίκι
+Lit from within, like neon	Φωτισμένες από μέσα, σαν νέον
+Cut glass: deep colour and a dazzling shine	Κομμένο γυαλί: βαθύ χρώμα και εκθαμβωτική λάμψη
+White Carrara marble, gold castings and fluted columns	Λευκό μάρμαρο Καράρας, χρυσά εξαρτήματα και ραβδωτές κολόνες
+Black gloss on slab legs, with a neon glow beneath	Γυαλιστερό μαύρο σε πόδια-πλάκες, με λάμψη νέον από κάτω
+Woven carbon rails, red trim and a light strip	Μπάντες από πλεγμένο άνθρακα, κόκκινες λεπτομέρειες και λωρίδα φωτός
+Dark walnut and polished copper on a riveted steel frame	Σκούρα καρυδιά και γυαλισμένος χαλκός σε πριτσινωτό ατσάλινο σκελετό
+Frosted lacquer and silver, with a cold light beneath	Παγωμένη λάκα και ασήμι, με ψυχρό φως από κάτω
+Black volcanic stone, cracked with molten orange	Μαύρη ηφαιστειακή πέτρα, ραγισμένη από πυρακτωμένο πορτοκαλί
+Rough pine on square posts, with iron castings	Ακατέργαστο πεύκο σε τετράγωνα πόδια, με σιδερένια εξαρτήματα
+Black lacquer and gold: the season champion's table	Μαύρη λάκα και χρυσός: το τραπέζι του πρωταθλητή της σεζόν
+The table alone under the spotlight, dark stands and TV lights	Το τραπέζι μόνο του στον προβολέα, σκοτεινές κερκίδες και τηλεοπτικά φώτα
+Crimson velvet	Βυσσινί βελούδο
+Eclipse	Έκλειψη
+Arena blue	Μπλε αρένας
+Millennium gold	Χρυσός της χιλιετίας
+Holly	Γκι
+Winter frost	Χειμωνιάτικη πάχνη
+Rainforest	Τροπικό δάσος
+Bonfire	Φωτιά
+Spring meadow	Ανοιξιάτικο λιβάδι
+Gold filigree	Χρυσό φιλιγκράν
+Thunderbolt	Κεραυνός
+Damascus steel	Ατσάλι Δαμασκού
+Glacier	Παγετώνας
+Abalone	Αλιώτιδα
+Volcano	Ηφαίστειο
+Aurora	Σέλας
+Emperor	Αυτοκράτορας
+Untouchable	Ανέγγιχτος
+Midas	Μίδας
+Empire	Αυτοκρατορία
+Millennium	Χιλιετία
+Four corners	Τέσσερις γωνίες
+Back from the dead	Πίσω από τους νεκρούς
+Season champion	Πρωταθλητής της σεζόν
+Candy cane	Χριστουγεννιάτικο ζαχαρωτό
+Countdown	Αντίστροφη μέτρηση
+Carnival	Καρναβάλι
+Easter egg	Πασχαλινό αυγό
+Festa junina	Festa junina
+Spider web	Ιστός αράχνης
+Winter cup	Χειμερινό κύπελλο
+Summer cup	Καλοκαιρινό κύπελλο
+Anniversary	Επέτειος
+World cup	Παγκόσμιο κύπελλο
+New dawn	Νέα αυγή
+Sakura	Σακούρα
+Tide	Παλίρροια
+Witching hour	Ώρα των μαγισσών
+Diamond dust chalk	Κιμωλία από σκόνη διαμαντιού
+Champion's chalk	Η κιμωλία του πρωταθλητή
+Marble	Μάρμαρο
+Glow	Λάμψη
+Crystal	Κρύσταλλο
+Crown jewels	Κοσμήματα του στέμματος
+Champion's gold	Χρυσός του πρωταθλητή
+Christmas baubles	Χριστουγεννιάτικες μπάλες
+Haunted	Στοιχειωμένο
+Copper works	Εργαστήρι χαλκού
+Carbon racer	Αγωνιστικό καρμπόν
+Neon night	Νύχτα νέον
+Ice palace	Παλάτι του πάγου
+Country barn	Αγροτικός αχυρώνας
+Pro arena	Επαγγελματική αρένα
+Obsidian	Οψιδιανός
+Prism	Πρίσμα
+Phantom	Φάντασμα
+Pro tour	Επαγγελματικό τουρ
+Rose garden	Τριανταφυλλόκηπος
+Golden hour	Χρυσή ώρα
+Hearts	Καρδιές
+Thunderstorm	Καταιγίδα
+Black hole	Μαύρη τρύπα
+Shooting stars	Πεφταστέρια
+Snowfall	Χιονόπτωση
+Champion's fireworks	Πυροτεχνήματα του πρωταθλητή
+Crown of glory	Στέμμα δόξας
+Fingers crossed	Σταυρωμένα δάχτυλα
+Call me	Πάρε με τηλέφωνο
+Nerd	Φυτό
+Money face	Πρόσωπο χρήματος
+Monocle	Μονόκλ
+Facepalm	Facepalm
+Shrug	Σήκωμα ώμων
+Hands up	Ψηλά τα χέρια
+Melting	Λιώνω
+Alien	Εξωγήινος
+Clown	Κλόουν
+Little devil	Διαβολάκι
+Angel	Άγγελος
+Bomb	Βόμβα
+Money bag	Σακί με λεφτά
+Crystal ball	Κρυστάλλινη σφαίρα
+Tornado	Ανεμοστρόβιλος
+Dragon	Δράκος
+Santa	Άγιος Βασίλης
+Snowflake	Νιφάδα χιονιού
+Summer sun	Καλοκαιρινός ήλιος
+Easter bunny	Πασχαλινό κουνελάκι
+Football	Ποδόσφαιρο
+Balloon	Μπαλόνι
+Season medal	Μετάλλιο της σεζόν
+Common	Κοινό
+Rare	Σπάνιο
+Epic	Επικό
+Legendary	Θρυλικό
+Institution	Θεσμός
+Play 2,500 rated games.	Παίξε 2.500 βαθμολογημένες παρτίδες.
+Living legend	Ζωντανός θρύλος
+Win 1,000 rated games.	Κέρδισε 1.000 βαθμολογημένες παρτίδες.
+The last word	Η τελευταία λέξη
+Win 500 rated games on the 8-ball.	Κέρδισε 500 βαθμολογημένες παρτίδες βάζοντας την 8.
+Seventh heaven	Στον έβδομο ουρανό
+Win 7 rated games in a row.	Κέρδισε 7 βαθμολογημένες παρτίδες στη σειρά.
+Clinical	Χειρουργική ακρίβεια
+Break and run 5 times.	Σπάσε και καθάρισε το τραπέζι 5 φορές.
+Iron curtain	Σιδηρούν παραπέτασμα
+Win 25 rated shutouts.	Κέρδισε 25 βαθμολογημένες παρτίδες με λευκό σκορ.
+Win 10 tournaments.	Κέρδισε 10 τουρνουά.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Κέρδισε μια βαθμολογημένη παρτίδα την περίοδο του Καρναβαλιού (1 Φεβ – 10 Μαρ).
+June festival	Γιορτή του Ιουνίου
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Κέρδισε μια βαθμολογημένη παρτίδα στις γιορτές του Ιουνίου (1–30 Ιουν).
+Three in one	Τρεις με μία
+Pocket three of your balls with one shot (not the break).	Βάλε τρεις δικές σου μπάλες με ένα χτύπημα (όχι στο σπάσιμο).
+Pocket balls in four different pockets with one shot (not the break).	Βάλε μπάλες σε τέσσερις διαφορετικές τρύπες με ένα χτύπημα (όχι στο σπάσιμο).
+Thunder break	Βροντερό σπάσιμο
+Pocket five balls on the break.	Βάλε πέντε μπάλες στο σπάσιμο.
+Spotted	Στο σημείο
+Pocket the 8-ball on the break in a game under the official rules.	Βάλε την 8 στο σπάσιμο σε παρτίδα με τους επίσημους κανόνες.
+Win a rated game after being six balls behind.	Κέρδισε μια βαθμολογημένη παρτίδα αφού ήσουν πίσω κατά έξι μπάλες.
+Last stand	Τελευταία αντίσταση
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Κέρδισε μια βαθμολογημένη παρτίδα αφού ο αντίπαλος ήταν στην 8 ενώ εσύ είχες ακόμα πέντε μπάλες ή περισσότερες.
+Stolen table	Κλεμμένο τραπέζι
+Win a rated game from your opponent's break without them getting another shot.	Κέρδισε μια βαθμολογημένη παρτίδα από το σπάσιμο του αντιπάλου χωρίς να ξαναπαίξει.
+Marathon	Μαραθώνιος
+Win a rated game that lasted 60 shots or more.	Κέρδισε μια βαθμολογημένη παρτίδα που κράτησε 60 χτυπήματα ή περισσότερα.
+Ugly but it counts	Άσχημο, αλλά μετράει
+Win a rated game in which you fouled four times or more.	Κέρδισε μια βαθμολογημένη παρτίδα στην οποία έκανες τέσσερα φάουλ ή περισσότερα.
+This item can't be given: it stays with whoever won it.	Αυτό το αντικείμενο δεν μπορεί να χαριστεί: μένει σε όποιον το κέρδισε.
 Current prize: {n} coins	Τρέχον έπαθλο: {n} νομίσματα
 Champion wins: {item}	Ο πρωταθλητής κερδίζει: {item}
 {h} h {m} min	{h} ώ {m} λ
@@ -2157,7 +2342,6 @@ Champion wins: {item}	Ο πρωταθλητής κερδίζει: {item}
 {s} s	{s} δ
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Μέρα {d} στη σειρά: +{n} νομίσματα. Αύριο: +{m}.
 Auctions ({n})	Δημοπρασίες ({n})
-Auctions	Δημοπρασίες
 Supporters	Υποστηρικτές
 Maintenance in {t}: the server stops for about {m} min.	Συντήρηση σε {t}: ο διακομιστής σταματά για περίπου {m} λ.
 Maintenance: the server is stopping. Games in progress go on.	Συντήρηση: ο διακομιστής σταματά. Τα παιχνίδια σε εξέλιξη συνεχίζουν.

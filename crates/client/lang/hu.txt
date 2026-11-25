@@ -2150,6 +2150,191 @@ Equip now	Felszerelés most
 Open the collection	Gyűjtemény megnyitása
 Auctions	Árverések
 The staff ended your game without a result. Sign in again.	A csapat eredmény nélkül lezárta a játszmádat. Jelentkezz be újra.
+A secret achievement: play to find it.	Titkos teljesítmény: játssz, és fedezd fel.
+Only won	Csak nyerni lehet
+Collection	Gyűjtemény
+Everything you have, and how you got it	Minden, amid van, és hogyan szerezted
+A secret achievement	Titkos teljesítmény
+Not yet yours	Még nem a tiéd
+Rarest first	A legritkábbak elöl
+Newest first	A legújabbak elöl
+By name	Név szerint
+Reaction	Reakció
+Bought for {n} coins	Megvetted {n} érméért
+Bought in the shop	A boltban vetted
+Gift from {name}	Ajándék tőle: {name}
+A present from the staff	Ajándék a csapattól
+From the staff: {reason}	A csapattól: {reason}
+Champion of {name}	{name} bajnoka
+Runner-up of {name}	{name} döntőse
+Place {n} in {name}	{n}. hely: {name}
+Achievement: {title}	Teljesítmény: {title}
+Won at auction for {n} coins	Árverésen nyerted {n} érméért
+VIP's item of the month · {month}	A hónap VIP tárgya · {month}
+Prize of {name}	Díj: {name}
+Yours	A tiéd
+VIP's item of the month: VIP members get it that month	A hónap VIP tárgya: a VIP-tagok abban a hónapban kapják meg
+Only the season's champion wins it	Csak a szezon bajnoka nyeri el
+Won in the official tournaments	A hivatalos versenyeken lehet elnyerni
+Only won: events, cups and seasons	Csak nyerni lehet: események, kupák és szezonok
+In the welcome pack	Az üdvözlőcsomagban
+Yours while you are VIP	A tiéd, amíg VIP vagy
+Legendary cue	Legendás dákó
+Epic cue	Epikus dákó
+{n} of {total} items	{n} / {total} tárgy
+Sign in to see your collection.	Jelentkezz be, hogy lásd a gyűjteményed.
+Missing too	A hiányzók is
+Nothing of this rarity here.	Ilyen ritkaságú nincs itt.
+None yet: they are waiting to be won.	Még egy sincs: arra várnak, hogy megnyerd őket.
+Page {a} of {b}	{a}. oldal / {b}
+In the shop	A boltban
+Everything you have	Minden, amid van
+Show reactions	Reakciók mutatása
+Off: no reactions are shown during matches, from anyone.	Ki: a játszmák alatt senki reakciója nem jelenik meg.
+The colour of your aim line and ghost ball.	A célzóvonalad és a szellemgolyó színe.
+For VIP members: the colour of the aim line and the ghost ball.	VIP-tagoknak: a célzóvonal és a szellemgolyó színe.
+Aim colour	Célzás színe
+Polished stone, veined right through	Csiszolt kő, át meg át erezve
+A night sky in every ball, under a clear coat	Éjszakai égbolt minden golyóban, a lakk alatt
+Lit from within, like neon	Belülről világítanak, mint a neon
+Cut glass: deep colour and a dazzling shine	Csiszolt üveg: mély szín és vakító fény
+White Carrara marble, gold castings and fluted columns	Fehér carrarai márvány, arany veretek és hornyolt oszlopok
+Black gloss on slab legs, with a neon glow beneath	Fényes fekete lemezlábakon, alatta neonfény
+Woven carbon rails, red trim and a light strip	Fonott karbon pálya, piros díszek és fénycsík
+Dark walnut and polished copper on a riveted steel frame	Sötét dió és csiszolt réz szegecselt acélvázon
+Frosted lacquer and silver, with a cold light beneath	Deres lakk és ezüst, alatta hideg fény
+Black volcanic stone, cracked with molten orange	Fekete vulkáni kő, izzó narancssárga repedésekkel
+Rough pine on square posts, with iron castings	Durva fenyő szögletes lábakon, vasveretekkel
+Black lacquer and gold: the season champion's table	Fekete lakk és arany: a szezon bajnokának asztala
+The table alone under the spotlight, dark stands and TV lights	Az asztal egyedül a reflektorfényben, sötét lelátók és tévés fények
+Crimson velvet	Karmazsin bársony
+Eclipse	Napfogyatkozás
+Arena blue	Arénakék
+Millennium gold	Ezredfordulós arany
+Holly	Magyal
+Winter frost	Téli dér
+Rainforest	Esőerdő
+Bonfire	Tábortűz
+Spring meadow	Tavaszi rét
+Gold filigree	Aranyfiligrán
+Thunderbolt	Villámcsapás
+Damascus steel	Damaszkuszi acél
+Glacier	Gleccser
+Abalone	Abalone
+Volcano	Vulkán
+Aurora	Sarki fény
+Emperor	Császár
+Untouchable	Érinthetetlen
+Midas	Midász
+Empire	Birodalom
+Millennium	Évezred
+Four corners	Négy sarok
+Back from the dead	Vissza a halálból
+Season champion	A szezon bajnoka
+Candy cane	Cukorbot
+Countdown	Visszaszámlálás
+Carnival	Karnevál
+Easter egg	Húsvéti tojás
+Festa junina	Festa junina
+Spider web	Pókháló
+Winter cup	Téli kupa
+Summer cup	Nyári kupa
+Anniversary	Évforduló
+World cup	Világbajnokság
+New dawn	Új hajnal
+Sakura	Szakura
+Tide	Dagály
+Witching hour	Boszorkányóra
+Diamond dust chalk	Gyémántporos kréta
+Champion's chalk	A bajnok krétája
+Marble	Márvány
+Glow	Ragyogás
+Crystal	Kristály
+Crown jewels	Koronaékszerek
+Champion's gold	Bajnoki arany
+Christmas baubles	Karácsonyi gömbök
+Haunted	Kísértetjárta
+Copper works	Rézműhely
+Carbon racer	Karbon versenygép
+Neon night	Neonéjszaka
+Ice palace	Jégpalota
+Country barn	Vidéki csűr
+Pro arena	Profi aréna
+Obsidian	Obszidián
+Prism	Prizma
+Phantom	Fantom
+Pro tour	Profi túra
+Rose garden	Rózsakert
+Golden hour	Arany óra
+Hearts	Szívek
+Thunderstorm	Zivatar
+Black hole	Fekete lyuk
+Shooting stars	Hullócsillagok
+Snowfall	Havazás
+Champion's fireworks	A bajnok tűzijátéka
+Crown of glory	A dicsőség koronája
+Fingers crossed	Szorítok
+Call me	Hívj fel
+Nerd	Kocka
+Money face	Pénzes arc
+Monocle	Monokli
+Facepalm	Facepalm
+Shrug	Vállvonogatás
+Hands up	Kezeket fel
+Melting	Olvadok
+Alien	Földönkívüli
+Clown	Bohóc
+Little devil	Ördögfióka
+Angel	Angyal
+Bomb	Bomba
+Money bag	Pénzeszsák
+Crystal ball	Kristálygömb
+Tornado	Tornádó
+Dragon	Sárkány
+Santa	Mikulás
+Snowflake	Hópehely
+Summer sun	Nyári nap
+Easter bunny	Húsvéti nyuszi
+Football	Foci
+Balloon	Lufi
+Season medal	Szezonérem
+Common	Gyakori
+Rare	Ritka
+Epic	Epikus
+Legendary	Legendás
+Institution	Intézmény
+Play 2,500 rated games.	Játssz 2500 értékelt játszmát.
+Living legend	Élő legenda
+Win 1,000 rated games.	Nyerj 1000 értékelt játszmát.
+The last word	Az utolsó szó
+Win 500 rated games on the 8-ball.	Nyerj 500 értékelt játszmát a 8-as golyóval.
+Seventh heaven	Hetedik mennyország
+Win 7 rated games in a row.	Nyerj 7 értékelt játszmát egymás után.
+Clinical	Klinikai pontosság
+Break and run 5 times.	Kezdőlökés után pucold ki az asztalt 5-ször.
+Iron curtain	Vasfüggöny
+Win 25 rated shutouts.	Nyerj 25 értékelt játszmát kiütéssel.
+Win 10 tournaments.	Nyerj 10 versenyt.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Nyerj egy értékelt játszmát a karneválidőszakban (febr. 1. – márc. 10.).
+June festival	Júniusi ünnep
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Nyerj egy értékelt játszmát a júniusi ünnepek alatt (jún. 1–30.).
+Three in one	Három egyszerre
+Pocket three of your balls with one shot (not the break).	Rakj el három saját golyót egy lökéssel (nem a kezdőlökésnél).
+Pocket balls in four different pockets with one shot (not the break).	Rakj el golyókat négy különböző lyukba egy lökéssel (nem a kezdőlökésnél).
+Thunder break	Mennydörgő kezdés
+Pocket five balls on the break.	Rakj el öt golyót a kezdőlökésnél.
+Spotted	A ponton
+Pocket the 8-ball on the break in a game under the official rules.	Rakd el a 8-as golyót a kezdőlökésnél egy hivatalos szabályú játszmában.
+Win a rated game after being six balls behind.	Nyerj egy értékelt játszmát hatgolyós hátrányból.
+Last stand	Utolsó ellenállás
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Nyerj egy értékelt játszmát, miután az ellenfeled már a 8-asra játszott, neked pedig még öt vagy több golyód volt.
+Stolen table	Ellopott asztal
+Win a rated game from your opponent's break without them getting another shot.	Nyerj egy értékelt játszmát az ellenfeled kezdőlökése után úgy, hogy ő nem lök többet.
+Marathon	Maraton
+Win a rated game that lasted 60 shots or more.	Nyerj egy értékelt játszmát, amely 60 vagy több lökésig tartott.
+Ugly but it counts	Csúnya, de számít
+Win a rated game in which you fouled four times or more.	Nyerj egy értékelt játszmát, amelyben négy vagy több hibát vétettél.
+This item can't be given: it stays with whoever won it.	Ezt a tárgyat nem lehet elajándékozni: annál marad, aki megnyerte.
 Current prize: {n} coins	Jelenlegi nyeremény: {n} érme
 Champion wins: {item}	A bajnok nyer: {item}
 {h} h {m} min	{h} ó {m} p
@@ -2157,7 +2342,6 @@ Champion wins: {item}	A bajnok nyer: {item}
 {s} s	{s} mp
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	{d}. nap egymás után: +{n} érme. Holnap: +{m}.
 Auctions ({n})	Aukciók ({n})
-Auctions	Aukciók
 Supporters	Támogatók
 Maintenance in {t}: the server stops for about {m} min.	Karbantartás {t} múlva: a szerver kb. {m} percre leáll.
 Maintenance: the server is stopping. Games in progress go on.	Karbantartás: a szerver leáll. A folyamatban lévő játékok folytatódnak.

@@ -957,7 +957,8 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
     let Some(Stop { t, target, in_pocket }) = first_stop(&m.game, cue, dir) else {
         return out;
     };
-    let white = Color::new(1.0, 1.0, 1.0, 0.5);
+    // White, or the VIP's own colour (see `perks`).
+    let white = crate::perks::aim(0.5);
     let start = cue + dir * r;
     // The lines of the aim run at the height of the balls' centres, from
     // centre to centre: on the cloth they passed beside the ghost ball's
@@ -986,7 +987,7 @@ pub fn overlay(m: &Match, scene: &Scene, time: f32) -> Overlay {
             from: surface(start, line_y),
             to: surface(if in_pocket { ghost } else { ghost - dir * r }, line_y),
             width: 0.0012,
-            color: Color::new(1.0, 1.0, 1.0, 0.42),
+            color: crate::perks::aim(0.42),
         });
     }
     if in_pocket || t < 0.004 {

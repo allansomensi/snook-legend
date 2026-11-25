@@ -38,6 +38,8 @@ pub enum MenuAction {
     Ranking,
     Profile,
     Shop,
+    /// Everything the player has (see `collection`).
+    Collection,
     Settings,
     Quit,
     /// The inbox (signed in; else the sign-in first).
@@ -467,6 +469,7 @@ impl Menu {
             // (Drawn as an envelope: see below.)
             (Icon::List, t("Inbox"), None, MenuAction::Inbox),
             (Icon::Shop, t("Shop"), None, MenuAction::Shop),
+            (Icon::Star, t("Collection"), Some(t("Everything you have")), MenuAction::Collection),
             (Icon::Book, t("Rules"), Some(t("Rules of the game")), MenuAction::Rules(rules)),
             (Icon::Gear, t("Settings"), None, MenuAction::Settings),
         ];

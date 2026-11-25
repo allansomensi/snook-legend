@@ -48,7 +48,27 @@ fn hash(i: i32, j: i32) -> f32 {
 /// Whether a style also paints the butt sleeve (the plainer ones keep it
 /// plain, as before).
 pub fn paints_sleeve(style: CueStyle) -> bool {
-    !matches!(style, CueStyle::Plain | CueStyle::Points | CueStyle::Spiral | CueStyle::Weave)
+    !matches!(
+        style,
+        CueStyle::Plain | CueStyle::Points | CueStyle::Spiral | CueStyle::Weave | CueStyle::Stripes
+    )
+}
+
+/// The colour of the wrap (the grip): the accent's, or for the finest
+/// styles a dark leather of the butt's tone, so that the gold or the
+/// pearl stays for the inlays.
+pub fn wrap_color(style: CueStyle, p: Paint) -> Color {
+    match style {
+        CueStyle::Filigree
+        | CueStyle::Inlay
+        | CueStyle::Damascus
+        | CueStyle::Lightning
+        | CueStyle::Aurora
+        | CueStyle::Lava
+        | CueStyle::Crystal
+        | CueStyle::Gems => shade(p.butt, -0.55),
+        _ => p.accent,
+    }
 }
 
 /// How finely a style must be painted on the 3D cue: (round, along).
@@ -57,6 +77,9 @@ pub fn resolution(style: CueStyle) -> (u32, u32) {
         CueStyle::Plain => (16, 1),
         CueStyle::Points | CueStyle::Spiral => (32, 40),
         CueStyle::Weave => (24, 30),
+        CueStyle::Stripes => (32, 40),
+        // The finest patterns: wire, bolts and cracks need the detail.
+        CueStyle::Filigree | CueStyle::Lightning | CueStyle::Lava | CueStyle::Web => (64, 96),
         _ => (48, 64),
     }
 }
@@ -199,6 +222,254 @@ pub fn pattern(style: CueStyle, p: Paint, u: f32, v: f32) -> Color {
                 sky
             }
         }
+        CueStyle::Filigree => {
+            // Gold wire scrolls on lacquer: a running vine with curls on
+            // either side, between two fine bands, and a soft glint of the
+            // lacquer between.
+            let x = u * TAU;
+            let band = (v * 3.0).fract();
+            let cell = (v * 3.0).floor();
+            let stem = (x * 2.0 + cell * 1.3).sin() * 0.18 + 0.5;
+            let d_stem = (band - stem).abs();
+            // Curls: circles hung off the vine every eighth of a turn.
+            let k = (u * 8.0).fract() - 0.5;
+            let side = if ((u * 8.0) as i32 + cell as i32) % 2 == 0 { 0.2 } else { -0.2 };
+            let (cx, cy) = (k * 0.9, band - stem - side);
+            let ring_d = ((cx * cx + cy * cy).sqrt() - 0.12).abs();
+            let rim = !(0.03..=0.97).contains(&band);
+            let lacquer = shade(b, 0.08 * (x - 0.6).cos());
+            if rim || d_stem < 0.025 || ring_d < 0.022 {
+                // The wire: brighter where it turns to the light.
+                let lit = 0.5 + 0.5 * (x * 3.0 + v * 20.0).sin();
+                mix(a, ring, 0.35 * lit)
+            } else if d_stem < 0.04 || ring_d < 0.034 {
+                mix(lacquer, a, 0.35)
+            } else {
+                lacquer
+            }
+        }
+        CueStyle::Inlay => {
+            // Mother-of-pearl: long ovals and diamonds set in rows, each
+            // shimmering from the accent to the ring colour across its face.
+            let (cu, cv) = (u * 6.0, v * 4.0);
+            let row = cv.floor() as i32;
+            let cu = cu + if row % 2 == 0 { 0.0 } else { 0.5 };
+            let (fu, fv) = (cu.fract() - 0.5, cv.fract() - 0.5);
+            let oval = (fu * fu * 9.0 + fv * fv * 4.0).sqrt();
+            let diamond = fu.abs() * 4.0 + fv.abs() * 6.0;
+            let shape = if row % 2 == 0 { oval } else { diamond };
+            if shape < 0.95 {
+                let sheen = ((fu * 9.0 + fv * 7.0 + cu.floor() * 1.7).sin() * 0.5 + 0.5).powf(1.5);
+                let pearl = mix(a, ring, sheen);
+                shade(pearl, 0.2 * (1.0 - shape))
+            } else if shape < 1.12 {
+                shade(ring, -0.35)
+            } else {
+                b
+            }
+        }
+        CueStyle::Damascus => {
+            // Folded steel: many thin layers rippling along the cue, the
+            // bright ones of the accent, the dark ones of the butt.
+            let x = u * TAU;
+            let wave = (v * 40.0
+                + (x * 2.0 + v * 6.0).sin() * 2.2
+                + (x * 5.0 - v * 13.0).sin() * 0.9
+                + (v * 3.0 + x).cos() * 1.5)
+                .sin();
+            let layer = wave * 0.5 + 0.5;
+            let steel = mix(shade(b, -0.25), a, layer.powf(0.8));
+            // Polished: a bright streak where the light falls.
+            let light = 0.5 + 0.5 * (x - 0.6).cos();
+            let steel = shade(steel, 0.25 * light.powf(6.0));
+            let band = (v * 5.0).fract();
+            if band < 0.025 { ring } else { steel }
+        }
+        CueStyle::Lightning => {
+            // Forked bolts zigzagging down the cue: white-hot at the core,
+            // the accent colour round it, a glow fading into the dark.
+            let mut best = 1.0f32;
+            for bolt in 0..3 {
+                let base = bolt as f32 / 3.0 + 0.08;
+                let seg = (v * 7.0).floor();
+                let t = (v * 7.0).fract();
+                let jag = |s: f32| (hash(bolt, s as i32) - 0.5) * 0.14;
+                let path = base + jag(seg) + (jag(seg + 1.0) - jag(seg)) * t;
+                let du = ((u - path + 0.5).rem_euclid(1.0) - 0.5).abs();
+                best = best.min(du);
+                // A fork leaving the bolt halfway down.
+                if (0.4..0.7).contains(&v) {
+                    let fork = path + (v - 0.4) * 0.35;
+                    best = best.min(((u - fork + 0.5).rem_euclid(1.0) - 0.5).abs() * 1.5);
+                }
+            }
+            if best < 0.006 {
+                Color::new(1.0, 1.0, 1.0, 1.0)
+            } else if best < 0.016 {
+                mix(ring, a, (best - 0.006) / 0.01)
+            } else {
+                mix(b, a, (0.35 - best * 5.0).max(0.0))
+            }
+        }
+        CueStyle::Aurora => {
+            // Curtains of light hanging down the cue, from the accent to the
+            // ring colour, waving round it, over a night sky with stars.
+            let x = u * TAU;
+            let fold = (x * 3.0 + (v * 4.0 + x).sin() * 1.2).sin() * 0.5 + 0.5;
+            let curtain = fold.powf(3.0) * (1.0 - v * 0.6);
+            let hue = mix(a, ring, (v * 1.4 + fold * 0.3).min(1.0));
+            let sky = mix(b, hue, curtain.min(1.0) * 0.95);
+            let (i, j) = ((u * 90.0) as i32, (v * 60.0) as i32);
+            if hash(i, j) > 0.988 { mix(sky, Color::new(1.0, 1.0, 1.0, 1.0), 0.8) } else { sky }
+        }
+        CueStyle::Lava => {
+            // Cooled black rock in plates, split by cracks that glow from
+            // the accent at their edge to the ring colour at the hottest.
+            let (cu, cv) = (u * 6.0, v * 5.0);
+            let (iu, iv) = (cu.floor() as i32, cv.floor() as i32);
+            // How far from the edge between the nearest two cells (cracks).
+            let mut d1 = 9.0f32;
+            let mut d2 = 9.0f32;
+            for du in -1..=1 {
+                for dv in -1..=1 {
+                    let (nu, nv) = (iu + du, iv + dv);
+                    let pu = nu as f32 + 0.2 + 0.6 * hash(nu.rem_euclid(6), nv);
+                    let pv = nv as f32 + 0.2 + 0.6 * hash(nv, nu.rem_euclid(6) + 17);
+                    let d = ((cu - pu).powi(2) + (cv - pv).powi(2)).sqrt();
+                    if d < d1 {
+                        d2 = d1;
+                        d1 = d;
+                    } else if d < d2 {
+                        d2 = d;
+                    }
+                }
+            }
+            let edge = d2 - d1;
+            if edge < 0.05 {
+                mix(ring, a, edge / 0.05)
+            } else if edge < 0.14 {
+                mix(a, shade(b, 0.05), ((edge - 0.05) / 0.09).sqrt())
+            } else {
+                shade(b, 0.06 * (hash(iu, iv) - 0.5))
+            }
+        }
+        CueStyle::Crystal => {
+            // Ice facets: triangles of light and shade, with bright edges.
+            let (cu, cv) = (u * 8.0, v * 5.0);
+            let (fu, fv) = (cu.fract(), cv.fract());
+            let upper = fu + fv < 1.0;
+            let cell = hash(cu.floor() as i32 * 2 + upper as i32, cv.floor() as i32);
+            let facet = mix(shade(a, -0.3), shade(b, 0.2), cell);
+            let edge = fu.min(fv).min((1.0 - fu - fv).abs());
+            if edge < 0.03 {
+                mix(ring, Color::new(1.0, 1.0, 1.0, 1.0), 0.5)
+            } else if cell > 0.9 {
+                mix(facet, ring, 0.6)
+            } else {
+                facet
+            }
+        }
+        CueStyle::Stripes => {
+            // Bold diagonal stripes, with a thin line of the ring colour
+            // between them.
+            let t = (u * 3.0 + v * 2.0).fract();
+            if t < 0.36 {
+                a
+            } else if !(0.42..=0.94).contains(&t) {
+                ring
+            } else {
+                b
+            }
+        }
+        CueStyle::Confetti => {
+            // Little discs and slivers of the accent, the ring colour and
+            // white, scattered every which way.
+            let (cu, cv) = (u * 14.0, v * 12.0);
+            let (iu, iv) = (cu.floor() as i32, cv.floor() as i32);
+            let h = hash(iu.rem_euclid(14), iv);
+            let (pu, pv) = (0.3 + 0.4 * hash(iv, iu.rem_euclid(14)), 0.3 + 0.4 * h);
+            let (du, dv) = (cu.fract() - pu, cv.fract() - pv);
+            let r = 0.18 + 0.14 * hash(iu.rem_euclid(14) + 3, iv + 5);
+            let inside = if h > 0.5 {
+                du * du + dv * dv < r * r
+            } else {
+                // A sliver, turned.
+                let (c, s) = ((h * 9.0).cos(), (h * 9.0).sin());
+                let (x, y) = (du * c - dv * s, du * s + dv * c);
+                x.abs() < r * 1.3 && y.abs() < r * 0.4
+            };
+            if !inside || hash(iu, iv + 99) < 0.25 {
+                b
+            } else {
+                match (h * 3.0) as i32 {
+                    0 => a,
+                    1 => ring,
+                    _ => Color::new(1.0, 1.0, 1.0, 1.0),
+                }
+            }
+        }
+        CueStyle::Snowflake => {
+            // Six-pointed flakes of the accent colour, of two sizes, on a
+            // frosty ground.
+            let (cu, cv) = (u * 5.0, v * 4.0);
+            let row = cv.floor() as i32;
+            let cu = cu + if row % 2 == 0 { 0.0 } else { 0.5 };
+            let (fu, fv) = ((cu.fract() - 0.5) * 1.2, cv.fract() - 0.5);
+            let r = (fu * fu + fv * fv).sqrt();
+            let ang = fv.atan2(fu);
+            let arm = ((ang * 3.0).cos().abs() - 1.0).abs() * r;
+            let sub = ((ang * 3.0 + 0.5).cos().abs() - 1.0).abs() * r;
+            let small = hash(cu.floor() as i32, row) > 0.5;
+            let reach = if small { 0.28 } else { 0.42 };
+            let flake = r < reach
+                && (arm < 0.022 || (sub < 0.016 && (r - reach * 0.6).abs() < reach * 0.25));
+            let frost = mix(b, ring, 0.15 * ((u * 60.0).sin() * (v * 47.0).sin()).abs());
+            if flake || r < 0.035 { a } else { frost }
+        }
+        CueStyle::Web => {
+            // A spider's web: spokes round its centre and threads looping
+            // between them, slightly sagging.
+            let (cu, cv) = (u * 2.0, v * 1.5);
+            let (fu, fv) = (cu.fract() - 0.5, cv.fract() - 0.5);
+            let r = (fu * fu + fv * fv).sqrt();
+            let ang = fv.atan2(fu);
+            let spokes = 8.0;
+            let spoke = ((ang / TAU * spokes).fract() - 0.5).abs() * r * TAU / spokes;
+            let sag = (ang * spokes).sin().abs() * 0.012;
+            let rings = ((r + sag) * 14.0).fract();
+            let thread = spoke < 0.006 || (r < 0.48 && !(0.07..=0.93).contains(&rings));
+            if thread {
+                a
+            } else if r < 0.04 {
+                ring
+            } else {
+                b
+            }
+        }
+        CueStyle::Bunting => {
+            // Strings of little triangular flags looping round the cue, of
+            // the accent, the ring colour and white in turn.
+            let lines = 4.0;
+            let cv = v * lines;
+            let (row, fv) = (cv.floor() as i32, cv.fract());
+            let flags = 9.0;
+            let cu = u * flags + row as f32 * 0.5;
+            let (k, fu) = (cu.floor() as i32, cu.fract());
+            // The string sags a little between the flags.
+            let string = 0.12 + (fu - 0.5).powi(2) * 0.12;
+            let flag = fv > string && fv < string + 0.55 * (1.0 - (fu - 0.5).abs() * 2.0);
+            if (fv - string).abs() < 0.02 {
+                shade(b, -0.5)
+            } else if flag {
+                match k.rem_euclid(3) {
+                    0 => a,
+                    1 => ring,
+                    _ => Color::new(0.98, 0.96, 0.9, 1.0),
+                }
+            } else {
+                b
+            }
+        }
     }
 }
 
@@ -248,7 +519,7 @@ fn surface(d: &Design, k: f32, u: f32) -> Color {
         k if k < 0.26 => {
             // The wrap: a fine linen texture.
             let thread = ((u * 90.0).sin() * (k * 400.0).sin()).abs();
-            shade(p.accent, -0.12 * thread)
+            shade(wrap_color(d.style, p), -0.12 * thread)
         }
         k if k < 0.27 => p.ring,
         k if k < 0.45 => pattern(d.style, p, u, 1.0 - (k - 0.27) / 0.18),

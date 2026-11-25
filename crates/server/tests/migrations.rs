@@ -50,6 +50,7 @@ const APPLIED: &[(&str, &str)] = &[
         "06e8acfddcf913c0287e77c3aa994429c7914d9dc2a24704140830b66f5506d8",
     ),
     ("0028_operations.sql", "bc3f76d038dec916c3a5af81e7134ce530f38c1749a5c520493f040bbe92eea1"),
+    ("0029_collection.sql", "9fdd751a2aa01be6a027816e02f442589d797b945ead585c3ef679666fe4c546"),
     ("0030_match_social.sql", "c46bfc80419c9b3ca3e3f61b988bcfe0644167a104d60b7dc335676d878bb76e"),
     ("0032_eight_call.sql", "fb15abdb1f3d63a53b036f96fa92cf52551877cec766d0cda932f10639ac6e8f"),
 ];

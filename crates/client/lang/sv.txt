@@ -2150,6 +2150,191 @@ Equip now	Utrusta nu
 Open the collection	Öppna samlingen
 Auctions	Auktioner
 The staff ended your game without a result. Sign in again.	Teamet avslutade ditt parti utan resultat. Logga in igen.
+A secret achievement: play to find it.	En hemlig prestation: spela för att hitta den.
+Only won	Kan bara vinnas
+Collection	Samling
+Everything you have, and how you got it	Allt du har, och hur du fick det
+A secret achievement	En hemlig prestation
+Not yet yours	Inte din än
+Rarest first	Sällsyntast först
+Newest first	Nyast först
+By name	Efter namn
+Reaction	Reaktion
+Bought for {n} coins	Köpt för {n} mynt
+Bought in the shop	Köpt i butiken
+Gift from {name}	Gåva från {name}
+A present from the staff	En gåva från personalen
+From the staff: {reason}	Från personalen: {reason}
+Champion of {name}	Mästare i {name}
+Runner-up of {name}	Tvåa i {name}
+Place {n} in {name}	Plats {n} i {name}
+Achievement: {title}	Prestation: {title}
+Won at auction for {n} coins	Vunnen på auktion för {n} mynt
+VIP's item of the month · {month}	Månadens VIP-föremål · {month}
+Prize of {name}	Pris från {name}
+Yours	Din
+VIP's item of the month: VIP members get it that month	Månadens VIP-föremål: VIP-medlemmar får det den månaden
+Only the season's champion wins it	Bara säsongens mästare vinner det
+Won in the official tournaments	Vinns i de officiella turneringarna
+Only won: events, cups and seasons	Kan bara vinnas: evenemang, cuper och säsonger
+In the welcome pack	I välkomstpaketet
+Yours while you are VIP	Din så länge du är VIP
+Legendary cue	Legendarisk kö
+Epic cue	Episk kö
+{n} of {total} items	{n} av {total} föremål
+Sign in to see your collection.	Logga in för att se din samling.
+Missing too	Även det som saknas
+Nothing of this rarity here.	Inget av den här sällsyntheten här.
+None yet: they are waiting to be won.	Inga än: de väntar på att vinnas.
+Page {a} of {b}	Sida {a} av {b}
+In the shop	I butiken
+Everything you have	Allt du har
+Show reactions	Visa reaktioner
+Off: no reactions are shown during matches, from anyone.	Av: inga reaktioner visas under partier, från någon.
+The colour of your aim line and ghost ball.	Färgen på din siktlinje och spökbollen.
+For VIP members: the colour of the aim line and the ghost ball.	För VIP-medlemmar: färgen på siktlinjen och spökbollen.
+Aim colour	Siktfärg
+Polished stone, veined right through	Polerad sten, ådrad rakt igenom
+A night sky in every ball, under a clear coat	En natthimmel i varje boll, under klarlacken
+Lit from within, like neon	Upplysta inifrån, som neon
+Cut glass: deep colour and a dazzling shine	Slipat glas: djup färg och en bländande glans
+White Carrara marble, gold castings and fluted columns	Vit Carraramarmor, guldbeslag och räfflade pelare
+Black gloss on slab legs, with a neon glow beneath	Blank svart på skivben, med neonsken under
+Woven carbon rails, red trim and a light strip	Vallar av flätad kolfiber, röda detaljer och en ljuslist
+Dark walnut and polished copper on a riveted steel frame	Mörk valnöt och polerad koppar på en nitad stålram
+Frosted lacquer and silver, with a cold light beneath	Frostad lack och silver, med ett kallt ljus under
+Black volcanic stone, cracked with molten orange	Svart vulkansten, sprucken av glödande orange
+Rough pine on square posts, with iron castings	Rå furu på fyrkantiga ben, med järnbeslag
+Black lacquer and gold: the season champion's table	Svart lack och guld: säsongsmästarens bord
+The table alone under the spotlight, dark stands and TV lights	Bordet ensamt i strålkastarljuset, mörka läktare och TV-ljus
+Crimson velvet	Karmosinsammet
+Eclipse	Förmörkelse
+Arena blue	Arenablå
+Millennium gold	Millenniumguld
+Holly	Järnek
+Winter frost	Vinterfrost
+Rainforest	Regnskog
+Bonfire	Brasa
+Spring meadow	Våräng
+Gold filigree	Guldfiligran
+Thunderbolt	Blixt
+Damascus steel	Damaskusstål
+Glacier	Glaciär
+Abalone	Abalone
+Volcano	Vulkan
+Aurora	Norrsken
+Emperor	Kejsare
+Untouchable	Oberörbar
+Midas	Midas
+Empire	Imperium
+Millennium	Millennium
+Four corners	Fyra hörn
+Back from the dead	Tillbaka från de döda
+Season champion	Säsongsmästare
+Candy cane	Polkagris
+Countdown	Nedräkning
+Carnival	Karneval
+Easter egg	Påskägg
+Festa junina	Festa junina
+Spider web	Spindelnät
+Winter cup	Vintercup
+Summer cup	Sommarcup
+Anniversary	Jubileum
+World cup	Världscup
+New dawn	Ny gryning
+Sakura	Sakura
+Tide	Tidvatten
+Witching hour	Häxtimmen
+Diamond dust chalk	Diamantdammskrita
+Champion's chalk	Mästarens krita
+Marble	Marmor
+Glow	Glöd
+Crystal	Kristall
+Crown jewels	Kronjuveler
+Champion's gold	Mästarguld
+Christmas baubles	Julkulor
+Haunted	Hemsökt
+Copper works	Kopparverk
+Carbon racer	Kolfiberracer
+Neon night	Neonnatt
+Ice palace	Ispalats
+Country barn	Lantlada
+Pro arena	Proffsarena
+Obsidian	Obsidian
+Prism	Prisma
+Phantom	Fantom
+Pro tour	Proffstour
+Rose garden	Rosenträdgård
+Golden hour	Gyllene timmen
+Hearts	Hjärtan
+Thunderstorm	Åskväder
+Black hole	Svart hål
+Shooting stars	Stjärnfall
+Snowfall	Snöfall
+Champion's fireworks	Mästarens fyrverkeri
+Crown of glory	Ärans krona
+Fingers crossed	Korsade fingrar
+Call me	Ring mig
+Nerd	Nörd
+Money face	Pengaansikte
+Monocle	Monokel
+Facepalm	Facepalm
+Shrug	Axelryckning
+Hands up	Händerna upp
+Melting	Smälter
+Alien	Utomjording
+Clown	Clown
+Little devil	Liten djävul
+Angel	Ängel
+Bomb	Bomb
+Money bag	Pengasäck
+Crystal ball	Kristallkula
+Tornado	Tornado
+Dragon	Drake
+Santa	Tomten
+Snowflake	Snöflinga
+Summer sun	Sommarsol
+Easter bunny	Påskhare
+Football	Fotboll
+Balloon	Ballong
+Season medal	Säsongsmedalj
+Common	Vanlig
+Rare	Sällsynt
+Epic	Episk
+Legendary	Legendarisk
+Institution	Institution
+Play 2,500 rated games.	Spela 2 500 rankade partier.
+Living legend	Levande legend
+Win 1,000 rated games.	Vinn 1 000 rankade partier.
+The last word	Sista ordet
+Win 500 rated games on the 8-ball.	Vinn 500 rankade partier på 8-bollen.
+Seventh heaven	Sjunde himlen
+Win 7 rated games in a row.	Vinn 7 rankade partier i rad.
+Clinical	Klinisk
+Break and run 5 times.	Slå ut och rensa bordet 5 gånger.
+Iron curtain	Järnridå
+Win 25 rated shutouts.	Vinn 25 rankade partier med nolla.
+Win 10 tournaments.	Vinn 10 turneringar.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Vinn ett rankat parti under karnevalstiden (1 feb – 10 mar).
+June festival	Junifest
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Vinn ett rankat parti under junifestligheterna (1–30 jun).
+Three in one	Tre i ett
+Pocket three of your balls with one shot (not the break).	Sänk tre av dina bollar med en stöt (inte utslaget).
+Pocket balls in four different pockets with one shot (not the break).	Sänk bollar i fyra olika hål med en stöt (inte utslaget).
+Thunder break	Åskutslag
+Pocket five balls on the break.	Sänk fem bollar på utslaget.
+Spotted	På pricken
+Pocket the 8-ball on the break in a game under the official rules.	Sänk 8-bollen på utslaget i ett parti med de officiella reglerna.
+Win a rated game after being six balls behind.	Vinn ett rankat parti efter att ha legat sex bollar efter.
+Last stand	Sista striden
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Vinn ett rankat parti efter att din motståndare var på 8-bollen medan du hade fem bollar eller fler kvar.
+Stolen table	Stulet bord
+Win a rated game from your opponent's break without them getting another shot.	Vinn ett rankat parti från motståndarens utslag utan att hen får stöta igen.
+Marathon	Maraton
+Win a rated game that lasted 60 shots or more.	Vinn ett rankat parti som varade i 60 stötar eller fler.
+Ugly but it counts	Fult, men det räknas
+Win a rated game in which you fouled four times or more.	Vinn ett rankat parti där du gjorde fyra eller fler fel.
+This item can't be given: it stays with whoever won it.	Föremålet kan inte ges bort: det stannar hos den som vann det.
 Current prize: {n} coins	Nuvarande pris: {n} mynt
 Champion wins: {item}	Mästaren vinner: {item}
 {h} h {m} min	{h} h {m} min
@@ -2157,7 +2342,6 @@ Champion wins: {item}	Mästaren vinner: {item}
 {s} s	{s} s
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Dag {d} i rad: +{n} mynt. I morgon: +{m}.
 Auctions ({n})	Auktioner ({n})
-Auctions	Auktioner
 Supporters	Supportrar
 Maintenance in {t}: the server stops for about {m} min.	Underhåll om {t}: servern stannar i cirka {m} min.
 Maintenance: the server is stopping. Games in progress go on.	Underhåll: servern stannar. Pågående partier fortsätter.

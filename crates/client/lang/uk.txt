@@ -2150,6 +2150,191 @@ Equip now	Спорядити зараз
 Open the collection	Відкрити колекцію
 Auctions	Аукціони
 The staff ended your game without a result. Sign in again.	Команда завершила вашу партію без результату. Увійдіть знову.
+A secret achievement: play to find it.	Таємне досягнення: грайте, щоб його знайти.
+Only won	Лише виграти
+Collection	Колекція
+Everything you have, and how you got it	Усе, що у вас є, і як ви це здобули
+A secret achievement	Таємне досягнення
+Not yet yours	Ще не ваше
+Rarest first	Спершу найрідкісніші
+Newest first	Спершу нові
+By name	За назвою
+Reaction	Реакція
+Bought for {n} coins	Куплено за {n} монет
+Bought in the shop	Куплено в крамниці
+Gift from {name}	Подарунок від {name}
+A present from the staff	Подарунок від команди
+From the staff: {reason}	Від команди: {reason}
+Champion of {name}	Чемпіон {name}
+Runner-up of {name}	Фіналіст {name}
+Place {n} in {name}	{n}-те місце в {name}
+Achievement: {title}	Досягнення: {title}
+Won at auction for {n} coins	Виграно на аукціоні за {n} монет
+VIP's item of the month · {month}	VIP-предмет місяця · {month}
+Prize of {name}	Приз: {name}
+Yours	Ваше
+VIP's item of the month: VIP members get it that month	VIP-предмет місяця: учасники VIP отримують його цього місяця
+Only the season's champion wins it	Його виграє лише чемпіон сезону
+Won in the official tournaments	Розігрується в офіційних турнірах
+Only won: events, cups and seasons	Лише виграти: події, кубки та сезони
+In the welcome pack	У вітальному наборі
+Yours while you are VIP	Ваше, поки ви VIP
+Legendary cue	Легендарний кий
+Epic cue	Епічний кий
+{n} of {total} items	{n} з {total} предметів
+Sign in to see your collection.	Увійдіть, щоб побачити свою колекцію.
+Missing too	І відсутні
+Nothing of this rarity here.	Тут немає нічого такої рідкісності.
+None yet: they are waiting to be won.	Поки нічого: вони чекають, щоб їх виграли.
+Page {a} of {b}	Сторінка {a} з {b}
+In the shop	У крамниці
+Everything you have	Усе, що у вас є
+Show reactions	Показувати реакції
+Off: no reactions are shown during matches, from anyone.	Вимк.: під час партій не показуються нічиї реакції.
+The colour of your aim line and ghost ball.	Колір вашої лінії прицілу та кулі-привида.
+For VIP members: the colour of the aim line and the ghost ball.	Для учасників VIP: колір лінії прицілу та кулі-привида.
+Aim colour	Колір прицілу
+Polished stone, veined right through	Полірований камінь із прожилками наскрізь
+A night sky in every ball, under a clear coat	Нічне небо в кожній кулі, під лаком
+Lit from within, like neon	Світяться зсередини, як неон
+Cut glass: deep colour and a dazzling shine	Гранчасте скло: глибокий колір і сліпучий блиск
+White Carrara marble, gold castings and fluted columns	Білий каррарський мармур, золота фурнітура й колони з канелюрами
+Black gloss on slab legs, with a neon glow beneath	Глянцевий чорний на ніжках-плитах, із неоновим сяйвом знизу
+Woven carbon rails, red trim and a light strip	Борти з плетеного карбону, червоні акценти та світлова смуга
+Dark walnut and polished copper on a riveted steel frame	Темний горіх і полірована мідь на клепаній сталевій рамі
+Frosted lacquer and silver, with a cold light beneath	Матовий лак і срібло, з холодним світлом знизу
+Black volcanic stone, cracked with molten orange	Чорний вулканічний камінь у тріщинах розпеченого помаранчевого
+Rough pine on square posts, with iron castings	Груба сосна на квадратних ніжках, із залізною фурнітурою
+Black lacquer and gold: the season champion's table	Чорний лак і золото: стіл чемпіона сезону
+The table alone under the spotlight, dark stands and TV lights	Стіл сам у промені прожектора, темні трибуни й телевізійне світло
+Crimson velvet	Багряний оксамит
+Eclipse	Затемнення
+Arena blue	Синя арена
+Millennium gold	Золото тисячоліття
+Holly	Падуб
+Winter frost	Зимовий іній
+Rainforest	Тропічний ліс
+Bonfire	Багаття
+Spring meadow	Весняний луг
+Gold filigree	Золота філігрань
+Thunderbolt	Блискавка
+Damascus steel	Дамаська сталь
+Glacier	Льодовик
+Abalone	Морське вушко
+Volcano	Вулкан
+Aurora	Полярне сяйво
+Emperor	Імператор
+Untouchable	Недоторканний
+Midas	Мідас
+Empire	Імперія
+Millennium	Тисячоліття
+Four corners	Чотири кути
+Back from the dead	Повернення з мертвих
+Season champion	Чемпіон сезону
+Candy cane	Різдвяна цукерка
+Countdown	Зворотний відлік
+Carnival	Карнавал
+Easter egg	Великоднє яйце
+Festa junina	Festa junina
+Spider web	Павутина
+Winter cup	Зимовий кубок
+Summer cup	Літній кубок
+Anniversary	Річниця
+World cup	Чемпіонат світу
+New dawn	Новий світанок
+Sakura	Сакура
+Tide	Приплив
+Witching hour	Відьомська година
+Diamond dust chalk	Крейда з діамантового пилу
+Champion's chalk	Крейда чемпіона
+Marble	Мармур
+Glow	Сяйво
+Crystal	Кришталь
+Crown jewels	Коштовності корони
+Champion's gold	Золото чемпіона
+Christmas baubles	Ялинкові кулі
+Haunted	З привидами
+Copper works	Мідна майстерня
+Carbon racer	Карбоновий болід
+Neon night	Неонова ніч
+Ice palace	Крижаний палац
+Country barn	Сільська клуня
+Pro arena	Професійна арена
+Obsidian	Обсидіан
+Prism	Призма
+Phantom	Фантом
+Pro tour	Професійний тур
+Rose garden	Трояндовий сад
+Golden hour	Золота година
+Hearts	Серця
+Thunderstorm	Гроза
+Black hole	Чорна діра
+Shooting stars	Падаючі зорі
+Snowfall	Снігопад
+Champion's fireworks	Салют чемпіона
+Crown of glory	Корона слави
+Fingers crossed	Схрещені пальці
+Call me	Зателефонуй
+Nerd	Ботанік
+Money face	Грошове обличчя
+Monocle	Монокль
+Facepalm	Фейспалм
+Shrug	Знизати плечима
+Hands up	Руки вгору
+Melting	Тану
+Alien	Прибулець
+Clown	Клоун
+Little devil	Чортик
+Angel	Ангел
+Bomb	Бомба
+Money bag	Мішок грошей
+Crystal ball	Кришталева куля
+Tornado	Торнадо
+Dragon	Дракон
+Santa	Санта
+Snowflake	Сніжинка
+Summer sun	Літнє сонце
+Easter bunny	Великодній кролик
+Football	Футбол
+Balloon	Повітряна кулька
+Season medal	Медаль сезону
+Common	Звичайний
+Rare	Рідкісний
+Epic	Епічний
+Legendary	Легендарний
+Institution	Установа
+Play 2,500 rated games.	Зіграйте 2500 рейтингових партій.
+Living legend	Жива легенда
+Win 1,000 rated games.	Виграйте 1000 рейтингових партій.
+The last word	Останнє слово
+Win 500 rated games on the 8-ball.	Виграйте 500 рейтингових партій, забивши вісімку.
+Seventh heaven	Сьоме небо
+Win 7 rated games in a row.	Виграйте 7 рейтингових партій поспіль.
+Clinical	Хірургічна точність
+Break and run 5 times.	Виграйте партію з кия 5 разів.
+Iron curtain	Залізна завіса
+Win 25 rated shutouts.	Здобудьте 25 сухих перемог у рейтингових партіях.
+Win 10 tournaments.	Виграйте 10 турнірів.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Виграйте рейтингову партію під час карнавалу (1 лют. – 10 бер.).
+June festival	Червневе свято
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Виграйте рейтингову партію під час червневих свят (1–30 черв.).
+Three in one	Три за раз
+Pocket three of your balls with one shot (not the break).	Забийте три свої кулі одним ударом (не на розбитті).
+Pocket balls in four different pockets with one shot (not the break).	Забийте кулі в чотири різні лузи одним ударом (не на розбитті).
+Thunder break	Громове розбиття
+Pocket five balls on the break.	Забийте п'ять куль на розбитті.
+Spotted	У точку
+Pocket the 8-ball on the break in a game under the official rules.	Забийте вісімку на розбитті в партії за офіційними правилами.
+Win a rated game after being six balls behind.	Виграйте рейтингову партію, поступаючись шістьма кулями.
+Last stand	Останній рубіж
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Виграйте рейтингову партію після того, як суперник вийшов на вісімку, а у вас лишалося п'ять куль або більше.
+Stolen table	Викрадений стіл
+Win a rated game from your opponent's break without them getting another shot.	Виграйте рейтингову партію після розбиття суперника, не давши йому більше вдарити.
+Marathon	Марафон
+Win a rated game that lasted 60 shots or more.	Виграйте рейтингову партію, що тривала 60 ударів або більше.
+Ugly but it counts	Негарно, але зараховано
+Win a rated game in which you fouled four times or more.	Виграйте рейтингову партію, у якій ви зробили чотири фоли або більше.
+This item can't be given: it stays with whoever won it.	Цей предмет не можна подарувати: він лишається в того, хто його виграв.
 Current prize: {n} coins	Поточний приз: {n} монет
 Champion wins: {item}	Чемпіон отримує: {item}
 {h} h {m} min	{h} год {m} хв
@@ -2157,7 +2342,6 @@ Champion wins: {item}	Чемпіон отримує: {item}
 {s} s	{s} с
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	День {d} поспіль: +{n} монет. Завтра: +{m}.
 Auctions ({n})	Аукціони ({n})
-Auctions	Аукціони
 Supporters	Прихильники
 Maintenance in {t}: the server stops for about {m} min.	Техроботи через {t}: сервер зупиниться приблизно на {m} хв.
 Maintenance: the server is stopping. Games in progress go on.	Техроботи: сервер зупиняється. Поточні партії тривають.

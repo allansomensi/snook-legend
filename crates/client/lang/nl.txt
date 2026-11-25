@@ -2150,6 +2150,191 @@ Equip now	Nu uitrusten
 Open the collection	Collectie openen
 Auctions	Veilingen
 The staff ended your game without a result. Sign in again.	Het team heeft je partij zonder uitslag beëindigd. Log opnieuw in.
+A secret achievement: play to find it.	Een geheime prestatie: speel om hem te vinden.
+Only won	Alleen te winnen
+Collection	Collectie
+Everything you have, and how you got it	Alles wat je hebt, en hoe je het kreeg
+A secret achievement	Een geheime prestatie
+Not yet yours	Nog niet van jou
+Rarest first	Zeldzaamste eerst
+Newest first	Nieuwste eerst
+By name	Op naam
+Reaction	Reactie
+Bought for {n} coins	Gekocht voor {n} munten
+Bought in the shop	Gekocht in de winkel
+Gift from {name}	Cadeau van {name}
+A present from the staff	Een cadeau van het team
+From the staff: {reason}	Van het team: {reason}
+Champion of {name}	Kampioen van {name}
+Runner-up of {name}	Finalist van {name}
+Place {n} in {name}	Plaats {n} in {name}
+Achievement: {title}	Prestatie: {title}
+Won at auction for {n} coins	Gewonnen op een veiling voor {n} munten
+VIP's item of the month · {month}	VIP-item van de maand · {month}
+Prize of {name}	Prijs van {name}
+Yours	Van jou
+VIP's item of the month: VIP members get it that month	VIP-item van de maand: VIP-leden krijgen het die maand
+Only the season's champion wins it	Alleen de kampioen van het seizoen wint het
+Won in the official tournaments	Te winnen in de officiële toernooien
+Only won: events, cups and seasons	Alleen te winnen: evenementen, bekers en seizoenen
+In the welcome pack	In het welkomstpakket
+Yours while you are VIP	Van jou zolang je VIP bent
+Legendary cue	Legendarische keu
+Epic cue	Epische keu
+{n} of {total} items	{n} van {total} items
+Sign in to see your collection.	Log in om je collectie te zien.
+Missing too	Ook wat ontbreekt
+Nothing of this rarity here.	Niets van deze zeldzaamheid hier.
+None yet: they are waiting to be won.	Nog geen: ze wachten erop gewonnen te worden.
+Page {a} of {b}	Pagina {a} van {b}
+In the shop	In de winkel
+Everything you have	Alles wat je hebt
+Show reactions	Reacties tonen
+Off: no reactions are shown during matches, from anyone.	Uit: tijdens partijen worden geen reacties getoond, van niemand.
+The colour of your aim line and ghost ball.	De kleur van je richtlijn en de spookbal.
+For VIP members: the colour of the aim line and the ghost ball.	Voor VIP-leden: de kleur van de richtlijn en de spookbal.
+Aim colour	Richtkleur
+Polished stone, veined right through	Gepolijste steen, dooraderd van kant tot kant
+A night sky in every ball, under a clear coat	Een nachtelijke hemel in elke bal, onder de lak
+Lit from within, like neon	Van binnenuit verlicht, als neon
+Cut glass: deep colour and a dazzling shine	Geslepen glas: diepe kleur en een verblindende glans
+White Carrara marble, gold castings and fluted columns	Wit Carrara-marmer, gouden beslag en gecanneleerde zuilen
+Black gloss on slab legs, with a neon glow beneath	Glanzend zwart op plaatpoten, met een neongloed eronder
+Woven carbon rails, red trim and a light strip	Banden van gevlochten carbon, rode accenten en een lichtstrip
+Dark walnut and polished copper on a riveted steel frame	Donker notenhout en gepolijst koper op een geklonken stalen frame
+Frosted lacquer and silver, with a cold light beneath	Berijpte lak en zilver, met een koud licht eronder
+Black volcanic stone, cracked with molten orange	Zwarte vulkanische steen, gebarsten met gloeiend oranje
+Rough pine on square posts, with iron castings	Ruw grenen op vierkante poten, met ijzeren beslag
+Black lacquer and gold: the season champion's table	Zwarte lak en goud: de tafel van de seizoenskampioen
+The table alone under the spotlight, dark stands and TV lights	De tafel alleen in de spot, donkere tribunes en tv-licht
+Crimson velvet	Karmozijn fluweel
+Eclipse	Eclips
+Arena blue	Arenablauw
+Millennium gold	Millenniumgoud
+Holly	Hulst
+Winter frost	Winterrijp
+Rainforest	Regenwoud
+Bonfire	Vreugdevuur
+Spring meadow	Lenteweide
+Gold filigree	Gouden filigraan
+Thunderbolt	Bliksemschicht
+Damascus steel	Damascusstaal
+Glacier	Gletsjer
+Abalone	Abalone
+Volcano	Vulkaan
+Aurora	Poollicht
+Emperor	Keizer
+Untouchable	Onaantastbaar
+Midas	Midas
+Empire	Imperium
+Millennium	Millennium
+Four corners	Vier hoeken
+Back from the dead	Terug uit de dood
+Season champion	Seizoenskampioen
+Candy cane	Zuurstok
+Countdown	Aftellen
+Carnival	Carnaval
+Easter egg	Paasei
+Festa junina	Festa junina
+Spider web	Spinnenweb
+Winter cup	Winterbeker
+Summer cup	Zomerbeker
+Anniversary	Jubileum
+World cup	Wereldbeker
+New dawn	Nieuwe dageraad
+Sakura	Sakura
+Tide	Getij
+Witching hour	Heksenuur
+Diamond dust chalk	Diamantstofkrijt
+Champion's chalk	Krijt van de kampioen
+Marble	Marmer
+Glow	Gloed
+Crystal	Kristal
+Crown jewels	Kroonjuwelen
+Champion's gold	Kampioensgoud
+Christmas baubles	Kerstballen
+Haunted	Spookachtig
+Copper works	Koperwerk
+Carbon racer	Carbon racer
+Neon night	Neonnacht
+Ice palace	IJspaleis
+Country barn	Boerenschuur
+Pro arena	Profarena
+Obsidian	Obsidiaan
+Prism	Prisma
+Phantom	Fantoom
+Pro tour	Proftour
+Rose garden	Rozentuin
+Golden hour	Gouden uur
+Hearts	Harten
+Thunderstorm	Onweer
+Black hole	Zwart gat
+Shooting stars	Vallende sterren
+Snowfall	Sneeuwval
+Champion's fireworks	Vuurwerk van de kampioen
+Crown of glory	Kroon van glorie
+Fingers crossed	Duimen
+Call me	Bel me
+Nerd	Nerd
+Money face	Geldgezicht
+Monocle	Monocle
+Facepalm	Facepalm
+Shrug	Schouderophalen
+Hands up	Handen omhoog
+Melting	Smeltend
+Alien	Buitenaards wezen
+Clown	Clown
+Little devil	Duiveltje
+Angel	Engel
+Bomb	Bom
+Money bag	Geldzak
+Crystal ball	Kristallen bol
+Tornado	Tornado
+Dragon	Draak
+Santa	Kerstman
+Snowflake	Sneeuwvlok
+Summer sun	Zomerzon
+Easter bunny	Paashaas
+Football	Voetbal
+Balloon	Ballon
+Season medal	Seizoensmedaille
+Common	Gewoon
+Rare	Zeldzaam
+Epic	Episch
+Legendary	Legendarisch
+Institution	Instituut
+Play 2,500 rated games.	Speel 2.500 ratingpartijen.
+Living legend	Levende legende
+Win 1,000 rated games.	Win 1.000 ratingpartijen.
+The last word	Het laatste woord
+Win 500 rated games on the 8-ball.	Win 500 ratingpartijen op de 8-bal.
+Seventh heaven	Zevende hemel
+Win 7 rated games in a row.	Win 7 ratingpartijen op rij.
+Clinical	Klinisch
+Break and run 5 times.	Speel 5 keer de tafel uit vanaf je afstoot.
+Iron curtain	IJzeren gordijn
+Win 25 rated shutouts.	Houd in 25 gewonnen ratingpartijen de nul.
+Win 10 tournaments.	Win 10 toernooien.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Win een ratingpartij in de carnavalstijd (1 feb – 10 mrt).
+June festival	Junifeest
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Win een ratingpartij tijdens de junifeesten (1 – 30 jun).
+Three in one	Drie in één
+Pocket three of your balls with one shot (not the break).	Pot drie van je ballen met één stoot (niet de afstoot).
+Pocket balls in four different pockets with one shot (not the break).	Pot ballen in vier verschillende pockets met één stoot (niet de afstoot).
+Thunder break	Donderafstoot
+Pocket five balls on the break.	Pot vijf ballen bij de afstoot.
+Spotted	Op de stip
+Pocket the 8-ball on the break in a game under the official rules.	Pot de 8-bal bij de afstoot in een partij volgens de officiële regels.
+Win a rated game after being six balls behind.	Win een ratingpartij nadat je zes ballen achterstond.
+Last stand	Laatste stelling
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Win een ratingpartij nadat je tegenstander op de 8-bal stond terwijl jij nog vijf of meer ballen had.
+Stolen table	Gestolen tafel
+Win a rated game from your opponent's break without them getting another shot.	Win een ratingpartij vanaf de afstoot van je tegenstander zonder dat die nog stoot.
+Marathon	Marathon
+Win a rated game that lasted 60 shots or more.	Win een ratingpartij die 60 stoten of meer duurde.
+Ugly but it counts	Lelijk, maar het telt
+Win a rated game in which you fouled four times or more.	Win een ratingpartij waarin je vier of meer fouten maakte.
+This item can't be given: it stays with whoever won it.	Dit item kan niet worden gegeven: het blijft bij wie het won.
 Current prize: {n} coins	Huidige prijs: {n} munten
 Champion wins: {item}	De kampioen wint: {item}
 {h} h {m} min	{h} u {m} min
@@ -2157,7 +2342,6 @@ Champion wins: {item}	De kampioen wint: {item}
 {s} s	{s} s
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Dag {d} op rij: +{n} munten. Morgen: +{m}.
 Auctions ({n})	Veilingen ({n})
-Auctions	Veilingen
 Supporters	Supporters
 Maintenance in {t}: the server stops for about {m} min.	Onderhoud over {t}: de server stopt ongeveer {m} min.
 Maintenance: the server is stopping. Games in progress go on.	Onderhoud: de server stopt. Lopende potjes gaan door.

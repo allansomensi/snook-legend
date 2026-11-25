@@ -2150,6 +2150,191 @@ Equip now	立即装备
 Open the collection	打开收藏
 Auctions	拍卖
 The staff ended your game without a result. Sign in again.	管理团队已无结果地结束了你的比赛。请重新登录。
+A secret achievement: play to find it.	秘密成就：多玩几局就能发现。
+Only won	只能赢取
+Collection	收藏
+Everything you have, and how you got it	你拥有的一切，以及如何得到
+A secret achievement	秘密成就
+Not yet yours	还不是你的
+Rarest first	最稀有优先
+Newest first	最新优先
+By name	按名称
+Reaction	表情
+Bought for {n} coins	以{n}金币购买
+Bought in the shop	在商店购买
+Gift from {name}	来自{name}的礼物
+A present from the staff	来自团队的礼物
+From the staff: {reason}	来自团队：{reason}
+Champion of {name}	{name}冠军
+Runner-up of {name}	{name}亚军
+Place {n} in {name}	{name}第{n}名
+Achievement: {title}	成就：{title}
+Won at auction for {n} coins	以{n}金币拍得
+VIP's item of the month · {month}	本月VIP物品 · {month}
+Prize of {name}	{name}的奖品
+Yours	你的
+VIP's item of the month: VIP members get it that month	本月VIP物品：当月的VIP会员可获得
+Only the season's champion wins it	只有赛季冠军能赢得
+Won in the official tournaments	在官方锦标赛中赢取
+Only won: events, cups and seasons	只能赢取：活动、杯赛和赛季
+In the welcome pack	欢迎礼包中
+Yours while you are VIP	你是VIP期间归你所有
+Legendary cue	传说球杆
+Epic cue	史诗球杆
+{n} of {total} items	{n} / {total} 件物品
+Sign in to see your collection.	登录以查看你的收藏。
+Missing too	也显示缺少的
+Nothing of this rarity here.	这里没有这种稀有度的物品。
+None yet: they are waiting to be won.	还没有：它们等着被赢取。
+Page {a} of {b}	第{a}页，共{b}页
+In the shop	去商店
+Everything you have	你拥有的一切
+Show reactions	显示表情
+Off: no reactions are shown during matches, from anyone.	关闭：对局中不显示任何人的表情。
+The colour of your aim line and ghost ball.	你的瞄准线和幽灵球的颜色。
+For VIP members: the colour of the aim line and the ghost ball.	VIP会员专享：瞄准线和幽灵球的颜色。
+Aim colour	瞄准颜色
+Polished stone, veined right through	抛光的石材，纹理贯穿始终
+A night sky in every ball, under a clear coat	每颗球里一片夜空，封在清漆之下
+Lit from within, like neon	从内部发光，宛如霓虹
+Cut glass: deep colour and a dazzling shine	切割玻璃：深邃的色彩与耀眼的光芒
+White Carrara marble, gold castings and fluted columns	白色卡拉拉大理石、金色配件和凹槽立柱
+Black gloss on slab legs, with a neon glow beneath	板式桌腿上的亮黑色，底部透出霓虹光
+Woven carbon rails, red trim and a light strip	编织碳纤维台边、红色点缀和一条灯带
+Dark walnut and polished copper on a riveted steel frame	铆接钢架上的深色胡桃木与抛光铜
+Frosted lacquer and silver, with a cold light beneath	磨砂漆面与银色，底部透出冷光
+Black volcanic stone, cracked with molten orange	黑色火山岩，裂缝中透出炽热的橙色
+Rough pine on square posts, with iron castings	方腿上的粗松木，配铁制配件
+Black lacquer and gold: the season champion's table	黑漆与黄金：赛季冠军的球台
+The table alone under the spotlight, dark stands and TV lights	聚光灯下独自一张球台，昏暗的看台和电视灯光
+Crimson velvet	深红天鹅绒
+Eclipse	日食
+Arena blue	竞技场蓝
+Millennium gold	千禧金
+Holly	冬青
+Winter frost	冬日霜华
+Rainforest	雨林
+Bonfire	篝火
+Spring meadow	春日草地
+Gold filigree	金丝花纹
+Thunderbolt	霹雳
+Damascus steel	大马士革钢
+Glacier	冰川
+Abalone	鲍鱼贝
+Volcano	火山
+Aurora	极光
+Emperor	皇帝
+Untouchable	无可匹敌
+Midas	迈达斯
+Empire	帝国
+Millennium	千禧
+Four corners	四角
+Back from the dead	起死回生
+Season champion	赛季冠军
+Candy cane	拐杖糖
+Countdown	倒计时
+Carnival	狂欢节
+Easter egg	复活节彩蛋
+Festa junina	六月节
+Spider web	蛛网
+Winter cup	冬季杯
+Summer cup	夏季杯
+Anniversary	周年纪念
+World cup	世界杯
+New dawn	新的黎明
+Sakura	樱花
+Tide	潮汐
+Witching hour	魔女时刻
+Diamond dust chalk	钻石粉巧粉
+Champion's chalk	冠军巧粉
+Marble	大理石
+Glow	荧光
+Crystal	水晶
+Crown jewels	王冠珠宝
+Champion's gold	冠军之金
+Christmas baubles	圣诞彩球
+Haunted	闹鬼
+Copper works	铜工坊
+Carbon racer	碳纤维赛车
+Neon night	霓虹之夜
+Ice palace	冰之宫殿
+Country barn	乡间谷仓
+Pro arena	职业竞技场
+Obsidian	黑曜石
+Prism	棱镜
+Phantom	幻影
+Pro tour	职业巡回赛
+Rose garden	玫瑰园
+Golden hour	黄金时刻
+Hearts	爱心
+Thunderstorm	雷暴
+Black hole	黑洞
+Shooting stars	流星
+Snowfall	飘雪
+Champion's fireworks	冠军烟花
+Crown of glory	荣耀之冠
+Fingers crossed	交叉手指
+Call me	打给我
+Nerd	书呆子
+Money face	见钱眼开
+Monocle	单片眼镜
+Facepalm	捂脸
+Shrug	耸肩
+Hands up	举手欢呼
+Melting	融化
+Alien	外星人
+Clown	小丑
+Little devil	小恶魔
+Angel	天使
+Bomb	炸弹
+Money bag	钱袋
+Crystal ball	水晶球
+Tornado	龙卷风
+Dragon	龙
+Santa	圣诞老人
+Snowflake	雪花
+Summer sun	夏日骄阳
+Easter bunny	复活节兔子
+Football	足球
+Balloon	气球
+Season medal	赛季奖牌
+Common	普通
+Rare	稀有
+Epic	史诗
+Legendary	传说
+Institution	元老
+Play 2,500 rated games.	进行2500局积分赛。
+Living legend	活着的传奇
+Win 1,000 rated games.	赢得1000局积分赛。
+The last word	最后一句
+Win 500 rated games on the 8-ball.	打进8号球赢得500局积分赛。
+Seventh heaven	七重天
+Win 7 rated games in a row.	连续赢得7局积分赛。
+Clinical	精准如手术
+Break and run 5 times.	炸清5次。
+Iron curtain	铁幕
+Win 25 rated shutouts.	在积分赛中完封对手25次。
+Win 10 tournaments.	赢得10次锦标赛。
+Win a rated game in Carnival season (Feb 1 – Mar 10).	在狂欢节期间（2月1日–3月10日）赢得一局积分赛。
+June festival	六月庆典
+Win a rated game during the June festivals (Jun 1 – Jun 30).	在六月庆典期间（6月1日–6月30日）赢得一局积分赛。
+Three in one	一杆三球
+Pocket three of your balls with one shot (not the break).	一杆打进自己的三颗球（开球不算）。
+Pocket balls in four different pockets with one shot (not the break).	一杆把球打进四个不同的袋口（开球不算）。
+Thunder break	雷霆开球
+Pocket five balls on the break.	开球时打进五颗球。
+Spotted	定点
+Pocket the 8-ball on the break in a game under the official rules.	在官方规则的对局中开球打进8号球。
+Win a rated game after being six balls behind.	落后六颗球后赢得一局积分赛。
+Last stand	背水一战
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	在对手已经打8号球、而你还剩五颗或更多球时，赢得一局积分赛。
+Stolen table	夺走球台
+Win a rated game from your opponent's break without them getting another shot.	在对手开球后不让其再出杆，赢得一局积分赛。
+Marathon	马拉松
+Win a rated game that lasted 60 shots or more.	赢得一局持续60杆或以上的积分赛。
+Ugly but it counts	赢得难看也算赢
+Win a rated game in which you fouled four times or more.	赢得一局你犯规四次或以上的积分赛。
+This item can't be given: it stays with whoever won it.	此物品无法赠送：它属于赢得它的人。
 Current prize: {n} coins	当前奖金：{n} 金币
 Champion wins: {item}	冠军奖品：{item}
 {h} h {m} min	{h}小时{m}分
@@ -2157,7 +2342,6 @@ Champion wins: {item}	冠军奖品：{item}
 {s} s	{s}秒
 Day {d} in a row: +{n} coins. Tomorrow: +{m}.	连续第{d}天：+{n} 金币。明天：+{m}。
 Auctions ({n})	拍卖（{n}）
-Auctions	拍卖
 Supporters	支持者
 Maintenance in {t}: the server stops for about {m} min.	{t}后维护：服务器将停止约{m}分钟。
 Maintenance: the server is stopping. Games in progress go on.	维护：服务器正在停止。进行中的对局继续。

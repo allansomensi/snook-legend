@@ -111,6 +111,74 @@ fn table_look(s: TableStyle) -> TableLook {
             metal: rgb(224, 178, 80),
             depth: 0.13,
         },
+        TableStyle::Marble => TableLook {
+            rail: rgb(236, 234, 230),
+            apron: rgb(224, 222, 218),
+            legs: rgb(230, 228, 224),
+            metal: rgb(226, 180, 82),
+            depth: 0.14,
+        },
+        TableStyle::Neon => TableLook {
+            rail: rgb(14, 12, 18),
+            apron: rgb(10, 9, 14),
+            legs: rgb(12, 11, 16),
+            metal: rgb(40, 240, 255),
+            depth: 0.08,
+        },
+        TableStyle::Carbon => TableLook {
+            rail: rgb(36, 36, 40),
+            apron: rgb(28, 28, 32),
+            legs: rgb(30, 30, 34),
+            metal: rgb(220, 30, 24),
+            depth: 0.09,
+        },
+        TableStyle::Copper => TableLook {
+            rail: rgb(70, 40, 22),
+            apron: rgb(50, 46, 46),
+            legs: rgb(34, 32, 32),
+            metal: rgb(204, 112, 60),
+            depth: 0.12,
+        },
+        TableStyle::Ice => TableLook {
+            rail: rgb(222, 238, 250),
+            apron: rgb(196, 220, 240),
+            legs: rgb(214, 232, 248),
+            metal: rgb(214, 222, 232),
+            depth: 0.1,
+        },
+        TableStyle::Volcano => TableLook {
+            rail: rgb(24, 20, 20),
+            apron: rgb(18, 15, 15),
+            legs: rgb(20, 17, 17),
+            metal: rgb(255, 120, 20),
+            depth: 0.14,
+        },
+        TableStyle::Rustic => TableLook {
+            rail: rgb(164, 122, 76),
+            apron: rgb(150, 110, 68),
+            legs: rgb(136, 98, 60),
+            metal: rgb(44, 42, 40),
+            depth: 0.15,
+        },
+        TableStyle::Champion => TableLook {
+            rail: rgb(16, 14, 14),
+            apron: rgb(12, 11, 11),
+            legs: rgb(18, 16, 16),
+            metal: rgb(236, 186, 80),
+            depth: 0.14,
+        },
+    }
+}
+
+/// The colour of the light under a table's apron (the glowing ones).
+fn under_light(style: TableStyle) -> Option<Color> {
+    match style {
+        TableStyle::Modern => Some(rgb(150, 210, 255)),
+        TableStyle::Neon => Some(rgb(255, 60, 210)),
+        TableStyle::Carbon => Some(rgb(255, 50, 30)),
+        TableStyle::Ice => Some(rgb(140, 216, 255)),
+        TableStyle::Volcano => Some(rgb(255, 120, 20)),
+        _ => None,
     }
 }
 
@@ -233,44 +301,125 @@ pub fn table(r: Rect, style: TableStyle) {
             let y = apron.y + apron.h * 0.75;
             draw_line(apron.x, y, apron.x + apron.w, y, 1.5, lk.metal);
         }
-        TableStyle::Club | TableStyle::Royal | TableStyle::Heritage | TableStyle::Deco => {
+        TableStyle::Club
+        | TableStyle::Royal
+        | TableStyle::Heritage
+        | TableStyle::Deco
+        | TableStyle::Marble
+        | TableStyle::Champion => {
             let y = apron.y + apron.h * 0.55;
             let color =
-                if matches!(style, TableStyle::Royal | TableStyle::Deco | TableStyle::Heritage) {
-                    lk.metal
-                } else {
-                    crate::ui::shade(lk.apron, 0.12)
-                };
+                if style == TableStyle::Club { crate::ui::shade(lk.apron, 0.12) } else { lk.metal };
             draw_line(apron.x, y, apron.x + apron.w, y, 1.6, color);
             draw_rectangle(apron.x - 1.5, apron.y + apron.h - 2.0, apron.w + 3.0, 2.5, lk.rail);
+            if style == TableStyle::Champion {
+                // A gold star in the middle of the apron.
+                let (cx, cy, s) = (c, apron.y + apron.h * 0.55, apron.h * 0.32);
+                for k in 0..5 {
+                    let a = -std::f32::consts::FRAC_PI_2 + k as f32 * std::f32::consts::TAU / 5.0;
+                    let tip = vec2(cx + a.cos() * s, cy + a.sin() * s);
+                    let l = a + std::f32::consts::PI / 5.0 * 2.5;
+                    draw_triangle(
+                        vec2(cx, cy),
+                        tip,
+                        vec2(cx + l.cos() * s * 0.4, cy + l.sin() * s * 0.4),
+                        lk.metal,
+                    );
+                    let r = a - std::f32::consts::PI / 5.0 * 2.5;
+                    draw_triangle(
+                        vec2(cx, cy),
+                        tip,
+                        vec2(cx + r.cos() * s * 0.4, cy + r.sin() * s * 0.4),
+                        lk.metal,
+                    );
+                }
+            }
         }
-        TableStyle::Modern => {
+        TableStyle::Modern
+        | TableStyle::Neon
+        | TableStyle::Carbon
+        | TableStyle::Ice
+        | TableStyle::Volcano => {
             draw_line(apron.x, apron.y + 1.0, apron.x + apron.w, apron.y + 1.0, 1.4, lk.metal);
+            if style == TableStyle::Volcano {
+                // Glowing cracks through the stone.
+                for k in 0..7 {
+                    let x = apron.x + apron.w * (k as f32 + 0.3) / 7.0;
+                    let y0 = apron.y + 2.0;
+                    let y1 = apron.y + apron.h - 2.0;
+                    let mid = vec2(x + (k % 3) as f32 * 2.0 - 2.0, (y0 + y1) / 2.0);
+                    draw_line(x, y0, mid.x, mid.y, 1.0, rgba(255, 130, 30, 0.8));
+                    draw_line(mid.x, mid.y, x + 3.0, y1, 1.0, rgba(255, 90, 20, 0.7));
+                }
+            }
             // The light under the edge.
-            draw_rectangle(
-                apron.x + 2.0,
-                apron.y + apron.h - 1.5,
-                apron.w - 4.0,
-                1.5,
-                rgb(150, 210, 255),
-            );
+            let light = under_light(style).unwrap_or(WHITE);
+            draw_rectangle(apron.x + 2.0, apron.y + apron.h - 1.5, apron.w - 4.0, 1.5, light);
             draw_ellipse(
                 c,
                 apron.y + apron.h + 3.0,
                 apron.w * 0.48,
                 4.0,
-                rgba(120, 190, 255, 0.18),
+                Color::new(light.r, light.g, light.b, 0.2),
             );
         }
-        TableStyle::Classic => {
-            draw_rectangle(apron.x - 1.0, apron.y + apron.h - 2.5, apron.w + 2.0, 2.5, lk.rail);
+        TableStyle::Copper => {
+            // Copper rivets along the plate.
+            let n = (apron.w / 7.0).max(6.0) as i32;
+            for k in 0..n {
+                let x = apron.x + apron.w * (k as f32 + 0.5) / n as f32;
+                for y in [apron.y + 3.0, apron.y + apron.h - 2.5] {
+                    draw_circle(x, y, 1.0, lk.metal);
+                }
+            }
         }
+        TableStyle::Classic | TableStyle::Rustic => {
+            draw_rectangle(apron.x - 1.0, apron.y + apron.h - 2.5, apron.w + 2.0, 2.5, lk.rail);
+            if style == TableStyle::Rustic {
+                // Rough planks.
+                for k in 1..4 {
+                    let y = apron.y + apron.h * k as f32 / 4.0;
+                    draw_line(apron.x, y, apron.x + apron.w, y, 1.0, rgba(60, 40, 20, 0.5));
+                }
+            }
+        }
+    }
+    // The rail's own material: marble veins, carbon weave, frost.
+    match style {
+        TableStyle::Marble => {
+            for k in 0..5 {
+                let x = c - w1 / 2.0 + w1 * (k as f32 + 0.2) / 5.0;
+                draw_line(
+                    x,
+                    top1 - rail * 0.2,
+                    x + w1 * 0.08,
+                    top1 + depth * 0.8,
+                    1.0,
+                    rgba(140, 146, 156, 0.6),
+                );
+            }
+        }
+        TableStyle::Carbon => {
+            let n = (apron.w / 3.0) as i32;
+            for k in 0..n {
+                let x = apron.x + apron.w * k as f32 / n as f32;
+                let y = apron.y + if k % 2 == 0 { 2.0 } else { apron.h * 0.5 };
+                draw_rectangle(
+                    x,
+                    y,
+                    apron.w / n as f32 * 0.6,
+                    apron.h * 0.3,
+                    rgba(70, 70, 78, 0.6),
+                );
+            }
+        }
+        _ => {}
     }
     // The legs.
     let leg_top = apron.y + apron.h;
     let leg_h = floor - leg_top;
     match style {
-        TableStyle::Industrial => {
+        TableStyle::Industrial | TableStyle::Copper => {
             let x0 = c - w1 / 2.0 + w1 * 0.07;
             let x1 = c + w1 / 2.0 - w1 * 0.07;
             for x in [x0, x1] {
@@ -280,7 +429,7 @@ pub fn table(r: Rect, style: TableStyle) {
             draw_line(x0, leg_top + 2.0, x1, floor - 4.0, 1.5, lk.legs);
             draw_line(x0, floor - 4.0, x1, leg_top + 2.0, 1.5, lk.legs);
         }
-        TableStyle::Tournament => {
+        TableStyle::Tournament | TableStyle::Volcano => {
             for sx in [-1.0f32, 1.0] {
                 let x = c + sx * (w1 / 2.0 - w1 * 0.07);
                 let lw = w1 * 0.07;
@@ -289,7 +438,7 @@ pub fn table(r: Rect, style: TableStyle) {
                 draw_rectangle(x - lw * 0.35, floor - 3.0, lw * 0.7, 3.0, lk.metal);
             }
         }
-        TableStyle::Deco => {
+        TableStyle::Deco | TableStyle::Marble | TableStyle::Ice => {
             for sx in [-1.0f32, 1.0] {
                 let x = c + sx * (w1 / 2.0 - w1 * 0.07);
                 let lw = w1 * 0.05;
@@ -302,7 +451,7 @@ pub fn table(r: Rect, style: TableStyle) {
                 draw_rectangle(x - lw * 0.75, floor - 3.0, lw * 1.5, 3.0, lk.metal);
             }
         }
-        TableStyle::Modern => {
+        TableStyle::Modern | TableStyle::Neon | TableStyle::Carbon => {
             for sx in [-1.0f32, 1.0] {
                 let x = c + sx * w1 * 0.3;
                 let lw = w1 * 0.06;
@@ -311,7 +460,7 @@ pub fn table(r: Rect, style: TableStyle) {
                 draw_rectangle(x - lw * 0.9, floor - 2.5, lw * 1.8, 2.5, lk.metal);
             }
         }
-        TableStyle::Beach => {
+        TableStyle::Beach | TableStyle::Rustic => {
             for sx in [-1.0f32, 1.0] {
                 let x = c + sx * (w1 / 2.0 - w1 * 0.06);
                 let (a, b) = (w1 * 0.035, w1 * 0.026);
@@ -378,7 +527,7 @@ pub fn table(r: Rect, style: TableStyle) {
                         y += 4.0;
                     }
                 }
-                if style == TableStyle::Royal {
+                if matches!(style, TableStyle::Royal | TableStyle::Champion) {
                     for y in [leg_top + leg_h * 0.12, floor - leg_h * 0.18] {
                         draw_rectangle(x - lw * 0.4, y, lw * 0.8, 1.6, lk.metal);
                     }
@@ -982,6 +1131,113 @@ pub fn hall(r: Rect, style: HallStyle) {
                 table_w * 0.88,
                 1.5,
                 rgb(255, 246, 228),
+            );
+        }
+        HallStyle::Arena => {
+            // A dark arena: stands rising into the dark with the crowd's
+            // faces, banners, the scoreboard, and the table alone in a
+            // white spotlight on a blue stage.
+            draw_rectangle(wall.x, wall.y, wall.w, wall.h, rgb(6, 7, 12));
+            let rows = 6;
+            for k in 0..rows {
+                let y = wall.y + wall.h * (0.22 + k as f32 * 0.13);
+                let shade = 14 + k as u8 * 5;
+                draw_rectangle(wall.x, y, wall.w, wall.h * 0.1, rgb(shade, shade, shade + 8));
+                let n = (wall.w / 6.0) as i32;
+                for j in 0..n {
+                    let x = wall.x + (j as f32 + 0.5 + (k % 2) as f32 * 0.5) * wall.w / n as f32;
+                    let lit = 0.1 + 0.06 * k as f32;
+                    draw_circle(x, y - 1.0, 1.4, rgba(220, 200, 180, lit));
+                }
+            }
+            // Banners hanging from the roof.
+            for (k, color) in
+                [rgb(30, 80, 190), rgb(200, 160, 50), rgb(30, 80, 190), rgb(200, 160, 50)]
+                    .into_iter()
+                    .enumerate()
+            {
+                let x = wall.x + wall.w * (0.1 + k as f32 * 0.25);
+                let bw = wall.w * 0.06;
+                draw_rectangle(x, wall.y, bw, wall.h * 0.34, color);
+                draw_triangle(
+                    vec2(x, wall.y + wall.h * 0.34),
+                    vec2(x + bw, wall.y + wall.h * 0.34),
+                    vec2(x + bw / 2.0, wall.y + wall.h * 0.42),
+                    color,
+                );
+                draw_circle(x + bw / 2.0, wall.y + wall.h * 0.2, bw * 0.28, rgb(16, 16, 20));
+            }
+            // The scoreboard.
+            let sb = Rect::new(
+                table_c.x - wall.w * 0.16,
+                wall.y + wall.h * 0.05,
+                wall.w * 0.32,
+                wall.h * 0.16,
+            );
+            draw_rectangle(sb.x, sb.y, sb.w, sb.h, rgb(10, 12, 20));
+            draw_rectangle(sb.x + 2.0, sb.y + 2.0, sb.w * 0.4, sb.h - 4.0, rgb(30, 90, 200));
+            draw_rectangle(
+                sb.x + sb.w * 0.6 - 2.0,
+                sb.y + 2.0,
+                sb.w * 0.4,
+                sb.h - 4.0,
+                rgb(190, 40, 50),
+            );
+            draw_rectangle(
+                sb.x + sb.w * 0.44,
+                sb.y + sb.h * 0.25,
+                sb.w * 0.12,
+                sb.h * 0.5,
+                rgb(255, 214, 90),
+            );
+            // The floor: black, a blue stage, the spotlight's pool.
+            gradient(floor, rgb(10, 10, 14), rgb(4, 4, 6), 4);
+            draw_ellipse(
+                table_c.x,
+                floor.y + floor.h * 0.32,
+                table_w * 0.8,
+                floor.h * 0.3,
+                rgb(16, 40, 96),
+            );
+            draw_ellipse(
+                table_c.x,
+                floor.y + floor.h * 0.32,
+                table_w * 0.62,
+                floor.h * 0.22,
+                rgba(255, 255, 255, 0.1),
+            );
+            // LED boards round the stage.
+            for sx in [-1.0f32, 1.0] {
+                let x = table_c.x + sx * table_w * 0.95;
+                draw_rectangle(
+                    x - table_w * 0.18,
+                    floor.y + 2.0,
+                    table_w * 0.36,
+                    4.0,
+                    rgb(40, 160, 255),
+                );
+            }
+            // The cone of light from above.
+            let y = wall.y + wall.h * 0.3;
+            draw_triangle(
+                vec2(table_c.x - table_w * 0.08, wall.y),
+                vec2(table_c.x + table_w * 0.08, wall.y),
+                vec2(table_c.x + table_w * 0.6, horizon + floor.h * 0.2),
+                rgba(255, 255, 255, 0.05),
+            );
+            draw_triangle(
+                vec2(table_c.x - table_w * 0.08, wall.y),
+                vec2(table_c.x + table_w * 0.6, horizon + floor.h * 0.2),
+                vec2(table_c.x - table_w * 0.6, horizon + floor.h * 0.2),
+                rgba(255, 255, 255, 0.05),
+            );
+            draw_rectangle(table_c.x - table_w * 0.45, y, table_w * 0.9, 4.0, rgb(14, 14, 16));
+            draw_rectangle(
+                table_c.x - table_w * 0.44,
+                y + 4.0,
+                table_w * 0.88,
+                1.5,
+                rgb(255, 255, 255),
             );
         }
     }

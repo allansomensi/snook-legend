@@ -217,6 +217,11 @@ pub struct Config {
     /// portal (`{origin}/admin/`).
     /// `None`: no browser may call the staff API from another origin.
     pub admin_origin: Option<String>,
+    /// The longest an HTTP connection may take to send a request's headers,
+    /// also while it waits between requests (see [`serve`]). Longer than a
+    /// proxy keeps a connection to the server idle (60 s is usual), so the
+    /// server never closes one the proxy is about to use.
+    pub header_timeout: Duration,
 }
 
 impl Default for Config {
@@ -234,6 +239,7 @@ impl Default for Config {
             msstore: None,
             site_url: pages::SITE_URL.into(),
             admin_origin: None,
+            header_timeout: Duration::from_secs(65),
         }
     }
 }
@@ -678,13 +684,14 @@ async fn api_leaderboard(
 ///
 /// Served like `axum::serve` does (HTTP/1, WebSocket upgrades, each
 /// request told the peer's address), with a timer: a connection that
-/// doesn't send a request's headers within [`HEADER_READ_TIMEOUT`] —
-/// silent, or a byte now and then — is closed (it stayed open for ever,
-/// a socket and a task each).
+/// doesn't send a request's headers within `Config::header_timeout` —
+/// silent, idle, or a byte now and then — is closed (it stayed open for
+/// ever, a socket and a task each).
 pub async fn serve(listener: TcpListener, server: Arc<Server>) -> std::io::Result<()> {
     use hyper_util::rt::{TokioIo, TokioTimer};
     use tower::ServiceExt;
     spawn_background(server.clone());
+    let header_timeout = server.config.header_timeout;
     let app = router(server);
     loop {
         let (tcp, peer) = match listener.accept().await {
@@ -716,7 +723,7 @@ pub async fn serve(listener: TcpListener, server: Arc<Server>) -> std::io::Resul
         tokio::spawn(async move {
             let conn = hyper::server::conn::http1::Builder::new()
                 .timer(TokioTimer::new())
-                .header_read_timeout(HEADER_READ_TIMEOUT)
+                .header_read_timeout(header_timeout)
                 .serve_connection(TokioIo::new(tcp), service)
                 .with_upgrades();
             if let Err(e) = conn.await {
@@ -725,9 +732,6 @@ pub async fn serve(listener: TcpListener, server: Arc<Server>) -> std::io::Resul
         });
     }
 }
-
-/// The longest a connection may take to send a request's headers.
-const HEADER_READ_TIMEOUT: Duration = Duration::from_secs(20);
 
 /// Stops gracefully: no new games, a notice in the lounge, and up to `secs`
 /// for the games in progress to end. Whatever is still being played then is

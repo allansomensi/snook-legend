@@ -531,15 +531,19 @@ async fn the_public_api_shows_players_and_official_tournaments() {
 #[tokio::test]
 async fn a_connection_that_never_finishes_its_request_is_closed() {
     use tokio::io::{AsyncReadExt, AsyncWriteExt};
-    let s = start().await;
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let host = listener.local_addr().unwrap().to_string();
+    let header_timeout = Duration::from_secs(2);
+    let config = Config { header_timeout, ..Config::default() };
+    tokio::spawn(serve(listener, Server::with_store(config, Store::memory()).await));
     // Half a request, then nothing (a "slowloris"): closed, not kept for ever.
-    let mut c = TcpStream::connect(&s.host).await.unwrap();
+    let mut c = TcpStream::connect(&host).await.unwrap();
     c.write_all(b"GET /health HTTP/1.1\r\nHost: x\r\n").await.unwrap();
     let mut buf = [0u8; 64];
-    let read = tokio::time::timeout(Duration::from_secs(40), c.read(&mut buf)).await;
+    let read = tokio::time::timeout(Duration::from_secs(20), c.read(&mut buf)).await;
     assert!(matches!(read, Ok(Ok(0)) | Ok(Err(_))), "still open: {read:?}");
     // Requests sent in one go are answered as before.
-    let (code, _, body) = raw(&s.host, "GET", "/health", "", "").await;
+    let (code, _, body) = raw(&host, "GET", "/health", "", "").await;
     assert_eq!((code, body.as_str()), (200, "ok"));
 }
 

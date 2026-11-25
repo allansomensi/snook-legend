@@ -53,11 +53,17 @@ pub fn name_refusal(server: &Server, name: &str) -> Option<String> {
 /// online looked up (a few at most).
 pub async fn chat(server: &Server, me: &User, text: String) {
     use snook_legend_proto::moderation::{MAX_MENTIONS, mention_candidates};
-    let candidates: Vec<String> = mention_candidates(&text)
-        .into_iter()
-        .filter(|c| !server.with(|l| l.is_online(c)))
-        .take(MAX_MENTIONS)
-        .collect();
+    // A line past the chat's limit is refused by the lounge anyway: its
+    // mentions cost no database requests (a flood of lines full of @names).
+    let candidates: Vec<String> = if server.with(|l| l.may_chat_now(&me.username)) {
+        mention_candidates(&text)
+            .into_iter()
+            .filter(|c| !server.with(|l| l.is_online(c)))
+            .take(MAX_MENTIONS)
+            .collect()
+    } else {
+        Vec::new()
+    };
     let mut known = Vec::new();
     for c in candidates {
         if let Ok(Some(u)) = server.store.user_by_name(&c).await

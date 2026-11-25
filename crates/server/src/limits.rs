@@ -31,6 +31,11 @@ impl Bucket {
         }
     }
 
+    /// Whether [`Bucket::take`] would succeed now (nothing is taken).
+    pub fn has_token(&self) -> bool {
+        (self.tokens + self.last.elapsed().as_secs_f64() * self.rate).min(self.burst) >= 1.0
+    }
+
     /// Whether the bucket has filled up again (it is then the same as a
     /// new one: forgetting it loses nothing).
     pub fn is_full(&self) -> bool {
@@ -297,7 +302,9 @@ mod tests {
     #[test]
     fn bucket_limits_bursts() {
         let mut b = Bucket::new(3.0, 0.0);
+        assert!(b.has_token() && b.has_token(), "looking takes nothing");
         assert!(b.take() && b.take() && b.take());
+        assert!(!b.has_token());
         assert!(!b.take());
     }
 

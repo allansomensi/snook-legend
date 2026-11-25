@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Ви не можете надсилат�
 Your chat is set to the quick phrases only.	Ваш чат обмежено швидкими фразами.
 These settings can't be kept.	Ці налаштування не можна зберегти.
 You aren't watching a game.	Ви не дивитеся жодну партію.
+{name} asks you to be their doubles partner.	{name} запрошує вас стати його напарником у парній грі.
+{name} is your doubles partner.	{name} — ваш напарник у парній грі.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Двоє на двоє. Підходи вашої команди до столу чергуються між вами: ви б'єте, доки забиваєте, а наступний підхід грає напарник.
+Waiting for {name}'s answer…	Чекаємо на відповідь від {name}…
+Ask a friend to be your partner	Запросіть друга стати вашим напарником
+Add friends in the Friends tab: you play doubles with a friend.	Додайте друзів у вкладці «Друзі»: у парі грають із другом.
+None of your friends is online right now.	Нікого з ваших друзів зараз немає в мережі.
+Leave the pair	Розпустити пару
+Your partner	Ваш напарник
+Looking for another pair… {secs} s	Шукаємо іншу пару… {secs} с
+Your doubles table is open: waiting for a pair…	Ваш стіл для пар відкрито: чекаємо на пару…
+Open a doubles table	Відкрити стіл для пар
+No doubles tables open. With a partner, open one and another pair can sit down.	Немає відкритих столів для пар. Відкрийте стіл із напарником — і інша пара зможе сісти.
+Invite a friend to be your partner first.	Спершу запросіть друга стати вашим напарником.
+at the table	біля столу
+next	наступний
+Foul: +{n} s	Фол: +{n} с
+Table cleared in {time}!	Стіл очищено за {time}!
+{n} balls left · {f} fouls (+{s} s)	Залишилося куль: {n} · фолів: {f} (+{s} с)
+{n} balls left	Залишилося куль: {n}
+{shots} shots · {fouls} fouls	Ударів: {shots} · фолів: {fouls}
+Your best on this computer: {time}	Ваш рекорд на цьому комп'ютері: {time}
+A new best on this computer!	Новий рекорд на цьому комп'ютері!
+Counted: {time} · your best this week, #{rank}	Зараховано: {time} · ваш найкращий результат тижня, #{rank}
+Counted: {time} · your best this week	Зараховано: {time} · ваш найкращий результат тижня
+Counted: {time}	Зараховано: {time}
+Too late: an attempt must be sent within 20 minutes.	Надто пізно: спробу треба надіслати протягом 20 хвилин.
+See the week's table	Таблиця тижня
+Against the clock	На час
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Очистьте стіл якнайшвидше: у будь-якому порядку, вісімку останньою. Кожен фол додає 10 секунд.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	До таблиці тижня зараховується {n} спроб на день. Троє найшвидших за тиждень отримують {a}, {b} і {c} монет.
+Attempts left today	Залишилося спроб сьогодні
+Your best this week	Ваш найкращий результат тижня
+The week ends in {d} d {h} h	Тиждень закінчиться через {d} д {h} год
+Loading the week's table…	Завантаження таблиці тижня…
+Sign in to put your times on the week's table.	Увійдіть, щоб ваш час потрапив до таблиці тижня.
+Practice (not counted)	Тренування (не зараховується)
+Nobody has cleared the table this week yet. Be the first!	Цього тижня ще ніхто не очистив стіл. Будьте першим!
+Last week's winners	Переможці минулого тижня
+Doubles	Пари
+Doubles ranking	Рейтинг пар
+Each player's doubles rating · rated doubles	Парний рейтинг кожного гравця · рейтингові парні ігри
+No rated doubles yet. Be the first pair!	Рейтингових парних ігор ще немає. Станьте першою парою!
+Clear the table in the least time	Очистьте стіл за найкоротший час
+Against the clock: {n} balls left	На час: залишилося куль: {n}
+That player's game is too old for doubles.	Гра цього гравця застара для парної гри.
+You can only ask your friends to be your partner.	Напарником можна запросити лише друга.
+That player already has a partner.	У цього гравця вже є напарник.
+Leave your pair first.	Спершу розпустіть свою пару.
+Your doubles partner left the pair.	Ваш напарник розпустив пару.
+Not all four players are at the table.	Не всі четверо гравців за столом.

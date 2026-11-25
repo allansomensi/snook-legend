@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Bu oyuncuya mesaj gönderemezsin.
 Your chat is set to the quick phrases only.	Sohbetin hızlı ifadelerle sınırlı.
 These settings can't be kept.	Bu ayarlar saklanamıyor.
 You aren't watching a game.	Hiçbir oyunu izlemiyorsun.
+{name} asks you to be their doubles partner.	{name} seni çiftlerde eşi olmaya davet ediyor.
+{name} is your doubles partner.	{name} çiftlerdeki eşin.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	İkiye iki. Takımının masadaki sıraları aranızda dönüşümlü: top soktukça istaka sende kalır, sonraki sırayı eşin oynar.
+Waiting for {name}'s answer…	{name} adlı oyuncunun yanıtı bekleniyor…
+Ask a friend to be your partner	Bir arkadaşını eşin olmaya davet et
+Add friends in the Friends tab: you play doubles with a friend.	Arkadaşlar sekmesinden arkadaş ekle: çiftler bir arkadaşla oynanır.
+None of your friends is online right now.	Şu anda arkadaşlarından hiçbiri çevrim içi değil.
+Leave the pair	Çifti boz
+Your partner	Eşin
+Looking for another pair… {secs} s	Başka bir çift aranıyor… {secs} sn
+Your doubles table is open: waiting for a pair…	Çiftler masan açık: bir çift bekleniyor…
+Open a doubles table	Çiftler masası aç
+No doubles tables open. With a partner, open one and another pair can sit down.	Açık çiftler masası yok. Eşinle bir tane aç, başka bir çift oturabilsin.
+Invite a friend to be your partner first.	Önce bir arkadaşını eşin olmaya davet et.
+at the table	masada
+next	sıradaki
+Foul: +{n} s	Faul: +{n} sn
+Table cleared in {time}!	Masa {time} sürede temizlendi!
+{n} balls left · {f} fouls (+{s} s)	{n} top kaldı · {f} faul (+{s} sn)
+{n} balls left	{n} top kaldı
+{shots} shots · {fouls} fouls	{shots} vuruş · {fouls} faul
+Your best on this computer: {time}	Bu bilgisayardaki en iyi süren: {time}
+A new best on this computer!	Bu bilgisayarda yeni rekor!
+Counted: {time} · your best this week, #{rank}	Sayıldı: {time} · haftanın en iyin, #{rank}
+Counted: {time} · your best this week	Sayıldı: {time} · haftanın en iyin
+Counted: {time}	Sayıldı: {time}
+Too late: an attempt must be sent within 20 minutes.	Çok geç: bir deneme 20 dakika içinde gönderilmelidir.
+See the week's table	Haftanın tablosunu gör
+Against the clock	Zamana karşı
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Masayı olabildiğince hızlı temizle: herhangi bir sırayla, 8 en son. Her faul 10 saniye ekler.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	Günde {n} deneme haftanın tablosunda sayılır. Haftanın en hızlı üç oyuncusu {a}, {b} ve {c} jeton kazanır.
+Attempts left today	Bugün kalan denemeler
+Your best this week	Haftanın en iyin
+The week ends in {d} d {h} h	Hafta {d} g {h} sa sonra bitiyor
+Loading the week's table…	Haftanın tablosu yükleniyor…
+Sign in to put your times on the week's table.	Sürelerinin haftanın tablosuna girmesi için oturum aç.
+Practice (not counted)	Antrenman (sayılmaz)
+Nobody has cleared the table this week yet. Be the first!	Bu hafta henüz kimse masayı temizlemedi. İlk sen ol!
+Last week's winners	Geçen haftanın kazananları
+Doubles	Çiftler
+Doubles ranking	Çiftler sıralaması
+Each player's doubles rating · rated doubles	Her oyuncunun çiftler puanı · puanlı çiftler
+No rated doubles yet. Be the first pair!	Henüz puanlı çiftler maçı yok. İlk çift siz olun!
+Clear the table in the least time	Masayı en kısa sürede temizle
+Against the clock: {n} balls left	Zamana karşı: {n} top kaldı
+That player's game is too old for doubles.	O oyuncunun oyunu çiftler için çok eski.
+You can only ask your friends to be your partner.	Yalnızca arkadaşlarını eşin olmaya davet edebilirsin.
+That player already has a partner.	O oyuncunun zaten bir eşi var.
+Leave your pair first.	Önce çiftini boz.
+Your doubles partner left the pair.	Eşin çifti bozdu.
+Not all four players are at the table.	Dört oyuncunun hepsi masada değil.

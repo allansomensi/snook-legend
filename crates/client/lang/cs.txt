@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Tomuto hráči nemůžeš posílat zprá
 Your chat is set to the quick phrases only.	Tvůj chat je omezen na rychlé fráze.
 These settings can't be kept.	Tato nastavení nelze uložit.
 You aren't watching a game.	Nesleduješ žádnou partii.
+{name} asks you to be their doubles partner.	{name} tě zve, abys byl jeho partnerem ve čtyřhře.
+{name} is your doubles partner.	{name} je tvůj partner ve čtyřhře.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Dva na dva. Náběhy tvého týmu ke stolu se mezi vámi střídají: hraješ, dokud poturuješ, a partner hraje další náběh.
+Waiting for {name}'s answer…	Čekám na odpověď od {name}…
+Ask a friend to be your partner	Pozvi přítele, aby byl tvým partnerem
+Add friends in the Friends tab: you play doubles with a friend.	Přidej si přátele na kartě Přátelé: čtyřhru hraješ s přítelem.
+None of your friends is online right now.	Nikdo z tvých přátel teď není online.
+Leave the pair	Zrušit dvojici
+Your partner	Tvůj partner
+Looking for another pair… {secs} s	Hledám jinou dvojici… {secs} s
+Your doubles table is open: waiting for a pair…	Tvůj stůl pro čtyřhru je otevřený: čekám na dvojici…
+Open a doubles table	Otevřít stůl pro čtyřhru
+No doubles tables open. With a partner, open one and another pair can sit down.	Žádné stoly pro čtyřhru nejsou otevřené. S partnerem jeden otevři a jiná dvojice si přisedne.
+Invite a friend to be your partner first.	Nejdřív pozvi přítele, aby byl tvým partnerem.
+at the table	u stolu
+next	další
+Foul: +{n} s	Faul: +{n} s
+Table cleared in {time}!	Stůl vyčištěn za {time}!
+{n} balls left · {f} fouls (+{s} s)	Zbývá koulí: {n} · fauly: {f} (+{s} s)
+{n} balls left	Zbývá koulí: {n}
+{shots} shots · {fouls} fouls	Šťouchy: {shots} · fauly: {fouls}
+Your best on this computer: {time}	Tvůj nejlepší čas na tomto počítači: {time}
+A new best on this computer!	Nový rekord na tomto počítači!
+Counted: {time} · your best this week, #{rank}	Započítáno: {time} · tvůj nejlepší tento týden, #{rank}
+Counted: {time} · your best this week	Započítáno: {time} · tvůj nejlepší tento týden
+Counted: {time}	Započítáno: {time}
+Too late: an attempt must be sent within 20 minutes.	Pozdě: pokus je třeba odeslat do 20 minut.
+See the week's table	Zobrazit týdenní tabulku
+Against the clock	Na čas
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Vyčisti stůl co nejrychleji: v libovolném pořadí, osmičku nakonec. Každý faul přidá 10 sekund.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	Do týdenní tabulky se počítá {n} pokusů denně. Tři nejrychlejší v týdnu vyhrají {a}, {b} a {c} mincí.
+Attempts left today	Zbývající pokusy dnes
+Your best this week	Tvůj nejlepší tento týden
+The week ends in {d} d {h} h	Týden končí za {d} d {h} h
+Loading the week's table…	Načítám týdenní tabulku…
+Sign in to put your times on the week's table.	Přihlas se, aby se tvé časy dostaly do týdenní tabulky.
+Practice (not counted)	Trénink (nepočítá se)
+Nobody has cleared the table this week yet. Be the first!	Tento týden ještě nikdo stůl nevyčistil. Buď první!
+Last week's winners	Vítězové minulého týdne
+Doubles	Čtyřhra
+Doubles ranking	Žebříček čtyřhry
+Each player's doubles rating · rated doubles	Hodnocení čtyřhry každého hráče · hodnocená čtyřhra
+No rated doubles yet. Be the first pair!	Zatím žádná hodnocená čtyřhra. Buďte první dvojicí!
+Clear the table in the least time	Vyčisti stůl v nejkratším čase
+Against the clock: {n} balls left	Na čas: zbývá koulí: {n}
+That player's game is too old for doubles.	Hra tohoto hráče je na čtyřhru příliš stará.
+You can only ask your friends to be your partner.	Za partnera můžeš pozvat jen přátele.
+That player already has a partner.	Tento hráč už má partnera.
+Leave your pair first.	Nejdřív zruš svou dvojici.
+Your doubles partner left the pair.	Tvůj partner zrušil dvojici.
+Not all four players are at the table.	Ne všichni čtyři hráči jsou u stolu.

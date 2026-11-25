@@ -29,6 +29,8 @@ pub enum Tab {
     Drills,
     /// A tournament against the computer's opponents.
     Cup,
+    /// Against the clock: a rack cleared alone, the week's table.
+    TimeAttack,
 }
 
 /// The card picked on the free game's grid.
@@ -50,6 +52,8 @@ pub enum VersusAction {
     StartCup(MatchSettings),
     /// The tournament's game that was left half way, picked up again.
     ResumeCup,
+    /// A rack against the clock of this computer's own (not counted).
+    TimeAttackPractice,
 }
 
 pub struct Versus {
@@ -79,6 +83,8 @@ pub struct Versus {
     saved_seed: Option<u64>,
     /// A tournament's game was left and not kept: it was counted as lost.
     cup_forfeit: bool,
+    /// The week against the clock was asked for (the week asked).
+    time_attack_asked: Option<i64>,
 }
 
 /// Text field ids.
@@ -109,6 +115,7 @@ impl Versus {
             cup_abandon: false,
             saved_seed: crate::saved::load().map(|s| s.seed),
             cup_forfeit: false,
+            time_attack_asked: None,
         }
     }
 
@@ -161,10 +168,17 @@ impl Versus {
             Tab::Daily => t("The same table for everyone, all day").to_string(),
             Tab::Drills => t("Exercises with stars").to_string(),
             Tab::Cup => t("Sixteen players: knockout or arena").to_string(),
+            Tab::TimeAttack => t("Clear the table in the least time").to_string(),
         };
         // The tabs at the top right; the title keeps clear of them.
-        let labels =
-            [t("Free game"), t("Tour"), t("Tournament"), t("Daily challenge"), t("Drills")];
+        let labels = [
+            t("Free game"),
+            t("Tour"),
+            t("Tournament"),
+            t("Daily challenge"),
+            t("Drills"),
+            t("Against the clock"),
+        ];
         // The tabs keep to the right, clear of the title: each as wide as
         // its label, all labels at one size.
         let tab_gap = 6.0;
@@ -206,7 +220,7 @@ impl Versus {
                 ui.text(&subtitle, sx, r.y + 44.0, 13.0, MUTED, false);
             }
         }
-        let order = [Tab::Free, Tab::Ladder, Tab::Cup, Tab::Daily, Tab::Drills];
+        let order = [Tab::Free, Tab::Ladder, Tab::Cup, Tab::Daily, Tab::Drills, Tab::TimeAttack];
         let picked = order.iter().position(|t| *t == self.tab).unwrap_or(0);
         let row = Rect::new(tabs_x, r.y + 20.0, row_w, 36.0);
         if let (Some(k), _) = crate::tabrow::tabs(ui, row, &labels, &[], picked, tab_gap) {
@@ -221,6 +235,14 @@ impl Versus {
             Tab::Ladder => self.ladder(ui, config, online, progress, claimer, body),
             Tab::Daily => self.daily(ui, online, body),
             Tab::Drills => self.drills(ui, online, body),
+            Tab::TimeAttack => {
+                let asked = &mut self.time_attack_asked;
+                if crate::time_attack::draw_tab(ui, online, asked, body) {
+                    VersusAction::TimeAttackPractice
+                } else {
+                    VersusAction::None
+                }
+            }
             Tab::Cup => {
                 let account = crate::medals::account_of(online, config);
                 let shown = medals.shown(account.as_deref());

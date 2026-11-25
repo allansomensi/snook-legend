@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Вы не можете отправля�
 Your chat is set to the quick phrases only.	Ваш чат ограничен быстрыми фразами.
 These settings can't be kept.	Эти настройки нельзя сохранить.
 You aren't watching a game.	Вы не смотрите ни одну партию.
+{name} asks you to be their doubles partner.	{name} приглашает вас стать его напарником в парной игре.
+{name} is your doubles partner.	{name} — ваш напарник в парной игре.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Двое на двое. Подходы вашей команды к столу чередуются между вами: вы бьёте, пока забиваете, а следующий подход играет напарник.
+Waiting for {name}'s answer…	Ждём ответа от {name}…
+Ask a friend to be your partner	Пригласите друга стать вашим напарником
+Add friends in the Friends tab: you play doubles with a friend.	Добавьте друзей во вкладке «Друзья»: в паре играют с другом.
+None of your friends is online right now.	Никого из ваших друзей сейчас нет в сети.
+Leave the pair	Распустить пару
+Your partner	Ваш напарник
+Looking for another pair… {secs} s	Ищем другую пару… {secs} с
+Your doubles table is open: waiting for a pair…	Ваш стол для пар открыт: ждём пару…
+Open a doubles table	Открыть стол для пар
+No doubles tables open. With a partner, open one and another pair can sit down.	Нет открытых столов для пар. Откройте стол с напарником — и другая пара сможет сесть.
+Invite a friend to be your partner first.	Сначала пригласите друга стать вашим напарником.
+at the table	у стола
+next	следующий
+Foul: +{n} s	Фол: +{n} с
+Table cleared in {time}!	Стол очищен за {time}!
+{n} balls left · {f} fouls (+{s} s)	Осталось шаров: {n} · фолов: {f} (+{s} с)
+{n} balls left	Осталось шаров: {n}
+{shots} shots · {fouls} fouls	Ударов: {shots} · фолов: {fouls}
+Your best on this computer: {time}	Ваш рекорд на этом компьютере: {time}
+A new best on this computer!	Новый рекорд на этом компьютере!
+Counted: {time} · your best this week, #{rank}	Засчитано: {time} · ваш лучший результат недели, #{rank}
+Counted: {time} · your best this week	Засчитано: {time} · ваш лучший результат недели
+Counted: {time}	Засчитано: {time}
+Too late: an attempt must be sent within 20 minutes.	Слишком поздно: попытку нужно отправить в течение 20 минут.
+See the week's table	Таблица недели
+Against the clock	На время
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Очистите стол как можно быстрее: в любом порядке, восьмёрку последней. Каждый фол добавляет 10 секунд.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	В таблицу недели засчитывается {n} попыток в день. Трое самых быстрых за неделю получают {a}, {b} и {c} монет.
+Attempts left today	Осталось попыток сегодня
+Your best this week	Ваш лучший результат недели
+The week ends in {d} d {h} h	Неделя закончится через {d} д {h} ч
+Loading the week's table…	Загрузка таблицы недели…
+Sign in to put your times on the week's table.	Войдите, чтобы ваше время попало в таблицу недели.
+Practice (not counted)	Тренировка (не засчитывается)
+Nobody has cleared the table this week yet. Be the first!	На этой неделе ещё никто не очистил стол. Будьте первым!
+Last week's winners	Победители прошлой недели
+Doubles	Пары
+Doubles ranking	Рейтинг пар
+Each player's doubles rating · rated doubles	Парный рейтинг каждого игрока · рейтинговые парные игры
+No rated doubles yet. Be the first pair!	Рейтинговых парных игр ещё нет. Станьте первой парой!
+Clear the table in the least time	Очистите стол за наименьшее время
+Against the clock: {n} balls left	На время: осталось шаров: {n}
+That player's game is too old for doubles.	Игра этого игрока слишком старая для парной игры.
+You can only ask your friends to be your partner.	Напарником можно пригласить только друга.
+That player already has a partner.	У этого игрока уже есть напарник.
+Leave your pair first.	Сначала распустите свою пару.
+Your doubles partner left the pair.	Ваш напарник распустил пару.
+Not all four players are at the table.	Не все четверо игроков за столом.

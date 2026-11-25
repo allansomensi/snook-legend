@@ -2216,3 +2216,54 @@ You can't send messages to this player.	คุณส่งข้อความ�
 Your chat is set to the quick phrases only.	แชตของคุณจำกัดเฉพาะวลีด่วน
 These settings can't be kept.	ไม่สามารถเก็บการตั้งค่าเหล่านี้ได้
 You aren't watching a game.	คุณไม่ได้ดูเกมใดอยู่
+{name} asks you to be their doubles partner.	{name} ชวนคุณเป็นคู่ในประเภทคู่
+{name} is your doubles partner.	{name} เป็นคู่ของคุณในประเภทคู่
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	สองต่อสอง ตาของทีมคุณที่โต๊ะจะสลับกันระหว่างคุณสองคน: คุณถือคิวต่อไปตราบที่ยังแทงลง และคู่ของคุณเล่นตาถัดไป
+Waiting for {name}'s answer…	กำลังรอคำตอบจาก {name}…
+Ask a friend to be your partner	ชวนเพื่อนมาเป็นคู่ของคุณ
+Add friends in the Friends tab: you play doubles with a friend.	เพิ่มเพื่อนในแท็บเพื่อน: ประเภทคู่เล่นกับเพื่อน
+None of your friends is online right now.	ตอนนี้ไม่มีเพื่อนของคุณออนไลน์อยู่
+Leave the pair	เลิกเป็นคู่
+Your partner	คู่ของคุณ
+Looking for another pair… {secs} s	กำลังหาคู่อื่น… {secs} วิ
+Your doubles table is open: waiting for a pair…	โต๊ะประเภทคู่ของคุณเปิดอยู่: กำลังรอคู่…
+Open a doubles table	เปิดโต๊ะประเภทคู่
+No doubles tables open. With a partner, open one and another pair can sit down.	ไม่มีโต๊ะประเภทคู่ที่เปิดอยู่ เปิดโต๊ะกับคู่ของคุณแล้วคู่อื่นจะมานั่งได้
+Invite a friend to be your partner first.	ชวนเพื่อนมาเป็นคู่ของคุณก่อน
+at the table	ที่โต๊ะ
+next	ถัดไป
+Foul: +{n} s	ฟาวล์: +{n} วิ
+Table cleared in {time}!	เคลียร์โต๊ะได้ใน {time}!
+{n} balls left · {f} fouls (+{s} s)	เหลือ {n} ลูก · ฟาวล์ {f} ครั้ง (+{s} วิ)
+{n} balls left	เหลือ {n} ลูก
+{shots} shots · {fouls} fouls	{shots} ไม้ · ฟาวล์ {fouls} ครั้ง
+Your best on this computer: {time}	สถิติดีที่สุดในคอมพิวเตอร์นี้: {time}
+A new best on this computer!	สถิติใหม่ในคอมพิวเตอร์นี้!
+Counted: {time} · your best this week, #{rank}	นับแล้ว: {time} · ดีที่สุดของคุณในสัปดาห์นี้ อันดับ {rank}
+Counted: {time} · your best this week	นับแล้ว: {time} · ดีที่สุดของคุณในสัปดาห์นี้
+Counted: {time}	นับแล้ว: {time}
+Too late: an attempt must be sent within 20 minutes.	ช้าไป: ต้องส่งความพยายามภายใน 20 นาที
+See the week's table	ดูตารางของสัปดาห์
+Against the clock	แข่งกับเวลา
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	เคลียร์โต๊ะให้เร็วที่สุด: ลำดับใดก็ได้ ลูก 8 เป็นลูกสุดท้าย ทุกฟาวล์บวก 10 วินาที
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	นับ {n} ครั้งต่อวันในตารางของสัปดาห์ สามคนที่เร็วที่สุดของสัปดาห์ได้ {a}, {b} และ {c} เหรียญ
+Attempts left today	ความพยายามที่เหลือวันนี้
+Your best this week	ดีที่สุดของคุณในสัปดาห์นี้
+The week ends in {d} d {h} h	สัปดาห์จะจบในอีก {d} วัน {h} ชม.
+Loading the week's table…	กำลังโหลดตารางของสัปดาห์…
+Sign in to put your times on the week's table.	เข้าสู่ระบบเพื่อให้เวลาของคุณอยู่ในตารางของสัปดาห์
+Practice (not counted)	ฝึกซ้อม (ไม่นับ)
+Nobody has cleared the table this week yet. Be the first!	ยังไม่มีใครเคลียร์โต๊ะในสัปดาห์นี้ มาเป็นคนแรกเลย!
+Last week's winners	ผู้ชนะสัปดาห์ที่แล้ว
+Doubles	ประเภทคู่
+Doubles ranking	อันดับประเภทคู่
+Each player's doubles rating · rated doubles	เรตติ้งประเภทคู่ของผู้เล่นแต่ละคน · เกมคู่ที่นับเรตติ้ง
+No rated doubles yet. Be the first pair!	ยังไม่มีเกมคู่ที่นับเรตติ้ง มาเป็นคู่แรกเลย!
+Clear the table in the least time	เคลียร์โต๊ะในเวลาที่สั้นที่สุด
+Against the clock: {n} balls left	แข่งกับเวลา: เหลือ {n} ลูก
+That player's game is too old for doubles.	เกมของผู้เล่นคนนั้นเก่าเกินไปสำหรับประเภทคู่
+You can only ask your friends to be your partner.	คุณชวนได้เฉพาะเพื่อนมาเป็นคู่
+That player already has a partner.	ผู้เล่นคนนั้นมีคู่แล้ว
+Leave your pair first.	เลิกเป็นคู่ปัจจุบันก่อน
+Your doubles partner left the pair.	คู่ของคุณเลิกเป็นคู่แล้ว
+Not all four players are at the table.	ผู้เล่นทั้งสี่คนยังไม่อยู่ที่โต๊ะครบ

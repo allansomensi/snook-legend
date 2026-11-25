@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Hindi ka puwedeng magpadala ng mensahe s
 Your chat is set to the quick phrases only.	Limitado sa mabilis na parirala ang chat mo.
 These settings can't be kept.	Hindi maitatago ang mga setting na ito.
 You aren't watching a game.	Wala kang pinapanood na laro.
+{name} asks you to be their doubles partner.	Inaanyayahan ka ni {name} na maging kapareha niya sa doubles.
+{name} is your doubles partner.	Si {name} ang kapareha mo sa doubles.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Dalawa laban sa dalawa. Nagsasalitan sa inyo ang mga tira ng koponan mo sa mesa: hawak mo ang tako habang may naipapasok ka, at ang kapareha mo ang titira sa susunod.
+Waiting for {name}'s answer…	Hinihintay ang sagot ni {name}…
+Ask a friend to be your partner	Mag-imbita ng kaibigan na maging kapareha mo
+Add friends in the Friends tab: you play doubles with a friend.	Magdagdag ng kaibigan sa tab na Mga Kaibigan: nilalaro ang doubles kasama ang kaibigan.
+None of your friends is online right now.	Walang online sa mga kaibigan mo ngayon.
+Leave the pair	Iwan ang pares
+Your partner	Ang kapareha mo
+Looking for another pair… {secs} s	Naghahanap ng ibang pares… {secs} s
+Your doubles table is open: waiting for a pair…	Bukas ang mesa mo sa doubles: naghihintay ng pares…
+Open a doubles table	Magbukas ng mesa sa doubles
+No doubles tables open. With a partner, open one and another pair can sit down.	Walang bukas na mesa sa doubles. Kasama ang kapareha, magbukas ng isa at makakaupo ang ibang pares.
+Invite a friend to be your partner first.	Mag-imbita muna ng kaibigan na maging kapareha mo.
+at the table	nasa mesa
+next	susunod
+Foul: +{n} s	Foul: +{n} s
+Table cleared in {time}!	Nalinis ang mesa sa {time}!
+{n} balls left · {f} fouls (+{s} s)	{n} bola ang natitira · {f} foul (+{s} s)
+{n} balls left	{n} bola ang natitira
+{shots} shots · {fouls} fouls	{shots} tira · {fouls} foul
+Your best on this computer: {time}	Pinakamaganda mo sa computer na ito: {time}
+A new best on this computer!	Bagong rekord sa computer na ito!
+Counted: {time} · your best this week, #{rank}	Nabilang: {time} · pinakamaganda mo ngayong linggo, #{rank}
+Counted: {time} · your best this week	Nabilang: {time} · pinakamaganda mo ngayong linggo
+Counted: {time}	Nabilang: {time}
+Too late: an attempt must be sent within 20 minutes.	Huli na: dapat maipadala ang subok sa loob ng 20 minuto.
+See the week's table	Tingnan ang talaan ng linggo
+Against the clock	Laban sa oras
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Linisin ang mesa nang pinakamabilis: kahit anong ayos, ang 8 sa huli. Bawat foul ay dagdag na 10 segundo.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	{n} subok bawat araw ang bilang sa talaan ng linggo. Ang tatlong pinakamabilis sa linggo ay mananalo ng {a}, {b} at {c} barya.
+Attempts left today	Natitirang subok ngayon
+Your best this week	Pinakamaganda mo ngayong linggo
+The week ends in {d} d {h} h	Matatapos ang linggo sa loob ng {d} a {h} o
+Loading the week's table…	Kinukuha ang talaan ng linggo…
+Sign in to put your times on the week's table.	Mag-sign in para mailagay ang mga oras mo sa talaan ng linggo.
+Practice (not counted)	Magsanay (hindi bilang)
+Nobody has cleared the table this week yet. Be the first!	Wala pang nakalinis ng mesa ngayong linggo. Maging una ka!
+Last week's winners	Mga nanalo noong nakaraang linggo
+Doubles	Doubles
+Doubles ranking	Ranking sa doubles
+Each player's doubles rating · rated doubles	Ang rating sa doubles ng bawat manlalaro · rated na doubles
+No rated doubles yet. Be the first pair!	Wala pang rated na doubles. Kayo na ang unang pares!
+Clear the table in the least time	Linisin ang mesa sa pinakamaikling oras
+Against the clock: {n} balls left	Laban sa oras: {n} bola ang natitira
+That player's game is too old for doubles.	Masyadong luma ang laro ng manlalarong iyon para sa doubles.
+You can only ask your friends to be your partner.	Mga kaibigan mo lang ang maiimbitahan mong maging kapareha.
+That player already has a partner.	May kapareha na ang manlalarong iyon.
+Leave your pair first.	Iwan muna ang pares mo.
+Your doubles partner left the pair.	Iniwan ng kapareha mo ang pares.
+Not all four players are at the table.	Hindi kumpleto ang apat na manlalaro sa mesa.

@@ -2216,3 +2216,54 @@ You can't send messages to this player.	你不能给这名玩家发送消息。
 Your chat is set to the quick phrases only.	你的聊天仅限快捷短语。
 These settings can't be kept.	这些设置无法保存。
 You aren't watching a game.	你没有在观看任何对局。
+{name} asks you to be their doubles partner.	{name} 邀请你成为双打搭档。
+{name} is your doubles partner.	{name} 是你的双打搭档。
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	二对二。你们队在球台上的每一轮由你们两人轮流打：只要你一直进球就继续击球，下一轮由搭档来打。
+Waiting for {name}'s answer…	正在等待 {name} 的回复…
+Ask a friend to be your partner	邀请一位好友做你的搭档
+Add friends in the Friends tab: you play doubles with a friend.	在“好友”标签中添加好友：双打要和好友一起打。
+None of your friends is online right now.	现在没有好友在线。
+Leave the pair	解散搭档
+Your partner	你的搭档
+Looking for another pair… {secs} s	正在寻找另一对搭档… {secs} 秒
+Your doubles table is open: waiting for a pair…	你的双打球台已开放：正在等待一对搭档…
+Open a doubles table	开一张双打球台
+No doubles tables open. With a partner, open one and another pair can sit down.	没有开放的双打球台。和搭档开一张，另一对搭档就能坐下。
+Invite a friend to be your partner first.	请先邀请一位好友做你的搭档。
+at the table	正在击球
+next	下一位
+Foul: +{n} s	犯规：+{n} 秒
+Table cleared in {time}!	用时 {time} 清台！
+{n} balls left · {f} fouls (+{s} s)	剩余 {n} 球 · 犯规 {f} 次（+{s} 秒）
+{n} balls left	剩余 {n} 球
+{shots} shots · {fouls} fouls	{shots} 杆 · 犯规 {fouls} 次
+Your best on this computer: {time}	本机最佳：{time}
+A new best on this computer!	本机新纪录！
+Counted: {time} · your best this week, #{rank}	已计入：{time} · 你本周最佳，第 {rank} 名
+Counted: {time} · your best this week	已计入：{time} · 你本周最佳
+Counted: {time}	已计入：{time}
+Too late: an attempt must be sent within 20 minutes.	太晚了：挑战必须在 20 分钟内提交。
+See the week's table	查看本周榜单
+Against the clock	计时挑战
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	尽快清台：顺序不限，8 号球最后。每次犯规加 10 秒。
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	每天 {n} 次挑战计入本周榜单。本周最快的三名分别获得 {a}、{b} 和 {c} 金币。
+Attempts left today	今日剩余挑战次数
+Your best this week	你本周最佳
+The week ends in {d} d {h} h	本周还剩 {d} 天 {h} 小时
+Loading the week's table…	正在加载本周榜单…
+Sign in to put your times on the week's table.	登录后你的成绩才会进入本周榜单。
+Practice (not counted)	练习（不计入）
+Nobody has cleared the table this week yet. Be the first!	本周还没有人清台。来当第一个吧！
+Last week's winners	上周获胜者
+Doubles	双打
+Doubles ranking	双打排行榜
+Each player's doubles rating · rated doubles	每位玩家的双打积分 · 计分双打
+No rated doubles yet. Be the first pair!	还没有计分双打。来当第一对搭档吧！
+Clear the table in the least time	用最短的时间清台
+Against the clock: {n} balls left	计时挑战：剩余 {n} 球
+That player's game is too old for doubles.	该玩家的游戏版本太旧，无法进行双打。
+You can only ask your friends to be your partner.	你只能邀请好友做你的搭档。
+That player already has a partner.	该玩家已经有搭档了。
+Leave your pair first.	请先解散你现在的搭档。
+Your doubles partner left the pair.	你的搭档解散了搭档关系。
+Not all four players are at the table.	四名玩家没有全部在球台。

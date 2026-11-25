@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Du kan inte skicka meddelanden till den 
 Your chat is set to the quick phrases only.	Din chatt är begränsad till snabbfraserna.
 These settings can't be kept.	De här inställningarna kan inte sparas.
 You aren't watching a game.	Du tittar inte på något parti.
+{name} asks you to be their doubles partner.	{name} vill att du blir dennes dubbelpartner.
+{name} is your doubles partner.	{name} är din dubbelpartner.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Två mot två. Ditt lags besök vid bordet växlar mellan er: du behåller kön så länge du sänker, och din partner spelar nästa besök.
+Waiting for {name}'s answer…	Väntar på svar från {name}…
+Ask a friend to be your partner	Be en vän att bli din partner
+Add friends in the Friends tab: you play doubles with a friend.	Lägg till vänner under fliken Vänner: dubbel spelar du med en vän.
+None of your friends is online right now.	Ingen av dina vänner är online just nu.
+Leave the pair	Lämna paret
+Your partner	Din partner
+Looking for another pair… {secs} s	Letar efter ett annat par… {secs} s
+Your doubles table is open: waiting for a pair…	Ditt dubbelbord är öppet: väntar på ett par…
+Open a doubles table	Öppna ett dubbelbord
+No doubles tables open. With a partner, open one and another pair can sit down.	Inga dubbelbord är öppna. Öppna ett med en partner så kan ett annat par sätta sig.
+Invite a friend to be your partner first.	Be först en vän att bli din partner.
+at the table	vid bordet
+next	nästa
+Foul: +{n} s	Foul: +{n} s
+Table cleared in {time}!	Bordet rensat på {time}!
+{n} balls left · {f} fouls (+{s} s)	{n} bollar kvar · {f} fouls (+{s} s)
+{n} balls left	{n} bollar kvar
+{shots} shots · {fouls} fouls	{shots} stötar · {fouls} fouls
+Your best on this computer: {time}	Ditt bästa på den här datorn: {time}
+A new best on this computer!	Nytt rekord på den här datorn!
+Counted: {time} · your best this week, #{rank}	Räknat: {time} · ditt bästa den här veckan, #{rank}
+Counted: {time} · your best this week	Räknat: {time} · ditt bästa den här veckan
+Counted: {time}	Räknat: {time}
+Too late: an attempt must be sent within 20 minutes.	För sent: ett försök måste skickas inom 20 minuter.
+See the week's table	Se veckans tabell
+Against the clock	Mot klockan
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Rensa bordet så snabbt du kan: i valfri ordning, 8:an sist. Varje foul lägger till 10 sekunder.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	{n} försök om dagen räknas i veckans tabell. Veckans tre snabbaste vinner {a}, {b} och {c} mynt.
+Attempts left today	Försök kvar i dag
+Your best this week	Ditt bästa den här veckan
+The week ends in {d} d {h} h	Veckan slutar om {d} d {h} h
+Loading the week's table…	Laddar veckans tabell…
+Sign in to put your times on the week's table.	Logga in för att få med dina tider i veckans tabell.
+Practice (not counted)	Träna (räknas inte)
+Nobody has cleared the table this week yet. Be the first!	Ingen har rensat bordet den här veckan än. Bli först!
+Last week's winners	Förra veckans vinnare
+Doubles	Dubbel
+Doubles ranking	Dubbelranking
+Each player's doubles rating · rated doubles	Varje spelares dubbelrating · rankade dubblar
+No rated doubles yet. Be the first pair!	Inga rankade dubblar än. Bli det första paret!
+Clear the table in the least time	Rensa bordet på kortast tid
+Against the clock: {n} balls left	Mot klockan: {n} bollar kvar
+That player's game is too old for doubles.	Den spelarens spel är för gammalt för dubbel.
+You can only ask your friends to be your partner.	Du kan bara be dina vänner att bli din partner.
+That player already has a partner.	Den spelaren har redan en partner.
+Leave your pair first.	Lämna ditt par först.
+Your doubles partner left the pair.	Din dubbelpartner lämnade paret.
+Not all four players are at the table.	Alla fyra spelare är inte vid bordet.

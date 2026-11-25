@@ -2216,3 +2216,54 @@ You can't send messages to this player.	आप इस खिलाड़ी क�
 Your chat is set to the quick phrases only.	आपकी चैट केवल त्वरित वाक्यों तक सीमित है।
 These settings can't be kept.	ये सेटिंग्स सहेजी नहीं जा सकतीं।
 You aren't watching a game.	आप कोई खेल नहीं देख रहे हैं।
+{name} asks you to be their doubles partner.	{name} आपको डबल्स में अपना साथी बनने का न्योता दे रहे हैं।
+{name} is your doubles partner.	{name} डबल्स में आपके साथी हैं।
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	दो बनाम दो। टेबल पर आपकी टीम की बारियाँ आप दोनों में बारी-बारी से आती हैं: जब तक आप गेंद डालते रहें, क्यू आपके पास रहता है, और अगली बारी आपका साथी खेलता है।
+Waiting for {name}'s answer…	{name} के जवाब का इंतज़ार…
+Ask a friend to be your partner	किसी दोस्त को अपना साथी बनने का न्योता दें
+Add friends in the Friends tab: you play doubles with a friend.	दोस्त टैब में दोस्त जोड़ें: डबल्स किसी दोस्त के साथ खेला जाता है।
+None of your friends is online right now.	अभी आपका कोई दोस्त ऑनलाइन नहीं है।
+Leave the pair	जोड़ी तोड़ें
+Your partner	आपका साथी
+Looking for another pair… {secs} s	दूसरी जोड़ी ढूँढ़ रहे हैं… {secs} से
+Your doubles table is open: waiting for a pair…	आपकी डबल्स टेबल खुली है: जोड़ी का इंतज़ार…
+Open a doubles table	डबल्स टेबल खोलें
+No doubles tables open. With a partner, open one and another pair can sit down.	कोई डबल्स टेबल खुली नहीं है। साथी के साथ एक खोलें और दूसरी जोड़ी बैठ सकेगी।
+Invite a friend to be your partner first.	पहले किसी दोस्त को अपना साथी बनने का न्योता दें।
+at the table	टेबल पर
+next	अगला
+Foul: +{n} s	फ़ाउल: +{n} से
+Table cleared in {time}!	टेबल {time} में साफ़!
+{n} balls left · {f} fouls (+{s} s)	{n} गेंदें बाकी · {f} फ़ाउल (+{s} से)
+{n} balls left	{n} गेंदें बाकी
+{shots} shots · {fouls} fouls	{shots} शॉट · {fouls} फ़ाउल
+Your best on this computer: {time}	इस कंप्यूटर पर आपका सबसे अच्छा: {time}
+A new best on this computer!	इस कंप्यूटर पर नया रिकॉर्ड!
+Counted: {time} · your best this week, #{rank}	गिना गया: {time} · इस हफ़्ते आपका सबसे अच्छा, #{rank}
+Counted: {time} · your best this week	गिना गया: {time} · इस हफ़्ते आपका सबसे अच्छा
+Counted: {time}	गिना गया: {time}
+Too late: an attempt must be sent within 20 minutes.	बहुत देर हो गई: प्रयास 20 मिनट के भीतर भेजना होता है।
+See the week's table	हफ़्ते की तालिका देखें
+Against the clock	घड़ी के ख़िलाफ़
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	जितनी जल्दी हो सके टेबल साफ़ करें: किसी भी क्रम में, 8 सबसे आख़िर में। हर फ़ाउल 10 सेकंड जोड़ता है।
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	हफ़्ते की तालिका में रोज़ {n} प्रयास गिने जाते हैं। हफ़्ते के तीन सबसे तेज़ खिलाड़ी {a}, {b} और {c} सिक्के जीतते हैं।
+Attempts left today	आज बचे प्रयास
+Your best this week	इस हफ़्ते आपका सबसे अच्छा
+The week ends in {d} d {h} h	हफ़्ता {d} दि {h} घं में ख़त्म होगा
+Loading the week's table…	हफ़्ते की तालिका लोड हो रही है…
+Sign in to put your times on the week's table.	अपने समय हफ़्ते की तालिका में डालने के लिए साइन इन करें।
+Practice (not counted)	अभ्यास (गिना नहीं जाता)
+Nobody has cleared the table this week yet. Be the first!	इस हफ़्ते अभी तक किसी ने टेबल साफ़ नहीं की। पहले बनें!
+Last week's winners	पिछले हफ़्ते के विजेता
+Doubles	डबल्स
+Doubles ranking	डबल्स रैंकिंग
+Each player's doubles rating · rated doubles	हर खिलाड़ी की डबल्स रेटिंग · रेटेड डबल्स
+No rated doubles yet. Be the first pair!	अभी तक कोई रेटेड डबल्स नहीं। पहली जोड़ी बनें!
+Clear the table in the least time	सबसे कम समय में टेबल साफ़ करें
+Against the clock: {n} balls left	घड़ी के ख़िलाफ़: {n} गेंदें बाकी
+That player's game is too old for doubles.	उस खिलाड़ी का गेम डबल्स के लिए बहुत पुराना है।
+You can only ask your friends to be your partner.	आप केवल अपने दोस्तों को साथी बनने का न्योता दे सकते हैं।
+That player already has a partner.	उस खिलाड़ी का पहले से एक साथी है।
+Leave your pair first.	पहले अपनी जोड़ी तोड़ें।
+Your doubles partner left the pair.	आपके साथी ने जोड़ी तोड़ दी।
+Not all four players are at the table.	चारों खिलाड़ी टेबल पर नहीं हैं।

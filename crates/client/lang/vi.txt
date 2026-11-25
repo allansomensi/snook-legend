@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Bạn không thể gửi tin nhắn cho 
 Your chat is set to the quick phrases only.	Trò chuyện của bạn bị giới hạn ở các câu nhanh.
 These settings can't be kept.	Không thể lưu các cài đặt này.
 You aren't watching a game.	Bạn không xem ván nào cả.
+{name} asks you to be their doubles partner.	{name} mời bạn làm đồng đội đánh đôi.
+{name} is your doubles partner.	{name} là đồng đội đánh đôi của bạn.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Hai đấu hai. Các lượt của đội bạn tại bàn được chia lần lượt cho hai người: bạn giữ cơ khi còn đánh vào lỗ, và đồng đội đánh lượt tiếp theo.
+Waiting for {name}'s answer…	Đang chờ {name} trả lời…
+Ask a friend to be your partner	Mời một người bạn làm đồng đội
+Add friends in the Friends tab: you play doubles with a friend.	Thêm bạn bè ở thẻ Bạn bè: đánh đôi cùng một người bạn.
+None of your friends is online right now.	Hiện không có người bạn nào trực tuyến.
+Leave the pair	Rời cặp
+Your partner	Đồng đội của bạn
+Looking for another pair… {secs} s	Đang tìm cặp khác… {secs} giây
+Your doubles table is open: waiting for a pair…	Bàn đánh đôi của bạn đang mở: đang chờ một cặp…
+Open a doubles table	Mở bàn đánh đôi
+No doubles tables open. With a partner, open one and another pair can sit down.	Không có bàn đánh đôi nào đang mở. Cùng đồng đội mở một bàn để cặp khác vào ngồi.
+Invite a friend to be your partner first.	Hãy mời một người bạn làm đồng đội trước.
+at the table	tại bàn
+next	tiếp theo
+Foul: +{n} s	Phạm lỗi: +{n} giây
+Table cleared in {time}!	Dọn sạch bàn trong {time}!
+{n} balls left · {f} fouls (+{s} s)	Còn {n} bi · {f} lỗi (+{s} giây)
+{n} balls left	Còn {n} bi
+{shots} shots · {fouls} fouls	{shots} cú đánh · {fouls} lỗi
+Your best on this computer: {time}	Thành tích tốt nhất trên máy này: {time}
+A new best on this computer!	Kỷ lục mới trên máy này!
+Counted: {time} · your best this week, #{rank}	Đã tính: {time} · tốt nhất tuần này của bạn, #{rank}
+Counted: {time} · your best this week	Đã tính: {time} · tốt nhất tuần này của bạn
+Counted: {time}	Đã tính: {time}
+Too late: an attempt must be sent within 20 minutes.	Quá muộn: lượt thử phải được gửi trong vòng 20 phút.
+See the week's table	Xem bảng của tuần
+Against the clock	Đua với thời gian
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Dọn sạch bàn nhanh nhất có thể: thứ tự bất kỳ, bi 8 cuối cùng. Mỗi lỗi cộng 10 giây.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	Mỗi ngày {n} lượt thử được tính vào bảng của tuần. Ba người nhanh nhất tuần nhận {a}, {b} và {c} xu.
+Attempts left today	Số lượt thử còn lại hôm nay
+Your best this week	Tốt nhất tuần này của bạn
+The week ends in {d} d {h} h	Tuần kết thúc sau {d} ngày {h} giờ
+Loading the week's table…	Đang tải bảng của tuần…
+Sign in to put your times on the week's table.	Đăng nhập để thời gian của bạn vào bảng của tuần.
+Practice (not counted)	Luyện tập (không tính)
+Nobody has cleared the table this week yet. Be the first!	Tuần này chưa ai dọn sạch bàn. Hãy là người đầu tiên!
+Last week's winners	Người thắng tuần trước
+Doubles	Đánh đôi
+Doubles ranking	Bảng xếp hạng đánh đôi
+Each player's doubles rating · rated doubles	Điểm đánh đôi của mỗi người chơi · ván đôi tính điểm
+No rated doubles yet. Be the first pair!	Chưa có ván đôi tính điểm nào. Hãy là cặp đầu tiên!
+Clear the table in the least time	Dọn sạch bàn trong thời gian ngắn nhất
+Against the clock: {n} balls left	Đua với thời gian: còn {n} bi
+That player's game is too old for doubles.	Phiên bản trò chơi của người đó quá cũ để đánh đôi.
+You can only ask your friends to be your partner.	Bạn chỉ có thể mời bạn bè làm đồng đội.
+That player already has a partner.	Người chơi đó đã có đồng đội.
+Leave your pair first.	Hãy rời cặp hiện tại trước.
+Your doubles partner left the pair.	Đồng đội của bạn đã rời cặp.
+Not all four players are at the table.	Chưa đủ cả bốn người chơi tại bàn.

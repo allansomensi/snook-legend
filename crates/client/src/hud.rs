@@ -146,6 +146,8 @@ pub enum HudAction {
     NextStage(u8),
     /// The same drill once more.
     DrillAgain(&'static str),
+    /// Another attempt against the clock.
+    TimeAttackAgain,
 }
 
 impl Drop for Hud {
@@ -425,6 +427,13 @@ fn status_line(m: &Match) -> Option<String> {
                     ],
                 ));
             }
+            // Against the clock: what is left.
+            if m.time_attack.is_some() {
+                return Some(tw(
+                    "Against the clock: {n} balls left",
+                    &[("n", &m.game.balls_left())],
+                ));
+            }
             // The daily challenge: how far the visit is.
             if let Some(run) = &m.daily {
                 return Some(tw(
@@ -536,6 +545,8 @@ impl Hud {
         let now = get_time();
         self.made.update(m, now);
         crate::scoreboard::draw(ui, m, &self.made, &board, now);
+        // Doubles: the four players, and who holds the cue.
+        crate::online::doubles::draw_lineup(ui, m, TOP_BAR);
         let (x0, total) = (board.all.x, board.all.w);
         // Free practice: take the last shot back (button, or Z).
         if m.free_play && m.last_shot.is_some() && matches!(m.phase, Phase::Turn { .. }) {
@@ -796,6 +807,12 @@ impl Hud {
             if ui.primary_button(again, t("Try again")) {
                 action = HudAction::DrillAgain(run.code);
             }
+        }
+
+        // Against the clock: the running clock, and the time once clear.
+        crate::time_attack::draw_clock(ui, m);
+        if let Some(a) = crate::time_attack::draw_end(ui, m) {
+            action = a;
         }
 
         // The daily challenge's visit is over.
@@ -1711,7 +1728,7 @@ impl Hud {
             if phrases { 34.0 } else { ui.text_area_height(&self.chat_input, field_w, 4) };
         let input_h = if watching && !spectators { 0.0 } else { field_h + 10.0 };
         let log = Rect::new(r.x + 2.0, r.y + 32.0, r.w - 4.0, r.h - 32.0 - input_h);
-        let me = m.names[o.seat].clone();
+        let me = o.me.clone().unwrap_or_else(|| m.names[o.seat].clone());
         let me = (!watching).then_some(me.as_str());
         let lines = if spectators { &o.spectator_chat } else { &o.feed };
         if spectators && lines.is_empty() {

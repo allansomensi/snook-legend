@@ -75,6 +75,7 @@ mod tables;
 mod tabrow;
 mod textures;
 mod theme_art;
+mod time_attack;
 mod ui;
 mod update;
 mod util;
@@ -631,6 +632,13 @@ async fn main() {
             hud = Hud::new(config.show_help);
             rig.reset();
             screen = Screen::Versus(versus::Versus::new(versus::Tab::Daily, &config));
+        }
+        // Against the clock: an attempt the server started begins here, and
+        // a cleared one goes back to it.
+        if time_attack::tick(&mut current, &mut online, &config) {
+            hud = Hud::new(config.show_help);
+            rig.reset();
+            screen = Screen::Versus(versus::Versus::new(versus::Tab::TimeAttack, &config));
         }
         // A daily attempt or a ranked drill session that is over goes to
         // the server once its account is signed in (it waits meanwhile,
@@ -1310,6 +1318,22 @@ async fn main() {
                                 rig.reset();
                             }
                         }
+                        HudAction::TimeAttackAgain => {
+                            let counted = m.time_attack.as_ref().is_some_and(|r| r.attempt != 0);
+                            if counted && online.signed_in() {
+                                online.send(snook_legend_proto::ClientMsg::TimeAttackStart);
+                            } else {
+                                let name = m.names[0].clone();
+                                current = Some(Match::time_attack(
+                                    0,
+                                    game::clock_seed(),
+                                    &name,
+                                    config.guide,
+                                ));
+                                hud = Hud::new(config.show_help);
+                                rig.reset();
+                            }
+                        }
                         HudAction::NextStage(k) => {
                             // The next opponent of the tour, if it is open.
                             if ladder_progress.unlocked(k)
@@ -1355,6 +1379,7 @@ async fn main() {
                             let daily = m.daily.is_some();
                             // Left during a drill: the tries made still count.
                             let drill = m.drill.is_some();
+                            let time_attack = m.time_attack.is_some();
                             // Signed out: sent once back.
                             send_run(m, &mut online, &mut unsent_runs);
                             // From a game against the computer: back to its
@@ -1375,7 +1400,13 @@ async fn main() {
                             current = None;
                             hud = Hud::new(config.show_help);
                             rig.reset();
-                            screen = if drill {
+                            screen = if time_attack {
+                                online.send(snook_legend_proto::ClientMsg::TimeAttack);
+                                Screen::Versus(versus::Versus::new(
+                                    versus::Tab::TimeAttack,
+                                    &config,
+                                ))
+                            } else if drill {
                                 online.send(snook_legend_proto::ClientMsg::Drills);
                                 Screen::Versus(versus::Versus::new(versus::Tab::Drills, &config))
                             } else if daily {
@@ -1662,6 +1693,20 @@ async fn main() {
                                     hud = Hud::new(config.show_help);
                                     rig.reset();
                                 }
+                            }
+                            versus::VersusAction::TimeAttackPractice => {
+                                let name = online
+                                    .me
+                                    .as_ref()
+                                    .map_or(config.player_name.clone(), |me| me.username.clone());
+                                current = Some(Match::time_attack(
+                                    0,
+                                    game::clock_seed(),
+                                    &name,
+                                    config.guide,
+                                ));
+                                hud = Hud::new(config.show_help);
+                                rig.reset();
                             }
                             versus::VersusAction::SignIn => {
                                 online.connect();

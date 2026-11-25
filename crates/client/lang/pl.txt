@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Nie możesz wysyłać wiadomości temu g
 Your chat is set to the quick phrases only.	Twój czat jest ograniczony do szybkich fraz.
 These settings can't be kept.	Tych ustawień nie można zachować.
 You aren't watching a game.	Nie oglądasz żadnej partii.
+{name} asks you to be their doubles partner.	{name} zaprasza cię do gry w parze w deblu.
+{name} is your doubles partner.	{name} jest twoim partnerem w deblu.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Dwóch na dwóch. Podejścia twojej drużyny do stołu przypadają wam na zmianę: grasz, dopóki wbijasz, a partner gra następne podejście.
+Waiting for {name}'s answer…	Czekam na odpowiedź od {name}…
+Ask a friend to be your partner	Zaproś znajomego, by był twoim partnerem
+Add friends in the Friends tab: you play doubles with a friend.	Dodaj znajomych w zakładce Znajomi: debla grasz ze znajomym.
+None of your friends is online right now.	Żaden z twoich znajomych nie jest teraz online.
+Leave the pair	Rozwiąż parę
+Your partner	Twój partner
+Looking for another pair… {secs} s	Szukam innej pary… {secs} s
+Your doubles table is open: waiting for a pair…	Twój stół deblowy jest otwarty: czekam na parę…
+Open a doubles table	Otwórz stół deblowy
+No doubles tables open. With a partner, open one and another pair can sit down.	Brak otwartych stołów deblowych. Z partnerem otwórz jeden, a inna para będzie mogła dosiąść.
+Invite a friend to be your partner first.	Najpierw zaproś znajomego, by był twoim partnerem.
+at the table	przy stole
+next	następny
+Foul: +{n} s	Faul: +{n} s
+Table cleared in {time}!	Stół wyczyszczony w {time}!
+{n} balls left · {f} fouls (+{s} s)	Zostało bil: {n} · faule: {f} (+{s} s)
+{n} balls left	Zostało bil: {n}
+{shots} shots · {fouls} fouls	Uderzenia: {shots} · faule: {fouls}
+Your best on this computer: {time}	Twój najlepszy czas na tym komputerze: {time}
+A new best on this computer!	Nowy rekord na tym komputerze!
+Counted: {time} · your best this week, #{rank}	Zaliczono: {time} · twój najlepszy w tym tygodniu, #{rank}
+Counted: {time} · your best this week	Zaliczono: {time} · twój najlepszy w tym tygodniu
+Counted: {time}	Zaliczono: {time}
+Too late: an attempt must be sent within 20 minutes.	Za późno: próbę trzeba wysłać w ciągu 20 minut.
+See the week's table	Zobacz tabelę tygodnia
+Against the clock	Na czas
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Wyczyść stół jak najszybciej: w dowolnej kolejności, ósemka na końcu. Każdy faul dodaje 10 sekund.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	Do tabeli tygodnia liczy się {n} prób dziennie. Trzech najszybszych w tygodniu wygrywa {a}, {b} i {c} monet.
+Attempts left today	Pozostałe próby dziś
+Your best this week	Twój najlepszy w tym tygodniu
+The week ends in {d} d {h} h	Tydzień kończy się za {d} d {h} godz.
+Loading the week's table…	Ładowanie tabeli tygodnia…
+Sign in to put your times on the week's table.	Zaloguj się, by twoje czasy trafiły do tabeli tygodnia.
+Practice (not counted)	Trening (nie liczy się)
+Nobody has cleared the table this week yet. Be the first!	Nikt jeszcze nie wyczyścił stołu w tym tygodniu. Bądź pierwszy!
+Last week's winners	Zwycięzcy zeszłego tygodnia
+Doubles	Debel
+Doubles ranking	Ranking debla
+Each player's doubles rating · rated doubles	Ranking deblowy każdego gracza · debel rankingowy
+No rated doubles yet. Be the first pair!	Jeszcze nie było rankingowego debla. Bądźcie pierwszą parą!
+Clear the table in the least time	Wyczyść stół w najkrótszym czasie
+Against the clock: {n} balls left	Na czas: zostało bil: {n}
+That player's game is too old for doubles.	Gra tego gracza jest zbyt stara na debla.
+You can only ask your friends to be your partner.	Na partnera możesz zaprosić tylko znajomych.
+That player already has a partner.	Ten gracz ma już partnera.
+Leave your pair first.	Najpierw rozwiąż swoją parę.
+Your doubles partner left the pair.	Twój partner rozwiązał parę.
+Not all four players are at the table.	Nie wszyscy czterej gracze są przy stole.

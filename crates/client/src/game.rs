@@ -344,6 +344,8 @@ pub struct Match {
     pub ladder: Option<crate::ladder::LadderRun>,
     /// An attempt at the daily challenge.
     pub daily: Option<DailyRun>,
+    /// An attempt against the clock.
+    pub time_attack: Option<crate::time_attack::TimeAttackRun>,
     /// A table to oneself (practice): racked again when a rack is over.
     pub free_play: bool,
     /// A drill session.
@@ -542,6 +544,11 @@ pub struct OnlineMatch {
     /// The chat lines received lately (writer, text, time): one the server
     /// sends again after a reconnection isn't shown twice.
     pub heard: std::collections::VecDeque<(String, String, i64)>,
+    /// A doubles game: who plays with whom and who holds the cue (the
+    /// names of the seats are then the teams').
+    pub doubles: Option<snook_legend_proto::doubles::Lineup>,
+    /// This player's name in a doubles game (a seat's name is its team's).
+    pub me: Option<String>,
 }
 
 impl OnlineMatch {
@@ -668,6 +675,7 @@ impl Match {
             opponent,
             ladder,
             daily: None,
+            time_attack: None,
             free_play: false,
             drill: None,
             banter: None,
@@ -789,6 +797,29 @@ impl Match {
         m.begin_turn();
         m.notify(
             t("Make as many balls as you can in one visit: a miss or a foul ends the attempt."),
+            true,
+        );
+        m
+    }
+
+    /// An attempt against the clock on the rack of `seed` (`attempt`: the
+    /// server's, 0 for one of this computer's own; see
+    /// [`crate::time_attack`]).
+    pub fn time_attack(attempt: i64, seed: u64, name: &str, guide: AimGuide) -> Match {
+        let settings = MatchSettings {
+            mode: MatchMode::HotSeat,
+            names: [name.to_string(), t("Against the clock").to_string()],
+            guide,
+            shot_clock: None,
+            ladder: None,
+            rules: snook_legend_core::Rules::Official,
+        };
+        let mut m = Match::new(&settings, seed);
+        m.game = EightBallGame::time_attack(seed);
+        m.time_attack = Some(crate::time_attack::TimeAttackRun::new(attempt, seed));
+        m.begin_turn();
+        m.notify(
+            t("Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds."),
             true,
         );
         m
@@ -1039,6 +1070,8 @@ impl Match {
                 spectator_unread: 0,
                 opponent_away: None,
                 heard: Default::default(),
+                doubles: None,
+                me: None,
             }),
             clock: None,
             last_shot: None,
@@ -1054,6 +1087,7 @@ impl Match {
             opponent: None,
             ladder: None,
             daily: None,
+            time_attack: None,
             free_play: false,
             drill: None,
             banter: None,
@@ -1506,6 +1540,7 @@ impl Match {
                 if let Some(run) = self.drill.as_mut() {
                     run.strokes.push(shot);
                 }
+                crate::time_attack::record_stroke(self, shot);
                 if let Some(run) = self.ladder.as_mut() {
                     let cue_ball =
                         self.game.ball_in_hand().map(|_| self.game.ball(BallId::CUE).xy());
@@ -2226,6 +2261,10 @@ impl Match {
     }
 
     fn after_shot(&mut self, report: &ShotReport) {
+        // Against the clock: the penalty, and the end once the table is clear.
+        if crate::time_attack::after_shot(self, report) {
+            return;
+        }
         // A drill: did the try work? Then the next try, or the end.
         if let Some(run) = self.drill.as_mut() {
             let d = run.drill();
@@ -2889,7 +2928,8 @@ impl Match {
                         o.heard.pop_front();
                     }
                 }
-                let mine = line.from.eq_ignore_ascii_case(&self.names[o.seat]);
+                let me = o.me.as_deref().unwrap_or(&self.names[o.seat]);
+                let mine = line.from.eq_ignore_ascii_case(me);
                 // Shown already, the moment it was sent.
                 if mine && o.confirm_echo(&line.text) {
                     return;

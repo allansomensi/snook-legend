@@ -8,6 +8,7 @@ use std::collections::VecDeque;
 
 use macroquad::prelude::*;
 
+pub mod doubles;
 mod gifts;
 pub mod ops;
 mod social;
@@ -74,6 +75,8 @@ pub enum Tab {
     Friends,
     /// Correspondence ("daily") games.
     Daily,
+    /// Two against two: the partner, the pair's games.
+    Doubles,
 }
 
 #[derive(Default)]
@@ -379,6 +382,10 @@ pub struct Online {
     phrases_ticked: bool,
     /// The lounge's list of quick phrases is open (the chat kept to them).
     phrases_open: bool,
+    /// Doubles: the partner, the pair's search and tables, the line-up.
+    pub doubles: doubles::DoublesView,
+    /// Against the clock: the week's table and the attempt under way.
+    pub time_attack: crate::time_attack::TimeAttackNet,
 }
 
 /// How many players online play one of the rules (the menu and the
@@ -799,6 +806,8 @@ impl Online {
             advanced: None,
             phrases_ticked: false,
             phrases_open: false,
+            doubles: Default::default(),
+            time_attack: Default::default(),
         }
     }
 
@@ -1009,7 +1018,8 @@ impl Online {
                             .me
                             .as_ref()
                             .is_some_and(|me| me.role == snook_legend_proto::Role::Admin);
-                        o.echo_chat(&m.names[o.seat], admin, text);
+                        let name = o.me.clone().unwrap_or_else(|| m.names[o.seat].clone());
+                        o.echo_chat(&name, admin, text);
                     }
                     c.send(msg);
                 }
@@ -1227,6 +1237,16 @@ impl Online {
         {
             return save;
         }
+        // Doubles and against the clock (the official server's: not a
+        // local network's host).
+        let Some(msg) = self.doubles_message(msg, current) else { return save };
+        let msg = match msg {
+            msg if self.lan => msg,
+            msg => match self.time_attack.message(msg) {
+                Some(msg) => msg,
+                None => return save,
+            },
+        };
         match msg {
             ServerMsg::AuthOk { player, token } => {
                 // Another account than the last one signed in (not the name
@@ -1674,6 +1694,8 @@ impl Online {
                         o.intro = intro;
                     }
                 }
+                // A doubles game: its line-up came just before.
+                self.attach_lineup(current);
                 // A message sent just before the match (e.g. "this game is
                 // casual"): only one that has just arrived, not whatever
                 // toast happened to be showing ("+5 coins…").
@@ -3237,6 +3259,7 @@ impl Online {
             tabs.push((Tab::Friends, t("Friends")));
             tabs.push((Tab::Daily, t("Daily")));
         }
+        tabs.push((Tab::Doubles, t("Doubles")));
         // Each tab as wide as its label, all labels at one size.
         let me = self.me.as_ref().map(|m| m.username.as_str()).unwrap_or("");
         let waiting = self.corr.waiting(me);
@@ -3266,6 +3289,10 @@ impl Online {
             if tab == Tab::Daily {
                 self.send(ClientMsg::CorrList);
             }
+            // (The friends who could be a partner, as they are now.)
+            if tab == Tab::Doubles && !self.lan {
+                self.send(ClientMsg::Friends);
+            }
         }
         for ((tab, _), r) in tabs.iter().zip(&rects) {
             let badge = match tab {
@@ -3275,6 +3302,7 @@ impl Online {
                         || self.dms.total_unread() > 0
                 }
                 Tab::Daily => waiting > 0,
+                Tab::Doubles => !self.doubles.invites.is_empty(),
                 _ => false,
             };
             if badge {
@@ -3303,6 +3331,7 @@ impl Online {
                     action = a;
                 }
             }
+            Tab::Doubles => self.draw_doubles(ui, area),
         }
 
         // Outgoing invitation.

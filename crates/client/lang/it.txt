@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Non puoi inviare messaggi a questo gioca
 Your chat is set to the quick phrases only.	La tua chat è limitata alle frasi rapide.
 These settings can't be kept.	Queste impostazioni non possono essere salvate.
 You aren't watching a game.	Non stai guardando nessuna partita.
+{name} asks you to be their doubles partner.	{name} ti invita a essere il suo compagno di doppio.
+{name} is your doubles partner.	{name} è il tuo compagno di doppio.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Due contro due. I turni della tua squadra al tavolo si alternano tra voi: tieni la stecca finché imbuchi, e il tuo compagno gioca il turno successivo.
+Waiting for {name}'s answer…	In attesa della risposta di {name}…
+Ask a friend to be your partner	Invita un amico a essere il tuo compagno
+Add friends in the Friends tab: you play doubles with a friend.	Aggiungi amici nella scheda Amici: il doppio si gioca con un amico.
+None of your friends is online right now.	Nessuno dei tuoi amici è online adesso.
+Leave the pair	Sciogli la coppia
+Your partner	Il tuo compagno
+Looking for another pair… {secs} s	Cerco un'altra coppia… {secs} s
+Your doubles table is open: waiting for a pair…	Il tuo tavolo di doppio è aperto: in attesa di una coppia…
+Open a doubles table	Apri un tavolo di doppio
+No doubles tables open. With a partner, open one and another pair can sit down.	Nessun tavolo di doppio aperto. Con un compagno, aprine uno e un'altra coppia potrà sedersi.
+Invite a friend to be your partner first.	Prima invita un amico a essere il tuo compagno.
+at the table	al tavolo
+next	prossimo
+Foul: +{n} s	Fallo: +{n} s
+Table cleared in {time}!	Tavolo ripulito in {time}!
+{n} balls left · {f} fouls (+{s} s)	{n} bilie rimaste · {f} falli (+{s} s)
+{n} balls left	{n} bilie rimaste
+{shots} shots · {fouls} fouls	{shots} colpi · {fouls} falli
+Your best on this computer: {time}	Il tuo record su questo computer: {time}
+A new best on this computer!	Nuovo record su questo computer!
+Counted: {time} · your best this week, #{rank}	Contato: {time} · il tuo migliore della settimana, n. {rank}
+Counted: {time} · your best this week	Contato: {time} · il tuo migliore della settimana
+Counted: {time}	Contato: {time}
+Too late: an attempt must be sent within 20 minutes.	Troppo tardi: un tentativo va inviato entro 20 minuti.
+See the week's table	Vedi la classifica della settimana
+Against the clock	Contro il tempo
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Ripulisci il tavolo il più in fretta possibile: in qualsiasi ordine, la 8 per ultima. Ogni fallo aggiunge 10 secondi.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	{n} tentativi al giorno contano nella classifica della settimana. I tre più veloci della settimana vincono {a}, {b} e {c} monete.
+Attempts left today	Tentativi rimasti oggi
+Your best this week	Il tuo migliore della settimana
+The week ends in {d} d {h} h	La settimana finisce tra {d} g {h} h
+Loading the week's table…	Caricamento della classifica della settimana…
+Sign in to put your times on the week's table.	Accedi per mettere i tuoi tempi nella classifica della settimana.
+Practice (not counted)	Allenati (non conta)
+Nobody has cleared the table this week yet. Be the first!	Nessuno ha ancora ripulito il tavolo questa settimana. Sii il primo!
+Last week's winners	Vincitori della settimana scorsa
+Doubles	Doppio
+Doubles ranking	Classifica del doppio
+Each player's doubles rating · rated doubles	Il punteggio di doppio di ogni giocatore · doppi classificati
+No rated doubles yet. Be the first pair!	Ancora nessun doppio classificato. Siate la prima coppia!
+Clear the table in the least time	Ripulisci il tavolo nel minor tempo
+Against the clock: {n} balls left	Contro il tempo: {n} bilie rimaste
+That player's game is too old for doubles.	Il gioco di quel giocatore è troppo vecchio per il doppio.
+You can only ask your friends to be your partner.	Puoi invitare come compagno solo i tuoi amici.
+That player already has a partner.	Quel giocatore ha già un compagno.
+Leave your pair first.	Prima sciogli la tua coppia.
+Your doubles partner left the pair.	Il tuo compagno di doppio ha sciolto la coppia.
+Not all four players are at the table.	Non tutti e quattro i giocatori sono al tavolo.

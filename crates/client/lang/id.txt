@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Kamu tidak bisa mengirim pesan ke pemain
 Your chat is set to the quick phrases only.	Obrolanmu dibatasi pada frasa cepat.
 These settings can't be kept.	Pengaturan ini tidak dapat disimpan.
 You aren't watching a game.	Kamu tidak sedang menonton permainan.
+{name} asks you to be their doubles partner.	{name} mengajakmu menjadi pasangannya di ganda.
+{name} is your doubles partner.	{name} adalah pasangan gandamu.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Dua lawan dua. Giliran timmu di meja bergantian di antara kalian: kamu terus memegang stik selama memasukkan bola, dan pasanganmu memainkan giliran berikutnya.
+Waiting for {name}'s answer…	Menunggu jawaban {name}…
+Ask a friend to be your partner	Ajak teman menjadi pasanganmu
+Add friends in the Friends tab: you play doubles with a friend.	Tambahkan teman di tab Teman: ganda dimainkan bersama teman.
+None of your friends is online right now.	Tidak ada temanmu yang sedang online.
+Leave the pair	Bubarkan pasangan
+Your partner	Pasanganmu
+Looking for another pair… {secs} s	Mencari pasangan lain… {secs} d
+Your doubles table is open: waiting for a pair…	Meja gandamu terbuka: menunggu pasangan…
+Open a doubles table	Buka meja ganda
+No doubles tables open. With a partner, open one and another pair can sit down.	Tidak ada meja ganda yang terbuka. Bersama pasangan, buka satu dan pasangan lain bisa duduk.
+Invite a friend to be your partner first.	Ajak dulu teman menjadi pasanganmu.
+at the table	di meja
+next	berikutnya
+Foul: +{n} s	Pelanggaran: +{n} d
+Table cleared in {time}!	Meja bersih dalam {time}!
+{n} balls left · {f} fouls (+{s} s)	Sisa {n} bola · {f} pelanggaran (+{s} d)
+{n} balls left	Sisa {n} bola
+{shots} shots · {fouls} fouls	{shots} pukulan · {fouls} pelanggaran
+Your best on this computer: {time}	Rekormu di komputer ini: {time}
+A new best on this computer!	Rekor baru di komputer ini!
+Counted: {time} · your best this week, #{rank}	Dihitung: {time} · terbaikmu minggu ini, #{rank}
+Counted: {time} · your best this week	Dihitung: {time} · terbaikmu minggu ini
+Counted: {time}	Dihitung: {time}
+Too late: an attempt must be sent within 20 minutes.	Terlambat: percobaan harus dikirim dalam 20 menit.
+See the week's table	Lihat tabel minggu ini
+Against the clock	Melawan waktu
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Bersihkan meja secepat mungkin: urutan bebas, bola 8 terakhir. Setiap pelanggaran menambah 10 detik.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	{n} percobaan per hari dihitung di tabel minggu ini. Tiga tercepat minggu ini memenangkan {a}, {b}, dan {c} koin.
+Attempts left today	Sisa percobaan hari ini
+Your best this week	Terbaikmu minggu ini
+The week ends in {d} d {h} h	Minggu ini berakhir dalam {d} h {h} j
+Loading the week's table…	Memuat tabel minggu ini…
+Sign in to put your times on the week's table.	Masuk agar waktumu masuk tabel minggu ini.
+Practice (not counted)	Latihan (tidak dihitung)
+Nobody has cleared the table this week yet. Be the first!	Belum ada yang membersihkan meja minggu ini. Jadilah yang pertama!
+Last week's winners	Pemenang minggu lalu
+Doubles	Ganda
+Doubles ranking	Peringkat ganda
+Each player's doubles rating · rated doubles	Rating ganda setiap pemain · ganda berperingkat
+No rated doubles yet. Be the first pair!	Belum ada ganda berperingkat. Jadilah pasangan pertama!
+Clear the table in the least time	Bersihkan meja dalam waktu tersingkat
+Against the clock: {n} balls left	Melawan waktu: sisa {n} bola
+That player's game is too old for doubles.	Game pemain itu terlalu lama untuk ganda.
+You can only ask your friends to be your partner.	Kamu hanya bisa mengajak teman menjadi pasanganmu.
+That player already has a partner.	Pemain itu sudah punya pasangan.
+Leave your pair first.	Bubarkan dulu pasanganmu.
+Your doubles partner left the pair.	Pasanganmu membubarkan pasangan.
+Not all four players are at the table.	Tidak semua empat pemain ada di meja.

@@ -2216,3 +2216,54 @@ You can't send messages to this player.	このプレイヤーにはメッセー�
 Your chat is set to the quick phrases only.	あなたのチャットは定型文のみに制限されています。
 These settings can't be kept.	この設定は保存できません。
 You aren't watching a game.	観戦中の試合はありません。
+{name} asks you to be their doubles partner.	{name}さんがダブルスのパートナーに誘っています。
+{name} is your doubles partner.	{name}さんがあなたのダブルスのパートナーです。
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	2対2。チームの番は二人で交互に担当します。ポケットし続ける限りあなたが撞き、次の番はパートナーが撞きます。
+Waiting for {name}'s answer…	{name}さんの返事を待っています…
+Ask a friend to be your partner	友だちをパートナーに誘う
+Add friends in the Friends tab: you play doubles with a friend.	フレンドタブで友だちを追加しましょう。ダブルスは友だちと組んでプレイします。
+None of your friends is online right now.	今オンラインの友だちはいません。
+Leave the pair	ペアを解消
+Your partner	あなたのパートナー
+Looking for another pair… {secs} s	別のペアを探しています… {secs}秒
+Your doubles table is open: waiting for a pair…	ダブルスの台を開いています。ペアを待っています…
+Open a doubles table	ダブルスの台を開く
+No doubles tables open. With a partner, open one and another pair can sit down.	開いているダブルスの台はありません。パートナーと台を開けば、別のペアが座れます。
+Invite a friend to be your partner first.	まず友だちをパートナーに誘いましょう。
+at the table	台に立っています
+next	次
+Foul: +{n} s	ファウル：+{n}秒
+Table cleared in {time}!	{time}で台をクリア！
+{n} balls left · {f} fouls (+{s} s)	残り{n}球 · ファウル{f}回（+{s}秒）
+{n} balls left	残り{n}球
+{shots} shots · {fouls} fouls	{shots}ショット · ファウル{fouls}回
+Your best on this computer: {time}	このコンピューターでのベスト：{time}
+A new best on this computer!	このコンピューターでの新記録！
+Counted: {time} · your best this week, #{rank}	記録：{time} · 今週のベスト、{rank}位
+Counted: {time} · your best this week	記録：{time} · 今週のベスト
+Counted: {time}	記録：{time}
+Too late: an attempt must be sent within 20 minutes.	遅すぎます：挑戦は20分以内に送信してください。
+See the week's table	今週の表を見る
+Against the clock	タイムアタック
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	できるだけ速く台をクリアしましょう。順番は自由、8番は最後。ファウルごとに10秒加算。
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	1日{n}回の挑戦が今週の表に記録されます。今週の上位3人は{a}、{b}、{c}コインを獲得します。
+Attempts left today	今日の残り挑戦回数
+Your best this week	今週のベスト
+The week ends in {d} d {h} h	今週はあと{d}日{h}時間で終了
+Loading the week's table…	今週の表を読み込み中…
+Sign in to put your times on the week's table.	サインインすると今週の表にタイムが載ります。
+Practice (not counted)	練習（記録されません）
+Nobody has cleared the table this week yet. Be the first!	今週はまだ誰も台をクリアしていません。最初の一人になりましょう！
+Last week's winners	先週の勝者
+Doubles	ダブルス
+Doubles ranking	ダブルスランキング
+Each player's doubles rating · rated doubles	各プレイヤーのダブルスレーティング · レート戦のダブルス
+No rated doubles yet. Be the first pair!	レート戦のダブルスはまだありません。最初のペアになりましょう！
+Clear the table in the least time	最短時間で台をクリア
+Against the clock: {n} balls left	タイムアタック：残り{n}球
+That player's game is too old for doubles.	そのプレイヤーのゲームはダブルスには古すぎます。
+You can only ask your friends to be your partner.	パートナーに誘えるのは友だちだけです。
+That player already has a partner.	そのプレイヤーにはすでにパートナーがいます。
+Leave your pair first.	まず今のペアを解消してください。
+Your doubles partner left the pair.	パートナーがペアを解消しました。
+Not all four players are at the table.	4人全員が台にそろっていません。

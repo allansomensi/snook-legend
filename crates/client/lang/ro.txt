@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Nu poți trimite mesaje acestui jucător
 Your chat is set to the quick phrases only.	Chatul tău e limitat la frazele rapide.
 These settings can't be kept.	Aceste setări nu pot fi păstrate.
 You aren't watching a game.	Nu urmărești nicio partidă.
+{name} asks you to be their doubles partner.	{name} te invită să fii partenerul lui la dublu.
+{name} is your doubles partner.	{name} este partenerul tău la dublu.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Doi contra doi. Rândurile echipei tale la masă alternează între voi: rămâi cu tacul cât timp bagi bile, iar partenerul joacă rândul următor.
+Waiting for {name}'s answer…	Se așteaptă răspunsul lui {name}…
+Ask a friend to be your partner	Invită un prieten să-ți fie partener
+Add friends in the Friends tab: you play doubles with a friend.	Adaugă prieteni în fila Prieteni: dublul se joacă cu un prieten.
+None of your friends is online right now.	Niciunul dintre prietenii tăi nu este online acum.
+Leave the pair	Desfă perechea
+Your partner	Partenerul tău
+Looking for another pair… {secs} s	Se caută altă pereche… {secs} s
+Your doubles table is open: waiting for a pair…	Masa ta de dublu e deschisă: se așteaptă o pereche…
+Open a doubles table	Deschide o masă de dublu
+No doubles tables open. With a partner, open one and another pair can sit down.	Nicio masă de dublu deschisă. Cu un partener, deschide una și o altă pereche se poate așeza.
+Invite a friend to be your partner first.	Invită mai întâi un prieten să-ți fie partener.
+at the table	la masă
+next	următorul
+Foul: +{n} s	Fault: +{n} s
+Table cleared in {time}!	Masă curățată în {time}!
+{n} balls left · {f} fouls (+{s} s)	{n} bile rămase · {f} faulturi (+{s} s)
+{n} balls left	{n} bile rămase
+{shots} shots · {fouls} fouls	{shots} lovituri · {fouls} faulturi
+Your best on this computer: {time}	Cel mai bun timp pe acest computer: {time}
+A new best on this computer!	Un nou record pe acest computer!
+Counted: {time} · your best this week, #{rank}	Numărat: {time} · cel mai bun al tău săptămâna aceasta, #{rank}
+Counted: {time} · your best this week	Numărat: {time} · cel mai bun al tău săptămâna aceasta
+Counted: {time}	Numărat: {time}
+Too late: an attempt must be sent within 20 minutes.	Prea târziu: o încercare trebuie trimisă în 20 de minute.
+See the week's table	Vezi clasamentul săptămânii
+Against the clock	Contra cronometru
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Curăță masa cât mai repede: în orice ordine, 8 la final. Fiecare fault adaugă 10 secunde.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	{n} încercări pe zi contează în clasamentul săptămânii. Cei trei mai rapizi ai săptămânii câștigă {a}, {b} și {c} monede.
+Attempts left today	Încercări rămase azi
+Your best this week	Cel mai bun al tău săptămâna aceasta
+The week ends in {d} d {h} h	Săptămâna se termină în {d} z {h} h
+Loading the week's table…	Se încarcă clasamentul săptămânii…
+Sign in to put your times on the week's table.	Conectează-te ca timpii tăi să intre în clasamentul săptămânii.
+Practice (not counted)	Antrenament (nu contează)
+Nobody has cleared the table this week yet. Be the first!	Nimeni n-a curățat masa săptămâna aceasta. Fii primul!
+Last week's winners	Câștigătorii săptămânii trecute
+Doubles	Dublu
+Doubles ranking	Clasament la dublu
+Each player's doubles rating · rated doubles	Ratingul de dublu al fiecărui jucător · dubluri cu rating
+No rated doubles yet. Be the first pair!	Încă niciun dublu cu rating. Fiți prima pereche!
+Clear the table in the least time	Curăță masa în cel mai scurt timp
+Against the clock: {n} balls left	Contra cronometru: {n} bile rămase
+That player's game is too old for doubles.	Jocul acelui jucător este prea vechi pentru dublu.
+You can only ask your friends to be your partner.	Poți invita ca partener doar prieteni.
+That player already has a partner.	Acel jucător are deja un partener.
+Leave your pair first.	Desfă mai întâi perechea ta.
+Your doubles partner left the pair.	Partenerul tău a desfăcut perechea.
+Not all four players are at the table.	Nu toți cei patru jucători sunt la masă.

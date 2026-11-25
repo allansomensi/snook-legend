@@ -2216,3 +2216,54 @@ You can't send messages to this player.	আপনি এই খেলোয়�
 Your chat is set to the quick phrases only.	আপনার চ্যাট শুধু দ্রুত বাক্যে সীমাবদ্ধ।
 These settings can't be kept.	এই সেটিংস রাখা যাবে না।
 You aren't watching a game.	আপনি কোনো খেলা দেখছেন না।
+{name} asks you to be their doubles partner.	{name} আপনাকে ডাবলসে তাঁর সঙ্গী হতে আমন্ত্রণ জানাচ্ছেন।
+{name} is your doubles partner.	{name} ডাবলসে আপনার সঙ্গী।
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	দুই বনাম দুই। টেবিলে আপনার দলের পালাগুলো আপনাদের দুজনের মধ্যে পালাক্রমে আসে: যতক্ষণ বল ফেলছেন কিউ আপনার কাছে থাকে, আর পরের পালা খেলেন আপনার সঙ্গী।
+Waiting for {name}'s answer…	{name}-এর উত্তরের অপেক্ষা…
+Ask a friend to be your partner	একজন বন্ধুকে আপনার সঙ্গী হতে আমন্ত্রণ জানান
+Add friends in the Friends tab: you play doubles with a friend.	বন্ধু ট্যাবে বন্ধু যোগ করুন: ডাবলস খেলা হয় একজন বন্ধুর সঙ্গে।
+None of your friends is online right now.	এখন আপনার কোনো বন্ধু অনলাইনে নেই।
+Leave the pair	জুটি ভাঙুন
+Your partner	আপনার সঙ্গী
+Looking for another pair… {secs} s	আরেকটি জুটি খোঁজা হচ্ছে… {secs} সে
+Your doubles table is open: waiting for a pair…	আপনার ডাবলস টেবিল খোলা: একটি জুটির অপেক্ষা…
+Open a doubles table	একটি ডাবলস টেবিল খুলুন
+No doubles tables open. With a partner, open one and another pair can sit down.	কোনো ডাবলস টেবিল খোলা নেই। সঙ্গীর সঙ্গে একটি খুলুন, আরেকটি জুটি বসতে পারবে।
+Invite a friend to be your partner first.	আগে একজন বন্ধুকে আপনার সঙ্গী হতে আমন্ত্রণ জানান।
+at the table	টেবিলে
+next	পরবর্তী
+Foul: +{n} s	ফাউল: +{n} সে
+Table cleared in {time}!	{time}-এ টেবিল পরিষ্কার!
+{n} balls left · {f} fouls (+{s} s)	{n}টি বল বাকি · {f}টি ফাউল (+{s} সে)
+{n} balls left	{n}টি বল বাকি
+{shots} shots · {fouls} fouls	{shots}টি শট · {fouls}টি ফাউল
+Your best on this computer: {time}	এই কম্পিউটারে আপনার সেরা: {time}
+A new best on this computer!	এই কম্পিউটারে নতুন রেকর্ড!
+Counted: {time} · your best this week, #{rank}	গণনা হয়েছে: {time} · এই সপ্তাহে আপনার সেরা, #{rank}
+Counted: {time} · your best this week	গণনা হয়েছে: {time} · এই সপ্তাহে আপনার সেরা
+Counted: {time}	গণনা হয়েছে: {time}
+Too late: an attempt must be sent within 20 minutes.	অনেক দেরি: চেষ্টাটি ২০ মিনিটের মধ্যে পাঠাতে হয়।
+See the week's table	সপ্তাহের তালিকা দেখুন
+Against the clock	ঘড়ির বিপক্ষে
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	যত দ্রুত সম্ভব টেবিল পরিষ্কার করুন: যেকোনো ক্রমে, ৮ সবার শেষে। প্রতিটি ফাউলে ১০ সেকেন্ড যোগ হয়।
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	দিনে {n}টি চেষ্টা সপ্তাহের তালিকায় গণনা হয়। সপ্তাহের দ্রুততম তিনজন পান {a}, {b} ও {c} কয়েন।
+Attempts left today	আজ বাকি চেষ্টা
+Your best this week	এই সপ্তাহে আপনার সেরা
+The week ends in {d} d {h} h	সপ্তাহ শেষ হবে {d} দি {h} ঘ পরে
+Loading the week's table…	সপ্তাহের তালিকা লোড হচ্ছে…
+Sign in to put your times on the week's table.	আপনার সময় সপ্তাহের তালিকায় তুলতে সাইন ইন করুন।
+Practice (not counted)	অনুশীলন (গণনা হয় না)
+Nobody has cleared the table this week yet. Be the first!	এই সপ্তাহে এখনো কেউ টেবিল পরিষ্কার করেনি। প্রথম হোন!
+Last week's winners	গত সপ্তাহের বিজয়ীরা
+Doubles	ডাবলস
+Doubles ranking	ডাবলস র‍্যাঙ্কিং
+Each player's doubles rating · rated doubles	প্রত্যেক খেলোয়াড়ের ডাবলস রেটিং · রেটেড ডাবলস
+No rated doubles yet. Be the first pair!	এখনো কোনো রেটেড ডাবলস হয়নি। প্রথম জুটি হোন!
+Clear the table in the least time	সবচেয়ে কম সময়ে টেবিল পরিষ্কার করুন
+Against the clock: {n} balls left	ঘড়ির বিপক্ষে: {n}টি বল বাকি
+That player's game is too old for doubles.	ওই খেলোয়াড়ের গেমটি ডাবলসের জন্য খুব পুরনো।
+You can only ask your friends to be your partner.	শুধু বন্ধুদেরই সঙ্গী হতে আমন্ত্রণ জানাতে পারবেন।
+That player already has a partner.	ওই খেলোয়াড়ের ইতিমধ্যে একজন সঙ্গী আছে।
+Leave your pair first.	আগে আপনার জুটি ভাঙুন।
+Your doubles partner left the pair.	আপনার সঙ্গী জুটি ভেঙে দিয়েছেন।
+Not all four players are at the table.	চারজন খেলোয়াড়ই টেবিলে নেই।

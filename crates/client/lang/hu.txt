@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Ennek a játékosnak nem küldhetsz üze
 Your chat is set to the quick phrases only.	A chated a gyors mondatokra korlátozódik.
 These settings can't be kept.	Ezek a beállítások nem tárolhatók.
 You aren't watching a game.	Nem nézel egy játszmát sem.
+{name} asks you to be their doubles partner.	{name} meghív, hogy légy a párosa.
+{name} is your doubles partner.	{name} a párod.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Kettő kettő ellen. A csapatod körei felváltva jutnak nektek: addig lökhetsz, amíg betalálsz, és a párod játssza a következő kört.
+Waiting for {name}'s answer…	Várakozás {name} válaszára…
+Ask a friend to be your partner	Hívj meg egy barátot párodnak
+Add friends in the Friends tab: you play doubles with a friend.	Adj hozzá barátokat a Barátok fülön: párosban egy baráttal játszol.
+None of your friends is online right now.	Most egyik barátod sem online.
+Leave the pair	Pár felbontása
+Your partner	A párod
+Looking for another pair… {secs} s	Másik pár keresése… {secs} s
+Your doubles table is open: waiting for a pair…	A páros asztalod nyitva: várakozás egy párra…
+Open a doubles table	Páros asztal nyitása
+No doubles tables open. With a partner, open one and another pair can sit down.	Nincs nyitott páros asztal. Nyiss egyet a pároddal, és egy másik pár leülhet.
+Invite a friend to be your partner first.	Előbb hívj meg egy barátot párodnak.
+at the table	az asztalnál
+next	következő
+Foul: +{n} s	Hiba: +{n} mp
+Table cleared in {time}!	Asztal letisztítva: {time}!
+{n} balls left · {f} fouls (+{s} s)	{n} golyó maradt · {f} hiba (+{s} mp)
+{n} balls left	{n} golyó maradt
+{shots} shots · {fouls} fouls	{shots} lökés · {fouls} hiba
+Your best on this computer: {time}	Legjobb időd ezen a gépen: {time}
+A new best on this computer!	Új rekord ezen a gépen!
+Counted: {time} · your best this week, #{rank}	Beszámítva: {time} · a heti legjobbad, #{rank}
+Counted: {time} · your best this week	Beszámítva: {time} · a heti legjobbad
+Counted: {time}	Beszámítva: {time}
+Too late: an attempt must be sent within 20 minutes.	Túl késő: egy próbálkozást 20 percen belül kell elküldeni.
+See the week's table	Heti tabella megtekintése
+Against the clock	Időre
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Tisztítsd le az asztalt minél gyorsabban: bármilyen sorrendben, a 8-ast utoljára. Minden hiba 10 másodperc.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	Naponta {n} próbálkozás számít a heti tabellába. A hét három leggyorsabbja {a}, {b} és {c} érmét nyer.
+Attempts left today	Mai hátralévő próbálkozások
+Your best this week	A heti legjobbad
+The week ends in {d} d {h} h	A hét véget ér: {d} n {h} ó múlva
+Loading the week's table…	Heti tabella betöltése…
+Sign in to put your times on the week's table.	Jelentkezz be, hogy az időid a heti tabellába kerüljenek.
+Practice (not counted)	Gyakorlás (nem számít)
+Nobody has cleared the table this week yet. Be the first!	Ezen a héten még senki sem tisztította le az asztalt. Légy te az első!
+Last week's winners	A múlt hét győztesei
+Doubles	Páros
+Doubles ranking	Páros ranglista
+Each player's doubles rating · rated doubles	Minden játékos páros pontszáma · pontszámos párosok
+No rated doubles yet. Be the first pair!	Még nincs pontszámos páros. Legyetek az első pár!
+Clear the table in the least time	Tisztítsd le az asztalt a legrövidebb idő alatt
+Against the clock: {n} balls left	Időre: {n} golyó maradt
+That player's game is too old for doubles.	Annak a játékosnak a játéka túl régi a pároshoz.
+You can only ask your friends to be your partner.	Csak a barátaidat hívhatod meg párodnak.
+That player already has a partner.	Annak a játékosnak már van párja.
+Leave your pair first.	Előbb bontsd fel a párodat.
+Your doubles partner left the pair.	A párod felbontotta a párt.
+Not all four players are at the table.	Nincs mind a négy játékos az asztalnál.

@@ -28,6 +28,8 @@ pub struct Ranking {
     rules: Rules,
     /// Only the player and their friends (else the world's top 100).
     friends: bool,
+    /// The doubles ranking (each player's doubles rating).
+    doubles: bool,
 }
 
 /// The player and their friends with rated games under `rules`, best first,
@@ -187,7 +189,16 @@ impl Ranking {
     pub fn open(&mut self, online: &mut Online) {
         self.first = 0;
         self.rules = online.rules;
-        online.request_leaderboard(self.rules);
+        self.request(online, self.rules);
+    }
+
+    /// Asks for the ranking shown (singles or doubles) of `rules`.
+    fn request(&self, online: &mut Online, rules: Rules) {
+        if self.doubles {
+            online.request_doubles_leaderboard(rules);
+        } else {
+            online.request_leaderboard(rules);
+        }
     }
 
     pub fn draw(&mut self, ui: &mut Ui, online: &mut Online) -> RankingAction {
@@ -195,7 +206,9 @@ impl Ranking {
         let sh = crate::ui::vh();
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
         // The world's top 100, or only the player and their friends.
-        let entries = if self.friends {
+        let entries = if self.doubles {
+            online.doubles.leaderboard.get(self.rules).clone()
+        } else if self.friends {
             friends_board(online, self.rules)
         } else {
             online.leaderboard.get(self.rules).clone()
@@ -220,27 +233,35 @@ impl Ranking {
         if !can_friends {
             self.friends = false;
         }
-        let views = [t("World"), t("Friends")];
-        let seg_w = if can_friends {
-            views.iter().map(|v| ui.text_size(v, 13.0, true).x + 28.0).sum::<f32>().max(180.0)
+        // World, friends (signed in) and doubles.
+        let views: Vec<&str> = if can_friends {
+            vec![t("World"), t("Friends"), t("Doubles")]
         } else {
-            0.0
+            vec![t("World"), t("Doubles")]
         };
+        let seg_w =
+            views.iter().map(|v| ui.text_size(v, 13.0, true).x + 28.0).sum::<f32>().max(180.0);
         let seg = Rect::new(r.x + r.w - PAD - 36.0 - 12.0 - seg_w, r.y + 22.0, seg_w, 32.0);
-        let (title, subtitle) = if self.friends {
+        let (title, subtitle) = if self.doubles {
+            (t("Doubles ranking"), t("Each player's doubles rating · rated doubles"))
+        } else if self.friends {
             (t("Friends ranking"), t("You and your friends · rated games"))
         } else {
             (t("World ranking"), t("The top 100 of each rules · rated games"))
         };
-        let right = if can_friends { seg.x - 12.0 } else { r.x + r.w - PAD - 48.0 };
+        let right = seg.x - 12.0;
         if screen_header_until(ui, r, Icon::Trophy, title, Some(subtitle), right) || ui.escape() {
             action = RankingAction::Back;
         }
-        if can_friends && let Some(k) = ui.segmented(seg, &views, usize::from(self.friends)) {
-            self.friends = k == 1;
+        let picked = if self.doubles { views.len() - 1 } else { usize::from(self.friends) };
+        if let Some(k) = ui.segmented(seg, &views, picked) {
+            self.doubles = k == views.len() - 1;
+            self.friends = can_friends && k == 1;
             self.first = 0;
             if self.friends {
                 online.send(snook_legend_proto::ClientMsg::Friends);
+            } else {
+                self.request(online, self.rules);
             }
         }
         if ui.icon_button(
@@ -252,7 +273,7 @@ impl Ranking {
             if self.friends {
                 online.send(snook_legend_proto::ClientMsg::Friends);
             } else {
-                online.request_leaderboard(self.rules);
+                self.request(online, self.rules);
             }
         }
         // A tab for each of the rules, with how many play it now.
@@ -261,7 +282,7 @@ impl Ranking {
         if let Some(rules) = crate::rulesui::switch(ui, tabs, self.rules, players) {
             self.rules = rules;
             self.first = 0;
-            online.request_leaderboard(rules);
+            self.request(online, rules);
         }
         // Each of the rules has its own rating: said under the list.
         let note = online.me.as_ref().filter(|m| !m.guest).map(|me| {
@@ -315,12 +336,14 @@ impl Ranking {
         if entries.is_empty() {
             if self.friends {
                 empty_state(ui, list, Icon::People, t("No rated games yet. Be the first!"));
-            } else if *online.leaderboard_loaded.get(self.rules) {
+            } else if self.doubles && *online.doubles.leaderboard_loaded.get(self.rules) {
+                empty_state(ui, list, Icon::Trophy, t("No rated doubles yet. Be the first pair!"));
+            } else if !self.doubles && *online.leaderboard_loaded.get(self.rules) {
                 empty_state(ui, list, Icon::Trophy, t("No rated games yet. Be the first!"));
             } else if let Some(error) = unreachable(online) {
                 if offline_state(ui, list, &error) {
                     online.error = None;
-                    online.request_leaderboard(self.rules);
+                    self.request(online, self.rules);
                 }
             } else {
                 loading(ui, list, t("Loading…"));

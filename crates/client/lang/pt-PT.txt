@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Não podes enviar mensagens a este jogad
 Your chat is set to the quick phrases only.	O teu chat está limitado às frases rápidas.
 These settings can't be kept.	Estas definições não podem ser guardadas.
 You aren't watching a game.	Não estás a ver nenhum jogo.
+{name} asks you to be their doubles partner.	{name} convida-te para seres o seu par nas duplas.
+{name} is your doubles partner.	{name} é o teu par.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Dois contra dois. As vezes da tua equipa na mesa alternam entre vocês: continuas com o taco enquanto metes bolas, e o teu par joga a vez seguinte.
+Waiting for {name}'s answer…	À espera da resposta de {name}…
+Ask a friend to be your partner	Convida um amigo para ser o teu par
+Add friends in the Friends tab: you play doubles with a friend.	Adiciona amigos no separador Amigos: as duplas jogam-se com um amigo.
+None of your friends is online right now.	Nenhum dos teus amigos está online agora.
+Leave the pair	Desfazer o par
+Your partner	O teu par
+Looking for another pair… {secs} s	À procura de outro par… {secs} s
+Your doubles table is open: waiting for a pair…	A tua mesa de duplas está aberta: à espera de um par…
+Open a doubles table	Abrir uma mesa de duplas
+No doubles tables open. With a partner, open one and another pair can sit down.	Nenhuma mesa de duplas aberta. Com um par, abre uma e outro par pode sentar-se.
+Invite a friend to be your partner first.	Convida primeiro um amigo para ser o teu par.
+at the table	na mesa
+next	a seguir
+Foul: +{n} s	Falta: +{n} s
+Table cleared in {time}!	Mesa limpa em {time}!
+{n} balls left · {f} fouls (+{s} s)	{n} bolas restantes · {f} faltas (+{s} s)
+{n} balls left	{n} bolas restantes
+{shots} shots · {fouls} fouls	{shots} tacadas · {fouls} faltas
+Your best on this computer: {time}	O teu melhor neste computador: {time}
+A new best on this computer!	Um novo recorde neste computador!
+Counted: {time} · your best this week, #{rank}	Contou: {time} · o teu melhor da semana, #{rank}
+Counted: {time} · your best this week	Contou: {time} · o teu melhor da semana
+Counted: {time}	Contou: {time}
+Too late: an attempt must be sent within 20 minutes.	Tarde demais: uma tentativa tem de ser enviada em 20 minutos.
+See the week's table	Ver a tabela da semana
+Against the clock	Contra o relógio
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Limpa a mesa o mais depressa possível: por qualquer ordem, a 8 no fim. Cada falta soma 10 segundos.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	{n} tentativas por dia contam na tabela da semana. Os três mais rápidos da semana ganham {a}, {b} e {c} moedas.
+Attempts left today	Tentativas restantes hoje
+Your best this week	O teu melhor da semana
+The week ends in {d} d {h} h	A semana termina daqui a {d} d {h} h
+Loading the week's table…	A carregar a tabela da semana…
+Sign in to put your times on the week's table.	Inicia sessão para pores os teus tempos na tabela da semana.
+Practice (not counted)	Treinar (não conta)
+Nobody has cleared the table this week yet. Be the first!	Ainda ninguém limpou a mesa esta semana. Sê o primeiro!
+Last week's winners	Vencedores da semana passada
+Doubles	Duplas
+Doubles ranking	Classificação de duplas
+Each player's doubles rating · rated doubles	A classificação de duplas de cada jogador · duplas a contar
+No rated doubles yet. Be the first pair!	Ainda não há duplas a contar. Sê o primeiro par!
+Clear the table in the least time	Limpa a mesa no menor tempo
+Against the clock: {n} balls left	Contra o relógio: {n} bolas restantes
+That player's game is too old for doubles.	O jogo desse jogador é demasiado antigo para duplas.
+You can only ask your friends to be your partner.	Só podes convidar amigos para serem o teu par.
+That player already has a partner.	Esse jogador já tem par.
+Leave your pair first.	Desfaz primeiro o teu par.
+Your doubles partner left the pair.	O teu par desfez o par.
+Not all four players are at the table.	Nem todos os quatro jogadores estão na mesa.

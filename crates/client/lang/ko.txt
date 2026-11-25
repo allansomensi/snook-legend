@@ -2216,3 +2216,54 @@ You can't send messages to this player.	이 플레이어에게는 메시지를 �
 Your chat is set to the quick phrases only.	채팅이 빠른 문구로 제한되어 있습니다.
 These settings can't be kept.	이 설정은 저장할 수 없습니다.
 You aren't watching a game.	관전 중인 경기가 없습니다.
+{name} asks you to be their doubles partner.	{name} 님이 복식 파트너가 되어 달라고 합니다.
+{name} is your doubles partner.	{name} 님이 당신의 복식 파트너입니다.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	2대 2. 팀의 차례는 두 사람이 번갈아 맡습니다. 공을 넣는 동안은 계속 치고, 다음 차례는 파트너가 칩니다.
+Waiting for {name}'s answer…	{name} 님의 답을 기다리는 중…
+Ask a friend to be your partner	친구에게 파트너를 요청하세요
+Add friends in the Friends tab: you play doubles with a friend.	친구 탭에서 친구를 추가하세요. 복식은 친구와 함께 합니다.
+None of your friends is online right now.	지금 온라인인 친구가 없습니다.
+Leave the pair	페어 해체
+Your partner	내 파트너
+Looking for another pair… {secs} s	다른 페어를 찾는 중… {secs}초
+Your doubles table is open: waiting for a pair…	복식 테이블이 열려 있습니다: 페어를 기다리는 중…
+Open a doubles table	복식 테이블 열기
+No doubles tables open. With a partner, open one and another pair can sit down.	열린 복식 테이블이 없습니다. 파트너와 함께 하나를 열면 다른 페어가 앉을 수 있습니다.
+Invite a friend to be your partner first.	먼저 친구에게 파트너를 요청하세요.
+at the table	테이블에서 치는 중
+next	다음
+Foul: +{n} s	파울: +{n}초
+Table cleared in {time}!	{time} 만에 테이블 클리어!
+{n} balls left · {f} fouls (+{s} s)	남은 공 {n}개 · 파울 {f}회 (+{s}초)
+{n} balls left	남은 공 {n}개
+{shots} shots · {fouls} fouls	샷 {shots}회 · 파울 {fouls}회
+Your best on this computer: {time}	이 컴퓨터 최고 기록: {time}
+A new best on this computer!	이 컴퓨터 새 기록!
+Counted: {time} · your best this week, #{rank}	기록됨: {time} · 이번 주 최고, {rank}위
+Counted: {time} · your best this week	기록됨: {time} · 이번 주 최고
+Counted: {time}	기록됨: {time}
+Too late: an attempt must be sent within 20 minutes.	너무 늦었습니다: 도전은 20분 안에 보내야 합니다.
+See the week's table	이번 주 표 보기
+Against the clock	타임 어택
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	최대한 빨리 테이블을 비우세요: 순서는 자유, 8번 공은 마지막. 파울마다 10초가 추가됩니다.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	하루 {n}회 도전이 이번 주 표에 기록됩니다. 이번 주 가장 빠른 세 명은 {a}, {b}, {c} 코인을 받습니다.
+Attempts left today	오늘 남은 도전
+Your best this week	이번 주 최고 기록
+The week ends in {d} d {h} h	이번 주는 {d}일 {h}시간 후 끝납니다
+Loading the week's table…	이번 주 표를 불러오는 중…
+Sign in to put your times on the week's table.	로그인하면 이번 주 표에 기록이 올라갑니다.
+Practice (not counted)	연습 (기록 안 됨)
+Nobody has cleared the table this week yet. Be the first!	이번 주에는 아직 아무도 테이블을 비우지 못했습니다. 첫 번째가 되세요!
+Last week's winners	지난주 우승자
+Doubles	복식
+Doubles ranking	복식 랭킹
+Each player's doubles rating · rated doubles	각 플레이어의 복식 레이팅 · 레이팅 복식
+No rated doubles yet. Be the first pair!	아직 레이팅 복식이 없습니다. 첫 번째 페어가 되세요!
+Clear the table in the least time	가장 짧은 시간에 테이블 비우기
+Against the clock: {n} balls left	타임 어택: 남은 공 {n}개
+That player's game is too old for doubles.	그 플레이어의 게임은 복식을 하기엔 너무 오래되었습니다.
+You can only ask your friends to be your partner.	친구에게만 파트너를 요청할 수 있습니다.
+That player already has a partner.	그 플레이어는 이미 파트너가 있습니다.
+Leave your pair first.	먼저 지금의 페어를 해체하세요.
+Your doubles partner left the pair.	파트너가 페어를 해체했습니다.
+Not all four players are at the table.	네 명이 모두 테이블에 있지 않습니다.

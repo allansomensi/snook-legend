@@ -2216,3 +2216,54 @@ You can't send messages to this player.	Δεν μπορείτε να στείλ�
 Your chat is set to the quick phrases only.	Η συνομιλία σας περιορίζεται στις γρήγορες φράσεις.
 These settings can't be kept.	Αυτές οι ρυθμίσεις δεν μπορούν να φυλαχτούν.
 You aren't watching a game.	Δεν παρακολουθείτε καμία παρτίδα.
+{name} asks you to be their doubles partner.	Ο/Η {name} σε καλεί να γίνεις ζευγάρι του/της στο διπλό.
+{name} is your doubles partner.	Ο/Η {name} είναι το ζευγάρι σου στο διπλό.
+Two against two. Your team's visits to the table go to each of you in turn: you keep the cue while you pot, and your partner takes the next visit.	Δύο εναντίον δύο. Οι σειρές της ομάδας σου στο τραπέζι εναλλάσσονται μεταξύ σας: κρατάς τη στέκα όσο βάζεις μπάλες, και το ζευγάρι σου παίζει την επόμενη σειρά.
+Waiting for {name}'s answer…	Αναμονή για την απάντηση του/της {name}…
+Ask a friend to be your partner	Κάλεσε έναν φίλο να γίνει το ζευγάρι σου
+Add friends in the Friends tab: you play doubles with a friend.	Πρόσθεσε φίλους στην καρτέλα Φίλοι: το διπλό παίζεται με έναν φίλο.
+None of your friends is online right now.	Κανείς από τους φίλους σου δεν είναι online τώρα.
+Leave the pair	Διάλυση ζευγαριού
+Your partner	Το ζευγάρι σου
+Looking for another pair… {secs} s	Αναζήτηση άλλου ζευγαριού… {secs} δ
+Your doubles table is open: waiting for a pair…	Το τραπέζι διπλού σου είναι ανοιχτό: αναμονή για ζευγάρι…
+Open a doubles table	Άνοιγμα τραπεζιού διπλού
+No doubles tables open. With a partner, open one and another pair can sit down.	Κανένα ανοιχτό τραπέζι διπλού. Με ένα ζευγάρι, άνοιξε ένα και ένα άλλο ζευγάρι μπορεί να καθίσει.
+Invite a friend to be your partner first.	Κάλεσε πρώτα έναν φίλο να γίνει το ζευγάρι σου.
+at the table	στο τραπέζι
+next	επόμενος
+Foul: +{n} s	Φάουλ: +{n} δ
+Table cleared in {time}!	Το τραπέζι καθάρισε σε {time}!
+{n} balls left · {f} fouls (+{s} s)	Απομένουν {n} μπάλες · {f} φάουλ (+{s} δ)
+{n} balls left	Απομένουν {n} μπάλες
+{shots} shots · {fouls} fouls	{shots} χτυπήματα · {fouls} φάουλ
+Your best on this computer: {time}	Το καλύτερό σου σε αυτόν τον υπολογιστή: {time}
+A new best on this computer!	Νέο ρεκόρ σε αυτόν τον υπολογιστή!
+Counted: {time} · your best this week, #{rank}	Μετρήθηκε: {time} · το καλύτερό σου της εβδομάδας, #{rank}
+Counted: {time} · your best this week	Μετρήθηκε: {time} · το καλύτερό σου της εβδομάδας
+Counted: {time}	Μετρήθηκε: {time}
+Too late: an attempt must be sent within 20 minutes.	Πολύ αργά: μια προσπάθεια πρέπει να σταλεί μέσα σε 20 λεπτά.
+See the week's table	Δες τον πίνακα της εβδομάδας
+Against the clock	Κόντρα στο ρολόι
+Clear the table as fast as you can: any order, the 8 last. Each foul adds 10 seconds.	Καθάρισε το τραπέζι όσο πιο γρήγορα μπορείς: με οποιαδήποτε σειρά, το 8 τελευταίο. Κάθε φάουλ προσθέτει 10 δευτερόλεπτα.
+{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.	{n} προσπάθειες την ημέρα μετράνε στον πίνακα της εβδομάδας. Οι τρεις ταχύτεροι της εβδομάδας κερδίζουν {a}, {b} και {c} νομίσματα.
+Attempts left today	Προσπάθειες που απομένουν σήμερα
+Your best this week	Το καλύτερό σου της εβδομάδας
+The week ends in {d} d {h} h	Η εβδομάδα τελειώνει σε {d} ημ {h} ώ
+Loading the week's table…	Φόρτωση του πίνακα της εβδομάδας…
+Sign in to put your times on the week's table.	Συνδέσου για να μπουν οι χρόνοι σου στον πίνακα της εβδομάδας.
+Practice (not counted)	Εξάσκηση (δεν μετράει)
+Nobody has cleared the table this week yet. Be the first!	Κανείς δεν έχει καθαρίσει ακόμα το τραπέζι αυτή την εβδομάδα. Γίνε ο πρώτος!
+Last week's winners	Οι νικητές της προηγούμενης εβδομάδας
+Doubles	Διπλό
+Doubles ranking	Κατάταξη διπλού
+Each player's doubles rating · rated doubles	Η βαθμολογία διπλού κάθε παίκτη · βαθμολογούμενα διπλά
+No rated doubles yet. Be the first pair!	Δεν υπάρχουν ακόμα βαθμολογούμενα διπλά. Γίνετε το πρώτο ζευγάρι!
+Clear the table in the least time	Καθάρισε το τραπέζι στον λιγότερο χρόνο
+Against the clock: {n} balls left	Κόντρα στο ρολόι: απομένουν {n} μπάλες
+That player's game is too old for doubles.	Το παιχνίδι αυτού του παίκτη είναι πολύ παλιό για διπλό.
+You can only ask your friends to be your partner.	Μπορείς να καλέσεις για ζευγάρι μόνο φίλους σου.
+That player already has a partner.	Αυτός ο παίκτης έχει ήδη ζευγάρι.
+Leave your pair first.	Διάλυσε πρώτα το ζευγάρι σου.
+Your doubles partner left the pair.	Το ζευγάρι σου διέλυσε το ζευγάρι.
+Not all four players are at the table.	Δεν είναι και οι τέσσερις παίκτες στο τραπέζι.

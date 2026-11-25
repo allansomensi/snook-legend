@@ -426,6 +426,16 @@ impl Ui {
         }
     }
 
+    /// A dialog covers the screen (one blocked the whole of it this frame
+    /// or the last): what pops up on its own (an achievement's card) waits.
+    pub fn dialog_up(&self) -> bool {
+        let (sw, sh) = (vw(), vh());
+        self.blocks
+            .iter()
+            .chain(&self.prev_blocks)
+            .any(|r| r.x <= 0.5 && r.y <= 0.5 && r.w >= sw - 1.0 && r.h >= sh - 1.0)
+    }
+
     /// The largest size up to `size` at which bold `text` fits in `width`.
     pub fn fit(&self, size: f32, text: &str, width: f32) -> f32 {
         self.fit_with(size, text, width, true, 10.0)

@@ -29,6 +29,12 @@ thread_local! {
 /// Draws the medal of `level` (0 bronze … 4 ruby) `size` high (the picture
 /// is square), centred on `c`. `locked`: in grey, faint.
 pub fn draw(c: Vec2, size: f32, level: u8, locked: bool) {
+    draw_faded(c, size, level, locked, 1.0);
+}
+
+/// [`draw`], `alpha` opaque (times the layer's opacity and a screen's fade):
+/// a medal fades out with the card it is on, at its size.
+pub fn draw_faded(c: Vec2, size: f32, level: u8, locked: bool, alpha: f32) {
     let pixels = size * crate::ui::ui_scale();
     let step = STEPS.iter().copied().find(|s| *s as f32 >= pixels * 0.95).unwrap_or(STEPS[7]);
     let level = level.min(4);
@@ -48,7 +54,7 @@ pub fn draw(c: Vec2, size: f32, level: u8, locked: bool) {
         &texture,
         c.x - size / 2.0,
         c.y - size / 2.0,
-        WHITE,
+        Color::new(1.0, 1.0, 1.0, (alpha * crate::paint::alpha()).clamp(0.0, 1.0)),
         DrawTextureParams { dest_size: Some(vec2(size, size)), ..Default::default() },
     );
 }

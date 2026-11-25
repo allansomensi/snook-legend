@@ -199,6 +199,8 @@ pub struct Online {
     /// medal (code, seconds shown).
     achievement_cards: VecDeque<(String, f32)>,
     freeze_cards: bool,
+    /// A dialog was up when the card was to be drawn: it waits, unseen.
+    cards_held: bool,
     pub me: Option<PlayerInfo>,
     players: Vec<PlayerInfo>,
     chat: Vec<FeedLine>,
@@ -708,6 +710,7 @@ impl Online {
             toasts: VecDeque::new(),
             achievement_cards: VecDeque::new(),
             freeze_cards: false,
+            cards_held: false,
             me: None,
             players: Vec::new(),
             chat: Vec::new(),
@@ -985,7 +988,8 @@ impl Online {
         self.toasts.retain(|t| t.1 > 0.0);
         if let Some(card) = self.achievement_cards.front_mut() {
             // (Held still for screenshots: see `dev_toasts`.)
-            card.1 += if self.freeze_cards { 0.0 } else { dt };
+            // (Held while a dialog is up: it waits for it to close.)
+            card.1 += if self.freeze_cards || self.cards_held { 0.0 } else { dt };
             if card.1 >= ACHIEVEMENT_CARD_SECS {
                 self.achievement_cards.pop_front();
             }
@@ -2564,7 +2568,16 @@ impl Online {
     /// its medal, its metal, its title and what it was for. It slides down,
     /// stays a few seconds (a click puts it away) and fades out.
     fn draw_achievement_card(&mut self, ui: &Ui) {
-        let Some((code, age)) = self.achievement_cards.front().cloned() else { return };
+        let Some((code, age)) = self.achievement_cards.front().cloned() else {
+            self.cards_held = false;
+            return;
+        };
+        // A dialog is up (a message from the staff, a confirmation…): the
+        // card waits for it instead of drawing over it.
+        self.cards_held = ui.dialog_up();
+        if self.cards_held {
+            return;
+        }
         let Some(a) = snook_legend_proto::ACHIEVEMENTS.iter().find(|a| a.code == code) else {
             self.achievement_cards.pop_front();
             return;
@@ -2610,10 +2623,10 @@ impl Online {
             }
             rrect_lines(r, 12.0, 1.2, fade(metal, 0.7));
             crate::ui::top_light(r, 12.0, 0.08 * alpha);
-            // The medal settles with a small overshoot; it shrinks as the card goes.
+            // The medal settles with a small overshoot; it fades with the card.
             let k = ((age - 0.1) / 0.45).clamp(0.0, 1.0);
             let pop = 1.0 + 0.1 * (k * std::f32::consts::PI).sin() * (1.0 - k);
-            crate::medal_art::draw(mc, medal * pop * (0.6 + 0.4 * alpha), level, false);
+            crate::medal_art::draw_faded(mc, medal * pop, level, false, alpha);
             let x = r.x + text_x;
             let mut y = r.y + pad;
             let (head, hs) = ui.fitted(&heading, 11.0, text_w * 0.62, true);

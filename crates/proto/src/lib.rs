@@ -10,6 +10,7 @@
 
 mod achievements;
 pub mod analysis;
+pub mod collection;
 pub mod correspondence;
 mod countries;
 pub mod cup;
@@ -17,6 +18,7 @@ pub mod daily;
 pub mod drills;
 pub mod events;
 pub mod ghost;
+pub mod inbox;
 pub mod ladder;
 pub mod missions;
 pub mod reactions;
@@ -139,7 +141,7 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snook Legend";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 24;
+pub const PROTOCOL_VERSION: u32 = 25;
 
 /// The oldest version the server still lets in: version 24 changed the
 /// rules a replay is played back with (on a Brazilian break handed over
@@ -1620,6 +1622,21 @@ pub enum ClientMsg {
     GhostStyle {
         username: String,
     },
+    /// The inbox (answered with [`ServerMsg::Inbox`]).
+    Inbox,
+    /// The player read these notifications (an important one: confirmed
+    /// reading it).
+    InboxRead {
+        ids: Vec<i64>,
+    },
+    /// Takes notifications out of the inbox (pinned ones stay until they
+    /// expire).
+    InboxDelete {
+        ids: Vec<i64>,
+    },
+    /// Every item this player has, with how and when they got it (answered
+    /// with [`ServerMsg::Collection`]).
+    Collection,
     Ping,
 }
 
@@ -2152,6 +2169,21 @@ pub enum ServerMsg {
     GhostStyle {
         username: String,
         answer: ghost::GhostAnswer,
+    },
+    /// The inbox, newest first (after signing in and when asked). `unread`:
+    /// how many are not read yet.
+    Inbox {
+        items: Vec<inbox::Notification>,
+        unread: u32,
+    },
+    /// A new notification (and the unread count with it).
+    InboxNew {
+        item: inbox::Notification,
+        unread: u32,
+    },
+    /// Every item this player has, with how and when they got it.
+    Collection {
+        items: Vec<collection::OwnedItem>,
     },
     Pong,
 }

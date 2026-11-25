@@ -502,7 +502,11 @@ fn status_line(ui: &Ui, item: &Item, usable: bool, coins: Option<i64>, x: f32, m
             let text = if usable { title } else { t("achievement") };
             small(Icon::Medal, if usable { GOLD } else { MUTED }, text, MUTED);
         }
-        Price::Coins(_) | Price::Pack if usable => small(Icon::Check, GOOD, t("yours"), MUTED),
+        Price::Coins(_) | Price::Pack | Price::Earned if usable => {
+            small(Icon::Check, GOOD, t("yours"), MUTED)
+        }
+        // TODO(0.12 collection): say how it is won.
+        Price::Earned => small(Icon::Lock, MUTED, t("achievement"), MUTED),
         Price::Pack => small(Icon::Gift, MUTED, t("welcome pack"), MUTED),
         Price::Coins(n) => {
             let short = coins.map(|c| n as i64 - c).filter(|s| *s > 0);
@@ -984,7 +988,7 @@ impl ShopScreen {
                             ));
                         }
                     }
-                    Price::Free => {}
+                    Price::Free | Price::Earned => {}
                 }
             }
         }
@@ -1198,6 +1202,9 @@ impl ShopScreen {
             }
             Price::Pack => {
                 button(ui, b, Kind::Disabled, Some(Icon::Gift), t("welcome pack"), 13.0);
+            }
+            Price::Earned => {
+                button(ui, b, Kind::Disabled, Some(Icon::Lock), t("achievement"), 13.0);
             }
             Price::Coins(_) => {
                 button(ui, b, Kind::Disabled, Some(Icon::Lock), t("Sign in to buy"), 13.0);

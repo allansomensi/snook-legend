@@ -1168,6 +1168,9 @@ impl Online {
                     | ServerMsg::LadderTicket { .. }
                     | ServerMsg::GhostStyle { .. }
                     | ServerMsg::Events { .. }
+                    | ServerMsg::Inbox { .. }
+                    | ServerMsg::InboxNew { .. }
+                    | ServerMsg::Collection { .. }
             )
         {
             return save;

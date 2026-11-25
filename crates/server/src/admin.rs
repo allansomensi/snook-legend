@@ -1248,6 +1248,7 @@ async fn economy(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiRe
                 Price::Achievement(_) => ("achievement", None),
                 Price::Vip => ("vip", None),
                 Price::Pack => ("pack", None),
+                Price::Earned => ("earned", None),
             };
             json!({
                 "code": i.code, "name": i.name, "category": format!("{:?}", i.category).to_lowercase(),

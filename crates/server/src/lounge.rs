@@ -1502,6 +1502,10 @@ impl Lounge {
             | ClientMsg::CorrResign { .. }
             | ClientMsg::LadderClaim { .. }
             | ClientMsg::GhostStyle { .. }
+            | ClientMsg::Inbox
+            | ClientMsg::InboxRead { .. }
+            | ClientMsg::InboxDelete { .. }
+            | ClientMsg::Collection
             | ClientMsg::Daily
             | ClientMsg::DailyStart
             | ClientMsg::DailySubmit { .. }

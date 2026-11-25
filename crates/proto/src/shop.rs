@@ -249,6 +249,55 @@ pub enum Price {
     Vip,
     /// Comes with the welcome pack (and is kept).
     Pack,
+    /// Never sold: only won (a tournament, an event, a season, an auction,
+    /// VIP's item of the month) or given by the staff, and kept for good.
+    Earned,
+}
+
+/// How rare an item is: shown with its own colour in the shop and the
+/// collection.
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord, serde::Serialize, serde::Deserialize,
+)]
+#[serde(rename_all = "snake_case")]
+pub enum Rarity {
+    Common,
+    Rare,
+    Epic,
+    Legendary,
+}
+
+impl Rarity {
+    pub const ALL: [Rarity; 4] = [Rarity::Common, Rarity::Rare, Rarity::Epic, Rarity::Legendary];
+
+    pub fn code(self) -> &'static str {
+        match self {
+            Rarity::Common => "common",
+            Rarity::Rare => "rare",
+            Rarity::Epic => "epic",
+            Rarity::Legendary => "legendary",
+        }
+    }
+
+    /// English name (translated by the game).
+    pub fn name(self) -> &'static str {
+        match self {
+            Rarity::Common => "Common",
+            Rarity::Rare => "Rare",
+            Rarity::Epic => "Epic",
+            Rarity::Legendary => "Legendary",
+        }
+    }
+
+    /// Its colour (sRGB).
+    pub fn color(self) -> [u8; 3] {
+        match self {
+            Rarity::Common => [168, 176, 186],
+            Rarity::Rare => [64, 148, 255],
+            Rarity::Epic => [176, 92, 255],
+            Rarity::Legendary => [255, 176, 32],
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -1123,11 +1172,40 @@ pub fn cue_level_progress(wins: u32) -> f32 {
     (wins - from) as f32 / (next - from) as f32
 }
 
+/// How rare an item is. Items that are only won are at least epic; the
+/// most expensive ones and those of the hardest achievements are legendary.
+pub fn rarity(item: &Item) -> Rarity {
+    match item.price {
+        Price::Free | Price::Pack => Rarity::Common,
+        Price::Coins(n) if n >= 10_000 => Rarity::Legendary,
+        Price::Coins(n) if n >= 4_000 => Rarity::Epic,
+        Price::Coins(n) if n >= 1_500 => Rarity::Rare,
+        Price::Coins(_) => Rarity::Common,
+        Price::Vip => Rarity::Epic,
+        Price::Achievement(_) => Rarity::Rare,
+        Price::Earned => Rarity::Epic,
+    }
+}
+
+/// Whether an item stays with the account that got it: it can't be given
+/// to a friend nor put up for auction (achievements', champions' and other
+/// items that are only won, so that they keep meaning something).
+pub fn bound(item: &Item) -> bool {
+    matches!(item.price, Price::Achievement(_) | Price::Earned | Price::Vip | Price::Free)
+}
+
+/// VIP's item of the month `month` (`YYYY-MM`): the item coded
+/// `vip_month_YYYY_MM`, if the catalogue has one.
+pub fn vip_month_item(month: &str) -> Option<&'static Item> {
+    let code = format!("vip_month_{}", month.replace('-', "_"));
+    ITEMS.iter().find(|i| i.code == code)
+}
+
 /// Whether a player owns or may use `item`.
 pub fn can_use(item: &Item, owned: &[String], achievements: &[String], vip: bool) -> bool {
     match item.price {
         Price::Free => true,
-        Price::Coins(_) | Price::Pack => owned.iter().any(|o| o == item.code),
+        Price::Coins(_) | Price::Pack | Price::Earned => owned.iter().any(|o| o == item.code),
         Price::Achievement(a) => achievements.iter().any(|c| c == a),
         Price::Vip => vip,
     }

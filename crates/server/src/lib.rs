@@ -14,12 +14,14 @@
 pub mod account;
 pub mod admin;
 pub mod analysis;
+pub mod collection;
 pub mod computer;
 pub mod correspondence;
 pub mod cup_medals;
 pub mod daily;
 pub mod drills;
 pub mod events;
+pub mod inbox;
 pub mod lan;
 pub mod limits;
 pub mod lounge;
@@ -1508,6 +1510,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             msg if daily::is_msg(&msg) => daily::handle(&server, &me, msg, &send).await,
             msg if drills::is_msg(&msg) => drills::handle(&server, &me, msg, &send).await,
             msg if cup_medals::is_msg(&msg) => cup_medals::handle(&server, &me, msg, &send).await,
+            msg if inbox::is_msg(&msg) => inbox::handle(&server, &me, msg, &send).await,
+            msg if collection::is_msg(&msg) => collection::handle(&server, &me, msg, &send).await,
             ClientMsg::LadderTicket => send(computer::ticket(&server, &me).await),
             // Seconds of simulation each: answered on their own tasks.
             ClientMsg::LadderClaim { replay } => {
@@ -1873,6 +1877,10 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::CorrResign { .. }
             | ClientMsg::LadderClaim { .. }
             | ClientMsg::GhostStyle { .. }
+            | ClientMsg::Inbox
+            | ClientMsg::InboxRead { .. }
+            | ClientMsg::InboxDelete { .. }
+            | ClientMsg::Collection
             | ClientMsg::Daily
             | ClientMsg::DailyStart
             | ClientMsg::DailySubmit { .. }
@@ -1901,6 +1909,10 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
         msg,
         ClientMsg::LadderClaim { .. }
             | ClientMsg::GhostStyle { .. }
+            | ClientMsg::Inbox
+            | ClientMsg::InboxRead { .. }
+            | ClientMsg::InboxDelete { .. }
+            | ClientMsg::Collection
             | ClientMsg::Daily
             | ClientMsg::DailyStart
             | ClientMsg::DailySubmit { .. }

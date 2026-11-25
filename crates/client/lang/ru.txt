@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} на восьмёрке: заказана {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} на восьмёрке (прицел заказывает лузу; нажмите на лузу, чтобы заказать другую)
 On the 8-ball: {pocket} pocket	На восьмёрке: {pocket}
 Show ping	Показывать пинг
 Your connection's delay, in online games.	Задержка вашего соединения в онлайн-партиях.
@@ -2018,14 +2019,14 @@ your call	ваш заказ
 {n} points to {tier} ({rules})	{n} очк. до лиги «{tier}» ({rules})
 {n} waiting	Ждут: {n}
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Фол отдаёт сопернику шары его группы. Биток с руки только на разбое, а заказывается только луза для восьмёрки.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Фол даёт сопернику биток с руки в любое место стола. Ничего не заказывают, а на разбое четыре шара должны коснуться борта.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Фол даёт сопернику биток с руки в любое место стола. Заказывают только лузу для восьмёрки, при каждом ударе по ней, а на разбое четыре шара должны коснуться борта.
 A foul gives balls to the opponent	Фол отдаёт шары сопернику
 Ball in hand on the break only	Шар с руки только на разбое
 Only the 8's pocket is called	Заказ только на восьмёрку
 The most played in Brazil	Самые популярные в Бразилии
 A foul gives ball in hand	Фол даёт шар с руки
 The break drives four balls to a cushion	На разбое — четыре шара к бортам
-Any pocket counts	Считается любая луза
+Only the 8 is called, shot by shot	Заказывают только восьмёрку, удар за ударом
 The same all over the world	Единые во всём мире
 Game type	Тип игры
 called: {pocket}	заказ: {pocket}

@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name}は8番狙い：{pocket}をコール
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name}は8番狙い（狙いでポケットをコール。別のポケットはクリックでコール）
 On the 8-ball: {pocket} pocket	8番狙い：{pocket}ポケット
 Show ping	Pingを表示
 Your connection's delay, in online games.	オンライン対戦での通信の遅延です。
@@ -2018,14 +2019,14 @@ your call	あなたのコール
 {n} points to {tier} ({rules})	{tier}まであと{n}ポイント（{rules}）
 {n} waiting	{n}人待機中
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	ファウルすると、相手のグループの球が相手に与えられます。フリーボールはブレイク時のみで、コールするのは8番のポケットだけです。
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	ファウルすると、相手にフリーボール（テーブルのどこでも）が与えられます。コールは不要で、ブレイクでは4球以上をクッションに届かせる必要があります。
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	ファウルすると、相手にフリーボール（テーブルのどこでも）が与えられます。コールするのは8番を狙うショットのポケットだけで、ブレイクでは4球以上をクッションに届かせる必要があります。
 A foul gives balls to the opponent	ファウルで相手に球が渡る
 Ball in hand on the break only	フリーボールはブレイク時のみ
 Only the 8's pocket is called	コールは8番のポケットのみ
 The most played in Brazil	ブラジルで最も遊ばれているルール
 A foul gives ball in hand	ファウルでフリーボール
 The break drives four balls to a cushion	ブレイクは4球以上をクッションへ
-Any pocket counts	どのポケットでも有効
+Only the 8 is called, shot by shot	コールは8番だけ、ショットごと
 The same all over the world	世界共通のルール
 Game type	対戦の種類
 called: {pocket}	コール：{pocket}

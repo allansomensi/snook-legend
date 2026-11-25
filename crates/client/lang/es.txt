@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} está en la bola 8: tronera cantada {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} está en la bola 8 (tu mira canta la tronera; haz clic en una tronera para cantar otra)
 On the 8-ball: {pocket} pocket	En la bola 8: tronera {pocket}
 Show ping	Mostrar ping
 Your connection's delay, in online games.	El retraso de tu conexión en las partidas en línea.
@@ -2018,14 +2019,14 @@ your call	cantada por ti
 {n} points to {tier} ({rules})	{n} puntos para {tier} ({rules})
 {n} waiting	{n} en espera
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Una falta da al rival bolas de su grupo. La blanca está en mano solo en el saque, y solo se canta la tronera de la 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Una falta da al rival la blanca en mano, en cualquier lugar de la mesa. No se canta nada, y el saque debe llevar cuatro bolas a las bandas.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Una falta da al rival la blanca en mano, en cualquier lugar de la mesa. Solo se canta la tronera de la 8, en cada tiro a ella, y el saque debe llevar cuatro bolas a las bandas.
 A foul gives balls to the opponent	La falta da bolas al rival
 Ball in hand on the break only	Bola en mano solo en el saque
 Only the 8's pocket is called	Solo se canta la tronera de la 8
 The most played in Brazil	La más jugada en Brasil
 A foul gives ball in hand	La falta da bola en mano
 The break drives four balls to a cushion	Saque con cuatro bolas a las bandas
-Any pocket counts	Vale cualquier tronera
+Only the 8 is called, shot by shot	Solo se canta la 8, tiro a tiro
 The same all over the world	La misma en todo el mundo
 Game type	Partida
 called: {pocket}	cantada: {pocket}

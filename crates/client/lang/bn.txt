@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} 8 নম্বর বলে: ঘোষিত পকেট {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} 8 নম্বর বলে (আপনার নিশানা পকেট ঘোষণা করে; অন্য পকেট ঘোষণা করতে একটি পকেটে ক্লিক করুন)
 On the 8-ball: {pocket} pocket	8 নম্বর বলে: পকেট {pocket}
 Show ping	পিং দেখান
 Your connection's delay, in online games.	অনলাইন গেমে আপনার সংযোগের বিলম্ব।
@@ -2018,14 +2019,14 @@ your call	আপনার ঘোষণা
 {n} points to {tier} ({rules})	{tier} পর্যন্ত আর {n} পয়েন্ট ({rules})
 {n} waiting	{n} জন অপেক্ষায়
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	ফাউল হলে প্রতিপক্ষ তাঁর গ্রুপের বল পান। শুধু ব্রেকেই কিউ বল হাতে থাকে, আর শুধু 8-এর পকেট ঘোষণা করতে হয়।
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	ফাউল হলে প্রতিপক্ষ টেবিলের যেকোনো জায়গায় হাতে কিউ বল পান। কিছুই ঘোষণা করতে হয় না, আর ব্রেকে চারটি বলকে কুশনে পাঠাতে হয়।
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	ফাউল হলে প্রতিপক্ষ টেবিলের যেকোনো জায়গায় হাতে কিউ বল পান। শুধু 8-এর পকেট ঘোষণা করতে হয়, তার প্রতিটি শটে, আর ব্রেকে চারটি বলকে কুশনে পাঠাতে হয়।
 A foul gives balls to the opponent	ফাউলে প্রতিপক্ষ বল পান
 Ball in hand on the break only	হাতে বল শুধু ব্রেকে
 Only the 8's pocket is called	শুধু 8-এর পকেট ঘোষণা
 The most played in Brazil	ব্রাজিলে সবচেয়ে জনপ্রিয়
 A foul gives ball in hand	ফাউলে হাতে বল
 The break drives four balls to a cushion	ব্রেকে চারটি বল কুশনে
-Any pocket counts	যেকোনো পকেট চলে
+Only the 8 is called, shot by shot	শুধু 8 ঘোষণা করতে হয়, প্রতি শটে
 The same all over the world	সারা বিশ্বে একই
 Game type	গেমের ধরন
 called: {pocket}	ঘোষিত: {pocket}

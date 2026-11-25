@@ -10,7 +10,7 @@
 Biliar bola 8 turnamen internasional, sebagaimana dimainkan oleh World Pool-Billiard Association. Snook Legend juga punya aturan Brasil: pilih aturan game kamu di menu utama. Jika kamu biasa bermain dengan aturan Brasil, baca bagian break, pemilihan lubang, dan foul di bawah, karena perbedaannya cukup besar.
 
 ### Tujuan
-Setiap pemain punya grup tujuh bola: polos (1 sampai 7) atau belang (9 sampai 15). Masukkan semua bolamu lalu bola 8 sebelum lawanmu melakukannya.
+Setiap pemain punya grup tujuh bola: polos (1 sampai 7) atau belang (9 sampai 15). Masukkan semua bolamu lalu bola 8, ke lubang yang kamu pilih, sebelum lawanmu melakukannya.
 
 ### Giliranmu
 Kamu terus memukul selama memasukkan bola dari grupmu, ke lubang mana pun, pada pukulan tanpa foul. Jika tidak, giliran berpindah, dan bola yang sudah masuk tetap di dalam.
@@ -37,8 +37,8 @@ Itu foul, dan bola tersebut tetap di luar (hanya bola 8 yang dikembalikan). Lawa
 ### Meja terbuka
 Selama grup belum ditentukan, meja terbuka: kamu boleh mengenai bola mana pun lebih dulu kecuali bola 8. Grup dari bola pertama yang kamu masukkan menjadi grupmu. Jika satu grup sudah habis dari meja, kamu boleh memainkan bola 8.
 
-### Tanpa memilih lubang
-Di turnamen setiap pukulan harus memilih lubang; di sini tidak ada yang dipilih. Bola dari grupmu (atau bola 8, saat kamu sudah di bola 8) yang masuk ke lubang mana pun, pada pukulan tanpa foul, membuatmu tetap memukul, termasuk jika lewat bantalan atau bola lain.
+### Memilih lubang bola 8
+Di turnamen setiap pukulan harus memilih lubang; di sini hanya bola 8 yang dipilih lubangnya. Bola dari grupmu yang masuk ke lubang mana pun, pada pukulan tanpa foul, membuatmu tetap memukul, termasuk jika lewat bantalan atau bola lain. Saat memukul bola 8, kamu memilih lubangnya: mengikuti bidikanmu, game memilih lubang yang dituju bola 8, tanpa menunjukkannya. Untuk memilih lubang lain (misalnya untuk pukulan bantalan), klik lubang itu: lubangnya menyala. Klik lagi untuk kembali ke bidikanmu.
 
 ### Safety
 Untuk menyerahkan meja ke lawan, mainkan pukulan yang tidak memasukkan satu pun bolamu: giliran berpindah, dan bola yang masuk tetap di dalam. Bola dari grupmu yang tetap masuk membuatmu tetap memukul.
@@ -60,7 +60,7 @@ Jika game memakai batas waktu pukulan dan waktunya habis, itu foul: lawanmu mend
 ## Bola 8
 
 ### Menang
-Begitu grupmu habis dari meja, masukkan bola 8, ke lubang mana pun, pada pukulan tanpa foul.
+Begitu grupmu habis dari meja, masukkan bola 8 ke lubang yang kamu pilih, pada pukulan tanpa foul.
 
 ### Kalah di bola 8
-Kamu kalah jika memasukkan bola 8 saat foul atau sebelum grupmu habis dari meja, dan jika membuat bola 8 keluar meja. Semua ini tidak berlaku saat break.
+Kamu kalah jika memasukkan bola 8 saat foul, sebelum grupmu habis dari meja, atau ke lubang yang tidak kamu pilih, dan jika membuat bola 8 keluar meja. Semua ini tidak berlaku saat break.

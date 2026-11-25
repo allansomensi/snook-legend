@@ -243,12 +243,14 @@ const HISTORY_LOG: u64 = 9_202;
 /// The status line in the top bar, from `x`, at most `width` wide: what is
 /// in brackets at its end ("… to shoot (stripes)") goes on a second, quieter
 /// line; a long line without them wraps onto two.
-/// The official rules: the button that declares a safety (no pocket
-/// called), at the right end of the top bar on the player's turn (the
-/// status beside it says which pocket is called). Its width, to keep the
-/// status clear of it (0 when not shown).
+/// The official rules in a game recorded with every shot called (until
+/// 0.11.1): the button that declares a safety (no pocket called), at the
+/// right end of the top bar on the player's turn (the status beside it
+/// says which pocket is called). Its width, to keep the status clear of it
+/// (0 when not shown). With only the 8 called there is none: a shot at the
+/// 8 that calls nothing could only lose with it.
 fn draw_call(ui: &mut Ui, m: &mut Match) -> f32 {
-    if !m.game.calls_shots() || !m.is_human_turn() || m.replay.is_some() {
+    if !m.game.calls_shots() || !m.game.calls() || !m.is_human_turn() || m.replay.is_some() {
         return 0.0;
     }
     let sw = crate::ui::vw();
@@ -385,6 +387,21 @@ fn status_line(m: &Match) -> Option<String> {
                     "{name} is on the 8: click a pocket to call it",
                     &[("name", name)],
                 ));
+            }
+            // The official rules: a shot at the 8 calls its pocket. The one
+            // the player clicked is named; the one their aim calls never
+            // is (it would say where the aim sends the 8).
+            if m.game.calls_the_eight() {
+                return Some(match m.called_pocket.filter(|_| m.call_locked) {
+                    Some(pocket) => tw(
+                        "{name} is on the 8: called pocket {pocket}",
+                        &[("name", name), ("pocket", &crate::i18n::pocket(pocket))],
+                    ),
+                    None => tw(
+                        "{name} is on the 8 (your aim calls the pocket; click a pocket to call another)",
+                        &[("name", name)],
+                    ),
+                });
             }
             // A drill: which try, and how many worked.
             if let Some(run) = &m.drill {
@@ -2699,7 +2716,8 @@ fn turn_subtitle(m: &Match) -> String {
     if m.game.is_break() {
         return t("Break the rack").into();
     }
-    if m.game.needs_called_pocket() {
+    // (The official rules call the 8 on each shot at it.)
+    if m.game.needs_called_pocket() || m.game.calls_the_eight() {
         return match m.game.called_pocket_of(player) {
             Some(p) => tw("On the 8-ball: {pocket} pocket", &[("pocket", &crate::i18n::pocket(p))]),
             None => t("On the 8-ball: call a pocket").into(),

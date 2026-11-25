@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name}打8号球：指定{pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name}打8号球（瞄准即指定球袋；点击球袋可改为指定其他球袋）
 On the 8-ball: {pocket} pocket	打8号球：{pocket}
 Show ping	显示延迟
 Your connection's delay, in online games.	在线对局中你的网络延迟。
@@ -2018,14 +2019,14 @@ your call	你的指定
 {n} points to {tier} ({rules})	距离{tier}还差{n}分（{rules}）
 {n} waiting	{n}人等待中
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	犯规时对手获得其球组的球。仅开球时有自由球，且只需为8号球指定球袋。
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	犯规时对手获得自由球，可放在球台任意位置。无需指定球袋，开球须至少让四颗球碰库。
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	犯规时对手获得自由球，可放在球台任意位置。只需在每次打8号球时指定它的球袋，开球须至少让四颗球碰库。
 A foul gives balls to the opponent	犯规罚球给对手
 Ball in hand on the break only	仅开球时有自由球
 Only the 8's pocket is called	仅8号球需指定球袋
 The most played in Brazil	巴西最流行的玩法
 A foul gives ball in hand	犯规给予自由球
 The break drives four balls to a cushion	开球须让四颗球碰库
-Any pocket counts	任意球袋都算
+Only the 8 is called, shot by shot	只指定8号球，每杆都要
 The same all over the world	全球通用
 Game type	对局类型
 called: {pocket}	指定：{pocket}

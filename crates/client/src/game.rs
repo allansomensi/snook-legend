@@ -1434,8 +1434,9 @@ impl Match {
         }
         self.aim = Aim { yaw: self.game.default_aim(), ..Aim::default() };
         // The Brazilian rules: a pocket called for the 8 in an earlier visit
-        // still stands. The official rules: every shot is called afresh
-        // (from the aim, until the player picks a pocket or a safety).
+        // still stands. The official rules: a shot at the 8 (in a game
+        // recorded until 0.11.1, every shot) is called afresh (from the
+        // aim, until the player picks a pocket or a safety).
         self.called_pocket = self.game.called_pocket_of(self.game.current_player());
         self.call_locked = false;
         // Ball in hand never locks the turn: the cue ball can be dragged at
@@ -1899,7 +1900,8 @@ impl Match {
     }
 
     /// The official rules: while the player hasn't chosen the call, it is
-    /// the pocket their aim sends the object ball to (none: a safety).
+    /// the pocket their aim sends the object ball (the 8) to (none: a
+    /// safety, and the 8 made then loses). Never shown.
     fn follow_call(&mut self) {
         if self.call_locked || !self.game.calls_shots() || !self.is_human_turn() {
             return;
@@ -1956,9 +1958,10 @@ impl Match {
             let ready = turn.result.lock().unwrap_or_else(|e| e.into_inner()).take();
             match ready {
                 Some(decision) => {
-                    if let (Some(pocket), true) =
-                        (decision.called_pocket, self.game.may_call_pocket())
-                    {
+                    // (The official rules: its call of the 8 for this shot,
+                    // as a player says it before shooting.)
+                    let calls = self.game.may_call_pocket() || self.game.calls_the_eight();
+                    if let (Some(pocket), true) = (decision.called_pocket, calls) {
                         let name = self.names[self.game.current_player()].clone();
                         let text = tw(
                             "{name} calls the 8-ball in the {pocket} pocket.",
@@ -2660,9 +2663,14 @@ impl Match {
                     );
                     self.announce(text, true, 5.0);
                 }
+                // The opponent's call of the 8 (the Brazilian rules: the
+                // first; the official ones: each shot's), told as the shot
+                // is played.
                 if let Some(pocket) = called_pocket
                     && self.online.as_ref().is_some_and(|o| o.seat != seat)
-                    && self.game.called_pocket_of(seat).is_none()
+                    && ((self.game.needs_called_pocket()
+                        && self.game.called_pocket_of(seat).is_none())
+                        || self.game.calls_the_eight())
                 {
                     let text = tw(
                         "{name} calls the 8-ball in the {pocket} pocket.",

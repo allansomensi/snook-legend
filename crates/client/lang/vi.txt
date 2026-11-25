@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} chỉ còn bi số 8: lỗ chỉ định {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} chỉ còn bi số 8 (hướng ngắm chỉ định lỗ; bấm vào một lỗ để chỉ định lỗ khác)
 On the 8-ball: {pocket} pocket	Bi số 8: lỗ {pocket}
 Show ping	Hiện ping
 Your connection's delay, in online games.	Độ trễ kết nối của bạn trong các ván trực tuyến.
@@ -2018,14 +2019,14 @@ your call	bạn chỉ định
 {n} points to {tier} ({rules})	Còn {n} điểm lên {tier} ({rules})
 {n} waiting	{n} đang chờ
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Phạm lỗi thì đối thủ được tặng bi của nhóm họ. Bi cái chỉ được đặt tự do khi phá bi, và chỉ phải chỉ định lỗ cho bi số 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Phạm lỗi thì đối thủ được đặt bi cái tự do ở bất cứ đâu trên bàn. Không cần chỉ định lỗ, và cú phá bi phải đưa bốn bi chạm băng.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Phạm lỗi thì đối thủ được đặt bi cái tự do ở bất cứ đâu trên bàn. Chỉ phải chỉ định lỗ cho bi số 8, ở mỗi cú đánh vào nó, và cú phá bi phải đưa bốn bi chạm băng.
 A foul gives balls to the opponent	Phạm lỗi thì đối thủ được bi
 Ball in hand on the break only	Bi cái tự do chỉ khi phá bi
 Only the 8's pocket is called	Chỉ chỉ định lỗ cho bi số 8
 The most played in Brazil	Phổ biến nhất ở Brazil
 A foul gives ball in hand	Phạm lỗi thì đối thủ được bi cái tự do
 The break drives four balls to a cushion	Phá bi phải đưa bốn bi chạm băng
-Any pocket counts	Lỗ nào cũng tính
+Only the 8 is called, shot by shot	Chỉ chỉ định bi số 8, từng cú một
 The same all over the world	Giống nhau trên toàn thế giới
 Game type	Loại ván
 called: {pocket}	chỉ định: {pocket}

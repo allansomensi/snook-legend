@@ -20,9 +20,9 @@ use snook_legend_core::{
 };
 use snook_legend_proto::replay::{Replay, Stroke, shot_difficulty};
 use snook_legend_proto::{
-    AimState, ChatKind, ChatLine, ClientMsg, FeaturedMatch, MAX_ROOM_PASSWORD, MatchResult,
-    PlayerInfo, PlayerStatus, SPECTATOR_SEAT, ServerMsg, TableInfo, TournamentInfo,
-    TournamentState, clean_chat, clean_text,
+    AimState, ChatKind, ChatLine, ClientMsg, EIGHT_CALL_PROTOCOL, FeaturedMatch, MAX_ROOM_PASSWORD,
+    MatchResult, PROTOCOL_VERSION, PlayerInfo, PlayerStatus, SPECTATOR_SEAT, ServerMsg, TableInfo,
+    TournamentInfo, TournamentState, clean_chat, clean_text,
 };
 use tokio::sync::Notify;
 use tokio::sync::mpsc::{Sender, UnboundedSender, error::TrySendError};
@@ -98,6 +98,10 @@ pub enum Effect {
         game: Box<EightBallGame>,
         shot: Shot,
         called: Option<PocketId>,
+        /// The shooter's game can't call the 8 (older than
+        /// [`EIGHT_CALL_PROTOCOL`]): the 8 counts as called in the pocket
+        /// it goes into ([`EightBallGame::call_the_eight_where_it_went`]).
+        eight_anywhere: bool,
     },
     /// Store a finished match (players are notified of achievements).
     RecordMatch {
@@ -238,6 +242,10 @@ pub struct Session {
     /// pairs them with players of the same rules, their tables and
     /// invitations are played under them.
     pub rules: Rules,
+    /// The protocol of the player's game (its hello): one older than
+    /// [`EIGHT_CALL_PROTOCOL`] can't call the 8 under the official rules,
+    /// and the 8 counts as called in the pocket it goes into.
+    pub protocol: u32,
 }
 
 impl Session {
@@ -774,6 +782,7 @@ impl Lounge {
                 away: false,
                 focus: false,
                 rules,
+                protocol: PROTOCOL_VERSION,
             },
         );
         let players: Vec<PlayerInfo> = self.sessions.keys().filter_map(|k| self.info(k)).collect();
@@ -972,7 +981,7 @@ impl Lounge {
         let (conn_id, tx, kill, ip) = (s.conn_id, s.tx.clone(), s.kill.clone(), s.ip.clone());
         let (blocked, look, achievements) =
             (s.blocked.clone(), s.look.clone(), s.achievements.clone());
-        let (guest, rules) = (s.guest, s.rules);
+        let (guest, rules, protocol) = (s.guest, s.rules, s.protocol);
         // A new name doesn't wipe the slate: games left and games against
         // the same opponent still count.
         if old_k != new_k {
@@ -1008,6 +1017,7 @@ impl Lounge {
             self.left_limits.insert(new_k.clone(), limits);
         }
         self.join(conn_id, user, guest, rules, tx, kill, token, ip, blocked);
+        self.set_protocol(&name, protocol);
         self.set_achievements(&name, achievements);
         self.set_look(&name, look);
     }
@@ -1699,6 +1709,14 @@ impl Lounge {
     }
 
     /// Sets what others see of `name`'s shop items (and tells everyone).
+    /// The protocol of `name`'s game, from its hello (see
+    /// [`Session::protocol`]).
+    pub fn set_protocol(&mut self, name: &str, protocol: u32) {
+        if let Some(s) = self.sessions.get_mut(&key(name)) {
+            s.protocol = protocol;
+        }
+    }
+
     pub fn set_look(&mut self, name: &str, look: Look) {
         let k = key(name);
         let Some(s) = self.sessions.get_mut(&k) else { return };
@@ -2622,12 +2640,15 @@ impl Lounge {
         if !finite {
             return reject(self, "Invalid shot.");
         }
-        if let Err(e) = self.start_shot(id, seat, shot, called, cue_ball, false) {
+        // A game older than the 8's call plays the 8 in any pocket.
+        let eight_anywhere = self.sessions.get(k).is_some_and(|s| s.protocol < EIGHT_CALL_PROTOCOL);
+        if let Err(e) = self.start_shot(id, seat, shot, called, cue_ball, false, eight_anywhere) {
             reject(self, &e);
         }
     }
 
     /// Accepts a shot: tells both players straight away and has it simulated.
+    #[allow(clippy::too_many_arguments)]
     fn start_shot(
         &mut self,
         id: u64,
@@ -2636,6 +2657,7 @@ impl Lounge {
         called: Option<PocketId>,
         cue_ball: Option<DVec2>,
         timeout: bool,
+        eight_anywhere: bool,
     ) -> Result<(), String> {
         let room = self.rooms.get_mut(&id).ok_or("No such game.")?;
         if let Some(p) = cue_ball
@@ -2657,7 +2679,7 @@ impl Lounge {
             ServerMsg::ShotTaken { seat, turn, shot, called_pocket: called, cue_ball, timeout };
         let game = Box::new(room.game.clone());
         self.send_room(id, &msg);
-        self.effect(Effect::Simulate { room: id, turn, game, shot, called });
+        self.effect(Effect::Simulate { room: id, turn, game, shot, called, eight_anywhere });
         Ok(())
     }
 
@@ -2701,6 +2723,15 @@ impl Lounge {
             if let Some(band) = shot_difficulty(&room.game, shot, &report) {
                 room.bands[shooter].push(band);
             }
+        }
+        // The call the shot was played with, as recorded: the 8's pocket,
+        // for a game older than the 8's call (see `eight_anywhere`), so the
+        // game replays the same. (Under the official rules a call the
+        // shot didn't need was dropped: the stroke keeps it, to no effect.)
+        if room.game.calls_the_eight()
+            && let Some(Stroke::Shot { called, .. }) = room.replay.strokes.last_mut()
+        {
+            *called = report.called;
         }
         room.game = game;
         let next = room.game.current_player();
@@ -3778,7 +3809,14 @@ mod tests {
         let game = Box::new(EightBallGame::new(1, 0, Rules::Official));
         let shot = Shot { yaw: 0.0, elevation: 0.0, tip: DVec2::ZERO, speed: 1.0 };
         l.effect(Effect::DeleteLive(1));
-        l.effect(Effect::Simulate { room: 1, turn: 0, game, shot, called: None });
+        l.effect(Effect::Simulate {
+            room: 1,
+            turn: 0,
+            game,
+            shot,
+            called: None,
+            eight_anywhere: false,
+        });
         assert!(matches!(shots.try_recv(), Ok(Effect::Simulate { .. })));
         assert!(matches!(effects.try_recv(), Ok(Effect::DeleteLive(1))));
         assert!(effects.try_recv().is_err());

@@ -56,17 +56,24 @@ pub struct Replay {
     /// game recorded before 0.11.2 (no such field) was.
     #[serde(default = "snook_legend_core::rules::with_calls")]
     pub calls: bool,
+    /// Played with the 8 called under the official rules (see
+    /// [`snook_legend_core::EightBallGame::with_eight_call`]): every game
+    /// since 0.12.0; one recorded before (no such field) was not.
+    #[serde(default)]
+    pub eight_call: bool,
 }
 
 impl Replay {
     /// A new game under `rules`.
     pub fn new(seed: u64, breaker: usize, rules: Rules) -> Replay {
-        Replay { seed, breaker, strokes: Vec::new(), rules, calls: false }
+        Replay { seed, breaker, strokes: Vec::new(), rules, calls: false, eight_call: true }
     }
 
     /// The game before any stroke.
     pub fn start(&self) -> EightBallGame {
-        EightBallGame::new(self.seed, self.breaker, self.rules).with_calls(self.calls)
+        EightBallGame::new(self.seed, self.breaker, self.rules)
+            .with_calls(self.calls)
+            .with_eight_call(self.eight_call)
     }
 
     /// The game after the first `upto` strokes (all of them if `None`), and
@@ -189,6 +196,23 @@ pub fn shot_difficulty(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A new game calls the 8; a replay recorded before the field (0.11.x)
+    /// didn't, and one recorded before the calls' own field (until 0.11.1)
+    /// called every shot: each is played back as it was played.
+    #[test]
+    fn replays_keep_their_calls() {
+        let new = Replay::new(7, 0, Rules::Official);
+        assert!(new.eight_call && !new.calls);
+        assert!(new.start().eight_call() && !new.start().calls());
+        let mut json: serde_json::Value = serde_json::to_value(&new).unwrap();
+        json.as_object_mut().unwrap().remove("eight_call");
+        let old: Replay = serde_json::from_value(json.clone()).unwrap();
+        assert!(!old.eight_call && !old.calls && !old.start().eight_call());
+        json.as_object_mut().unwrap().remove("calls");
+        let older: Replay = serde_json::from_value(json).unwrap();
+        assert!(older.calls && older.start().calls());
+    }
 
     #[test]
     fn replay_rebuilds_the_game() {

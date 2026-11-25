@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} spielt auf die 8: angesagte Tasche {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} spielt auf die 8 (dein Zielen sagt die Tasche an; klick eine Tasche an, um eine andere anzusagen)
 On the 8-ball: {pocket} pocket	Auf die 8: Tasche {pocket}
 Show ping	Ping anzeigen
 Your connection's delay, in online games.	Die Verzögerung deiner Verbindung in Online-Partien.
@@ -2018,14 +2019,14 @@ your call	deine Ansage
 {n} points to {tier} ({rules})	Noch {n} Punkte bis {tier} ({rules})
 {n} waiting	{n} warten
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Ein Foul bringt dem Gegner Kugeln seiner Gruppe. Ball in Hand gibt es nur beim Anstoß, und nur die Tasche der 8 wird angesagt.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Ein Foul gibt dem Gegner Ball in Hand, überall auf dem Tisch. Nichts wird angesagt, und der Anstoß muss vier Kugeln an die Banden bringen.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Ein Foul gibt dem Gegner Ball in Hand, überall auf dem Tisch. Nur die Tasche der 8 wird angesagt, bei jedem Stoß auf sie, und der Anstoß muss vier Kugeln an die Banden bringen.
 A foul gives balls to the opponent	Ein Foul bringt dem Gegner Kugeln
 Ball in hand on the break only	Ball in Hand nur beim Anstoß
 Only the 8's pocket is called	Nur die Tasche der 8 wird angesagt
 The most played in Brazil	In Brasilien am meisten gespielt
 A foul gives ball in hand	Ein Foul gibt Ball in Hand
 The break drives four balls to a cushion	Beim Anstoß vier Kugeln an die Banden
-Any pocket counts	Jede Tasche zählt
+Only the 8 is called, shot by shot	Nur die 8 wird angesagt, Stoß für Stoß
 The same all over the world	Überall auf der Welt gleich
 Game type	Spielart
 called: {pocket}	angesagt: {pocket}

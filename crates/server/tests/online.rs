@@ -58,9 +58,14 @@ struct Client {
 
 impl Client {
     async fn connect(url: &str) -> Client {
+        Client::connect_as(url, PROTOCOL_VERSION).await
+    }
+
+    /// A game of protocol `version`.
+    async fn connect_as(url: &str, version: u32) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
+        c.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
         c
     }
 
@@ -88,7 +93,12 @@ impl Client {
     }
 
     async fn register(url: &str, name: &str) -> (Client, String) {
-        let mut c = Client::connect(url).await;
+        Client::register_as(url, name, PROTOCOL_VERSION).await
+    }
+
+    /// [`Client::register`] from a game of protocol `version`.
+    async fn register_as(url: &str, name: &str, version: u32) -> (Client, String) {
+        let mut c = Client::connect_as(url, version).await;
         c.send(ClientMsg::Register {
             username: name.into(),
             password: PASSWORD.into(),
@@ -156,8 +166,20 @@ async fn start_match_under(
 async fn play_out(
     a: &mut Client,
     b: &mut Client,
+    game: EightBallGame,
+    sa: usize,
+) -> snook_legend_proto::MatchResult {
+    play_out_with(a, b, game, sa, false).await
+}
+
+/// [`play_out`]; `a_calls_nothing`: `a` is a game that can't call the 8
+/// (older than 0.12.0), and sends no call.
+async fn play_out_with(
+    a: &mut Client,
+    b: &mut Client,
     mut game: EightBallGame,
     sa: usize,
+    a_calls_nothing: bool,
 ) -> snook_legend_proto::MatchResult {
     let mut shots = 0;
     loop {
@@ -189,7 +211,10 @@ async fn play_out(
             game = local;
             continue;
         }
-        let decision = ai::decide(&game, Difficulty::Hard, shots);
+        let mut decision = ai::decide(&game, Difficulty::Hard, shots);
+        if a_calls_nothing && shooter_is_a {
+            decision.called_pocket = None;
+        }
         let turn = game.shots_taken();
         let msg = ClientMsg::Shoot {
             turn,
@@ -232,7 +257,14 @@ async fn play_out(
         if let Some(p) = decision.cue_ball {
             local.place_cue_ball(p);
         }
-        local.play_shot(&decision.shot, decision.called_pocket).unwrap();
+        let mut pending = local.prepare_shot(&decision.shot, decision.called_pocket).unwrap();
+        pending.simulation.run_to_rest();
+        // A game that can't call the 8: the 8 counts as called in the
+        // pocket it goes into.
+        if a_calls_nothing && shooter_is_a {
+            local.call_the_eight_where_it_went(&mut pending);
+        }
+        local.finish_shot(pending);
         assert_eq!(local, end, "deterministic physics");
         game = end;
         if game.game_over().is_some() {
@@ -2499,6 +2531,39 @@ async fn a_rated_official_game_counts_under_the_official_rules_only() {
         unreachable!()
     };
     assert_eq!(game.rules(), Rules::Official);
+}
+
+/// A game older than 0.12.0 (protocol 24) can't call the 8 under the
+/// official rules: what it makes counts as called in the pocket it went
+/// into, and is recorded so (the game replays the same).
+#[tokio::test]
+async fn an_older_game_makes_the_eight_in_any_pocket() {
+    let url = start(Settings::default()).await;
+    let (mut alice, _) =
+        Client::register_as(&url, "alice", snook_legend_proto::OLDEST_PROTOCOL_VERSION).await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (game, sa, _) =
+        start_match_under(&mut alice, &mut bob, "bob", "alice", true, Rules::Official).await;
+    assert!(game.eight_call());
+    let result = play_out_with(&mut alice, &mut bob, game, sa, true).await;
+    alice.send(ClientMsg::Replays).await;
+    let ServerMsg::Replays { games, .. } =
+        alice.expect("replays", |m| matches!(m, ServerMsg::Replays { .. })).await
+    else {
+        unreachable!()
+    };
+    alice.send(ClientMsg::Replay { match_id: games[0].match_id }).await;
+    let ServerMsg::Replay { replay } =
+        alice.expect("replay", |m| matches!(m, ServerMsg::Replay { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(replay.replay.eight_call && !replay.replay.calls);
+    let (end, _) = replay.replay.play(None).unwrap();
+    assert_eq!(
+        end.game_over(),
+        Some(snook_legend_core::GameOver { winner: result.winner, reason: result.reason })
+    );
 }
 
 /// "Play now" pairs players who want the same rules; everyone sees who is

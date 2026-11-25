@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} a 8-asra jön: bemondott lyuk: {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} a 8-asra jön (a célzás mondja be a lyukat; kattints egy lyukra, hogy másikat mondj be)
 On the 8-ball: {pocket} pocket	A 8-as jön: {pocket}
 Show ping	Ping mutatása
 Your connection's delay, in online games.	A kapcsolatod késleltetése online játszmákban.
@@ -2018,14 +2019,14 @@ your call	a te bemondásod
 {n} points to {tier} ({rules})	Még {n} pont: {tier} ({rules})
 {n} waiting	{n} vár
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	A szabálytalanságért az ellenfél a csoportjából golyókat kap. Golyó kézben csak a kezdőlökésnél van, és csak a 8-as lyukát kell bemondani.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	A szabálytalanságért az ellenfél golyót kap kézbe, bárhová az asztalon. Semmit nem kell bemondani, és a kezdőlökésnek négy golyót falszélig kell juttatnia.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	A szabálytalanságért az ellenfél golyót kap kézbe, bárhová az asztalon. Csak a 8-as lyukát kell bemondani, minden rá játszott lökésnél, és a kezdőlökésnek négy golyót falszélig kell juttatnia.
 A foul gives balls to the opponent	A szabálytalanság golyókat ad az ellenfélnek
 Ball in hand on the break only	Golyó kézben csak a kezdőlökésnél
 Only the 8's pocket is called	Csak a 8-as lyukát kell bemondani
 The most played in Brazil	Brazíliában ezt játsszák a legtöbben
 A foul gives ball in hand	A szabálytalanság golyót ad kézbe
 The break drives four balls to a cushion	A kezdőlökés négy golyót juttat falszélig
-Any pocket counts	Bármelyik lyuk számít
+Only the 8 is called, shot by shot	Csak a 8-ast kell bemondani, lökésről lökésre
 The same all over the world	Az egész világon ugyanaz
 Game type	Játéktípus
 called: {pocket}	bemondva: {pocket}

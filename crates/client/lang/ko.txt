@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} 님 8번 공 차례: 지정 포켓 {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} 님 8번 공 차례 (조준이 포켓을 지정해요. 다른 포켓은 클릭해서 지정하세요)
 On the 8-ball: {pocket} pocket	8번 공 차례: {pocket} 포켓
 Show ping	핑 표시
 Your connection's delay, in online games.	온라인 게임의 연결 지연 시간이에요.
@@ -2018,14 +2019,14 @@ your call	내가 지정
 {n} points to {tier} ({rules})	{tier}까지 {n}점 ({rules})
 {n} waiting	{n}명 대기 중
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	파울하면 상대가 자기 그룹의 공을 받아요. 볼 인 핸드는 브레이크 때만 있고, 8번 공의 포켓만 지정해요.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	파울하면 상대가 볼 인 핸드로 테이블 어디든 수구를 놓아요. 아무것도 지정하지 않고, 브레이크에서는 공 4개가 쿠션에 닿아야 해요.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	파울하면 상대가 볼 인 핸드로 테이블 어디든 수구를 놓아요. 8번 공을 칠 때마다 그 포켓만 지정하고, 브레이크에서는 공 4개가 쿠션에 닿아야 해요.
 A foul gives balls to the opponent	파울하면 상대에게 공을 줌
 Ball in hand on the break only	볼 인 핸드는 브레이크 때만
 Only the 8's pocket is called	8번 공의 포켓만 지정
 The most played in Brazil	브라질에서 가장 많이 치는 방식
 A foul gives ball in hand	파울하면 볼 인 핸드
 The break drives four balls to a cushion	브레이크에서 공 4개가 쿠션에 닿아야 함
-Any pocket counts	어느 포켓이든 인정
+Only the 8 is called, shot by shot	8번 공만 샷마다 지정
 The same all over the world	전 세계 공통
 Game type	게임 유형
 called: {pocket}	지정: {pocket}

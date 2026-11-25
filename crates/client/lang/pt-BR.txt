@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} está na bola 8: caçapa cantada {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} está na bola 8 (a sua mira canta a caçapa; clique numa caçapa para cantar outra)
 On the 8-ball: {pocket} pocket	Na bola 8: caçapa {pocket}
 Show ping	Mostrar ping
 Your connection's delay, in online games.	O atraso da sua conexão nas partidas online.
@@ -2018,14 +2019,14 @@ your call	cantada por você
 {n} points to {tier} ({rules})	{n} pontos para {tier} ({rules})
 {n} waiting	{n} na fila
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Falta dá ao adversário bolas do grupo dele. A branca fica na mão só na saída, e só a caçapa da 8 é cantada.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Falta dá ao adversário a branca na mão, em qualquer lugar da mesa. Nada é cantado, e a saída precisa levar quatro bolas à tabela.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Falta dá ao adversário a branca na mão, em qualquer lugar da mesa. Só a caçapa da 8 é cantada, a cada tacada nela, e a saída precisa levar quatro bolas à tabela.
 A foul gives balls to the opponent	Falta dá bolas ao adversário
 Ball in hand on the break only	Bola na mão só na saída
 Only the 8's pocket is called	Só a caçapa da 8 é cantada
 The most played in Brazil	A mais jogada no Brasil
 A foul gives ball in hand	Falta dá bola na mão
 The break drives four balls to a cushion	Saída com quatro bolas na tabela
-Any pocket counts	Vale qualquer caçapa
+Only the 8 is called, shot by shot	Só a 8 é cantada, tacada a tacada
 The same all over the world	A mesma do mundo todo
 Game type	Partida
 called: {pocket}	cantada: {pocket}

@@ -10,7 +10,7 @@
 Ósemka z międzynarodowych turniejów, tak jak gra ją World Pool-Billiard Association. Snook Legend ma też zasady brazylijskie: wybierz zasady swoich partii w menu głównym. Jeśli grasz według zasad brazylijskich, przeczytaj poniżej o rozbiciu, deklarowaniu i faulach, bo bardzo się różnią.
 
 ### Cel gry
-Każdy gracz ma grupę siedmiu bil: pełne (od 1 do 7) lub połówki (od 9 do 15). Wbij wszystkie swoje, a potem ósemkę, zanim zrobi to przeciwnik.
+Każdy gracz ma grupę siedmiu bil: pełne (od 1 do 7) lub połówki (od 9 do 15). Wbij wszystkie swoje, a potem ósemkę do zadeklarowanej łuzy, zanim zrobi to przeciwnik.
 
 ### Twoja kolej
 Grasz dalej, dopóki wbijasz bilę ze swojej grupy, do dowolnej łuzy, uderzeniem bez faulu. W przeciwnym razie kolejka przechodzi, a wbite bile zostają w łuzach.
@@ -37,8 +37,8 @@ To faul, a bila zostaje poza stołem (wraca tylko ósemka). Przeciwnik gra ze st
 ### Stół otwarty
 Dopóki grupy nie są ustalone, stół jest otwarty: możesz najpierw trafić dowolną bilę oprócz ósemki. Grupa pierwszej wbitej przez ciebie bili staje się twoją. Jeśli jedna grupa zniknęła już ze stołu, możesz grać ósemką.
 
-### Bez deklarowania
-W turniejach deklaruje się każde uderzenie; tutaj nie deklaruje się niczego. Bila z twojej grupy (lub ósemka, gdy na nią grasz) wbita do dowolnej łuzy uderzeniem bez faulu daje dalszą grę, także od bandy lub od innej bili.
+### Deklarowanie ósemki
+W turniejach deklaruje się każde uderzenie; tutaj deklaruje się tylko ósemkę. Bila z twojej grupy wbita do dowolnej łuzy uderzeniem bez faulu daje dalszą grę, także od bandy lub od innej bili. Gdy grasz na ósemkę, deklarujesz jej łuzę: zgodnie z twoim celowaniem gra deklaruje łuzę, do której zmierza ósemka, nie pokazując jej. Aby zadeklarować inną (na przykład przy uderzeniu od bandy), kliknij ją: podświetli się. Kliknij ją jeszcze raz, aby wrócić do celowania.
 
 ### Odstawna
 Aby oddać stół przeciwnikowi, zagraj uderzenie, które nie wbije żadnej twojej bili: kolejka przechodzi, a to, co wpadło, zostaje w łuzach. Bila z twojej grupy, która mimo to wpadnie, daje dalszą grę.
@@ -60,7 +60,7 @@ Gdy partia ma limit czasu na uderzenie i czas się skończy, to faul: przeciwnik
 ## Ósemka
 
 ### Wygrana
-Gdy twoja grupa zniknie ze stołu, wbij ósemkę, do dowolnej łuzy, uderzeniem bez faulu.
+Gdy twoja grupa zniknie ze stołu, wbij ósemkę do zadeklarowanej łuzy uderzeniem bez faulu.
 
 ### Przegrana na ósemce
-Przegrywasz, jeśli wbijesz ósemkę przy faulu lub zanim twoja grupa zniknie ze stołu, oraz jeśli wybijesz ósemkę ze stołu. Nic z tego nie dotyczy rozbicia.
+Przegrywasz, wbijając ósemkę z faulem, zanim twoja grupa zniknie ze stołu albo do niezadeklarowanej łuzy, a także wybijając ósemkę ze stołu. Nic z tego nie dotyczy rozbicia.

@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} e la bila 8: a anunțat {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} e la bila 8 (țintirea anunță buzunarul; dă clic pe un buzunar ca să anunți altul)
 On the 8-ball: {pocket} pocket	La bila 8: {pocket}
 Show ping	Afișează pingul
 Your connection's delay, in online games.	Întârzierea conexiunii tale în partidele online.
@@ -2018,14 +2019,14 @@ your call	anunțat de tine
 {n} points to {tier} ({rules})	{n} pct. până la {tier} ({rules})
 {n} waiting	în așteptare: {n}
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Un fault îi dă adversarului bile din grupa lui. Bila albă e în mână doar la spargere și se anunță doar buzunarul bilei 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Un fault îi dă adversarului bila albă în mână, oriunde pe masă. Nu se anunță nimic, iar spargerea trebuie să ducă patru bile la mante.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Un fault îi dă adversarului bila albă în mână, oriunde pe masă. Se anunță doar buzunarul bilei 8, la fiecare lovitură la ea, iar spargerea trebuie să ducă patru bile la mante.
 A foul gives balls to the opponent	Faultul îi dă bile adversarului
 Ball in hand on the break only	Bila în mână doar la spargere
 Only the 8's pocket is called	Se anunță doar buzunarul bilei 8
 The most played in Brazil	Cele mai jucate în Brazilia
 A foul gives ball in hand	Faultul dă bila în mână
 The break drives four balls to a cushion	Spargerea duce patru bile la mante
-Any pocket counts	Contează orice buzunar
+Only the 8 is called, shot by shot	Se anunță doar bila 8, lovitură cu lovitură
 The same all over the world	Aceleași în toată lumea
 Game type	Tip de partidă
 called: {pocket}	anunțat: {pocket}

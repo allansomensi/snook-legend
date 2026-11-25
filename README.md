@@ -85,9 +85,10 @@ which every desktop installation has. How releases are made is described in
   table comes back and one of the opponent's stays off, the 8 alone on the
   break wins and the 8 with any other ball loses, a called pocket for the 8
   that is binding once made.
-- **The official rules (WPA)**, as in international tournaments: every shot
-  but the break is called (the called pocket follows your aim, a click calls
-  another, and **Safety** calls nothing), a legal break makes a ball or drives
+- **The official rules (WPA)**, as in international tournaments, with only
+  the 8 called: the group's balls count in any pocket, and each shot at the 8
+  calls its pocket (the call follows your aim without showing it, a click
+  calls another; the 8 in another pocket loses), a legal break makes a ball or drives
   four balls to a cushion, the break never decides the groups, the choices
   the break can leave (play the table as it lies, rack and break again, the
   other player breaks, the cue ball in hand behind the head string; the 8 made

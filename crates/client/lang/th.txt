@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} เหลือ​ลูก 8: ขาน​หลุม{pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} เหลือ​ลูก 8 (แนว​เล็ง​ของ​คุณ​ขาน​หลุม คลิก​หลุม​เพื่อ​ขาน​หลุม​อื่น)
 On the 8-ball: {pocket} pocket	เหลือ​ลูก 8: หลุม{pocket}
 Show ping	แสดงปิง
 Your connection's delay, in online games.	ความหน่วง​ของ​การ​เชื่อมต่อ​ใน​เกม​ออนไลน์
@@ -2018,14 +2019,14 @@ your call	คุณขาน
 {n} points to {tier} ({rules})	อีก {n} แต้ม​ถึง {tier} ({rules})
 {n} waiting	รอ {n} คน
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	ฟาวล์​จะ​ให้​ลูก​ใน​กลุ่ม​ของ​คู่แข่ง​แก่​คู่แข่ง ได้​ลูกขาว​ใน​มือ​เฉพาะตอน​เบรก และ​ขาน​หลุม​เฉพาะ​ลูก 8
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	ฟาวล์​จะ​ให้​คู่แข่ง​ได้​ลูกขาว​ใน​มือ วาง​ได้​ทุกที่​บน​โต๊ะ ไม่​ต้อง​ขาน​อะไร และ​การ​เบรก​ต้อง​ให้​ลูก​ชน​ขอบโต๊ะ​สี่​ลูก
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	ฟาวล์​จะ​ให้​คู่แข่ง​ได้​ลูกขาว​ใน​มือ วาง​ได้​ทุกที่​บน​โต๊ะ ขาน​แค่​หลุม​ของ​ลูก 8 ใน​ทุก​ช็อต​ที่​แทง​ลูก 8 และ​การ​เบรก​ต้อง​ให้​ลูก​ชน​ขอบโต๊ะ​สี่​ลูก
 A foul gives balls to the opponent	ฟาวล์​ให้​ลูก​แก่​คู่แข่ง
 Ball in hand on the break only	ลูกในมือ​เฉพาะตอน​เบรก
 Only the 8's pocket is called	ขาน​หลุม​เฉพาะ​ลูก 8
 The most played in Brazil	เล่น​กัน​มาก​ที่สุด​ใน​บราซิล
 A foul gives ball in hand	ฟาวล์​ให้​ลูกในมือ
 The break drives four balls to a cushion	การ​เบรก​ต้อง​ให้​ลูก​ชน​ขอบโต๊ะ​สี่​ลูก
-Any pocket counts	หลุม​ไหน​ก็​นับ
+Only the 8 is called, shot by shot	ขาน​แค่​ลูก 8 ทุก​ช็อต
 The same all over the world	เหมือนกันทั่วโลก
 Game type	ประเภทเกม
 called: {pocket}	ขาน: {pocket}

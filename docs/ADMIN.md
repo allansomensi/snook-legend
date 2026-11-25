@@ -169,3 +169,35 @@ player's page (`GET /admin/api/users/{name}/collection`, see
 
 Every staff action is written to the audit log with who, what, whom and
 when, and shows on the player's *Moderation* tab.
+
+## Operations & economy
+
+Pages added in 0.12 (the endpoints are in [ADMIN-API.md](ADMIN-API.md),
+"Operations & economy"). Moderators see them all except VIP members and the
+exports; administrators change them. Every change is in the audit log.
+
+| Page | What it is for |
+|---|---|
+| **Settings** | The server's settings, changed live without a restart: the shot clock, the lounge's message, connection limits, tournaments (how many at once, the house's cut of entry fees), the weekly cup (on or off, day, time, time zone, rules, arena or knockout, length, seats, fee, house prize), the username change's price, the daily bonus's streak, VIP's item of the month. Each shows its value, its default, where that comes from (built in, the environment, the portal), what it does and its range; reset one to its default. |
+| **Promotions** | Sales (1–90 % off items or whole categories) and showcases (items shown first, highlighted) with a start and an end (up to a month): scheduled, running, ended, called off. Players see them at once; purchases and gifts charge the sale's price. |
+| **Official tournaments** | The weekly cup's next and the staff's tournaments (knockouts of 4 to 32 seats or arenas): scheduled, open with their prize pool now, finished with champion and prizes. Schedule one with an entry fee, a prize from the house, the champion's share and an item for the champion. |
+| **Maintenance** | Plan a stop (time, expected length, a message): players get a countdown banner and lounge notices at 60, 30, 15, 5 and 1 minutes; at the time no new games start, games in progress finish, and the server restarts. Call it off before it starts. |
+| **Auctions** | Put a rare item up (start, end, least bid, least raise), follow the bids, call one off (the leader's coins go back). |
+| **Analytics** | Coins created and spent per day by source and by sink, coins in wallets over time and the economy's health; best and worst sellers (7 days, 30 days, all time, never sold); players by country (new this week, online now); players online by weekday and hour in a chosen time zone; VIP members (active, renewed, new, lapsed, by how they pay — administrators). |
+| **Exports** | CSV of players, games, purchases, the coin ledger or the daily numbers for a date range (administrators). |
+| **Calendar** | Everything scheduled in one place — events, tournaments, the weekly cup, promotions, maintenance, auctions and VIP's items of the month — to avoid clashes. |
+
+- **The house's cut** of entry fees leaves the economy (a coin sink); the
+  rest are the prizes (70 % to the champion and 20 % to the runner-up with
+  the usual 10 % cut, or the champion's share set on an official
+  tournament). The game shows the **current prize** of each tournament as
+  players join.
+- **Auctions**: a bid holds the coins; whoever is outbid gets them back at
+  once and a notice in their inbox; a bid in the last two minutes adds two
+  minutes; the winner gets the item for good and the coins are gone.
+- **Paid username changes**: after the three free ones, a change costs the
+  set price (0: no more changes).
+- **The daily bonus's streak**: day 1 brings the base, each day in a row the
+  step more, up to the set day; a day missed starts again.
+- **VIP's item of the month**: every member VIP during the month gets it on
+  signing in (or renewing) and keeps it after cancelling.

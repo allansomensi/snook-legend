@@ -58,9 +58,14 @@ struct Client {
 
 impl Client {
     async fn connect(url: &str) -> Client {
+        Client::connect_as(url, PROTOCOL_VERSION).await
+    }
+
+    /// A game of protocol `version`.
+    async fn connect_as(url: &str, version: u32) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
+        c.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
         c
     }
 
@@ -88,7 +93,12 @@ impl Client {
     }
 
     async fn register(url: &str, name: &str) -> (Client, String) {
-        let mut c = Client::connect(url).await;
+        Client::register_as(url, name, PROTOCOL_VERSION).await
+    }
+
+    /// [`Client::register`] from a game of protocol `version`.
+    async fn register_as(url: &str, name: &str, version: u32) -> (Client, String) {
+        let mut c = Client::connect_as(url, version).await;
         c.send(ClientMsg::Register {
             username: name.into(),
             password: PASSWORD.into(),
@@ -156,8 +166,20 @@ async fn start_match_under(
 async fn play_out(
     a: &mut Client,
     b: &mut Client,
+    game: EightBallGame,
+    sa: usize,
+) -> snook_legend_proto::MatchResult {
+    play_out_with(a, b, game, sa, false).await
+}
+
+/// [`play_out`]; `a_calls_nothing`: `a` is a game that can't call the 8
+/// (older than 0.12.0), and sends no call.
+async fn play_out_with(
+    a: &mut Client,
+    b: &mut Client,
     mut game: EightBallGame,
     sa: usize,
+    a_calls_nothing: bool,
 ) -> snook_legend_proto::MatchResult {
     let mut shots = 0;
     loop {
@@ -189,7 +211,10 @@ async fn play_out(
             game = local;
             continue;
         }
-        let decision = ai::decide(&game, Difficulty::Hard, shots);
+        let mut decision = ai::decide(&game, Difficulty::Hard, shots);
+        if a_calls_nothing && shooter_is_a {
+            decision.called_pocket = None;
+        }
         let turn = game.shots_taken();
         let msg = ClientMsg::Shoot {
             turn,
@@ -232,7 +257,14 @@ async fn play_out(
         if let Some(p) = decision.cue_ball {
             local.place_cue_ball(p);
         }
-        local.play_shot(&decision.shot, decision.called_pocket).unwrap();
+        let mut pending = local.prepare_shot(&decision.shot, decision.called_pocket).unwrap();
+        pending.simulation.run_to_rest();
+        // A game that can't call the 8: the 8 counts as called in the
+        // pocket it goes into.
+        if a_calls_nothing && shooter_is_a {
+            local.call_the_eight_where_it_went(&mut pending);
+        }
+        local.finish_shot(pending);
         assert_eq!(local, end, "deterministic physics");
         game = end;
         if game.game_over().is_some() {
@@ -461,20 +493,38 @@ async fn players_against_the_computer_show_it_and_can_be_invited() {
     alice.expect("welcome", |m| matches!(m, ServerMsg::Welcome { .. })).await;
     let (mut bob, _) = Client::register(&url, "bob").await;
     // Bob starts a game against the computer: Alice sees it in the lounge.
-    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false, focus: false }).await;
+    bob.send(ClientMsg::SetActivity {
+        vs_computer: true,
+        away: false,
+        focus: false,
+        pastime: Default::default(),
+    })
+    .await;
     let is_bob = |m: &ServerMsg, vs: bool| {
         matches!(m, ServerMsg::PlayerUpdated { player }
             if player.username == "bob" && player.vs_computer == vs)
     };
     alice.expect("bob vs the computer", |m| is_bob(m, true)).await;
     // He leaves the game alone for a while: away, then back.
-    bob.send(ClientMsg::SetActivity { vs_computer: true, away: true, focus: false }).await;
+    bob.send(ClientMsg::SetActivity {
+        vs_computer: true,
+        away: true,
+        focus: false,
+        pastime: Default::default(),
+    })
+    .await;
     alice
         .expect("bob away", |m| {
             matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && player.away)
         })
         .await;
-    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false, focus: false }).await;
+    bob.send(ClientMsg::SetActivity {
+        vs_computer: true,
+        away: false,
+        focus: false,
+        pastime: Default::default(),
+    })
+    .await;
     alice
         .expect("bob back", |m| {
             matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && !player.away)
@@ -513,7 +563,13 @@ async fn players_in_focus_mode_are_not_invited() {
     )
     .await;
     // Bob starts a game against the computer in focus mode.
-    bob.send(ClientMsg::SetActivity { vs_computer: true, away: false, focus: true }).await;
+    bob.send(ClientMsg::SetActivity {
+        vs_computer: true,
+        away: false,
+        focus: true,
+        pastime: Default::default(),
+    })
+    .await;
     alice
         .expect("bob focused", |m| {
             matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && player.focus)
@@ -540,7 +596,13 @@ async fn players_in_focus_mode_are_not_invited() {
     };
     assert!(reason.contains("focus mode"), "{reason}");
     // The game is over: Bob can be invited again.
-    bob.send(ClientMsg::SetActivity { vs_computer: false, away: false, focus: false }).await;
+    bob.send(ClientMsg::SetActivity {
+        vs_computer: false,
+        away: false,
+        focus: false,
+        pastime: Default::default(),
+    })
+    .await;
     alice
         .expect("bob free", |m| {
             matches!(m, ServerMsg::PlayerUpdated { player } if player.username == "bob" && !player.focus)
@@ -1659,7 +1721,8 @@ async fn username_changes() {
     // Only the case of the letters: still a change.
     assert_eq!(erin.rename("ERIN_2").await, 1);
     assert_eq!(erin.rename("Erin_Last").await, 0);
-    erin.rename_refused("Erin_More", "You can't change your username again.").await;
+    // The free ones used, another costs coins (see `settings::NAME_CHANGE_PRICE`).
+    erin.rename_refused("Erin_More", "Not enough coins.").await;
 
     // The session stays good, the old names are free and sign in to nothing.
     let mut c = Client::connect(&url).await;
@@ -2501,6 +2564,39 @@ async fn a_rated_official_game_counts_under_the_official_rules_only() {
     assert_eq!(game.rules(), Rules::Official);
 }
 
+/// A game older than 0.12.0 (protocol 24) can't call the 8 under the
+/// official rules: what it makes counts as called in the pocket it went
+/// into, and is recorded so (the game replays the same).
+#[tokio::test]
+async fn an_older_game_makes_the_eight_in_any_pocket() {
+    let url = start(Settings::default()).await;
+    let (mut alice, _) =
+        Client::register_as(&url, "alice", snook_legend_proto::OLDEST_PROTOCOL_VERSION).await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (game, sa, _) =
+        start_match_under(&mut alice, &mut bob, "bob", "alice", true, Rules::Official).await;
+    assert!(game.eight_call());
+    let result = play_out_with(&mut alice, &mut bob, game, sa, true).await;
+    alice.send(ClientMsg::Replays).await;
+    let ServerMsg::Replays { games, .. } =
+        alice.expect("replays", |m| matches!(m, ServerMsg::Replays { .. })).await
+    else {
+        unreachable!()
+    };
+    alice.send(ClientMsg::Replay { match_id: games[0].match_id }).await;
+    let ServerMsg::Replay { replay } =
+        alice.expect("replay", |m| matches!(m, ServerMsg::Replay { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(replay.replay.eight_call && !replay.replay.calls);
+    let (end, _) = replay.replay.play(None).unwrap();
+    assert_eq!(
+        end.game_over(),
+        Some(snook_legend_core::GameOver { winner: result.winner, reason: result.reason })
+    );
+}
+
 /// "Play now" pairs players who want the same rules; everyone sees who is
 /// looking for a game, and under which rules each player plays.
 #[tokio::test]
@@ -2752,4 +2848,172 @@ async fn leaving_during_a_shot_is_not_lost() {
         .expect("queued", |m| matches!(m, ServerMsg::Queue { .. } | ServerMsg::Error { .. }))
         .await;
     assert!(matches!(m, ServerMsg::Queue { .. }), "still at the table: {m:?}");
+}
+
+/// Back at the table after a dropped connection, a player gets what the
+/// opponent said meanwhile (it used to be lost).
+#[tokio::test]
+async fn what_was_said_while_away_is_not_lost() {
+    let url = start(Settings::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, bob_token) = Client::register(&url, "bob").await;
+    start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    drop(bob);
+    alice
+        .expect("lost", |m| matches!(m, ServerMsg::OpponentConnection { connected: false, .. }))
+        .await;
+    alice.send(ClientMsg::MatchChat { text: "are you there?".into() }).await;
+    alice.expect("said", |m| matches!(m, ServerMsg::MatchChat { .. })).await;
+    let mut bob = Client::connect(&url).await;
+    bob.send(ClientMsg::Resume { token: bob_token }).await;
+    bob.expect("back at the table", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    let ServerMsg::MatchChat { line } =
+        bob.expect("the line", |m| matches!(m, ServerMsg::MatchChat { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!((line.from.as_str(), line.text.as_str()), ("alice", "are you there?"));
+}
+
+/// Both players dropped: the first back is told the other is away (with
+/// the time left), not shown a table where the other seems to be.
+#[tokio::test]
+async fn back_first_sees_the_opponent_away() {
+    let url = start(Settings::default()).await;
+    let (mut alice, alice_token) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    drop(bob);
+    alice
+        .expect("lost", |m| matches!(m, ServerMsg::OpponentConnection { connected: false, .. }))
+        .await;
+    drop(alice);
+    tokio::time::sleep(Duration::from_millis(300)).await;
+    let mut alice = Client::connect(&url).await;
+    alice.send(ClientMsg::Resume { token: alice_token }).await;
+    alice.expect("back at the table", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    let ServerMsg::OpponentConnection { connected, grace_secs, .. } =
+        alice.expect("bob away", |m| matches!(m, ServerMsg::OpponentConnection { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(!connected);
+    assert!((1..=60).contains(&grace_secs), "{grace_secs}");
+}
+
+/// The shot clock of a player whose connection dropped waits for them (a
+/// moment's drop at their turn used to cost a foul), and they have a fair
+/// moment to shoot when back.
+#[tokio::test]
+async fn the_shot_clock_waits_for_a_dropped_player() {
+    let settings = Settings {
+        shot_clock: Duration::from_secs(1),
+        reconnect_grace: Duration::from_secs(30),
+        ..Settings::default()
+    };
+    let url = start(settings).await;
+    let (mut alice, alice_token) = Client::register(&url, "alice").await;
+    let (mut bob, bob_token) = Client::register(&url, "bob").await;
+    let (game, sa, _) = start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    let (shooter, shooter_token, mut other) = if game.current_player() == sa {
+        (alice, alice_token, bob)
+    } else {
+        (bob, bob_token, alice)
+    };
+    // The shooter's connection drops.
+    drop(shooter);
+    other
+        .expect("lost", |m| matches!(m, ServerMsg::OpponentConnection { connected: false, .. }))
+        .await;
+    // Past the first shot clock (the introduction's seconds and one).
+    tokio::time::sleep(Duration::from_millis(5000)).await;
+    let mut shooter = Client::connect(&url).await;
+    shooter.send(ClientMsg::Resume { token: shooter_token }).await;
+    let m = other
+        .expect("back", |m| {
+            matches!(
+                m,
+                ServerMsg::TimeFoul { .. } | ServerMsg::OpponentConnection { connected: true, .. }
+            )
+        })
+        .await;
+    let ServerMsg::OpponentConnection { clock_left: Some(left), .. } = m else {
+        panic!("the clock ran while they were away: {m:?}")
+    };
+    assert!(left > 0.5, "{left}");
+    let ServerMsg::MatchStarted { clock_left, game: back, .. } =
+        shooter.expect("the table", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(clock_left > 0.5, "{clock_left}");
+    assert_eq!(back.shots_taken(), 0, "nothing was played meanwhile");
+}
+
+/// While the friend being watched is reconnecting, their game can still be
+/// watched (a spectator who reconnects too asks again), and the friend back
+/// at the table is told who is watching (a new table showed nobody).
+#[tokio::test]
+async fn watching_goes_on_while_the_friend_reconnects() {
+    let url = start(Settings::default()).await;
+    let (mut alice, alice_token) = Client::register(&url, "alice").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (mut carol, _) = Client::register(&url, "carol").await;
+    carol.send(ClientMsg::FriendRequest { username: "alice".into() }).await;
+    alice.expect("request", |m| matches!(m, ServerMsg::FriendRequestReceived { .. })).await;
+    alice.send(ClientMsg::FriendAnswer { username: "carol".into(), accept: true }).await;
+    carol
+        .expect(
+            "friends",
+            |m| matches!(m, ServerMsg::Friends { friends, .. } if !friends.is_empty()),
+        )
+        .await;
+    start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    drop(alice);
+    bob.expect("lost", |m| matches!(m, ServerMsg::OpponentConnection { connected: false, .. }))
+        .await;
+    carol.send(ClientMsg::Spectate { username: "alice".into() }).await;
+    let m = carol
+        .expect("watching", |m| {
+            matches!(m, ServerMsg::MatchStarted { .. } | ServerMsg::Error { .. })
+        })
+        .await;
+    assert!(matches!(m, ServerMsg::MatchStarted { spectating: true, .. }), "{m:?}");
+    let mut alice = Client::connect(&url).await;
+    alice.send(ClientMsg::Resume { token: alice_token }).await;
+    alice.expect("back", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    alice.expect("watched", |m| matches!(m, ServerMsg::Spectators { count: 1 })).await;
+}
+
+/// The usual way a game reconnects: it signs in again before the server saw
+/// its old connection go. What was sent to that connection in its last
+/// moments (the opponent's line, a rematch asked for) comes again.
+#[tokio::test]
+async fn signing_in_again_brings_back_what_the_old_connection_missed() {
+    let url = start(Settings::default()).await;
+    let (mut alice, _) = Client::register(&url, "alice").await;
+    let (mut bob, bob_token) = Client::register(&url, "bob").await;
+    start_match(&mut alice, &mut bob, "bob", "alice", false).await;
+    alice.send(ClientMsg::MatchChat { text: "good luck".into() }).await;
+    alice.expect("said", |m| matches!(m, ServerMsg::MatchChat { .. })).await;
+    // (Bob's old connection got it; his game didn't.)
+    let mut bob2 = Client::connect(&url).await;
+    bob2.send(ClientMsg::Resume { token: bob_token.clone() }).await;
+    bob2.expect("back", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    let ServerMsg::MatchChat { line } =
+        bob2.expect("the line", |m| matches!(m, ServerMsg::MatchChat { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(line.text, "good luck");
+    // The game ends; a rematch asked for meanwhile reaches the next one.
+    drop(bob);
+    alice.send(ClientMsg::Resign).await;
+    bob2.expect("over", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    alice.send(ClientMsg::Rematch).await;
+    tokio::time::sleep(Duration::from_millis(200)).await;
+    let mut bob3 = Client::connect(&url).await;
+    bob3.send(ClientMsg::Resume { token: bob_token }).await;
+    bob3.expect("back", |m| matches!(m, ServerMsg::MatchStarted { .. })).await;
+    bob3.expect("the offer", |m| matches!(m, ServerMsg::RematchOffered)).await;
 }

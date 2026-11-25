@@ -9,12 +9,15 @@
 //! bit-identical on every machine.
 
 mod achievements;
+pub mod activity;
+pub mod advanced;
 pub mod analysis;
 pub mod collection;
 pub mod correspondence;
 mod countries;
 pub mod cup;
 pub mod daily;
+pub mod dm;
 pub mod drills;
 pub mod events;
 pub mod feats;
@@ -22,6 +25,7 @@ pub mod ghost;
 pub mod inbox;
 pub mod ladder;
 pub mod missions;
+pub mod ops;
 pub mod reactions;
 pub mod replay;
 pub mod shop;
@@ -150,6 +154,12 @@ pub const PROTOCOL_VERSION: u32 = 25;
 /// loses; it used to win): an older game would show other tables than the
 /// server's, so it is asked to update.
 pub const OLDEST_PROTOCOL_VERSION: u32 = 24;
+
+/// The first version whose games call the 8 under the official rules
+/// (0.12.0): an older game (0.11.x, version 24) plays the 8 in any pocket,
+/// and the server counts the 8 it makes as called in the pocket it goes
+/// into (see `EightBallGame::call_the_eight_where_it_went`).
+pub const EIGHT_CALL_PROTOCOL: u32 = 25;
 
 /// Username rules: 3–16 characters, letters, digits and underscores.
 pub fn valid_username(name: &str) -> bool {
@@ -463,6 +473,12 @@ pub const QUICK_CHAT: [&str; 14] = [
     "Rematch?",
     "I have to go, thanks for the game!",
 ];
+
+/// Whether `text` is one of the [`QUICK_CHAT`] phrases (an account set to
+/// the phrases only may send nothing else).
+pub fn is_quick_phrase(text: &str) -> bool {
+    QUICK_CHAT.contains(&text.trim())
+}
 
 /// Maximum length of a status message ("looking for a practice partner"),
 /// in characters.
@@ -895,6 +911,17 @@ pub struct TournamentInfo {
     /// Arena: Unix time the arena closes.
     #[serde(default)]
     pub ends_at: Option<i64>,
+    /// The coins to be won as they stand now: the entry fees less the
+    /// house's cut, and what the house adds (0: none).
+    #[serde(default, skip_serializing_if = "is_zero_u64")]
+    pub prize_pool: u64,
+    /// An item the champion wins too (shop code; empty: none).
+    #[serde(default, skip_serializing_if = "String::is_empty")]
+    pub item_prize: String,
+}
+
+fn is_zero_u64(n: &u64) -> bool {
+    *n == 0
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
@@ -1105,6 +1132,10 @@ pub struct FriendInfo {
     /// get this.
     #[serde(default)]
     pub last_seen: i64,
+    /// What they are doing, while online (kept up to date by
+    /// [`ServerMsg::FriendActivity`]).
+    #[serde(default)]
+    pub activity: activity::Activity,
 }
 
 /// A report goes with the game being played between the two players or,
@@ -1540,6 +1571,11 @@ pub enum ClientMsg {
     /// account that had no age group.
     AllowChat {
         allowed: bool,
+        /// With the chat on, the player may send only the quick phrases
+        /// ([`QUICK_CHAT`]); `None` leaves it as it is (games before 0.12
+        /// don't say).
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        phrases_only: Option<bool>,
     },
     /// Sets this player's status message (empty clears it).
     SetStatusMessage {
@@ -1560,6 +1596,10 @@ pub enum ClientMsg {
         /// (those waiting are withdrawn). Protocol 19 and later.
         #[serde(default)]
         focus: bool,
+        /// What exactly they play outside online games (their friends see
+        /// it). Protocol 25 and later.
+        #[serde(default, skip_serializing_if = "activity::Pastime::is_none")]
+        pastime: activity::Pastime,
     },
     /// The people this player played recently.
     RecentOpponents,
@@ -1638,8 +1678,59 @@ pub enum ClientMsg {
     /// Every item this player has, with how and when they got it (answered
     /// with [`ServerMsg::Collection`]).
     Collection,
+    /// The auctions open and coming (answered with [`ServerMsg::Auctions`]).
+    Auctions,
+    /// Bids `amount` coins on auction `id`: the coins are held until someone
+    /// bids more (then they come back) or the auction ends.
+    Bid {
+        id: i64,
+        amount: i64,
+    },
+    /// Shows (or hides) this player's name in the supporters' credits.
+    SetCredits {
+        show: bool,
+    },
+    /// The supporters' credits (answered with [`ServerMsg::Supporters`]).
+    Supporters,
     Ping,
+    /// The account's settings (JSON written by the game, at most
+    /// [`MAX_SETTINGS_BYTES`]): kept on the server so the game signed in on
+    /// another computer plays the same (answered with
+    /// [`ServerMsg::SettingsSaved`]).
+    SaveSettings {
+        data: String,
+    },
+    /// A direct message to a friend.
+    DmSend {
+        to: String,
+        text: String,
+    },
+    /// The conversation with a friend: its newest messages, or those before
+    /// the message numbered `before`.
+    DmHistory {
+        with: String,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        before: Option<i64>,
+    },
+    /// The player read the conversation with a friend.
+    DmRead {
+        with: String,
+    },
+    /// The list of conversations.
+    DmThreads,
+    /// A spectator's line in the spectators' chat (never shown to the
+    /// players).
+    SpectatorChat {
+        text: String,
+    },
+    /// This player's advanced statistics under `rules` (VIP).
+    AdvancedStats {
+        rules: Rules,
+    },
 }
+
+/// The longest settings an account keeps (see [`ClientMsg::SaveSettings`]).
+pub const MAX_SETTINGS_BYTES: usize = 8 * 1024;
 
 /// Why a match ended, from the server's point of view.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -1752,6 +1843,11 @@ pub enum ServerMsg {
         /// player's own): the host's, or the higher rated player's.
         #[serde(default)]
         table_look: [String; 2],
+        /// A rated game: the rating each seat wins if it wins and loses if
+        /// it loses (`[win, loss]`, the loss negative), as the server
+        /// reckons them when the game starts.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        stakes: Option<[[i32; 2]; 2]>,
     },
     OpponentAim {
         aim: AimState,
@@ -1904,6 +2000,10 @@ pub enum ServerMsg {
     OpponentConnection {
         connected: bool,
         grace_secs: u32,
+        /// Back at their turn: the shot clock, which waited for them, has
+        /// this many seconds left.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        clock_left: Option<f32>,
     },
     MatchEnded {
         result: MatchResult,
@@ -1965,6 +2065,10 @@ pub enum ServerMsg {
         minor: Option<bool>,
         /// Under 18, a parent or guardian turned the chat on.
         chat_allowed: bool,
+        /// The chat is on with the quick phrases only (see
+        /// [`ClientMsg::AllowChat`]).
+        #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+        phrases_only: bool,
     },
     /// The account page.
     Account {
@@ -1975,6 +2079,16 @@ pub enum ServerMsg {
         /// Username changes the player has left (see [`MAX_NAME_CHANGES`]).
         #[serde(default)]
         name_changes_left: u32,
+        /// What a change costs in coins once the free ones are used (0:
+        /// none can be bought).
+        #[serde(default)]
+        name_change_price: u32,
+        /// VIP now or before: may appear in the supporters' credits.
+        #[serde(default)]
+        supporter: bool,
+        /// Chose to appear in the supporters' credits.
+        #[serde(default)]
+        in_credits: bool,
     },
     /// The account was deleted: forget the saved session.
     AccountDeleted,
@@ -2186,7 +2300,81 @@ pub enum ServerMsg {
     Collection {
         items: Vec<collection::OwnedItem>,
     },
+    /// The shop's promotions running and coming (after signing in and
+    /// whenever one is made, changed, starts or ends). Empty: none.
+    Promotions {
+        list: Vec<ops::Promotion>,
+    },
+    /// The auctions open, coming and just over (when asked, and after
+    /// signing in when there are some).
+    Auctions {
+        list: Vec<ops::AuctionInfo>,
+    },
+    /// An auction changed (a bid, its end, the staff called it off).
+    AuctionUpdated {
+        auction: ops::AuctionInfo,
+    },
+    /// The server stops for maintenance at `at` (Unix seconds) for about
+    /// `minutes`; `message` is the staff's. `at` 0: none planned (any
+    /// earlier one was called off).
+    Maintenance {
+        at: i64,
+        minutes: u32,
+        #[serde(default)]
+        message: String,
+    },
+    /// The supporters who chose to appear in the credits, longest first.
+    Supporters {
+        list: Vec<ops::Supporter>,
+    },
+    /// Today's daily bonus: day `day` in a row brought `coins`; tomorrow
+    /// brings `tomorrow` (if the player comes back).
+    DailyStreak {
+        day: u32,
+        coins: u32,
+        tomorrow: u32,
+    },
     Pong,
+    /// The account's settings, as last saved from any computer (after
+    /// signing in; empty, at time 0, when it keeps none).
+    Settings {
+        data: String,
+        /// When they were saved (Unix seconds, the server's clock).
+        updated_at: i64,
+    },
+    /// The settings sent were kept, at this time.
+    SettingsSaved {
+        updated_at: i64,
+    },
+    /// A direct message to or from this player (the one they sent comes
+    /// back as kept).
+    Dm {
+        message: dm::DirectMessage,
+    },
+    /// Messages of a conversation, oldest first; `more`: older ones exist.
+    DmHistory {
+        with: String,
+        messages: Vec<dm::DirectMessage>,
+        #[serde(default)]
+        more: bool,
+    },
+    /// The conversations, newest first (after signing in, and when asked).
+    DmThreads {
+        threads: Vec<dm::DmThread>,
+    },
+    /// A friend's activity changed (see [`FriendInfo::activity`]).
+    FriendActivity {
+        username: String,
+        activity: activity::Activity,
+    },
+    /// A line of the spectators' chat (only spectators get it).
+    SpectatorChat {
+        line: ChatLine,
+    },
+    /// The answer to [`ClientMsg::AdvancedStats`].
+    AdvancedStats {
+        stats: Box<advanced::AdvancedStats>,
+    },
 }
 
 impl ClientMsg {
@@ -2472,8 +2660,32 @@ mod tests {
             tournament: None,
             spectating: false,
             table_look: Default::default(),
+            stakes: Some([[12, -8], [8, -12]]),
         };
         assert_eq!(parse_server(&msg.to_json()).unwrap(), msg);
+        // A game before 0.12 reads it (the stakes are skipped), and a
+        // casual game's message says nothing of them.
+        #[derive(Deserialize)]
+        #[serde(tag = "type", rename_all = "snake_case")]
+        #[allow(dead_code)]
+        enum Old {
+            MatchStarted { match_id: u64, seat: usize },
+        }
+        assert!(serde_json::from_str::<Old>(&msg.to_json()).is_ok());
+        let casual = ServerMsg::MatchStarted {
+            match_id: 7,
+            seat: 0,
+            players: [p("a"), p("b")],
+            rated: false,
+            game: EightBallGame::new(3, 0, snook_legend_core::Rules::Brazilian),
+            shot_clock_secs: 60,
+            clock_left: 60.0,
+            tournament: None,
+            spectating: false,
+            table_look: Default::default(),
+            stakes: None,
+        };
+        assert!(!casual.to_json().contains("stakes"));
         let c = ClientMsg::Shoot {
             turn: 3,
             shot: Shot::new(0.123456789, 3.3),

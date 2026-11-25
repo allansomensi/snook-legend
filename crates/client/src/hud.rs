@@ -11,7 +11,7 @@ use snook_legend_core::{BallInHand, Group, Rules};
 use crate::game::{Controller, Match, Phase};
 use crate::icons::Icon;
 use crate::keys::{self, Action};
-use crate::ui::{ADMIN_RED, ALERT, BORDER, CREAM, FeedKind, FeedLine, GOLD, MUTED, Ui};
+use crate::ui::{ALERT, BORDER, CREAM, FeedKind, FeedLine, GOLD, MUTED, Ui};
 use snook_legend_proto::Relation;
 
 pub struct Hud {
@@ -108,6 +108,24 @@ pub struct Hud {
     /// (None: no friends here, e.g. a local network). Offers "Add friend"
     /// after the game.
     pub opponent_relation: Option<Relation>,
+    /// Set by the caller: the opponent's chat and reactions are muted
+    /// ([chat, reactions]).
+    pub opponent_muted: [bool; 2],
+    /// The player muted or unmuted the opponent from the game: for the
+    /// caller to keep (remembered for the next games against them).
+    pub mute_request: Option<[bool; 2]>,
+    /// The mute menu is open (by the chat).
+    mute_open: bool,
+    /// Watching: the chat shows the spectators' own (else the game's).
+    spectator_tab: bool,
+    /// The chat kept to the quick phrases: their list in the field's place.
+    phrases_open: bool,
+    /// Watching: the camera chosen and the shot's numbers (see `observer`).
+    pub observer: crate::observer::Observer,
+    /// Set by the caller: watching uses the broadcast camera by default.
+    pub tv_default: bool,
+    /// The match's introduction is playing (the table's keys wait).
+    intro_on: bool,
 }
 
 /// What the player asked for through the HUD.
@@ -195,6 +213,14 @@ impl Default for Hud {
             report: None,
             rules: None,
             rules_from_badge: false,
+            opponent_muted: [false, false],
+            mute_request: None,
+            mute_open: false,
+            spectator_tab: true,
+            phrases_open: false,
+            observer: Default::default(),
+            tv_default: false,
+            intro_on: false,
         }
     }
 }
@@ -218,7 +244,7 @@ impl Hud {
     /// A menu or a dialog is over the table: the table's keys (aim, spin,
     /// power, the replay) wait, not only its pointer.
     pub fn modal_open(&self) -> bool {
-        self.paused || self.report.is_some() || self.rules.is_some()
+        self.paused || self.report.is_some() || self.rules.is_some() || self.intro_on
     }
 
     /// The controls are only listed from the menu: never on the table.
@@ -243,12 +269,14 @@ const HISTORY_LOG: u64 = 9_202;
 /// The status line in the top bar, from `x`, at most `width` wide: what is
 /// in brackets at its end ("… to shoot (stripes)") goes on a second, quieter
 /// line; a long line without them wraps onto two.
-/// The official rules: the button that declares a safety (no pocket
-/// called), at the right end of the top bar on the player's turn (the
-/// status beside it says which pocket is called). Its width, to keep the
-/// status clear of it (0 when not shown).
+/// The official rules in a game recorded with every shot called (until
+/// 0.11.1): the button that declares a safety (no pocket called), at the
+/// right end of the top bar on the player's turn (the status beside it
+/// says which pocket is called). Its width, to keep the status clear of it
+/// (0 when not shown). With only the 8 called there is none: a shot at the
+/// 8 that calls nothing could only lose with it.
 fn draw_call(ui: &mut Ui, m: &mut Match) -> f32 {
-    if !m.game.calls_shots() || !m.is_human_turn() || m.replay.is_some() {
+    if !m.game.calls_shots() || !m.game.calls() || !m.is_human_turn() || m.replay.is_some() {
         return 0.0;
     }
     let sw = crate::ui::vw();
@@ -386,6 +414,21 @@ fn status_line(m: &Match) -> Option<String> {
                     &[("name", name)],
                 ));
             }
+            // The official rules: a shot at the 8 calls its pocket. The one
+            // the player clicked is named; the one their aim calls never
+            // is (it would say where the aim sends the 8).
+            if m.game.calls_the_eight() {
+                return Some(match m.called_pocket.filter(|_| m.call_locked) {
+                    Some(pocket) => tw(
+                        "{name} is on the 8: called pocket {pocket}",
+                        &[("name", name), ("pocket", &crate::i18n::pocket(pocket))],
+                    ),
+                    None => tw(
+                        "{name} is on the 8 (your aim calls the pocket; click a pocket to call another)",
+                        &[("name", name)],
+                    ),
+                });
+            }
             // A drill: which try, and how many worked.
             if let Some(run) = &m.drill {
                 let d = run.drill();
@@ -442,7 +485,10 @@ impl Hud {
         let mut action = HudAction::None;
 
         let escape_used = std::mem::take(&mut m.escape_used);
-        if !ui.wants_keyboard {
+        // The match's introduction plays over everything: its keys skip it.
+        let intro_on = m.online.as_ref().is_some_and(|o| o.intro.is_some());
+        self.intro_on = intro_on;
+        if !ui.wants_keyboard && !intro_on {
             if self.report.is_some() || self.rules.is_some() {
                 // The dialog has Esc.
             } else if is_key_pressed(KeyCode::Escape) && self.reactions_open {
@@ -474,6 +520,8 @@ impl Hud {
             let keyboard = std::mem::replace(&mut ui.wants_keyboard, true);
             (ui.suspend_input(), keyboard)
         });
+        // Nothing under the introduction takes the pointer either.
+        let intro_input = intro_on.then(|| ui.suspend_input());
 
         if !ui.wants_keyboard && !self.modal_open() && keys::pressed(Action::Replay) {
             if m.replay.is_some() {
@@ -538,6 +586,10 @@ impl Hud {
         }
         self.draw_support(ui, m, &board);
         draw_reactions(m, [x0 + 34.0, x0 + total - 34.0], eye);
+        // Online: rated or casual, always in view (under the top bar, left).
+        if m.is_online() && m.replay.is_none() {
+            crate::table_social::rated_badge(ui, m, 12.0, TOP_BAR + 8.0);
+        }
         let mut y = TOP_BAR + 8.0;
         // Whose turn it is and what they are on: in the top bar, beside the
         // score panel. Nothing lies over the table (a line across the top
@@ -596,6 +648,8 @@ impl Hud {
 
         self.draw_turn_banner(ui, m);
         draw_video_bar(ui, m);
+        // The opponent lost their connection: the time they have left.
+        crate::table_social::reconnection(ui, m);
 
         // Cue panel (spin, elevation, fine aim) and the power stroke bar:
         // everything can be played with the mouse alone.
@@ -604,6 +658,8 @@ impl Hud {
                 action = HudAction::Lounge;
             }
             self.draw_shot_assessment(ui, m);
+            // The pro observer's numbers: the last shot, the balls left.
+            self.observer.draw_panel(ui, m, TOP_BAR + 8.0);
         } else {
             self.draw_bottom_bar(ui, m);
             // A correspondence game: its replay, or the turn sent.
@@ -699,15 +755,12 @@ impl Hud {
         // The elevation and spin panels open in the same corner: while one
         // is open, the chat (or history) steps aside.
         if self.popover.is_none() {
-            // Spectators have no chat, but an administrator watching gets
-            // the players' (only they are sent it): read only.
-            let players_chat = m
-                .online
-                .as_ref()
-                .is_some_and(|o| o.spectator && o.feed.iter().any(|f| f.kind == FeedKind::Player));
+            // Spectators have a chat of their own (the players never see
+            // it); an administrator watching also gets the players' (only
+            // they are sent it), read only.
             // A correspondence game has no one to chat with: its history.
             let corr = crate::correspondence::is_corr(m);
-            if m.is_online() && !corr && (!m.is_spectating() || players_chat) {
+            if m.is_online() && !corr {
                 self.draw_chat(ui, m);
             } else if !m.is_online() || corr {
                 self.draw_history(ui, m);
@@ -821,7 +874,9 @@ impl Hud {
             let me = o.seat;
             let won = over.winner == me && !o.spectator;
             let title = if won {
-                t("You win!").to_string()
+                // (The opponent left, or didn't come back in time.)
+                if m.won_by_abandonment() { t("Victory by abandonment") } else { t("You win!") }
+                    .to_string()
             } else {
                 tw("{name} wins", &[("name", &m.names[over.winner])])
             };
@@ -1090,6 +1145,16 @@ impl Hud {
 
         if replay_now {
             m.start_replay();
+        }
+        // The two players face each other as the match starts (skippable).
+        if let Some(saved) = intro_input {
+            ui.resume_input(saved);
+            if let Some(o) = m.online.as_mut()
+                && let Some(intro) = o.intro.as_mut()
+                && !intro.draw(ui, get_frame_time().min(0.1))
+            {
+                o.intro = None;
+            }
         }
         if let Some((saved, keyboard)) = modal {
             ui.resume_input(saved);
@@ -1427,7 +1492,9 @@ impl Hud {
             let button = Rect::new(12.0, sh - BOTTOM_BAR - 40.0, 40.0 + label_w + 12.0, 32.0);
             ui.block(button);
             let hover = ui.hovering(button);
-            let unread = o.unread > 0;
+            // (Watching: the spectators' lines count too.)
+            let count = o.unread + if o.spectator { o.spectator_unread } else { 0 };
+            let unread = count > 0;
             crate::ui::rrect(
                 button,
                 7.0,
@@ -1463,7 +1530,7 @@ impl Hud {
             if unread {
                 // The number of new lines, on the corner, with a soft glow
                 // that breathes while they wait.
-                let label = if o.unread > 9 { "9+".to_string() } else { o.unread.to_string() };
+                let label = if count > 9 { "9+".to_string() } else { count.to_string() };
                 let lw = ui.text_size(&label, 10.0, true).x;
                 let bw = (lw + 9.0).max(16.0);
                 let badge = Rect::new(button.x + button.w - bw * 0.6, button.y - 6.0, bw, 16.0);
@@ -1595,24 +1662,54 @@ impl Hud {
             ui.tooltip(t("Drag to make the chat taller or shorter"), grip);
         }
         let watching = o.spectator;
-        let title = if watching { t("Players' chat (administrator)") } else { t("Chat") };
+        // Watching: the spectators' own chat, and the game's (with the
+        // players' chat for an administrator), on two tabs.
+        let spectators = watching && self.spectator_tab;
+        if spectators {
+            o.spectator_unread = 0;
+        }
+        let players_chat = o.feed.iter().any(|f| f.kind == FeedKind::Player);
         let head_mid = r.y + 15.0;
-        let (title, title_size) = ui.fitted(title, 13.0, r.w - 120.0, true);
-        ui.text(
-            &title,
-            r.x + 10.0,
-            crate::ranking::text_y(head_mid, title_size),
-            title_size,
-            if watching { ADMIN_RED } else { GOLD },
-            true,
-        );
-        // The header's tools, right to left: hide, reactions, quick phrases.
+        if watching {
+            let game = if players_chat { t("Players (administrator)") } else { t("Game") };
+            let labels = [t("Spectators"), game];
+            let tabs = Rect::new(r.x + 6.0, head_mid - 12.0, (r.w - 80.0).min(300.0), 24.0);
+            if let Some(k) = ui.segmented(tabs, &labels, if spectators { 0 } else { 1 }) {
+                self.spectator_tab = k == 0;
+            }
+        } else {
+            // Muted: said in the title (nothing new comes).
+            let title = if self.opponent_muted[0] { t("Chat (muted)") } else { t("Chat") };
+            let (title, title_size) = ui.fitted(title, 13.0, r.w - 150.0, true);
+            ui.text(
+                &title,
+                r.x + 10.0,
+                crate::ranking::text_y(head_mid, title_size),
+                title_size,
+                if self.opponent_muted[0] { MUTED } else { GOLD },
+                true,
+            );
+        }
+        // The header's tools, right to left: hide, reactions, quick
+        // phrases, muting the opponent.
         let hide = Rect::new(r.x + r.w - 28.0, head_mid - 11.0, 22.0, 22.0);
         if ui.icon_button_ex(hide, Icon::Minus, t("Hide"), true, true) {
             self.chat_open = false;
         }
         let reactions = Rect::new(hide.x - 28.0, head_mid - 12.0, 24.0, 24.0);
         let quick = Rect::new(reactions.x - 28.0, head_mid - 12.0, 24.0, 24.0);
+        let mute = Rect::new(quick.x - 28.0, head_mid - 12.0, 24.0, 24.0);
+        if !watching {
+            let name = m.names[1 - o.seat.min(1)].clone();
+            let muted = self.opponent_muted;
+            if let Some(next) =
+                crate::table_social::mute_menu(ui, mute, &name, muted, &mut self.mute_open)
+            {
+                self.mute_request = Some(next);
+                self.opponent_muted = next;
+            }
+        }
+        let Some(o) = m.online.as_mut() else { return };
         crate::paint::draw_line(
             r.x + 8.0,
             r.y + 30.0,
@@ -1625,15 +1722,42 @@ impl Hud {
         // above it gives the room.
         // The field, and the emoji button at its right.
         let field_w = r.w - 12.0 - crate::emoji_tray::BUTTON - 4.0;
-        let field_h = ui.text_area_height(&self.chat_input, field_w, 4);
-        let input_h = if watching { 0.0 } else { field_h + 10.0 };
+        // The chat kept to the quick phrases: their picker, one line high.
+        let phrases = o.phrases_only && !watching;
+        let field_h =
+            if phrases { 34.0 } else { ui.text_area_height(&self.chat_input, field_w, 4) };
+        let input_h = if watching && !spectators { 0.0 } else { field_h + 10.0 };
         let log = Rect::new(r.x + 2.0, r.y + 32.0, r.w - 4.0, r.h - 32.0 - input_h);
         let me = m.names[o.seat].clone();
         let me = (!watching).then_some(me.as_str());
-        self.chat_scroll = ui.chat_log(CHAT_LOG, log, &o.feed, me, false, self.chat_scroll).0;
-        if watching {
+        let lines = if spectators { &o.spectator_chat } else { &o.feed };
+        if spectators && lines.is_empty() {
+            let text = t("Say something to the others watching (the players don't see it).");
+            let lines = ui.wrap(text, log.w - 24.0, 13.0);
+            for (k, line) in lines.iter().enumerate() {
+                let y = log.y + 12.0 + k as f32 * 18.0;
+                ui.text_centered(line, log.x + log.w / 2.0, y, 13.0, MUTED, false);
+            }
+        } else {
+            self.chat_scroll = ui.chat_log(CHAT_LOG, log, lines, me, false, self.chat_scroll).0;
+        }
+        if watching && !spectators {
             // (A spectator's reactions are in the bar below.)
             if !list_open && ui.pressed_outside(&[r, grip]) {
+                self.chat_open = false;
+            }
+            return;
+        }
+        if phrases {
+            let field = Rect::new(r.x + 6.0, r.y + r.h - 6.0 - field_h, r.w - 12.0, field_h);
+            if let Some(p) = crate::dm::phrase_picker(ui, field, &mut self.phrases_open) {
+                m.send_chat(p);
+                self.chat_scroll = 0;
+            }
+            self.reaction_button(ui, m, reactions, true);
+            let mut keep = vec![r, reactions, grip, mute];
+            keep.push(field);
+            if !list_open && !self.phrases_open && !self.mute_open && ui.pressed_outside(&keep) {
                 self.chat_open = false;
             }
             return;
@@ -1671,7 +1795,11 @@ impl Hud {
         crate::ui::chat_counter(ui, &self.chat_input, input);
         if sent {
             let text = std::mem::take(&mut self.chat_input);
-            m.send_chat(&text);
+            if spectators {
+                m.send_spectator_chat(&text);
+            } else {
+                m.send_chat(&text);
+            }
             self.chat_scroll = 0;
             self.emoji.reset();
             ui.focus = None;
@@ -1680,9 +1808,9 @@ impl Hud {
         self.quick_phrases(ui, m, quick);
         // A press anywhere else hides the chat (what was typed stays). The
         // press still reaches the table: a click on a ball hides it and aims.
-        let mut keep = vec![r, reactions, quick, grip];
+        let mut keep = vec![r, reactions, quick, grip, mute];
         keep.extend(picker);
-        if !list_open && ui.pressed_outside(&keep) {
+        if !list_open && !self.mute_open && ui.pressed_outside(&keep) {
             self.chat_open = false;
         }
     }
@@ -1701,7 +1829,8 @@ impl Hud {
         let me = o.seat;
         let won = over.winner == me && !o.spectator;
         let title = if won {
-            t("You win!").to_string()
+            if m.won_by_abandonment() { t("Victory by abandonment") } else { t("You win!") }
+                .to_string()
         } else {
             tw("{name} wins", &[("name", &m.names[over.winner])])
         };
@@ -2704,7 +2833,8 @@ fn turn_subtitle(m: &Match) -> String {
     if m.game.is_break() {
         return t("Break the rack").into();
     }
-    if m.game.needs_called_pocket() {
+    // (The official rules call the 8 on each shot at it.)
+    if m.game.needs_called_pocket() || m.game.calls_the_eight() {
         return match m.game.called_pocket_of(player) {
             Some(p) => tw("On the 8-ball: {pocket} pocket", &[("pocket", &crate::i18n::pocket(p))]),
             None => t("On the 8-ball: call a pocket").into(),
@@ -2743,6 +2873,15 @@ impl Hud {
             .max(ui.text_size(t("Your reactions reach the table quietly."), 12.0, false).x);
         self.reaction_button(ui, m, Rect::new(50.0 + text_w + 18.0, cy - 18.0, 36.0, 36.0), false);
         let w = ui.text_size(t("Stop watching"), 13.0, true).x + 32.0;
+        // The camera, as the spectator chooses it (between the reactions
+        // and the way out, when there is room).
+        let from = 50.0 + text_w + 18.0 + 36.0 + 18.0;
+        let room = sw - w - 14.0 - 18.0 - from;
+        if room >= 240.0 {
+            let cams = Rect::new(from, cy - 15.0, room.min(380.0), 30.0);
+            let tv = self.tv_default;
+            self.observer.draw_cameras(ui, cams, tv);
+        }
         ui.button(Rect::new(sw - w - 14.0, cy - 18.0, w, 36.0), t("Stop watching"), true)
     }
 

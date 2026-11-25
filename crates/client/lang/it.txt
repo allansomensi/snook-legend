@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} è sulla 8 e ha chiamato la buca {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} è sulla 8 (la tua mira chiama la buca; clicca una buca per chiamarne un'altra)
 On the 8-ball: {pocket} pocket	Sulla palla 8: buca {pocket}
 Show ping	Mostra ping
 Your connection's delay, in online games.	Il ritardo della tua connessione nelle partite online.
@@ -2018,14 +2019,14 @@ your call	chiamata da te
 {n} points to {tier} ({rules})	{n} punti per {tier} ({rules})
 {n} waiting	{n} in attesa
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Un fallo dà all'avversario palle del suo gruppo. La bianca è in mano solo alla spaccata, e si chiama solo la buca della 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Un fallo dà all'avversario la bianca in mano, ovunque sul tavolo. Non si chiama nulla e la spaccata deve mandare quattro palle in sponda.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Un fallo dà all'avversario la bianca in mano, ovunque sul tavolo. Si chiama solo la buca della 8, a ogni tiro su di lei, e la spaccata deve mandare quattro palle in sponda.
 A foul gives balls to the opponent	Il fallo dà palle all'avversario
 Ball in hand on the break only	Palla in mano solo alla spaccata
 Only the 8's pocket is called	Si chiama solo la buca della 8
 The most played in Brazil	Le più giocate in Brasile
 A foul gives ball in hand	Il fallo dà palla in mano
 The break drives four balls to a cushion	La spaccata manda quattro palle in sponda
-Any pocket counts	Vale qualsiasi buca
+Only the 8 is called, shot by shot	Si chiama solo la 8, tiro per tiro
 The same all over the world	Le stesse in tutto il mondo
 Game type	Tipo di partita
 called: {pocket}	chiamata: buca {pocket}
@@ -2272,3 +2273,133 @@ Win a rated game that lasted 60 shots or more.	Vinci una partita classificata du
 Ugly but it counts	Brutta, ma vale
 Win a rated game in which you fouled four times or more.	Vinci una partita classificata in cui hai commesso quattro falli o più.
 This item can't be given: it stays with whoever won it.	Questo oggetto non si può regalare: resta a chi l'ha vinto.
+Current prize: {n} coins	Premio attuale: {n} monete
+Champion wins: {item}	Il campione vince: {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Giorno {d} di fila: +{n} monete. Domani: +{m}.
+Auctions ({n})	Aste ({n})
+Auctions	Aste
+Supporters	Sostenitori
+Maintenance in {t}: the server stops for about {m} min.	Manutenzione tra {t}: il server si ferma per circa {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Manutenzione: il server si sta fermando. Le partite in corso continuano.
+Your coins: {n}	Le tue monete: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Oggetti rari per l'offerta più alta. La tua offerta resta bloccata; se qualcuno offre di più, le monete tornano subito. Un'offerta negli ultimi due minuti ne aggiunge due.
+No auctions right now. Come back soon!	Nessuna asta ora. Torna presto!
+Current bid: {n} coins	Offerta attuale: {n} monete
+No bids yet · from {n} coins	Ancora nessuna offerta · da {n} monete
+Ended without bids	Finita senza offerte
+You won it!	L'hai vinta!
+Won by {name}	Vinta da {name}
+Opens in {t}	Apre tra {t}
+You lead · ends in {t}	Sei in testa · finisce tra {t}
+Ends in {t}	Finisce tra {t}
+{name} leads · ends in {t}	{name} è in testa · finisce tra {t}
+Yours already	Già tuo
+Raise	Rilancia
+Bid	Offri
+Your bid (at least {n}):	La tua offerta (almeno {n}):
+Place bid	Conferma offerta
+Thank you to the VIP members who keep the game going, now and before.	Grazie ai membri VIP che tengono vivo il gioco, ora e prima.
+Nobody in the credits yet.	Ancora nessuno nei crediti.
+since {d} · {n} months	dal {d} · {n} mesi
+Show my name in the supporters' credits	Mostra il mio nome nei crediti dei sostenitori
+{title}: ends in {t}	{title}: finisce tra {t}
+An item of the month, yours to keep even if you cancel	Un oggetto del mese, tuo per sempre anche se disdici
+If VIP ends, you keep	Se il VIP finisce, tieni
+If VIP ends, you lose	Se il VIP finisce, perdi
+The items of the month you got	Gli oggetti del mese ricevuti
+Everything you bought, and your coins	Tutto ciò che hai comprato, e le tue monete
+Your ratings, trophies and achievements	I tuoi punteggi, trofei e obiettivi
+VIP's cloths, cues and frames (back when you return)	Panni, stecche e cornici VIP (tornano quando torni)
+The monthly coins and the next months' items	Le monete mensili e gli oggetti dei prossimi mesi
+The crown, and replays beyond your last 10 games	La corona, e i replay oltre le tue ultime 10 partite
+Your free changes are used: another costs {n} coins.	I cambi gratuiti sono finiti: un altro costa {n} monete.
+Bid at least {n} coins.	Offri almeno {n} monete.
+The server stops for maintenance in {n} min.	Il server si ferma per manutenzione tra {n} min.
+This auction is not open.	Quest'asta non è aperta.
+The credits are for VIP members, now or before.	I crediti sono per i membri VIP, attuali o passati.
+The server stops for maintenance now. Games in progress go on.	Il server si ferma ora per manutenzione. Le partite in corso continuano.
+Play online: your games are added up here as they end.	Gioca online: le tue partite si sommano qui quando finiscono.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Scopri come imbuchi buca per buca e per angolo di taglio, come progredisci settimana dopo settimana e come ti confronti con i giocatori della tua lega.
+Advanced statistics	Statistiche avanzate
+Become VIP	Diventa VIP
+By pocket	Per buca
+By cut angle	Per angolo di taglio
+The white mark: your league.	Il segno bianco: la tua lega.
+Week by week	Settimana per settimana
+Against your league	Rispetto alla tua lega
+{tier}: {n} players	{tier}: {n} giocatori
+You	Tu
+League	Lega
+{pocket}: {n} points above	{pocket}: {n} punti sopra
+{pocket}: {n} points below	{pocket}: {n} punti sotto
+Messages with {name}	Messaggi con {name}
+No messages with {name} yet. Say hello!	Ancora nessun messaggio con {name}. Saluta!
+Write a message… (Enter to send)	Scrivi un messaggio… (Invio per inviare)
+You can write to your friends only.	Puoi scrivere solo ai tuoi amici.
+Choose a quick phrase…	Scegli una frase rapida…
+Looking for a game ({rules})	Cerca una partita ({rules})
+At a table, waiting ({rules})	A un tavolo, in attesa ({rules})
+Playing a tournament game against {name}	Gioca una partita di torneo contro {name}
+Playing against {name}	Gioca contro {name}
+Watching {name}'s game	Guarda la partita di {name}
+In {name}	In {name}
+Playing the computer	Gioca contro il computer
+Practising	Si allena
+In the daily challenge	Nella sfida del giorno
+Doing drills	Fa esercizi
+On the tour	Nel tour
+Away	Assente
+Victory by abandonment	Vittoria per abbandono
+Players (administrator)	Giocatori (amministratore)
+Spectators	Spettatori
+Chat (muted)	Chat (silenziata)
+Say something to the others watching (the players don't see it).	Di' qualcosa agli altri spettatori (i giocatori non lo vedono).
+Rated game	Partita classificata
+Casual game	Partita amichevole
+Click to skip	Clicca per saltare
+Guest	Ospite
+Win	Vittoria
+Loss	Sconfitta
+{n} rating points at stake	{n} punti di rating in palio
+No rating at stake	Nessun rating in palio
+Hide the shot's numbers	Nascondi i numeri del colpo
+Show the shot's numbers	Mostra i numeri del colpo
+Last shot	Ultimo colpo
+No shot yet.	Ancora nessun colpo.
+Balls left	Bilie rimaste
+Right side	Effetto a destra
+Left side	Effetto a sinistra
+Centre ball	Bilia al centro
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Solo le frasi rapide (niente testo libero)
+Messages	Messaggi
+World	Mondo
+Friends ranking	Classifica degli amici
+You and your friends · rated games	Tu e i tuoi amici · partite classificate
+Add friends to see where you stand among them.	Aggiungi amici per vedere la tua posizione tra loro.
+Chat and reactions	Chat e reazioni
+Mute the opponent's chat	Silenzia la chat dell'avversario
+Their messages in online games are not shown (yours still reach them).	I suoi messaggi nelle partite online non vengono mostrati (i tuoi gli arrivano comunque).
+Hide the opponent's reactions	Nascondi le reazioni dell'avversario
+The reactions they send at the table are not shown.	Le reazioni che invia al tavolo non vengono mostrate.
+Players muted from a game: {n}	Giocatori silenziati in una partita: {n}
+Unmute them all	Riattivali tutti
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Questa partita conta per il rating: +{win} se vinci, {loss} se perdi.
+This game counts for the rating.	Questa partita conta per il rating.
+A casual game: the rating doesn't change.	Partita amichevole: il rating non cambia.
+{name} lost the connection	{name} ha perso la connessione
+If they don't come back in time, you win by abandonment.	Se non torna in tempo, vinci per abbandono.
+Mute {name}	Silenzia {name}
+Mute {name}'s chat	Silenzia la chat di {name}
+Hide {name}'s reactions	Nascondi le reazioni di {name}
+Remembered for your next games against them.	Ricordato per le tue prossime partite contro di lui.
+Broadcast	Diretta
+3D	3D
+You can only send messages to your friends.	Puoi inviare messaggi solo ai tuoi amici.
+You can't send messages to this player.	Non puoi inviare messaggi a questo giocatore.
+Your chat is set to the quick phrases only.	La tua chat è limitata alle frasi rapide.
+These settings can't be kept.	Queste impostazioni non possono essere salvate.
+You aren't watching a game.	Non stai guardando nessuna partita.

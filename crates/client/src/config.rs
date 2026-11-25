@@ -234,11 +234,69 @@ pub struct Config {
     /// computer, two players); `None` until they choose, which the game
     /// asks once (see [`Config::rules`]).
     pub rules: Option<Rules>,
+    /// The opponent's chat is never shown (in every online game).
+    pub mute_chat: bool,
+    /// The opponent's reactions are never shown (in every online game).
+    pub hide_reactions: bool,
+    /// Opponents whose chat, and whose reactions, this player muted from a
+    /// game (lower-case names): their next games start muted too.
+    pub muted_chat: Vec<String>,
+    pub muted_reactions: Vec<String>,
+    /// The account's settings (see `sync.rs`): which account they were last
+    /// in step with, and the server's time of that step (0: never).
+    pub settings_account: String,
+    pub settings_synced_at: i64,
+    /// When a setting that follows the account was last changed here and
+    /// not sent yet (Unix seconds; 0: none waiting).
+    pub settings_changed_at: i64,
     /// Reactions sent during matches are shown (off: no one's are).
     pub show_reactions: bool,
     /// VIP: the colour of the aim line and the ghost ball (a code of
     /// `perks::AIM_COLORS`; white for everyone else).
     pub aim_color: String,
+}
+
+/// Muted players kept at most (the oldest go first).
+pub const MAX_MUTED: usize = 200;
+
+/// A list of names from the settings file ("ana,bob"): valid names only,
+/// lower case, at most [`MAX_MUTED`].
+fn names(v: &str) -> Vec<String> {
+    let mut list: Vec<String> = v
+        .split(',')
+        .map(|n| n.trim().to_lowercase())
+        .filter(|n| snook_legend_proto::valid_username(n))
+        .collect();
+    list.dedup();
+    let extra = list.len().saturating_sub(MAX_MUTED);
+    list.drain(..extra);
+    list
+}
+
+impl Config {
+    /// Whether `name`'s chat (`chat`) or reactions are muted, by the
+    /// general setting or for them.
+    pub fn muted(&self, name: &str, chat: bool) -> bool {
+        let (all, list) = if chat {
+            (self.mute_chat, &self.muted_chat)
+        } else {
+            (self.hide_reactions, &self.muted_reactions)
+        };
+        all || list.iter().any(|n| n.eq_ignore_ascii_case(name))
+    }
+
+    /// Mutes (or unmutes) `name`'s chat (`chat`) or reactions, in this game
+    /// and the next ones against them.
+    pub fn set_muted(&mut self, name: &str, chat: bool, on: bool) {
+        let list = if chat { &mut self.muted_chat } else { &mut self.muted_reactions };
+        let k = name.to_lowercase();
+        list.retain(|n| *n != k);
+        if on {
+            list.push(k);
+            let extra = list.len().saturating_sub(MAX_MUTED);
+            list.drain(..extra);
+        }
+    }
 }
 
 impl Default for Config {
@@ -302,6 +360,13 @@ impl Default for Config {
             rules: None,
             show_reactions: true,
             aim_color: "white".into(),
+            mute_chat: false,
+            hide_reactions: false,
+            muted_chat: Vec::new(),
+            muted_reactions: Vec::new(),
+            settings_account: String::new(),
+            settings_synced_at: 0,
+            settings_changed_at: 0,
         }
     }
 }
@@ -491,6 +556,13 @@ impl Config {
                 "rules" => c.rules = Rules::parse(v),
                 "show_reactions" => c.show_reactions = v != "false",
                 "aim_color" => c.aim_color = v.chars().take(16).collect(),
+                "mute_chat" => c.mute_chat = v == "true",
+                "hide_reactions" => c.hide_reactions = v == "true",
+                "muted_chat" => c.muted_chat = names(v),
+                "muted_reactions" => c.muted_reactions = names(v),
+                "settings_account" => c.settings_account = v.chars().take(16).collect(),
+                "settings_synced_at" => c.settings_synced_at = v.parse().unwrap_or(0),
+                "settings_changed_at" => c.settings_changed_at = v.parse().unwrap_or(0),
                 _ => {}
             }
         }
@@ -503,7 +575,8 @@ impl Config {
             "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nhead_string = {}\ncoached = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nshadows = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\ntoken_server = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
-             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nfocus_mode = {}\nauto_update = {}\nlast_version = {}\nnext_breaker = {}\nrules = {}\ninterface_sounds = {}\nchat_height = {:.0}\n{}",
+             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nfocus_mode = {}\nauto_update = {}\nlast_version = {}\nnext_breaker = {}\nrules = {}\ninterface_sounds = {}\nchat_height = {:.0}\n\
+             mute_chat = {}\nhide_reactions = {}\nmuted_chat = {}\nmuted_reactions = {}\nsettings_account = {}\nsettings_synced_at = {}\nsettings_changed_at = {}\n{}",
             self.player_name,
             self.second_player_name,
             self.guide.name(),
@@ -555,6 +628,13 @@ impl Config {
             self.rules.map_or("", Rules::code),
             self.interface_sounds,
             self.chat_height,
+            self.mute_chat,
+            self.hide_reactions,
+            self.muted_chat.join(","),
+            self.muted_reactions.join(","),
+            self.settings_account,
+            self.settings_synced_at,
+            self.settings_changed_at,
             self.keys.to_text()
         );
         text.push_str(&format!(
@@ -696,6 +776,26 @@ mod tests {
         let chosen = Config { rules: Some(Rules::Official), ..Config::default() };
         assert_eq!(Config::parse(&chosen.to_text()), chosen);
         assert_eq!(Config::parse("rules = snooker").rules, None);
+    }
+
+    /// Muted players, by the general settings or one by one, are kept.
+    #[test]
+    fn mutes_are_kept() {
+        let mut c = Config { hide_reactions: true, ..Config::default() };
+        c.set_muted("Ana", true, true);
+        c.set_muted("bob", false, true);
+        c.set_muted("bob", false, false);
+        assert!(c.muted("ANA", true) && !c.muted("ana", false) == !c.hide_reactions);
+        assert!(!c.muted("bob", true));
+        assert!(c.muted("bob", false), "every opponent's reactions are hidden");
+        let back = Config::parse(&c.to_text());
+        assert_eq!(back, c);
+        assert_eq!(back.muted_chat, ["ana"]);
+        // Nonsense names are dropped.
+        assert_eq!(
+            Config::parse("muted_chat = ana, b, no way,ZÉ,carl_2").muted_chat,
+            ["ana", "carl_2"]
+        );
     }
 
     #[test]

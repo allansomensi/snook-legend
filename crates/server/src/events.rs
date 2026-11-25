@@ -98,6 +98,8 @@ pub async fn reload(server: &Server) {
             house_prize: e.prize,
             starts_at: e.starts_at,
             ends_at: e.ends_at,
+            champion_share: e.champion_share,
+            item_prize: e.item_prize.clone(),
         })
         .collect();
     // Called off lately (a running tournament of theirs loses the house's

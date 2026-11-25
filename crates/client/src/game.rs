@@ -524,6 +524,32 @@ pub struct OnlineMatch {
     next_clock: f32,
     /// A correspondence game (a turn at a time; see [`crate::correspondence`]).
     pub corr: Option<crate::correspondence::CorrTable>,
+    /// A rated game: what each seat wins if it wins and loses if it loses
+    /// (`[win, loss]`), as the server reckoned them.
+    pub stakes: Option<[[i32; 2]; 2]>,
+    /// The match's introduction, while it plays (see [`crate::intro`]).
+    pub intro: Option<crate::intro::Intro>,
+    /// This player may send only the quick phrases (a parent's or
+    /// guardian's choice): the chat shows only their picker.
+    pub phrases_only: bool,
+    /// Watching: the spectators' own chat (the players never see it), and
+    /// its lines not looked at.
+    pub spectator_chat: Vec<FeedLine>,
+    pub spectator_unread: usize,
+    /// The opponent's connection dropped: since when, and how long they
+    /// have to come back (seconds).
+    pub opponent_away: Option<(std::time::Instant, u32)>,
+    /// The chat lines received lately (writer, text, time): one the server
+    /// sends again after a reconnection isn't shown twice.
+    pub heard: std::collections::VecDeque<(String, String, i64)>,
+}
+
+impl OnlineMatch {
+    /// Seconds the opponent who dropped has left to come back.
+    pub fn away_left(&self) -> Option<u32> {
+        let (since, grace) = self.opponent_away?;
+        Some(grace.saturating_sub(since.elapsed().as_secs() as u32))
+    }
 }
 
 /// A sound-worthy collision during playback.
@@ -1006,6 +1032,13 @@ impl Match {
                 last_cue: None,
                 next_clock: clock_left,
                 corr: None,
+                stakes: None,
+                intro: None,
+                phrases_only: false,
+                spectator_chat: Vec::new(),
+                spectator_unread: 0,
+                opponent_away: None,
+                heard: Default::default(),
             }),
             clock: None,
             last_shot: None,
@@ -1053,6 +1086,7 @@ impl Match {
         let wins = self.wins;
         let games = self.games_played;
         let feed = self.online.as_ref().map(|o| o.feed.clone()).unwrap_or_default();
+        let heard = self.online.as_ref().map(|o| o.heard.clone()).unwrap_or_default();
         // What was said or asked while reconnecting still goes out (the same
         // game only: a rematch's table starts afresh).
         let outbox =
@@ -1091,6 +1125,7 @@ impl Match {
         self.guide = guide;
         if let Some(o) = self.online.as_mut() {
             o.feed = feed;
+            o.heard = heard;
             if same_game {
                 o.outbox.splice(0..0, outbox);
             }
@@ -1434,8 +1469,9 @@ impl Match {
         }
         self.aim = Aim { yaw: self.game.default_aim(), ..Aim::default() };
         // The Brazilian rules: a pocket called for the 8 in an earlier visit
-        // still stands. The official rules: every shot is called afresh
-        // (from the aim, until the player picks a pocket or a safety).
+        // still stands. The official rules: a shot at the 8 (in a game
+        // recorded until 0.11.1, every shot) is called afresh (from the
+        // aim, until the player picks a pocket or a safety).
         self.called_pocket = self.game.called_pocket_of(self.game.current_player());
         self.call_locked = false;
         // Ball in hand never locks the turn: the cue ball can be dragged at
@@ -1899,7 +1935,8 @@ impl Match {
     }
 
     /// The official rules: while the player hasn't chosen the call, it is
-    /// the pocket their aim sends the object ball to (none: a safety).
+    /// the pocket their aim sends the object ball (the 8) to (none: a
+    /// safety, and the 8 made then loses). Never shown.
     fn follow_call(&mut self) {
         if self.call_locked || !self.game.calls_shots() || !self.is_human_turn() {
             return;
@@ -1956,9 +1993,10 @@ impl Match {
             let ready = turn.result.lock().unwrap_or_else(|e| e.into_inner()).take();
             match ready {
                 Some(decision) => {
-                    if let (Some(pocket), true) =
-                        (decision.called_pocket, self.game.may_call_pocket())
-                    {
+                    // (The official rules: its call of the 8 for this shot,
+                    // as a player says it before shooting.)
+                    let calls = self.game.may_call_pocket() || self.game.calls_the_eight();
+                    if let (Some(pocket), true) = (decision.called_pocket, calls) {
                         let name = self.names[self.game.current_player()].clone();
                         let text = tw(
                             "{name} calls the 8-ball in the {pocket} pocket.",
@@ -2660,9 +2698,14 @@ impl Match {
                     );
                     self.announce(text, true, 5.0);
                 }
+                // The opponent's call of the 8 (the Brazilian rules: the
+                // first; the official ones: each shot's), told as the shot
+                // is played.
                 if let Some(pocket) = called_pocket
                     && self.online.as_ref().is_some_and(|o| o.seat != seat)
-                    && self.game.called_pocket_of(seat).is_none()
+                    && ((self.game.needs_called_pocket()
+                        && self.game.called_pocket_of(seat).is_none())
+                        || self.game.calls_the_eight())
                 {
                     let text = tw(
                         "{name} calls the 8-ball in the {pocket} pocket.",
@@ -2822,12 +2865,15 @@ impl Match {
                     false,
                 );
             }
-            ServerMsg::OpponentConnection { connected, grace_secs } => {
+            ServerMsg::OpponentConnection { connected, grace_secs, clock_left } => {
                 o.opponent_connected = connected;
+                // The countdown in the middle of the table.
+                o.opponent_away = (!connected).then(|| (std::time::Instant::now(), grace_secs));
                 if connected {
                     // (Both back after the server restarted: its wait is
-                    // over and the shot clock starts afresh.)
-                    o.clock_left = o.clock_left.min(o.shot_clock);
+                    // over and the shot clock starts afresh.) Back at their
+                    // turn, the clock that waited for them goes on.
+                    o.clock_left = clock_left.unwrap_or(o.clock_left).min(o.shot_clock);
                     self.notify(tw("{opponent} is back.", &[("opponent", &opponent)]), false);
                 } else {
                     self.notify(
@@ -2840,6 +2886,17 @@ impl Match {
                 }
             }
             ServerMsg::MatchChat { line } => {
+                // A line sent again after reconnecting, shown already.
+                let key = (line.from.to_lowercase(), line.text.clone(), line.at);
+                if line.at > 0 && o.heard.contains(&key) {
+                    return;
+                }
+                if line.at > 0 {
+                    o.heard.push_back(key);
+                    if o.heard.len() > 60 {
+                        o.heard.pop_front();
+                    }
+                }
                 let mine = line.from.eq_ignore_ascii_case(&self.names[o.seat]);
                 // Shown already, the moment it was sent.
                 if mine && o.confirm_echo(&line.text) {
@@ -2868,6 +2925,13 @@ impl Match {
                     }
                     o.reactions.push((seat.min(SPECTATOR_SEAT), r.code, 0.0));
                 }
+            }
+            ServerMsg::SpectatorChat { line } if o.spectator => {
+                o.spectator_chat.push(FeedLine::chat(&line));
+                if o.spectator_chat.len() > 150 {
+                    o.spectator_chat.remove(0);
+                }
+                o.spectator_unread += 1;
             }
             ServerMsg::Spectators { count } => o.spectators = count,
             ServerMsg::Support { counts } => o.support = counts,
@@ -2922,6 +2986,26 @@ impl Match {
 
     pub fn is_spectating(&self) -> bool {
         self.online.as_ref().is_some_and(|o| o.spectator)
+    }
+
+    /// Watching: a line in the spectators' chat (the server sends it back
+    /// with the others' lines).
+    pub fn send_spectator_chat(&mut self, text: &str) {
+        let text = snook_legend_proto::clean_chat(text);
+        if let Some(o) = self.online.as_mut()
+            && o.spectator
+            && !text.is_empty()
+        {
+            o.outbox.push(ClientMsg::SpectatorChat { text });
+        }
+    }
+
+    /// Won because the opponent left (or ran out of time to come back).
+    pub fn won_by_abandonment(&self) -> bool {
+        let Some(o) = self.online.as_ref().filter(|o| !o.spectator) else { return false };
+        self.game
+            .game_over()
+            .is_some_and(|over| over.winner == o.seat && over.reason == GameOverReason::Abandoned)
     }
 
     /// Sends a chat line to the opponent.

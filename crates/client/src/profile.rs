@@ -20,6 +20,8 @@ pub enum ProfileAction {
     Ghost(String),
     /// Sign out (one's own profile), to sign in to another account.
     SignOut,
+    /// The shop's VIP page (from the advanced statistics' preview).
+    ShopVip,
 }
 
 /// What the right-hand side of the profile shows.
@@ -40,6 +42,8 @@ enum Pane {
     Journey,
     /// Presents received and given (own profile).
     Gifts,
+    /// The advanced statistics (own profile; VIP, a preview otherwise).
+    Advanced,
 }
 
 #[derive(Default)]
@@ -72,6 +76,8 @@ pub struct ProfileScreen {
     trail: Vec<String>,
     /// A profile to open next (a name clicked this frame).
     follow: Option<String>,
+    /// The advanced statistics were asked for, under these rules.
+    advanced_asked: Option<Rules>,
 }
 
 /// The account dialog: username, recovery e-mail, password, deletion.
@@ -440,11 +446,14 @@ impl ProfileScreen {
         // The panel fits its content: the header, then the achievements and
         // reactions (the recent games scroll in the same height). Until the
         // profile comes, just room for the wait.
-        let wide = matches!(self.pane, Pane::Analysis | Pane::Achievements | Pane::Journey);
+        let wide = matches!(
+            self.pane,
+            Pane::Analysis | Pane::Achievements | Pane::Journey | Pane::Advanced
+        );
         // Tall enough for what the pane shows (every medal, for one).
         let body_h = TABS_H
             + match self.pane {
-                Pane::Analysis => ANALYSIS_H,
+                Pane::Analysis | Pane::Advanced => ANALYSIS_H,
                 Pane::Achievements => left_height(w - 2.0 * PAD),
                 _ => BODY_H - TABS_H,
             }
@@ -535,7 +544,8 @@ impl ProfileScreen {
         panes.push((Pane::Journey, t("Leagues and levels")));
         if own {
             panes.push((Pane::Gifts, t("Gifts")));
-        } else if self.pane == Pane::Gifts {
+            panes.push((Pane::Advanced, t("Advanced")));
+        } else if matches!(self.pane, Pane::Gifts | Pane::Advanced) {
             self.pane = Pane::Games;
         }
         let labels: Vec<&str> = panes.iter().map(|(_, l)| *l).collect();
@@ -544,6 +554,11 @@ impl ProfileScreen {
         let selected = panes.iter().position(|(pane, _)| *pane == self.pane).unwrap_or(0);
         if let Some(k) = crate::tabrow::segmented(ui, seg, &labels, selected) {
             self.pane = panes[k].0;
+            // (Asked again each time the pane opens: the numbers move.)
+            if self.pane == Pane::Advanced {
+                self.advanced_asked = None;
+                online.advanced = None;
+            }
             if self.pane == Pane::Gifts {
                 online.request_gifts();
             }
@@ -568,6 +583,21 @@ impl ProfileScreen {
                 &mut self.heat,
             ),
             Pane::Gifts => online.draw_gift_history(ui, content, &mut self.gifts_first),
+            Pane::Advanced => {
+                // Asked for the rules shown (again when they change).
+                let rules = self.rules;
+                if online.advanced.as_ref().is_none_or(|a| a.rules != rules)
+                    && self.advanced_asked != Some(rules)
+                {
+                    self.advanced_asked = Some(rules);
+                    online.send(ClientMsg::AdvancedStats { rules });
+                }
+                let stats = online.advanced.as_deref().filter(|a| a.rules == rules);
+                let area = Rect::new(body.x, content.y, body.w, content.h);
+                if crate::advanced::draw(ui, stats, area) {
+                    action = ProfileAction::ShopVip;
+                }
+            }
             Pane::Achievements => self.achievements(ui, &p, under),
             Pane::Journey => journey(ui, online, &p, self.rules, under),
         }
@@ -1556,7 +1586,10 @@ impl ProfileScreen {
         // The height follows the text (it wraps differently per language):
         // the title, the four sections as laid out below, and Close.
         let lines = (email_note.len() + delete_note.len()) as f32 * 17.0;
-        let h = 70.0 + 144.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines;
+        // A supporter (VIP now or before) chooses to be in the credits.
+        let supporter = online.account.as_ref().is_some_and(|a| a.supporter);
+        let credits_h = if supporter { 34.0 } else { 0.0 };
+        let h = 70.0 + 144.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines + credits_h;
         // Taller than the window (a large interface size): the dialog
         // scrolls with the wheel, so every control stays in reach.
         let room = sh - 20.0;
@@ -1593,7 +1626,15 @@ impl ProfileScreen {
         ui.text(t("Username"), x, y, 15.0, GOLD, true);
         y += 24.0;
         let left = online.account.as_ref().map(|a| a.name_changes_left);
+        // Once the free changes are used, another costs coins (if the
+        // server sells them).
+        let price = online.account.as_ref().map_or(0, |a| a.name_change_price);
+        let can_change = left.is_some_and(|n| n > 0 || price > 0);
         let note = match left {
+            Some(0) if price > 0 => tw(
+                "Your free changes are used: another costs {n} coins.",
+                &[("n", &crate::online::ops::thousands(price as i64))],
+            ),
             Some(0) => t("You can't change your username again.").to_string(),
             Some(n) => tw(
                 "{n} of {total} name changes left",
@@ -1614,7 +1655,7 @@ impl ProfileScreen {
         let both = [t("Change"), t("Click again to confirm")];
         let bw = both.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max) + 32.0;
         let field = Rect::new(x, y, fw - bw - 10.0, 34.0);
-        if left.is_some_and(|n| n > 0) {
+        if can_change {
             if ui.focus == Some(75) {
                 focused = Some((75, y));
             }
@@ -1623,9 +1664,7 @@ impl ProfileScreen {
                 ui.text(t("New username"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
             }
         }
-        let ok = left.is_some_and(|n| n > 0)
-            && snook_legend_proto::valid_username(&wanted)
-            && wanted != current;
+        let ok = can_change && snook_legend_proto::valid_username(&wanted) && wanted != current;
         if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), label, ok) {
             if form.confirm_rename.is_some() {
                 online.send(ClientMsg::ChangeUsername { username: wanted.clone() });
@@ -1638,6 +1677,16 @@ impl ProfileScreen {
             }
         }
         y += 34.0 + 12.0;
+        if supporter {
+            let mut show = online.account.as_ref().is_some_and(|a| a.in_credits);
+            if ui.checkbox(x, y, t("Show my name in the supporters' credits"), &mut show) {
+                online.send(ClientMsg::SetCredits { show });
+                if let Some(a) = online.account.as_mut() {
+                    a.in_credits = show;
+                }
+            }
+            y += credits_h;
+        }
         draw_line(x, y, x + fw, y, 1.0, BORDER);
         y += 13.0;
         // Recovery e-mail.

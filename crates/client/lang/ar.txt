@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} على الكرة 8: الجيب المعلن {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} على الكرة 8 (تصويبك يعلن الجيب؛ انقر على جيب لإعلان جيب آخر)
 On the 8-ball: {pocket} pocket	على الكرة 8: الجيب {pocket}
 Show ping	إظهار البينغ
 Your connection's delay, in online games.	تأخر اتصالك في المباريات عبر الإنترنت.
@@ -2018,14 +2019,14 @@ your call	إعلانك
 {n} points to {tier} ({rules})	{n} نقطة للوصول إلى {tier} ({rules})
 {n} waiting	{n} في الانتظار
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	الخطأ يمنح الخصم كرات من مجموعته. الكرة البيضاء في اليد في الافتتاحية فقط، ولا يعلن إلا جيب الكرة 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	الخطأ يمنح الخصم الكرة البيضاء في اليد، في أي مكان على الطاولة. لا يُعلن أي جيب، ويجب أن توصل الافتتاحية أربع كرات إلى الحواف.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	الخطأ يمنح الخصم الكرة البيضاء في اليد، في أي مكان على الطاولة. لا يُعلن إلا جيب الكرة 8، في كل ضربة عليها، ويجب أن توصل الافتتاحية أربع كرات إلى الحواف.
 A foul gives balls to the opponent	الخطأ يمنح الخصم كرات
 Ball in hand on the break only	الكرة في اليد في الافتتاحية فقط
 Only the 8's pocket is called	لا يعلن إلا جيب الكرة 8
 The most played in Brazil	الأكثر لعبا في البرازيل
 A foul gives ball in hand	الخطأ يمنح الكرة في اليد
 The break drives four balls to a cushion	الافتتاحية توصل أربع كرات إلى الحواف
-Any pocket counts	أي جيب يُحتسب
+Only the 8 is called, shot by shot	لا تُعلن إلا الكرة 8، ضربة بضربة
 The same all over the world	هي نفسها في كل العالم
 Game type	نوع المباراة
 called: {pocket}	المعلن: {pocket}
@@ -2272,3 +2273,133 @@ Win a rated game that lasted 60 shots or more.	فز في مباراة مصنفة
 Ugly but it counts	قبيح لكنه يُحسب
 Win a rated game in which you fouled four times or more.	فز في مباراة مصنفة ارتكبت فيها أربعة أخطاء أو أكثر.
 This item can't be given: it stays with whoever won it.	لا يمكن إهداء هذا العنصر: يبقى مع من ربحه.
+Current prize: {n} coins	الجائزة الحالية: {n} عملة
+Champion wins: {item}	يفوز البطل بـ: {item}
+{h} h {m} min	{h} س {m} د
+{m} min	{m} د
+{s} s	{s} ث
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	اليوم {d} على التوالي: +{n} عملة. غدًا: +{m}.
+Auctions ({n})	المزادات ({n})
+Auctions	المزادات
+Supporters	الداعمون
+Maintenance in {t}: the server stops for about {m} min.	صيانة بعد {t}: سيتوقف الخادم نحو {m} د.
+Maintenance: the server is stopping. Games in progress go on.	صيانة: الخادم يتوقف. المباريات الجارية تستمر.
+Your coins: {n}	عملاتك: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	عناصر نادرة لأعلى مزايدة. تُحجز مزايدتك؛ وإن زايد أحد بأكثر تعود عملاتك فورًا. المزايدة في آخر دقيقتين تضيف دقيقتين.
+No auctions right now. Come back soon!	لا مزادات الآن. عُد قريبًا!
+Current bid: {n} coins	المزايدة الحالية: {n} عملة
+No bids yet · from {n} coins	لا مزايدات بعد · من {n} عملة
+Ended without bids	انتهى دون مزايدات
+You won it!	لقد فزت به!
+Won by {name}	فاز به {name}
+Opens in {t}	يفتح بعد {t}
+You lead · ends in {t}	أنت في الصدارة · ينتهي بعد {t}
+Ends in {t}	ينتهي بعد {t}
+{name} leads · ends in {t}	{name} في الصدارة · ينتهي بعد {t}
+Yours already	لديك بالفعل
+Raise	ارفع
+Bid	زايد
+Your bid (at least {n}):	مزايدتك (على الأقل {n}):
+Place bid	قدّم المزايدة
+Thank you to the VIP members who keep the game going, now and before.	شكرًا لأعضاء VIP الذين يبقون اللعبة حية، الآن ومن قبل.
+Nobody in the credits yet.	لا أحد في قائمة الشكر بعد.
+since {d} · {n} months	منذ {d} · {n} أشهر
+Show my name in the supporters' credits	أظهر اسمي في قائمة شكر الداعمين
+{title}: ends in {t}	{title}: ينتهي بعد {t}
+An item of the month, yours to keep even if you cancel	عنصر الشهر، لك إلى الأبد حتى لو ألغيت
+If VIP ends, you keep	إن انتهى VIP تحتفظ بـ
+If VIP ends, you lose	إن انتهى VIP تفقد
+The items of the month you got	عناصر الشهر التي حصلت عليها
+Everything you bought, and your coins	كل ما اشتريته، وعملاتك
+Your ratings, trophies and achievements	تصنيفاتك وجوائزك وإنجازاتك
+VIP's cloths, cues and frames (back when you return)	أقمشة وعصي وإطارات VIP (تعود حين تعود)
+The monthly coins and the next months' items	العملات الشهرية وعناصر الأشهر القادمة
+The crown, and replays beyond your last 10 games	التاج، والإعادات بعد آخر 10 مباريات لك
+Your free changes are used: another costs {n} coins.	انتهت تغييراتك المجانية: تغيير آخر يكلف {n} عملة.
+Bid at least {n} coins.	زايد بـ {n} عملة على الأقل.
+The server stops for maintenance in {n} min.	سيتوقف الخادم للصيانة بعد {n} د.
+This auction is not open.	هذا المزاد غير مفتوح.
+The credits are for VIP members, now or before.	قائمة الشكر لأعضاء VIP، الحاليين أو السابقين.
+The server stops for maintenance now. Games in progress go on.	الخادم يتوقف للصيانة الآن. المباريات الجارية تستمر.
+Play online: your games are added up here as they end.	العب عبر الإنترنت: تُجمع مبارياتك هنا عند انتهائها.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	شاهد كيف تُسقط الكرات جيبًا جيبًا وحسب زاوية القطع، وكيف تتقدّم أسبوعًا بعد أسبوع، وكيف تقارن بلاعبي دوريّك.
+Advanced statistics	إحصاءات متقدّمة
+Become VIP	اشترك في VIP
+By pocket	حسب الجيب
+By cut angle	حسب زاوية القطع
+The white mark: your league.	العلامة البيضاء: دوريّك.
+Week by week	أسبوعًا بعد أسبوع
+Against your league	مقارنة بدوريّك
+{tier}: {n} players	{tier}: {n} لاعب
+You	أنت
+League	الدوري
+{pocket}: {n} points above	{pocket}: أعلى بـ {n} نقطة
+{pocket}: {n} points below	{pocket}: أدنى بـ {n} نقطة
+Messages with {name}	الرسائل مع {name}
+No messages with {name} yet. Say hello!	لا رسائل مع {name} بعد. ألقِ التحية!
+Write a message… (Enter to send)	اكتب رسالة… (Enter للإرسال)
+You can write to your friends only.	يمكنك الكتابة لأصدقائك فقط.
+Choose a quick phrase…	اختر عبارة سريعة…
+Looking for a game ({rules})	يبحث عن مباراة ({rules})
+At a table, waiting ({rules})	على طاولة، ينتظر ({rules})
+Playing a tournament game against {name}	يلعب مباراة بطولة ضد {name}
+Playing against {name}	يلعب ضد {name}
+Watching {name}'s game	يشاهد مباراة {name}
+In {name}	في {name}
+Playing the computer	يلعب ضد الحاسوب
+Practising	يتدرّب
+In the daily challenge	في تحدّي اليوم
+Doing drills	يقوم بالتمارين
+On the tour	في الجولة
+Away	غائب
+Victory by abandonment	فوز بالانسحاب
+Players (administrator)	اللاعبون (مشرف)
+Spectators	المشاهدون
+Chat (muted)	الدردشة (مكتومة)
+Say something to the others watching (the players don't see it).	قل شيئًا للمشاهدين الآخرين (اللاعبون لا يرونه).
+Rated game	مباراة مصنّفة
+Casual game	مباراة ودية
+Click to skip	انقر للتخطّي
+Guest	ضيف
+Win	فوز
+Loss	خسارة
+{n} rating points at stake	{n} نقطة تصنيف على المحك
+No rating at stake	لا تصنيف على المحك
+Hide the shot's numbers	إخفاء أرقام الضربة
+Show the shot's numbers	إظهار أرقام الضربة
+Last shot	آخر ضربة
+No shot yet.	لا ضربات بعد.
+Balls left	الكرات المتبقية
+Right side	دوران يمين
+Left side	دوران يسار
+Centre ball	منتصف الكرة
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	العبارات السريعة فقط (دون نص حر)
+Messages	الرسائل
+World	العالم
+Friends ranking	تصنيف الأصدقاء
+You and your friends · rated games	أنت وأصدقاؤك · مباريات مصنّفة
+Add friends to see where you stand among them.	أضف أصدقاء لترى ترتيبك بينهم.
+Chat and reactions	الدردشة وردود الفعل
+Mute the opponent's chat	كتم دردشة الخصم
+Their messages in online games are not shown (yours still reach them).	لا تظهر رسائله في المباريات عبر الإنترنت (رسائلك تصله كالمعتاد).
+Hide the opponent's reactions	إخفاء ردود فعل الخصم
+The reactions they send at the table are not shown.	لا تظهر ردود الفعل التي يرسلها على الطاولة.
+Players muted from a game: {n}	لاعبون مكتومون من مباراة: {n}
+Unmute them all	إلغاء الكتم عن الجميع
+This game counts for the rating: +{win} if you win, {loss} if you lose.	هذه المباراة تُحتسب في التصنيف: +{win} إن فزت، و{loss} إن خسرت.
+This game counts for the rating.	هذه المباراة تُحتسب في التصنيف.
+A casual game: the rating doesn't change.	مباراة ودية: لا يتغيّر التصنيف.
+{name} lost the connection	فقد {name} الاتصال
+If they don't come back in time, you win by abandonment.	إن لم يعد في الوقت المحدّد، تفوز بالانسحاب.
+Mute {name}	كتم {name}
+Mute {name}'s chat	كتم دردشة {name}
+Hide {name}'s reactions	إخفاء ردود فعل {name}
+Remembered for your next games against them.	يُحفظ لمبارياتك القادمة ضده.
+Broadcast	بث
+3D	3D
+You can only send messages to your friends.	يمكنك إرسال الرسائل لأصدقائك فقط.
+You can't send messages to this player.	لا يمكنك إرسال رسائل إلى هذا اللاعب.
+Your chat is set to the quick phrases only.	دردشتك مقتصرة على العبارات السريعة.
+These settings can't be kept.	لا يمكن حفظ هذه الإعدادات.
+You aren't watching a game.	أنت لا تشاهد أي مباراة.

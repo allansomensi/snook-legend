@@ -524,7 +524,17 @@ fn achievement_of(code: &str) -> Option<(&'static str, &'static str)> {
 
 /// The line under an item's name: what it costs, or how it is had. Too few
 /// coins shows in red, with how many are missing.
-fn status_line(ui: &Ui, item: &Item, usable: bool, coins: Option<i64>, x: f32, mid: f32, w: f32) {
+#[allow(clippy::too_many_arguments)]
+fn status_line(
+    ui: &Ui,
+    item: &Item,
+    usable: bool,
+    coins: Option<i64>,
+    x: f32,
+    mid: f32,
+    w: f32,
+    percent: u32,
+) {
     let small = |icon: Icon, color: Color, text: &str, text_color: Color| {
         crate::icons::draw(icon, vec2(x + 7.0, mid), 14.0, color);
         let (text, size) = ui.fitted(text, 13.0, w - 20.0, false);
@@ -544,9 +554,24 @@ fn status_line(ui: &Ui, item: &Item, usable: bool, coins: Option<i64>, x: f32, m
         Price::Earned => small(Icon::Lock, MUTED, t("Only won"), MUTED),
         Price::Pack => small(Icon::Gift, MUTED, t("welcome pack"), MUTED),
         Price::Coins(n) => {
-            let short = coins.map(|c| n as i64 - c).filter(|s| *s > 0);
+            // On sale: the old price struck through, the new one, "-30%".
+            let price = snook_legend_proto::ops::discounted(n, percent);
+            let short = coins.map(|c| price as i64 - c).filter(|s| *s > 0);
             let color = if short.is_some() { ALERT } else { CREAM };
-            let used = coin_amount(ui, n as i64, x, mid, 14.0, color);
+            let mut used = coin_amount(ui, price as i64, x, mid, 14.0, color);
+            if percent > 0 {
+                let old = n.to_string();
+                let ow = ui.text_size(&old, 12.0, false).x;
+                let ox = x + used + 6.0;
+                ui.text(&old, ox, text_y(mid, 12.0), 12.0, MUTED, false);
+                draw_line(ox - 1.0, mid, ox + ow + 1.0, mid, 1.0, MUTED);
+                let badge = format!("-{percent}%");
+                let bw = ui.text_size(&badge, 11.0, true).x + 10.0;
+                let b = Rect::new(ox + ow + 6.0, mid - 9.0, bw, 18.0);
+                rrect(b, 9.0, ALERT);
+                ui.text(&badge, b.x + 5.0, text_y(mid, 11.0), 11.0, CREAM, true);
+                used += ow + bw + 18.0;
+            }
             if let Some(s) = short {
                 let note = tw("{n} short", &[("n", &s)]);
                 let (note, size) = ui.fitted(&note, 12.0, w - used - 10.0, false);
@@ -790,6 +815,13 @@ impl ShopScreen {
             }
             y += pitch;
         }
+        // The auctions of rare items (a page of their own, over the shop).
+        if signed_in && !online.lan {
+            let tr = Rect::new(side.x, y, side.w, row_h);
+            if side_tab(ui, tr, t("Auctions"), SideNote::Icon(Icon::Hourglass), false) && !modal {
+                online.open_auctions();
+            }
+        }
         let bx = side.x + side.w + 20.0;
         let mut body = Rect::new(bx, top, r.x + r.w - PAD - bx, r.y + r.h - PAD + 4.0 - top);
         if !signed_in {
@@ -890,10 +922,15 @@ impl ShopScreen {
         area: Rect,
         modal: bool,
     ) -> Option<ShopAction> {
-        let items: Vec<&'static Item> =
+        let mut items: Vec<&'static Item> =
             ITEMS.iter().filter(|i| i.category == category && listed(i, online)).collect();
+        // What a promotion features comes first (the order otherwise kept).
+        items.sort_by_key(|i| !online.ops.featured(i));
         let mut area = area;
         let mut action = None;
+        // The sales running, over the items.
+        let used = crate::online::ops::promotion_banner(ui, online, area);
+        area = Rect::new(area.x, area.y + used, area.w, area.h - used);
         if category == Category::Hall && self.dark_stage {
             // The dark stage hides the hall: say so, with the way out.
             let note = Rect::new(area.x, area.y, area.w, 44.0);
@@ -987,9 +1024,17 @@ impl ShopScreen {
             );
             let usable = signed_in && online.can_use(item) || item.price == Price::Free;
             let equipped = signed_in && in_use == item.code;
-            // In the colour of its rarity, its name in a corner.
+            let featured = online.ops.featured(item);
+            // In the colour of its rarity, its name in a corner (a star on
+            // those featured in a sale).
             let rarity = snook_legend_proto::shop::rarity(item);
             crate::collection::rarity_card(ui, c, rarity, equipped, get_time() as f32);
+            if featured && !equipped {
+                rrect_lines(c, 10.0, 1.5, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.6));
+            }
+            if featured {
+                crate::icons::draw(Icon::Star, vec2(c.x + 16.0, c.y + 16.0), 14.0, GOLD);
+            }
             let inner = c.w - 24.0;
             let top = if rarity > snook_legend_proto::shop::Rarity::Common { 30.0 } else { 12.0 };
             let pic = Rect::new(c.x + 12.0, c.y + top, inner, (c.h - 108.0 - top).max(40.0));
@@ -1020,7 +1065,8 @@ impl ShopScreen {
             let size = ui.fit(15.0, t(item.name), inner).max(12.0);
             let (name, size) = ui.fitted(t(item.name), size, inner, true);
             ui.text(&name, c.x + 12.0, name_y, size, CREAM, true);
-            status_line(ui, item, usable, coins, c.x + 12.0, name_y + 29.0, inner);
+            let percent = online.ops.discount(item);
+            status_line(ui, item, usable, coins, c.x + 12.0, name_y + 29.0, inner, percent);
             // The actions, along the bottom: the main one, then try it on
             // the table and give it to a friend.
             let b = Rect::new(c.x + 12.0, c.y + c.h - 46.0, inner, 34.0);
@@ -1064,11 +1110,12 @@ impl ShopScreen {
                 }
             } else {
                 match item.price {
-                    Price::Coins(n) => {
+                    Price::Coins(_) => {
                         // Too few coins: a quiet button (the price above is
                         // in red); it still opens the dialog that says how
                         // many are missing. Signed out, or the coins not
                         // known yet: nothing to press.
+                        let n = online.ops.price(item).unwrap_or(0);
                         let kind = match coins {
                             None => Kind::Disabled,
                             Some(c) if c >= n as i64 => Kind::Primary,
@@ -1126,7 +1173,8 @@ impl ShopScreen {
     fn confirm_dialog(&mut self, ui: &mut Ui, online: &mut Online) -> Option<ShopAction> {
         let confirm = self.confirm.clone()?;
         let item = snook_legend_proto::shop::item(confirm.code)?;
-        let price = item.coins().unwrap_or(0) as i64;
+        // The price now (a sale's, if one is running).
+        let price = online.ops.price(item).unwrap_or(0) as i64;
         let coins = online.wallet.as_ref().map(|w| w.coins).unwrap_or(0);
         let after = coins - price;
         let gift = confirm.gift_to.is_some();
@@ -1348,7 +1396,8 @@ impl ShopScreen {
         let x = r.x + 16.0;
         let w = b.x - 12.0 - x;
         ui.text(t("Price"), x, r.y + 12.0, 11.0, MUTED, false);
-        status_line(ui, item, usable, coins, x, r.y + r.h - 22.0, w);
+        let percent = online.ops.discount(item);
+        status_line(ui, item, usable, coins, x, r.y + r.h - 22.0, w, percent);
         action
     }
 
@@ -1738,6 +1787,7 @@ impl ShopScreen {
                 "{n} reactions of your own to send during games",
                 &[("n", &snook_legend_proto::REACTIONS.iter().filter(|r| r.is_vip()).count())],
             ),
+            t("An item of the month, yours to keep even if you cancel").to_string(),
             t("Every replay kept (free players keep their last 10 games)").to_string(),
             t("16-player tournaments, and first place on the waiting list of a full one")
                 .to_string(),
@@ -1828,6 +1878,56 @@ impl ShopScreen {
                 self.gift_pick = Some(VIP_GIFT);
                 self.gift_first = 0;
                 online.send(ClientMsg::Friends);
+            }
+            y += 52.0;
+        }
+        vip_terms(ui, Rect::new(area.x, y, area.w, area.y + area.h - y));
+    }
+}
+
+/// What a member keeps and what they lose if VIP ends, said plainly beside
+/// the button that manages it.
+fn vip_terms(ui: &Ui, area: Rect) {
+    let keeps = [
+        t("The items of the month you got"),
+        t("Everything you bought, and your coins"),
+        t("Your ratings, trophies and achievements"),
+    ];
+    let loses = [
+        t("VIP's cloths, cues and frames (back when you return)"),
+        t("The monthly coins and the next months' items"),
+        t("The crown, and replays beyond your last 10 games"),
+    ];
+    let col_w = (area.w - 16.0) / 2.0;
+    let size = 13.0;
+    let lines = |list: &[&str]| -> Vec<Vec<String>> {
+        list.iter().map(|l| ui.wrap(l, col_w - 22.0, size)).collect()
+    };
+    let (k, l) = (lines(&keeps), lines(&loses));
+    let rows = |w: &Vec<Vec<String>>| w.iter().map(|x| x.len()).sum::<usize>() as f32 * 17.0;
+    let h = 26.0 + rows(&k).max(rows(&l)) + 8.0;
+    if area.h < h {
+        return;
+    }
+    let card = Rect::new(area.x, area.y, area.w, h);
+    rrect(card, 8.0, Color::new(1.0, 1.0, 1.0, 0.03));
+    rrect_lines(card, 8.0, 1.0, BORDER);
+    for (col, (title, list, icon, color)) in [
+        (t("If VIP ends, you keep"), &k, Icon::Check, GOOD),
+        (t("If VIP ends, you lose"), &l, Icon::Close, ALERT),
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        let x = card.x + 10.0 + col as f32 * (col_w + 8.0);
+        let mut y = card.y + 8.0;
+        ui.text(title, x, y, 13.0, GOLD, true);
+        y += 20.0;
+        for item in list.iter() {
+            crate::icons::draw(icon, vec2(x + 6.0, y + 7.0), 11.0, color);
+            for line in item {
+                ui.text(line, x + 18.0, y, size, CREAM, false);
+                y += 17.0;
             }
         }
     }

@@ -10,7 +10,7 @@
 Das 8-Ball der internationalen Turniere, wie die World Pool-Billiard Association es spielt. Snook Legend hat auch die brasilianischen Regeln: Wähle die Regeln deiner Partien im Hauptmenü. Wenn du nach brasilianischen Regeln spielst, lies unten den Anstoß, die Ansagen und die Fouls, denn sie unterscheiden sich stark.
 
 ### Das Ziel
-Jeder Spieler hat eine Gruppe aus sieben Kugeln: Volle (1 bis 7) oder Halbe (9 bis 15). Versenke alle deine Kugeln und danach die 8, bevor dein Gegner es schafft.
+Jeder Spieler hat eine Gruppe aus sieben Kugeln: Volle (1 bis 7) oder Halbe (9 bis 15). Versenke alle deine Kugeln und danach die 8 in der angesagten Tasche, bevor dein Gegner es schafft.
 
 ### Dein Zug
 Du bleibst am Tisch, solange du bei einem Stoß ohne Foul eine Kugel deiner Gruppe versenkst, in irgendeiner Tasche. Sonst ist der Gegner am Zug, und die gefallenen Kugeln bleiben drin.
@@ -37,8 +37,8 @@ Es ist ein Foul, und die Kugel bleibt draußen (nur die 8 kommt zurück). Dein G
 ### Offener Tisch
 Solange die Gruppen nicht feststehen, ist der Tisch offen: Du darfst jede Kugel zuerst treffen, außer der 8. Die Gruppe der ersten Kugel, die du versenkst, wird deine. Ist eine Gruppe schon ganz vom Tisch, darfst du auf die 8 spielen.
 
-### Keine Ansage
-Im Turnier wird jeder Stoß angesagt; hier wird nichts angesagt. Eine Kugel deiner Gruppe (oder die 8, wenn du auf sie spielst), die bei einem Stoß ohne Foul in irgendeiner Tasche fällt, hält dich am Tisch, auch über eine Bande oder eine andere Kugel.
+### Die 8 ansagen
+Im Turnier wird jeder Stoß angesagt; hier wird nur die 8 angesagt. Eine Kugel deiner Gruppe, die bei einem Stoß ohne Foul in irgendeiner Tasche fällt, hält dich am Tisch, auch über eine Bande oder eine andere Kugel. Spielst du auf die 8, sagst du ihre Tasche an: Sie folgt deinem Zielen und sagt die Tasche an, auf die die 8 zuläuft, ohne sie zu zeigen. Um eine andere anzusagen (etwa für einen Bandenstoß), klick sie an: Sie leuchtet auf. Ein weiterer Klick geht zurück zu deinem Zielen.
 
 ### Safety
 Um dem Gegner den Tisch zu überlassen, spiel einen Stoß, der keine deiner Kugeln versenkt: Der Gegner ist am Zug, und was gefallen ist, bleibt drin. Fällt trotzdem eine Kugel deiner Gruppe, bleibst du am Tisch.
@@ -60,7 +60,7 @@ Hat die Partie eine Shot Clock und läuft sie ab, ist es ein Foul: Dein Gegner h
 ## Die 8
 
 ### Gewinnen
-Ist deine Gruppe vom Tisch, versenke die 8, in irgendeiner Tasche, bei einem Stoß ohne Foul.
+Ist deine Gruppe vom Tisch, versenke die 8 in der angesagten Tasche, bei einem Stoß ohne Foul.
 
 ### Verlieren mit der 8
-Du verlierst, wenn du die 8 bei einem Foul versenkst oder bevor deine Gruppe vom Tisch ist, und wenn du die 8 vom Tisch spielst. Nichts davon gilt beim Anstoß.
+Du verlierst, wenn du die 8 bei einem Foul versenkst, bevor deine Gruppe vom Tisch ist oder in einer nicht angesagten Tasche, und wenn du die 8 vom Tisch spielst. Nichts davon gilt beim Anstoß.

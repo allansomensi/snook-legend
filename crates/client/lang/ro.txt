@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} e la bila 8: a anunțat {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} e la bila 8 (țintirea anunță buzunarul; dă clic pe un buzunar ca să anunți altul)
 On the 8-ball: {pocket} pocket	La bila 8: {pocket}
 Show ping	Afișează pingul
 Your connection's delay, in online games.	Întârzierea conexiunii tale în partidele online.
@@ -2018,14 +2019,14 @@ your call	anunțat de tine
 {n} points to {tier} ({rules})	{n} pct. până la {tier} ({rules})
 {n} waiting	în așteptare: {n}
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Un fault îi dă adversarului bile din grupa lui. Bila albă e în mână doar la spargere și se anunță doar buzunarul bilei 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Un fault îi dă adversarului bila albă în mână, oriunde pe masă. Nu se anunță nimic, iar spargerea trebuie să ducă patru bile la mante.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Un fault îi dă adversarului bila albă în mână, oriunde pe masă. Se anunță doar buzunarul bilei 8, la fiecare lovitură la ea, iar spargerea trebuie să ducă patru bile la mante.
 A foul gives balls to the opponent	Faultul îi dă bile adversarului
 Ball in hand on the break only	Bila în mână doar la spargere
 Only the 8's pocket is called	Se anunță doar buzunarul bilei 8
 The most played in Brazil	Cele mai jucate în Brazilia
 A foul gives ball in hand	Faultul dă bila în mână
 The break drives four balls to a cushion	Spargerea duce patru bile la mante
-Any pocket counts	Contează orice buzunar
+Only the 8 is called, shot by shot	Se anunță doar bila 8, lovitură cu lovitură
 The same all over the world	Aceleași în toată lumea
 Game type	Tip de partidă
 called: {pocket}	anunțat: {pocket}
@@ -2272,3 +2273,133 @@ Win a rated game that lasted 60 shots or more.	Câștigă o partidă cu rating c
 Ugly but it counts	Urât, dar contează
 Win a rated game in which you fouled four times or more.	Câștigă o partidă cu rating în care ai comis patru faulturi sau mai multe.
 This item can't be given: it stays with whoever won it.	Acest obiect nu poate fi dăruit: rămâne la cel care l-a câștigat.
+Current prize: {n} coins	Premiul actual: {n} monede
+Champion wins: {item}	Campionul câștigă: {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Ziua {d} la rând: +{n} monede. Mâine: +{m}.
+Auctions ({n})	Licitații ({n})
+Auctions	Licitații
+Supporters	Susținători
+Maintenance in {t}: the server stops for about {m} min.	Mentenanță peste {t}: serverul se oprește aproximativ {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Mentenanță: serverul se oprește. Jocurile în desfășurare continuă.
+Your coins: {n}	Monedele tale: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Obiecte rare pentru cea mai mare ofertă. Oferta ta e rezervată; dacă cineva oferă mai mult, monedele îți revin imediat. O ofertă în ultimele două minute mai adaugă două.
+No auctions right now. Come back soon!	Nicio licitație acum. Revino curând!
+Current bid: {n} coins	Oferta actuală: {n} monede
+No bids yet · from {n} coins	Nicio ofertă încă · de la {n} monede
+Ended without bids	Încheiată fără oferte
+You won it!	Ai câștigat-o!
+Won by {name}	Câștigată de {name}
+Opens in {t}	Începe în {t}
+You lead · ends in {t}	Conduci · se termină în {t}
+Ends in {t}	Se termină în {t}
+{name} leads · ends in {t}	{name} conduce · se termină în {t}
+Yours already	Deja al tău
+Raise	Mărește
+Bid	Licitează
+Your bid (at least {n}):	Oferta ta (cel puțin {n}):
+Place bid	Trimite oferta
+Thank you to the VIP members who keep the game going, now and before.	Mulțumim membrilor VIP care țin jocul în viață, acum și înainte.
+Nobody in the credits yet.	Încă nimeni în credite.
+since {d} · {n} months	din {d} · {n} luni
+Show my name in the supporters' credits	Arată-mi numele în creditele susținătorilor
+{title}: ends in {t}	{title}: se termină în {t}
+An item of the month, yours to keep even if you cancel	Un obiect al lunii, al tău pentru totdeauna chiar dacă renunți
+If VIP ends, you keep	Dacă VIP se termină, păstrezi
+If VIP ends, you lose	Dacă VIP se termină, pierzi
+The items of the month you got	Obiectele lunii primite
+Everything you bought, and your coins	Tot ce ai cumpărat și monedele tale
+Your ratings, trophies and achievements	Ratingurile, trofeele și realizările tale
+VIP's cloths, cues and frames (back when you return)	Postavurile, tacurile și ramele VIP (revin când revii)
+The monthly coins and the next months' items	Monedele lunare și obiectele lunilor următoare
+The crown, and replays beyond your last 10 games	Coroana și reluările dincolo de ultimele 10 jocuri
+Your free changes are used: another costs {n} coins.	Schimbările gratuite s-au terminat: încă una costă {n} monede.
+Bid at least {n} coins.	Oferă cel puțin {n} monede.
+The server stops for maintenance in {n} min.	Serverul se oprește pentru mentenanță în {n} min.
+This auction is not open.	Această licitație nu este deschisă.
+The credits are for VIP members, now or before.	Creditele sunt pentru membrii VIP, actuali sau foști.
+The server stops for maintenance now. Games in progress go on.	Serverul se oprește acum pentru mentenanță. Jocurile în desfășurare continuă.
+Play online: your games are added up here as they end.	Joacă online: partidele tale se adună aici când se termină.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Vezi cum bagi bile buzunar cu buzunar și după unghiul de tăiere, cum progresezi săptămână de săptămână și cum te compari cu jucătorii din liga ta.
+Advanced statistics	Statistici avansate
+Become VIP	Devino VIP
+By pocket	Pe buzunar
+By cut angle	Pe unghi de tăiere
+The white mark: your league.	Semnul alb: liga ta.
+Week by week	Săptămână de săptămână
+Against your league	Față de liga ta
+{tier}: {n} players	{tier}: {n} jucători
+You	Tu
+League	Liga
+{pocket}: {n} points above	{pocket}: cu {n} puncte peste
+{pocket}: {n} points below	{pocket}: cu {n} puncte sub
+Messages with {name}	Mesaje cu {name}
+No messages with {name} yet. Say hello!	Încă niciun mesaj cu {name}. Salută!
+Write a message… (Enter to send)	Scrie un mesaj… (Enter pentru a trimite)
+You can write to your friends only.	Poți scrie doar prietenilor tăi.
+Choose a quick phrase…	Alege o frază rapidă…
+Looking for a game ({rules})	Caută o partidă ({rules})
+At a table, waiting ({rules})	La o masă, așteaptă ({rules})
+Playing a tournament game against {name}	Joacă o partidă de turneu cu {name}
+Playing against {name}	Joacă cu {name}
+Watching {name}'s game	Urmărește partida lui {name}
+In {name}	În {name}
+Playing the computer	Joacă cu calculatorul
+Practising	Se antrenează
+In the daily challenge	În provocarea zilei
+Doing drills	Face exerciții
+On the tour	În turneu
+Away	Absent
+Victory by abandonment	Victorie prin abandon
+Players (administrator)	Jucători (administrator)
+Spectators	Spectatori
+Chat (muted)	Chat (dezactivat)
+Say something to the others watching (the players don't see it).	Spune ceva celorlalți spectatori (jucătorii nu văd).
+Rated game	Partidă cu rating
+Casual game	Partidă amicală
+Click to skip	Apasă pentru a sări
+Guest	Invitat
+Win	Victorie
+Loss	Înfrângere
+{n} rating points at stake	{n} puncte de rating în joc
+No rating at stake	Niciun rating în joc
+Hide the shot's numbers	Ascunde cifrele loviturii
+Show the shot's numbers	Arată cifrele loviturii
+Last shot	Ultima lovitură
+No shot yet.	Nicio lovitură încă.
+Balls left	Bile rămase
+Right side	Efect la dreapta
+Left side	Efect la stânga
+Centre ball	Bila la centru
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Doar frazele rapide (fără text liber)
+Messages	Mesaje
+World	Lume
+Friends ranking	Clasamentul prietenilor
+You and your friends · rated games	Tu și prietenii tăi · partide cu rating
+Add friends to see where you stand among them.	Adaugă prieteni ca să vezi unde te afli printre ei.
+Chat and reactions	Chat și reacții
+Mute the opponent's chat	Dezactivează chatul adversarului
+Their messages in online games are not shown (yours still reach them).	Mesajele lui în partidele online nu apar (ale tale ajung în continuare la el).
+Hide the opponent's reactions	Ascunde reacțiile adversarului
+The reactions they send at the table are not shown.	Reacțiile pe care le trimite la masă nu apar.
+Players muted from a game: {n}	Jucători dezactivați într-o partidă: {n}
+Unmute them all	Reactivează-i pe toți
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Partida aceasta contează pentru rating: +{win} dacă câștigi, {loss} dacă pierzi.
+This game counts for the rating.	Partida aceasta contează pentru rating.
+A casual game: the rating doesn't change.	Partidă amicală: ratingul nu se schimbă.
+{name} lost the connection	{name} a pierdut conexiunea
+If they don't come back in time, you win by abandonment.	Dacă nu revine la timp, câștigi prin abandon.
+Mute {name}	Dezactivează-l pe {name}
+Mute {name}'s chat	Dezactivează chatul lui {name}
+Hide {name}'s reactions	Ascunde reacțiile lui {name}
+Remembered for your next games against them.	Ținut minte pentru următoarele tale partide cu el.
+Broadcast	Transmisiune
+3D	3D
+You can only send messages to your friends.	Poți trimite mesaje doar prietenilor tăi.
+You can't send messages to this player.	Nu poți trimite mesaje acestui jucător.
+Your chat is set to the quick phrases only.	Chatul tău e limitat la frazele rapide.
+These settings can't be kept.	Aceste setări nu pot fi păstrate.
+You aren't watching a game.	Nu urmărești nicio partidă.

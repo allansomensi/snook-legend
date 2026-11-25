@@ -76,6 +76,7 @@ async fn exercise(store: Store) {
             breaker: 1,
             rules: Rules::Brazilian,
             calls: false,
+            eight_call: true,
             strokes: vec![
                 Stroke::Shot {
                     shot: Shot::new(0.25, 3.5),
@@ -179,7 +180,12 @@ async fn exercise(store: Store) {
         counts: true,
         ended_at: t + 5,
         // Played with the calls of before 0.11.2: kept with the game.
-        replay: m.replay.clone().map(|r| Replay { rules: Rules::Official, calls: true, ..r }),
+        replay: m.replay.clone().map(|r| Replay {
+            rules: Rules::Official,
+            calls: true,
+            eight_call: false,
+            ..r
+        }),
         ..m.clone()
     };
     let ([ua, ub], official_id) = store.record_match(&official).await.unwrap().unwrap();
@@ -194,8 +200,9 @@ async fn exercise(store: Store) {
     assert_eq!(store.rating_history(a.id, Rules::Official, 10).await.unwrap(), vec![(t + 5, 1184)]);
     let r = store.replay(official_id).await.unwrap().expect("replay kept");
     assert_eq!(r.replay.rules, Rules::Official);
-    assert!(r.replay.calls);
-    assert!(!store.replay(match_id).await.unwrap().expect("replay kept").replay.calls);
+    assert!(r.replay.calls && !r.replay.eight_call);
+    let r = store.replay(match_id).await.unwrap().expect("replay kept");
+    assert!(!r.replay.calls && r.replay.eight_call);
     assert_eq!(store.history(a.id, 10).await.unwrap()[0].rules, Rules::Official);
 
     // The shop: credits are applied once per reference, purchases never
@@ -651,6 +658,7 @@ async fn memory_store() {
     renames(&Store::memory()).await;
     staff_tools(&Store::memory()).await;
     audit_fixes(&Store::memory()).await;
+    match_social(&Store::memory()).await;
 }
 
 #[tokio::test]
@@ -675,6 +683,96 @@ async fn postgres_store() {
     renames(&Store::postgres(&url, 3).await.unwrap()).await;
     staff_tools(&Store::postgres(&url, 3).await.unwrap()).await;
     audit_fixes(&Store::postgres(&url, 3).await.unwrap()).await;
+    match_social(&Store::postgres(&url, 3).await.unwrap()).await;
+}
+
+/// Settings kept with the account, direct messages (a conversation keeps
+/// its newest), the chat kept to the quick phrases, weeks of pots and a
+/// league's sums (0.12, migration 0030).
+async fn match_social(store: &Store) {
+    use snook_legend_proto::analysis::{ShotAnalysis, Tally};
+    use snook_legend_server::store::DM_KEPT;
+    let make = |name: &'static str| async move { store.create_user(&new_user(name)).await };
+    let a = make("ms_a").await.unwrap().unwrap().id;
+    let b = make("ms_b").await.unwrap().unwrap().id;
+    let c = make("ms_c").await.unwrap().unwrap().id;
+    // Settings: the last saved.
+    assert_eq!(store.account_settings(a).await.unwrap(), None);
+    store.save_account_settings(a, "{}", 1).await.unwrap();
+    store.save_account_settings(a, r#"{"a":1}"#, 2).await.unwrap();
+    assert_eq!(store.account_settings(a).await.unwrap(), Some((r#"{"a":1}"#.into(), 2)));
+    // Conversations.
+    for k in 0..(DM_KEPT + 3) {
+        store.dm_send(a, b, &format!("m{k}"), 100 + k as i64).await.unwrap();
+    }
+    let from_c = store.dm_send(c, a, "from c", 5000).await.unwrap();
+    assert_eq!((from_c.from, from_c.to, from_c.read_at), (c, a, None));
+    let ab = store.dm_history(b, a, None, 10).await.unwrap();
+    assert_eq!(ab.len(), 10);
+    assert_eq!(ab[0].text, format!("m{}", DM_KEPT + 2), "newest first");
+    let older = store.dm_history(a, b, Some(ab[9].id), 1000).await.unwrap();
+    assert_eq!(older.len() + 10, DM_KEPT, "only the newest are kept");
+    assert!(older.iter().all(|m| m.id < ab[9].id));
+    let threads = store.dm_threads(a).await.unwrap();
+    assert_eq!(threads.iter().map(|t| (t.other, t.unread)).collect::<Vec<_>>(), [(c, 1), (b, 0)]);
+    assert_eq!(threads[0].last.text, "from c");
+    assert_eq!(store.dm_read(a, c, 6000).await.unwrap(), 1);
+    assert_eq!(store.dm_read(a, c, 6001).await.unwrap(), 0);
+    assert_eq!(store.dm_threads(a).await.unwrap()[0].unread, 0);
+    assert_eq!(store.dm_threads(b).await.unwrap()[0].unread, DM_KEPT as u32);
+    // The quick phrases only.
+    store.set_phrases_only(c, true).await.unwrap();
+    assert!(store.user_by_id(c).await.unwrap().unwrap().chat_phrases_only);
+    // Weeks of pots, newest first.
+    store.add_shot_week(a, 2900, 5, 3).await.unwrap();
+    store.add_shot_week(a, 2901, 4, 4).await.unwrap();
+    store.add_shot_week(a, 2900, 5, 1).await.unwrap();
+    let weeks = store.shot_weeks(a, 12).await.unwrap();
+    let weeks: Vec<(i64, u32, u32, u32)> =
+        weeks.iter().map(|w| (w.week, w.games, w.attempts, w.made)).collect();
+    assert_eq!(weeks, [(2901, 1, 4, 4), (2900, 2, 10, 4)]);
+    // A league: the players of a rating range with rated games, summed.
+    let mut x = ShotAnalysis { games: 2, ..Default::default() };
+    x.pockets[1] = Tally { attempts: 4, made: 2 };
+    for id in [a, b, c] {
+        store.add_shot_analysis(id, &x).await.unwrap();
+    }
+    let (_, players) = store.league_analysis(Rules::Brazilian, 1150, 1250).await.unwrap();
+    assert_eq!(players, 0, "nobody has rated games yet");
+    let m = MatchRecord {
+        players: [a, b],
+        winner: 0,
+        reason: GameOverReason::Resignation,
+        rated: true,
+        rules: Rules::Brazilian,
+        delta: [10, -10],
+        ratings_after: [1210, 1190],
+        shots: 30,
+        tournament: None,
+        eight_win: false,
+        runout: false,
+        shutout: false,
+        break_win: false,
+        ended_at: 7000,
+        replay: None,
+        stats: Default::default(),
+        abandoned: None,
+        room: None,
+        counts: true,
+    };
+    store.record_match(&m).await.unwrap();
+    let (sums, players) = store.league_analysis(Rules::Brazilian, 1150, 1250).await.unwrap();
+    assert_eq!(players, 2);
+    assert_eq!((sums.games, sums.pockets[1]), (4, Tally { attempts: 8, made: 4 }));
+    let (_, players) = store.league_analysis(Rules::Brazilian, 1200, 1250).await.unwrap();
+    assert_eq!(players, 1, "the range is the rating's");
+    let (_, players) = store.league_analysis(Rules::Official, 1150, 1250).await.unwrap();
+    assert_eq!(players, 0, "the other rules' ratings");
+    // A deleted account takes its settings and messages with it.
+    store.delete_account(a, 8000).await.unwrap();
+    assert_eq!(store.account_settings(a).await.unwrap(), None);
+    assert!(store.dm_threads(b).await.unwrap().is_empty());
+    assert!(store.dm_history(c, a, None, 10).await.unwrap().is_empty());
 }
 
 /// VIP time added and taken back in one step, banned players off the
@@ -757,12 +855,20 @@ async fn audit_fixes(store: &Store) {
     // doesn't count gives no win nor streak (the rating still moves).
     let p = make("af_p").await.unwrap().unwrap();
     let q = make("af_q").await.unwrap().unwrap();
-    let replay =
-        Replay { seed: 7, breaker: 0, rules: Rules::Official, strokes: vec![], calls: true };
+    // (A game of 0.11.2 to 0.11.x: no calls, the 8 in any pocket.)
+    let replay = Replay {
+        seed: 7,
+        breaker: 0,
+        rules: Rules::Official,
+        strokes: vec![],
+        calls: false,
+        eight_call: false,
+    };
     let live =
         LiveMatch { id: 9_000_001, players: [p.id, q.id], rated: true, replay, updated_at: t };
     store.save_live(&live).await.unwrap();
-    assert!(store.live_match_of(p.id).await.unwrap().expect("saved").replay.calls);
+    let saved = store.live_match_of(p.id).await.unwrap().expect("saved").replay;
+    assert!(!saved.calls && !saved.eight_call);
     let game = MatchRecord {
         players: [p.id, q.id],
         winner: 0,
@@ -995,6 +1101,8 @@ async fn staff_tools(store: &Store) {
             rules: snook_legend_proto::Rules::Official,
             entry_fee: 50,
             prize: 1000,
+            champion_share: 0,
+            item_prize: "",
             created_by: a.id,
             at: t,
         }

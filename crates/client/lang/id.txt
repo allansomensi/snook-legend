@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} di bola 8: lubang pilihan {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} di bola 8 (bidikanmu memilih lubangnya; klik lubang untuk memilih yang lain)
 On the 8-ball: {pocket} pocket	Di bola 8: lubang {pocket}
 Show ping	Tampilkan ping
 Your connection's delay, in online games.	Jeda koneksimu dalam game online.
@@ -2018,14 +2019,14 @@ your call	pilihanmu
 {n} points to {tier} ({rules})	{n} poin lagi ke {tier} ({rules})
 {n} waiting	{n} menunggu
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Foul memberi lawan bola dari grupnya. Bola putih di tangan hanya saat break, dan hanya lubang bola 8 yang dipilih.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Foul memberi lawan bola putih di tangan, di mana saja di meja. Tidak ada lubang yang dipilih, dan break harus membawa empat bola ke bantalan.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Foul memberi lawan bola putih di tangan, di mana saja di meja. Hanya lubang bola 8 yang dipilih, di setiap pukulan ke bola 8, dan break harus membawa empat bola ke bantalan.
 A foul gives balls to the opponent	Foul memberi bola ke lawan
 Ball in hand on the break only	Bola di tangan hanya saat break
 Only the 8's pocket is called	Hanya lubang bola 8 yang dipilih
 The most played in Brazil	Paling banyak dimainkan di Brasil
 A foul gives ball in hand	Foul memberi bola di tangan
 The break drives four balls to a cushion	Break membawa empat bola ke bantalan
-Any pocket counts	Lubang mana pun dihitung
+Only the 8 is called, shot by shot	Hanya bola 8 yang dipilih lubangnya, tiap pukulan
 The same all over the world	Sama di seluruh dunia
 Game type	Jenis game
 called: {pocket}	pilihan: {pocket}
@@ -2272,3 +2273,133 @@ Win a rated game that lasted 60 shots or more.	Menangkan game ranked yang berlan
 Ugly but it counts	Jelek, tapi dihitung
 Win a rated game in which you fouled four times or more.	Menangkan game ranked yang di dalamnya kamu melakukan empat pelanggaran atau lebih.
 This item can't be given: it stays with whoever won it.	Item ini tidak bisa diberikan: tetap milik yang memenangkannya.
+Current prize: {n} coins	Hadiah saat ini: {n} koin
+Champion wins: {item}	Juara mendapat: {item}
+{h} h {m} min	{h} j {m} mnt
+{m} min	{m} mnt
+{s} s	{s} dtk
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Hari ke-{d} berturut-turut: +{n} koin. Besok: +{m}.
+Auctions ({n})	Lelang ({n})
+Auctions	Lelang
+Supporters	Pendukung
+Maintenance in {t}: the server stops for about {m} min.	Pemeliharaan dalam {t}: server berhenti sekitar {m} mnt.
+Maintenance: the server is stopping. Games in progress go on.	Pemeliharaan: server sedang berhenti. Permainan yang berjalan tetap lanjut.
+Your coins: {n}	Koinmu: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Item langka untuk tawaran tertinggi. Tawaranmu ditahan; jika ada yang menawar lebih, koinmu langsung kembali. Tawaran di dua menit terakhir menambah dua menit.
+No auctions right now. Come back soon!	Tidak ada lelang sekarang. Kembali lagi nanti!
+Current bid: {n} coins	Tawaran saat ini: {n} koin
+No bids yet · from {n} coins	Belum ada tawaran · mulai {n} koin
+Ended without bids	Berakhir tanpa tawaran
+You won it!	Kamu menang!
+Won by {name}	Dimenangkan {name}
+Opens in {t}	Dibuka dalam {t}
+You lead · ends in {t}	Kamu memimpin · berakhir dalam {t}
+Ends in {t}	Berakhir dalam {t}
+{name} leads · ends in {t}	{name} memimpin · berakhir dalam {t}
+Yours already	Sudah milikmu
+Raise	Naikkan
+Bid	Tawar
+Your bid (at least {n}):	Tawaranmu (minimal {n}):
+Place bid	Kirim tawaran
+Thank you to the VIP members who keep the game going, now and before.	Terima kasih kepada anggota VIP yang menjaga game ini, kini dan dulu.
+Nobody in the credits yet.	Belum ada siapa pun di kredit.
+since {d} · {n} months	sejak {d} · {n} bulan
+Show my name in the supporters' credits	Tampilkan namaku di kredit pendukung
+{title}: ends in {t}	{title}: berakhir dalam {t}
+An item of the month, yours to keep even if you cancel	Item bulan ini, milikmu selamanya meski kamu berhenti
+If VIP ends, you keep	Jika VIP berakhir, kamu tetap punya
+If VIP ends, you lose	Jika VIP berakhir, kamu kehilangan
+The items of the month you got	Item bulanan yang kamu dapat
+Everything you bought, and your coins	Semua yang kamu beli, dan koinmu
+Your ratings, trophies and achievements	Rating, trofi, dan pencapaianmu
+VIP's cloths, cues and frames (back when you return)	Kain, stik, dan bingkai VIP (kembali saat kamu kembali)
+The monthly coins and the next months' items	Koin bulanan dan item bulan-bulan berikutnya
+The crown, and replays beyond your last 10 games	Mahkota, dan tayangan ulang di luar 10 permainan terakhir
+Your free changes are used: another costs {n} coins.	Perubahan gratismu habis: satu lagi seharga {n} koin.
+Bid at least {n} coins.	Tawar minimal {n} koin.
+The server stops for maintenance in {n} min.	Server berhenti untuk pemeliharaan dalam {n} mnt.
+This auction is not open.	Lelang ini tidak dibuka.
+The credits are for VIP members, now or before.	Kredit untuk anggota VIP, sekarang atau dulu.
+The server stops for maintenance now. Games in progress go on.	Server berhenti untuk pemeliharaan sekarang. Permainan yang berjalan tetap lanjut.
+Play online: your games are added up here as they end.	Main online: permainanmu dijumlahkan di sini setiap kali selesai.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Lihat bagaimana kamu memasukkan bola per lubang dan per sudut potong, bagaimana kamu berkembang minggu demi minggu, dan bagaimana kamu dibanding pemain di liga-mu.
+Advanced statistics	Statistik lanjutan
+Become VIP	Jadi VIP
+By pocket	Per lubang
+By cut angle	Per sudut potong
+The white mark: your league.	Tanda putih: liga-mu.
+Week by week	Minggu demi minggu
+Against your league	Dibanding liga-mu
+{tier}: {n} players	{tier}: {n} pemain
+You	Kamu
+League	Liga
+{pocket}: {n} points above	{pocket}: {n} poin di atas
+{pocket}: {n} points below	{pocket}: {n} poin di bawah
+Messages with {name}	Pesan dengan {name}
+No messages with {name} yet. Say hello!	Belum ada pesan dengan {name}. Sapa dia!
+Write a message… (Enter to send)	Tulis pesan… (Enter untuk mengirim)
+You can write to your friends only.	Kamu hanya bisa menulis ke teman.
+Choose a quick phrase…	Pilih frasa cepat…
+Looking for a game ({rules})	Mencari permainan ({rules})
+At a table, waiting ({rules})	Di meja, menunggu ({rules})
+Playing a tournament game against {name}	Bermain laga turnamen melawan {name}
+Playing against {name}	Bermain melawan {name}
+Watching {name}'s game	Menonton permainan {name}
+In {name}	Di {name}
+Playing the computer	Bermain melawan komputer
+Practising	Berlatih
+In the daily challenge	Di tantangan harian
+Doing drills	Mengerjakan latihan
+On the tour	Di tur
+Away	Sedang pergi
+Victory by abandonment	Menang karena lawan meninggalkan permainan
+Players (administrator)	Pemain (administrator)
+Spectators	Penonton
+Chat (muted)	Obrolan (dibisukan)
+Say something to the others watching (the players don't see it).	Katakan sesuatu kepada penonton lain (pemain tidak melihatnya).
+Rated game	Permainan berperingkat
+Casual game	Permainan santai
+Click to skip	Klik untuk melewati
+Guest	Tamu
+Win	Menang
+Loss	Kalah
+{n} rating points at stake	{n} poin rating dipertaruhkan
+No rating at stake	Tidak ada rating yang dipertaruhkan
+Hide the shot's numbers	Sembunyikan angka pukulan
+Show the shot's numbers	Tampilkan angka pukulan
+Last shot	Pukulan terakhir
+No shot yet.	Belum ada pukulan.
+Balls left	Bola tersisa
+Right side	Efek kanan
+Left side	Efek kiri
+Centre ball	Tengah bola
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Hanya frasa cepat (tanpa teks bebas)
+Messages	Pesan
+World	Dunia
+Friends ranking	Peringkat teman
+You and your friends · rated games	Kamu dan teman-temanmu · permainan berperingkat
+Add friends to see where you stand among them.	Tambahkan teman untuk melihat posisimu di antara mereka.
+Chat and reactions	Obrolan dan reaksi
+Mute the opponent's chat	Bisukan obrolan lawan
+Their messages in online games are not shown (yours still reach them).	Pesannya di permainan online tidak ditampilkan (pesanmu tetap sampai kepadanya).
+Hide the opponent's reactions	Sembunyikan reaksi lawan
+The reactions they send at the table are not shown.	Reaksi yang dia kirim di meja tidak ditampilkan.
+Players muted from a game: {n}	Pemain yang dibisukan dari permainan: {n}
+Unmute them all	Aktifkan suara semuanya
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Permainan ini dihitung untuk rating: +{win} jika menang, {loss} jika kalah.
+This game counts for the rating.	Permainan ini dihitung untuk rating.
+A casual game: the rating doesn't change.	Permainan santai: rating tidak berubah.
+{name} lost the connection	{name} kehilangan koneksi
+If they don't come back in time, you win by abandonment.	Jika dia tidak kembali tepat waktu, kamu menang karena dia meninggalkan permainan.
+Mute {name}	Bisukan {name}
+Mute {name}'s chat	Bisukan obrolan {name}
+Hide {name}'s reactions	Sembunyikan reaksi {name}
+Remembered for your next games against them.	Diingat untuk permainanmu berikutnya melawan dia.
+Broadcast	Siaran
+3D	3D
+You can only send messages to your friends.	Kamu hanya bisa mengirim pesan ke teman.
+You can't send messages to this player.	Kamu tidak bisa mengirim pesan ke pemain ini.
+Your chat is set to the quick phrases only.	Obrolanmu dibatasi pada frasa cepat.
+These settings can't be kept.	Pengaturan ini tidak dapat disimpan.
+You aren't watching a game.	Kamu tidak sedang menonton permainan.

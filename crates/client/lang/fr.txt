@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} est sur la 8 : poche annoncée {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} est sur la 8 (votre visée annonce la poche ; cliquez sur une poche pour en annoncer une autre)
 On the 8-ball: {pocket} pocket	Sur la 8 : poche {pocket}
 Show ping	Afficher le ping
 Your connection's delay, in online games.	La latence de votre connexion, dans les parties en ligne.
@@ -2018,14 +2019,14 @@ your call	votre annonce
 {n} points to {tier} ({rules})	{n} points avant {tier} ({rules})
 {n} waiting	{n} en attente
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Une faute donne à l'adversaire des billes de son groupe. La blanche n'est en main qu'à la casse, et seule la poche de la 8 est annoncée.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Une faute donne à l'adversaire la blanche en main, n'importe où sur la table. Rien ne s'annonce, et la casse doit envoyer quatre billes en bande.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Une faute donne à l'adversaire la blanche en main, n'importe où sur la table. Seule la poche de la 8 s'annonce, à chaque coup sur elle, et la casse doit envoyer quatre billes en bande.
 A foul gives balls to the opponent	Une faute donne des billes à l'adversaire
 Ball in hand on the break only	Bille en main à la casse seulement
 Only the 8's pocket is called	Seule la poche de la 8 est annoncée
 The most played in Brazil	Les plus jouées au Brésil
 A foul gives ball in hand	Une faute donne bille en main
 The break drives four balls to a cushion	La casse envoie quatre billes en bande
-Any pocket counts	Toutes les poches comptent
+Only the 8 is called, shot by shot	Seule la 8 s'annonce, coup par coup
 The same all over the world	Les mêmes dans le monde entier
 Game type	Type de partie
 called: {pocket}	annoncée : {pocket}
@@ -2272,3 +2273,133 @@ Win a rated game that lasted 60 shots or more.	Gagnez une partie classée qui a 
 Ugly but it counts	Moche, mais ça compte
 Win a rated game in which you fouled four times or more.	Gagnez une partie classée où vous avez commis quatre fautes ou plus.
 This item can't be given: it stays with whoever won it.	Cet objet ne peut pas être offert : il reste à qui l'a gagné.
+Current prize: {n} coins	Prix actuel : {n} pièces
+Champion wins: {item}	Le champion gagne : {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Jour {d} d'affilée : +{n} pièces. Demain : +{m}.
+Auctions ({n})	Enchères ({n})
+Auctions	Enchères
+Supporters	Soutiens
+Maintenance in {t}: the server stops for about {m} min.	Maintenance dans {t} : le serveur s'arrête environ {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Maintenance : le serveur s'arrête. Les parties en cours continuent.
+Your coins: {n}	Vos pièces : {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Des objets rares pour la meilleure offre. Votre offre est bloquée ; si quelqu'un offre plus, vos pièces reviennent aussitôt. Une offre dans les deux dernières minutes en ajoute deux.
+No auctions right now. Come back soon!	Aucune enchère pour l'instant. Revenez bientôt !
+Current bid: {n} coins	Offre actuelle : {n} pièces
+No bids yet · from {n} coins	Aucune offre · à partir de {n} pièces
+Ended without bids	Terminée sans offre
+You won it!	Vous l'avez remportée !
+Won by {name}	Remportée par {name}
+Opens in {t}	Ouvre dans {t}
+You lead · ends in {t}	Vous menez · fin dans {t}
+Ends in {t}	Fin dans {t}
+{name} leads · ends in {t}	{name} mène · fin dans {t}
+Yours already	Déjà à vous
+Raise	Surenchérir
+Bid	Enchérir
+Your bid (at least {n}):	Votre offre (au moins {n}) :
+Place bid	Valider l'offre
+Thank you to the VIP members who keep the game going, now and before.	Merci aux membres VIP qui font vivre le jeu, aujourd'hui et hier.
+Nobody in the credits yet.	Personne dans les crédits pour l'instant.
+since {d} · {n} months	depuis {d} · {n} mois
+Show my name in the supporters' credits	Afficher mon nom dans les crédits des soutiens
+{title}: ends in {t}	{title} : fin dans {t}
+An item of the month, yours to keep even if you cancel	Un objet du mois, à garder même si vous résiliez
+If VIP ends, you keep	Si le VIP prend fin, vous gardez
+If VIP ends, you lose	Si le VIP prend fin, vous perdez
+The items of the month you got	Les objets du mois reçus
+Everything you bought, and your coins	Tout ce que vous avez acheté, et vos pièces
+Your ratings, trophies and achievements	Vos classements, trophées et succès
+VIP's cloths, cues and frames (back when you return)	Tapis, queues et cadres VIP (de retour quand vous revenez)
+The monthly coins and the next months' items	Les pièces mensuelles et les objets des prochains mois
+The crown, and replays beyond your last 10 games	La couronne, et les replays au-delà de vos 10 dernières parties
+Your free changes are used: another costs {n} coins.	Vos changements gratuits sont utilisés : un autre coûte {n} pièces.
+Bid at least {n} coins.	Offrez au moins {n} pièces.
+The server stops for maintenance in {n} min.	Le serveur s'arrête pour maintenance dans {n} min.
+This auction is not open.	Cette enchère n'est pas ouverte.
+The credits are for VIP members, now or before.	Les crédits sont pour les membres VIP, actuels ou anciens.
+The server stops for maintenance now. Games in progress go on.	Le serveur s'arrête maintenant pour maintenance. Les parties en cours continuent.
+Play online: your games are added up here as they end.	Jouez en ligne : vos parties s'ajoutent ici à la fin de chacune.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Voyez comment vous empochez poche par poche et selon l'angle de coupe, comment vous progressez semaine après semaine et comment vous vous situez face aux joueurs de votre ligue.
+Advanced statistics	Statistiques avancées
+Become VIP	Devenir VIP
+By pocket	Par poche
+By cut angle	Par angle de coupe
+The white mark: your league.	Le trait blanc : votre ligue.
+Week by week	Semaine après semaine
+Against your league	Face à votre ligue
+{tier}: {n} players	{tier} : {n} joueurs
+You	Vous
+League	Ligue
+{pocket}: {n} points above	{pocket} : {n} points au-dessus
+{pocket}: {n} points below	{pocket} : {n} points en dessous
+Messages with {name}	Messages avec {name}
+No messages with {name} yet. Say hello!	Pas encore de messages avec {name}. Dites bonjour !
+Write a message… (Enter to send)	Écrivez un message… (Entrée pour envoyer)
+You can write to your friends only.	Vous ne pouvez écrire qu'à vos amis.
+Choose a quick phrase…	Choisir une phrase rapide…
+Looking for a game ({rules})	Cherche une partie ({rules})
+At a table, waiting ({rules})	À une table, en attente ({rules})
+Playing a tournament game against {name}	Joue une partie de tournoi contre {name}
+Playing against {name}	Joue contre {name}
+Watching {name}'s game	Regarde la partie de {name}
+In {name}	Dans {name}
+Playing the computer	Joue contre l'ordinateur
+Practising	S'entraîne
+In the daily challenge	Dans le défi du jour
+Doing drills	Fait des exercices
+On the tour	Sur le circuit
+Away	Absent
+Victory by abandonment	Victoire par abandon
+Players (administrator)	Joueurs (administrateur)
+Spectators	Spectateurs
+Chat (muted)	Chat (en sourdine)
+Say something to the others watching (the players don't see it).	Dites quelque chose aux autres spectateurs (les joueurs ne le voient pas).
+Rated game	Partie classée
+Casual game	Partie amicale
+Click to skip	Cliquez pour passer
+Guest	Invité
+Win	Victoire
+Loss	Défaite
+{n} rating points at stake	{n} points de classement en jeu
+No rating at stake	Aucun point de classement en jeu
+Hide the shot's numbers	Masquer les chiffres du coup
+Show the shot's numbers	Afficher les chiffres du coup
+Last shot	Dernier coup
+No shot yet.	Aucun coup pour l'instant.
+Balls left	Billes restantes
+Right side	Effet à droite
+Left side	Effet à gauche
+Centre ball	Bille au centre
+{name}: {text}	{name} : {text}
+Only the quick phrases (no free text)	Uniquement les phrases rapides (pas de texte libre)
+Messages	Messages
+World	Monde
+Friends ranking	Classement des amis
+You and your friends · rated games	Vous et vos amis · parties classées
+Add friends to see where you stand among them.	Ajoutez des amis pour voir votre place parmi eux.
+Chat and reactions	Chat et réactions
+Mute the opponent's chat	Couper le chat de l'adversaire
+Their messages in online games are not shown (yours still reach them).	Ses messages dans les parties en ligne ne s'affichent pas (les vôtres lui parviennent toujours).
+Hide the opponent's reactions	Masquer les réactions de l'adversaire
+The reactions they send at the table are not shown.	Les réactions qu'il envoie à la table ne s'affichent pas.
+Players muted from a game: {n}	Joueurs mis en sourdine pendant une partie : {n}
+Unmute them all	Les réactiver tous
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Cette partie compte pour le classement : +{win} si vous gagnez, {loss} si vous perdez.
+This game counts for the rating.	Cette partie compte pour le classement.
+A casual game: the rating doesn't change.	Partie amicale : le classement ne change pas.
+{name} lost the connection	{name} a perdu la connexion
+If they don't come back in time, you win by abandonment.	S'il ne revient pas à temps, vous gagnez par abandon.
+Mute {name}	Mettre {name} en sourdine
+Mute {name}'s chat	Couper le chat de {name}
+Hide {name}'s reactions	Masquer les réactions de {name}
+Remembered for your next games against them.	Retenu pour vos prochaines parties contre lui.
+Broadcast	Retransmission
+3D	3D
+You can only send messages to your friends.	Vous ne pouvez envoyer des messages qu'à vos amis.
+You can't send messages to this player.	Vous ne pouvez pas envoyer de messages à ce joueur.
+Your chat is set to the quick phrases only.	Votre chat est limité aux phrases rapides.
+These settings can't be kept.	Ces paramètres ne peuvent pas être gardés.
+You aren't watching a game.	Vous ne regardez aucune partie.

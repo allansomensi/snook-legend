@@ -78,6 +78,9 @@ pub struct User {
     /// When a parent or guardian turned the chat on for an account under 18
     /// (Unix seconds); see [`User::chat_restricted`].
     pub chat_allowed_at: Option<i64>,
+    /// With the chat on, a parent or guardian kept it to the quick phrases
+    /// (`snook_legend_proto::QUICK_CHAT`): nothing else is sent.
+    pub chat_phrases_only: bool,
 }
 
 /// An account's record under one of the rules.
@@ -891,6 +894,11 @@ pub struct GameEvent {
     pub entry_fee: u32,
     /// Coins the house adds to a tournament's prizes.
     pub prize: u32,
+    /// The champion's share of a tournament's prizes, percent (the
+    /// runner-up has the rest; 0: the usual shares).
+    pub champion_share: u32,
+    /// An item the champion wins too (shop code; empty: none).
+    pub item_prize: String,
     pub created_by: String,
     pub created_at: i64,
     pub cancelled_at: Option<i64>,
@@ -910,6 +918,9 @@ pub struct NewEvent<'a> {
     pub rules: Rules,
     pub entry_fee: u32,
     pub prize: u32,
+    /// See [`GameEvent::champion_share`].
+    pub champion_share: u32,
+    pub item_prize: &'a str,
     pub created_by: i64,
     pub at: i64,
 }
@@ -1010,6 +1021,10 @@ macro_rules! dispatch {
         }
     };
 }
+
+// (After the macro: it dispatches these too.)
+mod match_social;
+pub use match_social::{DM_KEPT, DM_THREADS, DmRow, DmThreadRow, WeekRow};
 
 impl Store {
     pub fn memory() -> Store {
@@ -2049,6 +2064,17 @@ pub const AUDIT_NOT_PLAYERS: &[&str] = &[
     "msstore-retry",
     "pin",
     "unpin",
+    // Operations and the economy (0.12).
+    "setting",
+    "setting-reset",
+    "promotion",
+    "promotion-edit",
+    "promotion-cancel",
+    "maintenance",
+    "maintenance-cancel",
+    "auction",
+    "auction-cancel",
+    "export",
 ];
 
 /// VIP time changed along with a coin credit ([`Store::credit_vip`]).
@@ -2069,3 +2095,6 @@ pub fn deleted_name(id: i64) -> String {
 pub fn day_of(t: i64) -> i64 {
     t.div_euclid(86_400)
 }
+
+mod ops;
+pub use ops::*;

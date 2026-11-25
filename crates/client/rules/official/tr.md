@@ -10,7 +10,7 @@
 Dünya Bilardo Birliği'nin (WPA) oynattığı biçimiyle, uluslararası turnuvaların 8 topu. Snook Legend'da Brezilya kuralları da var: oyunlarının kurallarını ana menüden seç. Brezilya kurallarıyla oynuyorsan aşağıdaki açılışı, cep söylemeyi ve faulleri oku, çünkü epey farklılar.
 
 ### Amaç
-Her oyuncunun yedi topluk bir grubu vardır: düzler (1'den 7'ye) veya çizgililer (9'dan 15'e). Rakibinden önce kendi toplarının hepsini, sonra da 8 numaralı topu sok.
+Her oyuncunun yedi topluk bir grubu vardır: düzler (1'den 7'ye) veya çizgililer (9'dan 15'e). Rakibinden önce kendi toplarının hepsini, sonra da 8 numaralı topu söylediğin cebe sok.
 
 ### Sıran
 Faulsüz bir vuruşta kendi grubundan bir topu herhangi bir cebe soktuğun sürece vurmaya devam edersin. Aksi hâlde sıra rakibe geçer ve giren toplar içeride kalır.
@@ -37,8 +37,8 @@ Bu bir fauldür ve top dışarıda kalır (yalnızca 8 geri konur). Rakibin masa
 ### Açık masa
 Gruplar belli olmadıkça masa açıktır: 8 dışında istediğin topa önce vurabilirsin. Soktuğun ilk topun grubu senin olur. Bir grup masadan tamamen çıkmışsa 8'i oynayabilirsin.
 
-### Cep söylenmez
-Turnuvalarda her vuruşta cep söylenir; burada hiçbir şey söylenmez. Faulsüz bir vuruşta herhangi bir cebe giren kendi grubundan bir top (ya da 8'e kaldıysan 8) sırayı sende tutar; banttan ya da başka bir topa çarparak girse de.
+### 8'in cebini söylemek
+Turnuvalarda her vuruşta cep söylenir; burada yalnızca 8'in cebi söylenir. Faulsüz bir vuruşta herhangi bir cebe giren kendi grubundan bir top sırayı sende tutar; banttan ya da başka bir topa çarparak girse de. 8'e vururken onun cebini söylersin: nişanını takip ederek oyun, 8'in gittiği cebi göstermeden söyler. Başka bir cebi söylemek için (örneğin bant vuruşunda) ona tıkla: yanar. Nişanına dönmek için yeniden tıkla.
 
 ### Savunma
 Masayı rakibine bırakmak için toplarından hiçbirini sokmayan bir vuruş yap: sıra geçer ve giren içeride kalır. Yine de giren kendi grubundan bir top sırayı sende tutar.
@@ -60,7 +60,7 @@ Oyunda vuruş süresi varsa ve süre dolarsa faul olur: rakibin elde topla oynar
 ## 8 numaralı top
 
 ### Kazanmak
-Grubunun bütün topları masadan çıktıktan sonra, faulsüz bir vuruşta 8'i herhangi bir cebe sok.
+Grubunun bütün topları masadan çıktıktan sonra, faulsüz bir vuruşta 8'i söylediğin cebe sok.
 
 ### 8'de kaybetmek
-8'i faulle ya da grubun masadan çıkmadan sokarsan ve 8'i masadan düşürürsen kaybedersin. Bunların hiçbiri açılış vuruşunda geçerli değildir.
+8'i bir faulle, grubun masadan çıkmadan önce ya da söylemediğin bir cebe sokarsan ve 8'i masadan düşürürsen kaybedersin. Bunların hiçbiri açılış için geçerli değildir.

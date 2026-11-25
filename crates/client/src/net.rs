@@ -38,6 +38,22 @@ const PING_EVERY: Duration = Duration::from_secs(15);
 /// The server pings back within seconds; silence this long means a dead link.
 const SILENCE_LIMIT: Duration = Duration::from_secs(60);
 const CONNECT_TIMEOUT: Duration = Duration::from_secs(20);
+/// A message the server doesn't take in this long means a dead link (a
+/// write waiting for ever held the whole connection, the check for
+/// silence with it: the game looked connected and wasn't).
+const WRITE_LIMIT: Duration = Duration::from_secs(20);
+
+/// Sends one message, within [`WRITE_LIMIT`].
+async fn write<S>(sink: &mut S, msg: Message) -> Result<(), String>
+where
+    S: futures_util::Sink<Message, Error = tungstenite::Error> + Unpin,
+{
+    match tokio::time::timeout(WRITE_LIMIT, sink.send(msg)).await {
+        Ok(Ok(())) => Ok(()),
+        Ok(Err(e)) => Err(friendly(&e)),
+        Err(_) => Err("Lost contact with the server.".into()),
+    }
+}
 
 impl Connection {
     /// Starts connecting to `url` (`ws://host:port/ws` or `wss://…`), for
@@ -167,18 +183,18 @@ async fn run(
                     if matches!(msg, ClientMsg::Ping) {
                         pings.push_back(false);
                     }
-                    sink.send(send_msg(&msg)).await.map_err(|e| friendly(&e))?;
+                    write(&mut sink, send_msg(&msg)).await?;
                     // Send whatever else is already queued in the same go.
                     while let Ok(more) = out_rx.try_recv() {
                         if matches!(more, ClientMsg::Ping) {
                             pings.push_back(false);
                         }
-                        sink.send(send_msg(&more)).await.map_err(|e| friendly(&e))?;
+                        write(&mut sink, send_msg(&more)).await?;
                     }
                 }
                 None => {
                     // The game dropped the connection.
-                    let _ = sink.send(Message::Close(None)).await;
+                    let _ = tokio::time::timeout(WRITE_LIMIT, sink.send(Message::Close(None))).await;
                     return Ok(());
                 }
             },
@@ -208,7 +224,7 @@ async fn run(
                 if last_heard.elapsed() > SILENCE_LIMIT {
                     return Err("Lost contact with the server.".into());
                 }
-                sink.send(send_msg(&ClientMsg::Ping)).await.map_err(|e| friendly(&e))?;
+                write(&mut sink, send_msg(&ClientMsg::Ping)).await?;
                 // An answer lost on the way can't shift the rest for long.
                 if pings.len() >= 16 {
                     pings.clear();

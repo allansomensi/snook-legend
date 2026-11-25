@@ -171,9 +171,11 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
         }
         ClientMsg::BuyItem { code } => {
             let Some(item) = shop::item(&code) else { return error("No such item.") };
-            let Price::Coins(price) = item.price else {
+            let Price::Coins(_) = item.price else {
                 return error("This item can't be bought with coins.");
             };
+            // The price now: a running promotion's discount, if any.
+            let price = crate::promotions::price(server, item).unwrap_or_default();
             match server.store.buy_item(me.id, item.code, price as i64, now()).await {
                 Ok(BuyOutcome::Bought) => {
                     tracing::info!(user = me.id, item = item.code, price, "item bought");
@@ -202,9 +204,11 @@ pub async fn handle(server: &Arc<Server>, me: &User, msg: ClientMsg, send: &impl
             if shop::bound(item) {
                 return error("This item can't be given: it stays with whoever won it.");
             }
-            let Some(price) = item.coins() else {
+            let Some(_) = item.coins() else {
                 return error("Only items sold for coins can be given.");
             };
+            // The price now: a running promotion's discount, if any.
+            let price = crate::promotions::price(server, item).unwrap_or_default();
             let friend = match friend_named(server, me, &to).await {
                 Ok(f) => f,
                 Err(e) => return error(e),
@@ -466,7 +470,7 @@ async fn offer_email(server: &Server, user: &User) {
         return;
     }
     if let Ok(Some(email)) = server.store.payment_email(user.id).await {
-        let msg = crate::account::account_msg(user, Some(email));
+        let msg = crate::account::account_msg(server, user, Some(email)).await;
         server.with(|l| l.notify(&user.username, msg));
     }
 }
@@ -583,6 +587,8 @@ async fn vip_paid(
         tracing::info!(user = user.id, until = end, "VIP paid");
         notify(server, user, "Welcome to VIP!").await;
         offer_email(server, user).await;
+        // A new month: VIP's item of the month, if it isn't theirs yet.
+        crate::ops::vip_month_item(server, user).await;
     } else {
         push_wallet(server, user).await;
     }

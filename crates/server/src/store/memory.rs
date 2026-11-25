@@ -9,7 +9,9 @@ use snook_legend_proto::CareerNumbers;
 
 mod collection;
 mod correspondence;
+mod match_social;
 mod msstore;
+mod ops;
 
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
@@ -107,6 +109,15 @@ struct Inner {
     challenge: HashMap<i64, (u32, u32, i64)>,
     /// (user, item) -> when and how it was got (see `collection.rs`).
     acquired: HashMap<(i64, String), collection::Acquired>,
+    /// Operations and the economy (see `ops.rs`).
+    ops: ops::State,
+    /// user -> (settings, saved at) (see `match_social.rs`).
+    account_settings: HashMap<i64, (String, i64)>,
+    /// Direct messages, oldest first.
+    dms: Vec<super::DmRow>,
+    next_dm: i64,
+    /// (user, week) -> (games, attempts, made)
+    shot_weeks: BTreeMap<(i64, i64), (u32, u32, u32)>,
 }
 
 impl Inner {
@@ -234,6 +245,7 @@ impl MemoryStore {
             avatar: String::new(),
             minor: new.minor,
             chat_allowed_at: None,
+            chat_phrases_only: false,
         };
         s.users.insert(user.id, user.clone());
         Ok(Some(user))
@@ -872,8 +884,13 @@ impl MemoryStore {
             u.avatar = String::new();
             u.minor = None;
             u.chat_allowed_at = None;
+            u.chat_phrases_only = false;
             u.deleted_at = Some(now);
         }
+        // Their settings and conversations go with them.
+        s.account_settings.remove(&user_id);
+        s.dms.retain(|m| m.from != user_id && m.to != user_id);
+        s.shot_weeks.retain(|(u, _), _| *u != user_id);
         s.sessions.retain(|_, v| v.0 != user_id);
         s.friendships.retain(|(a, b), _| *a != user_id && *b != user_id);
         s.blocks.retain(|(a, b)| *a != user_id && *b != user_id);
@@ -1550,6 +1567,8 @@ impl MemoryStore {
             rules: e.rules,
             entry_fee: e.entry_fee,
             prize: e.prize,
+            champion_share: e.champion_share,
+            item_prize: e.item_prize.to_string(),
             created_by: String::new(),
             created_at: e.at,
             cancelled_at: None,

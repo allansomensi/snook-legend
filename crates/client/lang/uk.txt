@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} на вісімці: замовлена {pocket} луза
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} на вісімці (приціл замовляє лузу; клацніть лузу, щоб замовити іншу)
 On the 8-ball: {pocket} pocket	На вісімці: {pocket} луза
 Show ping	Показувати пінг
 Your connection's delay, in online games.	Затримка вашого з’єднання в онлайн-партіях.
@@ -2018,14 +2019,14 @@ your call	ваше замовлення
 {n} points to {tier} ({rules})	Ще {n} оч. до ліги «{tier}» ({rules})
 {n} waiting	Очікують: {n}
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Фол дає суперникові кулі його групи. Биток з руки лише на розбитті, і замовляють лише лузу для вісімки.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Фол дає суперникові биток з руки будь-де на столі. Нічого не замовляють, а розбиття має довести чотири кулі до борту.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Фол дає суперникові биток з руки будь-де на столі. Замовляють лише лузу для вісімки, при кожному ударі по ній, а розбиття має довести чотири кулі до борту.
 A foul gives balls to the opponent	Фол дає суперникові кулі
 Ball in hand on the break only	Биток з руки лише на розбитті
 Only the 8's pocket is called	Замовляють лише лузу для вісімки
 The most played in Brazil	Найпопулярніші в Бразилії
 A foul gives ball in hand	Фол дає биток з руки
 The break drives four balls to a cushion	Розбиття доводить чотири кулі до борту
-Any pocket counts	Рахується будь-яка луза
+Only the 8 is called, shot by shot	Замовляють лише вісімку, удар за ударом
 The same all over the world	Однакові в усьому світі
 Game type	Тип гри
 called: {pocket}	замовлено: {pocket} луза
@@ -2272,3 +2273,133 @@ Win a rated game that lasted 60 shots or more.	Виграйте рейтинго
 Ugly but it counts	Негарно, але зараховано
 Win a rated game in which you fouled four times or more.	Виграйте рейтингову партію, у якій ви зробили чотири фоли або більше.
 This item can't be given: it stays with whoever won it.	Цей предмет не можна подарувати: він лишається в того, хто його виграв.
+Current prize: {n} coins	Поточний приз: {n} монет
+Champion wins: {item}	Чемпіон отримує: {item}
+{h} h {m} min	{h} год {m} хв
+{m} min	{m} хв
+{s} s	{s} с
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	День {d} поспіль: +{n} монет. Завтра: +{m}.
+Auctions ({n})	Аукціони ({n})
+Auctions	Аукціони
+Supporters	Прихильники
+Maintenance in {t}: the server stops for about {m} min.	Техроботи через {t}: сервер зупиниться приблизно на {m} хв.
+Maintenance: the server is stopping. Games in progress go on.	Техроботи: сервер зупиняється. Поточні партії тривають.
+Your coins: {n}	Ваші монети: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Рідкісні предмети за найвищу ставку. Вашу ставку заморожено; якщо хтось дасть більше, монети одразу повернуться. Ставка в останні дві хвилини подовжує торги на дві.
+No auctions right now. Come back soon!	Зараз аукціонів немає. Заходьте згодом!
+Current bid: {n} coins	Поточна ставка: {n} монет
+No bids yet · from {n} coins	Ставок ще немає · від {n} монет
+Ended without bids	Завершено без ставок
+You won it!	Ви виграли!
+Won by {name}	Виграв {name}
+Opens in {t}	Відкриється через {t}
+You lead · ends in {t}	Ви лідируєте · кінець через {t}
+Ends in {t}	Кінець через {t}
+{name} leads · ends in {t}	{name} лідирує · кінець через {t}
+Yours already	Уже ваше
+Raise	Підвищити
+Bid	Ставка
+Your bid (at least {n}):	Ваша ставка (щонайменше {n}):
+Place bid	Зробити ставку
+Thank you to the VIP members who keep the game going, now and before.	Дякуємо VIP-учасникам, які підтримують гру, зараз і раніше.
+Nobody in the credits yet.	У титрах поки нікого.
+since {d} · {n} months	з {d} · {n} міс.
+Show my name in the supporters' credits	Показувати моє ім'я в титрах прихильників
+{title}: ends in {t}	{title}: кінець через {t}
+An item of the month, yours to keep even if you cancel	Предмет місяця — ваш назавжди, навіть якщо скасуєте
+If VIP ends, you keep	Якщо VIP завершиться, залишиться
+If VIP ends, you lose	Якщо VIP завершиться, зникне
+The items of the month you got	Отримані предмети місяця
+Everything you bought, and your coins	Усе куплене і ваші монети
+Your ratings, trophies and achievements	Ваші рейтинги, трофеї та досягнення
+VIP's cloths, cues and frames (back when you return)	VIP-сукна, киї та рамки (повернуться, коли повернетеся)
+The monthly coins and the next months' items	Щомісячні монети й предмети наступних місяців
+The crown, and replays beyond your last 10 games	Корона і повтори понад останні 10 партій
+Your free changes are used: another costs {n} coins.	Безкоштовні зміни закінчилися: ще одна коштує {n} монет.
+Bid at least {n} coins.	Ставка має бути щонайменше {n} монет.
+The server stops for maintenance in {n} min.	Сервер зупиниться на техроботи через {n} хв.
+This auction is not open.	Цей аукціон не відкритий.
+The credits are for VIP members, now or before.	Титри — для VIP-учасників, теперішніх або колишніх.
+The server stops for maintenance now. Games in progress go on.	Сервер зупиняється на техроботи. Поточні партії тривають.
+Play online: your games are added up here as they end.	Грайте онлайн: ваші партії підсумовуються тут, щойно закінчуються.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Подивіться, як ви забиваєте в кожну лузу і за кутом різання, як зростаєте тиждень за тижнем і як виглядаєте на тлі гравців своєї ліги.
+Advanced statistics	Докладна статистика
+Become VIP	Стати VIP
+By pocket	За лузами
+By cut angle	За кутом різання
+The white mark: your league.	Біла позначка: ваша ліга.
+Week by week	Тиждень за тижнем
+Against your league	На тлі вашої ліги
+{tier}: {n} players	{tier}: гравців — {n}
+You	Ви
+League	Ліга
+{pocket}: {n} points above	{pocket}: вище на {n} п.
+{pocket}: {n} points below	{pocket}: нижче на {n} п.
+Messages with {name}	Повідомлення з {name}
+No messages with {name} yet. Say hello!	Ще немає повідомлень з {name}. Привітайтеся!
+Write a message… (Enter to send)	Напишіть повідомлення… (Enter — надіслати)
+You can write to your friends only.	Писати можна лише друзям.
+Choose a quick phrase…	Виберіть швидку фразу…
+Looking for a game ({rules})	Шукає партію ({rules})
+At a table, waiting ({rules})	За столом, чекає ({rules})
+Playing a tournament game against {name}	Грає турнірну партію проти {name}
+Playing against {name}	Грає проти {name}
+Watching {name}'s game	Дивиться партію {name}
+In {name}	У {name}
+Playing the computer	Грає проти комп'ютера
+Practising	Тренується
+In the daily challenge	У випробуванні дня
+Doing drills	Виконує вправи
+On the tour	У турі
+Away	Відійшов
+Victory by abandonment	Перемога через вихід суперника
+Players (administrator)	Гравці (адміністратор)
+Spectators	Глядачі
+Chat (muted)	Чат (вимкнено)
+Say something to the others watching (the players don't see it).	Напишіть щось іншим глядачам (гравці цього не бачать).
+Rated game	Рейтингова партія
+Casual game	Товариська партія
+Click to skip	Натисніть, щоб пропустити
+Guest	Гість
+Win	Перемога
+Loss	Поразка
+{n} rating points at stake	На кону {n} очок рейтингу
+No rating at stake	Рейтинг не на кону
+Hide the shot's numbers	Сховати цифри удару
+Show the shot's numbers	Показати цифри удару
+Last shot	Останній удар
+No shot yet.	Ударів ще немає.
+Balls left	Залишилося куль
+Right side	Правий гвинт
+Left side	Лівий гвинт
+Centre ball	Центр кулі
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Лише швидкі фрази (без вільного тексту)
+Messages	Повідомлення
+World	Світ
+Friends ranking	Рейтинг друзів
+You and your friends · rated games	Ви та ваші друзі · рейтингові партії
+Add friends to see where you stand among them.	Додайте друзів, щоб побачити своє місце серед них.
+Chat and reactions	Чат і реакції
+Mute the opponent's chat	Вимкнути чат суперника
+Their messages in online games are not shown (yours still reach them).	Його повідомлення в онлайн-партіях не показуються (ваші й далі до нього доходять).
+Hide the opponent's reactions	Сховати реакції суперника
+The reactions they send at the table are not shown.	Реакції, які він надсилає за столом, не показуються.
+Players muted from a game: {n}	Гравців вимкнено в партіях: {n}
+Unmute them all	Увімкнути всіх знову
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Ця партія йде в рейтинг: +{win} за перемогу, {loss} за поразку.
+This game counts for the rating.	Ця партія йде в рейтинг.
+A casual game: the rating doesn't change.	Товариська партія: рейтинг не змінюється.
+{name} lost the connection	{name} втратив з'єднання
+If they don't come back in time, you win by abandonment.	Якщо він не повернеться вчасно, ви переможете через його вихід.
+Mute {name}	Вимкнути {name}
+Mute {name}'s chat	Вимкнути чат {name}
+Hide {name}'s reactions	Сховати реакції {name}
+Remembered for your next games against them.	Запам'ятається для наступних партій проти нього.
+Broadcast	Трансляція
+3D	3D
+You can only send messages to your friends.	Надсилати повідомлення можна лише друзям.
+You can't send messages to this player.	Ви не можете надсилати повідомлення цьому гравцеві.
+Your chat is set to the quick phrases only.	Ваш чат обмежено швидкими фразами.
+These settings can't be kept.	Ці налаштування не можна зберегти.
+You aren't watching a game.	Ви не дивитеся жодну партію.

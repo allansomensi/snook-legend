@@ -559,6 +559,37 @@ impl SettingsScreen {
                     &mut config.show_reactions,
                 );
 
+                // What the opponent says and sends in online games.
+                rows.heading(ui, t("Chat and reactions"), None);
+                switch_row(
+                    rows,
+                    ui,
+                    t("Mute the opponent's chat"),
+                    t("Their messages in online games are not shown (yours still reach them)."),
+                    &mut config.mute_chat,
+                );
+                switch_row(
+                    rows,
+                    ui,
+                    t("Hide the opponent's reactions"),
+                    t("The reactions they send at the table are not shown."),
+                    &mut config.hide_reactions,
+                );
+                let muted: std::collections::BTreeSet<&String> =
+                    config.muted_chat.iter().chain(&config.muted_reactions).collect();
+                if !muted.is_empty() {
+                    let names: Vec<&str> = muted.iter().map(|n| n.as_str()).collect();
+                    let hint = names.join(", ");
+                    let label = tw("Players muted from a game: {n}", &[("n", &names.len())]);
+                    if let Some((_, c)) = rows.row(ui, &label, &hint, Control::Wide(32.0)) {
+                        let b = Rect::new(c.x, c.y, c.w.min(220.0), c.h);
+                        if ui.button(b, t("Unmute them all"), true) {
+                            config.muted_chat.clear();
+                            config.muted_reactions.clear();
+                        }
+                    }
+                }
+
                 rows.heading(ui, t("Aiming"), None);
                 let hint = match config.guide {
                     AimGuide::Full => t(
@@ -1003,6 +1034,10 @@ fn defaults_keeping(config: &Config) -> Config {
         last_version: keep.last_version,
         // A choice of the player's, not a setting to tune.
         rules: keep.rules,
+        // Which account the settings are in step with (the reset goes up
+        // to it as a change).
+        settings_account: keep.settings_account,
+        settings_synced_at: keep.settings_synced_at,
         graphics_checked: true,
         ..Config::default()
     }

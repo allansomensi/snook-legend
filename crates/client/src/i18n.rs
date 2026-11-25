@@ -372,6 +372,14 @@ pub fn server_text(text: &str) -> String {
             &[("n", &n)],
         );
     }
+    if let Some(rest) = text.strip_prefix("Bid at least ") {
+        let n = rest.split_whitespace().next().unwrap_or("?");
+        return tw("Bid at least {n} coins.", &[("n", &n)]);
+    }
+    if let Some(rest) = text.strip_prefix("The server stops for maintenance in ") {
+        let n = rest.split_whitespace().next().unwrap_or("?");
+        return tw("The server stops for maintenance in {n} min.", &[("n", &n)]);
+    }
     if let Some(rest) = text.strip_prefix("You are muted for ") {
         let n = rest.split_whitespace().next().unwrap_or("?");
         return tw("You are muted for {n} more minutes.", &[("n", &n)]);

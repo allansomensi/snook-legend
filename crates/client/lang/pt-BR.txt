@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} está na bola 8: caçapa cantada {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} está na bola 8 (a sua mira canta a caçapa; clique numa caçapa para cantar outra)
 On the 8-ball: {pocket} pocket	Na bola 8: caçapa {pocket}
 Show ping	Mostrar ping
 Your connection's delay, in online games.	O atraso da sua conexão nas partidas online.
@@ -2018,14 +2019,14 @@ your call	cantada por você
 {n} points to {tier} ({rules})	{n} pontos para {tier} ({rules})
 {n} waiting	{n} na fila
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Falta dá ao adversário bolas do grupo dele. A branca fica na mão só na saída, e só a caçapa da 8 é cantada.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Falta dá ao adversário a branca na mão, em qualquer lugar da mesa. Nada é cantado, e a saída precisa levar quatro bolas à tabela.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Falta dá ao adversário a branca na mão, em qualquer lugar da mesa. Só a caçapa da 8 é cantada, a cada tacada nela, e a saída precisa levar quatro bolas à tabela.
 A foul gives balls to the opponent	Falta dá bolas ao adversário
 Ball in hand on the break only	Bola na mão só na saída
 Only the 8's pocket is called	Só a caçapa da 8 é cantada
 The most played in Brazil	A mais jogada no Brasil
 A foul gives ball in hand	Falta dá bola na mão
 The break drives four balls to a cushion	Saída com quatro bolas na tabela
-Any pocket counts	Vale qualquer caçapa
+Only the 8 is called, shot by shot	Só a 8 é cantada, tacada a tacada
 The same all over the world	A mesma do mundo todo
 Game type	Partida
 called: {pocket}	cantada: {pocket}
@@ -2272,3 +2273,133 @@ Win a rated game that lasted 60 shots or more.	Vença uma partida valendo rating
 Ugly but it counts	Feio, mas vale
 Win a rated game in which you fouled four times or more.	Vença uma partida valendo rating em que você cometeu quatro faltas ou mais.
 This item can't be given: it stays with whoever won it.	Este item não pode ser dado: fica com quem o ganhou.
+Current prize: {n} coins	Prêmio atual: {n} moedas
+Champion wins: {item}	O campeão ganha: {item}
+{h} h {m} min	{h} h {m} min
+{m} min	{m} min
+{s} s	{s} s
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	{d}º dia seguido: +{n} moedas. Amanhã: +{m}.
+Auctions ({n})	Leilões ({n})
+Auctions	Leilões
+Supporters	Apoiadores
+Maintenance in {t}: the server stops for about {m} min.	Manutenção em {t}: o servidor para por cerca de {m} min.
+Maintenance: the server is stopping. Games in progress go on.	Manutenção: o servidor está parando. As partidas em andamento continuam.
+Your coins: {n}	Suas moedas: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Itens raros para o maior lance. Seu lance fica reservado; se alguém der mais, suas moedas voltam na hora. Um lance nos dois últimos minutos dá mais dois.
+No auctions right now. Come back soon!	Nenhum leilão agora. Volte logo!
+Current bid: {n} coins	Lance atual: {n} moedas
+No bids yet · from {n} coins	Nenhum lance ainda · a partir de {n} moedas
+Ended without bids	Terminou sem lances
+You won it!	Você ganhou!
+Won by {name}	Arrematado por {name}
+Opens in {t}	Abre em {t}
+You lead · ends in {t}	Você lidera · termina em {t}
+Ends in {t}	Termina em {t}
+{name} leads · ends in {t}	{name} lidera · termina em {t}
+Yours already	Já é seu
+Raise	Aumentar
+Bid	Dar lance
+Your bid (at least {n}):	Seu lance (no mínimo {n}):
+Place bid	Confirmar lance
+Thank you to the VIP members who keep the game going, now and before.	Obrigado aos membros VIP que mantêm o jogo vivo, hoje e antes.
+Nobody in the credits yet.	Ninguém nos créditos ainda.
+since {d} · {n} months	desde {d} · {n} meses
+Show my name in the supporters' credits	Mostrar meu nome nos créditos dos apoiadores
+{title}: ends in {t}	{title}: termina em {t}
+An item of the month, yours to keep even if you cancel	Um item do mês, seu para sempre mesmo se cancelar
+If VIP ends, you keep	Se o VIP acabar, você mantém
+If VIP ends, you lose	Se o VIP acabar, você perde
+The items of the month you got	Os itens do mês que você ganhou
+Everything you bought, and your coins	Tudo o que você comprou, e suas moedas
+Your ratings, trophies and achievements	Seus ratings, troféus e conquistas
+VIP's cloths, cues and frames (back when you return)	Panos, tacos e molduras do VIP (voltam quando você voltar)
+The monthly coins and the next months' items	As moedas mensais e os itens dos próximos meses
+The crown, and replays beyond your last 10 games	A coroa, e os replays além das suas 10 últimas partidas
+Your free changes are used: another costs {n} coins.	Suas trocas grátis acabaram: outra custa {n} moedas.
+Bid at least {n} coins.	Dê um lance de pelo menos {n} moedas.
+The server stops for maintenance in {n} min.	O servidor para para manutenção em {n} min.
+This auction is not open.	Este leilão não está aberto.
+The credits are for VIP members, now or before.	Os créditos são para membros VIP, atuais ou antigos.
+The server stops for maintenance now. Games in progress go on.	O servidor está parando para manutenção agora. As partidas em andamento continuam.
+Play online: your games are added up here as they end.	Jogue online: suas partidas são somadas aqui quando terminam.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Veja como você encaçapa caçapa por caçapa e por ângulo de corte, como evolui semana a semana e como se compara com os jogadores da sua liga.
+Advanced statistics	Estatísticas avançadas
+Become VIP	Seja VIP
+By pocket	Por caçapa
+By cut angle	Por ângulo de corte
+The white mark: your league.	A marca branca: sua liga.
+Week by week	Semana a semana
+Against your league	Contra a sua liga
+{tier}: {n} players	{tier}: {n} jogadores
+You	Você
+League	Liga
+{pocket}: {n} points above	{pocket}: {n} pontos acima
+{pocket}: {n} points below	{pocket}: {n} pontos abaixo
+Messages with {name}	Mensagens com {name}
+No messages with {name} yet. Say hello!	Nenhuma mensagem com {name} ainda. Diga oi!
+Write a message… (Enter to send)	Escreva uma mensagem… (Enter para enviar)
+You can write to your friends only.	Você só pode escrever para seus amigos.
+Choose a quick phrase…	Escolha uma frase rápida…
+Looking for a game ({rules})	Procurando partida ({rules})
+At a table, waiting ({rules})	Numa mesa, esperando ({rules})
+Playing a tournament game against {name}	Jogando uma partida de torneio contra {name}
+Playing against {name}	Jogando contra {name}
+Watching {name}'s game	Assistindo à partida de {name}
+In {name}	Em {name}
+Playing the computer	Jogando contra o computador
+Practising	Treinando
+In the daily challenge	No desafio do dia
+Doing drills	Fazendo exercícios
+On the tour	No circuito
+Away	Ausente
+Victory by abandonment	Vitória por abandono
+Players (administrator)	Jogadores (administrador)
+Spectators	Espectadores
+Chat (muted)	Chat (silenciado)
+Say something to the others watching (the players don't see it).	Diga algo para quem está assistindo (os jogadores não veem).
+Rated game	Partida valendo rating
+Casual game	Partida amistosa
+Click to skip	Clique para pular
+Guest	Convidado
+Win	Vitória
+Loss	Derrota
+{n} rating points at stake	{n} pontos de rating em jogo
+No rating at stake	Nenhum rating em jogo
+Hide the shot's numbers	Esconder os números da tacada
+Show the shot's numbers	Mostrar os números da tacada
+Last shot	Última tacada
+No shot yet.	Nenhuma tacada ainda.
+Balls left	Bolas restantes
+Right side	Efeito à direita
+Left side	Efeito à esquerda
+Centre ball	Bola no centro
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Só as frases rápidas (sem texto livre)
+Messages	Mensagens
+World	Mundo
+Friends ranking	Ranking dos amigos
+You and your friends · rated games	Você e seus amigos · partidas valendo rating
+Add friends to see where you stand among them.	Adicione amigos para ver sua posição entre eles.
+Chat and reactions	Chat e reações
+Mute the opponent's chat	Silenciar o chat do adversário
+Their messages in online games are not shown (yours still reach them).	As mensagens dele nas partidas online não aparecem (as suas ainda chegam).
+Hide the opponent's reactions	Esconder as reações do adversário
+The reactions they send at the table are not shown.	As reações que ele envia na mesa não aparecem.
+Players muted from a game: {n}	Jogadores silenciados numa partida: {n}
+Unmute them all	Reativar todos
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Esta partida vale rating: +{win} se você vencer, {loss} se perder.
+This game counts for the rating.	Esta partida vale rating.
+A casual game: the rating doesn't change.	Partida amistosa: o rating não muda.
+{name} lost the connection	{name} perdeu a conexão
+If they don't come back in time, you win by abandonment.	Se ele não voltar a tempo, você vence por abandono.
+Mute {name}	Silenciar {name}
+Mute {name}'s chat	Silenciar o chat de {name}
+Hide {name}'s reactions	Esconder as reações de {name}
+Remembered for your next games against them.	Lembrado para as suas próximas partidas contra ele.
+Broadcast	Transmissão
+3D	3D
+You can only send messages to your friends.	Você só pode enviar mensagens para seus amigos.
+You can't send messages to this player.	Você não pode enviar mensagens para este jogador.
+Your chat is set to the quick phrases only.	Seu chat está limitado às frases rápidas.
+These settings can't be kept.	Essas configurações não podem ser guardadas.
+You aren't watching a game.	Você não está assistindo a uma partida.

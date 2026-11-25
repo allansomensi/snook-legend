@@ -59,12 +59,20 @@ shooter                     server                         opponent
 
 ## Matches
 
-- The shot clock runs on the server (and keeps running if the shooter
-  disconnects); when it runs out the server plays a full-power shot where the
+- The shot clock runs on the server (it waits while the shooter's
+  connection is down: the reconnection grace is their limit, and back at
+  their turn they have at least 15 s; the opponent gets
+  `opponent_connection { connected: true, clock_left }`; the first shot's
+  clock also waits the 3 s of the match's introduction); when it runs out the server plays a full-power shot where the
   player was aiming (under the official rules it is a foul instead:
   `time_foul`, the cue ball in hand for the opponent).
-- The official rules call every shot but the break: `shoot { called_pocket }`
-  names the pocket, and none is a safety. Some breaks leave a choice
+- The official rules call the 8 (since protocol 25; games recorded before
+  keep theirs: until 0.11.1 every shot but the break, from 0.11.2 to 0.11.x
+  nothing, as the game's `calls` and `eight_call` say): on a shot at the 8,
+  `shoot { called_pocket }` names its pocket, and the 8 made anywhere else
+  (or with no call) loses. A game of protocol 24 can't call it: the server
+  counts the 8 it makes as called in the pocket it went into, and records
+  that call with the stroke. Some breaks leave a choice
   (`game.choice`): the player to move answers `choose { turn, option }`
   (`play_on`, `cue_ball_in_hand`, `break_again`, `opponent_breaks`) and both
   get `chose { seat, option, game }`; the shot clock takes the first option.
@@ -76,7 +84,13 @@ shooter                     server                         opponent
   gets `opponent_left`). A `leave_match` right after a `resign` that waits
   for the shot being played waits with it.
 - Reconnecting within the grace period resumes the match with a fresh
-  `match_started`.
+  `match_started`, followed by what the player would otherwise miss: the
+  game's end, the opponent still away (`opponent_connection { connected:
+  false, grace_secs }` with the time they have left), the opponent's chat
+  lines said meanwhile (those of the last minute when the game signed in
+  again before the server saw its old connection go; the game leaves out
+  the lines it has, by writer, text and time), a rematch asked for, and
+  who is watching.
 - Ratings: Elo with K 24 for the first 10 rated games, 14 after, 8 from
   1900 (`crates/core/src/rating.rs`), kept apart for each rules: a player has
   a rating, peak and record under each (`PlayerInfo.standings`), and the
@@ -124,3 +138,33 @@ minutes when their match is ready loses it. Players still in a running
 tournament can't start other games.
 
 Rated games use Elo (`snook_legend_core::rating`). See `docs/DEPLOY.md` for limits.
+
+## Match and social (0.12)
+
+- `match_started { stakes }`: in a rated game, each seat's `[win, loss]` in
+  rating as the server reckons them at the start (the same Elo, halved and
+  then nothing between players who met often that day). The game opens the
+  match with an introduction (the two players face each other).
+- Settings that follow the account: `save_settings { data }` (the game's
+  JSON, at most 8 KB) → `settings_saved { updated_at }`; after signing in
+  the server sends `settings { data, updated_at }` (empty, at 0, when none).
+  The game keeps the newest (see `crates/client/src/sync.rs`).
+- Direct messages between friends: `dm_send { to, text }` → `dm { message }`
+  to both (stored for an offline friend); `dm_history { with, before }` →
+  `dm_history { with, messages, more }` (50 a page); `dm_read { with }`;
+  `dm_threads` → `dm_threads { threads }` (also after signing in when there
+  are some). Only friends, never across a block, the chat's rules (mutes,
+  age, quick phrases only) apply.
+- Friends see what each other does: `friends.friends[].activity` and
+  `friend_activity { username, activity }` whenever it changes (playing
+  against someone, looking for a game, watching, the daily challenge…;
+  `set_activity { pastime }` says what the game plays offline).
+- Spectators chat apart: `spectator_chat { text }` → `spectator_chat { line }`
+  to everyone watching that table (never to the players); those starting to
+  watch get the last lines.
+- A parent or guardian may keep an account under 18 to the quick phrases:
+  `allow_chat { allowed, phrases_only }` (`age { phrases_only }`); the
+  server refuses anything else in every chat and in messages.
+- `advanced_stats { rules }` → `advanced_stats { stats }`: a VIP's success
+  by pocket and cut angle, week by week, and their league's (others get
+  `vip: false` and no numbers).

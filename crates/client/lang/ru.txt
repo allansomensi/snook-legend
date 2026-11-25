@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} на восьмёрке: заказана {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} на восьмёрке (прицел заказывает лузу; нажмите на лузу, чтобы заказать другую)
 On the 8-ball: {pocket} pocket	На восьмёрке: {pocket}
 Show ping	Показывать пинг
 Your connection's delay, in online games.	Задержка вашего соединения в онлайн-партиях.
@@ -2018,14 +2019,14 @@ your call	ваш заказ
 {n} points to {tier} ({rules})	{n} очк. до лиги «{tier}» ({rules})
 {n} waiting	Ждут: {n}
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Фол отдаёт сопернику шары его группы. Биток с руки только на разбое, а заказывается только луза для восьмёрки.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Фол даёт сопернику биток с руки в любое место стола. Ничего не заказывают, а на разбое четыре шара должны коснуться борта.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Фол даёт сопернику биток с руки в любое место стола. Заказывают только лузу для восьмёрки, при каждом ударе по ней, а на разбое четыре шара должны коснуться борта.
 A foul gives balls to the opponent	Фол отдаёт шары сопернику
 Ball in hand on the break only	Шар с руки только на разбое
 Only the 8's pocket is called	Заказ только на восьмёрку
 The most played in Brazil	Самые популярные в Бразилии
 A foul gives ball in hand	Фол даёт шар с руки
 The break drives four balls to a cushion	На разбое — четыре шара к бортам
-Any pocket counts	Считается любая луза
+Only the 8 is called, shot by shot	Заказывают только восьмёрку, удар за ударом
 The same all over the world	Единые во всём мире
 Game type	Тип игры
 called: {pocket}	заказ: {pocket}
@@ -2272,3 +2273,133 @@ Win a rated game that lasted 60 shots or more.	Выиграйте рейтинг
 Ugly but it counts	Некрасиво, но засчитано
 Win a rated game in which you fouled four times or more.	Выиграйте рейтинговую партию, в которой вы сделали четыре фола или больше.
 This item can't be given: it stays with whoever won it.	Этот предмет нельзя подарить: он остаётся у того, кто его выиграл.
+Current prize: {n} coins	Текущий приз: {n} монет
+Champion wins: {item}	Чемпион получает: {item}
+{h} h {m} min	{h} ч {m} мин
+{m} min	{m} мин
+{s} s	{s} с
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	День {d} подряд: +{n} монет. Завтра: +{m}.
+Auctions ({n})	Аукционы ({n})
+Auctions	Аукционы
+Supporters	Спонсоры
+Maintenance in {t}: the server stops for about {m} min.	Техработы через {t}: сервер остановится примерно на {m} мин.
+Maintenance: the server is stopping. Games in progress go on.	Техработы: сервер останавливается. Идущие партии продолжаются.
+Your coins: {n}	Ваши монеты: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Редкие предметы за самую высокую ставку. Ваша ставка замораживается; если кто-то даст больше, монеты сразу вернутся. Ставка в последние две минуты продлевает торги на две.
+No auctions right now. Come back soon!	Сейчас аукционов нет. Заходите позже!
+Current bid: {n} coins	Текущая ставка: {n} монет
+No bids yet · from {n} coins	Ставок пока нет · от {n} монет
+Ended without bids	Завершён без ставок
+You won it!	Вы выиграли!
+Won by {name}	Выиграл {name}
+Opens in {t}	Откроется через {t}
+You lead · ends in {t}	Вы лидируете · конец через {t}
+Ends in {t}	Конец через {t}
+{name} leads · ends in {t}	{name} лидирует · конец через {t}
+Yours already	Уже ваше
+Raise	Повысить
+Bid	Ставка
+Your bid (at least {n}):	Ваша ставка (не меньше {n}):
+Place bid	Сделать ставку
+Thank you to the VIP members who keep the game going, now and before.	Спасибо VIP-участникам, которые поддерживают игру, сейчас и раньше.
+Nobody in the credits yet.	В титрах пока никого.
+since {d} · {n} months	с {d} · {n} мес.
+Show my name in the supporters' credits	Показывать моё имя в титрах спонсоров
+{title}: ends in {t}	{title}: конец через {t}
+An item of the month, yours to keep even if you cancel	Предмет месяца — ваш навсегда, даже если отмените подписку
+If VIP ends, you keep	Если VIP закончится, останется
+If VIP ends, you lose	Если VIP закончится, пропадёт
+The items of the month you got	Полученные предметы месяца
+Everything you bought, and your coins	Всё купленное и ваши монеты
+Your ratings, trophies and achievements	Ваши рейтинги, трофеи и достижения
+VIP's cloths, cues and frames (back when you return)	VIP-сукна, кии и рамки (вернутся, когда вернётесь)
+The monthly coins and the next months' items	Ежемесячные монеты и предметы следующих месяцев
+The crown, and replays beyond your last 10 games	Корона и повторы сверх последних 10 партий
+Your free changes are used: another costs {n} coins.	Бесплатные смены закончились: ещё одна стоит {n} монет.
+Bid at least {n} coins.	Ставка должна быть не меньше {n} монет.
+The server stops for maintenance in {n} min.	Сервер остановится на техработы через {n} мин.
+This auction is not open.	Этот аукцион не открыт.
+The credits are for VIP members, now or before.	Титры — для VIP-участников, нынешних или бывших.
+The server stops for maintenance now. Games in progress go on.	Сервер останавливается на техработы. Идущие партии продолжаются.
+Play online: your games are added up here as they end.	Играйте онлайн: ваши партии суммируются здесь по их окончании.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Посмотрите, как вы забиваете по каждой лузе и по углу резки, как растёте неделя за неделей и как выглядите на фоне игроков своей лиги.
+Advanced statistics	Подробная статистика
+Become VIP	Стать VIP
+By pocket	По лузам
+By cut angle	По углу резки
+The white mark: your league.	Белая отметка: ваша лига.
+Week by week	Неделя за неделей
+Against your league	На фоне вашей лиги
+{tier}: {n} players	{tier}: игроков — {n}
+You	Вы
+League	Лига
+{pocket}: {n} points above	{pocket}: выше на {n} п.
+{pocket}: {n} points below	{pocket}: ниже на {n} п.
+Messages with {name}	Сообщения с {name}
+No messages with {name} yet. Say hello!	Пока нет сообщений с {name}. Поздоровайтесь!
+Write a message… (Enter to send)	Напишите сообщение… (Enter — отправить)
+You can write to your friends only.	Писать можно только друзьям.
+Choose a quick phrase…	Выберите быструю фразу…
+Looking for a game ({rules})	Ищет партию ({rules})
+At a table, waiting ({rules})	За столом, ждёт ({rules})
+Playing a tournament game against {name}	Играет турнирную партию против {name}
+Playing against {name}	Играет против {name}
+Watching {name}'s game	Смотрит партию {name}
+In {name}	В {name}
+Playing the computer	Играет против компьютера
+Practising	Тренируется
+In the daily challenge	В испытании дня
+Doing drills	Выполняет упражнения
+On the tour	В туре
+Away	Отошёл
+Victory by abandonment	Победа из-за ухода соперника
+Players (administrator)	Игроки (администратор)
+Spectators	Зрители
+Chat (muted)	Чат (заглушён)
+Say something to the others watching (the players don't see it).	Напишите что-нибудь другим зрителям (игроки этого не видят).
+Rated game	Рейтинговая партия
+Casual game	Товарищеская партия
+Click to skip	Нажмите, чтобы пропустить
+Guest	Гость
+Win	Победа
+Loss	Поражение
+{n} rating points at stake	На кону {n} очков рейтинга
+No rating at stake	Рейтинг не на кону
+Hide the shot's numbers	Скрыть цифры удара
+Show the shot's numbers	Показать цифры удара
+Last shot	Последний удар
+No shot yet.	Ударов пока нет.
+Balls left	Осталось шаров
+Right side	Правый винт
+Left side	Левый винт
+Centre ball	Центр шара
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Только быстрые фразы (без свободного текста)
+Messages	Сообщения
+World	Мир
+Friends ranking	Рейтинг друзей
+You and your friends · rated games	Вы и ваши друзья · рейтинговые партии
+Add friends to see where you stand among them.	Добавьте друзей, чтобы увидеть своё место среди них.
+Chat and reactions	Чат и реакции
+Mute the opponent's chat	Заглушить чат соперника
+Their messages in online games are not shown (yours still reach them).	Его сообщения в онлайн-партиях не показываются (ваши по-прежнему до него доходят).
+Hide the opponent's reactions	Скрыть реакции соперника
+The reactions they send at the table are not shown.	Реакции, которые он отправляет за столом, не показываются.
+Players muted from a game: {n}	Игроков заглушено в партиях: {n}
+Unmute them all	Включить всех снова
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Эта партия идёт в рейтинг: +{win} за победу, {loss} за поражение.
+This game counts for the rating.	Эта партия идёт в рейтинг.
+A casual game: the rating doesn't change.	Товарищеская партия: рейтинг не меняется.
+{name} lost the connection	{name} потерял соединение
+If they don't come back in time, you win by abandonment.	Если он не вернётся вовремя, вы победите из-за его ухода.
+Mute {name}	Заглушить {name}
+Mute {name}'s chat	Заглушить чат {name}
+Hide {name}'s reactions	Скрыть реакции {name}
+Remembered for your next games against them.	Запомнится для следующих партий против него.
+Broadcast	Трансляция
+3D	3D
+You can only send messages to your friends.	Отправлять сообщения можно только друзьям.
+You can't send messages to this player.	Вы не можете отправлять сообщения этому игроку.
+Your chat is set to the quick phrases only.	Ваш чат ограничен быстрыми фразами.
+These settings can't be kept.	Эти настройки нельзя сохранить.
+You aren't watching a game.	Вы не смотрите ни одну партию.

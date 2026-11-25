@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	Ο/Η {name} είναι στην 8: δηλωμένη τρύπα {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	Ο/Η {name} είναι στην 8 (η σκόπευσή σου δηλώνει την τρύπα· κάνε κλικ σε μια τρύπα για να δηλώσεις άλλη)
 On the 8-ball: {pocket} pocket	Στη μπάλα 8: τρύπα {pocket}
 Show ping	Εμφάνιση ping
 Your connection's delay, in online games.	Η καθυστέρηση της σύνδεσής σου στα online παιχνίδια.
@@ -2018,14 +2019,14 @@ your call	δική σου δήλωση
 {n} points to {tier} ({rules})	{n} πόντοι για {tier} ({rules})
 {n} waiting	Σε αναμονή: {n}
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Ένα φάουλ δίνει στον αντίπαλο μπάλες της ομάδας του. Μπάλα στο χέρι υπάρχει μόνο στο σπάσιμο, και δηλώνεται μόνο η τρύπα της 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Ένα φάουλ δίνει στον αντίπαλο μπάλα στο χέρι, οπουδήποτε στο τραπέζι. Δεν δηλώνεται τίποτα, και το σπάσιμο πρέπει να στείλει τέσσερις μπάλες σε μπάντα.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Ένα φάουλ δίνει στον αντίπαλο μπάλα στο χέρι, οπουδήποτε στο τραπέζι. Δηλώνεται μόνο η τρύπα της 8, σε κάθε χτύπημα σε αυτήν, και το σπάσιμο πρέπει να στείλει τέσσερις μπάλες σε μπάντα.
 A foul gives balls to the opponent	Το φάουλ δίνει μπάλες στον αντίπαλο
 Ball in hand on the break only	Μπάλα στο χέρι μόνο στο σπάσιμο
 Only the 8's pocket is called	Δηλώνεται μόνο η τρύπα της 8
 The most played in Brazil	Το πιο δημοφιλές στη Βραζιλία
 A foul gives ball in hand	Το φάουλ δίνει μπάλα στο χέρι
 The break drives four balls to a cushion	Το σπάσιμο στέλνει τέσσερις μπάλες σε μπάντα
-Any pocket counts	Μετράει κάθε τρύπα
+Only the 8 is called, shot by shot	Δηλώνεται μόνο η 8, χτύπημα με χτύπημα
 The same all over the world	Ίδιοι σε όλο τον κόσμο
 Game type	Είδος παρτίδας
 called: {pocket}	δήλωση: {pocket}
@@ -2272,3 +2273,133 @@ Win a rated game that lasted 60 shots or more.	Κέρδισε μια βαθμο�
 Ugly but it counts	Άσχημο, αλλά μετράει
 Win a rated game in which you fouled four times or more.	Κέρδισε μια βαθμολογημένη παρτίδα στην οποία έκανες τέσσερα φάουλ ή περισσότερα.
 This item can't be given: it stays with whoever won it.	Αυτό το αντικείμενο δεν μπορεί να χαριστεί: μένει σε όποιον το κέρδισε.
+Current prize: {n} coins	Τρέχον έπαθλο: {n} νομίσματα
+Champion wins: {item}	Ο πρωταθλητής κερδίζει: {item}
+{h} h {m} min	{h} ώ {m} λ
+{m} min	{m} λ
+{s} s	{s} δ
+Day {d} in a row: +{n} coins. Tomorrow: +{m}.	Μέρα {d} στη σειρά: +{n} νομίσματα. Αύριο: +{m}.
+Auctions ({n})	Δημοπρασίες ({n})
+Auctions	Δημοπρασίες
+Supporters	Υποστηρικτές
+Maintenance in {t}: the server stops for about {m} min.	Συντήρηση σε {t}: ο διακομιστής σταματά για περίπου {m} λ.
+Maintenance: the server is stopping. Games in progress go on.	Συντήρηση: ο διακομιστής σταματά. Τα παιχνίδια σε εξέλιξη συνεχίζουν.
+Your coins: {n}	Τα νομίσματά σου: {n}
+Rare items for the highest bid. Your bid is held; if someone bids more, your coins come back at once. A bid in the last two minutes gives two more.	Σπάνια αντικείμενα για την υψηλότερη προσφορά. Η προσφορά σου δεσμεύεται· αν κάποιος δώσει περισσότερα, τα νομίσματα επιστρέφουν αμέσως. Προσφορά στα δύο τελευταία λεπτά προσθέτει δύο ακόμα.
+No auctions right now. Come back soon!	Δεν υπάρχουν δημοπρασίες τώρα. Έλα ξανά σύντομα!
+Current bid: {n} coins	Τρέχουσα προσφορά: {n} νομίσματα
+No bids yet · from {n} coins	Καμία προσφορά ακόμα · από {n} νομίσματα
+Ended without bids	Έληξε χωρίς προσφορές
+You won it!	Το κέρδισες!
+Won by {name}	Το κέρδισε ο {name}
+Opens in {t}	Ανοίγει σε {t}
+You lead · ends in {t}	Προηγείσαι · λήγει σε {t}
+Ends in {t}	Λήγει σε {t}
+{name} leads · ends in {t}	Προηγείται ο {name} · λήγει σε {t}
+Yours already	Ήδη δικό σου
+Raise	Αύξηση
+Bid	Προσφορά
+Your bid (at least {n}):	Η προσφορά σου (τουλάχιστον {n}):
+Place bid	Κάνε προσφορά
+Thank you to the VIP members who keep the game going, now and before.	Ευχαριστούμε τα μέλη VIP που κρατούν το παιχνίδι ζωντανό, τώρα και πριν.
+Nobody in the credits yet.	Κανείς στους τίτλους ακόμα.
+since {d} · {n} months	από {d} · {n} μήνες
+Show my name in the supporters' credits	Εμφάνιση του ονόματός μου στους τίτλους υποστηρικτών
+{title}: ends in {t}	{title}: λήγει σε {t}
+An item of the month, yours to keep even if you cancel	Ένα αντικείμενο του μήνα, δικό σου για πάντα ακόμα κι αν ακυρώσεις
+If VIP ends, you keep	Αν λήξει το VIP, κρατάς
+If VIP ends, you lose	Αν λήξει το VIP, χάνεις
+The items of the month you got	Τα αντικείμενα του μήνα που πήρες
+Everything you bought, and your coins	Ό,τι αγόρασες, και τα νομίσματά σου
+Your ratings, trophies and achievements	Τις βαθμολογίες, τα τρόπαια και τα επιτεύγματά σου
+VIP's cloths, cues and frames (back when you return)	Τσόχες, στέκες και πλαίσια VIP (επιστρέφουν όταν επιστρέψεις)
+The monthly coins and the next months' items	Τα μηνιαία νομίσματα και τα αντικείμενα των επόμενων μηνών
+The crown, and replays beyond your last 10 games	Το στέμμα, και τις επαναλήψεις πέρα από τα 10 τελευταία παιχνίδια
+Your free changes are used: another costs {n} coins.	Οι δωρεάν αλλαγές τελείωσαν: μία ακόμα κοστίζει {n} νομίσματα.
+Bid at least {n} coins.	Πρόσφερε τουλάχιστον {n} νομίσματα.
+The server stops for maintenance in {n} min.	Ο διακομιστής σταματά για συντήρηση σε {n} λ.
+This auction is not open.	Αυτή η δημοπρασία δεν είναι ανοιχτή.
+The credits are for VIP members, now or before.	Οι τίτλοι είναι για μέλη VIP, τωρινά ή παλαιότερα.
+The server stops for maintenance now. Games in progress go on.	Ο διακομιστής σταματά τώρα για συντήρηση. Τα παιχνίδια σε εξέλιξη συνεχίζουν.
+Play online: your games are added up here as they end.	Παίξτε online: οι παρτίδες σας προστίθενται εδώ μόλις τελειώνουν.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Δείτε πώς βάζετε μπάλες τρύπα με τρύπα και ανά γωνία κοπής, πώς προοδεύετε εβδομάδα με την εβδομάδα και πώς συγκρίνεστε με τους παίκτες της λίγκας σας.
+Advanced statistics	Αναλυτικά στατιστικά
+Become VIP	Γίνετε VIP
+By pocket	Ανά τρύπα
+By cut angle	Ανά γωνία κοπής
+The white mark: your league.	Το λευκό σημάδι: η λίγκα σας.
+Week by week	Εβδομάδα με την εβδομάδα
+Against your league	Σε σχέση με τη λίγκα σας
+{tier}: {n} players	{tier}: {n} παίκτες
+You	Εσείς
+League	Λίγκα
+{pocket}: {n} points above	{pocket}: {n} μονάδες πάνω
+{pocket}: {n} points below	{pocket}: {n} μονάδες κάτω
+Messages with {name}	Μηνύματα με {name}
+No messages with {name} yet. Say hello!	Κανένα μήνυμα με {name} ακόμα. Πείτε γεια!
+Write a message… (Enter to send)	Γράψτε ένα μήνυμα… (Enter για αποστολή)
+You can write to your friends only.	Μπορείτε να γράφετε μόνο στους φίλους σας.
+Choose a quick phrase…	Επιλέξτε μια γρήγορη φράση…
+Looking for a game ({rules})	Ψάχνει παρτίδα ({rules})
+At a table, waiting ({rules})	Σε τραπέζι, περιμένει ({rules})
+Playing a tournament game against {name}	Παίζει παρτίδα τουρνουά με {name}
+Playing against {name}	Παίζει με {name}
+Watching {name}'s game	Παρακολουθεί την παρτίδα του {name}
+In {name}	Στο {name}
+Playing the computer	Παίζει με τον υπολογιστή
+Practising	Προπονείται
+In the daily challenge	Στην πρόκληση της ημέρας
+Doing drills	Κάνει ασκήσεις
+On the tour	Στο τουρ
+Away	Απών
+Victory by abandonment	Νίκη λόγω εγκατάλειψης
+Players (administrator)	Παίκτες (διαχειριστής)
+Spectators	Θεατές
+Chat (muted)	Συνομιλία (σε σίγαση)
+Say something to the others watching (the players don't see it).	Πείτε κάτι στους άλλους θεατές (οι παίκτες δεν το βλέπουν).
+Rated game	Βαθμολογούμενη παρτίδα
+Casual game	Φιλική παρτίδα
+Click to skip	Κάντε κλικ για παράλειψη
+Guest	Επισκέπτης
+Win	Νίκη
+Loss	Ήττα
+{n} rating points at stake	{n} βαθμοί βαθμολογίας διακυβεύονται
+No rating at stake	Καμία βαθμολογία δεν διακυβεύεται
+Hide the shot's numbers	Απόκρυψη των αριθμών της βολής
+Show the shot's numbers	Εμφάνιση των αριθμών της βολής
+Last shot	Τελευταία βολή
+No shot yet.	Καμία βολή ακόμα.
+Balls left	Μπάλες που απομένουν
+Right side	Φάλτσο δεξιά
+Left side	Φάλτσο αριστερά
+Centre ball	Κέντρο μπάλας
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Μόνο οι γρήγορες φράσεις (χωρίς ελεύθερο κείμενο)
+Messages	Μηνύματα
+World	Κόσμος
+Friends ranking	Κατάταξη φίλων
+You and your friends · rated games	Εσείς και οι φίλοι σας · βαθμολογούμενες παρτίδες
+Add friends to see where you stand among them.	Προσθέστε φίλους για να δείτε πού βρίσκεστε ανάμεσά τους.
+Chat and reactions	Συνομιλία και αντιδράσεις
+Mute the opponent's chat	Σίγαση της συνομιλίας του αντιπάλου
+Their messages in online games are not shown (yours still reach them).	Τα μηνύματά του στις online παρτίδες δεν εμφανίζονται (τα δικά σας του φτάνουν κανονικά).
+Hide the opponent's reactions	Απόκρυψη των αντιδράσεων του αντιπάλου
+The reactions they send at the table are not shown.	Οι αντιδράσεις που στέλνει στο τραπέζι δεν εμφανίζονται.
+Players muted from a game: {n}	Παίκτες σε σίγαση από παρτίδα: {n}
+Unmute them all	Άρση σίγασης για όλους
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Αυτή η παρτίδα μετράει στη βαθμολογία: +{win} αν κερδίσετε, {loss} αν χάσετε.
+This game counts for the rating.	Αυτή η παρτίδα μετράει στη βαθμολογία.
+A casual game: the rating doesn't change.	Φιλική παρτίδα: η βαθμολογία δεν αλλάζει.
+{name} lost the connection	Ο {name} έχασε τη σύνδεση
+If they don't come back in time, you win by abandonment.	Αν δεν επιστρέψει εγκαίρως, κερδίζετε λόγω εγκατάλειψης.
+Mute {name}	Σίγαση του {name}
+Mute {name}'s chat	Σίγαση της συνομιλίας του {name}
+Hide {name}'s reactions	Απόκρυψη των αντιδράσεων του {name}
+Remembered for your next games against them.	Θα ισχύει και στις επόμενες παρτίδες σας μαζί του.
+Broadcast	Μετάδοση
+3D	3D
+You can only send messages to your friends.	Μπορείτε να στέλνετε μηνύματα μόνο στους φίλους σας.
+You can't send messages to this player.	Δεν μπορείτε να στείλετε μηνύματα σε αυτόν τον παίκτη.
+Your chat is set to the quick phrases only.	Η συνομιλία σας περιορίζεται στις γρήγορες φράσεις.
+These settings can't be kept.	Αυτές οι ρυθμίσεις δεν μπορούν να φυλαχτούν.
+You aren't watching a game.	Δεν παρακολουθείτε καμία παρτίδα.

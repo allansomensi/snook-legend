@@ -1384,9 +1384,10 @@ mod tests {
         assert!(g.game_over().is_some(), "the 8 alone on an open table is played to the end");
     }
 
-    /// Under the official rules the computer calls every pot (the pocket it
-    /// plays the ball into), calls nothing on a safety, answers the break's
-    /// choices, places the cue ball in hand anywhere, and finishes games.
+    /// Under the official rules the computer calls the 8 (the pocket it
+    /// plays it into; in a game recorded with calls, every pot), calls
+    /// nothing on a safety, answers the break's choices, places the cue
+    /// ball in hand anywhere, and finishes games.
     #[test]
     fn the_computer_plays_the_official_rules() {
         let medium = Difficulty::Medium.player();
@@ -1394,8 +1395,8 @@ mod tests {
             let (winner, shots) = play_game_under(Rules::Official, medium, medium, seed);
             assert!(winner.is_some(), "seed {seed}: no winner after {shots} shots");
         }
-        // Nothing is called (the games since 0.11.2): a pot keeps the table
-        // in whatever pocket it drops.
+        // A ball of the group is not called (the games since 0.11.2): a pot
+        // keeps the table in whatever pocket it drops.
         let g = position(
             Rules::Official,
             &[
@@ -1418,6 +1419,18 @@ mod tests {
         let report = called_game.clone().play_shot(&d.shot, d.called_pocket).unwrap();
         if report.continues {
             assert!(report.pocketed.iter().any(|(b, p)| b.0 == 3 && *p == called), "{report:?}");
+        }
+        // On the 8 (the games since 0.12.0), the pot is called for its
+        // pocket, and the 8 made there wins.
+        let eight =
+            position(Rules::Official, &[(0, DVec2::new(0.2, 0.1)), (8, DVec2::new(0.6, 0.25))]);
+        assert!(eight.calls_the_eight());
+        let d = decide_with(&eight, &Difficulty::Hard.player(), 3);
+        let called = d.called_pocket.expect("the 8 is called");
+        let report = eight.clone().play_shot(&d.shot, d.called_pocket).unwrap();
+        if let Some((_, p)) = report.pocketed.iter().find(|(b, _)| *b == BallId::EIGHT) {
+            assert_eq!(*p, called, "{report:?}");
+            assert_eq!(report.game_over.map(|o| o.winner), Some(0), "{report:?}");
         }
         // The cue ball in hand anywhere goes where a ball of its group is on.
         let in_hand = edited(&g, |v| v["ball_in_hand"] = "Anywhere".into());

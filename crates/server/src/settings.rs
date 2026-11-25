@@ -154,6 +154,9 @@ pub const DAILY_BASE: &str = "daily_bonus_base";
 pub const DAILY_STEP: &str = "daily_bonus_step";
 pub const DAILY_DAYS: &str = "daily_streak_days";
 pub const VIP_MONTH_ITEM: &str = "vip_month_item";
+/// The coins of the week's first three against the clock.
+pub const CLOCK_PRIZES: [&str; 3] =
+    ["time_attack_prize_1", "time_attack_prize_2", "time_attack_prize_3"];
 
 const RULES: &[&str] = &["brazilian", "official"];
 const FORMATS: &[&str] = &["arena", "knockout"];
@@ -273,6 +276,24 @@ pub const DEFS: &[Def] = &[
         "The day of the streak whose bonus is the highest (it stays there after).",
     ),
     def(
+        CLOCK_PRIZES[0],
+        "economy",
+        Kind::Int { min: 0, max: 10_000 },
+        "Coins for the week's first against the clock (0: no prize).",
+    ),
+    def(
+        CLOCK_PRIZES[1],
+        "economy",
+        Kind::Int { min: 0, max: 10_000 },
+        "Coins for the week's second against the clock (0: no prize).",
+    ),
+    def(
+        CLOCK_PRIZES[2],
+        "economy",
+        Kind::Int { min: 0, max: 10_000 },
+        "Coins for the week's third against the clock (0: no prize).",
+    ),
+    def(
         VIP_MONTH_ITEM,
         "economy",
         Kind::Item,
@@ -357,6 +378,9 @@ impl Live {
         put(NAME_CHANGE_PRICE, json!(NAME_CHANGE_COINS), false);
         put(DAILY_BASE, json!(crate::account::DAILY_BONUS), false);
         put(DAILY_STEP, json!(DAILY_BONUS_STEP), false);
+        for (key, coins) in CLOCK_PRIZES.iter().zip(snook_legend_proto::time_attack::PRIZES) {
+            put(key, json!(coins), false);
+        }
         put(DAILY_DAYS, json!(DAILY_STREAK_DAYS), false);
         put(VIP_MONTH_ITEM, json!(""), false);
         Live { defaults: d, set: RwLock::new(BTreeMap::new()) }

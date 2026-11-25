@@ -291,6 +291,8 @@ pub fn draw_tab(ui: &mut Ui, online: &mut Online, asked: &mut Option<i64>, body:
     let x = body.x + 4.0;
     let w = left_w - 8.0;
     let mut y = body.y + 6.0;
+    // The prizes as the server sets them (the defaults before it answers).
+    let prizes = online.time_attack.info.as_ref().map_or(PRIZES, |i| i.prizes);
     let say = |ui: &Ui, text: &str, size: f32, color: Color, y: &mut f32| {
         for l in ui.wrap(text, w, size) {
             ui.text(&l, x, *y, size, color, false);
@@ -311,7 +313,7 @@ pub fn draw_tab(ui: &mut Ui, online: &mut Online, asked: &mut Option<i64>, body:
         ui,
         &tw(
             "{n} attempts a day count on the week's table. The week's three quickest win {a}, {b} and {c} coins.",
-            &[("n", &ATTEMPTS_PER_DAY), ("a", &PRIZES[0]), ("b", &PRIZES[1]), ("c", &PRIZES[2])],
+            &[("n", &ATTEMPTS_PER_DAY), ("a", &prizes[0]), ("b", &prizes[1]), ("c", &prizes[2])],
         ),
         13.0,
         MUTED,
@@ -408,7 +410,7 @@ fn draw_board(ui: &mut Ui, info: Option<&Info>, online: &Online, r: Rect) {
                     Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12),
                 );
             }
-            let color = if k < PRIZES.len() { GOLD } else { CREAM };
+            let color = if k < info.prizes.len() { GOLD } else { CREAM };
             ui.text(&format!("{}.", k + 1), x, y + 4.0, 14.0, color, true);
             let time = clock(e.ms);
             let tw_ = ui.text_size(&time, 14.0, true).x;
@@ -431,7 +433,7 @@ fn draw_board(ui: &mut Ui, info: Option<&Info>, online: &Online, r: Rect) {
         ui.text(t("Last week's winners"), x, y + 4.0, 13.0, MUTED, true);
         y += 30.0;
         for (k, e) in info.last_week.iter().enumerate() {
-            let prize = format!("{} · +{}", clock(e.ms), PRIZES.get(k).copied().unwrap_or(0));
+            let prize = format!("{} · +{}", clock(e.ms), info.prizes.get(k).copied().unwrap_or(0));
             let pw = ui.text_size(&prize, 13.0, false).x;
             ui.text(&format!("{}.", k + 1), x, y, 13.0, GOLD, true);
             ui.text(&prize, x + w - pw, y, 13.0, MUTED, false);

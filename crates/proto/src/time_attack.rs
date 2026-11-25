@@ -28,8 +28,9 @@ pub const ATTEMPTS_PER_DAY: u32 = 10;
 pub const TIME_LIMIT_SECS: i64 = 20 * 60;
 /// The most strokes an attempt may have.
 pub const MAX_STROKES: usize = 150;
-/// Coins for the week's first, second and third.
-pub const PRIZES: [i64; 3] = [300, 200, 100];
+/// Coins for the week's first, second and third, until the staff set
+/// others (the live settings `time_attack_prize_1` to `_3`).
+pub const PRIZES: [i64; 3] = [100, 60, 30];
 /// How many lead the week's table (and are shown).
 pub const BOARD_SIZE: usize = 20;
 
@@ -274,6 +275,14 @@ pub struct Info {
     pub last_week: Vec<Entry>,
     /// An attempt is under way (started, not sent).
     pub open: bool,
+    /// The coins of this week's first three (set by the staff; a server
+    /// before 0.12.0's prizes were live sends none: [`PRIZES`]).
+    #[serde(default = "default_prizes")]
+    pub prizes: [i64; 3],
+}
+
+fn default_prizes() -> [i64; 3] {
+    PRIZES
 }
 
 /// What a counted attempt achieved.

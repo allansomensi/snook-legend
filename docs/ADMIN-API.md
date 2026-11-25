@@ -111,6 +111,7 @@ the defaults; a value set here wins until it is reset.
 | `cup_house_prize` | int 0–100000 | coins the house adds |
 | `name_change_price` | int 0–100000 | coins for a username change once the free ones are used (0: none) |
 | `daily_bonus_base`, `daily_bonus_step`, `daily_streak_days` | int | the daily bonus: base on day 1, +step each day in a row, up to that day |
+| `time_attack_prize_1`, `_2`, `_3` | int 0–10000 | coins for the week's first three against the clock (default 100, 60, 30; 0: no prize for that place) |
 | `vip_month_item` | item | VIP's item of this month instead of the catalogue's `vip_month_YYYY_MM` |
 
 `POST /admin/api/settings/{key}` — administrators. Body `{"value": 45}`.

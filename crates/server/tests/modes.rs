@@ -427,7 +427,7 @@ async fn the_weeks_prizes_are_paid_once() {
         async move { server.store.wallet(id).await.unwrap().coins }
     };
     let before = coins(ids[0]).await;
-    assert_eq!(coins(ids[3]).await - before, time_attack::PRIZES[0]);
-    assert_eq!(coins(ids[2]).await - before, time_attack::PRIZES[1]);
-    assert_eq!(coins(ids[1]).await - before, time_attack::PRIZES[2]);
+    assert_eq!(coins(ids[3]).await - before, snook_legend_server::time_attack::prizes(&server)[0]);
+    assert_eq!(coins(ids[2]).await - before, snook_legend_server::time_attack::prizes(&server)[1]);
+    assert_eq!(coins(ids[1]).await - before, snook_legend_server::time_attack::prizes(&server)[2]);
 }

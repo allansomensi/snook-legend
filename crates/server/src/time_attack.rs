@@ -62,6 +62,7 @@ pub async fn info(server: &Server, me: &User) -> Option<Info> {
         board: board.into_iter().map(entry).collect(),
         last_week: last.map(|(b, _)| b.into_iter().map(entry).collect()).unwrap_or_default(),
         open,
+        prizes: prizes(server),
     })
 }
 
@@ -149,6 +150,11 @@ async fn submit(
     Ok(Outcome { ms, shots, fouls, best, rank })
 }
 
+/// The coins of the week's first three, as the staff set them.
+pub fn prizes(server: &Server) -> [i64; 3] {
+    crate::settings::CLOCK_PRIZES.map(|key| server.ops.settings.int(key).max(0))
+}
+
 /// Pays last week's prizes if they haven't been (each place once, however
 /// often this runs, on any server): coins and a note in the inbox.
 pub async fn pay_prizes(server: &Server) {
@@ -158,7 +164,11 @@ pub async fn pay_prizes(server: &Server) {
         return;
     };
     for (k, row) in board.into_iter().enumerate() {
-        let (place, coins) = (k as u32 + 1, PRIZES[k]);
+        let (place, coins) = (k as u32 + 1, prizes(server)[k]);
+        // No prize for this place (the staff set it to nothing).
+        if coins <= 0 {
+            continue;
+        }
         match server.store.time_attack_prize(week, place, row.user_id, coins, row.ms, t).await {
             Ok(true) => {}
             Ok(false) => continue,

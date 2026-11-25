@@ -3830,7 +3830,7 @@ impl Lounge {
         &mut self,
         live: &LiveMatch,
         users: [User; 2],
-        partners: Option<([User; 2], [[PerRules<Record>; 2]; 2])>,
+        partners: Option<RestoredPartners>,
         rebuilt: Rebuilt,
     ) -> bool {
         let id = live.id as u64;
@@ -4045,6 +4045,10 @@ fn pair_key(keys: &[String; 2], rated: bool) -> (String, String, bool) {
     let [a, b] = pair;
     (a, b, rated)
 }
+
+/// A saved doubles game's teams' second players, and the doubles records
+/// of all four (`[team][player]`): see [`Lounge::restore`].
+pub type RestoredPartners = ([User; 2], [[PerRules<Record>; 2]; 2]);
 
 /// A saved game replayed up to now (done away from the lounge: it simulates
 /// every shot).

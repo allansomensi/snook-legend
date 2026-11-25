@@ -60,7 +60,7 @@ pub async fn merged(
         Vec::new()
     });
     history.extend(games.iter().filter_map(|g| entry(g, user_id)));
-    history.sort_by(|a, b| b.at.cmp(&a.at));
+    history.sort_by_key(|h| std::cmp::Reverse(h.at));
     history.truncate(limit);
     history
 }

@@ -116,7 +116,10 @@ impl SettingsScreen {
             _ => {}
         }
         if crate::dev::flag("SNOOK_LEGEND_SETTINGS_ADVANCED") {
+            // (At the end of the Game tab: shown scrolled to it.)
             self.advanced = true;
+            self.tab = Tab::Game;
+            self.scroll = f32::MAX;
         }
         // SNOOK_LEGEND_SETTINGS_CAPTURE=shoot: waiting for a key for that action.
         if let Some(a) = crate::dev::var("SNOOK_LEGEND_SETTINGS_CAPTURE")

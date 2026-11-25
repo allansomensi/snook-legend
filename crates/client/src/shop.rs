@@ -1818,7 +1818,12 @@ impl ShopScreen {
         let exclusives: Vec<String> =
             ITEMS.iter().filter(|i| i.price == Price::Vip).map(|i| t(i.name).to_string()).collect();
         let perks = [
-            tw("{n} coins every month", &[("n", &offers.vip_coins)]),
+            // (Not "0 coins" before the server said how many.)
+            if offers.vip_coins > 0 {
+                tw("{n} coins every month", &[("n", &offers.vip_coins)])
+            } else {
+                String::new()
+            },
             t("A crown by your name, everywhere (lounge, profile, ranking)").to_string(),
             t("Name colours for the lounge and exclusive frames, cloth, cues, balls and effects")
                 .to_string(),
@@ -1844,7 +1849,8 @@ impl ShopScreen {
         // The perks on a card edged in gold, under the crown and the name.
         let pad = 20.0;
         let text_w = area.w - 2.0 * pad - 24.0;
-        let wrapped: Vec<Vec<String>> = perks.iter().map(|p| ui.wrap(p, text_w, 15.0)).collect();
+        let wrapped: Vec<Vec<String>> =
+            perks.iter().filter(|p| !p.is_empty()).map(|p| ui.wrap(p, text_w, 15.0)).collect();
         let list_h: f32 = wrapped.iter().map(|l| l.len() as f32 * 20.0 + 6.0).sum();
         let card = Rect::new(area.x, area.y, area.w, pad + 30.0 + 14.0 + list_h + pad - 6.0);
         rrect_gradient(

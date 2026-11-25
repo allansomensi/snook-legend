@@ -1396,7 +1396,8 @@ impl ProfileScreen {
             ui.text(&delta, rx - dw, mid - 17.0, 15.0, dc, true);
             ui.text(&d, rx - ddw, mid + 3.0, 12.0, MUTED, false);
             let mut text_right = rx - dw.max(ddw) - 12.0;
-            if p.relation == Relation::Me && h.replay && h.match_id > 0 {
+            // (A doubles game's id is negative: see `HistoryEntry::doubles`.)
+            if p.relation == Relation::Me && h.replay && h.match_id != 0 {
                 let br = Rect::new(text_right - 30.0, mid - 15.0, 30.0, 30.0);
                 if ui.icon_button(br, Icon::Replay, t("Watch again"), true) {
                     online.send(ClientMsg::Replay { match_id: h.match_id });
@@ -1416,7 +1417,9 @@ impl ProfileScreen {
                 14.0,
                 room,
             );
+            // (A doubles game's two opponents aren't one profile.)
             let linked = !h.opponent.is_empty()
+                && h.doubles.is_none()
                 && !h.opponent.starts_with("deleted-")
                 && !h.opponent.eq_ignore_ascii_case(&p.player.username);
             let hit = Rect::new(x - 3.0, mid - 19.0, name_w + 6.0, 20.0);
@@ -1444,7 +1447,10 @@ impl ProfileScreen {
                 (true, snook_legend_core::GameOverReason::Abandoned, false) => t("ran out of time"),
                 _ => crate::i18n::history_reason(h.reason, h.won),
             };
-            let sub = if h.tournament {
+            let sub = if let Some(d) = &h.doubles {
+                let with = crate::i18n::tw("with {name}", &[("name", &d.partner)]);
+                format!("{} · {with} · {how}", t("Doubles"))
+            } else if h.tournament {
                 format!("{how} · {}", t("tournament"))
             } else if h.correspondence {
                 format!("{how} · {}", t("daily game"))

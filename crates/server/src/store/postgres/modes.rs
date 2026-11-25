@@ -5,7 +5,8 @@ use snook_legend_proto::{LeaderboardEntry, PerRules, Role, Rules};
 use sqlx::{Row, query};
 
 use super::super::{
-    AttemptFinish, AttemptRow, BestRow, DOUBLES_START, DoublesRecord, Record, StoreResult,
+    AttemptFinish, AttemptRow, BestRow, DOUBLES_START, DoublesGame, DoublesRecord, Record,
+    StoreResult, TimeAttempt,
 };
 use super::PgStore;
 
@@ -231,7 +232,9 @@ impl PgStore {
             None => (None, None, None),
         };
         let done = query(
-            "UPDATE time_attack_attempts SET finished_ms = $3, ms = $4, shots = $5, fouls = $6
+            "UPDATE time_attack_attempts SET finished_ms = $3, ms = $4, shots = $5, fouls = $6,
+                    week = CASE WHEN $4::INTEGER IS NULL THEN NULL ELSE $7::BIGINT END,
+                    at = CASE WHEN $4::INTEGER IS NULL THEN NULL ELSE $8::BIGINT END
              WHERE id = $1 AND user_id = $2 AND finished_ms IS NULL",
         )
         .bind(id)
@@ -240,6 +243,8 @@ impl PgStore {
         .bind(ms)
         .bind(shots)
         .bind(fouls)
+        .bind(week)
+        .bind(at)
         .execute(&mut *tx)
         .await?
         .rows_affected();
@@ -361,5 +366,193 @@ impl PgStore {
         .await?
         .rows_affected();
         Ok(done > 0)
+    }
+
+    pub async fn doubles_games(
+        &self,
+        player: Option<i64>,
+        before: Option<i64>,
+        limit: u32,
+    ) -> StoreResult<Vec<DoublesGame>> {
+        let rows = query(&format!(
+            "{DOUBLES_SELECT}, NULL::TEXT AS replay_text
+             FROM doubles_matches m {DOUBLES_JOIN}
+             WHERE ($1::BIGINT IS NULL OR $1 IN (m.a1, m.a2, m.b1, m.b2))
+               AND ($2::BIGINT IS NULL OR m.id < $2)
+             ORDER BY m.id DESC LIMIT $3"
+        ))
+        .bind(player)
+        .bind(before)
+        .bind(limit as i64)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows.iter().filter_map(doubles_game).collect())
+    }
+
+    pub async fn doubles_game(&self, id: i64) -> StoreResult<Option<DoublesGame>> {
+        let row = query(&format!(
+            "{DOUBLES_SELECT}, m.replay::TEXT AS replay_text
+             FROM doubles_matches m {DOUBLES_JOIN} WHERE m.id = $1"
+        ))
+        .bind(id)
+        .fetch_optional(&self.pool)
+        .await?;
+        Ok(row.as_ref().and_then(doubles_game))
+    }
+
+    pub async fn void_doubles(&self, id: i64, at: i64) -> StoreResult<bool> {
+        let mut tx = self.pool.begin().await?;
+        let row = query(
+            "UPDATE doubles_matches SET voided_at = $2
+             WHERE id = $1 AND rated AND voided_at IS NULL
+             RETURNING rules, a1, a2, b1, b2, winner, deltas",
+        )
+        .bind(id)
+        .bind(at)
+        .fetch_optional(&mut *tx)
+        .await?;
+        let Some(row) = row else { return Ok(false) };
+        let rules: String = row.get("rules");
+        let winner = row.get::<i16, _>("winner") as usize;
+        let deltas: Vec<i32> = row.get("deltas");
+        let players = [row.get::<i64, _>("a1"), row.get("a2"), row.get("b1"), row.get("b2")];
+        for (n, user) in players.into_iter().enumerate() {
+            let delta = deltas.get(n).copied().unwrap_or(0);
+            let win = i32::from(n / 2 == winner);
+            query(
+                "UPDATE doubles_ratings SET
+                    rating = rating - $3,
+                    peak_rating = GREATEST(rating - $3,
+                        CASE WHEN $3 > 0 AND peak_rating = rating
+                             THEN GREATEST(rating - $3, $5) ELSE peak_rating END),
+                    games = GREATEST(games - 1, 0),
+                    wins = GREATEST(wins - $4, 0)
+                 WHERE user_id = $1 AND rules = $2",
+            )
+            .bind(user)
+            .bind(&rules)
+            .bind(delta)
+            .bind(win)
+            .bind(DOUBLES_START)
+            .execute(&mut *tx)
+            .await?;
+        }
+        tx.commit().await?;
+        Ok(true)
+    }
+
+    pub async fn time_attack_user_attempts(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<TimeAttempt>> {
+        let rows =
+            query(&format!("{ATTEMPT_SELECT} WHERE a.user_id = $1 ORDER BY a.id DESC LIMIT $2"))
+                .bind(user_id)
+                .bind(limit as i64)
+                .fetch_all(&self.pool)
+                .await?;
+        Ok(rows.iter().map(attempt).collect())
+    }
+
+    pub async fn time_attack_remove(
+        &self,
+        id: i64,
+        reason: &str,
+        at: i64,
+    ) -> StoreResult<Option<TimeAttempt>> {
+        let mut tx = self.pool.begin().await?;
+        let row = query(
+            "UPDATE time_attack_attempts SET removed_at = $2, removed_reason = $3
+             WHERE id = $1 AND removed_at IS NULL AND week IS NOT NULL AND ms IS NOT NULL
+             RETURNING user_id, week",
+        )
+        .bind(id)
+        .bind(at)
+        .bind(reason)
+        .fetch_optional(&mut *tx)
+        .await?;
+        let Some(row) = row else { return Ok(None) };
+        let (user, week): (i64, i64) = (row.get("user_id"), row.get("week"));
+        // The best of the week from the attempts left (the earlier on a tie).
+        query("DELETE FROM time_attack_bests WHERE week = $1 AND user_id = $2")
+            .bind(week)
+            .bind(user)
+            .execute(&mut *tx)
+            .await?;
+        query(
+            "INSERT INTO time_attack_bests (week, user_id, ms, at)
+             SELECT week, user_id, ms, at FROM time_attack_attempts
+             WHERE week = $1 AND user_id = $2 AND ms IS NOT NULL AND removed_at IS NULL
+             ORDER BY ms, at LIMIT 1",
+        )
+        .bind(week)
+        .bind(user)
+        .execute(&mut *tx)
+        .await?;
+        let row = query(&format!("{ATTEMPT_SELECT} WHERE a.id = $1"))
+            .bind(id)
+            .fetch_one(&mut *tx)
+            .await?;
+        tx.commit().await?;
+        Ok(Some(attempt(&row)))
+    }
+}
+
+const DOUBLES_SELECT: &str = "SELECT m.id, m.room, m.rules, m.rated, m.a1, m.a2, m.b1, m.b2,
+        m.winner, m.reason, m.deltas, m.shots, m.ended_at, m.voided_at,
+        m.replay IS NOT NULL AS has_replay,
+        ua1.username AS na1, ua2.username AS na2, ub1.username AS nb1, ub2.username AS nb2,
+        ua1.country AS ca1, ua2.country AS ca2, ub1.country AS cb1, ub2.country AS cb2";
+const DOUBLES_JOIN: &str = "JOIN users ua1 ON ua1.id = m.a1 JOIN users ua2 ON ua2.id = m.a2
+        JOIN users ub1 ON ub1.id = m.b1 JOIN users ub2 ON ub2.id = m.b2";
+
+fn doubles_game(r: &sqlx::postgres::PgRow) -> Option<DoublesGame> {
+    let deltas: Vec<i32> = r.get("deltas");
+    let d = |n: usize| deltas.get(n).copied().unwrap_or(0);
+    let replay_text: Option<String> = r.get("replay_text");
+    let replay = replay_text.and_then(|t| serde_json::from_str(&t).ok());
+    let s = |c: &str| r.get::<String, _>(c);
+    Some(DoublesGame {
+        id: r.get("id"),
+        record: DoublesRecord {
+            players: [[r.get("a1"), r.get("a2")], [r.get("b1"), r.get("b2")]],
+            winner: r.get::<i16, _>("winner") as usize,
+            reason: crate::parse_reason(r.get("reason")),
+            rated: r.get("rated"),
+            rules: Rules::parse(r.get("rules"))?,
+            deltas: [[d(0), d(1)], [d(2), d(3)]],
+            shots: r.get::<i32, _>("shots").max(0) as u32,
+            ended_at: r.get("ended_at"),
+            replay,
+            room: r.get("room"),
+        },
+        names: [[s("na1"), s("na2")], [s("nb1"), s("nb2")]],
+        countries: [[s("ca1"), s("ca2")], [s("cb1"), s("cb2")]],
+        has_replay: r.get("has_replay"),
+        voided_at: r.get("voided_at"),
+    })
+}
+
+const ATTEMPT_SELECT: &str = "SELECT a.id, a.user_id, u.username, a.day, a.started_ms,
+        a.finished_ms, a.ms, a.shots, a.fouls, a.week, a.at, a.removed_at, a.removed_reason
+        FROM time_attack_attempts a JOIN users u ON u.id = a.user_id";
+
+fn attempt(r: &sqlx::postgres::PgRow) -> TimeAttempt {
+    let n = |c: &str| r.get::<Option<i32>, _>(c).map(|v| v.max(0) as u32);
+    TimeAttempt {
+        id: r.get("id"),
+        user_id: r.get("user_id"),
+        username: r.get("username"),
+        day: r.get("day"),
+        started_ms: r.get("started_ms"),
+        finished_ms: r.get("finished_ms"),
+        ms: n("ms"),
+        shots: n("shots"),
+        fouls: n("fouls"),
+        week: r.get("week"),
+        at: r.get("at"),
+        removed_at: r.get("removed_at"),
+        removed_reason: r.get("removed_reason"),
     }
 }

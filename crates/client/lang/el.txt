@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Το ζευγάρι σου διέλυσε τ
 Not all four players are at the table.	Δεν είναι και οι τέσσερις παίκτες στο τραπέζι.
 Hide opponent	Απόκρυψη αντιπάλου
 Everyone's reactions are shown during matches.	Οι αντιδράσεις όλων εμφανίζονται στους αγώνες.
+with {name}	με {name}

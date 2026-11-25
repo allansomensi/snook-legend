@@ -1369,6 +1369,20 @@ async fn ops_and_modes(store: &Store) {
     store.set_ban(b, None, None).await.unwrap();
     assert!(store.time_attack_prize(week, 1, b, 300, 50_000, t).await.unwrap());
     assert!(!store.time_attack_prize(week, 1, c, 300, 50_000, t).await.unwrap(), "once");
+    // The staff see each attempt, and take one off the ranking: the best
+    // of the week is the next one (none left: off the table).
+    let tries = store.time_attack_user_attempts(c, 10).await.unwrap();
+    assert_eq!(tries.len(), 2);
+    assert_eq!((tries[0].ms, tries[0].shots, tries[0].week), (Some(70_000), Some(9), Some(week)));
+    assert_eq!(tries[1].username, "op_c");
+    let removed = store.time_attack_remove(tries[1].id, "cheating", t + 30).await.unwrap();
+    assert_eq!(removed.unwrap().removed_reason.as_deref(), Some("cheating"));
+    assert_eq!(store.time_attack_remove(tries[1].id, "again", t).await.unwrap(), None, "once");
+    assert_eq!(store.time_attack_best(c, week).await.unwrap().map(|b| b.0), Some(70_000));
+    store.time_attack_remove(tries[0].id, "cheating", t + 31).await.unwrap().unwrap();
+    assert_eq!(store.time_attack_best(c, week).await.unwrap(), None);
+    let open = store.time_attack_user_attempts(a, 10).await.unwrap();
+    assert_eq!(store.time_attack_remove(open[1].id, "x", t).await.unwrap(), None, "not counted");
     // The prize's coins: credited once by their reference, however often.
     let coins = store.wallet(b).await.unwrap().coins;
     let prize = format!("time_attack:{week}:1");
@@ -1415,4 +1429,37 @@ async fn ops_and_modes(store: &Store) {
     let board = store.doubles_leaderboard(Rules::Brazilian, 10, t).await.unwrap();
     let names: Vec<_> = board.iter().map(|r| (r.username.as_str(), r.rating)).collect();
     assert_eq!(names, [("op_b", 1212), ("op_a", 1210), ("op_e", 1191), ("op_c", 1189)]);
+
+    // The doubles games read back: a player's, newest first; one with its
+    // replay; annulled once, the four records as before it.
+    let casual = DoublesRecord {
+        rated: false,
+        room: Some(78),
+        replay: Some(snook_legend_proto::replay::Replay::new(9, 1, Rules::Brazilian)),
+        ..d.clone()
+    };
+    assert!(store.record_doubles(&casual).await.unwrap());
+    let games = store.doubles_games(Some(e), None, 10).await.unwrap();
+    assert_eq!(games.len(), 2);
+    assert_eq!(games[0].record.room, Some(78), "newest first");
+    assert_eq!(
+        games[0].names,
+        [["op_a".to_string(), "op_b".into()], ["op_c".into(), "op_e".into()]]
+    );
+    assert!(games[0].has_replay && games[0].record.replay.is_none());
+    assert_eq!(games[0].place_of(e), Some((1, 1)));
+    let older = store.doubles_games(None, Some(games[0].id), 10).await.unwrap();
+    assert_eq!(older.len(), 1);
+    assert!(store.doubles_games(Some(9_999_999), None, 10).await.unwrap().is_empty());
+    let one = store.doubles_game(games[0].id).await.unwrap().expect("there");
+    assert_eq!(one.record.replay.map(|r| r.seed), Some(9));
+    assert!(!store.void_doubles(games[0].id, t).await.unwrap(), "a casual game");
+    let rated = games[1].id;
+    assert!(store.void_doubles(rated, t + 1).await.unwrap());
+    assert!(!store.void_doubles(rated, t + 2).await.unwrap(), "once");
+    assert_eq!(store.doubles_game(rated).await.unwrap().unwrap().voided_at, Some(t + 1));
+    let ra = store.doubles_records(a).await.unwrap().brazilian;
+    assert_eq!((ra.rating, ra.peak_rating, ra.games, ra.wins), (1200, 1200, 0, 0));
+    let re = store.doubles_records(e).await.unwrap().brazilian;
+    assert_eq!((re.rating, re.peak_rating, re.games, re.wins), (1200, 1200, 0, 0));
 }

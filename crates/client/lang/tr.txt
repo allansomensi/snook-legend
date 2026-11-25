@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Eşin çifti bozdu.
 Not all four players are at the table.	Dört oyuncunun hepsi masada değil.
 Hide opponent	Rakibi gizle
 Everyone's reactions are shown during matches.	Maçlarda herkesin tepkileri gösterilir.
+with {name}	{name} ile

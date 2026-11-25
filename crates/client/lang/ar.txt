@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	فك شريكك الثنائي.
 Not all four players are at the table.	ليس اللاعبون الأربعة جميعهم على الطاولة.
 Hide opponent	إخفاء الخصم
 Everyone's reactions are shown during matches.	تظهر تفاعلات الجميع أثناء المباريات.
+with {name}	مع {name}

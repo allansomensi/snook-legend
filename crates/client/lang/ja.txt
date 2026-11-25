@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	パートナーがペアを解消しまし�
 Not all four players are at the table.	4人全員が台にそろっていません。
 Hide opponent	相手を非表示
 Everyone's reactions are shown during matches.	対戦中は全員のリアクションが表示されます。
+with {name}	{name}と

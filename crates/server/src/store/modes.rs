@@ -30,6 +30,52 @@ pub struct DoublesRecord {
     pub room: Option<i64>,
 }
 
+/// A stored doubles game, with its players' names.
+#[derive(Debug, Clone, PartialEq)]
+pub struct DoublesGame {
+    pub id: i64,
+    /// (Its replay only when asked for one game.)
+    pub record: DoublesRecord,
+    /// The players' usernames and countries (`[team][player]`).
+    pub names: [[String; 2]; 2],
+    pub countries: [[String; 2]; 2],
+    /// The replay was kept.
+    pub has_replay: bool,
+    /// Annulled by the staff then (its rating changes given back).
+    pub voided_at: Option<i64>,
+}
+
+impl DoublesGame {
+    /// `user_id`'s team and place in it, if they played.
+    pub fn place_of(&self, user_id: i64) -> Option<(usize, usize)> {
+        (0..4).map(|n| (n / 2, n % 2)).find(|&(t, p)| self.record.players[t][p] == user_id)
+    }
+}
+
+/// An attempt against the clock, as the staff see it.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct TimeAttempt {
+    pub id: i64,
+    pub user_id: i64,
+    pub username: String,
+    /// The day it was started on (see `time_attack::day_of`).
+    pub day: i64,
+    pub started_ms: i64,
+    /// When the strokes came (none: never sent).
+    pub finished_ms: Option<i64>,
+    /// The time counted, the strokes and the fouls (none: not cleared, or
+    /// refused).
+    pub ms: Option<u32>,
+    pub shots: Option<u32>,
+    pub fouls: Option<u32>,
+    /// The week it counted in, and when.
+    pub week: Option<i64>,
+    pub at: Option<i64>,
+    /// Taken off the ranking by the staff: when, why.
+    pub removed_at: Option<i64>,
+    pub removed_reason: Option<String>,
+}
+
 /// An attempt against the clock under way.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct AttemptRow {
@@ -130,6 +176,45 @@ impl Store {
         week: i64,
     ) -> StoreResult<Option<(u32, Option<u32>)>> {
         dispatch!(self, s => s.time_attack_best(user_id, week))
+    }
+    /// Stored doubles games, newest first (`player`: theirs only; `before`:
+    /// with a smaller id), without their replays.
+    pub async fn doubles_games(
+        &self,
+        player: Option<i64>,
+        before: Option<i64>,
+        limit: u32,
+    ) -> StoreResult<Vec<DoublesGame>> {
+        dispatch!(self, s => s.doubles_games(player, before, limit))
+    }
+    /// A stored doubles game with its replay.
+    pub async fn doubles_game(&self, id: i64) -> StoreResult<Option<DoublesGame>> {
+        dispatch!(self, s => s.doubles_game(id))
+    }
+    /// Annuls a rated doubles game (once): each player's rating change is
+    /// given back, it leaves their games and wins, and a peak it made goes
+    /// back to the rating before it. False if it can't be (casual, done).
+    pub async fn void_doubles(&self, id: i64, at: i64) -> StoreResult<bool> {
+        dispatch!(self, s => s.void_doubles(id, at))
+    }
+    /// A player's attempts against the clock, newest first.
+    pub async fn time_attack_user_attempts(
+        &self,
+        user_id: i64,
+        limit: u32,
+    ) -> StoreResult<Vec<TimeAttempt>> {
+        dispatch!(self, s => s.time_attack_user_attempts(user_id, limit))
+    }
+    /// Takes a counted attempt off the ranking (once): the player's best of
+    /// its week is worked out again from the others. The attempt as it is
+    /// now, if done.
+    pub async fn time_attack_remove(
+        &self,
+        id: i64,
+        reason: &str,
+        at: i64,
+    ) -> StoreResult<Option<TimeAttempt>> {
+        dispatch!(self, s => s.time_attack_remove(id, reason, at))
     }
     /// Keeps that `week`'s `place` (1 to 3) went to `user_id`: true the
     /// first time only (the prize is paid then).

@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	คู่ของคุณเลิกเ�
 Not all four players are at the table.	ผู้เล่นทั้งสี่คนยังไม่อยู่ที่โต๊ะครบ
 Hide opponent	ซ่อนคู่แข่ง
 Everyone's reactions are shown during matches.	แสดงรีแอคชันของทุกคนระหว่างแมตช์
+with {name}	กับ {name}

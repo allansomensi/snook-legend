@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Din dubbelpartner lämnade paret.
 Not all four players are at the table.	Alla fyra spelare är inte vid bordet.
 Hide opponent	Dölj motståndare
 Everyone's reactions are shown during matches.	Allas reaktioner visas under matcher.
+with {name}	med {name}

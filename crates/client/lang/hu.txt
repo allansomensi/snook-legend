@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	A párod felbontotta a párt.
 Not all four players are at the table.	Nincs mind a négy játékos az asztalnál.
 Hide opponent	Ellenfél rejtve
 Everyone's reactions are shown during matches.	Mérkőzés közben mindenki reakciója látszik.
+with {name}	{name} társaként

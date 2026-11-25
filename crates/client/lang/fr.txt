@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Votre partenaire a quitté le duo.
 Not all four players are at the table.	Les quatre joueurs ne sont pas tous à la table.
 Hide opponent	Masquer rival
 Everyone's reactions are shown during matches.	Les réactions de tous sont affichées pendant les parties.
+with {name}	avec {name}

@@ -985,6 +985,18 @@ pub struct HistoryEntry {
     /// A correspondence game (played a turn at a time).
     #[serde(default)]
     pub correspondence: bool,
+    /// A doubles game (0.12.1): the partner and the opponents (`opponent`
+    /// is then "caio & duda", and `match_id` the doubles game's id made
+    /// negative: `replay { match_id }` with it plays it again).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub doubles: Option<DoublesSide>,
+}
+
+/// Who played a doubles game in a player's history, beside them.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct DoublesSide {
+    pub partner: String,
+    pub opponents: [String; 2],
 }
 
 /// Lifetime numbers from every game with stored statistics.

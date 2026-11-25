@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Dein Doppelpartner hat das Paar aufgelöst.
 Not all four players are at the table.	Nicht alle vier Spieler sind am Tisch.
 Hide opponent	Gegner ausblenden
 Everyone's reactions are shown during matches.	Die Reaktionen aller werden in Partien angezeigt.
+with {name}	mit {name}

@@ -23,6 +23,7 @@ pub mod correspondence;
 pub mod cup_medals;
 pub mod daily;
 pub mod dm;
+pub mod doubles_history;
 pub mod drills;
 pub mod events;
 pub mod feats;
@@ -1734,15 +1735,18 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 let vip =
                     shop::is_vip(&server.store.wallet(me.id).await.unwrap_or_default(), now());
                 let limit = if vip { 0 } else { FREE_REPLAYS };
+                let n = if vip { 200 } else { FREE_REPLAYS };
                 let games = server
                     .store
-                    .history(me.id, if vip { 200 } else { FREE_REPLAYS })
+                    .history(me.id, n)
                     .await
                     .unwrap_or_default()
                     .into_iter()
                     .filter(|h| h.replay)
                     .map(history_entry)
                     .collect();
+                let mut games = doubles_history::merged(&server, me.id, games, n as usize).await;
+                games.retain(|h| h.replay);
                 send(ServerMsg::Replays { games, limit });
             }
             ClientMsg::Replay { match_id } => match replay_for(&server, &me, match_id).await {
@@ -2245,6 +2249,7 @@ fn history_entry(h: crate::store::HistoryRow) -> HistoryEntry {
         match_id: h.match_id,
         replay: h.replay,
         correspondence: h.correspondence,
+        doubles: None,
     }
 }
 
@@ -2255,6 +2260,10 @@ async fn replay_for(
     me: &User,
     match_id: i64,
 ) -> Option<snook_legend_proto::ReplayInfo> {
+    // A doubles game's (see `doubles_history`).
+    if match_id < 0 {
+        return doubles_history::replay(server, me, -match_id).await;
+    }
     let r = server.store.replay(match_id).await.ok().flatten()?;
     if !me.role.is_staff() {
         let mine = r.players.iter().any(|p| p.eq_ignore_ascii_case(&me.username));
@@ -2462,6 +2471,9 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
         server.store.rank_of(user.id, Rules::Official),
         server.store.friend_count(user.id),
     );
+    // Their doubles games among them, by date.
+    let history = history.unwrap_or_default().into_iter().map(history_entry).collect();
+    let history = doubles_history::merged(server, user.id, history, 25).await;
     let (brazilian_history, official_history, career, wallet, trophies) = tokio::join!(
         server.store.rating_history(user.id, Rules::Brazilian, 100),
         server.store.rating_history(user.id, Rules::Official, 100),
@@ -2532,7 +2544,7 @@ async fn profile_msg(server: &Server, viewer: Option<&User>, name: &str) -> Opti
                 .into_iter()
                 .filter(|(c, _)| known.contains(c.as_str()))
                 .collect(),
-            history: history.unwrap_or_default().into_iter().map(history_entry).collect(),
+            history,
             relation,
             last_seen: if relation == Relation::Friend { user.last_seen } else { 0 },
             rating_history: PerRules::new(

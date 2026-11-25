@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Đồng đội của bạn đã rời cặp.
 Not all four players are at the table.	Chưa đủ cả bốn người chơi tại bàn.
 Hide opponent	Ẩn đối thủ
 Everyone's reactions are shown during matches.	Biểu cảm của mọi người được hiển thị trong trận.
+with {name}	cùng {name}

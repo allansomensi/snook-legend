@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	आपके साथी ने जोड�
 Not all four players are at the table.	चारों खिलाड़ी टेबल पर नहीं हैं।
 Hide opponent	प्रतिद्वंद्वी छिपाएँ
 Everyone's reactions are shown during matches.	मैच के दौरान सबकी प्रतिक्रियाएँ दिखती हैं।
+with {name}	{name} के साथ

@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Il tuo compagno di doppio ha sciolto la copp
 Not all four players are at the table.	Non tutti e quattro i giocatori sono al tavolo.
 Hide opponent	Nascondi rivale
 Everyone's reactions are shown during matches.	Le reazioni di tutti sono mostrate durante le partite.
+with {name}	con {name}

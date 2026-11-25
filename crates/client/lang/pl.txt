@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Twój partner rozwiązał parę.
 Not all four players are at the table.	Nie wszyscy czterej gracze są przy stole.
 Hide opponent	Ukryj rywala
 Everyone's reactions are shown during matches.	Podczas meczów widać reakcje wszystkich.
+with {name}	z {name}

@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	파트너가 페어를 해체했습니다.
 Not all four players are at the table.	네 명이 모두 테이블에 있지 않습니다.
 Hide opponent	상대 숨기기
 Everyone's reactions are shown during matches.	경기 중 모두의 리액션이 표시됩니다.
+with {name}	{name}와 함께

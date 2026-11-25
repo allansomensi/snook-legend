@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Iniwan ng kapareha mo ang pares.
 Not all four players are at the table.	Hindi kumpleto ang apat na manlalaro sa mesa.
 Hide opponent	Itago kalaban
 Everyone's reactions are shown during matches.	Ipinapakita ang reaksiyon ng lahat habang may laro.
+with {name}	kasama si {name}

@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Partenerul tău a desfăcut perechea.
 Not all four players are at the table.	Nu toți cei patru jucători sunt la masă.
 Hide opponent	Ascunde rivalul
 Everyone's reactions are shown during matches.	Reacțiile tuturor sunt afișate în timpul meciurilor.
+with {name}	cu {name}

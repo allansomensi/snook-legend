@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Tvůj partner zrušil dvojici.
 Not all four players are at the table.	Ne všichni čtyři hráči jsou u stolu.
 Hide opponent	Skrýt soupeře
 Everyone's reactions are shown during matches.	Během zápasů se zobrazují reakce všech.
+with {name}	s {name}

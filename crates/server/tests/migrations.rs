@@ -58,6 +58,7 @@ const APPLIED: &[(&str, &str)] = &[
         "0033_doubles_handover.sql",
         "316f6e12facb212b6938f1b880541ee55c253669a2efac2e5560004c2ae68938",
     ),
+    ("0034_modes_staff.sql", "ee842c63ece905a74b487d1cfd8eb18c9744663cbcad45ab58c1d38e6daf100a"),
 ];
 
 #[test]

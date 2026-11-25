@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Pasanganmu membubarkan pasangan.
 Not all four players are at the table.	Tidak semua empat pemain ada di meja.
 Hide opponent	Sembunyikan lawan
 Everyone's reactions are shown during matches.	Reaksi semua orang ditampilkan selama pertandingan.
+with {name}	bersama {name}

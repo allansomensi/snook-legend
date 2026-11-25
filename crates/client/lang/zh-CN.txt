@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	你的搭档解散了搭档关系。
 Not all four players are at the table.	四名玩家没有全部在球台。
 Hide opponent	隐藏对手
 Everyone's reactions are shown during matches.	比赛中显示所有人的表情。
+with {name}	与 {name}

@@ -2515,3 +2515,4 @@ Your doubles partner left the pair.	Ваш напарник розпустив �
 Not all four players are at the table.	Не всі четверо гравців за столом.
 Hide opponent	Сховати суперника
 Everyone's reactions are shown during matches.	Під час матчів видно реакції всіх.
+with {name}	з {name}

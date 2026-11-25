@@ -222,6 +222,13 @@ protocol after signing in).
   played to the end gives experience, and coins when rated (as singles);
   it doesn't count for the singles statistics, missions or achievements.
 - Rematch: all four must ask (`rematch`); the other team breaks.
+- History and replays (0.12.1): a player's doubles games are in their
+  profile's `history` and in `replays`, by date among the singles ones.
+  Such an entry has `doubles { partner, opponents }`, `opponent` "caio &
+  duda", and `match_id` the doubles game's id made negative;
+  `replay { match_id }` with it answers `replay` with the teams as the two
+  sides ("ana & bia"). A 0.12.0 game shows the line without the doubles
+  details and offers no button to watch it.
 
 ### Against the clock
 

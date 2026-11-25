@@ -279,6 +279,34 @@ async fn doubles_take_turns_by_visit() {
         unreachable!()
     };
     assert!(entries.is_empty(), "doubles don't count for the singles rating");
+    // The game is in each one's history, and can be watched again.
+    let c = client(&mut clients, "bia");
+    c.send(ClientMsg::Profile { username: "bia".into() }).await;
+    let ServerMsg::Profile { profile } =
+        c.expect("profile", |m| matches!(m, ServerMsg::Profile { .. })).await
+    else {
+        unreachable!()
+    };
+    let h = &profile.history[0];
+    let side = h.doubles.as_ref().expect("a doubles game");
+    assert_eq!(side.partner, "ana");
+    assert!(!h.won && h.rated && h.delta < 0 && h.replay && h.match_id < 0);
+    assert!(side.opponents.contains(&"caio".to_string()));
+    c.send(ClientMsg::Replays).await;
+    let ServerMsg::Replays { games, .. } =
+        c.expect("replays", |m| matches!(m, ServerMsg::Replays { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(games[0].match_id, h.match_id);
+    c.send(ClientMsg::Replay { match_id: h.match_id }).await;
+    let ServerMsg::Replay { replay } =
+        c.expect("the replay", |m| matches!(m, ServerMsg::Replay { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(replay.players.iter().any(|p| p == "ana & bia"), "{:?}", replay.players);
+    assert!(!replay.replay.strokes.is_empty());
 }
 
 /// A server on its own port over `store`.

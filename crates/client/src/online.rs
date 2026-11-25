@@ -5814,10 +5814,7 @@ pub(crate) fn fit_text(ui: &Ui, text: &str, size: f32, width: f32, bold: bool) -
     if ui.text_size(text, s, bold).x <= width {
         return (text.to_string(), s);
     }
-    let mut cut: String = text.to_string();
-    while !cut.is_empty() && ui.text_size(&format!("{cut}…"), s, bold).x > width {
-        cut.pop();
-    }
+    let cut = ui.start_that_fits(text, s, width, bold);
     (format!("{}…", cut.trim_end()), s)
 }
 

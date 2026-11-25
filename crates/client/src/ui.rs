@@ -456,11 +456,30 @@ impl Ui {
         if self.text_size(text, size, bold).x <= width {
             return (text.to_string(), size);
         }
-        let mut s: String = text.to_string();
-        while !s.is_empty() && self.text_size(&format!("{s}…"), size, bold).x > width {
-            emoji::pop(&mut s);
-        }
+        let s = self.start_that_fits(text, size, width, bold);
         (format!("{}…", s.trim_end()), size)
+    }
+
+    /// The longest start of `text` (whole characters and emoji) that is at
+    /// most `width` wide with "…" after it; empty when none is. Found by
+    /// halving (a few measures, whatever the length: a staff message of a
+    /// thousand characters cut one character at a time measured half a
+    /// million characters every frame).
+    pub fn start_that_fits<'a>(&self, text: &'a str, size: f32, width: f32, bold: bool) -> &'a str {
+        let units = emoji::units(text);
+        let start = |k: usize| if k == 0 { "" } else { &text[..units[k - 1].1] };
+        let fits = |k: usize| self.text_size(&format!("{}…", start(k)), size, bold).x <= width;
+        // The answer is in lo..=hi: wider with every unit added.
+        let (mut lo, mut hi) = (0, units.len());
+        while lo < hi {
+            let mid = (lo + hi).div_ceil(2);
+            if fits(mid) {
+                lo = mid;
+            } else {
+                hi = mid - 1;
+            }
+        }
+        start(lo)
     }
 
     /// How much room `text` takes (emoji included: see [`crate::emoji`]).
@@ -1631,11 +1650,7 @@ impl Ui {
         if self.text_size(text, size, false).x <= width {
             return text.to_string();
         }
-        let mut s: String = text.to_string();
-        while !s.is_empty() && self.text_size(&format!("{s}…"), size, false).x > width {
-            emoji::pop(&mut s);
-        }
-        format!("{s}…")
+        format!("{}…", self.start_that_fits(text, size, width, false))
     }
 
     /// A scrollable chat log (newest at the bottom, against the field)

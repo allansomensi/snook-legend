@@ -736,8 +736,30 @@ async fn presents_to_many_at_once() {
     assert_eq!(item.kind, Kind::StaffGift { coins: 100, item: String::new(), vip_days: 0 });
     let bia = s.server.store.user_by_name("bia").await.unwrap().unwrap();
     assert!(s.server.store.wallet(bia.id).await.unwrap().owned.contains(&"chalk_red".to_string()));
+    let coins = s.server.store.wallet(bia.id).await.unwrap().coins;
+    let batch = v["batch"].as_str().unwrap().to_string();
+    assert_eq!(
+        v["results"][1],
+        serde_json::json!({"username": "bia", "status": "given", "error": null})
+    );
+    // Sent again (a retry after a timeout): nobody is paid twice, with the
+    // batch given or the same present the same day.
+    let again = body.replace(r#""reason""#, &format!(r#""batch":"{batch}","reason""#));
+    for body in [&body, &again] {
+        let (code, v) = request(&s.host, "POST", "/admin/api/gifts/batch", &boss, body).await;
+        assert_eq!(code, 200, "{v}");
+        assert_eq!(v["given"], serde_json::json!([]));
+        assert_eq!(v["already_given"], serde_json::json!(["ana", "bia"]));
+        assert_eq!(v["batch"], batch.as_str());
+    }
+    assert_eq!(s.server.store.wallet(bia.id).await.unwrap().coins, coins);
+    // Another batch is another present.
+    let other = body.replace(r#""reason""#, r#""batch":"cup-2","reason""#);
+    let (_, v) = request(&s.host, "POST", "/admin/api/gifts/batch", &boss, &other).await;
+    assert_eq!(v["given"], serde_json::json!(["ana", "bia"]), "{v}");
+    assert_eq!(s.server.store.wallet(bia.id).await.unwrap().coins, coins + 100);
     let (_, v) = request(&s.host, "GET", "/admin/api/audit?action=gift-batch", &boss, "").await;
-    assert_eq!(v["entries"].as_array().unwrap().len(), 1, "{v}");
+    assert_eq!(v["entries"].as_array().unwrap().len(), 4, "{v}");
     // Moderators can't.
     let (code, _) =
         request(&s.host, "POST", "/admin/api/users/bia/role", &boss, r#"{"role":"moderator"}"#)

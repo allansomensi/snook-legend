@@ -372,6 +372,12 @@ struct BatchBody {
     /// Only check (who is unknown, who has the item already).
     #[serde(default)]
     dry_run: bool,
+    /// The batch's id (any text the portal makes up, 100 characters at
+    /// most): sent again with a retry, nobody is given the coins or the VIP
+    /// twice. Without it, the same present (staff, reason, coins, item, VIP,
+    /// message) on the same day is the same batch.
+    #[serde(default)]
+    batch: String,
     #[serde(default)]
     preview: bool,
 }
@@ -387,7 +393,6 @@ async fn gift_batch(
     headers: HeaderMap,
     Json(body): Json<BatchBody>,
 ) -> ApiResult {
-    use snook_legend_proto::collection::Origin;
     use snook_legend_proto::shop::Price;
     let s = staff(&server, &headers).await?;
     require_admin(&s)?;
@@ -465,50 +470,117 @@ async fn gift_batch(
         })));
     }
     let t = now();
+    let batch = match clean_text(&body.batch, 100) {
+        b if !b.is_empty() => b,
+        _ => {
+            use sha2::{Digest, Sha256};
+            let key = format!(
+                "{}\n{reason}\n{}\n{item}\n{}\n{message}\n{}",
+                s.user.id,
+                body.coins,
+                body.vip_days,
+                t.div_euclid(86_400)
+            );
+            Sha256::digest(key.as_bytes())[..12].iter().map(|b| format!("{b:02x}")).collect()
+        }
+    };
     let mut given = Vec::new();
+    let mut already_given = Vec::new();
+    let mut failed = Vec::new();
+    let mut results = Vec::new();
     for u in &players {
-        let mut parts = Vec::new();
-        if body.coins > 0 {
-            server.store.credit(u.id, body.coins, &format!("staff: {reason}"), None, t).await?;
-            parts.push(format!("{} coins", body.coins));
-        }
-        // Whoever has the item already gets the rest.
-        let mut n = n.clone();
-        if !item.is_empty() && !owners.contains(&u.username) {
-            server.store.grant_item(u.id, item, "staff", t).await?;
-            crate::collection::record(
-                &server,
-                u.id,
-                item,
-                Origin::Staff { reason: reason.clone() },
-            )
-            .await;
-            parts.push(item.to_string());
-        } else if let Kind::StaffGift { item: i, .. } = &mut n.kind {
-            i.clear();
-            n.action = Action::None;
-        }
-        if body.vip_days > 0 {
-            server.store.add_vip(u.id, t, body.vip_days as i64 * 86_400).await?;
-            parts.push(format!("+{} days of VIP", body.vip_days));
-        }
-        if parts.is_empty() {
-            continue;
-        }
-        crate::shop::push_wallet(&server, u).await;
-        inbox::send(&server, u.id, n).await;
-        log(&server, &s, "gift", &u.username, &format!("{}: {reason}", parts.join(", "))).await;
-        given.push(u.username.clone());
+        let owns = owners.contains(&u.username);
+        let outcome = give(&server, u, &body, item, &reason, &batch, owns, t).await;
+        let (status, error) = match outcome {
+            Ok(parts) if parts.is_empty() => {
+                already_given.push(u.username.clone());
+                ("already_given", None)
+            }
+            Ok(parts) => {
+                // Only what was given now (whoever has the item already
+                // gets the rest).
+                let mut n = n.clone();
+                if let Kind::StaffGift { coins, item: i, vip_days } = &mut n.kind {
+                    if !parts.iter().any(|p| p == item) {
+                        i.clear();
+                        n.action = Action::None;
+                    }
+                    if !parts.iter().any(|p| p.ends_with("coins")) {
+                        *coins = 0;
+                    }
+                    if !parts.iter().any(|p| p.ends_with("VIP")) {
+                        *vip_days = 0;
+                    }
+                }
+                crate::shop::push_wallet(&server, u).await;
+                inbox::send(&server, u.id, n).await;
+                let details = format!("{}: {reason} (batch {batch})", parts.join(", "));
+                log(&server, &s, "gift", &u.username, &details).await;
+                given.push(u.username.clone());
+                ("given", None)
+            }
+            Err(e) => {
+                tracing::error!("present to {} (batch {batch}): {e}", u.username);
+                failed.push(u.username.clone());
+                ("failed", Some(e.to_string()))
+            }
+        };
+        results.push(json!({ "username": u.username, "status": status, "error": error }));
     }
     let summary = format!(
-        "{} players; coins {}, item {}, VIP {} days: {reason}",
+        "{} players ({} failed); coins {}, item {}, VIP {} days: {reason} (batch {batch})",
         given.len(),
+        failed.len(),
         body.coins,
         if item.is_empty() { "-" } else { item },
         body.vip_days
     );
     log(&server, &s, "gift-batch", "batch", &summary).await;
-    Ok(Json(json!({ "ok": true, "given": given, "unknown": unknown, "already_own": owners })))
+    Ok(Json(json!({
+        "ok": failed.is_empty(), "batch": batch, "given": given, "already_given": already_given,
+        "failed": failed, "unknown": unknown, "already_own": owners, "results": results,
+    })))
+}
+
+/// Gives one player of a batch their present: the coins and the VIP once
+/// per (batch, player) whatever happens (keyed in the ledger by
+/// `gift:{batch}:{player}`), the item if they haven't it. What was given
+/// now (nothing: given before).
+#[allow(clippy::too_many_arguments)]
+async fn give(
+    server: &Server,
+    u: &User,
+    body: &BatchBody,
+    item: &str,
+    reason: &str,
+    batch: &str,
+    owns: bool,
+    t: i64,
+) -> crate::store::StoreResult<Vec<String>> {
+    use snook_legend_proto::collection::Origin;
+    let mut parts = Vec::new();
+    let reference = format!("gift:{batch}:{}", u.id);
+    let why = format!("staff: {reason}");
+    let paid = if body.vip_days > 0 {
+        let vip = crate::store::VipChange::Add { from: t, secs: body.vip_days as i64 * 86_400 };
+        server.store.credit_vip(u.id, body.coins, &why, &reference, t, vip).await?
+    } else if body.coins > 0 {
+        server.store.credit(u.id, body.coins, &why, Some(&reference), t).await?
+    } else {
+        false
+    };
+    if paid && body.coins > 0 {
+        parts.push(format!("{} coins", body.coins));
+    }
+    if !item.is_empty() && !owns && server.store.grant_item(u.id, item, "staff", t).await? {
+        crate::collection::record(server, u.id, item, Origin::Staff { reason: reason.into() })
+            .await;
+        parts.push(item.to_string());
+    }
+    if paid && body.vip_days > 0 {
+        parts.push(format!("+{} days of VIP", body.vip_days));
+    }
+    Ok(parts)
 }
 
 /// A stored game shot by shot, to look into a report: for each stroke who

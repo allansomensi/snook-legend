@@ -541,7 +541,7 @@ server without one shows none).
 ```json
 {"usernames": ["ana", "bob"], "text": "caio, dani\nedu", "coins": 500,
  "item": "cue_winter_2026", "vip_days": 7, "reason": "Winter Cup finalists",
- "message": "Thanks for playing!", "dry_run": true}
+ "message": "Thanks for playing!", "batch": "cup-2026-12", "dry_run": true}
 ```
 
 Names from `usernames` and/or pasted in `text` (commas, spaces, new lines;
@@ -554,9 +554,26 @@ a leading `@` is fine), 500 at most, each once. At least one of `coins`
  "notification": {…}}
 ```
 
-Applied: `{"ok": true, "given": ["ana", "bob", "caio", "dani"], "unknown": ["edu"],
-"already_own": ["bob"]}`. Who has the item already gets the rest. Each gets
-`staff_gift` (with "Equip now" for the item).
+Applied:
+
+```json
+{"ok": true, "batch": "cup-2026-12", "given": ["ana", "bob", "caio"],
+ "already_given": ["dani"], "failed": [], "unknown": ["edu"], "already_own": ["bob"],
+ "results": [{"username": "ana", "status": "given", "error": null}, …]}
+```
+
+Who has the item already gets the rest. Each gets `staff_gift` (with "Equip
+now" for the item) for what was given to them now.
+
+Safe to send again: the coins and the VIP days are given once per batch and
+player (a ledger reference `gift:{batch}:{player id}`), so a retry after a
+timeout or a partial failure only gives what is missing. `batch` (optional,
+100 characters at most) names the batch; without it, the same present (the
+same staff, reason, coins, item, VIP days and message) on the same day (UTC)
+is the same batch. The answer's `batch` is the one to send with a retry.
+One player's error doesn't stop the rest: each player's `status` is `given`,
+`already_given` (nothing new for them) or `failed` (with `error`; `ok` is
+false then and `failed` lists them: send it again).
 
 ### A stored game, shot by shot
 

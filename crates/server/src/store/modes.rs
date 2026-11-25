@@ -64,7 +64,7 @@ impl Store {
     }
     /// Records a finished doubles game: its row, and for a rated game each
     /// player's new record. False (and nothing written) when the game was
-    /// recorded already (`room`).
+    /// recorded already (`room`). Its copy saved for a restart goes.
     pub async fn record_doubles(&self, record: &DoublesRecord) -> StoreResult<bool> {
         dispatch!(self, s => s.record_doubles(record))
     }

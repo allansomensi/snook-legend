@@ -97,6 +97,10 @@ impl PgStore {
                 }
             }
         }
+        // Its copy saved for a restart is done with.
+        if let Some(room) = m.room {
+            query("DELETE FROM live_matches WHERE id = $1").bind(room).execute(&mut *tx).await?;
+        }
         tx.commit().await?;
         Ok(true)
     }

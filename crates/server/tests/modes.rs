@@ -281,6 +281,123 @@ async fn doubles_take_turns_by_visit() {
     assert!(entries.is_empty(), "doubles don't count for the singles rating");
 }
 
+/// A server on its own port over `store`.
+async fn start_on(store: snook_legend_server::store::Store) -> (String, std::sync::Arc<Server>) {
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let addr = listener.local_addr().unwrap();
+    let settings = Settings { max_connections_per_ip: 100, ..Settings::default() };
+    let config = Config { bind: addr, settings, ..Config::default() };
+    let server = Server::with_store(config, store).await;
+    tokio::spawn(serve(listener, server.clone()));
+    (format!("ws://{addr}/ws"), server)
+}
+
+impl Client {
+    async fn login(url: &str, name: &str) -> Client {
+        let (ws, _) = connect_async(url).await.unwrap();
+        let mut c = Client { ws };
+        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Official }).await;
+        c.send(ClientMsg::Login { username: name.into(), password: PASSWORD.into() }).await;
+        c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+        c
+    }
+
+    /// Waits until the server closes the connection.
+    async fn closed(&mut self) {
+        let deadline = tokio::time::Instant::now() + Duration::from_secs(20);
+        loop {
+            let left = deadline.saturating_duration_since(tokio::time::Instant::now());
+            match tokio::time::timeout(left, self.ws.next()).await {
+                Err(_) => panic!("the connection stayed open"),
+                Ok(None) | Ok(Some(Err(_))) | Ok(Some(Ok(Message::Close(_)))) => return,
+                Ok(Some(Ok(_))) => {}
+            }
+        }
+    }
+}
+
+/// A server going away stops the doubles "Play now" and tables: no new
+/// doubles game starts.
+#[tokio::test]
+async fn a_restart_stops_the_doubles_search() {
+    let (url, server) = start(Settings::default()).await;
+    let mut eva = Client::register(&url, "eva").await;
+    let mut fabi = Client::register(&url, "fabi").await;
+    pair(&mut eva, &mut fabi, "eva", "fabi").await;
+    eva.send(ClientMsg::DoublesQueue { rated: true, rules: Rules::Official }).await;
+    eva.expect(
+        "searching",
+        |m| matches!(m, ServerMsg::DoublesPair { pair: Some(p) } if p.searching.is_some()),
+    )
+    .await;
+    server.with(|l| l.start_drain(60));
+    for c in [&mut eva, &mut fabi] {
+        c.expect(
+            "stopped",
+            |m| matches!(m, ServerMsg::DoublesPair { pair: Some(p) } if p.searching.is_none()),
+        )
+        .await;
+    }
+    for msg in [
+        ClientMsg::DoublesQueue { rated: true, rules: Rules::Official },
+        ClientMsg::DoublesOpenTable { rated: true, rules: Rules::Official },
+    ] {
+        fabi.send(msg).await;
+        fabi.expect("refused", |m| matches!(m, ServerMsg::Error { .. })).await;
+    }
+}
+
+/// A server going away hands a doubles game in progress to the next
+/// server: all four find it again, and it is played to its end there.
+#[tokio::test]
+async fn a_restart_hands_a_doubles_game_over() {
+    let store = snook_legend_server::store::Store::memory();
+    let (url_a, server_a) = start_on(store.share().unwrap()).await;
+    let (mut clients, _lineup, game) = doubles_game(&url_a).await;
+    let drain = tokio::spawn(snook_legend_server::drain(server_a.clone(), 1));
+    for (_, c) in clients.iter_mut() {
+        c.closed().await;
+    }
+    drain.await.unwrap();
+
+    let (url_b, _server_b) = start_on(store).await;
+    let mut back = Vec::new();
+    for name in ["ana", "bia", "caio", "duda"] {
+        let mut c = Client::login(&url_b, name).await;
+        let lineup = c.lineup().await;
+        assert!(lineup.place_of(name).is_some());
+        let ServerMsg::MatchStarted { game: rebuilt, rated, .. } =
+            c.expect("game back", |m| matches!(m, ServerMsg::MatchStarted { .. })).await
+        else {
+            unreachable!()
+        };
+        assert!(rated);
+        assert_eq!(rebuilt, game, "the same table");
+        back.push((name.to_string(), c));
+    }
+    // And it goes on to its end: recorded once, with all four.
+    client(&mut back, "bia").send(ClientMsg::Resign).await;
+    for (_, c) in back.iter_mut() {
+        c.expect("the end", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    }
+    let c = client(&mut back, "ana");
+    let mut entries = Vec::new();
+    for _ in 0..50 {
+        c.send(ClientMsg::DoublesLeaderboard { rules: Rules::Official }).await;
+        let ServerMsg::DoublesLeaderboard { entries: e, .. } =
+            c.expect("ranking", |m| matches!(m, ServerMsg::DoublesLeaderboard { .. })).await
+        else {
+            unreachable!()
+        };
+        if e.len() == 4 {
+            entries = e;
+            break;
+        }
+        tokio::time::sleep(Duration::from_millis(100)).await;
+    }
+    assert_eq!(entries.len(), 4);
+}
+
 /// One player of a team dropping doesn't lose the game (the partner plays
 /// on); both gone past the grace, the team has left it.
 #[tokio::test]

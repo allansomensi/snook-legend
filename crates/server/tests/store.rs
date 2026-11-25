@@ -290,6 +290,7 @@ async fn exercise(store: Store) {
     let live = LiveMatch {
         id: 1 << 40,
         players: [a.id, b.id],
+        partners: None,
         rated: true,
         replay: m.replay.clone().unwrap(),
         updated_at: t,
@@ -866,8 +867,14 @@ async fn audit_fixes(store: &Store) {
         calls: false,
         eight_call: false,
     };
-    let live =
-        LiveMatch { id: 9_000_001, players: [p.id, q.id], rated: true, replay, updated_at: t };
+    let live = LiveMatch {
+        id: 9_000_001,
+        players: [p.id, q.id],
+        partners: None,
+        rated: true,
+        replay,
+        updated_at: t,
+    };
     store.save_live(&live).await.unwrap();
     let saved = store.live_match_of(p.id).await.unwrap().expect("saved").replay;
     assert!(!saved.calls && !saved.eight_call);
@@ -1369,6 +1376,20 @@ async fn ops_and_modes(store: &Store) {
     assert!(!store.credit(b, 300, "against the clock", Some(&prize), t).await.unwrap());
     assert_eq!(store.wallet(b).await.unwrap().coins, coins + 300);
 
+    // A doubles game in progress is saved with all four (found by any of
+    // them), and goes when it is recorded.
+    let live = LiveMatch {
+        id: 77,
+        players: [a, c],
+        partners: Some([b, e]),
+        rated: true,
+        replay: snook_legend_proto::replay::Replay::new(5, 0, Rules::Brazilian),
+        updated_at: t,
+    };
+    store.save_live(&live).await.unwrap();
+    assert_eq!(store.live_match_of(e).await.unwrap(), Some(live.clone()), "a partner's");
+    assert_eq!(store.live_match_of(a).await.unwrap(), Some(live.clone()));
+
     // Doubles: each player's record moves with a rated game, once a room.
     let d = DoublesRecord {
         players: [[a, b], [c, e]],
@@ -1384,6 +1405,7 @@ async fn ops_and_modes(store: &Store) {
     };
     assert!(store.record_doubles(&d).await.unwrap());
     assert!(!store.record_doubles(&d).await.unwrap(), "once");
+    assert_eq!(store.live_match_of(b).await.unwrap(), None, "the saved copy went");
     let ra = store.doubles_records(a).await.unwrap();
     assert_eq!((ra.brazilian.rating, ra.brazilian.games, ra.brazilian.wins), (1210, 1, 1));
     assert_eq!(ra.official.games, 0);

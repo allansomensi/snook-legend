@@ -54,6 +54,10 @@ const APPLIED: &[(&str, &str)] = &[
     ("0030_match_social.sql", "c46bfc80419c9b3ca3e3f61b988bcfe0644167a104d60b7dc335676d878bb76e"),
     ("0031_modes.sql", "0d2f706694383c3594892da885da553624c53a00b8189d473baa494d30a61030"),
     ("0032_eight_call.sql", "fb15abdb1f3d63a53b036f96fa92cf52551877cec766d0cda932f10639ac6e8f"),
+    (
+        "0033_doubles_handover.sql",
+        "316f6e12facb212b6938f1b880541ee55c253669a2efac2e5560004c2ae68938",
+    ),
 ];
 
 #[test]

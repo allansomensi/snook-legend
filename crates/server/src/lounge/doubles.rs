@@ -12,8 +12,10 @@
 //! whole grace (or let the shot clock run out time after time). A player
 //! whose partner is away plays the team's visits alone meanwhile.
 //!
-//! Doubles games are not saved for a restart (nor handed to the next
-//! server): they go on here until the end.
+//! Doubles games are saved after every stroke and handed to the next
+//! server like singles ones (`live_matches.partners` has the teams' second
+//! players): the next server rebuilds the table with all four away, and
+//! each is back at it as they sign in again.
 
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::time::{Duration, Instant};
@@ -92,6 +94,19 @@ pub(super) struct Lobby {
 }
 
 impl Room {
+    /// The copy of this game saved for a restart (all four players of a
+    /// doubles game).
+    pub(super) fn live(&self) -> crate::store::LiveMatch {
+        crate::store::LiveMatch {
+            id: self.id as i64,
+            players: [self.users[0].id, self.users[1].id],
+            partners: self.doubles.as_ref().map(|d| d.partner_users.each_ref().map(|u| u.id)),
+            rated: self.rated,
+            replay: self.replay.clone(),
+            updated_at: now(),
+        }
+    }
+
     /// Whether `k` plays in this room (either player of either team).
     pub(super) fn has(&self, k: &str) -> bool {
         self.keys.iter().any(|p| p == k)
@@ -385,6 +400,24 @@ impl Lounge {
         );
         if asked {
             self.send(k, ServerMsg::DoublesPair { pair: None });
+        }
+    }
+
+    /// The server is going away: no pair looks for a game nor waits at a
+    /// table any more (the pairs stay; each is told).
+    pub(super) fn doubles_drain(&mut self) {
+        let waiting: Vec<String> = self
+            .doubles
+            .queue
+            .iter()
+            .map(|q| q.keys[0].clone())
+            .chain(self.doubles.tables.values().map(|t| t.keys[0].clone()))
+            .collect();
+        self.doubles.queue.clear();
+        self.doubles.tables.clear();
+        self.broadcast_doubles_tables();
+        for k in waiting {
+            self.send_pair(&k);
         }
     }
 
@@ -738,6 +771,14 @@ impl Lounge {
         let was_away = d.away[team][place].take().is_some();
         let missed = d.chat_missed[team][place].take();
         let team_back = room.disconnected[team].take().is_some() && !room.finished;
+        // Rebuilt after a restart: once both teams are back, the clock
+        // starts now.
+        if room.grace_until.is_some() && room.disconnected.iter().all(Option::is_none) {
+            room.grace_until = None;
+            room.deadline = Instant::now() + self.settings.shot_clock;
+            room.clock = self.settings.shot_clock;
+            self.featured_dirty = true;
+        }
         let clock_left = room.deadline.saturating_duration_since(Instant::now()).as_secs_f32();
         let lines: Vec<ChatLine> = match missed {
             Some(mark) => {

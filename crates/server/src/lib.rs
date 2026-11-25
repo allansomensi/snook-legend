@@ -2731,11 +2731,38 @@ async fn restore_live(server: &Arc<Server>, user: &User) {
         // The database didn't answer: the game is kept for the next try.
         _ => return,
     };
+    // A doubles game: the teams' second players, and all four's doubles
+    // records (what the game's rating changes are worked out from).
+    let partners = match live.partners {
+        None => None,
+        Some(ids) => {
+            let mut users = Vec::new();
+            for id in ids {
+                match server.store.user_by_id(id).await {
+                    Ok(Some(u)) => users.push(u),
+                    Ok(None) => {
+                        let _ = server.store.delete_live(live.id).await;
+                        return;
+                    }
+                    Err(_) => return,
+                }
+            }
+            let mut records = Vec::new();
+            for id in [live.players[0], ids[0], live.players[1], ids[1]] {
+                match server.store.doubles_records(id).await {
+                    Ok(r) => records.push(r),
+                    Err(_) => return,
+                }
+            }
+            let users: [User; 2] = users.try_into().expect("two");
+            Some((users, [[records[0], records[1]], [records[2], records[3]]]))
+        }
+    };
     let replay = live.replay.clone();
     let rebuilt = tokio::task::spawn_blocking(move || lounge::Rebuilt::from(&replay)).await;
     match rebuilt {
         Ok(Ok(rebuilt)) => {
-            if server.with(|l| l.restore(&live, [a, b], rebuilt)) {
+            if server.with(|l| l.restore(&live, [a, b], partners, rebuilt)) {
                 tracing::info!(room = live.id, other, "saved game rebuilt");
             }
         }

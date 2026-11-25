@@ -29,7 +29,7 @@ use tokio::sync::mpsc::{Sender, UnboundedSender, error::TrySendError};
 
 use crate::limits::Bucket;
 use crate::now;
-use crate::store::{LiveMatch, MatchRecord, TournamentRecord, User};
+use crate::store::{LiveMatch, MatchRecord, Record, TournamentRecord, User};
 
 mod doubles;
 mod match_social;
@@ -2792,21 +2792,10 @@ impl Lounge {
     /// Saves a game in progress (games with accounts only).
     fn save_live(&self, id: u64) {
         let Some(room) = self.rooms.get(&id) else { return };
-        // (Doubles games aren't saved: they go on here to the end.)
-        if self.settings.lan
-            || room.guests.iter().any(|g| *g)
-            || room.finished
-            || room.doubles.is_some()
-        {
+        if self.settings.lan || room.guests.iter().any(|g| *g) || room.finished {
             return;
         }
-        self.effect(Effect::SaveLive(LiveMatch {
-            id: id as i64,
-            players: [room.users[0].id, room.users[1].id],
-            rated: room.rated,
-            replay: room.replay.clone(),
-            updated_at: now(),
-        }));
+        self.effect(Effect::SaveLive(room.live()));
     }
 
     /// The running room of `k` and their seat, if it is their turn.
@@ -3542,8 +3531,6 @@ impl Lounge {
                 .rooms
                 .values()
                 .filter(|r| !r.finished && r.busy.is_none() && r.game.game_over().is_none())
-                // (A doubles game isn't handed over: it is played to its end.)
-                .filter(|r| r.doubles.is_none())
                 .filter(|r| {
                     nowi >= deadline
                         || (r.disconnected.iter().any(Option::is_some)
@@ -3704,6 +3691,8 @@ impl Lounge {
         for k in queued {
             self.queue_leave(&k, true);
         }
+        // The doubles "Play now" and tables too.
+        self.doubles_drain();
         let hosts: Vec<String> = self.tables.values().map(|t| t.host.clone()).collect();
         for h in hosts {
             self.close_table_of(&h);
@@ -3806,7 +3795,8 @@ impl Lounge {
         }
         tracing::info!(room = id, "game handed to the next server");
         let mut kills = Vec::new();
-        for k in &room.keys {
+        // (All four of a doubles game.)
+        for k in &room.all_keys() {
             if let Some(set) = self.watchers.remove(k) {
                 for w in set {
                     if let Some(s) = self.sessions.get_mut(&w) {
@@ -3827,36 +3817,64 @@ impl Lounge {
                 kills.push(s.kill.clone());
             }
         }
-        let live = LiveMatch {
-            id: id as i64,
-            players: [room.users[0].id, room.users[1].id],
-            rated: room.rated,
-            replay: room.replay.clone(),
-            updated_at: now(),
-        };
+        let live = room.live();
         self.effect(Effect::HandOff { live, kills });
     }
 
     /// Rebuilds a saved game after a restart (or a hand-over). The players
     /// are away until they reconnect. False if it is already here.
-    pub fn restore(&mut self, live: &LiveMatch, users: [User; 2], rebuilt: Rebuilt) -> bool {
+    /// `partners`: a doubles game's teams' second players, with the
+    /// doubles records of all four (`[team][player]`).
+    pub fn restore(
+        &mut self,
+        live: &LiveMatch,
+        users: [User; 2],
+        partners: Option<([User; 2], [[PerRules<Record>; 2]; 2])>,
+        rebuilt: Rebuilt,
+    ) -> bool {
         let id = live.id as u64;
         let keys = [key(&users[0].username), key(&users[1].username)];
+        let mut everyone = keys.to_vec();
+        if let Some((p, _)) = &partners {
+            everyone.extend(p.iter().map(|u| key(&u.username)));
+        }
         // A game finished here meanwhile (while its copy was being rebuilt)
         // isn't played again.
         if self.rooms.contains_key(&id)
             || self.finished_rooms.contains_key(&id)
-            || self.rooms.values().any(|r| !r.finished && keys.iter().any(|k| r.has(k)))
+            || self.rooms.values().any(|r| !r.finished && everyone.iter().any(|k| r.has(k)))
         {
             return false;
         }
         let nowi = Instant::now();
+        let doubles = partners.map(|(partner_users, records)| {
+            let rules = live.replay.rules;
+            for (t, team) in records.iter().enumerate() {
+                let firsts = [&users[t], &partner_users[t]];
+                for (p, r) in team.iter().enumerate() {
+                    self.set_doubles_records(&firsts[p].username, *r);
+                }
+            }
+            Box::new(doubles::Doubles {
+                partners: partner_users.clone().map(|u| key(&u.username)),
+                partner_users,
+                away: [[Some(nowi); 2]; 2],
+                present: [[true; 2]; 2],
+                chat_missed: [[None; 2]; 2],
+                records: records.map(|t| t.map(|r| *r.get(rules))),
+                rematch: [[false; 2]; 2],
+                deltas: None,
+            })
+        });
         // (The break after this game is the other player's.)
-        if live.replay.rules == Rules::Brazilian {
+        if live.replay.rules == Rules::Brazilian && doubles.is_none() {
             let (a, b, _) = pair_key(&keys, false);
             self.last_break.insert((a, b), (keys[live.replay.breaker % 2].clone(), nowi));
         }
-        let stakes = live.rated.then(|| self.stakes_for(&keys, &users, live.replay.rules));
+        let stakes = match &doubles {
+            Some(d) => live.rated.then(|| Self::doubles_stakes(d)),
+            None => live.rated.then(|| self.stakes_for(&keys, &users, live.replay.rules)),
+        };
         let room = Room {
             id,
             keys: keys.clone(),
@@ -3897,7 +3915,7 @@ impl Lounge {
             spectator_chat: VecDeque::new(),
             chat_total: 0,
             chat_missed: [None, None],
-            doubles: None,
+            doubles,
         };
         self.rooms.insert(id, room);
         self.featured_dirty = true;
@@ -3905,7 +3923,7 @@ impl Lounge {
         // A player online here already is back at the table at once (else
         // they would sit in the lounge, told nothing, and lose the game for
         // not coming back).
-        for k in &keys {
+        for k in &everyone {
             if self.sessions.contains_key(k) {
                 // Whatever they had going in the lounge ends (a table someone
                 // could sit down at, the queue, invitations, a game being
@@ -3923,7 +3941,7 @@ impl Lounge {
                 self.announce(k);
             }
         }
-        tracing::info!(room = id, "game restored: {} vs {}", keys[0], keys[1]);
+        tracing::info!(room = id, "game restored: {everyone:?}");
         true
     }
 

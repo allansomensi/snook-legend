@@ -670,7 +670,7 @@ impl MemoryStore {
     }
 
     pub fn live_match_of(&self, user_id: i64) -> StoreResult<Option<LiveMatch>> {
-        Ok(self.lock().live.values().rev().find(|m| m.players.contains(&user_id)).cloned())
+        Ok(self.lock().live.values().rev().find(|m| plays_in(m, user_id)).cloned())
     }
 
     pub fn purge_live(&self, before: i64) -> StoreResult<u64> {
@@ -914,7 +914,7 @@ impl MemoryStore {
             g.message.clear();
         }
         s.shot_stats.retain(|(u, _), _| *u != user_id);
-        s.live.retain(|_, m| !m.players.contains(&user_id));
+        s.live.retain(|_, m| !plays_in(m, user_id));
         s.async_challenges.retain(|_, c| c.from != user_id && c.to != user_id);
         if let Some(w) = s.wallets.get_mut(&user_id) {
             w.stripe_customer = None;
@@ -2152,4 +2152,10 @@ impl MemoryStore {
         let g = g.clone();
         Ok(Some(s.gift_row(&g)))
     }
+}
+
+/// Whether `user_id` plays in the saved game `m` (either team's either
+/// player in doubles).
+fn plays_in(m: &LiveMatch, user_id: i64) -> bool {
+    m.players.contains(&user_id) || m.partners.is_some_and(|p| p.contains(&user_id))
 }

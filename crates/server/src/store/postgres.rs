@@ -691,8 +691,8 @@ impl PgStore {
 
     pub async fn save_live(&self, m: &LiveMatch) -> StoreResult<()> {
         query(
-            "INSERT INTO live_matches (id, player0, player1, rated, seed, breaker, strokes, updated_at, rules, calls, eight_call)
-             VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11)
+            "INSERT INTO live_matches (id, player0, player1, rated, seed, breaker, strokes, updated_at, rules, calls, eight_call, partners)
+             VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11, $12)
              ON CONFLICT (id) DO UPDATE SET strokes = EXCLUDED.strokes, updated_at = EXCLUDED.updated_at",
         )
         .bind(m.id)
@@ -706,6 +706,7 @@ impl PgStore {
         .bind(m.replay.rules.code())
         .bind(m.replay.calls)
         .bind(m.replay.eight_call)
+        .bind(m.partners.map(|p| p.to_vec()))
         .execute(&self.pool)
         .await?;
         Ok(())
@@ -719,8 +720,10 @@ impl PgStore {
     pub async fn live_match_of(&self, user_id: i64) -> StoreResult<Option<LiveMatch>> {
         let row = query(
             "SELECT id, player0, player1, rated, seed, breaker, strokes::text AS strokes, updated_at,
-                    rules, calls, eight_call
-             FROM live_matches WHERE player0 = $1 OR player1 = $1 ORDER BY updated_at DESC LIMIT 1",
+                    rules, calls, eight_call, partners
+             FROM live_matches
+             WHERE player0 = $1 OR player1 = $1 OR partners @> ARRAY[$1]::BIGINT[]
+             ORDER BY updated_at DESC LIMIT 1",
         )
         .bind(user_id)
         .fetch_optional(&self.pool)
@@ -730,6 +733,9 @@ impl PgStore {
             Some(LiveMatch {
                 id: r.get("id"),
                 players: [r.get("player0"), r.get("player1")],
+                partners: r
+                    .get::<Option<Vec<i64>>, _>("partners")
+                    .and_then(|p| <[i64; 2]>::try_from(p).ok()),
                 rated: r.get("rated"),
                 replay: replay_of(
                     r.get("seed"),
@@ -1078,7 +1084,8 @@ impl PgStore {
             "UPDATE gifts SET message = '' WHERE from_id = $1",
             "DELETE FROM equipped WHERE user_id = $1",
             "DELETE FROM shot_stats WHERE user_id = $1",
-            "DELETE FROM live_matches WHERE player0 = $1 OR player1 = $1",
+            "DELETE FROM live_matches
+             WHERE player0 = $1 OR player1 = $1 OR partners @> ARRAY[$1]::BIGINT[]",
             "DELETE FROM async_challenges WHERE from_id = $1 OR to_id = $1",
             "UPDATE wallets SET stripe_customer = NULL WHERE user_id = $1",
             "UPDATE payments SET email = NULL WHERE user_id = $1",

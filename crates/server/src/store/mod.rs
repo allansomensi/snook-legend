@@ -256,7 +256,10 @@ pub struct MatchRecord {
 #[derive(Debug, Clone, PartialEq)]
 pub struct LiveMatch {
     pub id: i64,
+    /// The players (of a doubles game: the teams' first players).
     pub players: [i64; 2],
+    /// A doubles game: the teams' second players (None: a singles game).
+    pub partners: Option<[i64; 2]>,
     pub rated: bool,
     pub replay: Replay,
     pub updated_at: i64,

@@ -67,6 +67,10 @@ impl MemoryStore {
             }
         }
         s.modes.doubles_games.push(record.clone());
+        // Its copy saved for a restart is done with.
+        if let Some(room) = record.room {
+            s.live.remove(&room);
+        }
         Ok(true)
     }
 

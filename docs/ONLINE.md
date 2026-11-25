@@ -207,8 +207,13 @@ protocol after signing in).
   away (`opponent_connection` to the other team, the reconnection grace
   running) only when both are; it has left the game when both are gone past
   the grace (or the shot clock runs out three times in a row, as in
-  singles). Doubles games are not saved for a restart nor handed to the
-  next server: they are played to their end on the server they started on.
+  singles). Doubles games are saved after every stroke and handed to the
+  next server like singles ones (since 0.12.1; `live_matches.partners` has
+  the teams' second players): the next server rebuilds the table with all
+  four away, each is back at it as they sign in again (the clock starts
+  once both teams are), and a team none of whose players comes back within
+  the grace has left the game. While a server drains, the doubles "Play
+  now" and tables stop (each pair is told) and no doubles game starts.
 - The rating: a doubles rating per player and rules, apart from the singles
   one (1200 to start). The expected score comes from the teams' averages;
   each player moves by their own K-factor. Leaving costs both players the

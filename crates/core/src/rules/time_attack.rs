@@ -11,10 +11,10 @@
 //!   spotted again (on the foot spot, or the nearest free place on the long
 //!   string) and the shot is a foul. Made as the last ball (or with it), the
 //!   table is cleared.
-//! - Fouls: the cue ball pocketed or off the table (the player then has it
-//!   in hand anywhere), no ball hit, an object ball off the table (spotted
-//!   again) and the early 8. Each shot with a foul costs a time penalty (see
-//!   `snook_legend_proto::time_attack`); nothing else changes.
+//! - Fouls: the cue ball pocketed or off the table, no ball hit, an object
+//!   ball off the table (spotted again) and the early 8. After a foul the
+//!   player has the cue ball in hand anywhere, and the shot costs a time
+//!   penalty (see `snook_legend_proto::time_attack`).
 //!
 //! The game knows it is played this way ([`EightBallGame::is_time_attack`]):
 //! [`EightBallGame::finish_shot`] applies these rules instead of the
@@ -83,7 +83,7 @@ impl EightBallGame {
         let game_over =
             cleared.then_some(GameOver { winner: 0, reason: GameOverReason::PocketedEight });
         self.game_over = game_over;
-        if !cleared && (facts.cue_pocketed() || facts.cue_off()) {
+        if !cleared && (!fouls.is_empty() || spotted.contains(&BallId::EIGHT)) {
             self.grant_hand(BallInHand::Anywhere);
         }
         self.current = 0;
@@ -161,6 +161,7 @@ mod tests {
         assert!(r.fouls.contains(&Foul::NoContact));
         assert!(penalised(&r));
         assert_eq!(g.current_player(), 0);
+        assert_eq!(g.ball_in_hand(), Some(BallInHand::Anywhere));
         assert!(g.game_over().is_none());
     }
 

@@ -9,6 +9,7 @@ use snook_legend_proto::CareerNumbers;
 
 mod correspondence;
 mod match_social;
+mod modes;
 mod msstore;
 mod ops;
 
@@ -108,6 +109,8 @@ struct Inner {
     challenge: HashMap<i64, (u32, u32, i64)>,
     /// Operations and the economy (see `ops.rs`).
     ops: ops::State,
+    /// Doubles and against the clock (see `modes.rs`).
+    modes: modes::State,
     /// user -> (settings, saved at) (see `match_social.rs`).
     account_settings: HashMap<i64, (String, i64)>,
     /// Direct messages, oldest first.

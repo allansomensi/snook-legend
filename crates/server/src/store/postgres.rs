@@ -9,6 +9,7 @@ use snook_legend_proto::replay::Replay;
 
 mod correspondence;
 mod match_social;
+mod modes;
 mod msstore;
 mod ops;
 

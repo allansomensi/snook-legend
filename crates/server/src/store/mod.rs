@@ -1010,6 +1010,8 @@ macro_rules! dispatch {
 // (After the macro: it dispatches these too.)
 mod match_social;
 pub use match_social::{DM_KEPT, DM_THREADS, DmRow, DmThreadRow, WeekRow};
+mod modes;
+pub use modes::{AttemptFinish, AttemptRow, BestRow, DOUBLES_START, DoublesRecord};
 
 impl Store {
     pub fn memory() -> Store {

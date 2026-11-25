@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	अभी कोई नहीं: वे �
 Page {a} of {b}	पेज {a} / {b}
 In the shop	शॉप में
 Everything you have	आपके पास जो कुछ है
-Show reactions	रिएक्शन दिखाएँ
 Off: no reactions are shown during matches, from anyone.	बंद: मैच के दौरान किसी के भी रिएक्शन नहीं दिखते।
 The colour of your aim line and ghost ball.	आपकी निशाना रेखा और घोस्ट बॉल का रंग।
 For VIP members: the colour of the aim line and the ghost ball.	VIP सदस्यों के लिए: निशाना रेखा और घोस्ट बॉल का रंग।
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	दोस्त जोड़े�
 Chat and reactions	चैट और प्रतिक्रियाएँ
 Mute the opponent's chat	विरोधी की चैट म्यूट करें
 Their messages in online games are not shown (yours still reach them).	ऑनलाइन खेलों में उनके संदेश नहीं दिखते (आपके संदेश उन तक पहुँचते रहते हैं)।
-Hide the opponent's reactions	विरोधी की प्रतिक्रियाएँ छिपाएँ
 The reactions they send at the table are not shown.	टेबल पर भेजी गई उनकी प्रतिक्रियाएँ नहीं दिखतीं।
 Players muted from a game: {n}	किसी खेल से म्यूट किए गए खिलाड़ी: {n}
 Unmute them all	सबको अनम्यूट करें
@@ -2515,3 +2513,5 @@ That player already has a partner.	उस खिलाड़ी का पहल
 Leave your pair first.	पहले अपनी जोड़ी तोड़ें।
 Your doubles partner left the pair.	आपके साथी ने जोड़ी तोड़ दी।
 Not all four players are at the table.	चारों खिलाड़ी टेबल पर नहीं हैं।
+Hide opponent	प्रतिद्वंद्वी छिपाएँ
+Everyone's reactions are shown during matches.	मैच के दौरान सबकी प्रतिक्रियाएँ दिखती हैं।

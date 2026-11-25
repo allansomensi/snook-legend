@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Belum ada: semuanya menunggu untuk dimenan
 Page {a} of {b}	Halaman {a} dari {b}
 In the shop	Di toko
 Everything you have	Semua yang kamu punya
-Show reactions	Tampilkan reaksi
 Off: no reactions are shown during matches, from anyone.	Mati: tidak ada reaksi dari siapa pun yang ditampilkan saat pertandingan.
 The colour of your aim line and ghost ball.	Warna garis bidik dan bola bayanganmu.
 For VIP members: the colour of the aim line and the ghost ball.	Untuk anggota VIP: warna garis bidik dan bola bayangan.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Tambahkan teman untuk melihat pos
 Chat and reactions	Obrolan dan reaksi
 Mute the opponent's chat	Bisukan obrolan lawan
 Their messages in online games are not shown (yours still reach them).	Pesannya di permainan online tidak ditampilkan (pesanmu tetap sampai kepadanya).
-Hide the opponent's reactions	Sembunyikan reaksi lawan
 The reactions they send at the table are not shown.	Reaksi yang dia kirim di meja tidak ditampilkan.
 Players muted from a game: {n}	Pemain yang dibisukan dari permainan: {n}
 Unmute them all	Aktifkan suara semuanya
@@ -2515,3 +2513,5 @@ That player already has a partner.	Pemain itu sudah punya pasangan.
 Leave your pair first.	Bubarkan dulu pasanganmu.
 Your doubles partner left the pair.	Pasanganmu membubarkan pasangan.
 Not all four players are at the table.	Tidak semua empat pemain ada di meja.
+Hide opponent	Sembunyikan lawan
+Everyone's reactions are shown during matches.	Reaksi semua orang ditampilkan selama pertandingan.

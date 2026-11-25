@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Поки нічого: вони чекаю
 Page {a} of {b}	Сторінка {a} з {b}
 In the shop	У крамниці
 Everything you have	Усе, що у вас є
-Show reactions	Показувати реакції
 Off: no reactions are shown during matches, from anyone.	Вимк.: під час партій не показуються нічиї реакції.
 The colour of your aim line and ghost ball.	Колір вашої лінії прицілу та кулі-привида.
 For VIP members: the colour of the aim line and the ghost ball.	Для учасників VIP: колір лінії прицілу та кулі-привида.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Додайте друзів, що
 Chat and reactions	Чат і реакції
 Mute the opponent's chat	Вимкнути чат суперника
 Their messages in online games are not shown (yours still reach them).	Його повідомлення в онлайн-партіях не показуються (ваші й далі до нього доходять).
-Hide the opponent's reactions	Сховати реакції суперника
 The reactions they send at the table are not shown.	Реакції, які він надсилає за столом, не показуються.
 Players muted from a game: {n}	Гравців вимкнено в партіях: {n}
 Unmute them all	Увімкнути всіх знову
@@ -2515,3 +2513,5 @@ That player already has a partner.	У цього гравця вже є напа
 Leave your pair first.	Спершу розпустіть свою пару.
 Your doubles partner left the pair.	Ваш напарник розпустив пару.
 Not all four players are at the table.	Не всі четверо гравців за столом.
+Hide opponent	Сховати суперника
+Everyone's reactions are shown during matches.	Під час матчів видно реакції всіх.

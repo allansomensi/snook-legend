@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Inga än: de väntar på att vinnas.
 Page {a} of {b}	Sida {a} av {b}
 In the shop	I butiken
 Everything you have	Allt du har
-Show reactions	Visa reaktioner
 Off: no reactions are shown during matches, from anyone.	Av: inga reaktioner visas under partier, från någon.
 The colour of your aim line and ghost ball.	Färgen på din siktlinje och spökbollen.
 For VIP members: the colour of the aim line and the ghost ball.	För VIP-medlemmar: färgen på siktlinjen och spökbollen.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Lägg till vänner för att se va
 Chat and reactions	Chatt och reaktioner
 Mute the opponent's chat	Tysta motståndarens chatt
 Their messages in online games are not shown (yours still reach them).	Hans meddelanden i onlinepartier visas inte (dina når honom fortfarande).
-Hide the opponent's reactions	Dölj motståndarens reaktioner
 The reactions they send at the table are not shown.	Reaktionerna han skickar vid bordet visas inte.
 Players muted from a game: {n}	Spelare tystade i ett parti: {n}
 Unmute them all	Slå på alla igen
@@ -2515,3 +2513,5 @@ That player already has a partner.	Den spelaren har redan en partner.
 Leave your pair first.	Lämna ditt par först.
 Your doubles partner left the pair.	Din dubbelpartner lämnade paret.
 Not all four players are at the table.	Alla fyra spelare är inte vid bordet.
+Hide opponent	Dölj motståndare
+Everyone's reactions are shown during matches.	Allas reaktioner visas under matcher.

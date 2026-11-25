@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Τίποτα ακόμα: περιμένο�
 Page {a} of {b}	Σελίδα {a} από {b}
 In the shop	Στο κατάστημα
 Everything you have	Όλα όσα έχεις
-Show reactions	Εμφάνιση αντιδράσεων
 Off: no reactions are shown during matches, from anyone.	Ανενεργό: δεν εμφανίζονται αντιδράσεις κανενός στις παρτίδες.
 The colour of your aim line and ghost ball.	Το χρώμα της γραμμής σκόπευσης και της μπάλας-φάντασμα.
 For VIP members: the colour of the aim line and the ghost ball.	Για μέλη VIP: το χρώμα της γραμμής σκόπευσης και της μπάλας-φάντασμα.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Προσθέστε φίλους �
 Chat and reactions	Συνομιλία και αντιδράσεις
 Mute the opponent's chat	Σίγαση της συνομιλίας του αντιπάλου
 Their messages in online games are not shown (yours still reach them).	Τα μηνύματά του στις online παρτίδες δεν εμφανίζονται (τα δικά σας του φτάνουν κανονικά).
-Hide the opponent's reactions	Απόκρυψη των αντιδράσεων του αντιπάλου
 The reactions they send at the table are not shown.	Οι αντιδράσεις που στέλνει στο τραπέζι δεν εμφανίζονται.
 Players muted from a game: {n}	Παίκτες σε σίγαση από παρτίδα: {n}
 Unmute them all	Άρση σίγασης για όλους
@@ -2515,3 +2513,5 @@ That player already has a partner.	Αυτός ο παίκτης έχει ήδη 
 Leave your pair first.	Διάλυσε πρώτα το ζευγάρι σου.
 Your doubles partner left the pair.	Το ζευγάρι σου διέλυσε το ζευγάρι.
 Not all four players are at the table.	Δεν είναι και οι τέσσερις παίκτες στο τραπέζι.
+Hide opponent	Απόκρυψη αντιπάλου
+Everyone's reactions are shown during matches.	Οι αντιδράσεις όλων εμφανίζονται στους αγώνες.

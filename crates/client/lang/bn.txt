@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	এখনও নেই: জেতার �
 Page {a} of {b}	পৃষ্ঠা {a} / {b}
 In the shop	শপে
 Everything you have	আপনার যা কিছু আছে
-Show reactions	রিঅ্যাকশন দেখান
 Off: no reactions are shown during matches, from anyone.	বন্ধ: ম্যাচ চলাকালীন কারও রিঅ্যাকশন দেখানো হয় না।
 The colour of your aim line and ghost ball.	আপনার নিশানা রেখা আর ঘোস্ট বলের রং।
 For VIP members: the colour of the aim line and the ghost ball.	VIP সদস্যদের জন্য: নিশানা রেখা আর ঘোস্ট বলের রং।
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	বন্ধু যোগ কর�
 Chat and reactions	চ্যাট ও প্রতিক্রিয়া
 Mute the opponent's chat	প্রতিপক্ষের চ্যাট মিউট করুন
 Their messages in online games are not shown (yours still reach them).	অনলাইন খেলায় তাদের বার্তা দেখানো হয় না (আপনার বার্তা তাদের কাছে পৌঁছায়)।
-Hide the opponent's reactions	প্রতিপক্ষের প্রতিক্রিয়া লুকান
 The reactions they send at the table are not shown.	টেবিলে তারা যে প্রতিক্রিয়া পাঠায় তা দেখানো হয় না।
 Players muted from a game: {n}	খেলা থেকে মিউট করা খেলোয়াড়: {n}
 Unmute them all	সবাইকে আনমিউট করুন
@@ -2515,3 +2513,5 @@ That player already has a partner.	ওই খেলোয়াড়ের ই�
 Leave your pair first.	আগে আপনার জুটি ভাঙুন।
 Your doubles partner left the pair.	আপনার সঙ্গী জুটি ভেঙে দিয়েছেন।
 Not all four players are at the table.	চারজন খেলোয়াড়ই টেবিলে নেই।
+Hide opponent	প্রতিপক্ষ লুকান
+Everyone's reactions are shown during matches.	ম্যাচ চলাকালীন সবার রিঅ্যাকশন দেখানো হয়।

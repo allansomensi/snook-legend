@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Jeszcze żadnych: czekają, aż je wygrasz
 Page {a} of {b}	Strona {a} z {b}
 In the shop	W sklepie
 Everything you have	Wszystko, co masz
-Show reactions	Pokazuj reakcje
 Off: no reactions are shown during matches, from anyone.	Wyłączone: podczas partii nie są pokazywane niczyje reakcje.
 The colour of your aim line and ghost ball.	Kolor twojej linii celowania i bili-ducha.
 For VIP members: the colour of the aim line and the ghost ball.	Dla członków VIP: kolor linii celowania i bili-ducha.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Dodaj znajomych, aby zobaczyć sw
 Chat and reactions	Czat i reakcje
 Mute the opponent's chat	Wycisz czat przeciwnika
 Their messages in online games are not shown (yours still reach them).	Jego wiadomości w partiach online nie są pokazywane (twoje nadal do niego docierają).
-Hide the opponent's reactions	Ukryj reakcje przeciwnika
 The reactions they send at the table are not shown.	Reakcje, które wysyła przy stole, nie są pokazywane.
 Players muted from a game: {n}	Gracze wyciszeni w partii: {n}
 Unmute them all	Przywróć wszystkich
@@ -2515,3 +2513,5 @@ That player already has a partner.	Ten gracz ma już partnera.
 Leave your pair first.	Najpierw rozwiąż swoją parę.
 Your doubles partner left the pair.	Twój partner rozwiązał parę.
 Not all four players are at the table.	Nie wszyscy czterej gracze są przy stole.
+Hide opponent	Ukryj rywala
+Everyone's reactions are shown during matches.	Podczas meczów widać reakcje wszystkich.

@@ -54,7 +54,7 @@ pub fn aim(alpha: f32) -> Color {
     Color::new(c[0] as f32 / 255.0, c[1] as f32 / 255.0, c[2] as f32 / 255.0, alpha)
 }
 
-/// Reactions are shown (the setting "Show reactions").
+/// Reactions are shown (the setting "Reactions" (set to off)).
 pub fn reactions_shown() -> bool {
     REACTIONS.with(Cell::get)
 }

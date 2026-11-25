@@ -241,6 +241,35 @@ async fn friends_send_each_other_messages() {
     );
 }
 
+/// A 0.11 game (protocol 24) has no direct messages: it isn't sent them
+/// (they wait for when the player updates).
+#[tokio::test]
+async fn old_games_are_not_sent_messages() {
+    let (url, _) = start().await;
+    let (mut ana, _) = Client::register(&url, "ana").await;
+    let (mut bob, bob_token) = Client::register(&url, "bob").await;
+    befriend(&mut ana, &mut bob, "ana", "bob").await;
+    ana.send(ClientMsg::DmSend { to: "bob".into(), text: "hi".into() }).await;
+    ana.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await;
+    drop(bob);
+    tokio::time::sleep(Duration::from_millis(200)).await;
+    let (ws, _) = connect_async(&url).await.unwrap();
+    let mut old = Client { ws };
+    old.send(ClientMsg::Hello { version: 24, rules: Rules::Brazilian }).await;
+    old.send(ClientMsg::Resume { token: bob_token }).await;
+    old.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+    ana.send(ClientMsg::DmSend { to: "bob".into(), text: "there?".into() }).await;
+    ana.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await;
+    tokio::time::sleep(Duration::from_millis(300)).await;
+    old.send(ClientMsg::Ping).await;
+    let (before, _) = old.until("pong", |m| matches!(m, ServerMsg::Pong)).await;
+    let dms = before
+        .iter()
+        .filter(|m| matches!(m, ServerMsg::Dm { .. } | ServerMsg::DmThreads { .. }))
+        .count();
+    assert_eq!(dms, 0, "{before:?}");
+}
+
 #[tokio::test]
 async fn messages_follow_the_chat_rules() {
     let (url, _) = start().await;

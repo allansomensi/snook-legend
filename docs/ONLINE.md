@@ -156,7 +156,9 @@ Rated games use Elo (`snook_legend_core::rating`). See `docs/DEPLOY.md` for limi
   `dm_history { with, messages, more }` (50 a page); `dm_read { with }`;
   `dm_threads` → `dm_threads { threads }` (also after signing in when there
   are some). Only friends, never across a block, the chat's rules (mutes,
-  age, quick phrases only) apply.
+  age, quick phrases only) apply. A game older than protocol 25 (0.11) has
+  no direct messages: it is sent neither `dm` nor `dm_threads` (it would
+  drop them as malformed); what its player is sent waits for the update.
 - Friends see what each other does: `friends.friends[].activity` and
   `friend_activity { username, activity }` whenever it changes (playing
   against someone, looking for a game, watching, the daily challenge…;

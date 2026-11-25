@@ -52,6 +52,11 @@ impl Lounge {
         self.sessions.get(&key(name)).is_some_and(|s| s.protocol >= INBOX_PROTOCOL)
     }
 
+    /// The protocol of `name`'s game (none: not signed in).
+    pub fn protocol_of(&self, name: &str) -> Option<u32> {
+        self.sessions.get(&key(name)).map(|s| s.protocol)
+    }
+
     /// The banned words changed.
     pub fn set_words(&mut self, words: Filter) {
         self.moderation.words = words;

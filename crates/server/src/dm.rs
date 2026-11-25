@@ -99,7 +99,7 @@ pub async fn handle(
                     ]);
                     let message = message(row, &names);
                     send(ServerMsg::Dm { message: message.clone() });
-                    server.with(|l| l.notify(&other.username, ServerMsg::Dm { message }));
+                    notify(server, &other.username, ServerMsg::Dm { message });
                 }
                 Err(e) => {
                     tracing::error!("direct message from {}: {e}", me.username);
@@ -201,6 +201,21 @@ pub async fn threads(server: &Server, me: &User) -> ServerMsg {
 pub async fn signed_in(server: &Server, user: &User) {
     let msg = threads(server, user).await;
     if matches!(&msg, ServerMsg::DmThreads { threads } if !threads.is_empty()) {
-        server.with(|l| l.notify(&user.username, msg));
+        notify(server, &user.username, msg);
     }
+}
+
+/// The first protocol whose games have direct messages (0.12.0). A 0.11
+/// game (24) can't read [`ServerMsg::Dm`] nor [`ServerMsg::DmThreads`]: it
+/// would only drop them as malformed (the messages wait in the store for
+/// when the player updates).
+pub const DM_PROTOCOL: u32 = 25;
+
+/// Sends `msg` to `name` if their game has direct messages.
+fn notify(server: &Server, name: &str, msg: ServerMsg) {
+    server.with(|l| {
+        if l.protocol_of(name).is_some_and(|p| p >= DM_PROTOCOL) {
+            l.notify(name, msg)
+        }
+    });
 }

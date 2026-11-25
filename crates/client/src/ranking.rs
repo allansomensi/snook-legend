@@ -185,6 +185,13 @@ const GAP: f32 = 20.0;
 const ROW_H: f32 = 36.0;
 
 impl Ranking {
+    /// Development aid (screenshots): `--screen ranking-friends` or
+    /// `ranking-doubles` opens on that board.
+    pub fn dev(&mut self, board: &str) {
+        self.friends = board == "ranking-friends";
+        self.doubles = board == "ranking-doubles";
+    }
+
     /// Opens on the ranking of the rules the player plays.
     pub fn open(&mut self, online: &mut Online) {
         self.first = 0;

@@ -226,120 +226,10 @@ pub fn medal_color(level: u8) -> Color {
     }
 }
 
-/// An achievement's medal, drawn: a ribbon in a V (its colour by the
-/// medal's metal, with a light stripe down the middle), and a metal disc
-/// lit from the top left, with a darker rim, an inner ring and an embossed
-/// star (diamond medals sparkle). `locked`: greyed and faint. `size` is
-/// the whole medal's height, centred on `c`.
+/// An achievement's medal (see [`crate::medal_art`]): `size` is the whole
+/// medal's height, centred on `c`. `locked`: greyed and faint.
 pub fn medal_art(c: Vec2, size: f32, level: u8, locked: bool) {
-    let ruby = level >= snook_legend_proto::RUBY;
-    // A ruby is set in a gold disc (the stone is the medal's colour).
-    let stone = medal_color(level);
-    let metal = if ruby { GOLD } else { stone };
-    let ribbon = match level {
-        0 => Color::new(0.52, 0.16, 0.18, 1.0),
-        1 => Color::new(0.16, 0.24, 0.48, 1.0),
-        2 => Color::new(0.62, 0.12, 0.12, 1.0),
-        3 => Color::new(0.10, 0.42, 0.50, 1.0),
-        // Ruby: on a black and gold ribbon.
-        _ => Color::new(0.16, 0.12, 0.08, 1.0),
-    };
-    // Locked: the colours drained and darkened.
-    let grey = |c: Color, k: f32| {
-        if locked {
-            let l = 0.3 * c.r + 0.59 * c.g + 0.11 * c.b;
-            let v = l * 0.32 + 0.1;
-            Color::new(v, v, v, c.a * 0.7)
-        } else {
-            Color::new((c.r * k).min(1.0), (c.g * k).min(1.0), (c.b * k).min(1.0), c.a)
-        }
-    };
-    let r = size * 0.3;
-    let disc = vec2(c.x, c.y + size * 0.5 - r - 1.0);
-    // The ribbon: two straps from the top meeting behind the disc.
-    let top = c.y - size * 0.5;
-    let w = size * 0.2;
-    for side in [-1.0f32, 1.0] {
-        let a = vec2(c.x + side * size * 0.24, top);
-        let b = vec2(disc.x + side * size * 0.02, disc.y - r * 0.4);
-        let n = vec2(w / 2.0, 0.0);
-        crate::paint::draw_triangle(a - n, a + n, b + n, grey(ribbon, 1.0));
-        crate::paint::draw_triangle(a - n, b + n, b - n, grey(ribbon, 1.0));
-        // The light stripe down its middle (gold, and wider, on a ruby's).
-        let m = vec2(w * if ruby { 0.22 } else { 0.14 }, 0.0);
-        let stripe = if ruby { grey(GOLD, 1.0) } else { grey(ribbon, 1.7) };
-        crate::paint::draw_triangle(a - m, a + m, b + m, stripe);
-        crate::paint::draw_triangle(a - m, b + m, b - m, stripe);
-    }
-    // The disc: a dark rim, then the metal shaded from the top left.
-    draw_circle(disc.x, disc.y + 0.8, r + 1.2, Color::new(0.0, 0.0, 0.0, 0.35));
-    draw_circle(disc.x, disc.y, r, grey(metal, 0.62));
-    let steps = 6;
-    for k in 0..steps {
-        let f = k as f32 / steps as f32;
-        let rr = r * (0.9 - 0.42 * f);
-        let off = vec2(-0.18, -0.2) * r * f;
-        draw_circle(disc.x + off.x, disc.y + off.y, rr, grey(metal, 0.82 + 0.3 * f));
-    }
-    // The inner ring and the star, embossed (a shadow, then the light).
-    draw_circle_lines(disc.x, disc.y, r * 0.74, 1.0, grey(metal, 0.6));
-    let star = |o: Vec2, rad: f32, color: Color| {
-        let pts: Vec<Vec2> = (0..10)
-            .map(|k| {
-                let rk = if k % 2 == 0 { rad } else { rad * 0.45 };
-                disc + o
-                    + Vec2::from_angle(
-                        -std::f32::consts::FRAC_PI_2 + k as f32 * std::f32::consts::PI / 5.0,
-                    ) * rk
-            })
-            .collect();
-        for k in 0..10 {
-            crate::paint::draw_triangle(disc + o, pts[k], pts[(k + 1) % 10], color);
-        }
-    };
-    if ruby {
-        // A cut stone instead of the star: an octagon of facets, the top
-        // left ones lit, on a dark seat in the gold.
-        draw_circle(disc.x, disc.y + 0.6, r * 0.66, grey(Color::new(0.2, 0.05, 0.08, 1.0), 1.0));
-        let n = 8;
-        let gr = r * 0.62;
-        let pts: Vec<Vec2> = (0..n)
-            .map(|k| {
-                let a = std::f32::consts::PI / 8.0 + k as f32 * std::f32::consts::TAU / n as f32;
-                disc + Vec2::from_angle(a) * gr
-            })
-            .collect();
-        let table = gr * 0.5;
-        for k in 0..n {
-            let (a, b) = (pts[k], pts[(k + 1) % n]);
-            let mid = (a + b) / 2.0 - disc;
-            // Facets facing the top left catch the light.
-            let lit = (-mid.x * 0.6 - mid.y * 0.8) / gr;
-            let ia = disc + (a - disc) * (table / gr);
-            let ib = disc + (b - disc) * (table / gr);
-            let c = grey(stone, 0.75 + 0.45 * lit.clamp(-1.0, 1.0));
-            crate::paint::draw_triangle(a, b, ib, c);
-            crate::paint::draw_triangle(a, ib, ia, c);
-        }
-        let inner: Vec<Vec2> = pts.iter().map(|p| disc + (*p - disc) * (table / gr)).collect();
-        for k in 0..n {
-            crate::paint::draw_triangle(disc, inner[k], inner[(k + 1) % n], grey(stone, 1.15));
-        }
-        // A highlight on the table.
-        draw_circle(disc.x - table * 0.35, disc.y - table * 0.4, table * 0.28, grey(WHITE, 0.6));
-    } else {
-        star(vec2(0.7, 0.9), r * 0.5, grey(metal, 0.42));
-        star(Vec2::ZERO, r * 0.5, grey(metal, 1.38));
-    }
-    // A diamond medal sparkles at its edge.
-    if level >= 3 && !locked {
-        let sp = disc + vec2(r * 0.62, -r * 0.62);
-        let l = r * 0.42;
-        let white = Color::new(1.0, 1.0, 1.0, 0.9);
-        crate::paint::draw_line(sp.x - l, sp.y, sp.x + l, sp.y, 1.2, white);
-        crate::paint::draw_line(sp.x, sp.y - l, sp.x, sp.y + l, 1.2, white);
-        draw_circle(sp.x, sp.y, 1.6, white);
-    }
+    crate::medal_art::draw(c, size, level, locked);
 }
 
 /// An achievement's cell: a soft glow of its metal behind the medal (none
@@ -382,13 +272,31 @@ fn balanced_grid(n: usize, cell: f32, gap: f32, width: f32) -> (usize, usize) {
 
 /// The height of the achievements and reactions column for `width`.
 fn left_height(width: f32) -> f32 {
-    let (_, medal_rows) = balanced_grid(ACHIEVEMENTS.len(), MEDAL, MEDAL_GAP, width);
+    left_height_at(width, 1.0)
+}
+
+/// [`left_height`] with the cells `scale` times their size.
+fn left_height_at(width: f32, scale: f32) -> f32 {
+    let (medal, medal_gap) = (MEDAL * scale, MEDAL_GAP * scale);
+    let (reaction, reaction_gap) = (REACTION * scale, REACTION_GAP * scale);
+    let (_, medal_rows) = balanced_grid(ACHIEVEMENTS.len(), medal, medal_gap, width);
     let n = snook_legend_proto::REACTIONS.len();
-    let (_, reaction_rows) = balanced_grid(n, REACTION, REACTION_GAP, width);
+    let (_, reaction_rows) = balanced_grid(n, reaction, reaction_gap, width);
     // Heading and medals; a gap, heading and reactions (as `achievements` draws them).
-    let medals = 30.0 + medal_rows as f32 * (MEDAL + MEDAL_GAP) - MEDAL_GAP;
-    let reactions = 24.0 + 30.0 + reaction_rows as f32 * (REACTION + REACTION_GAP) - REACTION_GAP;
+    let medals = 30.0 + medal_rows as f32 * (medal + medal_gap) - medal_gap;
+    let reactions = 24.0 + 30.0 + reaction_rows as f32 * (reaction + reaction_gap) - reaction_gap;
     medals + reactions
+}
+
+/// The size of the achievements' and reactions' cells (a share of their
+/// full size) that fits them all in `area`: smaller on short windows, so
+/// nothing runs out of the profile's panel.
+fn achievements_scale(area: Rect) -> f32 {
+    let mut scale = 1.0;
+    while scale > 0.5 && left_height_at(area.w, scale) > area.h {
+        scale -= 0.04;
+    }
+    scale
 }
 
 /// Regular text of up to `size` that fits `width` (not under 11).
@@ -1331,16 +1239,20 @@ impl ProfileScreen {
             area.x,
             area.y + 10.0,
         );
-        let (cols, rows) = balanced_grid(ACHIEVEMENTS.len(), MEDAL, MEDAL_GAP, area.w);
+        // Every cell shrinks alike when the window is too short for them.
+        let scale = achievements_scale(area);
+        let (medal, medal_gap) = (MEDAL * scale, MEDAL_GAP * scale);
+        let (reaction, reaction_gap) = (REACTION * scale, REACTION_GAP * scale);
+        let (cols, rows) = balanced_grid(ACHIEVEMENTS.len(), medal, medal_gap, area.w);
         let mut tip = None;
         let top = area.y + 30.0;
         for (k, a) in ACHIEVEMENTS.iter().enumerate() {
             let (col, row) = (k % cols, k / cols);
             let c = Rect::new(
-                area.x + col as f32 * (MEDAL + MEDAL_GAP),
-                top + row as f32 * (MEDAL + MEDAL_GAP),
-                MEDAL,
-                MEDAL,
+                area.x + col as f32 * (medal + medal_gap),
+                top + row as f32 * (medal + medal_gap),
+                medal,
+                medal,
             );
             // Development aid: SNOOK_LEGEND_ALL_MEDALS shows every medal won.
             let unlocked = p
@@ -1395,7 +1307,7 @@ impl ProfileScreen {
         }
 
         // The reactions this player has unlocked, under the medals.
-        let ry = top + rows as f32 * (MEDAL + MEDAL_GAP) - MEDAL_GAP + 24.0;
+        let ry = top + rows as f32 * (medal + medal_gap) - medal_gap + 24.0;
         let codes: Vec<&str> = p.achievements.iter().map(|(c, _)| c.as_str()).collect();
         let vip = p.player.vip;
         let reactions = snook_legend_proto::REACTIONS;
@@ -1406,14 +1318,14 @@ impl ProfileScreen {
             area.x,
             ry + 10.0,
         );
-        let (cols, _) = balanced_grid(reactions.len(), REACTION, REACTION_GAP, area.w);
+        let (cols, _) = balanced_grid(reactions.len(), reaction, reaction_gap, area.w);
         let mut tip = None;
         for (k, r) in reactions.iter().enumerate() {
             let c = Rect::new(
-                area.x + (k % cols) as f32 * (REACTION + REACTION_GAP),
-                ry + 30.0 + (k / cols) as f32 * (REACTION + REACTION_GAP),
-                REACTION,
-                REACTION,
+                area.x + (k % cols) as f32 * (reaction + reaction_gap),
+                ry + 30.0 + (k / cols) as f32 * (reaction + reaction_gap),
+                reaction,
+                reaction,
             );
             let centre = vec2(c.x + c.w / 2.0, c.y + c.h / 2.0);
             let hover = ui.hovering(c);
@@ -1422,9 +1334,9 @@ impl ProfileScreen {
             }
             let have = r.available(&codes, &p.reactions, vip);
             if have {
-                crate::reactions::draw(r.code, centre, 24.0, crate::paint::alpha());
+                crate::reactions::draw(r.code, centre, 24.0 * scale, crate::paint::alpha());
             } else {
-                crate::reactions::draw_locked(r.code, centre, 22.0);
+                crate::reactions::draw_locked(r.code, centre, 22.0 * scale);
                 crate::icons::draw(
                     Icon::Lock,
                     vec2(c.x + c.w - 6.0, c.y + c.h - 6.0),

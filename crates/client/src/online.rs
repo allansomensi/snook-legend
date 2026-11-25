@@ -195,6 +195,10 @@ pub struct Online {
     pub error: Option<String>,
     /// Short messages at the bottom of the screen.
     toasts: VecDeque<(String, f32, bool)>,
+    /// Achievements just unlocked, shown one at a time as a card with their
+    /// medal (code, seconds shown).
+    achievement_cards: VecDeque<(String, f32)>,
+    freeze_cards: bool,
     pub me: Option<PlayerInfo>,
     players: Vec<PlayerInfo>,
     chat: Vec<FeedLine>,
@@ -702,6 +706,8 @@ impl Online {
             register: false,
             error: None,
             toasts: VecDeque::new(),
+            achievement_cards: VecDeque::new(),
+            freeze_cards: false,
             me: None,
             players: Vec::new(),
             chat: Vec::new(),
@@ -977,6 +983,13 @@ impl Online {
             toast.1 -= dt;
         }
         self.toasts.retain(|t| t.1 > 0.0);
+        if let Some(card) = self.achievement_cards.front_mut() {
+            // (Held still for screenshots: see `dev_toasts`.)
+            card.1 += if self.freeze_cards { 0.0 } else { dt };
+            if card.1 >= ACHIEVEMENT_CARD_SECS {
+                self.achievement_cards.pop_front();
+            }
+        }
         self.tournaments_starting();
         let effects = self.store_shop.update(dt);
         self.store_effects(effects);
@@ -1353,6 +1366,18 @@ impl Online {
                     if let Some(username) = crate::dev::var("SNOOK_LEGEND_AUTOWATCH") {
                         self.send(ClientMsg::Spectate { username });
                     }
+                    // SNOOK_LEGEND_OPEN=auctions|credits|dm:<name> opens that
+                    // page once signed in (screenshots, tools/screens.py).
+                    match crate::dev::var("SNOOK_LEGEND_OPEN").as_deref() {
+                        Some("auctions") => self.open_auctions(),
+                        Some("credits") => self.open_supporters(),
+                        Some(dm) if dm.starts_with("dm:") => {
+                            for m in self.dms.open_with(&dm[3..]) {
+                                self.send(m);
+                            }
+                        }
+                        _ => {}
+                    }
                 }
                 // The tour final's deal asked on the lost session: asked
                 // again (its answer would never come).
@@ -1611,12 +1636,14 @@ impl Online {
                 self.toast(tw("{name} wants to be your friend.", &[("name", &from)]), true);
             }
             ServerMsg::AchievementUnlocked { code } => {
-                let title = snook_legend_proto::ACHIEVEMENTS
-                    .iter()
-                    .find(|a| a.code == code)
-                    .map(|a| t(a.title).to_string())
-                    .unwrap_or(code.clone());
-                self.toast(tw("Achievement unlocked: {title}", &[("title", &title)]), true);
+                // A card with the medal (a toast for one this game doesn't know).
+                if snook_legend_proto::ACHIEVEMENTS.iter().any(|a| a.code == code) {
+                    if self.achievement_cards.len() < 6 {
+                        self.achievement_cards.push_back((code.clone(), 0.0));
+                    }
+                } else {
+                    self.toast(tw("Achievement unlocked: {title}", &[("title", &code)]), true);
+                }
                 // Known at once (what it unlocks can be used straight away),
                 // and what comes with it is shown.
                 let mine = self.me.as_ref().is_some_and(|me| me.username == self.achievements_of);
@@ -2517,9 +2544,99 @@ impl Online {
         }
     }
 
+    /// Development aid (screenshots, `--screen toasts`): an achievement's
+    /// card and a few toasts.
+    pub fn dev_toasts(&mut self) {
+        let code = snook_legend_proto::ACHIEVEMENTS.iter().find(|a| a.level == 2).map(|a| a.code);
+        self.achievement_cards.push_back((code.unwrap_or("games_1").to_string(), 1.0));
+        self.freeze_cards = true;
+        let name = "Maximilian_Großmann";
+        let lines = [
+            (tw("{name} wants to be your friend.", &[("name", &name)]), true),
+            (t("the connection dropped").to_string(), false),
+        ];
+        for (text, good) in lines {
+            self.toasts.push_back((text, f32::MAX, good));
+        }
+    }
+
+    /// The achievement just unlocked: a card at the top of the screen with
+    /// its medal, its metal, its title and what it was for. It slides down,
+    /// stays a few seconds (a click puts it away) and fades out.
+    fn draw_achievement_card(&mut self, ui: &Ui) {
+        let Some((code, age)) = self.achievement_cards.front().cloned() else { return };
+        let Some(a) = snook_legend_proto::ACHIEVEMENTS.iter().find(|a| a.code == code) else {
+            self.achievement_cards.pop_front();
+            return;
+        };
+        let sw = crate::ui::vw();
+        let w = 460.0f32.min(sw - 24.0);
+        let medal = 72.0;
+        let pad = 16.0;
+        let text_x = pad + medal + 14.0;
+        let text_w = w - text_x - pad;
+        let mut lines = ui.wrap(&crate::profile::achievement_text(a), text_w, 13.0);
+        lines.truncate(2);
+        let h = (pad + 16.0 + 26.0 + lines.len() as f32 * 17.0 + pad - 4.0).max(medal + 16.0);
+        // In over a third of a second (easing out), out over half a second.
+        let enter = (age / 0.35).min(1.0);
+        let ease = 1.0 - (1.0 - enter).powi(3);
+        let alpha = ((ACHIEVEMENT_CARD_SECS - age) / 0.5).clamp(0.0, 1.0);
+        let r = Rect::new((sw - w) / 2.0, 14.0 - (1.0 - ease) * (h + 20.0), w, h);
+        if ui.clicked(r)
+            && age > 0.4
+            && let Some(card) = self.achievement_cards.front_mut()
+        {
+            card.1 = card.1.max(ACHIEVEMENT_CARD_SECS - 0.5);
+        }
+        let metal = crate::profile::medal_color(a.level);
+        let tier = crate::profile::medal_tier(a.level).to_uppercase();
+        let title = t(a.title).to_string();
+        let heading = t("Achievement unlocked").to_uppercase();
+        let level = a.level;
+        ui.overlay(move |ui: &Ui| {
+            let fade = |c: Color, k: f32| Color::new(c.r, c.g, c.b, c.a * k * alpha);
+            crate::ui::soft_shadow(r, 12.0, alpha);
+            crate::ui::rrect_gradient(
+                r,
+                12.0,
+                fade(Color::new(0.14, 0.095, 0.06, 1.0), 0.98),
+                fade(Color::new(0.06, 0.04, 0.025, 1.0), 0.98),
+            );
+            // A glow of the metal behind the medal, and the card's edge in it.
+            let mc = vec2(r.x + pad + medal / 2.0, r.y + r.h / 2.0);
+            for k in 0..5 {
+                draw_circle(mc.x, mc.y + 4.0, medal * (0.56 - 0.07 * k as f32), fade(metal, 0.04));
+            }
+            rrect_lines(r, 12.0, 1.2, fade(metal, 0.7));
+            crate::ui::top_light(r, 12.0, 0.08 * alpha);
+            // The medal settles with a small overshoot; it shrinks as the card goes.
+            let k = ((age - 0.1) / 0.45).clamp(0.0, 1.0);
+            let pop = 1.0 + 0.1 * (k * std::f32::consts::PI).sin() * (1.0 - k);
+            crate::medal_art::draw(mc, medal * pop * (0.6 + 0.4 * alpha), level, false);
+            let x = r.x + text_x;
+            let mut y = r.y + pad;
+            let (head, hs) = ui.fitted(&heading, 11.0, text_w * 0.62, true);
+            ui.text(&head, x, y, hs, fade(GOLD, 0.9), true);
+            let head_w = ui.text_size(&head, hs, true).x;
+            let (tier, ts) = ui.fitted(&tier, 11.0, (text_w - head_w - 14.0).max(30.0), true);
+            ui.text("·", x + head_w + 4.0, y, 11.0, fade(MUTED, 1.0), true);
+            ui.text(&tier, x + head_w + 14.0, y, ts, fade(metal, 1.0), true);
+            y += 16.0;
+            let (title, size) = ui.fitted(&title, 20.0, text_w, true);
+            ui.text(&title, x, y + 1.0, size, fade(CREAM, 1.0), true);
+            y += 26.0;
+            for line in &lines {
+                ui.text(line, x, y, 13.0, fade(MUTED, 1.0), false);
+                y += 17.0;
+            }
+        });
+    }
+
     /// Short messages (achievements, declined invitations…), on top of everything.
-    pub fn draw_toasts(&self, ui: &Ui, bottom: f32) {
+    pub fn draw_toasts(&mut self, ui: &Ui, bottom: f32) {
         crate::reveal::draw_coins(ui);
+        self.draw_achievement_card(ui);
         // In the lounge they stay clear of the chat field at the bottom.
         let bottom = self.toast_floor.take().map_or(bottom, |floor| bottom.min(floor));
         let sw = crate::ui::vw();
@@ -5973,6 +6090,9 @@ fn plausible(msg: &ServerMsg) -> bool {
 fn sound_bracket(t: &snook_legend_proto::TournamentInfo) -> bool {
     t.rounds.iter().flatten().all(|m| m.winner.is_none_or(|w| w < 2))
 }
+
+/// How long an achievement's card stays up (seconds).
+const ACHIEVEMENT_CARD_SECS: f32 = 6.0;
 
 #[cfg(test)]
 mod tests {

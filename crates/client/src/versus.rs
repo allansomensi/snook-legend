@@ -1155,7 +1155,12 @@ impl Versus {
                                 size * (0.62 + 0.04 * glow),
                                 Color::new(color.r, color.g, color.b, 0.10 + 0.06 * glow),
                             );
-                            crate::icons::draw(Icon::Medal, vec2(cx, cy), size, color);
+                            crate::medal_art::draw(
+                                vec2(cx, cy),
+                                size * 1.15,
+                                place_metal(medal.place),
+                                false,
+                            );
                             let me = cup_name(c, c.player(), config);
                             let (me, ns) = ui.fitted(&me, 20.0, w, true);
                             ui.text_centered(&me, cx, cy + size / 2.0 + 14.0, ns, color, true);
@@ -1750,6 +1755,16 @@ fn placeholder(ui: &Ui, field: Rect, text: &str) {
     ui.text(text, field.x + 8.0, field.y + (field.h - size) / 2.0, size, color, false);
 }
 
+/// The metal of a place's medal (see [`crate::medal_art`]): gold, silver,
+/// bronze (place 1, 2, 3).
+fn place_metal(place: u8) -> u8 {
+    match place {
+        1 => 2,
+        2 => 1,
+        _ => 0,
+    }
+}
+
 /// The colour of a medal: gold, silver, bronze (place 1, 2, 3).
 fn medal_color(place: u8) -> Color {
     match place {
@@ -1776,9 +1791,7 @@ fn medal_shelf(ui: &mut Ui, r: Rect, medals: (snook_legend_proto::cup::Medals, u
         ui.text(label, x, cy - 7.5, 13.0, CREAM, true);
         for (i, n) in counts.iter().enumerate() {
             let cx = x + label_w + 10.0 + cell * i as f32 + 10.0;
-            let color = medal_color(i as u8 + 1);
-            let faded = if *n == 0 { Color::new(color.r, color.g, color.b, 0.35) } else { color };
-            crate::icons::draw(Icon::Medal, vec2(cx, cy), 18.0, faded);
+            crate::medal_art::draw(vec2(cx, cy - 1.0), 24.0, place_metal(i as u8 + 1), *n == 0);
             let text = n.to_string();
             ui.text(&text, cx + 13.0, cy - 7.5, 14.0, if *n == 0 { MUTED } else { CREAM }, true);
         }

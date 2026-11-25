@@ -2086,6 +2086,70 @@ Every player has it	Є в усіх гравців
 Drag to make the chat taller or shorter	Тягніть, щоб зробити чат вищим або нижчим
 Hide the result to see the table and the chat	Сховайте підсумок, щоб бачити стіл і чат
 Show the result	Показати підсумок
+{n} unread	{n} непрочитаних
+Everything read	Усе прочитано
+Mark all as read	Позначити все прочитаним
+Inbox	Вхідні
+No notifications yet. What the staff and the game tell you comes here.	Сповіщень поки немає. Тут з'явиться все, що повідомлять команда та гра.
+Nothing here.	Тут порожньо.
+Pick a notification to read it.	Виберіть сповіщення, щоб прочитати його.
+Pinned	Закріплено
+From {name}	Від {name}
+Pinned for {t} more	Закріплено ще {t}
+I read it	Прочитано
+Delete	Видалити
+Confirm you read it first.	Спершу підтвердьте, що прочитали.
+It stays while it is pinned.	Залишається, доки закріплено.
+Equipped.	Споряджено.
+Message from the staff	Повідомлення від команди
+You were muted	Вам заборонили писати
+You can't write to other players for {t} more.	Ви не можете писати іншим гравцям ще {t}.
+The mute is over.	Заборона закінчилася.
+You can chat again	Ви знову можете писати
+The staff lifted your mute.	Команда зняла заборону.
+Your rating was adjusted	Ваш рейтинг скориговано
+{delta} under the {rules}: now {rating}.	{delta} за {rules}: тепер {rating}.
+A game was annulled	Партію анульовано
+Your game against {name} no longer counts ({delta} rating).	Ваша партія проти {name} більше не зараховується ({delta} рейтингу).
+The staff ended a game	Команда завершила партію
+Your game against {name} was given to you.	Партію проти {name} присуджено вам.
+Your game against {name} was given to your opponent.	Партію проти {name} присуджено суперникові.
+Your game against {name} ended without a result.	Ваша партія проти {name} завершилася без результату.
+Thank you for your report	Дякуємо за скаргу
+The staff took action about {name}.	Команда вжила заходів щодо {name}.
+{n} days of VIP	{n} дн. VIP
+A gift from the staff	Подарунок від команди
+You won an item	Ви виграли предмет
+VIP item of the month	VIP-предмет місяця
+Achievement unlocked	Досягнення отримано
+A tournament is about to start	Незабаром почнеться турнір
+Tournament result	Підсумок турніру
+{name}: place {place}, {prize} coins.	{name}: {place}-е місце, {prize} монет.
+You were outbid	Вашу ставку перебили
+You won an auction	Ви виграли аукціон
+Maintenance	Технічне обслуговування
+The server stops in {t} for about {n} min.	Сервер зупиниться через {t} приблизно на {n} хв.
+The server stops for about {n} min.	Сервер зупиниться приблизно на {n} хв.
+Notification	Сповіщення
+You are muted for {t} more.	Вам не можна писати ще {t}.
+You are muted for {t} more: {reason}	Вам не можна писати ще {t}: {reason}
+That word isn't allowed here: {word}	Це слово тут заборонене: {word}
+That can't be sent.	Це не можна надіслати.
+New in your inbox: {title}	Нове у вхідних: {title}
+{n} more	ще {n}
+{name} mentioned you	{name} згадав вас
+Inbox ({n} unread)	Вхідні ({n} непрочитаних)
+Unpin	Відкріпити
+Pin at the top of the chat	Закріпити вгорі чату
+Names and countries	Імена та країни
+All	Усі
+Staff	Команда
+Punishments	Покарання
+See the game	Переглянути партію
+Equip now	Спорядити зараз
+Open the collection	Відкрити колекцію
+Auctions	Аукціони
+The staff ended your game without a result. Sign in again.	Команда завершила вашу партію без результату. Увійдіть знову.
 Current prize: {n} coins	Поточний приз: {n} монет
 Champion wins: {item}	Чемпіон отримує: {item}
 {h} h {m} min	{h} год {m} хв

@@ -2086,6 +2086,70 @@ Every player has it	সব খেলোয়াড়ের কাছে আছ
 Drag to make the chat taller or shorter	চ্যাট লম্বা বা ছোট করতে টানুন
 Hide the result to see the table and the chat	টেবিল আর চ্যাট দেখতে ফলাফল লুকান
 Show the result	ফলাফল দেখুন
+{n} unread	{n}টি অপঠিত
+Everything read	সব পড়া হয়েছে
+Mark all as read	সব পড়া হিসেবে চিহ্নিত করুন
+Inbox	ইনবক্স
+No notifications yet. What the staff and the game tell you comes here.	এখনও কোনো বিজ্ঞপ্তি নেই। টিম ও গেম যা জানায় তা এখানে আসে।
+Nothing here.	এখানে কিছু নেই।
+Pick a notification to read it.	পড়তে একটি বিজ্ঞপ্তি বেছে নিন।
+Pinned	পিন করা
+From {name}	{name}-এর কাছ থেকে
+Pinned for {t} more	আরও {t} পিন করা থাকবে
+I read it	আমি পড়েছি
+Delete	মুছুন
+Confirm you read it first.	আগে নিশ্চিত করুন যে আপনি পড়েছেন।
+It stays while it is pinned.	পিন থাকা পর্যন্ত এটি থাকবে।
+Equipped.	সজ্জিত হয়েছে।
+Message from the staff	টিমের বার্তা
+You were muted	আপনাকে মিউট করা হয়েছে
+You can't write to other players for {t} more.	আরও {t} আপনি অন্য খেলোয়াড়দের লিখতে পারবেন না।
+The mute is over.	মিউট শেষ হয়েছে।
+You can chat again	আপনি আবার চ্যাট করতে পারবেন
+The staff lifted your mute.	টিম আপনার মিউট তুলে নিয়েছে।
+Your rating was adjusted	আপনার রেটিং সংশোধন করা হয়েছে
+{delta} under the {rules}: now {rating}.	{rules}-এ {delta}: এখন {rating}।
+A game was annulled	একটি খেলা বাতিল হয়েছে
+Your game against {name} no longer counts ({delta} rating).	{name}-এর বিরুদ্ধে আপনার খেলাটি আর গণ্য হবে না (রেটিং {delta})।
+The staff ended a game	টিম একটি খেলা শেষ করেছে
+Your game against {name} was given to you.	{name}-এর বিরুদ্ধে খেলাটি আপনাকে দেওয়া হয়েছে।
+Your game against {name} was given to your opponent.	{name}-এর বিরুদ্ধে খেলাটি প্রতিপক্ষকে দেওয়া হয়েছে।
+Your game against {name} ended without a result.	{name}-এর বিরুদ্ধে আপনার খেলা ফলাফল ছাড়াই শেষ হয়েছে।
+Thank you for your report	আপনার রিপোর্টের জন্য ধন্যবাদ
+The staff took action about {name}.	টিম {name}-এর বিষয়ে ব্যবস্থা নিয়েছে।
+{n} days of VIP	{n} দিনের VIP
+A gift from the staff	টিমের পক্ষ থেকে উপহার
+You won an item	আপনি একটি আইটেম জিতেছেন
+VIP item of the month	মাসের VIP আইটেম
+Achievement unlocked	অর্জন আনলক হয়েছে
+A tournament is about to start	একটি টুর্নামেন্ট শুরু হতে চলেছে
+Tournament result	টুর্নামেন্টের ফলাফল
+{name}: place {place}, {prize} coins.	{name}: {place}তম স্থান, {prize} কয়েন।
+You were outbid	আপনার দর ছাড়িয়ে গেছে
+You won an auction	আপনি একটি নিলাম জিতেছেন
+Maintenance	রক্ষণাবেক্ষণ
+The server stops in {t} for about {n} min.	সার্ভার {t} পরে প্রায় {n} মিনিটের জন্য বন্ধ হবে।
+The server stops for about {n} min.	সার্ভার প্রায় {n} মিনিটের জন্য বন্ধ থাকবে।
+Notification	বিজ্ঞপ্তি
+You are muted for {t} more.	আপনি আরও {t} মিউট থাকবেন।
+You are muted for {t} more: {reason}	আপনি আরও {t} মিউট থাকবেন: {reason}
+That word isn't allowed here: {word}	এই শব্দটি এখানে অনুমোদিত নয়: {word}
+That can't be sent.	এটি পাঠানো যাবে না।
+New in your inbox: {title}	আপনার ইনবক্সে নতুন: {title}
+{n} more	আরও {n}টি
+{name} mentioned you	{name} আপনাকে উল্লেখ করেছে
+Inbox ({n} unread)	ইনবক্স ({n}টি অপঠিত)
+Unpin	আনপিন
+Pin at the top of the chat	চ্যাটের উপরে পিন করুন
+Names and countries	নাম ও দেশ
+All	সব
+Staff	টিম
+Punishments	শাস্তি
+See the game	খেলাটি দেখুন
+Equip now	এখনই ব্যবহার করুন
+Open the collection	সংগ্রহ খুলুন
+Auctions	নিলাম
+The staff ended your game without a result. Sign in again.	টিম আপনার খেলাটি ফলাফল ছাড়াই শেষ করেছে। আবার সাইন ইন করুন।
 Current prize: {n} coins	বর্তমান পুরস্কার: {n} কয়েন
 Champion wins: {item}	চ্যাম্পিয়ন পায়: {item}
 {h} h {m} min	{h} ঘ {m} মি

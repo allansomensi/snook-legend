@@ -2086,6 +2086,70 @@ Every player has it	Her oyuncuda var
 Drag to make the chat taller or shorter	Sohbeti uzatmak veya kısaltmak için sürükle
 Hide the result to see the table and the chat	Masayı ve sohbeti görmek için sonucu gizle
 Show the result	Sonucu göster
+{n} unread	{n} okunmamış
+Everything read	Hepsi okundu
+Mark all as read	Tümünü okundu say
+Inbox	Gelen kutusu
+No notifications yet. What the staff and the game tell you comes here.	Henüz bildirim yok. Ekibin ve oyunun sana söyledikleri buraya gelir.
+Nothing here.	Burada bir şey yok.
+Pick a notification to read it.	Okumak için bir bildirim seç.
+Pinned	Sabitlendi
+From {name}	Gönderen: {name}
+Pinned for {t} more	{t} daha sabit
+I read it	Okudum
+Delete	Sil
+Confirm you read it first.	Önce okuduğunu onayla.
+It stays while it is pinned.	Sabit olduğu sürece kalır.
+Equipped.	Kuşanıldı.
+Message from the staff	Ekipten mesaj
+You were muted	Susturuldun
+You can't write to other players for {t} more.	{t} daha diğer oyunculara yazamazsın.
+The mute is over.	Susturma sona erdi.
+You can chat again	Yeniden sohbet edebilirsin
+The staff lifted your mute.	Ekip susturmanı kaldırdı.
+Your rating was adjusted	Puanın düzeltildi
+{delta} under the {rules}: now {rating}.	{rules} için {delta}: şimdi {rating}.
+A game was annulled	Bir oyun iptal edildi
+Your game against {name} no longer counts ({delta} rating).	{name} karşısındaki oyunun artık sayılmıyor ({delta} puan).
+The staff ended a game	Ekip bir oyunu bitirdi
+Your game against {name} was given to you.	{name} karşısındaki oyun sana verildi.
+Your game against {name} was given to your opponent.	{name} karşısındaki oyun rakibine verildi.
+Your game against {name} ended without a result.	{name} karşısındaki oyunun sonuçsuz bitti.
+Thank you for your report	Bildirimin için teşekkürler
+The staff took action about {name}.	Ekip {name} hakkında işlem yaptı.
+{n} days of VIP	{n} gün VIP
+A gift from the staff	Ekipten bir hediye
+You won an item	Bir eşya kazandın
+VIP item of the month	Ayın VIP eşyası
+Achievement unlocked	Başarım açıldı
+A tournament is about to start	Bir turnuva başlamak üzere
+Tournament result	Turnuva sonucu
+{name}: place {place}, {prize} coins.	{name}: {place}. sıra, {prize} jeton.
+You were outbid	Teklifin geçildi
+You won an auction	Bir açık artırma kazandın
+Maintenance	Bakım
+The server stops in {t} for about {n} min.	Sunucu {t} sonra yaklaşık {n} dk duracak.
+The server stops for about {n} min.	Sunucu yaklaşık {n} dk duracak.
+Notification	Bildirim
+You are muted for {t} more.	{t} daha susturuldun.
+You are muted for {t} more: {reason}	{t} daha susturuldun: {reason}
+That word isn't allowed here: {word}	Bu kelimeye burada izin verilmiyor: {word}
+That can't be sent.	Bu gönderilemez.
+New in your inbox: {title}	Gelen kutunda yeni: {title}
+{n} more	{n} tane daha
+{name} mentioned you	{name} senden bahsetti
+Inbox ({n} unread)	Gelen kutusu ({n} okunmamış)
+Unpin	Sabitlemeyi kaldır
+Pin at the top of the chat	Sohbetin üstüne sabitle
+Names and countries	Adlar ve ülkeler
+All	Tümü
+Staff	Ekip
+Punishments	Cezalar
+See the game	Oyunu izle
+Equip now	Şimdi kuşan
+Open the collection	Koleksiyonu aç
+Auctions	Açık artırmalar
+The staff ended your game without a result. Sign in again.	Ekip oyununu sonuçsuz bitirdi. Yeniden giriş yap.
 Current prize: {n} coins	Güncel ödül: {n} jeton
 Champion wins: {item}	Şampiyon kazanır: {item}
 {h} h {m} min	{h} sa {m} dk

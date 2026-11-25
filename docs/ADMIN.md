@@ -147,6 +147,79 @@ sign-up is called off with every fee back (one that started plays on).
 Every staff action is written to the audit log with who, what, whom and
 when, and shows on the player's *Moderation* tab.
 
+## Inbox & moderation (0.12)
+
+Every player has an **inbox** in the game (main menu and lounge, with the
+count of what isn't read): what the staff and the game told them, kept
+until read and after (the latest 200; pinned and unread ones stay). The
+game words each notification in the player's language; what a staff
+member writes comes through as written. *Important* ones ask the player to
+confirm ("I read it") and pop up until they do; the portal shows when each
+notification was read (or taken out of the inbox). Games older than 0.12
+are told as before (a notice in English).
+
+What each action tells the player, and what's new:
+
+- **Message from the staff** (*A player*, staff): a text, optionally
+  important and pinned for some days. Its read receipt is on the player's
+  page.
+- **Warn**: now also in the inbox, important and pinned for a week.
+- **Mute** (minutes and a reason): in the inbox, pinned until it ends;
+  while muted, the game says why and for how long whenever the player tries
+  to write (lounge, table, status, "looking for a game" note, a present's
+  message). **Unmute** tells them too.
+- **Coins, items, VIP** from the staff: a present in the inbox ("Equip
+  now" for an item).
+- **Preview** ("Relatório da punição"): every action that notifies a
+  player can be previewed first: the exact notification and how it reads
+  in English, Portuguese and Spanish. Nothing is done.
+- **Report answered with an action**: everyone who reported that player
+  (this report, and the open ones about them) gets "thank you, the staff
+  took action", never what action. A dismissal tells nobody.
+- **Adjust a rating** (administrators): the rules, points to add or take
+  (or the rating to put), a reason and optionally the game it is about.
+  The peak follows (down by as much when points are taken, never under
+  the rating); the player's rating chart shows the change; the player is
+  told, with a button to watch the game.
+- **Presents to many** (administrators): paste up to 500 usernames; coins,
+  an item (also items only won) and/or VIP days, a reason and a message. A
+  dry run first lists unknown names and who has the item already (they get
+  the rest). One audit entry per player and a summary.
+- **End a stuck game** (*Live*, administrators): give it to one player (the
+  other resigns it; the rating changes as for a resignation; a tournament
+  goes on) or end it without a result (nothing recorded; the players are
+  sent back to sign in; not for a tournament's game). Both are told.
+- **Annul a game** (*A player → Games*, administrators): a rated game's
+  rating changes are given back to both players (shown in their charts),
+  it leaves their rated games and wins, and a peak it made is worked out
+  again. Both are told, with the game to watch. Once only.
+- **A game shot by shot** (staff): every stroke with the player, power,
+  spin, aim, the cue ball's placement, what it potted, fouls and how long
+  it was thought over (games played from 0.12 on).
+- **Timeline** (*A player*, staff): the account and others made from its
+  address, games, purchases (payments for administrators), reports sent and
+  received, staff actions, changes of name and country, notifications —
+  newest first, paged.
+- **Name and country history**: kept from 0.12 on; on the player's page
+  and on their profile in the game ("Names and countries").
+- **Banned words** (*Moderation → Words*, staff): per language (or `*`);
+  the starting list has insults and slurs in Portuguese, English and
+  Spanish. A line, a status, a note, a present's message or a new username
+  with one is refused, and the player is told which word. Matching is by
+  whole words (no false alarms inside innocent words), and sees through
+  case, accents, repeated letters, spaced or dotted letters ("p.u.t.a") and
+  leetspeak; words glued together get through (list those forms). Every
+  list applies to everyone (the server doesn't know a line's language).
+  The preview tells whether a text would be refused, and by which word.
+- **Pin a chat line** (staff, from the portal or in the game: the star by
+  a line): one line at the top of the lounge's chat for everyone, until
+  unpinned or the line is deleted.
+- **Mentions**: `@name` of a real player in the lounge chat
+  and announcements is lit and opens their profile; the player mentioned
+  hears a soft sound and sees a notice.
+- The portal's own account and the lists of players carry their
+  **avatar**.
+
 ## Operations & economy
 
 Pages added in 0.12 (the endpoints are in [ADMIN-API.md](ADMIN-API.md),

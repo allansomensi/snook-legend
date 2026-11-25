@@ -2086,6 +2086,70 @@ Every player has it	Ma ją każdy gracz
 Drag to make the chat taller or shorter	Przeciągnij, aby wydłużyć lub skrócić czat
 Hide the result to see the table and the chat	Ukryj wynik, aby widzieć stół i czat
 Show the result	Pokaż wynik
+{n} unread	{n} nieprzeczytanych
+Everything read	Wszystko przeczytane
+Mark all as read	Oznacz wszystko jako przeczytane
+Inbox	Skrzynka
+No notifications yet. What the staff and the game tell you comes here.	Brak powiadomień. To, co przekaże ci ekipa i gra, trafi tutaj.
+Nothing here.	Nic tu nie ma.
+Pick a notification to read it.	Wybierz powiadomienie, aby je przeczytać.
+Pinned	Przypięte
+From {name}	Od {name}
+Pinned for {t} more	Przypięte jeszcze przez {t}
+I read it	Przeczytałem
+Delete	Usuń
+Confirm you read it first.	Najpierw potwierdź, że przeczytałeś.
+It stays while it is pinned.	Zostaje, dopóki jest przypięte.
+Equipped.	Założono.
+Message from the staff	Wiadomość od ekipy
+You were muted	Zostałeś wyciszony
+You can't write to other players for {t} more.	Przez jeszcze {t} nie możesz pisać do innych graczy.
+The mute is over.	Wyciszenie się skończyło.
+You can chat again	Znów możesz pisać
+The staff lifted your mute.	Ekipa zdjęła twoje wyciszenie.
+Your rating was adjusted	Twój ranking został skorygowany
+{delta} under the {rules}: now {rating}.	{delta} w {rules}: teraz {rating}.
+A game was annulled	Partia została unieważniona
+Your game against {name} no longer counts ({delta} rating).	Twoja partia z {name} już się nie liczy ({delta} rankingu).
+The staff ended a game	Ekipa zakończyła partię
+Your game against {name} was given to you.	Partię z {name} przyznano tobie.
+Your game against {name} was given to your opponent.	Partię z {name} przyznano przeciwnikowi.
+Your game against {name} ended without a result.	Twoja partia z {name} zakończyła się bez wyniku.
+Thank you for your report	Dziękujemy za zgłoszenie
+The staff took action about {name}.	Ekipa podjęła działania wobec {name}.
+{n} days of VIP	{n} dni VIP
+A gift from the staff	Prezent od ekipy
+You won an item	Zdobyłeś przedmiot
+VIP item of the month	Przedmiot VIP miesiąca
+Achievement unlocked	Osiągnięcie odblokowane
+A tournament is about to start	Turniej zaraz się zacznie
+Tournament result	Wynik turnieju
+{name}: place {place}, {prize} coins.	{name}: miejsce {place}, {prize} monet.
+You were outbid	Ktoś cię przelicytował
+You won an auction	Wygrałeś aukcję
+Maintenance	Konserwacja
+The server stops in {t} for about {n} min.	Serwer zatrzyma się za {t} na około {n} min.
+The server stops for about {n} min.	Serwer zatrzyma się na około {n} min.
+Notification	Powiadomienie
+You are muted for {t} more.	Jesteś wyciszony jeszcze przez {t}.
+You are muted for {t} more: {reason}	Jesteś wyciszony jeszcze przez {t}: {reason}
+That word isn't allowed here: {word}	To słowo jest tu niedozwolone: {word}
+That can't be sent.	Nie można tego wysłać.
+New in your inbox: {title}	Nowe w skrzynce: {title}
+{n} more	jeszcze {n}
+{name} mentioned you	{name} wspomniał o tobie
+Inbox ({n} unread)	Skrzynka ({n} nieprzeczytanych)
+Unpin	Odepnij
+Pin at the top of the chat	Przypnij na górze czatu
+Names and countries	Nazwy i kraje
+All	Wszystko
+Staff	Ekipa
+Punishments	Kary
+See the game	Zobacz partię
+Equip now	Załóż teraz
+Open the collection	Otwórz kolekcję
+Auctions	Aukcje
+The staff ended your game without a result. Sign in again.	Ekipa zakończyła twoją partię bez wyniku. Zaloguj się ponownie.
 Current prize: {n} coins	Obecna nagroda: {n} monet
 Champion wins: {item}	Mistrz wygrywa: {item}
 {h} h {m} min	{h} h {m} min

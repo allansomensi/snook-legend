@@ -2032,6 +2032,11 @@ pub const AUDIT_NOT_PLAYERS: &[&str] = &[
     "msstore-retry",
     "pin",
     "unpin",
+    "banned-word",
+    "banned-word-remove",
+    "chat-pin",
+    "chat-unpin",
+    "gift-batch",
     // Operations and the economy (0.12).
     "setting",
     "setting-reset",
@@ -2064,5 +2069,10 @@ pub fn day_of(t: i64) -> i64 {
     t.div_euclid(86_400)
 }
 
+mod moderation;
+pub use moderation::{
+    BannedWord, LinkedAccount, MatchRow, NewNotification, NotificationRow, ProfileChangeRow,
+    RatingAdjustment,
+};
 mod ops;
 pub use ops::*;

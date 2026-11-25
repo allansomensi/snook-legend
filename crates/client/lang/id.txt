@@ -2086,6 +2086,70 @@ Every player has it	Dimiliki semua pemain
 Drag to make the chat taller or shorter	Seret untuk meninggikan atau memendekkan chat
 Hide the result to see the table and the chat	Sembunyikan hasil untuk melihat meja dan chat
 Show the result	Tampilkan hasil
+{n} unread	{n} belum dibaca
+Everything read	Semua sudah dibaca
+Mark all as read	Tandai semua sudah dibaca
+Inbox	Kotak masuk
+No notifications yet. What the staff and the game tell you comes here.	Belum ada notifikasi. Apa yang disampaikan tim dan permainan akan masuk ke sini.
+Nothing here.	Tidak ada apa-apa.
+Pick a notification to read it.	Pilih notifikasi untuk membacanya.
+Pinned	Disematkan
+From {name}	Dari {name}
+Pinned for {t} more	Disematkan {t} lagi
+I read it	Sudah saya baca
+Delete	Hapus
+Confirm you read it first.	Konfirmasi dulu bahwa kamu sudah membacanya.
+It stays while it is pinned.	Tetap ada selama disematkan.
+Equipped.	Dipakai.
+Message from the staff	Pesan dari tim
+You were muted	Kamu dibisukan
+You can't write to other players for {t} more.	Kamu tidak bisa menulis ke pemain lain selama {t} lagi.
+The mute is over.	Masa bisu sudah selesai.
+You can chat again	Kamu bisa mengobrol lagi
+The staff lifted your mute.	Tim mencabut bisumu.
+Your rating was adjusted	Rating-mu disesuaikan
+{delta} under the {rules}: now {rating}.	{delta} di {rules}: sekarang {rating}.
+A game was annulled	Sebuah permainan dibatalkan
+Your game against {name} no longer counts ({delta} rating).	Permainanmu melawan {name} tidak dihitung lagi ({delta} rating).
+The staff ended a game	Tim mengakhiri sebuah permainan
+Your game against {name} was given to you.	Permainan melawan {name} diberikan kepadamu.
+Your game against {name} was given to your opponent.	Permainan melawan {name} diberikan kepada lawanmu.
+Your game against {name} ended without a result.	Permainanmu melawan {name} berakhir tanpa hasil.
+Thank you for your report	Terima kasih atas laporanmu
+The staff took action about {name}.	Tim telah bertindak terkait {name}.
+{n} days of VIP	{n} hari VIP
+A gift from the staff	Hadiah dari tim
+You won an item	Kamu memenangkan item
+VIP item of the month	Item VIP bulan ini
+Achievement unlocked	Pencapaian terbuka
+A tournament is about to start	Turnamen akan segera dimulai
+Tournament result	Hasil turnamen
+{name}: place {place}, {prize} coins.	{name}: peringkat {place}, {prize} koin.
+You were outbid	Tawaranmu dikalahkan
+You won an auction	Kamu memenangkan lelang
+Maintenance	Pemeliharaan
+The server stops in {t} for about {n} min.	Server berhenti dalam {t} selama sekitar {n} menit.
+The server stops for about {n} min.	Server berhenti selama sekitar {n} menit.
+Notification	Notifikasi
+You are muted for {t} more.	Kamu dibisukan {t} lagi.
+You are muted for {t} more: {reason}	Kamu dibisukan {t} lagi: {reason}
+That word isn't allowed here: {word}	Kata itu tidak diizinkan di sini: {word}
+That can't be sent.	Itu tidak bisa dikirim.
+New in your inbox: {title}	Baru di kotak masukmu: {title}
+{n} more	{n} lagi
+{name} mentioned you	{name} menyebutmu
+Inbox ({n} unread)	Kotak masuk ({n} belum dibaca)
+Unpin	Lepas sematan
+Pin at the top of the chat	Sematkan di atas obrolan
+Names and countries	Nama dan negara
+All	Semua
+Staff	Tim
+Punishments	Sanksi
+See the game	Lihat permainan
+Equip now	Pakai sekarang
+Open the collection	Buka koleksi
+Auctions	Lelang
+The staff ended your game without a result. Sign in again.	Tim mengakhiri permainanmu tanpa hasil. Masuk lagi.
 Current prize: {n} coins	Hadiah saat ini: {n} koin
 Champion wins: {item}	Juara mendapat: {item}
 {h} h {m} min	{h} j {m} mnt

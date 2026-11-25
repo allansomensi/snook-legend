@@ -2086,6 +2086,70 @@ Every player has it	Elke speler heeft deze
 Drag to make the chat taller or shorter	Sleep om de chat hoger of lager te maken
 Hide the result to see the table and the chat	Verberg de uitslag om de tafel en de chat te zien
 Show the result	Uitslag tonen
+{n} unread	{n} ongelezen
+Everything read	Alles gelezen
+Mark all as read	Alles als gelezen markeren
+Inbox	Inbox
+No notifications yet. What the staff and the game tell you comes here.	Nog geen meldingen. Wat het team en het spel je vertellen, komt hier.
+Nothing here.	Hier is niets.
+Pick a notification to read it.	Kies een melding om te lezen.
+Pinned	Vastgezet
+From {name}	Van {name}
+Pinned for {t} more	Nog {t} vastgezet
+I read it	Gelezen
+Delete	Verwijderen
+Confirm you read it first.	Bevestig eerst dat je het hebt gelezen.
+It stays while it is pinned.	Het blijft zolang het vastgezet is.
+Equipped.	Uitgerust.
+Message from the staff	Bericht van het team
+You were muted	Je bent gedempt
+You can't write to other players for {t} more.	Je kunt nog {t} niet schrijven naar andere spelers.
+The mute is over.	Het dempen is voorbij.
+You can chat again	Je kunt weer chatten
+The staff lifted your mute.	Het team heeft je demping opgeheven.
+Your rating was adjusted	Je rating is aangepast
+{delta} under the {rules}: now {rating}.	{delta} onder de {rules}: nu {rating}.
+A game was annulled	Een partij is geannuleerd
+Your game against {name} no longer counts ({delta} rating).	Je partij tegen {name} telt niet meer mee ({delta} rating).
+The staff ended a game	Het team heeft een partij beëindigd
+Your game against {name} was given to you.	De partij tegen {name} is aan jou toegekend.
+Your game against {name} was given to your opponent.	De partij tegen {name} is aan je tegenstander toegekend.
+Your game against {name} ended without a result.	Je partij tegen {name} eindigde zonder uitslag.
+Thank you for your report	Bedankt voor je melding
+The staff took action about {name}.	Het team heeft actie ondernomen tegen {name}.
+{n} days of VIP	{n} dagen VIP
+A gift from the staff	Een cadeau van het team
+You won an item	Je hebt een item gewonnen
+VIP item of the month	VIP-item van de maand
+Achievement unlocked	Prestatie ontgrendeld
+A tournament is about to start	Een toernooi begint zo
+Tournament result	Toernooiuitslag
+{name}: place {place}, {prize} coins.	{name}: plaats {place}, {prize} munten.
+You were outbid	Je bent overboden
+You won an auction	Je hebt een veiling gewonnen
+Maintenance	Onderhoud
+The server stops in {t} for about {n} min.	De server stopt over {t} voor ongeveer {n} min.
+The server stops for about {n} min.	De server stopt voor ongeveer {n} min.
+Notification	Melding
+You are muted for {t} more.	Je bent nog {t} gedempt.
+You are muted for {t} more: {reason}	Je bent nog {t} gedempt: {reason}
+That word isn't allowed here: {word}	Dat woord is hier niet toegestaan: {word}
+That can't be sent.	Dat kan niet worden verstuurd.
+New in your inbox: {title}	Nieuw in je inbox: {title}
+{n} more	nog {n}
+{name} mentioned you	{name} noemde je
+Inbox ({n} unread)	Inbox ({n} ongelezen)
+Unpin	Losmaken
+Pin at the top of the chat	Bovenaan de chat vastzetten
+Names and countries	Namen en landen
+All	Alles
+Staff	Team
+Punishments	Straffen
+See the game	Partij bekijken
+Equip now	Nu uitrusten
+Open the collection	Collectie openen
+Auctions	Veilingen
+The staff ended your game without a result. Sign in again.	Het team heeft je partij zonder uitslag beëindigd. Log opnieuw in.
 Current prize: {n} coins	Huidige prijs: {n} munten
 Champion wins: {item}	De kampioen wint: {item}
 {h} h {m} min	{h} u {m} min

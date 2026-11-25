@@ -2086,6 +2086,70 @@ Every player has it	O au toți jucătorii
 Drag to make the chat taller or shorter	Trage ca să faci chatul mai înalt sau mai scund
 Hide the result to see the table and the chat	Ascunde rezultatul ca să vezi masa și chatul
 Show the result	Arată rezultatul
+{n} unread	{n} necitite
+Everything read	Totul citit
+Mark all as read	Marchează tot ca citit
+Inbox	Mesaje
+No notifications yet. What the staff and the game tell you comes here.	Nicio notificare încă. Ce îți transmit echipa și jocul ajunge aici.
+Nothing here.	Nimic aici.
+Pick a notification to read it.	Alege o notificare ca s-o citești.
+Pinned	Fixat
+From {name}	De la {name}
+Pinned for {t} more	Fixat încă {t}
+I read it	Am citit
+Delete	Șterge
+Confirm you read it first.	Confirmă mai întâi că ai citit.
+It stays while it is pinned.	Rămâne cât timp e fixat.
+Equipped.	Echipat.
+Message from the staff	Mesaj de la echipă
+You were muted	Ai fost redus la tăcere
+You can't write to other players for {t} more.	Nu le poți scrie altor jucători încă {t}.
+The mute is over.	Tăcerea s-a încheiat.
+You can chat again	Poți conversa din nou
+The staff lifted your mute.	Echipa ți-a ridicat tăcerea.
+Your rating was adjusted	Punctajul tău a fost ajustat
+{delta} under the {rules}: now {rating}.	{delta} la {rules}: acum {rating}.
+A game was annulled	Un joc a fost anulat
+Your game against {name} no longer counts ({delta} rating).	Jocul tău cu {name} nu mai contează ({delta} la punctaj).
+The staff ended a game	Echipa a încheiat un joc
+Your game against {name} was given to you.	Jocul cu {name} ți-a fost acordat ție.
+Your game against {name} was given to your opponent.	Jocul cu {name} i-a fost acordat adversarului.
+Your game against {name} ended without a result.	Jocul tău cu {name} s-a încheiat fără rezultat.
+Thank you for your report	Mulțumim pentru raport
+The staff took action about {name}.	Echipa a luat măsuri privind {name}.
+{n} days of VIP	{n} zile de VIP
+A gift from the staff	Un cadou de la echipă
+You won an item	Ai câștigat un obiect
+VIP item of the month	Obiectul VIP al lunii
+Achievement unlocked	Realizare deblocată
+A tournament is about to start	Un turneu începe curând
+Tournament result	Rezultatul turneului
+{name}: place {place}, {prize} coins.	{name}: locul {place}, {prize} monede.
+You were outbid	Ai fost depășit la licitație
+You won an auction	Ai câștigat o licitație
+Maintenance	Mentenanță
+The server stops in {t} for about {n} min.	Serverul se oprește în {t} pentru circa {n} min.
+The server stops for about {n} min.	Serverul se oprește pentru circa {n} min.
+Notification	Notificare
+You are muted for {t} more.	Ești redus la tăcere încă {t}.
+You are muted for {t} more: {reason}	Ești redus la tăcere încă {t}: {reason}
+That word isn't allowed here: {word}	Cuvântul acesta nu e permis aici: {word}
+That can't be sent.	Asta nu poate fi trimis.
+New in your inbox: {title}	Nou în mesaje: {title}
+{n} more	încă {n}
+{name} mentioned you	{name} te-a menționat
+Inbox ({n} unread)	Mesaje ({n} necitite)
+Unpin	Anulează fixarea
+Pin at the top of the chat	Fixează în partea de sus a chatului
+Names and countries	Nume și țări
+All	Toate
+Staff	Echipă
+Punishments	Sancțiuni
+See the game	Vezi jocul
+Equip now	Echipează acum
+Open the collection	Deschide colecția
+Auctions	Licitații
+The staff ended your game without a result. Sign in again.	Echipa ți-a încheiat jocul fără rezultat. Conectează-te din nou.
 Current prize: {n} coins	Premiul actual: {n} monede
 Champion wins: {item}	Campionul câștigă: {item}
 {h} h {m} min	{h} h {m} min

@@ -59,9 +59,10 @@ impl Lounge {
         }
         let nowt = now();
         let Some(s) = self.sessions.get(k) else { return };
-        if s.user.is_muted(nowt) {
-            let mins = (s.user.muted_until.unwrap_or(nowt) - nowt + 59) / 60;
-            return self.error(k, format!("You are muted for {mins} more minutes."));
+        // Muted (why, until when), or a word the chat doesn't allow.
+        if let Some(refusal) = self.text_refusal(k, &clean_seek(text)) {
+            let place = snook_legend_proto::moderation::TextPlace::Seek;
+            return self.refuse(k, place, refusal);
         }
         if s.room.is_some() {
             return self.error(k, "Finish your game first.");

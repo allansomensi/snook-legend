@@ -240,10 +240,7 @@ fn line_of(m: &DirectMessage) -> FeedLine {
         text: m.text.clone(),
         at: m.at,
         kind: ChatKind::Player,
-        rating: 0,
-        id: 0,
-        admin: false,
-        deleted: None,
+        ..Default::default()
     })
 }
 

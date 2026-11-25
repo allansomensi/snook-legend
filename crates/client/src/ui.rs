@@ -69,13 +69,55 @@ pub struct FeedLine {
     /// This player's own line, shown the moment it is sent and dimmed until
     /// the server passes it on (it never waits for the round trip).
     pub pending: bool,
+    /// The players it mentions with `@name` (real usernames, from the
+    /// server): lit, and a click opens their profile.
+    pub mentions: Vec<String>,
 }
 
 /// What the reader did with a line of [`Ui::chat_log`].
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ChatAction {
     /// Delete line `id` (`silent`: without a trace, administrators).
     Delete { id: u64, silent: bool },
+    /// Pin line `id` at the top of the chat (the staff).
+    Pin { id: u64 },
+    /// Open the profile of a player a line mentions.
+    Profile(String),
+}
+
+/// A line's text cut where it mentions players: (text, mentioned).
+pub fn mention_spans(text: &str, mentions: &[String]) -> Vec<(String, bool)> {
+    let mut out: Vec<(String, bool)> = Vec::new();
+    let mut rest = text;
+    while let Some(at) = rest.find('@') {
+        let after = &rest[at + 1..];
+        let len = after.chars().take_while(|c| c.is_ascii_alphanumeric() || *c == '_').count();
+        let name = &after[..len];
+        let starts = at == 0
+            || !rest[..at].chars().last().is_some_and(|c| c.is_ascii_alphanumeric() || c == '_');
+        if starts && len > 0 && mentions.iter().any(|m| m.eq_ignore_ascii_case(name)) {
+            if at > 0 {
+                out.push((rest[..at].to_string(), false));
+            }
+            out.push((rest[at..at + 1 + len].to_string(), true));
+            rest = &rest[at + 1 + len..];
+        } else {
+            out.push((rest[..at + 1].to_string(), false));
+            rest = &rest[at + 1..];
+        }
+    }
+    if !rest.is_empty() {
+        out.push((rest.to_string(), false));
+    }
+    // Plain text next to plain text, together.
+    let mut merged: Vec<(String, bool)> = Vec::new();
+    for (s, m) in out {
+        match merged.last_mut() {
+            Some((last, false)) if !m => last.push_str(&s),
+            _ => merged.push((s, m)),
+        }
+    }
+    merged
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
@@ -1613,6 +1655,22 @@ impl Ui {
         admin: bool,
         scroll: usize,
     ) -> (usize, Option<ChatAction>) {
+        self.chat_log_ex(id, r, lines, me, admin, false, scroll)
+    }
+
+    /// [`Ui::chat_log`], where the reader may also pin lines (`pin`: the
+    /// staff, in the lounge).
+    #[allow(clippy::too_many_arguments)]
+    pub fn chat_log_ex(
+        &mut self,
+        id: u64,
+        r: Rect,
+        lines: &[FeedLine],
+        me: Option<&str>,
+        admin: bool,
+        pin: bool,
+        scroll: usize,
+    ) -> (usize, Option<ChatAction>) {
         self.block(r);
         const SIZE: f32 = 14.0;
         const NOTE: f32 = 12.0;
@@ -1779,7 +1837,10 @@ impl Ui {
                 let mine = me.is_some_and(|m| {
                     l.from.as_ref().is_some_and(|(n, _)| n.eq_ignore_ascii_case(m))
                 });
-                l.id > 0 && l.deleted.is_none() && l.kind == FeedKind::Player && (mine || admin)
+                l.id > 0
+                    && l.deleted.is_none()
+                    && l.kind == FeedKind::Player
+                    && (mine || admin || pin)
             });
         let mut action = None;
         let mut buttons_drawn = false;
@@ -1796,6 +1857,19 @@ impl Ui {
                     r.w - 4.0,
                     LINE,
                     Color::new(1.0, 1.0, 1.0, 0.05),
+                );
+            }
+            // A line that mentions the reader is lit.
+            let mentions_me =
+                me.is_some_and(|m| line.mentions.iter().any(|x| x.eq_ignore_ascii_case(m)));
+            if mentions_me && !deleted {
+                draw_rectangle(r.x + 2.0, y - 1.0, 3.0, LINE, GOLD);
+                draw_rectangle(
+                    r.x + 2.0,
+                    y - 1.0,
+                    r.w - 4.0,
+                    LINE,
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08),
                 );
             }
             if row.centred {
@@ -1819,14 +1893,33 @@ impl Ui {
             }
             let color = if deleted { Color::new(0.62, 0.56, 0.5, 0.8) } else { CREAM };
             let size = if deleted { 13.0 } else { SIZE };
-            self.text(
-                &row.text,
-                inner.x + row.indent,
-                y + (SIZE - size) * 0.5,
-                size,
-                soft(color),
-                false,
-            );
+            if line.mentions.is_empty() || deleted {
+                self.text(
+                    &row.text,
+                    inner.x + row.indent,
+                    y + (SIZE - size) * 0.5,
+                    size,
+                    soft(color),
+                    false,
+                );
+            } else {
+                // The players it mentions in gold; a click opens a profile.
+                let mut x = inner.x + row.indent;
+                for (span, mention) in mention_spans(&row.text, &line.mentions) {
+                    let w = self.text_size(&span, size, mention).x;
+                    let c = if mention { GOLD } else { color };
+                    self.text(&span, x, y + (SIZE - size) * 0.5, size, soft(c), mention);
+                    let hit = Rect::new(x, y - 1.0, w, LINE);
+                    if mention && self.hovering(hit) {
+                        draw_line(x, y + SIZE + 1.0, x + w, y + SIZE + 1.0, 1.0, GOLD);
+                        if self.clicked(hit) {
+                            let name = span.trim_start_matches('@').to_string();
+                            action = Some(ChatAction::Profile(name));
+                        }
+                    }
+                    x += w;
+                }
+            }
             // Delete buttons on the hovered message's first row on screen.
             if hovered == Some(row.index) && !buttons_drawn {
                 buttons_drawn = true;
@@ -1834,8 +1927,21 @@ impl Ui {
                 let mut bx = r.x + r.w - BAR - 22.0;
                 let b = Rect::new(bx, y - 1.0, 20.0, 18.0);
                 let tip = crate::i18n::t("Delete (it shows as deleted)");
-                if self.icon_button_ex(b, crate::icons::Icon::Close, tip, true, true) {
+                let mine = me.is_some_and(|m| {
+                    line.from.as_ref().is_some_and(|(n, _)| n.eq_ignore_ascii_case(m))
+                });
+                if (mine || admin)
+                    && self.icon_button_ex(b, crate::icons::Icon::Close, tip, true, true)
+                {
                     action = Some(ChatAction::Delete { id, silent: false });
+                }
+                if pin {
+                    bx -= 24.0;
+                    let b = Rect::new(bx, y - 1.0, 20.0, 18.0);
+                    let tip = crate::i18n::t("Pin at the top of the chat");
+                    if self.icon_button_ex(b, crate::icons::Icon::Star, tip, true, true) {
+                        action = Some(ChatAction::Pin { id });
+                    }
                 }
                 if admin {
                     bx -= 24.0;

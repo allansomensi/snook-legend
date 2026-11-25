@@ -2086,6 +2086,70 @@ Every player has it	Minden játékosnak megvan
 Drag to make the chat taller or shorter	Húzd a csevegés magasításához vagy alacsonyításához
 Hide the result to see the table and the chat	Rejtsd el az eredményt, hogy lásd az asztalt és a csevegést
 Show the result	Eredmény mutatása
+{n} unread	{n} olvasatlan
+Everything read	Minden elolvasva
+Mark all as read	Mind olvasottnak jelöl
+Inbox	Postafiók
+No notifications yet. What the staff and the game tell you comes here.	Még nincs értesítés. Amit a csapat és a játék üzen, ide érkezik.
+Nothing here.	Itt nincs semmi.
+Pick a notification to read it.	Válassz egy értesítést az elolvasáshoz.
+Pinned	Kitűzve
+From {name}	Feladó: {name}
+Pinned for {t} more	Még {t} kitűzve
+I read it	Elolvastam
+Delete	Törlés
+Confirm you read it first.	Előbb erősítsd meg, hogy elolvastad.
+It stays while it is pinned.	Amíg ki van tűzve, marad.
+Equipped.	Felszerelve.
+Message from the staff	Üzenet a csapattól
+You were muted	Le lettél némítva
+You can't write to other players for {t} more.	Még {t} nem írhatsz más játékosoknak.
+The mute is over.	A némítás lejárt.
+You can chat again	Újra csevegeghetsz
+The staff lifted your mute.	A csapat feloldotta a némításodat.
+Your rating was adjusted	A pontszámod módosult
+{delta} under the {rules}: now {rating}.	{delta} a(z) {rules} szerint: most {rating}.
+A game was annulled	Egy játszmát érvénytelenítettek
+Your game against {name} no longer counts ({delta} rating).	A(z) {name} elleni játszmád már nem számít ({delta} pont).
+The staff ended a game	A csapat lezárt egy játszmát
+Your game against {name} was given to you.	A(z) {name} elleni játszmát neked ítélték.
+Your game against {name} was given to your opponent.	A(z) {name} elleni játszmát az ellenfelednek ítélték.
+Your game against {name} ended without a result.	A(z) {name} elleni játszmád eredmény nélkül ért véget.
+Thank you for your report	Köszönjük a jelentésed
+The staff took action about {name}.	A csapat intézkedett {name} ügyében.
+{n} days of VIP	{n} nap VIP
+A gift from the staff	Ajándék a csapattól
+You won an item	Nyertél egy tárgyat
+VIP item of the month	A hónap VIP-tárgya
+Achievement unlocked	Teljesítmény feloldva
+A tournament is about to start	Hamarosan kezdődik egy verseny
+Tournament result	A verseny eredménye
+{name}: place {place}, {prize} coins.	{name}: {place}. hely, {prize} érme.
+You were outbid	Túllicitáltak
+You won an auction	Megnyertél egy árverést
+Maintenance	Karbantartás
+The server stops in {t} for about {n} min.	A szerver {t} múlva kb. {n} percre leáll.
+The server stops for about {n} min.	A szerver kb. {n} percre leáll.
+Notification	Értesítés
+You are muted for {t} more.	Még {t} némítva vagy.
+You are muted for {t} more: {reason}	Még {t} némítva vagy: {reason}
+That word isn't allowed here: {word}	Ez a szó itt nem megengedett: {word}
+That can't be sent.	Ezt nem lehet elküldeni.
+New in your inbox: {title}	Új a postafiókodban: {title}
+{n} more	még {n}
+{name} mentioned you	{name} megemlített
+Inbox ({n} unread)	Postafiók ({n} olvasatlan)
+Unpin	Levétel
+Pin at the top of the chat	Kitűzés a csevegés tetejére
+Names and countries	Nevek és országok
+All	Mind
+Staff	Csapat
+Punishments	Büntetések
+See the game	Játszma megtekintése
+Equip now	Felszerelés most
+Open the collection	Gyűjtemény megnyitása
+Auctions	Árverések
+The staff ended your game without a result. Sign in again.	A csapat eredmény nélkül lezárta a játszmádat. Jelentkezz be újra.
 Current prize: {n} coins	Jelenlegi nyeremény: {n} érme
 Champion wins: {item}	A bajnok nyer: {item}
 {h} h {m} min	{h} ó {m} p

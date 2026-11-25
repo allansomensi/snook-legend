@@ -141,7 +141,8 @@ impl Lounge {
         let Some(id) = self.watched_room(k) else {
             return self.error(k, "You aren't watching a game.");
         };
-        let Some(text) = self.chat_allowed(k, text) else { return };
+        let place = snook_legend_proto::moderation::TextPlace::SpectatorChat;
+        let Some(text) = self.chat_allowed(k, text, place) else { return };
         let s = &self.sessions[k];
         let line = ChatLine {
             from: s.user.username.clone(),
@@ -149,9 +150,8 @@ impl Lounge {
             at: now(),
             kind: ChatKind::Player,
             rating: s.shown_rating(),
-            id: 0,
             admin: s.user.role == snook_legend_proto::Role::Admin,
-            deleted: None,
+            ..Default::default()
         };
         let sender = s.user.id;
         let Some(room) = self.rooms.get_mut(&id) else { return };

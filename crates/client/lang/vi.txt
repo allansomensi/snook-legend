@@ -2086,6 +2086,70 @@ Every player has it	Mọi người chơi đều có
 Drag to make the chat taller or shorter	Kéo để làm khung trò chuyện cao hơn hoặc thấp hơn
 Hide the result to see the table and the chat	Ẩn kết quả để xem bàn và khung trò chuyện
 Show the result	Xem kết quả
+{n} unread	{n} chưa đọc
+Everything read	Đã đọc hết
+Mark all as read	Đánh dấu đã đọc hết
+Inbox	Hộp thư
+No notifications yet. What the staff and the game tell you comes here.	Chưa có thông báo. Những gì đội ngũ và trò chơi gửi cho bạn sẽ đến đây.
+Nothing here.	Không có gì ở đây.
+Pick a notification to read it.	Chọn một thông báo để đọc.
+Pinned	Đã ghim
+From {name}	Từ {name}
+Pinned for {t} more	Ghim thêm {t}
+I read it	Tôi đã đọc
+Delete	Xóa
+Confirm you read it first.	Hãy xác nhận đã đọc trước.
+It stays while it is pinned.	Nó ở lại khi còn được ghim.
+Equipped.	Đã trang bị.
+Message from the staff	Tin nhắn từ đội ngũ
+You were muted	Bạn đã bị cấm chat
+You can't write to other players for {t} more.	Bạn không thể viết cho người chơi khác trong {t} nữa.
+The mute is over.	Lệnh cấm chat đã hết.
+You can chat again	Bạn có thể chat lại
+The staff lifted your mute.	Đội ngũ đã gỡ lệnh cấm chat của bạn.
+Your rating was adjusted	Điểm của bạn đã được điều chỉnh
+{delta} under the {rules}: now {rating}.	{delta} theo {rules}: giờ là {rating}.
+A game was annulled	Một ván đã bị hủy kết quả
+Your game against {name} no longer counts ({delta} rating).	Ván của bạn với {name} không còn được tính ({delta} điểm).
+The staff ended a game	Đội ngũ đã kết thúc một ván
+Your game against {name} was given to you.	Ván với {name} được xử cho bạn thắng.
+Your game against {name} was given to your opponent.	Ván với {name} được xử cho đối thủ thắng.
+Your game against {name} ended without a result.	Ván của bạn với {name} kết thúc không có kết quả.
+Thank you for your report	Cảm ơn bạn đã báo cáo
+The staff took action about {name}.	Đội ngũ đã xử lý {name}.
+{n} days of VIP	{n} ngày VIP
+A gift from the staff	Quà từ đội ngũ
+You won an item	Bạn đã nhận một vật phẩm
+VIP item of the month	Vật phẩm VIP của tháng
+Achievement unlocked	Đã mở khóa thành tích
+A tournament is about to start	Một giải đấu sắp bắt đầu
+Tournament result	Kết quả giải đấu
+{name}: place {place}, {prize} coins.	{name}: hạng {place}, {prize} xu.
+You were outbid	Bạn đã bị trả giá cao hơn
+You won an auction	Bạn đã thắng một phiên đấu giá
+Maintenance	Bảo trì
+The server stops in {t} for about {n} min.	Máy chủ sẽ dừng sau {t} trong khoảng {n} phút.
+The server stops for about {n} min.	Máy chủ sẽ dừng khoảng {n} phút.
+Notification	Thông báo
+You are muted for {t} more.	Bạn bị cấm chat thêm {t}.
+You are muted for {t} more: {reason}	Bạn bị cấm chat thêm {t}: {reason}
+That word isn't allowed here: {word}	Từ này không được phép ở đây: {word}
+That can't be sent.	Không thể gửi nội dung này.
+New in your inbox: {title}	Mới trong hộp thư: {title}
+{n} more	còn {n}
+{name} mentioned you	{name} đã nhắc đến bạn
+Inbox ({n} unread)	Hộp thư ({n} chưa đọc)
+Unpin	Bỏ ghim
+Pin at the top of the chat	Ghim lên đầu khung chat
+Names and countries	Tên và quốc gia
+All	Tất cả
+Staff	Đội ngũ
+Punishments	Hình phạt
+See the game	Xem ván đấu
+Equip now	Trang bị ngay
+Open the collection	Mở bộ sưu tập
+Auctions	Đấu giá
+The staff ended your game without a result. Sign in again.	Đội ngũ đã kết thúc ván của bạn mà không có kết quả. Hãy đăng nhập lại.
 Current prize: {n} coins	Giải thưởng hiện tại: {n} xu
 Champion wins: {item}	Nhà vô địch nhận: {item}
 {h} h {m} min	{h} giờ {m} phút

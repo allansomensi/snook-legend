@@ -32,8 +32,11 @@ use crate::now;
 use crate::store::{LiveMatch, MatchRecord, TournamentRecord, User};
 
 mod match_social;
+mod moderation;
 mod social;
 mod tournaments;
+
+pub use moderation::{INBOX_PROTOCOL, refusal_text};
 
 pub use match_social::{PHRASES_ONLY, phrases_only};
 pub use social::SEEK_LIFETIME;
@@ -137,6 +140,12 @@ pub enum Effect {
     ShotStats {
         user_id: i64,
         bands: Vec<(usize, u32, u32)>,
+    },
+    /// How long each shot of a finished game was thought over (tenths of
+    /// a second, one per stroke; None for what isn't a shot).
+    ShotTimes {
+        room: i64,
+        times: Vec<Option<u32>>,
     },
     /// Give (or give back) coins: a tournament prize or refund.
     Pay {
@@ -343,6 +352,9 @@ struct Room {
     /// Seats that left as they resigned (that resignation waiting for the
     /// shot): back in the lounge as soon as the game is over.
     leaving: [bool; 2],
+    /// How long each shot was thought over: (its stroke's index, tenths of
+    /// a second from the shot clock's start). Not kept across a restart.
+    think: Vec<(usize, u32)>,
     /// A rated game: what each seat stands to win and lose (see
     /// [`ServerMsg::MatchStarted`]).
     stakes: Option<[[i32; 2]; 2]>,
@@ -450,6 +462,8 @@ pub struct Lounge {
     /// The start of a weekly cup the staff called off: it is not opened
     /// again (the next week's is).
     cup_called_off: Option<i64>,
+    /// The banned words, the pinned line, why players were muted.
+    moderation: moderation::Moderation,
 }
 
 struct Queued {
@@ -1205,6 +1219,11 @@ impl Lounge {
 
     /// A message from the staff in the lounge chat.
     pub fn announce_text(&mut self, text: &str) {
+        self.announce_line(text, Vec::new());
+    }
+
+    /// An announcement that mentions players (their usernames).
+    fn announce_line(&mut self, text: &str, mentions: Vec<String>) {
         let text = clean_chat(text);
         if text.is_empty() {
             return;
@@ -1214,10 +1233,8 @@ impl Lounge {
             text,
             at: now(),
             kind: ChatKind::Announcement,
-            rating: 0,
-            id: 0,
-            admin: false,
-            deleted: None,
+            mentions,
+            ..Default::default()
         };
         let line = self.push_chat(line);
         self.broadcast(&ServerMsg::Chat { line });
@@ -1294,6 +1311,7 @@ impl Lounge {
             self.chat_deleted.insert(id, by);
             self.broadcast(&ServerMsg::ChatDeleted { id, by });
         }
+        self.unpin_deleted(Some(id));
     }
 
     /// The lounge chat as the staff see it: every line still kept, with its
@@ -1316,6 +1334,7 @@ impl Lounge {
                 serde_json::json!({
                     "id": l.id, "from": l.from, "text": l.text, "at": l.at,
                     "kind": l.kind, "rating": l.rating, "admin": l.admin, "deleted": deleted,
+                    "mentions": l.mentions,
                 })
             })
             .collect()
@@ -1346,6 +1365,7 @@ impl Lounge {
             self.chat_deleted.insert(id, by);
             self.broadcast(&ServerMsg::ChatDeleted { id, by });
         }
+        self.unpin_deleted(Some(id));
         true
     }
 
@@ -1360,12 +1380,10 @@ impl Lounge {
             text: format!("The chat was cleared by {by}."),
             at: now(),
             kind: ChatKind::System,
-            rating: 0,
-            id: 0,
-            admin: false,
-            deleted: None,
+            ..Default::default()
         };
         self.push_chat(line);
+        self.unpin_deleted(None);
     }
 
     /// Recent chat lines involving `target`, attached to a report.
@@ -1484,7 +1502,7 @@ impl Lounge {
             return;
         }
         match msg {
-            ClientMsg::Chat { text } => self.chat(&k, &text),
+            ClientMsg::Chat { text } => self.chat_mentioning(&k, &text, &[]),
             ClientMsg::DeleteChat { id, silent } => self.delete_chat(&k, id, silent),
             ClientMsg::ClearChat => {
                 if let Some(s) =
@@ -1647,6 +1665,8 @@ impl Lounge {
             | ClientMsg::InboxRead { .. }
             | ClientMsg::InboxDelete { .. }
             | ClientMsg::Collection
+            | ClientMsg::PinChat { .. }
+            | ClientMsg::UnpinChat
             | ClientMsg::Auctions
             | ClientMsg::Bid { .. }
             | ClientMsg::SetCredits { .. }
@@ -1706,18 +1726,22 @@ impl Lounge {
     }
 
     /// Checks the chat limits; the text to send, or None (with an error sent).
-    fn chat_allowed(&mut self, k: &str, text: &str) -> Option<String> {
+    fn chat_allowed(
+        &mut self,
+        k: &str,
+        text: &str,
+        place: snook_legend_proto::moderation::TextPlace,
+    ) -> Option<String> {
         let text = clean_chat(text);
         if text.is_empty() {
             return None;
         }
-        let nowt = now();
-        let s = self.sessions.get_mut(k)?;
-        if s.user.is_muted(nowt) {
-            let mins = (s.user.muted_until.unwrap_or(nowt) - nowt + 59) / 60;
-            self.error(k, format!("You are muted for {mins} more minutes."));
+        // Muted (why and until when), or a word the chat doesn't allow.
+        if let Some(refusal) = self.text_refusal(k, &text) {
+            self.refuse(k, place, refusal);
             return None;
         }
+        let s = self.sessions.get_mut(k)?;
         if !self.settings.lan && s.user.chat_restricted() {
             let reason = chat_off_reason(&s.user);
             self.error(k, reason);
@@ -1744,8 +1768,12 @@ impl Lounge {
         Some(text)
     }
 
-    fn chat(&mut self, k: &str, text: &str) {
-        let Some(text) = self.chat_allowed(k, text) else { return };
+    /// A line in the lounge chat; the mentions of players who aren't online
+    /// are among `known` (looked up in the store).
+    fn chat_mentioning(&mut self, k: &str, text: &str, known: &[String]) {
+        use snook_legend_proto::moderation::TextPlace;
+        let Some(text) = self.chat_allowed(k, text, TextPlace::Chat) else { return };
+        let mentions = self.mentions_in(&text, known);
         let s = &self.sessions[k];
         let sender = s.user.id;
         let line = ChatLine {
@@ -1754,9 +1782,9 @@ impl Lounge {
             at: now(),
             kind: ChatKind::Player,
             rating: s.shown_rating(),
-            id: 0,
             admin: s.user.role == snook_legend_proto::Role::Admin,
-            deleted: None,
+            mentions,
+            ..Default::default()
         };
         let line = self.push_chat(line);
         self.chat_authors.insert(line.id, sender);
@@ -1772,7 +1800,8 @@ impl Lounge {
         if self.room_of(k).is_none() {
             return;
         }
-        let Some(text) = self.chat_allowed(k, text) else { return };
+        let place = snook_legend_proto::moderation::TextPlace::MatchChat;
+        let Some(text) = self.chat_allowed(k, text, place) else { return };
         let s = &self.sessions[k];
         let line = ChatLine {
             from: s.user.username.clone(),
@@ -1780,9 +1809,8 @@ impl Lounge {
             at: now(),
             kind: ChatKind::Player,
             rating: s.shown_rating(),
-            id: 0,
             admin: s.user.role == snook_legend_proto::Role::Admin,
-            deleted: None,
+            ..Default::default()
         };
         let sender = s.user.id;
         let Some(id) = s.room else { return };
@@ -1853,17 +1881,19 @@ impl Lounge {
             .filter_map(|l| self.shown(l))
             .collect();
         self.send(k, ServerMsg::ChatHistory { lines });
+        self.send_pinned(k);
     }
 
-    /// Sets what others see of `name`'s shop items (and tells everyone).
     /// The protocol of `name`'s game, from its hello (see
-    /// [`Session::protocol`]).
+    /// [`Session::protocol`]): what it understands (the inbox, see
+    /// [`INBOX_PROTOCOL`]) and whether it calls the 8.
     pub fn set_protocol(&mut self, name: &str, protocol: u32) {
         if let Some(s) = self.sessions.get_mut(&key(name)) {
             s.protocol = protocol;
         }
     }
 
+    /// Sets what others see of `name`'s shop items (and tells everyone).
     pub fn set_look(&mut self, name: &str, look: Look) {
         let k = key(name);
         let Some(s) = self.sessions.get_mut(&k) else { return };
@@ -2654,6 +2684,7 @@ impl Lounge {
             private,
             resigning: None,
             leaving: [false, false],
+            think: Vec::new(),
             stakes,
             spectator_chat: VecDeque::new(),
             chat_total: 0,
@@ -2844,6 +2875,11 @@ impl Lounge {
         room.game.prepare_shot(&shot, called).map_err(|e| format!("Can't shoot: {e}."))?;
         let turn = room.game.shots_taken();
         let cue_ball = room.game.ball_in_hand().map(|_| room.game.ball(BallId::CUE).xy());
+        // How long it was thought over: since the shot clock started.
+        let clock = self.settings.shot_clock;
+        let left = room.deadline.saturating_duration_since(Instant::now());
+        let think = clock.saturating_sub(left).as_millis().div_ceil(100) as u32;
+        room.think.push((room.replay.strokes.len(), think));
         room.busy = Some(turn);
         room.shot_at = Instant::now();
         room.idle[seat % 2] = 0;
@@ -2874,6 +2910,8 @@ impl Lounge {
             Err(e) => {
                 tracing::error!(room = id, "shot simulation failed: {e}");
                 room.replay.strokes.pop();
+                let strokes = room.replay.strokes.len();
+                room.think.retain(|(stroke, _)| *stroke < strokes);
                 let msg = ServerMsg::ShotRejected {
                     turn,
                     reason: "The server could not play that shot.".into(),
@@ -3203,6 +3241,9 @@ impl Lounge {
                 *self.records_pending.entry(id).or_default() += 1;
             }
             self.effect(Effect::RecordMatch { record, keys: keys.clone(), farmed });
+            let room = &self.rooms[&id];
+            let times = moderation::shot_times(&room.think, room.replay.strokes.len());
+            self.effect(Effect::ShotTimes { room: id as i64, times });
         }
         tracing::info!(room = id, "match finished: {:?}", over);
         if let Some((tid, round, index)) = tournament {
@@ -3749,6 +3790,7 @@ impl Lounge {
             private: true,
             resigning: None,
             leaving: [false, false],
+            think: Vec::new(),
             stakes,
             spectator_chat: VecDeque::new(),
             chat_total: 0,

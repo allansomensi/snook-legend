@@ -24,6 +24,7 @@ pub mod ghost;
 pub mod inbox;
 pub mod ladder;
 pub mod missions;
+pub mod moderation;
 pub mod ops;
 pub mod reactions;
 pub mod replay;
@@ -773,7 +774,7 @@ pub enum ChatKind {
     System,
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Default, Serialize, Deserialize)]
 pub struct ChatLine {
     pub from: String,
     pub text: String,
@@ -793,6 +794,10 @@ pub struct ChatLine {
     /// Deleted (its text is gone): by whom.
     #[serde(default)]
     pub deleted: Option<Deleted>,
+    /// The players the line mentions with `@name` (their usernames as they
+    /// are written, filled in by the server: only real players).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub mentions: Vec<String>,
 }
 
 /// Who deleted a chat line.
@@ -1082,6 +1087,9 @@ pub struct Profile {
     /// [`reactions::bought`]).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub reactions: Vec<String>,
+    /// The names and countries the account had, newest first.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub renames: Vec<moderation::ProfileChange>,
 }
 
 /// Something a player won, for the profile's trophy shelf.
@@ -1677,6 +1685,13 @@ pub enum ClientMsg {
     /// Every item this player has, with how and when they got it (answered
     /// with [`ServerMsg::Collection`]).
     Collection,
+    /// Staff: pins lounge chat line `id` at the top of the chat for
+    /// everyone (in place of the one pinned before).
+    PinChat {
+        id: u64,
+    },
+    /// Staff: takes the pinned line down.
+    UnpinChat,
     /// The auctions open and coming (answered with [`ServerMsg::Auctions`]).
     Auctions,
     /// Bids `amount` coins on auction `id`: the coins are held until someone
@@ -2298,6 +2313,17 @@ pub enum ServerMsg {
     /// Every item this player has, with how and when they got it.
     Collection {
         items: Vec<collection::OwnedItem>,
+    },
+    /// The line pinned at the top of the lounge's chat (None: none), after
+    /// signing in and when it changes.
+    ChatPinned {
+        line: Option<ChatLine>,
+    },
+    /// Something the player wrote (`place`) was turned away, and why (sent
+    /// in place of an [`ServerMsg::Error`] to games of protocol 25 or later).
+    TextRefused {
+        place: moderation::TextPlace,
+        refusal: moderation::TextRefusal,
     },
     /// The shop's promotions running and coming (after signing in and
     /// whenever one is made, changed, starts or ends). Empty: none.

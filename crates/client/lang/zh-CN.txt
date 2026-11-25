@@ -2086,6 +2086,70 @@ Every player has it	所有玩家都有
 Drag to make the chat taller or shorter	拖动以调整聊天框高度
 Hide the result to see the table and the chat	隐藏结果以查看球台和聊天
 Show the result	显示结果
+{n} unread	{n} 条未读
+Everything read	全部已读
+Mark all as read	全部标为已读
+Inbox	收件箱
+No notifications yet. What the staff and the game tell you comes here.	还没有通知。管理团队和游戏发给你的消息都会出现在这里。
+Nothing here.	这里什么都没有。
+Pick a notification to read it.	选择一条通知来阅读。
+Pinned	已置顶
+From {name}	来自 {name}
+Pinned for {t} more	还会置顶 {t}
+I read it	我已阅读
+Delete	删除
+Confirm you read it first.	请先确认你已阅读。
+It stays while it is pinned.	置顶期间会保留。
+Equipped.	已装备。
+Message from the staff	管理团队的消息
+You were muted	你已被禁言
+You can't write to other players for {t} more.	你在 {t} 内不能给其他玩家发消息。
+The mute is over.	禁言已结束。
+You can chat again	你可以再次聊天了
+The staff lifted your mute.	管理团队解除了你的禁言。
+Your rating was adjusted	你的积分已被调整
+{delta} under the {rules}: now {rating}.	{rules}{delta}：现在为 {rating}。
+A game was annulled	一局比赛被判无效
+Your game against {name} no longer counts ({delta} rating).	你与 {name} 的比赛不再计入（积分 {delta}）。
+The staff ended a game	管理团队结束了一局比赛
+Your game against {name} was given to you.	与 {name} 的比赛判你获胜。
+Your game against {name} was given to your opponent.	与 {name} 的比赛判对手获胜。
+Your game against {name} ended without a result.	你与 {name} 的比赛无结果结束。
+Thank you for your report	感谢你的举报
+The staff took action about {name}.	管理团队已对 {name} 采取措施。
+{n} days of VIP	{n} 天 VIP
+A gift from the staff	管理团队的礼物
+You won an item	你获得了一件物品
+VIP item of the month	本月 VIP 物品
+Achievement unlocked	成就已解锁
+A tournament is about to start	一场锦标赛即将开始
+Tournament result	锦标赛结果
+{name}: place {place}, {prize} coins.	{name}：第 {place} 名，{prize} 金币。
+You were outbid	你的出价被超过了
+You won an auction	你赢得了一场拍卖
+Maintenance	维护
+The server stops in {t} for about {n} min.	服务器将在 {t} 后停止约 {n} 分钟。
+The server stops for about {n} min.	服务器将停止约 {n} 分钟。
+Notification	通知
+You are muted for {t} more.	你还要被禁言 {t}。
+You are muted for {t} more: {reason}	你还要被禁言 {t}：{reason}
+That word isn't allowed here: {word}	这里不允许使用这个词：{word}
+That can't be sent.	无法发送。
+New in your inbox: {title}	收件箱新消息：{title}
+{n} more	还有 {n} 条
+{name} mentioned you	{name} 提到了你
+Inbox ({n} unread)	收件箱（{n} 条未读）
+Unpin	取消置顶
+Pin at the top of the chat	置顶到聊天顶部
+Names and countries	名字和国家
+All	全部
+Staff	管理团队
+Punishments	处罚
+See the game	查看比赛
+Equip now	立即装备
+Open the collection	打开收藏
+Auctions	拍卖
+The staff ended your game without a result. Sign in again.	管理团队已无结果地结束了你的比赛。请重新登录。
 Current prize: {n} coins	当前奖金：{n} 金币
 Champion wins: {item}	冠军奖品：{item}
 {h} h {m} min	{h}小时{m}分

@@ -384,6 +384,11 @@ pub fn server_text(text: &str) -> String {
         let n = rest.split_whitespace().next().unwrap_or("?");
         return tw("You are muted for {n} more minutes.", &[("n", &n)]);
     }
+    // A name (or a text an older way refused) with a banned word.
+    if let Some(rest) = text.strip_prefix("That word isn't allowed here: ") {
+        let word = rest.trim_end_matches('.');
+        return tw("That word isn't allowed here: {word}", &[("word", &word)]);
+    }
     if let Some(rest) = text.strip_prefix("This account is banned for ") {
         let n = rest.split_whitespace().next().unwrap_or("?");
         let reason = rest.split("Reason: ").nth(1).unwrap_or("").trim_end_matches('.');

@@ -2086,6 +2086,70 @@ Every player has it	ผู้​เล่น​ทุก​คน​มี
 Drag to make the chat taller or shorter	ลาก​เพื่อ​ปรับ​ความ​สูง​ของ​แชท
 Hide the result to see the table and the chat	ซ่อน​ผล​เพื่อ​ดู​โต๊ะ​และ​แชท
 Show the result	แสดง​ผล
+{n} unread	ยังไม่อ่าน {n}
+Everything read	อ่านทั้งหมดแล้ว
+Mark all as read	ทำเครื่องหมายว่าอ่านทั้งหมด
+Inbox	กล่องข้อความ
+No notifications yet. What the staff and the game tell you comes here.	ยังไม่มีการแจ้งเตือน สิ่งที่ทีมงานและเกมแจ้งคุณจะมาที่นี่
+Nothing here.	ไม่มีอะไรที่นี่
+Pick a notification to read it.	เลือกการแจ้งเตือนเพื่ออ่าน
+Pinned	ปักหมุด
+From {name}	จาก {name}
+Pinned for {t} more	ปักหมุดอีก {t}
+I read it	อ่านแล้ว
+Delete	ลบ
+Confirm you read it first.	ยืนยันก่อนว่าคุณอ่านแล้ว
+It stays while it is pinned.	จะอยู่ตราบที่ยังปักหมุด
+Equipped.	สวมใส่แล้ว
+Message from the staff	ข้อความจากทีมงาน
+You were muted	คุณถูกปิดเสียง
+You can't write to other players for {t} more.	คุณเขียนถึงผู้เล่นอื่นไม่ได้อีก {t}
+The mute is over.	การปิดเสียงสิ้นสุดแล้ว
+You can chat again	คุณแชทได้อีกครั้ง
+The staff lifted your mute.	ทีมงานยกเลิกการปิดเสียงของคุณแล้ว
+Your rating was adjusted	เรตติ้งของคุณถูกปรับ
+{delta} under the {rules}: now {rating}.	{delta} ใน{rules}: ตอนนี้ {rating}
+A game was annulled	เกมหนึ่งถูกยกเลิก
+Your game against {name} no longer counts ({delta} rating).	เกมของคุณกับ {name} ไม่นับแล้ว (เรตติ้ง {delta})
+The staff ended a game	ทีมงานจบเกมหนึ่ง
+Your game against {name} was given to you.	เกมกับ {name} ถูกตัดสินให้คุณชนะ
+Your game against {name} was given to your opponent.	เกมกับ {name} ถูกตัดสินให้คู่แข่งชนะ
+Your game against {name} ended without a result.	เกมของคุณกับ {name} จบโดยไม่มีผล
+Thank you for your report	ขอบคุณสำหรับการรายงาน
+The staff took action about {name}.	ทีมงานดำเนินการเกี่ยวกับ {name} แล้ว
+{n} days of VIP	VIP {n} วัน
+A gift from the staff	ของขวัญจากทีมงาน
+You won an item	คุณได้รับไอเทม
+VIP item of the month	ไอเทม VIP ประจำเดือน
+Achievement unlocked	ปลดล็อกความสำเร็จ
+A tournament is about to start	ทัวร์นาเมนต์กำลังจะเริ่ม
+Tournament result	ผลการแข่งขัน
+{name}: place {place}, {prize} coins.	{name}: อันดับ {place}, {prize} เหรียญ
+You were outbid	มีคนประมูลสูงกว่าคุณ
+You won an auction	คุณชนะการประมูล
+Maintenance	ปิดปรับปรุง
+The server stops in {t} for about {n} min.	เซิร์ฟเวอร์จะหยุดใน {t} ประมาณ {n} นาที
+The server stops for about {n} min.	เซิร์ฟเวอร์จะหยุดประมาณ {n} นาที
+Notification	การแจ้งเตือน
+You are muted for {t} more.	คุณถูกปิดเสียงอีก {t}
+You are muted for {t} more: {reason}	คุณถูกปิดเสียงอีก {t}: {reason}
+That word isn't allowed here: {word}	ไม่อนุญาตให้ใช้คำนี้ที่นี่: {word}
+That can't be sent.	ส่งไม่ได้
+New in your inbox: {title}	ใหม่ในกล่องข้อความ: {title}
+{n} more	อีก {n}
+{name} mentioned you	{name} พูดถึงคุณ
+Inbox ({n} unread)	กล่องข้อความ (ยังไม่อ่าน {n})
+Unpin	เลิกปักหมุด
+Pin at the top of the chat	ปักหมุดไว้บนสุดของแชท
+Names and countries	ชื่อและประเทศ
+All	ทั้งหมด
+Staff	ทีมงาน
+Punishments	บทลงโทษ
+See the game	ดูเกม
+Equip now	สวมใส่เลย
+Open the collection	เปิดคอลเลกชัน
+Auctions	การประมูล
+The staff ended your game without a result. Sign in again.	ทีมงานจบเกมของคุณโดยไม่มีผล ลงชื่อเข้าใช้อีกครั้ง
 Current prize: {n} coins	รางวัลตอนนี้: {n} เหรียญ
 Champion wins: {item}	แชมป์ได้รับ: {item}
 {h} h {m} min	{h} ชม. {m} นาที

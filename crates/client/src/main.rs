@@ -37,6 +37,7 @@ mod hud;
 mod i18n;
 mod icon;
 mod icons;
+mod inbox;
 mod instance;
 mod intro;
 mod keys;
@@ -266,6 +267,8 @@ enum Screen {
     Ranking,
     Profile,
     Shop,
+    /// What the staff and the game told the player.
+    Inbox,
 }
 
 /// A LAN game: the server this computer hosts (if any) and the connection.
@@ -363,6 +366,7 @@ async fn main() {
     let mut ranking = Ranking::default();
     let mut profile = ProfileScreen::default();
     let mut shop = shop::ShopScreen::default();
+    let mut inbox = inbox::InboxScreen::default();
     // The shop item being tried on the 3D table, and since when.
     // An item of the shop looked at closely (see `showroom`).
     let mut showroom: Option<showroom::Showroom> = None;
@@ -1552,6 +1556,16 @@ async fn main() {
                                     }
                                 },
                                 MenuAction::Settings => settings_open = true,
+                                MenuAction::Inbox => {
+                                    back_to_lounge = false;
+                                    if online.signed_in() {
+                                        inbox.open(&mut online);
+                                        next = Some(Screen::Inbox);
+                                    } else {
+                                        online.connect();
+                                        next = Some(Screen::Online);
+                                    }
+                                }
                                 MenuAction::WhatsNew => {
                                     whats_new = Some(whatsnew::WhatsNew::all());
                                 }
@@ -1745,6 +1759,11 @@ async fn main() {
                                 back_to_lounge = true;
                                 next = Some(Screen::Shop);
                             }
+                            OnlineAction::Inbox => {
+                                inbox.open(&mut online);
+                                back_to_lounge = true;
+                                next = Some(Screen::Inbox);
+                            }
                             OnlineAction::None => {}
                         },
                         Screen::Lan => {
@@ -1848,6 +1867,47 @@ async fn main() {
                                 ));
                             }
                             shop::ShopAction::None => {}
+                        },
+                        Screen::Inbox => match inbox.draw(&mut ui, &mut online) {
+                            inbox::InboxAction::None => {}
+                            inbox::InboxAction::Back => {
+                                next = Some(if back_to_lounge && online.signed_in() {
+                                    Screen::Online
+                                } else {
+                                    Screen::Menu
+                                })
+                            }
+                            inbox::InboxAction::Profile(name) => {
+                                profile.open(&name, &mut online);
+                                next = Some(Screen::Profile);
+                            }
+                            inbox::InboxAction::Shop(code) => {
+                                shop.open(&mut online);
+                                if !code.is_empty() {
+                                    shop.show_item(&code);
+                                }
+                                next = Some(Screen::Shop);
+                            }
+                            inbox::InboxAction::Vip => {
+                                shop.open(&mut online);
+                                shop.show_tab("shop-vip");
+                                next = Some(Screen::Shop);
+                            }
+                            inbox::InboxAction::Tournaments => {
+                                online.connect();
+                                next = Some(Screen::Online);
+                            }
+                            // No screen of their own yet: the shop. Re-point
+                            // these when the collection and the auctions come.
+                            inbox::InboxAction::Collection(code) => {
+                                shop.open(&mut online);
+                                shop.show_item(&code);
+                                next = Some(Screen::Shop);
+                            }
+                            inbox::InboxAction::Auctions => {
+                                shop.open(&mut online);
+                                next = Some(Screen::Shop);
+                            }
                         },
                         Screen::Profile => match profile.draw(&mut ui, &mut online) {
                             ProfileAction::Back => {

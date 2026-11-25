@@ -2086,6 +2086,70 @@ Every player has it	لدى كل اللاعبين
 Drag to make the chat taller or shorter	اسحب لتكبير الدردشة أو تصغيرها
 Hide the result to see the table and the chat	أخفِ النتيجة لترى الطاولة والدردشة
 Show the result	اعرض النتيجة
+{n} unread	{n} غير مقروءة
+Everything read	كل شيء مقروء
+Mark all as read	تعليم الكل كمقروء
+Inbox	صندوق الوارد
+No notifications yet. What the staff and the game tell you comes here.	لا توجد إشعارات بعد. ما يخبرك به الفريق واللعبة يصل إلى هنا.
+Nothing here.	لا شيء هنا.
+Pick a notification to read it.	اختر إشعارًا لقراءته.
+Pinned	مثبّت
+From {name}	من {name}
+Pinned for {t} more	مثبّت لمدة {t} أخرى
+I read it	قرأته
+Delete	حذف
+Confirm you read it first.	أكّد أولًا أنك قرأته.
+It stays while it is pinned.	يبقى ما دام مثبّتًا.
+Equipped.	تم التجهيز.
+Message from the staff	رسالة من الفريق
+You were muted	تم كتمك
+You can't write to other players for {t} more.	لا يمكنك الكتابة للاعبين الآخرين لمدة {t} أخرى.
+The mute is over.	انتهى الكتم.
+You can chat again	يمكنك الدردشة مجددًا
+The staff lifted your mute.	رفع الفريق الكتم عنك.
+Your rating was adjusted	تم تعديل تقييمك
+{delta} under the {rules}: now {rating}.	{delta} في {rules}: الآن {rating}.
+A game was annulled	أُلغيت مباراة
+Your game against {name} no longer counts ({delta} rating).	مباراتك ضد {name} لم تعد تُحتسب ({delta} في التقييم).
+The staff ended a game	أنهى الفريق مباراة
+Your game against {name} was given to you.	مُنحت لك المباراة ضد {name}.
+Your game against {name} was given to your opponent.	مُنحت المباراة ضد {name} لخصمك.
+Your game against {name} ended without a result.	انتهت مباراتك ضد {name} بلا نتيجة.
+Thank you for your report	شكرًا على بلاغك
+The staff took action about {name}.	اتخذ الفريق إجراءً بشأن {name}.
+{n} days of VIP	{n} يومًا من VIP
+A gift from the staff	هدية من الفريق
+You won an item	ربحت عنصرًا
+VIP item of the month	عنصر VIP لهذا الشهر
+Achievement unlocked	إنجاز جديد
+A tournament is about to start	بطولة على وشك البدء
+Tournament result	نتيجة البطولة
+{name}: place {place}, {prize} coins.	{name}: المركز {place}، {prize} عملة.
+You were outbid	تم تجاوز مزايدتك
+You won an auction	ربحت مزادًا
+Maintenance	صيانة
+The server stops in {t} for about {n} min.	يتوقف الخادم بعد {t} لمدة {n} دقيقة تقريبًا.
+The server stops for about {n} min.	يتوقف الخادم لمدة {n} دقيقة تقريبًا.
+Notification	إشعار
+You are muted for {t} more.	أنت مكتوم لمدة {t} أخرى.
+You are muted for {t} more: {reason}	أنت مكتوم لمدة {t} أخرى: {reason}
+That word isn't allowed here: {word}	هذه الكلمة غير مسموح بها هنا: {word}
+That can't be sent.	لا يمكن إرسال هذا.
+New in your inbox: {title}	جديد في صندوق الوارد: {title}
+{n} more	{n} أخرى
+{name} mentioned you	أشار إليك {name}
+Inbox ({n} unread)	صندوق الوارد ({n} غير مقروءة)
+Unpin	إلغاء التثبيت
+Pin at the top of the chat	تثبيت أعلى الدردشة
+Names and countries	الأسماء والبلدان
+All	الكل
+Staff	الفريق
+Punishments	العقوبات
+See the game	شاهد المباراة
+Equip now	جهّزه الآن
+Open the collection	افتح المجموعة
+Auctions	المزادات
+The staff ended your game without a result. Sign in again.	أنهى الفريق مباراتك بلا نتيجة. سجّل الدخول مجددًا.
 Current prize: {n} coins	الجائزة الحالية: {n} عملة
 Champion wins: {item}	يفوز البطل بـ: {item}
 {h} h {m} min	{h} س {m} د

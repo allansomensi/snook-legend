@@ -9,6 +9,7 @@ use snook_legend_proto::replay::Replay;
 
 mod correspondence;
 mod match_social;
+mod moderation;
 mod msstore;
 mod ops;
 
@@ -443,9 +444,13 @@ impl PgStore {
         limit: u32,
     ) -> StoreResult<Vec<(i64, i32)>> {
         let rows = query(
-            "SELECT ended_at, CASE WHEN player0 = $1 THEN rating0 ELSE rating1 END AS rating
-             FROM matches WHERE rated AND rules = $3 AND (player0 = $1 OR player1 = $1)
-             ORDER BY ended_at DESC, id DESC LIMIT $2",
+            // With the ratings the staff put right (and the games called off).
+            "SELECT ended_at, rating FROM (
+                SELECT ended_at, id, CASE WHEN player0 = $1 THEN rating0 ELSE rating1 END AS rating
+                FROM matches WHERE rated AND rules = $3 AND (player0 = $1 OR player1 = $1)
+                UNION ALL
+                SELECT at, id, rating_after FROM rating_adjustments WHERE user_id = $1 AND rules = $3
+             ) h ORDER BY ended_at DESC, id DESC LIMIT $2",
         )
         .bind(user_id)
         .bind(limit as i64)

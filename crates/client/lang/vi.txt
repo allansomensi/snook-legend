@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} chỉ còn bi số 8: lỗ chỉ định {pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} chỉ còn bi số 8 (hướng ngắm chỉ định lỗ; bấm vào một lỗ để chỉ định lỗ khác)
 On the 8-ball: {pocket} pocket	Bi số 8: lỗ {pocket}
 Show ping	Hiện ping
 Your connection's delay, in online games.	Độ trễ kết nối của bạn trong các ván trực tuyến.

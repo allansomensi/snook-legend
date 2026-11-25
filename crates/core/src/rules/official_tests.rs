@@ -924,6 +924,39 @@ fn the_eight_wins_only_in_the_called_pocket() {
     assert!(over.is_some_and(|o| o.winner == 1), "{over:?}");
 }
 
+/// The 8's pocket is called by the player, as under the Brazilian rules:
+/// a shot at the 8 with no call is refused to a player (the game and the
+/// server ask for a pocket first); one at a ball of the group, or in a game
+/// without the 8's call, needs none. (The rules themselves still play a
+/// shot without a call, the way a game older than the call is replayed.)
+#[test]
+fn a_shot_at_the_eight_needs_a_call() {
+    let g = on_the_eight();
+    assert!(g.must_call_pocket() && g.may_call_pocket());
+    assert_eq!(g.check_eight_call(None), Err(ShotError::MustCallPocket));
+    assert_eq!(g.check_eight_call(Some(PocketId::SideLeft)), Ok(()));
+    let without = g.clone().with_eight_call(false);
+    assert!(!without.must_call_pocket() && !without.may_call_pocket());
+    assert_eq!(without.check_eight_call(None), Ok(()));
+    let all_called = g.clone().with_calls(true);
+    assert!(!all_called.must_call_pocket());
+    assert_eq!(all_called.check_eight_call(None), Ok(()));
+    let group = solids_to_shoot(&[
+        (0, DVec2::new(0.2, 0.1)),
+        (3, DVec2::new(0.6, 0.25)),
+        (12, DVec2::new(-0.3, 0.3)),
+        (8, DVec2::new(-0.7, 0.0)),
+    ])
+    .with_calls(false);
+    assert!(!group.must_call_pocket() && !group.may_call_pocket());
+    assert_eq!(group.check_eight_call(None), Ok(()));
+    // Each shot at the 8 is called afresh: nothing carries over.
+    let mut missed = g.clone();
+    let soft = Shot::new(pot(&g, 8, PocketId::FootLeft).yaw + 0.5, 0.6);
+    let report = missed.play_shot(&soft, Some(PocketId::FootLeft)).unwrap();
+    assert_eq!(missed.called_pocket_of(0), None, "{report:?}");
+}
+
 /// 4.4 with the 8 called: on an open table with a group off it, the
 /// shooter who plays the 8 calls it too.
 #[test]

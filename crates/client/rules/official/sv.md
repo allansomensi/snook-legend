@@ -38,7 +38,7 @@ Det är foul, och bollen stannar utanför (bara 8-bollen kommer tillbaka). Motst
 Så länge grupperna inte är bestämda är bordet öppet: du får träffa vilken boll som helst först utom 8-bollen. Gruppen för den första boll du sänker blir din. Är en grupp redan borta från bordet får du spela på 8-bollen.
 
 ### Att anmäla 8-bollen
-I turneringar anmäls varje stöt; här anmäls bara 8-bollen. En boll ur din grupp som sänks i vilket hål som helst, på en stöt utan foul, ger dig fortsatt tur, även via en vall eller en annan boll. När du spelar på 8-bollen anmäler du dess hål: efter ditt sikte anmäls det hål som 8-bollen är på väg mot, utan att det visas. För att anmäla ett annat (för en vallstöt, till exempel), klicka på det: det lyser upp. Klicka igen för att gå tillbaka till ditt sikte.
+I turneringar anmäls varje stöt; här anmäls bara 8-bollen. En boll ur din grupp som sänks i vilket hål som helst, på en stöt utan foul, ger dig fortsatt tur, även via en vall eller en annan boll. När du spelar på 8-bollen väljer du dess hål innan du stöter: klicka på hålet, så lyser det upp (klicka på ett annat för att byta). Du kan inte stöta förrän ett hål är anmält, och varje stöt på 8-bollen anmäls på nytt.
 
 ### Safety
 För att lämna bordet till motståndaren spelar du en stöt som inte sänker någon av dina bollar: turen går över, och det som gick ner stannar där. En boll ur din grupp som ändå går ner ger dig fortsatt tur.

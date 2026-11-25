@@ -38,7 +38,7 @@ Ez szabálytalanság, és a golyó kint marad (csak a 8-as kerül vissza). Az el
 Amíg a csoportok nem dőltek el, az asztal nyitott: a 8-as kivételével bármelyik golyót eltalálhatod először. Az első golyó csoportja lesz a tiéd, amelyet elraksz. Ha az egyik csoport már elfogyott az asztalról, a 8-asra mehetsz.
 
 ### A 8-as bemondása
-Versenyen minden lökést be kell mondani; itt csak a 8-ast. A csoportod egy golyója, amelyet bármelyik lyukba elraksz szabálytalanság nélkül, megtartja neked az asztalt, akkor is, ha falszélről vagy egy másik golyóról megy be. Amikor a 8-asra játszol, bemondod a lyukát: a célzásodat követve a játék azt a lyukat mondja be, amely felé a 8-as tart, de nem mutatja meg. Ha másikat mondanál be (például egy falszéles lökéshez), kattints rá: kigyullad. Kattints rá újra, hogy visszatérj a célzásodhoz.
+Versenyen minden lökést be kell mondani; itt csak a 8-ast. A csoportod egy golyója, amelyet bármelyik lyukba elraksz szabálytalanság nélkül, megtartja neked az asztalt, akkor is, ha falszélről vagy egy másik golyóról megy be. Amikor a 8-asra játszol, a lökés előtt válaszd ki a lyukát: kattints a lyukra, és kigyullad (egy másikra kattintva módosíthatod). Amíg nincs bemondott lyuk, nem lökhetsz, és a 8-asra tett minden lökésnél újra be kell mondani.
 
 ### Biztonsági lökés
 Ha át akarod adni az asztalt az ellenfelednek, játssz olyan lökést, amely egyik golyódat sem rakja el: a kör átszáll, és ami beesett, bent marad. Ha a csoportod egy golyója mégis beesik, az asztal a tiéd marad.

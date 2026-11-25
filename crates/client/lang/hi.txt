@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} 8 बॉल पर · कॉल किया गया पॉकेट: {pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} 8 बॉल पर (आपका निशाना पॉकेट कॉल करता है; कोई और पॉकेट कॉल करने के लिए उस पर क्लिक करें)
 On the 8-ball: {pocket} pocket	8 बॉल पर · पॉकेट: {pocket}
 Show ping	पिंग दिखाएँ
 Your connection's delay, in online games.	ऑनलाइन गेम में आपके कनेक्शन की देरी।

@@ -38,7 +38,7 @@ Je to faul a koule zůstává mimo stůl (vrací se jen osmička). Soupeř hraje
 Dokud nejsou skupiny určené, stůl je otevřený: jako první můžeš trefit kteroukoli kouli kromě osmičky. Skupina první koule, kterou potopíš, se stává tvou. Když už je jedna skupina celá mimo stůl, můžeš hrát na osmičku.
 
 ### Ohlášení osmičky
-Na turnajích se ohlašuje každý šťouch; tady se ohlašuje jen osmička. Koule tvé skupiny potopená do kterékoli díry bez faulu ti nechává stůl, i od mantinelu nebo od jiné koule. Když hraješ na osmičku, ohlašuješ její díru: podle míření se ohlásí díra, ke které osmička míří, aniž by se ukázala. Chceš-li ohlásit jinou (třeba pro šťouch od mantinelu), klikni na ni: rozsvítí se. Dalším kliknutím se vrátíš k míření.
+Na turnajích se ohlašuje každý šťouch; tady se ohlašuje jen osmička. Koule tvé skupiny potopená do kterékoli díry bez faulu ti nechává stůl, i od mantinelu nebo od jiné koule. Když hraješ na osmičku, vyber před šťouchem její díru: klikni na díru a rozsvítí se (kliknutím na jinou ji změníš). Bez ohlášené díry nemůžeš hrát a každý šťouch na osmičku se ohlašuje znovu.
 
 ### Safety
 Chceš-li nechat stůl soupeři, zahraj šťouch, který nepotopí žádnou tvou kouli: tah přechází a co spadlo, zůstane v díře. Koule tvé skupiny, která přesto spadne, ti stůl nechává.

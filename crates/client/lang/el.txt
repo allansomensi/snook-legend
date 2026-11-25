@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	Ο/Η {name} είναι στην 8: δηλωμένη τρύπα {pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	Ο/Η {name} είναι στην 8 (η σκόπευσή σου δηλώνει την τρύπα· κάνε κλικ σε μια τρύπα για να δηλώσεις άλλη)
 On the 8-ball: {pocket} pocket	Στη μπάλα 8: τρύπα {pocket}
 Show ping	Εμφάνιση ping
 Your connection's delay, in online games.	Η καθυστέρηση της σύνδεσής σου στα online παιχνίδια.

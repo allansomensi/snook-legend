@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} hraje na osmičku: ohlášená díra {pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} hraje na osmičku (míření ohlašuje díru; kliknutím na díru ohlásíš jinou)
 On the 8-ball: {pocket} pocket	Na osmičku: díra {pocket}
 Show ping	Zobrazit ping
 Your connection's delay, in online games.	Zpoždění tvého připojení v online hrách.

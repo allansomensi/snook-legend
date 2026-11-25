@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} 8 নম্বর বলে: ঘোষিত পকেট {pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} 8 নম্বর বলে (আপনার নিশানা পকেট ঘোষণা করে; অন্য পকেট ঘোষণা করতে একটি পকেটে ক্লিক করুন)
 On the 8-ball: {pocket} pocket	8 নম্বর বলে: পকেট {pocket}
 Show ping	পিং দেখান
 Your connection's delay, in online games.	অনলাইন গেমে আপনার সংযোগের বিলম্ব।

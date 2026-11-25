@@ -414,19 +414,16 @@ fn status_line(m: &Match) -> Option<String> {
                     &[("name", name)],
                 ));
             }
-            // The official rules: a shot at the 8 calls its pocket. The one
-            // the player clicked is named; the one their aim calls never
-            // is (it would say where the aim sends the 8).
+            // The official rules: each shot at the 8 calls its pocket, as
+            // the Brazilian rules' first one does: clicked by the player,
+            // then named.
             if m.game.calls_the_eight() {
-                return Some(match m.called_pocket.filter(|_| m.call_locked) {
+                return Some(match m.called_pocket {
                     Some(pocket) => tw(
                         "{name} is on the 8: called pocket {pocket}",
                         &[("name", name), ("pocket", &crate::i18n::pocket(pocket))],
                     ),
-                    None => tw(
-                        "{name} is on the 8 (your aim calls the pocket; click a pocket to call another)",
-                        &[("name", name)],
-                    ),
+                    None => tw("{name} is on the 8: click a pocket to call it", &[("name", name)]),
                 });
             }
             // A drill: which try, and how many worked.
@@ -2829,7 +2826,7 @@ fn turn_subtitle(m: &Match) -> String {
         return t("Break the rack").into();
     }
     // (The official rules call the 8 on each shot at it.)
-    if m.game.needs_called_pocket() || m.game.calls_the_eight() {
+    if m.game.must_call_pocket() {
         return match m.game.called_pocket_of(player) {
             Some(p) => tw("On the 8-ball: {pocket} pocket", &[("pocket", &crate::i18n::pocket(p))]),
             None => t("On the 8-ball: call a pocket").into(),
@@ -2959,7 +2956,7 @@ impl Hud {
         }
         let can_shoot = my_turn && !m.is_placing_cue_ball();
         if shoot_button(ui, shoot, can_shoot && m.aim.power > 0.02) {
-            if m.game.needs_called_pocket() && m.called_pocket.is_none() {
+            if m.game.must_call_pocket() && m.called_pocket.is_none() {
                 m.notify(t("Call a pocket for the 8-ball first: click a pocket."), true);
             } else if m.shoot() {
                 self.popover = None;

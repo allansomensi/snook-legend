@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} на вісімці: замовлена {pocket} луза
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} на вісімці (приціл замовляє лузу; клацніть лузу, щоб замовити іншу)
 On the 8-ball: {pocket} pocket	На вісімці: {pocket} луза
 Show ping	Показувати пінг
 Your connection's delay, in online games.	Затримка вашого з’єднання в онлайн-партіях.

@@ -38,7 +38,7 @@ Es ist ein Foul, und die Kugel bleibt draußen (nur die 8 kommt zurück). Dein G
 Solange die Gruppen nicht feststehen, ist der Tisch offen: Du darfst jede Kugel zuerst treffen, außer der 8. Die Gruppe der ersten Kugel, die du versenkst, wird deine. Ist eine Gruppe schon ganz vom Tisch, darfst du auf die 8 spielen.
 
 ### Die 8 ansagen
-Im Turnier wird jeder Stoß angesagt; hier wird nur die 8 angesagt. Eine Kugel deiner Gruppe, die bei einem Stoß ohne Foul in irgendeiner Tasche fällt, hält dich am Tisch, auch über eine Bande oder eine andere Kugel. Spielst du auf die 8, sagst du ihre Tasche an: Sie folgt deinem Zielen und sagt die Tasche an, auf die die 8 zuläuft, ohne sie zu zeigen. Um eine andere anzusagen (etwa für einen Bandenstoß), klick sie an: Sie leuchtet auf. Ein weiterer Klick geht zurück zu deinem Zielen.
+Im Turnier wird jeder Stoß angesagt; hier wird nur die 8 angesagt. Eine Kugel deiner Gruppe, die bei einem Stoß ohne Foul in irgendeiner Tasche fällt, hält dich am Tisch, auch über eine Bande oder eine andere Kugel. Spielst du auf die 8, wähle vor dem Stoß ihre Tasche: Klick die Tasche an, sie leuchtet auf (ein Klick auf eine andere ändert die Ansage). Ohne angesagte Tasche kannst du nicht stoßen, und jeder Stoß auf die 8 wird neu angesagt.
 
 ### Safety
 Um dem Gegner den Tisch zu überlassen, spiel einen Stoß, der keine deiner Kugeln versenkt: Der Gegner ist am Zug, und was gefallen ist, bleibt drin. Fällt trotzdem eine Kugel deiner Gruppe, bleibst du am Tisch.

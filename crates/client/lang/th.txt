@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} เหลือ​ลูก 8: ขาน​หลุม{pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} เหลือ​ลูก 8 (แนว​เล็ง​ของ​คุณ​ขาน​หลุม คลิก​หลุม​เพื่อ​ขาน​หลุม​อื่น)
 On the 8-ball: {pocket} pocket	เหลือ​ลูก 8: หลุม{pocket}
 Show ping	แสดงปิง
 Your connection's delay, in online games.	ความหน่วง​ของ​การ​เชื่อมต่อ​ใน​เกม​ออนไลน์

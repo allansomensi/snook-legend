@@ -38,7 +38,7 @@ E fault, iar bila rămâne afară (doar bila 8 revine). Adversarul joacă masa a
 Cât timp grupele nu sunt stabilite, masa e deschisă: poți lovi primul orice bilă în afară de 8. Grupa primei bile pe care o bagi devine a ta. Dacă o grupă a ieșit deja în întregime de pe masă, poți juca bila 8.
 
 ### Anunțarea bilei 8
-La turnee se anunță fiecare lovitură; aici se anunță doar bila 8. O bilă din grupa ta băgată în orice buzunar, la o lovitură fără fault, îți păstrează masa, chiar și din manta sau prin altă bilă. Când joci la bila 8, îi anunți buzunarul: urmându-ți țintirea, jocul anunță buzunarul spre care se îndreaptă bila 8, fără să-l arate. Ca să anunți altul (pentru o lovitură din manta, de exemplu), dă clic pe el: se aprinde. Dă clic din nou ca să revii la țintirea ta.
+La turnee se anunță fiecare lovitură; aici se anunță doar bila 8. O bilă din grupa ta băgată în orice buzunar, la o lovitură fără fault, îți păstrează masa, chiar și din manta sau prin altă bilă. Când joci la bila 8, alege-i buzunarul înainte de lovitură: dă clic pe buzunar și se aprinde (dă clic pe altul ca să-l schimbi). Nu poți lovi până nu anunți un buzunar, iar fiecare lovitură la bila 8 se anunță din nou.
 
 ### Lovitura de siguranță
 Ca să-i lași masa adversarului, joacă o lovitură care nu bagă nicio bilă de-a ta: rândul trece, iar ce a intrat rămâne în buzunar. O bilă din grupa ta care intră totuși îți păstrează masa.

@@ -38,7 +38,7 @@ Bu bir fauldür ve top dışarıda kalır (yalnızca 8 geri konur). Rakibin masa
 Gruplar belli olmadıkça masa açıktır: 8 dışında istediğin topa önce vurabilirsin. Soktuğun ilk topun grubu senin olur. Bir grup masadan tamamen çıkmışsa 8'i oynayabilirsin.
 
 ### 8'in cebini söylemek
-Turnuvalarda her vuruşta cep söylenir; burada yalnızca 8'in cebi söylenir. Faulsüz bir vuruşta herhangi bir cebe giren kendi grubundan bir top sırayı sende tutar; banttan ya da başka bir topa çarparak girse de. 8'e vururken onun cebini söylersin: nişanını takip ederek oyun, 8'in gittiği cebi göstermeden söyler. Başka bir cebi söylemek için (örneğin bant vuruşunda) ona tıkla: yanar. Nişanına dönmek için yeniden tıkla.
+Turnuvalarda her vuruşta cep söylenir; burada yalnızca 8'in cebi söylenir. Faulsüz bir vuruşta herhangi bir cebe giren kendi grubundan bir top sırayı sende tutar; banttan ya da başka bir topa çarparak girse de. 8'e vururken, vuruştan önce onun cebini seç: cebe tıkla, yanar (değiştirmek için başka bir cebe tıkla). Cep söylenmeden vuramazsın ve 8'e yapılan her vuruşta cep yeniden söylenir.
 
 ### Savunma
 Masayı rakibine bırakmak için toplarından hiçbirini sokmayan bir vuruş yap: sıra geçer ve giren içeride kalır. Yine de giren kendi grubundan bir top sırayı sende tutar.

@@ -2827,6 +2827,12 @@ impl Lounge {
         eight_anywhere: bool,
     ) -> Result<(), String> {
         let room = self.rooms.get_mut(&id).ok_or("No such game.")?;
+        // A shot at the 8 names its pocket, under the official rules as
+        // under the Brazilian ones (refused before anything moves); but for
+        // a game that can't (see `eight_anywhere`).
+        if !eight_anywhere {
+            room.game.check_eight_call(called).map_err(|e| format!("Can't shoot: {e}."))?;
+        }
         if let Some(p) = cue_ball
             && room.game.ball_in_hand().is_some()
             && room.game.ball(BallId::CUE).xy() != p

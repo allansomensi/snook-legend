@@ -596,6 +596,11 @@ async fn shoot(
             return Err("The cue ball can't be placed there.".to_string());
         }
         let placed = game.ball_in_hand().map(|_| game.ball(BallId::CUE).xy());
+        // A shot at the 8 names its pocket (but for a game older than the
+        // 8's call, see below).
+        if !eight_anywhere {
+            game.check_eight_call(called).map_err(|e| format!("Can't shoot: {e}."))?;
+        }
         let mut pending =
             game.prepare_shot(&shot, called).map_err(|e| format!("Can't shoot: {e}."))?;
         pending.simulation.run_to_rest();

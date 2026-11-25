@@ -38,7 +38,7 @@ C'est une faute, et la bille reste hors de la table (seule la 8 revient). Votre 
 Tant que les groupes ne sont pas décidés, la table est ouverte : vous pouvez toucher n'importe quelle bille en premier, sauf la 8. Le groupe de la première bille que vous empochez devient le vôtre. Si un groupe a déjà quitté la table, vous pouvez jouer la 8.
 
 ### Annoncer la 8
-En tournoi, chaque coup est annoncé ; ici, seule la 8 s'annonce. Une bille de votre groupe empochée dans n'importe quelle poche, sur un coup sans faute, vous garde la main, même après une bande ou une autre bille. Quand vous jouez la 8, vous annoncez sa poche : en suivant votre visée, le jeu annonce la poche vers laquelle va la 8, sans la montrer. Pour en annoncer une autre (pour un coup par la bande, par exemple), cliquez dessus : elle s'allume. Cliquez à nouveau pour revenir à votre visée.
+En tournoi, chaque coup est annoncé ; ici, seule la 8 s'annonce. Une bille de votre groupe empochée dans n'importe quelle poche, sur un coup sans faute, vous garde la main, même après une bande ou une autre bille. Quand vous jouez la 8, choisissez sa poche avant de jouer : cliquez sur la poche, elle s'allume (cliquez sur une autre pour changer). Vous ne pouvez pas jouer sans annoncer la poche, et chaque coup sur la 8 s'annonce à nouveau.
 
 ### Sécurité
 Pour laisser la table à votre adversaire, jouez un coup qui n'empoche aucune de vos billes : le tour passe, et ce qui est tombé reste empoché. Une bille de votre groupe qui tombe quand même vous garde la main.

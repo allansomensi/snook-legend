@@ -38,7 +38,7 @@ Một bi vào lỗ trong cú phá hợp lệ giúp bạn giữ lượt, nhưng b
 Khi các nhóm chưa được xác định, bàn đang mở: bạn có thể chạm trước bất kỳ bi nào trừ bi số 8. Nhóm của bi đầu tiên bạn đưa vào lỗ sẽ là nhóm của bạn. Nếu một nhóm đã hết trên bàn, bạn có thể đánh bi số 8.
 
 ### Chỉ định bi số 8
-Ở giải đấu, mọi cú đánh đều phải chỉ định; ở đây chỉ bi số 8 phải chỉ định. Một bi trong nhóm của bạn vào bất kỳ lỗ nào, trong cú đánh không phạm lỗi, giữ lượt cho bạn, kể cả khi vào qua băng hay qua bi khác. Khi đánh bi số 8, bạn chỉ định lỗ của nó: theo hướng ngắm của bạn, game chỉ định lỗ mà bi số 8 đang hướng tới, mà không hiển thị. Để chỉ định lỗ khác (cho một cú đánh băng chẳng hạn), hãy bấm vào lỗ đó: lỗ sẽ sáng lên. Bấm lại để quay về hướng ngắm của bạn.
+Ở giải đấu, mọi cú đánh đều phải chỉ định; ở đây chỉ bi số 8 phải chỉ định. Một bi trong nhóm của bạn vào bất kỳ lỗ nào, trong cú đánh không phạm lỗi, giữ lượt cho bạn, kể cả khi vào qua băng hay qua bi khác. Khi đánh bi số 8, hãy chọn lỗ của nó trước khi đánh: bấm vào lỗ, lỗ sẽ sáng lên (bấm vào lỗ khác để đổi). Bạn không thể đánh khi chưa chỉ định lỗ, và mỗi cú đánh bi số 8 đều phải chỉ định lại.
 
 ### Đánh an toàn
 Để nhường bàn cho đối thủ, hãy đánh một cú không đưa bi nào của bạn vào lỗ: lượt chuyển đi, và bi đã vào thì ở lại trong lỗ. Nếu vẫn có bi trong nhóm của bạn vào lỗ, bạn giữ lượt.

@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} speelt op de 8, aangegeven: {pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} speelt op de 8 (je richting geeft de pocket aan; klik op een pocket om een andere aan te geven)
 On the 8-ball: {pocket} pocket	Op de 8-bal: {pocket}
 Show ping	Ping tonen
 Your connection's delay, in online games.	De vertraging van je verbinding in online partijen.

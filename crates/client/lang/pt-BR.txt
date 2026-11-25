@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} está na bola 8: caçapa cantada {pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} está na bola 8 (a sua mira canta a caçapa; clique numa caçapa para cantar outra)
 On the 8-ball: {pocket} pocket	Na bola 8: caçapa {pocket}
 Show ping	Mostrar ping
 Your connection's delay, in online games.	O atraso da sua conexão nas partidas online.

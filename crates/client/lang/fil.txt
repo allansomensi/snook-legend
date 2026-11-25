@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	Nasa 8 na si {name}: naka-call ang {pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	Nasa 8 na si {name} (kino-call ng asinta mo ang pocket; mag-click ng pocket para mag-call ng iba)
 On the 8-ball: {pocket} pocket	Sa 8-ball: {pocket}
 Show ping	Ipakita ang ping
 Your connection's delay, in online games.	Ang delay ng koneksiyon mo sa mga online na laro.

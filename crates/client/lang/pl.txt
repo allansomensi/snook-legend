@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} gra na ósemkę – zadeklarowana łuza: {pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} gra na ósemkę (celowanie deklaruje łuzę; kliknij łuzę, aby zadeklarować inną)
 On the 8-ball: {pocket} pocket	Na ósemkę: łuza {pocket}
 Show ping	Pokaż ping
 Your connection's delay, in online games.	Opóźnienie twojego połączenia w partiach online.

@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name}打8号球：指定{pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name}打8号球（瞄准即指定球袋；点击球袋可改为指定其他球袋）
 On the 8-ball: {pocket} pocket	打8号球：{pocket}
 Show ping	显示延迟
 Your connection's delay, in online games.	在线对局中你的网络延迟。

@@ -38,7 +38,7 @@ Imbucare la 8 alla spaccata non fa né vincere né perdere: torna sul punto di f
 Finché i gruppi non sono decisi, il tavolo è aperto: puoi colpire per prima qualsiasi palla tranne la 8. Il gruppo della prima palla che imbuchi diventa il tuo. Se un gruppo è già tutto fuori dal tavolo, puoi giocare la 8.
 
 ### Chiamare la 8
-Nei tornei ogni tiro va chiamato; qui si chiama solo la 8. Una palla del tuo gruppo imbucata in qualsiasi buca, con un tiro senza fallo, ti fa continuare a tirare, anche dopo una sponda o un'altra palla. Quando tiri sulla 8, ne chiami la buca: seguendo la tua mira, il gioco chiama la buca verso cui va la 8, senza mostrarla. Per chiamarne un'altra (per un tiro di sponda, per esempio), cliccala: si illumina. Cliccala di nuovo per tornare alla tua mira.
+Nei tornei ogni tiro va chiamato; qui si chiama solo la 8. Una palla del tuo gruppo imbucata in qualsiasi buca, con un tiro senza fallo, ti fa continuare a tirare, anche dopo una sponda o un'altra palla. Quando tiri sulla 8, scegli la sua buca prima di tirare: clicca la buca e si illumina (clicca un'altra per cambiarla). Non puoi tirare senza chiamare la buca, e ogni tiro sulla 8 si chiama di nuovo.
 
 ### Difesa
 Per lasciare il tavolo all'avversario, gioca un tiro che non imbuchi nessuna delle tue palle: il turno passa, e ciò che è entrato resta in buca. Una palla del tuo gruppo che entra comunque ti fa continuare a tirare.

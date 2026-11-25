@@ -38,7 +38,7 @@ Meter a 8 na abertura não ganha nem perde: ela volta ao ponto de pé, e continu
 Enquanto os grupos não estão decididos, a mesa está aberta: podes tocar primeiro em qualquer bola, menos na 8. O grupo da primeira bola que meteres passa a ser o teu. Se um dos grupos já saiu todo da mesa, podes jogar a 8.
 
 ### Cantar a 8
-Nos torneios todas as jogadas são cantadas; aqui só a 8 se canta. Uma bola do teu grupo que entre em qualquer buraco, numa jogada sem falta, mantém a vez, também de tabela ou por intermédio de outra bola. Quando jogas na 8, cantas o buraco dela: seguindo a tua mira, o jogo canta o buraco para onde vai a 8, sem o mostrar. Para cantar outro (numa tabela, por exemplo), clica nele: fica aceso. Clica outra vez para voltar à tua mira.
+Nos torneios todas as jogadas são cantadas; aqui só a 8 se canta. Uma bola do teu grupo que entre em qualquer buraco, numa jogada sem falta, mantém a vez, também de tabela ou por intermédio de outra bola. Quando jogas na 8, escolhe o buraco dela antes de jogar: clica no buraco, e ele fica aceso (clica noutro para mudar). Não podes jogar sem cantar o buraco, e cada jogada na 8 é cantada de novo.
 
 ### Defesa
 Para deixares a mesa ao adversário, joga uma jogada que não meta nenhuma bola tua: a vez passa, e o que entrou fica dentro. Uma bola do teu grupo que entre mesmo assim mantém a vez.

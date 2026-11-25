@@ -38,7 +38,7 @@ To faul, a bila zostaje poza stołem (wraca tylko ósemka). Przeciwnik gra ze st
 Dopóki grupy nie są ustalone, stół jest otwarty: możesz najpierw trafić dowolną bilę oprócz ósemki. Grupa pierwszej wbitej przez ciebie bili staje się twoją. Jeśli jedna grupa zniknęła już ze stołu, możesz grać ósemką.
 
 ### Deklarowanie ósemki
-W turniejach deklaruje się każde uderzenie; tutaj deklaruje się tylko ósemkę. Bila z twojej grupy wbita do dowolnej łuzy uderzeniem bez faulu daje dalszą grę, także od bandy lub od innej bili. Gdy grasz na ósemkę, deklarujesz jej łuzę: zgodnie z twoim celowaniem gra deklaruje łuzę, do której zmierza ósemka, nie pokazując jej. Aby zadeklarować inną (na przykład przy uderzeniu od bandy), kliknij ją: podświetli się. Kliknij ją jeszcze raz, aby wrócić do celowania.
+W turniejach deklaruje się każde uderzenie; tutaj deklaruje się tylko ósemkę. Bila z twojej grupy wbita do dowolnej łuzy uderzeniem bez faulu daje dalszą grę, także od bandy lub od innej bili. Gdy grasz na ósemkę, przed uderzeniem wybierz jej łuzę: kliknij łuzę, a podświetli się (kliknij inną, aby ją zmienić). Nie możesz uderzyć, dopóki łuza nie jest zadeklarowana, a każde uderzenie na ósemkę deklaruje się od nowa.
 
 ### Odstawna
 Aby oddać stół przeciwnikowi, zagraj uderzenie, które nie wbije żadnej twojej bili: kolejka przechodzi, a to, co wpadło, zostaje w łuzach. Bila z twojej grupy, która mimo to wpadnie, daje dalszą grę.

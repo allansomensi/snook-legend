@@ -412,8 +412,9 @@ pub enum ShotError {
     GameIsOver,
     /// The cue ball is in hand and its current position is not allowed.
     IllegalCueBallPosition,
-    /// The Brazilian rules: the shooter is on the eight and must nominate a
-    /// pocket.
+    /// The shooter is on the eight and must nominate a pocket: the
+    /// Brazilian rules, and the official rules since 0.12.0 (see
+    /// [`EightBallGame::check_eight_call`]).
     MustCallPocket,
     /// The official rules: a player has to decide how play goes on after
     /// the break first (see [`EightBallGame::choose`]).
@@ -858,10 +859,31 @@ impl EightBallGame {
         self.called[player % 2]
     }
 
-    /// The Brazilian rules: the current player is on the 8 but hasn't
-    /// called a pocket yet.
+    /// The current player calls the 8's pocket now, by clicking it: under
+    /// the Brazilian rules on the 8 before the call is binding, under the
+    /// official rules (since 0.12.0) on each shot at the 8.
     pub fn may_call_pocket(&self) -> bool {
-        self.needs_called_pocket() && self.called[self.current].is_none()
+        (self.needs_called_pocket() && self.called[self.current].is_none())
+            || self.calls_the_eight()
+    }
+
+    /// This shot must name the 8's pocket (under either rules): there is no
+    /// shooting until a pocket is called (see [`Self::check_eight_call`]).
+    pub fn must_call_pocket(&self) -> bool {
+        self.needs_called_pocket() || self.calls_the_eight()
+    }
+
+    /// The official rules since 0.12.0: a shot at the 8 with no pocket
+    /// called is refused ([`ShotError::MustCallPocket`]), as the Brazilian
+    /// rules refuse one ([`Self::prepare_shot`]). Checked where a player
+    /// shoots (the game, the server), not by [`Self::prepare_shot`]: a game
+    /// that can't call the 8 (one older than 0.12.0, against a newer
+    /// server) plays it without a call, and replays so.
+    pub fn check_eight_call(&self, called_pocket: Option<PocketId>) -> Result<(), ShotError> {
+        if self.game_over.is_none() && self.calls_the_eight() && called_pocket.is_none() {
+            return Err(ShotError::MustCallPocket);
+        }
+        Ok(())
     }
 
     /// The Brazilian rules: the shooter must call a pocket for this shot

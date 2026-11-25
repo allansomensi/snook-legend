@@ -216,6 +216,29 @@ async fn play_out_with(
             decision.called_pocket = None;
         }
         let turn = game.shots_taken();
+        // The official rules (a game that can call the 8): a shot at the 8
+        // without its pocket called is refused, as under the Brazilian
+        // rules; the shooter is asked for a pocket.
+        if game.calls_the_eight() && !(a_calls_nothing && shooter_is_a) {
+            let bare = ClientMsg::Shoot {
+                turn,
+                shot: decision.shot,
+                called_pocket: None,
+                cue_ball: decision.cue_ball,
+            };
+            let shooter = if shooter_is_a { &mut *a } else { &mut *b };
+            shooter.send(bare).await;
+            let refused = shooter
+                .expect("shot refused", |m| {
+                    matches!(m, ServerMsg::ShotRejected { .. } | ServerMsg::ShotTaken { .. })
+                })
+                .await;
+            assert!(
+                matches!(&refused, ServerMsg::ShotRejected { reason, game: g, .. }
+                    if reason.contains("call a pocket") && *g == game),
+                "a shot at the 8 without a call: {refused:?}"
+            );
+        }
         let msg = ClientMsg::Shoot {
             turn,
             shot: decision.shot,

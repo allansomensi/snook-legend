@@ -2,7 +2,6 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} e la bila 8: a anunțat {pocket}
-{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} e la bila 8 (țintirea anunță buzunarul; dă clic pe un buzunar ca să anunți altul)
 On the 8-ball: {pocket} pocket	La bila 8: {pocket}
 Show ping	Afișează pingul
 Your connection's delay, in online games.	Întârzierea conexiunii tale în partidele online.

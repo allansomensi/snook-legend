@@ -450,7 +450,7 @@ pub fn decide_with(game: &EightBallGame, player: &AiPlayer, seed: u64) -> AiDeci
     let options = pot_options(&g, me, &prof);
     let options = weigh(&g, options, me, &prof, &mut rng);
     if options.is_empty() {
-        let called = g.needs_called_pocket().then_some(PocketId::FootLeft);
+        let called = g.must_call_pocket().then_some(PocketId::FootLeft);
         return AiDecision { cue_ball, shot: Shot::new(0.0, 2.0), called_pocket: called };
     }
 
@@ -856,14 +856,14 @@ fn bank_candidates(g: &EightBallGame) -> Vec<Candidate> {
 /// Shots meant to hit a legal ball and leave the opponent in trouble.
 fn safety_options(g: &EightBallGame, me: usize, prof: &Profile) -> Vec<Scored> {
     let binding = g.called_pocket_of(g.current_player());
-    let called = g
-        .needs_called_pocket()
-        .then(|| binding.unwrap_or_else(|| nearest_pocket(g, BallId::EIGHT)));
+    let called =
+        g.must_call_pocket().then(|| binding.unwrap_or_else(|| nearest_pocket(g, BallId::EIGHT)));
     // A safety on the 8 with no pocket called yet makes the call binding
     // for the rest of the game (the Brazilian rules): it is chosen for each
     // stroke by where the 8 comes to rest. Under the official rules a
-    // safety calls nothing.
-    let choose_call = called.is_some() && binding.is_none();
+    // safety on the 8 calls it too (there is no shot at it without a call),
+    // for this shot only: the pocket nearest it.
+    let choose_call = called.is_some() && binding.is_none() && g.needs_called_pocket();
     let r = g.table().spec.ball_radius;
     let cue = g.ball(BallId::CUE).xy();
     let mut out = Vec::new();
@@ -1027,6 +1027,8 @@ mod tests {
             if let Some(p) = d.cue_ball {
                 assert!(g.place_cue_ball(p));
             }
+            // (A shot at the 8 without a call is refused to a player.)
+            g.check_eight_call(d.called_pocket).expect("the computer calls the 8");
             g.play_shot(&d.shot, d.called_pocket).expect("AI must produce legal shots");
         }
         (g.game_over().map(|o| o.winner), g.shots_taken())
@@ -1386,7 +1388,8 @@ mod tests {
 
     /// Under the official rules the computer calls the 8 (the pocket it
     /// plays it into; in a game recorded with calls, every pot), calls
-    /// nothing on a safety, answers the break's choices, places the cue
+    /// nothing on a safety but on the 8 (a shot at it is always called),
+    /// answers the break's choices, places the cue
     /// ball in hand anywhere, and finishes games.
     #[test]
     fn the_computer_plays_the_official_rules() {
@@ -1431,6 +1434,19 @@ mod tests {
         if let Some((_, p)) = report.pocketed.iter().find(|(b, _)| *b == BallId::EIGHT) {
             assert_eq!(*p, called, "{report:?}");
             assert_eq!(report.game_over.map(|o| o.winner), Some(0), "{report:?}");
+        }
+        // Whatever it plays on the 8 (a safety too, the 8 behind a ball of
+        // the opponent's), it calls a pocket first.
+        let hidden = position(
+            Rules::Official,
+            &[(0, DVec2::new(0.2, 0.0)), (11, DVec2::new(0.4, 0.0)), (8, DVec2::new(0.6, 0.0))],
+        );
+        for seed in 0..6 {
+            for level in [Difficulty::Easy, Difficulty::Hard] {
+                let d = decide_with(&hidden, &level.player(), seed);
+                assert!(d.called_pocket.is_some(), "seed {seed}: {d:?}");
+                assert_eq!(hidden.check_eight_call(d.called_pocket), Ok(()));
+            }
         }
         // The cue ball in hand anywhere goes where a ball of its group is on.
         let in_hand = edited(&g, |v| v["ball_in_hand"] = "Anywhere".into());

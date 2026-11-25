@@ -2086,3 +2086,189 @@ Every player has it	সব খেলোয়াড়ের কাছে আছ
 Drag to make the chat taller or shorter	চ্যাট লম্বা বা ছোট করতে টানুন
 Hide the result to see the table and the chat	টেবিল আর চ্যাট দেখতে ফলাফল লুকান
 Show the result	ফলাফল দেখুন
+A secret achievement: play to find it.	একটি গোপন অর্জন: খেলে খুঁজে বের করুন।
+Only won	শুধু জিতে পাওয়া যায়
+Collection	সংগ্রহ
+Everything you have, and how you got it	আপনার যা কিছু আছে, আর কীভাবে পেয়েছেন
+A secret achievement	একটি গোপন অর্জন
+Not yet yours	এখনও আপনার নয়
+Rarest first	সবচেয়ে বিরল আগে
+Newest first	সবচেয়ে নতুন আগে
+By name	নাম অনুযায়ী
+Reaction	রিঅ্যাকশন
+Bought for {n} coins	{n} কয়েনে কেনা
+Bought in the shop	শপ থেকে কেনা
+Gift from {name}	{name}-এর উপহার
+A present from the staff	টিমের পক্ষ থেকে উপহার
+From the staff: {reason}	টিমের পক্ষ থেকে: {reason}
+Champion of {name}	{name}-এর চ্যাম্পিয়ন
+Runner-up of {name}	{name}-এর রানার-আপ
+Place {n} in {name}	{name}-এ {n}তম স্থান
+Achievement: {title}	অর্জন: {title}
+Won at auction for {n} coins	নিলামে {n} কয়েনে জেতা
+VIP's item of the month · {month}	মাসের VIP আইটেম · {month}
+Prize of {name}	{name}-এর পুরস্কার
+Yours	আপনার
+VIP's item of the month: VIP members get it that month	মাসের VIP আইটেম: VIP সদস্যরা সেই মাসে পান
+Only the season's champion wins it	শুধু সিজনের চ্যাম্পিয়ন এটি জেতেন
+Won in the official tournaments	অফিশিয়াল টুর্নামেন্টে জেতা যায়
+Only won: events, cups and seasons	শুধু জিতে পাওয়া যায়: ইভেন্ট, কাপ আর সিজন
+In the welcome pack	ওয়েলকাম প্যাকে
+Yours while you are VIP	আপনি VIP থাকা পর্যন্ত আপনার
+Legendary cue	কিংবদন্তি কিউ
+Epic cue	মহাকাব্যিক কিউ
+{n} of {total} items	{total}টির মধ্যে {n}টি আইটেম
+Sign in to see your collection.	আপনার সংগ্রহ দেখতে সাইন ইন করুন।
+All	সব
+Missing too	যেগুলো নেই সেগুলোও
+Nothing of this rarity here.	এখানে এই বিরলতার কিছু নেই।
+None yet: they are waiting to be won.	এখনও নেই: জেতার অপেক্ষায় আছে।
+Page {a} of {b}	পৃষ্ঠা {a} / {b}
+In the shop	শপে
+Everything you have	আপনার যা কিছু আছে
+Show reactions	রিঅ্যাকশন দেখান
+Off: no reactions are shown during matches, from anyone.	বন্ধ: ম্যাচ চলাকালীন কারও রিঅ্যাকশন দেখানো হয় না।
+The colour of your aim line and ghost ball.	আপনার নিশানা রেখা আর ঘোস্ট বলের রং।
+For VIP members: the colour of the aim line and the ghost ball.	VIP সদস্যদের জন্য: নিশানা রেখা আর ঘোস্ট বলের রং।
+Aim colour	নিশানার রং
+Polished stone, veined right through	পালিশ করা পাথর, এপার-ওপার শিরা
+A night sky in every ball, under a clear coat	প্রতিটি বলে রাতের আকাশ, বার্নিশের নিচে
+Lit from within, like neon	ভেতর থেকে আলোকিত, নিয়নের মতো
+Cut glass: deep colour and a dazzling shine	কাটা কাচ: গভীর রং আর চোখধাঁধানো দীপ্তি
+White Carrara marble, gold castings and fluted columns	সাদা কারারা মার্বেল, সোনালি ফিটিং আর খাঁজকাটা স্তম্ভ
+Black gloss on slab legs, with a neon glow beneath	প্লেটের পায়ায় চকচকে কালো, নিচে নিয়নের আভা
+Woven carbon rails, red trim and a light strip	বোনা কার্বনের রেল, লাল কারুকাজ আর আলোর ফিতে
+Dark walnut and polished copper on a riveted steel frame	রিভেট করা স্টিলের ফ্রেমে গাঢ় আখরোট আর পালিশ করা তামা
+Frosted lacquer and silver, with a cold light beneath	তুষারাভ বার্নিশ আর রুপো, নিচে ঠান্ডা আলো
+Black volcanic stone, cracked with molten orange	কালো আগ্নেয় পাথর, জ্বলন্ত কমলায় ফাটা
+Rough pine on square posts, with iron castings	চৌকো পায়ায় অমসৃণ পাইন, লোহার ফিটিং সহ
+Black lacquer and gold: the season champion's table	কালো বার্নিশ আর সোনা: সিজনের চ্যাম্পিয়নের টেবিল
+The table alone under the spotlight, dark stands and TV lights	স্পটলাইটের নিচে একা টেবিল, অন্ধকার গ্যালারি আর টিভির আলো
+Crimson velvet	রক্তিম মখমল
+Eclipse	গ্রহণ
+Arena blue	অ্যারেনা নীল
+Millennium gold	সহস্রাব্দের সোনা
+Holly	হলি
+Winter frost	শীতের তুষার
+Rainforest	রেইনফরেস্ট
+Bonfire	আগুনের কুণ্ড
+Spring meadow	বসন্তের মাঠ
+Gold filigree	সোনালি ফিলিগ্রি
+Thunderbolt	বজ্র
+Damascus steel	দামেস্ক স্টিল
+Glacier	হিমবাহ
+Abalone	অ্যাবালোন
+Volcano	আগ্নেয়গিরি
+Aurora	মেরুজ্যোতি
+Emperor	সম্রাট
+Untouchable	অস্পৃশ্য
+Midas	মিডাস
+Empire	সাম্রাজ্য
+Millennium	সহস্রাব্দ
+Four corners	চার কোণ
+Back from the dead	মৃত্যু থেকে ফেরা
+Season champion	সিজনের চ্যাম্পিয়ন
+Candy cane	ক্যান্ডি কেন
+Countdown	কাউন্টডাউন
+Carnival	কার্নিভাল
+Easter egg	ইস্টার ডিম
+Festa junina	Festa junina
+Spider web	মাকড়সার জাল
+Winter cup	শীতকালীন কাপ
+Summer cup	গ্রীষ্মকালীন কাপ
+Anniversary	বর্ষপূর্তি
+World cup	বিশ্বকাপ
+New dawn	নতুন ভোর
+Sakura	সাকুরা
+Tide	জোয়ার
+Witching hour	ডাইনিদের প্রহর
+Diamond dust chalk	হীরার গুঁড়োর চক
+Champion's chalk	চ্যাম্পিয়নের চক
+Marble	মার্বেল
+Glow	দীপ্তি
+Crystal	ক্রিস্টাল
+Crown jewels	মুকুটের রত্ন
+Champion's gold	চ্যাম্পিয়নের সোনা
+Christmas baubles	ক্রিসমাস বল
+Haunted	ভুতুড়ে
+Copper works	তামার কারখানা
+Carbon racer	কার্বন রেসার
+Neon night	নিয়ন রাত
+Ice palace	বরফের প্রাসাদ
+Country barn	গ্রামের গোলাঘর
+Pro arena	প্রো অ্যারেনা
+Obsidian	অবসিডিয়ান
+Prism	প্রিজম
+Phantom	প্রেতাত্মা
+Pro tour	প্রো ট্যুর
+Rose garden	গোলাপ বাগান
+Golden hour	সোনালি প্রহর
+Hearts	হৃদয়
+Thunderstorm	বজ্রঝড়
+Black hole	ব্ল্যাক হোল
+Shooting stars	উল্কা
+Snowfall	তুষারপাত
+Champion's fireworks	চ্যাম্পিয়নের আতশবাজি
+Crown of glory	গৌরবের মুকুট
+Fingers crossed	আঙুল ক্রস
+Call me	আমাকে ফোন করো
+Nerd	পড়ুয়া
+Money face	টাকার মুখ
+Monocle	মনোকল
+Facepalm	ফেসপাম
+Shrug	কাঁধ ঝাঁকানো
+Hands up	হাত উপরে
+Melting	গলে যাচ্ছি
+Alien	এলিয়েন
+Clown	ভাঁড়
+Little devil	ছোট্ট শয়তান
+Angel	দেবদূত
+Bomb	বোমা
+Money bag	টাকার থলে
+Crystal ball	ক্রিস্টাল বল
+Tornado	টর্নেডো
+Dragon	ড্রাগন
+Santa	সান্তা
+Snowflake	তুষারকণা
+Summer sun	গ্রীষ্মের সূর্য
+Easter bunny	ইস্টার খরগোশ
+Football	ফুটবল
+Balloon	বেলুন
+Season medal	সিজনের পদক
+Common	সাধারণ
+Rare	বিরল
+Epic	মহাকাব্যিক
+Legendary	কিংবদন্তি
+Institution	প্রতিষ্ঠান
+Play 2,500 rated games.	2,500টি রেটেড গেম খেলুন।
+Living legend	জীবন্ত কিংবদন্তি
+Win 1,000 rated games.	1,000টি রেটেড গেম জিতুন।
+The last word	শেষ কথা
+Win 500 rated games on the 8-ball.	8-বলে 500টি রেটেড গেম জিতুন।
+Seventh heaven	সপ্তম স্বর্গ
+Win 7 rated games in a row.	টানা 7টি রেটেড গেম জিতুন।
+Clinical	নিখুঁত
+Break and run 5 times.	5 বার ব্রেক অ্যান্ড রান করুন।
+Iron curtain	লৌহ যবনিকা
+Win 25 rated shutouts.	25টি রেটেড গেম একতরফাভাবে জিতুন।
+Win 10 tournaments.	10টি টুর্নামেন্ট জিতুন।
+Win a rated game in Carnival season (Feb 1 – Mar 10).	কার্নিভালের মৌসুমে (1 ফেব্রু – 10 মার্চ) একটি রেটেড গেম জিতুন।
+June festival	জুন উৎসব
+Win a rated game during the June festivals (Jun 1 – Jun 30).	জুনের উৎসবের সময় (1 – 30 জুন) একটি রেটেড গেম জিতুন।
+Three in one	এক শটে তিন
+Pocket three of your balls with one shot (not the break).	এক শটে আপনার তিনটি বল পট করুন (ব্রেক বাদে)।
+Pocket balls in four different pockets with one shot (not the break).	এক শটে চারটি আলাদা পকেটে বল পট করুন (ব্রেক বাদে)।
+Thunder break	বজ্র ব্রেক
+Pocket five balls on the break.	ব্রেকে পাঁচটি বল পট করুন।
+Spotted	ঠিক জায়গায়
+Pocket the 8-ball on the break in a game under the official rules.	অফিশিয়াল নিয়মের গেমে ব্রেকে 8-বল পট করুন।
+Win a rated game after being six balls behind.	ছয় বল পিছিয়ে থেকেও একটি রেটেড গেম জিতুন।
+Last stand	শেষ প্রতিরোধ
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	প্রতিপক্ষ 8-বলে পৌঁছানোর পরও, আপনার পাঁচ বা তার বেশি বল বাকি থাকা অবস্থায় একটি রেটেড গেম জিতুন।
+Stolen table	চুরি করা টেবিল
+Win a rated game from your opponent's break without them getting another shot.	প্রতিপক্ষের ব্রেকের পর তাকে আর শট না দিয়েই একটি রেটেড গেম জিতুন।
+Marathon	ম্যারাথন
+Win a rated game that lasted 60 shots or more.	60 বা তার বেশি শট চলা একটি রেটেড গেম জিতুন।
+Ugly but it counts	কুৎসিত, তবু গোনা হয়
+Win a rated game in which you fouled four times or more.	এমন একটি রেটেড গেম জিতুন যেখানে আপনি চার বা তার বেশি ফাউল করেছেন।
+This item can't be given: it stays with whoever won it.	এই আইটেমটি উপহার দেওয়া যায় না: যিনি জিতেছেন তাঁর কাছেই থাকে।

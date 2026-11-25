@@ -2086,3 +2086,189 @@ Every player has it	सभी खिलाड़ियों के पास �
 Drag to make the chat taller or shorter	चैट को लंबा या छोटा करने के लिए खींचें
 Hide the result to see the table and the chat	टेबल और चैट देखने के लिए नतीजा छिपाएँ
 Show the result	नतीजा दिखाएँ
+A secret achievement: play to find it.	एक गुप्त उपलब्धि: खेलकर इसे खोजें।
+Only won	केवल जीतकर
+Collection	संग्रह
+Everything you have, and how you got it	आपके पास जो कुछ है, और वह कैसे मिला
+A secret achievement	एक गुप्त उपलब्धि
+Not yet yours	अभी आपका नहीं
+Rarest first	सबसे दुर्लभ पहले
+Newest first	सबसे नए पहले
+By name	नाम के अनुसार
+Reaction	रिएक्शन
+Bought for {n} coins	{n} कॉइन में खरीदा
+Bought in the shop	शॉप से खरीदा
+Gift from {name}	{name} से उपहार
+A present from the staff	टीम की ओर से उपहार
+From the staff: {reason}	टीम की ओर से: {reason}
+Champion of {name}	{name} के चैंपियन
+Runner-up of {name}	{name} के उपविजेता
+Place {n} in {name}	{name} में {n}वाँ स्थान
+Achievement: {title}	उपलब्धि: {title}
+Won at auction for {n} coins	नीलामी में {n} कॉइन में जीता
+VIP's item of the month · {month}	महीने का VIP आइटम · {month}
+Prize of {name}	{name} का इनाम
+Yours	आपका
+VIP's item of the month: VIP members get it that month	महीने का VIP आइटम: VIP सदस्यों को उसी महीने मिलता है
+Only the season's champion wins it	इसे केवल सीज़न का चैंपियन जीतता है
+Won in the official tournaments	आधिकारिक टूर्नामेंट में जीता जाता है
+Only won: events, cups and seasons	केवल जीतकर: इवेंट, कप और सीज़न
+In the welcome pack	वेलकम पैक में
+Yours while you are VIP	जब तक आप VIP हैं, आपका
+Legendary cue	लीजेंडरी क्यू
+Epic cue	एपिक क्यू
+{n} of {total} items	{total} में से {n} आइटम
+Sign in to see your collection.	अपना संग्रह देखने के लिए साइन इन करें।
+All	सभी
+Missing too	जो नहीं हैं वे भी
+Nothing of this rarity here.	यहाँ इस दुर्लभता का कुछ नहीं है।
+None yet: they are waiting to be won.	अभी कोई नहीं: वे जीते जाने का इंतज़ार कर रहे हैं।
+Page {a} of {b}	पेज {a} / {b}
+In the shop	शॉप में
+Everything you have	आपके पास जो कुछ है
+Show reactions	रिएक्शन दिखाएँ
+Off: no reactions are shown during matches, from anyone.	बंद: मैच के दौरान किसी के भी रिएक्शन नहीं दिखते।
+The colour of your aim line and ghost ball.	आपकी निशाना रेखा और घोस्ट बॉल का रंग।
+For VIP members: the colour of the aim line and the ghost ball.	VIP सदस्यों के लिए: निशाना रेखा और घोस्ट बॉल का रंग।
+Aim colour	निशाने का रंग
+Polished stone, veined right through	पॉलिश किया पत्थर, आर-पार नसों वाला
+A night sky in every ball, under a clear coat	हर गेंद में रात का आसमान, वार्निश के नीचे
+Lit from within, like neon	अंदर से जगमगातीं, नियॉन की तरह
+Cut glass: deep colour and a dazzling shine	तराशा हुआ काँच: गहरा रंग और चकाचौंध चमक
+White Carrara marble, gold castings and fluted columns	सफ़ेद कैरारा संगमरमर, सुनहरी फ़िटिंग और खाँचेदार स्तंभ
+Black gloss on slab legs, with a neon glow beneath	प्लेट वाले पायों पर चमकदार काला, नीचे नियॉन रोशनी
+Woven carbon rails, red trim and a light strip	बुने हुए कार्बन की रेल, लाल सजावट और रोशनी की पट्टी
+Dark walnut and polished copper on a riveted steel frame	रिवेटेड स्टील फ़्रेम पर गहरा अखरोट और चमकाया हुआ ताँबा
+Frosted lacquer and silver, with a cold light beneath	पाले जैसी लाह और चाँदी, नीचे ठंडी रोशनी
+Black volcanic stone, cracked with molten orange	काला ज्वालामुखी पत्थर, दहकते नारंगी से दरका हुआ
+Rough pine on square posts, with iron castings	चौकोर पायों पर खुरदरी चीड़, लोहे की फ़िटिंग के साथ
+Black lacquer and gold: the season champion's table	काली लाह और सोना: सीज़न के चैंपियन की टेबल
+The table alone under the spotlight, dark stands and TV lights	स्पॉटलाइट के नीचे अकेली टेबल, अँधेरी दर्शक-दीर्घाएँ और टीवी लाइटें
+Crimson velvet	किरमिजी मखमल
+Eclipse	ग्रहण
+Arena blue	एरीना नीला
+Millennium gold	सहस्राब्दी सोना
+Holly	होली
+Winter frost	सर्दियों का पाला
+Rainforest	वर्षावन
+Bonfire	अलाव
+Spring meadow	बसंत का मैदान
+Gold filigree	सुनहरी फ़िलिग्री
+Thunderbolt	वज्रपात
+Damascus steel	दमिश्क स्टील
+Glacier	ग्लेशियर
+Abalone	अबालोन
+Volcano	ज्वालामुखी
+Aurora	ध्रुवीय ज्योति
+Emperor	सम्राट
+Untouchable	अछूता
+Midas	मिडास
+Empire	साम्राज्य
+Millennium	सहस्राब्दी
+Four corners	चार कोने
+Back from the dead	मौत से वापसी
+Season champion	सीज़न का चैंपियन
+Candy cane	कैंडी केन
+Countdown	उलटी गिनती
+Carnival	कार्निवल
+Easter egg	ईस्टर एग
+Festa junina	Festa junina
+Spider web	मकड़ी का जाला
+Winter cup	विंटर कप
+Summer cup	समर कप
+Anniversary	वर्षगाँठ
+World cup	विश्व कप
+New dawn	नई सुबह
+Sakura	साकुरा
+Tide	ज्वार
+Witching hour	चुड़ैलों का पहर
+Diamond dust chalk	हीरे की धूल का चॉक
+Champion's chalk	चैंपियन का चॉक
+Marble	संगमरमर
+Glow	चमक
+Crystal	क्रिस्टल
+Crown jewels	राजमुकुट के रत्न
+Champion's gold	चैंपियन का सोना
+Christmas baubles	क्रिसमस बॉबल
+Haunted	भुतहा
+Copper works	ताँबे का कारख़ाना
+Carbon racer	कार्बन रेसर
+Neon night	नियॉन रात
+Ice palace	बर्फ़ का महल
+Country barn	देहाती खलिहान
+Pro arena	प्रो एरीना
+Obsidian	ऑब्सिडियन
+Prism	प्रिज़्म
+Phantom	प्रेत
+Pro tour	प्रो टूर
+Rose garden	गुलाब बाग़
+Golden hour	सुनहरा पहर
+Hearts	दिल
+Thunderstorm	तूफ़ान
+Black hole	ब्लैक होल
+Shooting stars	टूटते तारे
+Snowfall	बर्फ़बारी
+Champion's fireworks	चैंपियन की आतिशबाज़ी
+Crown of glory	गौरव का मुकुट
+Fingers crossed	उँगलियाँ क्रॉस
+Call me	मुझे कॉल करो
+Nerd	पढ़ाकू
+Money face	पैसों वाला चेहरा
+Monocle	मोनोकल
+Facepalm	फ़ेसपाम
+Shrug	कंधे उचकाना
+Hands up	हाथ ऊपर
+Melting	पिघलता हुआ
+Alien	एलियन
+Clown	जोकर
+Little devil	नन्हा शैतान
+Angel	फ़रिश्ता
+Bomb	बम
+Money bag	पैसों की थैली
+Crystal ball	क्रिस्टल बॉल
+Tornado	बवंडर
+Dragon	ड्रैगन
+Santa	सांता
+Snowflake	बर्फ़ का फाहा
+Summer sun	गर्मियों का सूरज
+Easter bunny	ईस्टर बनी
+Football	फ़ुटबॉल
+Balloon	गुब्बारा
+Season medal	सीज़न मेडल
+Common	साधारण
+Rare	दुर्लभ
+Epic	एपिक
+Legendary	लीजेंडरी
+Institution	संस्था
+Play 2,500 rated games.	2,500 रेटेड गेम खेलें।
+Living legend	जीवित किंवदंती
+Win 1,000 rated games.	1,000 रेटेड गेम जीतें।
+The last word	आख़िरी शब्द
+Win 500 rated games on the 8-ball.	8-बॉल पर 500 रेटेड गेम जीतें।
+Seventh heaven	सातवाँ आसमान
+Win 7 rated games in a row.	लगातार 7 रेटेड गेम जीतें।
+Clinical	सर्जिकल
+Break and run 5 times.	5 बार ब्रेक एंड रन करें।
+Iron curtain	लौह पर्दा
+Win 25 rated shutouts.	25 रेटेड गेम एकतरफ़ा जीतें।
+Win 10 tournaments.	10 टूर्नामेंट जीतें।
+Win a rated game in Carnival season (Feb 1 – Mar 10).	कार्निवल के मौसम में (1 फ़र – 10 मार्च) एक रेटेड गेम जीतें।
+June festival	जून उत्सव
+Win a rated game during the June festivals (Jun 1 – Jun 30).	जून उत्सवों के दौरान (1 – 30 जून) एक रेटेड गेम जीतें।
+Three in one	एक में तीन
+Pocket three of your balls with one shot (not the break).	एक ही शॉट में अपनी तीन गेंदें पॉट करें (ब्रेक नहीं)।
+Pocket balls in four different pockets with one shot (not the break).	एक ही शॉट में चार अलग पॉकेट में गेंदें पॉट करें (ब्रेक नहीं)।
+Thunder break	गरजता ब्रेक
+Pocket five balls on the break.	ब्रेक पर पाँच गेंदें पॉट करें।
+Spotted	निशाने पर
+Pocket the 8-ball on the break in a game under the official rules.	आधिकारिक नियमों वाले गेम में ब्रेक पर 8-बॉल पॉट करें।
+Win a rated game after being six balls behind.	छह गेंदों से पीछे रहने के बाद एक रेटेड गेम जीतें।
+Last stand	आख़िरी मोर्चा
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	जब विरोधी 8-बॉल पर हो और आपकी पाँच या ज़्यादा गेंदें बाकी हों, तब भी एक रेटेड गेम जीतें।
+Stolen table	चुराई हुई टेबल
+Win a rated game from your opponent's break without them getting another shot.	विरोधी के ब्रेक के बाद उसे दोबारा शॉट दिए बिना एक रेटेड गेम जीतें।
+Marathon	मैराथन
+Win a rated game that lasted 60 shots or more.	60 या ज़्यादा शॉट चले एक रेटेड गेम को जीतें।
+Ugly but it counts	भद्दा, पर गिना जाता है
+Win a rated game in which you fouled four times or more.	ऐसा रेटेड गेम जीतें जिसमें आपने चार या ज़्यादा फ़ाउल किए हों।
+This item can't be given: it stays with whoever won it.	यह आइटम उपहार में नहीं दिया जा सकता: यह जीतने वाले के पास ही रहता है।

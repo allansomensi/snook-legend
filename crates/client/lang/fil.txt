@@ -2086,3 +2086,189 @@ Every player has it	Mayroon nito ang lahat ng manlalaro
 Drag to make the chat taller or shorter	I-drag para palakihin o paliitin ang chat
 Hide the result to see the table and the chat	Itago ang resulta para makita ang mesa at ang chat
 Show the result	Ipakita ang resulta
+A secret achievement: play to find it.	Isang lihim na achievement: maglaro para matuklasan ito.
+Only won	Napapanalunan lang
+Collection	Koleksyon
+Everything you have, and how you got it	Lahat ng mayroon ka, at kung paano mo nakuha
+A secret achievement	Isang lihim na achievement
+Not yet yours	Hindi pa sa iyo
+Rarest first	Pinakabihira muna
+Newest first	Pinakabago muna
+By name	Ayon sa pangalan
+Reaction	Reaksyon
+Bought for {n} coins	Binili sa halagang {n} coins
+Bought in the shop	Binili sa shop
+Gift from {name}	Regalo mula kay {name}
+A present from the staff	Regalo mula sa staff
+From the staff: {reason}	Mula sa staff: {reason}
+Champion of {name}	Kampeon ng {name}
+Runner-up of {name}	Pangalawa sa {name}
+Place {n} in {name}	Ika-{n} na puwesto sa {name}
+Achievement: {title}	Achievement: {title}
+Won at auction for {n} coins	Napanalunan sa auction sa halagang {n} coins
+VIP's item of the month · {month}	VIP item ng buwan · {month}
+Prize of {name}	Premyo ng {name}
+Yours	Iyo
+VIP's item of the month: VIP members get it that month	VIP item ng buwan: nakukuha ito ng mga VIP sa buwang iyon
+Only the season's champion wins it	Ang kampeon lang ng season ang nananalo nito
+Won in the official tournaments	Napapanalunan sa mga opisyal na torneo
+Only won: events, cups and seasons	Napapanalunan lang: mga event, kopa at season
+In the welcome pack	Nasa welcome pack
+Yours while you are VIP	Iyo habang VIP ka
+Legendary cue	Maalamat na cue
+Epic cue	Epikong cue
+{n} of {total} items	{n} sa {total} item
+Sign in to see your collection.	Mag-sign in para makita ang koleksyon mo.
+All	Lahat
+Missing too	Pati ang kulang
+Nothing of this rarity here.	Walang ganitong kabihira rito.
+None yet: they are waiting to be won.	Wala pa: hinihintay silang mapanalunan.
+Page {a} of {b}	Pahina {a} ng {b}
+In the shop	Nasa shop
+Everything you have	Lahat ng mayroon ka
+Show reactions	Ipakita ang mga reaksyon
+Off: no reactions are shown during matches, from anyone.	Naka-off: walang reaksyong ipinapakita sa mga laro, mula kahit kanino.
+The colour of your aim line and ghost ball.	Ang kulay ng aim line at ghost ball mo.
+For VIP members: the colour of the aim line and the ghost ball.	Para sa mga VIP: ang kulay ng aim line at ghost ball.
+Aim colour	Kulay ng aim
+Polished stone, veined right through	Pinakinis na bato, may ugat hanggang kabila
+A night sky in every ball, under a clear coat	Isang gabing langit sa bawat bola, sa ilalim ng barnis
+Lit from within, like neon	May ilaw mula sa loob, parang neon
+Cut glass: deep colour and a dazzling shine	Tinabas na salamin: malalim na kulay at nakasisilaw na kinang
+White Carrara marble, gold castings and fluted columns	Puting marmol ng Carrara, gintong kabit at mga haliging may uka
+Black gloss on slab legs, with a neon glow beneath	Makintab na itim sa mga paang plaka, may neon na liwanag sa ilalim
+Woven carbon rails, red trim and a light strip	Riles na hinabing carbon, pulang detalye at isang guhit ng ilaw
+Dark walnut and polished copper on a riveted steel frame	Madilim na walnut at makintab na tanso sa balangkas na bakal na may rivet
+Frosted lacquer and silver, with a cold light beneath	Nagyelong laka at pilak, may malamig na ilaw sa ilalim
+Black volcanic stone, cracked with molten orange	Itim na batong bulkan, nabibitak ng nagbabagang kahel
+Rough pine on square posts, with iron castings	Magaspang na pino sa mga paang parisukat, may kabit na bakal
+Black lacquer and gold: the season champion's table	Itim na laka at ginto: ang mesa ng kampeon ng season
+The table alone under the spotlight, dark stands and TV lights	Ang mesa na nag-iisa sa ilalim ng spotlight, madidilim na upuan at ilaw ng TV
+Crimson velvet	Pulang pelus
+Eclipse	Eklipse
+Arena blue	Asul ng arena
+Millennium gold	Ginto ng milenyo
+Holly	Holly
+Winter frost	Hamog ng taglamig
+Rainforest	Rainforest
+Bonfire	Siga
+Spring meadow	Parang ng tagsibol
+Gold filigree	Gintong filigree
+Thunderbolt	Kidlat
+Damascus steel	Bakal ng Damascus
+Glacier	Glacier
+Abalone	Abalone
+Volcano	Bulkan
+Aurora	Aurora
+Emperor	Emperador
+Untouchable	Hindi magalaw
+Midas	Midas
+Empire	Imperyo
+Millennium	Milenyo
+Four corners	Apat na sulok
+Back from the dead	Bumalik mula sa patay
+Season champion	Kampeon ng season
+Candy cane	Candy cane
+Countdown	Countdown
+Carnival	Karnabal
+Easter egg	Easter egg
+Festa junina	Festa junina
+Spider web	Sapot ng gagamba
+Winter cup	Winter cup
+Summer cup	Summer cup
+Anniversary	Anibersaryo
+World cup	World cup
+New dawn	Bagong bukang-liwayway
+Sakura	Sakura
+Tide	Pagtaas ng tubig
+Witching hour	Oras ng mga mangkukulam
+Diamond dust chalk	Chalk na alikabok ng diyamante
+Champion's chalk	Chalk ng kampeon
+Marble	Marmol
+Glow	Liwanag
+Crystal	Kristal
+Crown jewels	Mga hiyas ng korona
+Champion's gold	Ginto ng kampeon
+Christmas baubles	Mga bola ng Pasko
+Haunted	Pinagmumultuhan
+Copper works	Pagawaan ng tanso
+Carbon racer	Carbon racer
+Neon night	Gabing neon
+Ice palace	Palasyo ng yelo
+Country barn	Kamalig sa probinsya
+Pro arena	Pro arena
+Obsidian	Obsidian
+Prism	Prisma
+Phantom	Multo
+Pro tour	Pro tour
+Rose garden	Hardin ng rosas
+Golden hour	Gintong oras
+Hearts	Mga puso
+Thunderstorm	Bagyong may kidlat
+Black hole	Black hole
+Shooting stars	Mga bulalakaw
+Snowfall	Pag-ulan ng niyebe
+Champion's fireworks	Paputok ng kampeon
+Crown of glory	Korona ng luwalhati
+Fingers crossed	Naka-krus na daliri
+Call me	Tawagan mo ako
+Nerd	Nerd
+Money face	Mukhang pera
+Monocle	Monocle
+Facepalm	Facepalm
+Shrug	Kibit-balikat
+Hands up	Taas-kamay
+Melting	Natutunaw
+Alien	Alien
+Clown	Payaso
+Little devil	Maliit na diyablo
+Angel	Anghel
+Bomb	Bomba
+Money bag	Supot ng pera
+Crystal ball	Bolang kristal
+Tornado	Buhawi
+Dragon	Dragon
+Santa	Santa
+Snowflake	Snowflake
+Summer sun	Araw ng tag-init
+Easter bunny	Easter bunny
+Football	Football
+Balloon	Lobo
+Season medal	Medalya ng season
+Common	Karaniwan
+Rare	Bihira
+Epic	Epiko
+Legendary	Maalamat
+Institution	Institusyon
+Play 2,500 rated games.	Maglaro ng 2,500 rated na laro.
+Living legend	Buhay na alamat
+Win 1,000 rated games.	Manalo ng 1,000 rated na laro.
+The last word	Huling salita
+Win 500 rated games on the 8-ball.	Manalo ng 500 rated na laro sa 8-ball.
+Seventh heaven	Ikapitong langit
+Win 7 rated games in a row.	Manalo ng 7 rated na laro nang sunod-sunod.
+Clinical	Klinikal
+Break and run 5 times.	Gawin ang break and run nang 5 beses.
+Iron curtain	Kurtinang bakal
+Win 25 rated shutouts.	Manalo ng 25 rated na laro nang bokya ang kalaban.
+Win 10 tournaments.	Manalo ng 10 torneo.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Manalo ng isang rated na laro sa panahon ng Karnabal (Peb 1 – Mar 10).
+June festival	Pista ng Hunyo
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Manalo ng isang rated na laro sa mga pista ng Hunyo (Hun 1 – Hun 30).
+Three in one	Tatlo sa isa
+Pocket three of your balls with one shot (not the break).	Ipasok ang tatlo sa mga bola mo sa iisang tira (hindi ang break).
+Pocket balls in four different pockets with one shot (not the break).	Magpasok ng bola sa apat na magkakaibang butas sa iisang tira (hindi ang break).
+Thunder break	Kulog na break
+Pocket five balls on the break.	Magpasok ng limang bola sa break.
+Spotted	Sa marka
+Pocket the 8-ball on the break in a game under the official rules.	Ipasok ang 8-ball sa break sa isang larong gamit ang opisyal na patakaran.
+Win a rated game after being six balls behind.	Manalo ng rated na laro matapos mahuli nang anim na bola.
+Last stand	Huling paninindigan
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Manalo ng rated na laro matapos nasa 8-ball na ang kalaban habang may lima o higit pang bola ka pa.
+Stolen table	Ninakaw na mesa
+Win a rated game from your opponent's break without them getting another shot.	Manalo ng rated na laro mula sa break ng kalaban nang hindi na siya nakakatira ulit.
+Marathon	Maraton
+Win a rated game that lasted 60 shots or more.	Manalo ng rated na larong tumagal nang 60 tira o higit pa.
+Ugly but it counts	Pangit, pero bilang
+Win a rated game in which you fouled four times or more.	Manalo ng rated na laro kung saan nakagawa ka ng apat o higit pang foul.
+This item can't be given: it stays with whoever won it.	Hindi maibibigay ang item na ito: nananatili ito sa nanalo nito.

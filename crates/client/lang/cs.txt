@@ -2086,3 +2086,189 @@ Every player has it	Mají ji všichni hráči
 Drag to make the chat taller or shorter	Tažením chat zvětšíš nebo zmenšíš
 Hide the result to see the table and the chat	Skryj výsledek a uvidíš stůl i chat
 Show the result	Ukázat výsledek
+A secret achievement: play to find it.	Tajný úspěch: hraj a objev ho.
+Only won	Jen k vyhrání
+Collection	Sbírka
+Everything you have, and how you got it	Vše, co máš, a jak jsi to získal
+A secret achievement	Tajný úspěch
+Not yet yours	Zatím není tvůj
+Rarest first	Nejvzácnější první
+Newest first	Nejnovější první
+By name	Podle názvu
+Reaction	Reakce
+Bought for {n} coins	Koupeno za {n} mincí
+Bought in the shop	Koupeno v obchodě
+Gift from {name}	Dárek od {name}
+A present from the staff	Dárek od týmu
+From the staff: {reason}	Od týmu: {reason}
+Champion of {name}	Vítěz {name}
+Runner-up of {name}	Finalista {name}
+Place {n} in {name}	{n}. místo v {name}
+Achievement: {title}	Úspěch: {title}
+Won at auction for {n} coins	Vydraženo za {n} mincí
+VIP's item of the month · {month}	VIP předmět měsíce · {month}
+Prize of {name}	Cena z {name}
+Yours	Tvoje
+VIP's item of the month: VIP members get it that month	VIP předmět měsíce: členové VIP ho dostanou v daném měsíci
+Only the season's champion wins it	Získá ho jen šampion sezóny
+Won in the official tournaments	Získává se v oficiálních turnajích
+Only won: events, cups and seasons	Jen k vyhrání: akce, poháry a sezóny
+In the welcome pack	V uvítacím balíčku
+Yours while you are VIP	Tvoje, dokud jsi VIP
+Legendary cue	Legendární tágo
+Epic cue	Epické tágo
+{n} of {total} items	{n} z {total} předmětů
+Sign in to see your collection.	Přihlas se, abys viděl svou sbírku.
+All	Vše
+Missing too	I chybějící
+Nothing of this rarity here.	Nic této vzácnosti tu není.
+None yet: they are waiting to be won.	Zatím žádné: čekají, až je vyhraješ.
+Page {a} of {b}	Strana {a} z {b}
+In the shop	V obchodě
+Everything you have	Vše, co máš
+Show reactions	Zobrazovat reakce
+Off: no reactions are shown during matches, from anyone.	Vypnuto: během her se nezobrazují žádné reakce, od nikoho.
+The colour of your aim line and ghost ball.	Barva tvé zaměřovací čáry a fantomové koule.
+For VIP members: the colour of the aim line and the ghost ball.	Pro členy VIP: barva zaměřovací čáry a fantomové koule.
+Aim colour	Barva zaměřování
+Polished stone, veined right through	Leštěný kámen, prožilkovaný skrz naskrz
+A night sky in every ball, under a clear coat	Noční nebe v každé kouli, pod lakem
+Lit from within, like neon	Prosvícené zevnitř jako neon
+Cut glass: deep colour and a dazzling shine	Broušené sklo: sytá barva a oslnivý lesk
+White Carrara marble, gold castings and fluted columns	Bílý carrarský mramor, zlaté kování a kanelované sloupy
+Black gloss on slab legs, with a neon glow beneath	Lesklá čerň na deskových nohách, s neonovou září zespodu
+Woven carbon rails, red trim and a light strip	Mantinely z pleteného karbonu, červené prvky a světelný pruh
+Dark walnut and polished copper on a riveted steel frame	Tmavý ořech a leštěná měď na nýtovaném ocelovém rámu
+Frosted lacquer and silver, with a cold light beneath	Ojíněný lak a stříbro, se studeným světlem zespodu
+Black volcanic stone, cracked with molten orange	Černý sopečný kámen popraskaný žhnoucí oranžovou
+Rough pine on square posts, with iron castings	Hrubá borovice na hranatých nohách, se železným kováním
+Black lacquer and gold: the season champion's table	Černý lak a zlato: stůl šampiona sezóny
+The table alone under the spotlight, dark stands and TV lights	Stůl sám v záři reflektoru, tmavé tribuny a televizní světla
+Crimson velvet	Karmínový samet
+Eclipse	Zatmění
+Arena blue	Modrá aréna
+Millennium gold	Zlato tisíciletí
+Holly	Cesmína
+Winter frost	Zimní jinovatka
+Rainforest	Deštný prales
+Bonfire	Táborák
+Spring meadow	Jarní louka
+Gold filigree	Zlatý filigrán
+Thunderbolt	Blesk
+Damascus steel	Damascénská ocel
+Glacier	Ledovec
+Abalone	Abalone
+Volcano	Sopka
+Aurora	Polární záře
+Emperor	Císař
+Untouchable	Nedotknutelný
+Midas	Midas
+Empire	Impérium
+Millennium	Tisíciletí
+Four corners	Čtyři rohy
+Back from the dead	Zpátky z mrtvých
+Season champion	Šampion sezóny
+Candy cane	Cukrová hůlka
+Countdown	Odpočet
+Carnival	Karneval
+Easter egg	Velikonoční vajíčko
+Festa junina	Festa junina
+Spider web	Pavučina
+Winter cup	Zimní pohár
+Summer cup	Letní pohár
+Anniversary	Výročí
+World cup	Mistrovství světa
+New dawn	Nový úsvit
+Sakura	Sakura
+Tide	Příliv
+Witching hour	Hodina duchů
+Diamond dust chalk	Křída z diamantového prachu
+Champion's chalk	Křída šampiona
+Marble	Mramor
+Glow	Záře
+Crystal	Krystal
+Crown jewels	Korunovační klenoty
+Champion's gold	Zlato šampiona
+Christmas baubles	Vánoční ozdoby
+Haunted	Strašidelné
+Copper works	Měděná dílna
+Carbon racer	Karbonový závoďák
+Neon night	Neonová noc
+Ice palace	Ledový palác
+Country barn	Venkovská stodola
+Pro arena	Profesionální aréna
+Obsidian	Obsidián
+Prism	Hranol
+Phantom	Fantom
+Pro tour	Profesionální tour
+Rose garden	Růžová zahrada
+Golden hour	Zlatá hodinka
+Hearts	Srdce
+Thunderstorm	Bouřka
+Black hole	Černá díra
+Shooting stars	Padající hvězdy
+Snowfall	Sněžení
+Champion's fireworks	Ohňostroj šampiona
+Crown of glory	Koruna slávy
+Fingers crossed	Zkřížené prsty
+Call me	Zavolej mi
+Nerd	Šprt
+Money face	Peníze v očích
+Monocle	Monokl
+Facepalm	Facepalm
+Shrug	Pokrčení ramen
+Hands up	Ruce nahoru
+Melting	Rozpouštím se
+Alien	Mimozemšťan
+Clown	Klaun
+Little devil	Čertík
+Angel	Anděl
+Bomb	Bomba
+Money bag	Pytel peněz
+Crystal ball	Křišťálová koule
+Tornado	Tornádo
+Dragon	Drak
+Santa	Santa
+Snowflake	Sněhová vločka
+Summer sun	Letní slunce
+Easter bunny	Velikonoční zajíček
+Football	Fotbal
+Balloon	Balónek
+Season medal	Medaile sezóny
+Common	Běžný
+Rare	Vzácný
+Epic	Epický
+Legendary	Legendární
+Institution	Instituce
+Play 2,500 rated games.	Odehraj 2 500 hodnocených her.
+Living legend	Živoucí legenda
+Win 1,000 rated games.	Vyhraj 1 000 hodnocených her.
+The last word	Poslední slovo
+Win 500 rated games on the 8-ball.	Vyhraj 500 hodnocených her potopením osmičky.
+Seventh heaven	Sedmé nebe
+Win 7 rated games in a row.	Vyhraj 7 hodnocených her v řadě.
+Clinical	Chirurg
+Break and run 5 times.	Pětkrát vyčisti stůl hned z rozstřelu.
+Iron curtain	Železná opona
+Win 25 rated shutouts.	Vyhraj 25 hodnocených her s čistým kontem.
+Win 10 tournaments.	Vyhraj 10 turnajů.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Vyhraj hodnocenou hru v době karnevalu (1. 2. – 10. 3.).
+June festival	Červnové slavnosti
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Vyhraj hodnocenou hru během červnových slavností (1.–30. 6.).
+Three in one	Tři najednou
+Pocket three of your balls with one shot (not the break).	Potop tři své koule jedním šťouchem (ne při rozstřelu).
+Pocket balls in four different pockets with one shot (not the break).	Potop koule do čtyř různých děr jedním šťouchem (ne při rozstřelu).
+Thunder break	Hromový rozstřel
+Pocket five balls on the break.	Potop pět koulí při rozstřelu.
+Spotted	Na bodě
+Pocket the 8-ball on the break in a game under the official rules.	Potop osmičku při rozstřelu ve hře podle oficiálních pravidel.
+Win a rated game after being six balls behind.	Vyhraj hodnocenou hru poté, co jsi prohrával o šest koulí.
+Last stand	Poslední vzdor
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Vyhraj hodnocenou hru poté, co soupeř hrál na osmičku a tobě zbývalo pět koulí nebo víc.
+Stolen table	Ukradený stůl
+Win a rated game from your opponent's break without them getting another shot.	Vyhraj hodnocenou hru od soupeřova rozstřelu, aniž by znovu šťouchl.
+Marathon	Maraton
+Win a rated game that lasted 60 shots or more.	Vyhraj hodnocenou hru, která trvala 60 šťouchů nebo víc.
+Ugly but it counts	Ošklivé, ale platí
+Win a rated game in which you fouled four times or more.	Vyhraj hodnocenou hru, ve které jsi udělal čtyři fauly nebo víc.
+This item can't be given: it stays with whoever won it.	Tento předmět nelze darovat: zůstává tomu, kdo ho vyhrál.

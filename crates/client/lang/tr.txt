@@ -2086,3 +2086,189 @@ Every player has it	Her oyuncuda var
 Drag to make the chat taller or shorter	Sohbeti uzatmak veya kısaltmak için sürükle
 Hide the result to see the table and the chat	Masayı ve sohbeti görmek için sonucu gizle
 Show the result	Sonucu göster
+A secret achievement: play to find it.	Gizli bir başarı: bulmak için oyna.
+Only won	Yalnızca kazanılır
+Collection	Koleksiyon
+Everything you have, and how you got it	Sahip olduğun her şey ve nasıl kazandığın
+A secret achievement	Gizli bir başarı
+Not yet yours	Henüz senin değil
+Rarest first	Önce en nadirler
+Newest first	Önce en yeniler
+By name	Ada göre
+Reaction	Tepki
+Bought for {n} coins	{n} jetona satın alındı
+Bought in the shop	Mağazadan satın alındı
+Gift from {name}	{name} hediyesi
+A present from the staff	Ekipten bir hediye
+From the staff: {reason}	Ekipten: {reason}
+Champion of {name}	{name} şampiyonu
+Runner-up of {name}	{name} ikincisi
+Place {n} in {name}	{name} turnuvasında {n}. sıra
+Achievement: {title}	Başarı: {title}
+Won at auction for {n} coins	Açık artırmada {n} jetona kazanıldı
+VIP's item of the month · {month}	Ayın VIP eşyası · {month}
+Prize of {name}	{name} ödülü
+Yours	Senin
+VIP's item of the month: VIP members get it that month	Ayın VIP eşyası: VIP üyeler o ay alır
+Only the season's champion wins it	Yalnızca sezonun şampiyonu kazanır
+Won in the official tournaments	Resmi turnuvalarda kazanılır
+Only won: events, cups and seasons	Yalnızca kazanılır: etkinlikler, kupalar ve sezonlar
+In the welcome pack	Hoş geldin paketinde
+Yours while you are VIP	VIP olduğun sürece senin
+Legendary cue	Efsanevi isteka
+Epic cue	Destansı isteka
+{n} of {total} items	{n} / {total} eşya
+Sign in to see your collection.	Koleksiyonunu görmek için giriş yap.
+All	Tümü
+Missing too	Eksikler de
+Nothing of this rarity here.	Burada bu nadirlikte bir şey yok.
+None yet: they are waiting to be won.	Henüz yok: kazanılmayı bekliyorlar.
+Page {a} of {b}	Sayfa {a} / {b}
+In the shop	Mağazada
+Everything you have	Sahip olduğun her şey
+Show reactions	Tepkileri göster
+Off: no reactions are shown during matches, from anyone.	Kapalı: maçlarda kimsenin tepkisi gösterilmez.
+The colour of your aim line and ghost ball.	Nişan çizginin ve hayalet topun rengi.
+For VIP members: the colour of the aim line and the ghost ball.	VIP üyeler için: nişan çizgisinin ve hayalet topun rengi.
+Aim colour	Nişan rengi
+Polished stone, veined right through	Cilalı taş, baştan sona damarlı
+A night sky in every ball, under a clear coat	Her topta bir gece göğü, verniğin altında
+Lit from within, like neon	İçeriden aydınlatılmış, neon gibi
+Cut glass: deep colour and a dazzling shine	Kesme cam: derin renk ve göz kamaştırıcı parlaklık
+White Carrara marble, gold castings and fluted columns	Beyaz Carrara mermeri, altın bağlantılar ve yivli sütunlar
+Black gloss on slab legs, with a neon glow beneath	Plaka ayaklar üzerinde parlak siyah, altında neon ışıltı
+Woven carbon rails, red trim and a light strip	Örgülü karbon bantlar, kırmızı detaylar ve bir ışık şeridi
+Dark walnut and polished copper on a riveted steel frame	Perçinli çelik şasi üzerinde koyu ceviz ve cilalı bakır
+Frosted lacquer and silver, with a cold light beneath	Buzlu lake ve gümüş, altında soğuk bir ışık
+Black volcanic stone, cracked with molten orange	Kızgın turuncuyla çatlamış siyah volkanik taş
+Rough pine on square posts, with iron castings	Kare ayaklar üzerinde kaba çam, demir bağlantılarla
+Black lacquer and gold: the season champion's table	Siyah lake ve altın: sezon şampiyonunun masası
+The table alone under the spotlight, dark stands and TV lights	Spot ışığı altında yapayalnız masa, karanlık tribünler ve TV ışıkları
+Crimson velvet	Kızıl kadife
+Eclipse	Tutulma
+Arena blue	Arena mavisi
+Millennium gold	Milenyum altını
+Holly	Çobanpüskülü
+Winter frost	Kış kırağısı
+Rainforest	Yağmur ormanı
+Bonfire	Şenlik ateşi
+Spring meadow	Bahar çayırı
+Gold filigree	Altın telkari
+Thunderbolt	Yıldırım
+Damascus steel	Şam çeliği
+Glacier	Buzul
+Abalone	Deniz kulağı
+Volcano	Yanardağ
+Aurora	Kutup ışığı
+Emperor	İmparator
+Untouchable	Dokunulmaz
+Midas	Midas
+Empire	İmparatorluk
+Millennium	Milenyum
+Four corners	Dört köşe
+Back from the dead	Ölümden dönüş
+Season champion	Sezon şampiyonu
+Candy cane	Baston şeker
+Countdown	Geri sayım
+Carnival	Karnaval
+Easter egg	Paskalya yumurtası
+Festa junina	Festa junina
+Spider web	Örümcek ağı
+Winter cup	Kış kupası
+Summer cup	Yaz kupası
+Anniversary	Yıl dönümü
+World cup	Dünya kupası
+New dawn	Yeni şafak
+Sakura	Sakura
+Tide	Gelgit
+Witching hour	Cadılar saati
+Diamond dust chalk	Elmas tozu tebeşir
+Champion's chalk	Şampiyonun tebeşiri
+Marble	Mermer
+Glow	Işıltı
+Crystal	Kristal
+Crown jewels	Taç mücevherleri
+Champion's gold	Şampiyon altını
+Christmas baubles	Yılbaşı süsleri
+Haunted	Perili
+Copper works	Bakır atölyesi
+Carbon racer	Karbon yarışçı
+Neon night	Neon gecesi
+Ice palace	Buz sarayı
+Country barn	Köy ambarı
+Pro arena	Profesyonel arena
+Obsidian	Obsidyen
+Prism	Prizma
+Phantom	Hayalet
+Pro tour	Profesyonel tur
+Rose garden	Gül bahçesi
+Golden hour	Altın saat
+Hearts	Kalpler
+Thunderstorm	Fırtına
+Black hole	Kara delik
+Shooting stars	Kayan yıldızlar
+Snowfall	Kar yağışı
+Champion's fireworks	Şampiyonun havai fişekleri
+Crown of glory	Zafer tacı
+Fingers crossed	Parmaklar çarpraz
+Call me	Ara beni
+Nerd	İnek öğrenci
+Money face	Para yüzü
+Monocle	Monokl
+Facepalm	Facepalm
+Shrug	Omuz silkme
+Hands up	Eller yukarı
+Melting	Eriyorum
+Alien	Uzaylı
+Clown	Palyaço
+Little devil	Küçük şeytan
+Angel	Melek
+Bomb	Bomba
+Money bag	Para kesesi
+Crystal ball	Kristal küre
+Tornado	Hortum
+Dragon	Ejderha
+Santa	Noel Baba
+Snowflake	Kar tanesi
+Summer sun	Yaz güneşi
+Easter bunny	Paskalya tavşanı
+Football	Futbol
+Balloon	Balon
+Season medal	Sezon madalyası
+Common	Sıradan
+Rare	Nadir
+Epic	Destansı
+Legendary	Efsanevi
+Institution	Kurum
+Play 2,500 rated games.	2.500 puanlı oyun oyna.
+Living legend	Yaşayan efsane
+Win 1,000 rated games.	1.000 puanlı oyun kazan.
+The last word	Son söz
+Win 500 rated games on the 8-ball.	8 numaralı topu sokarak 500 puanlı oyun kazan.
+Seventh heaven	Yedinci kat
+Win 7 rated games in a row.	Üst üste 7 puanlı oyun kazan.
+Clinical	Cerrah gibi
+Break and run 5 times.	Açılışta başlayıp masayı 5 kez bitir.
+Iron curtain	Demir perde
+Win 25 rated shutouts.	Rakibine kendi grubundan top sokturmadan 25 puanlı oyun kazan.
+Win 10 tournaments.	10 turnuva kazan.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Karnaval döneminde (1 Şub – 10 Mar) puanlı bir oyun kazan.
+June festival	Haziran şenliği
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Haziran şenlikleri sırasında (1–30 Haz) puanlı bir oyun kazan.
+Three in one	Bir vuruşta üç
+Pocket three of your balls with one shot (not the break).	Tek vuruşta kendi toplarından üçünü sok (açılış hariç).
+Pocket balls in four different pockets with one shot (not the break).	Tek vuruşta dört farklı cebe top sok (açılış hariç).
+Thunder break	Gök gürültülü açılış
+Pocket five balls on the break.	Açılışta beş top sok.
+Spotted	Tam yerinde
+Pocket the 8-ball on the break in a game under the official rules.	Resmi kurallarla oynanan bir oyunda açılışta 8 numaralı topu sok.
+Win a rated game after being six balls behind.	Altı top gerideyken puanlı bir oyun kazan.
+Last stand	Son direniş
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Rakibin 8 numaralı topa geçmişken ve senin hâlâ beş ya da daha fazla topun varken puanlı bir oyun kazan.
+Stolen table	Çalınan masa
+Win a rated game from your opponent's break without them getting another shot.	Rakibin açılışından sonra ona bir daha vuruş yaptırmadan puanlı bir oyun kazan.
+Marathon	Maraton
+Win a rated game that lasted 60 shots or more.	60 ya da daha fazla vuruş süren puanlı bir oyun kazan.
+Ugly but it counts	Çirkin ama sayılır
+Win a rated game in which you fouled four times or more.	Dört ya da daha fazla faul yaptığın puanlı bir oyun kazan.
+This item can't be given: it stays with whoever won it.	Bu eşya hediye edilemez: onu kazananda kalır.

@@ -2086,3 +2086,189 @@ Every player has it	Ce l'hanno tutti i giocatori
 Drag to make the chat taller or shorter	Trascina per allungare o accorciare la chat
 Hide the result to see the table and the chat	Nascondi il risultato per vedere il tavolo e la chat
 Show the result	Mostra il risultato
+A secret achievement: play to find it.	Un obiettivo segreto: gioca per scoprirlo.
+Only won	Solo da vincere
+Collection	Collezione
+Everything you have, and how you got it	Tutto ciò che hai, e come l'hai ottenuto
+A secret achievement	Un obiettivo segreto
+Not yet yours	Non ancora tuo
+Rarest first	I più rari prima
+Newest first	I più recenti prima
+By name	Per nome
+Reaction	Reazione
+Bought for {n} coins	Comprato per {n} monete
+Bought in the shop	Comprato nel negozio
+Gift from {name}	Regalo di {name}
+A present from the staff	Un regalo dello staff
+From the staff: {reason}	Dallo staff: {reason}
+Champion of {name}	Campione di {name}
+Runner-up of {name}	Finalista di {name}
+Place {n} in {name}	{n}° posto in {name}
+Achievement: {title}	Obiettivo: {title}
+Won at auction for {n} coins	Vinto all'asta per {n} monete
+VIP's item of the month · {month}	Oggetto VIP del mese · {month}
+Prize of {name}	Premio di {name}
+Yours	Tuo
+VIP's item of the month: VIP members get it that month	Oggetto VIP del mese: i membri VIP lo ricevono quel mese
+Only the season's champion wins it	Lo vince solo il campione della stagione
+Won in the official tournaments	Si vince nei tornei ufficiali
+Only won: events, cups and seasons	Solo da vincere: eventi, coppe e stagioni
+In the welcome pack	Nel pacchetto di benvenuto
+Yours while you are VIP	Tuo finché sei VIP
+Legendary cue	Stecca leggendaria
+Epic cue	Stecca epica
+{n} of {total} items	{n} di {total} oggetti
+Sign in to see your collection.	Accedi per vedere la tua collezione.
+All	Tutti
+Missing too	Anche quelli mancanti
+Nothing of this rarity here.	Niente di questa rarità qui.
+None yet: they are waiting to be won.	Ancora nessuno: aspettano di essere vinti.
+Page {a} of {b}	Pagina {a} di {b}
+In the shop	Nel negozio
+Everything you have	Tutto ciò che hai
+Show reactions	Mostra le reazioni
+Off: no reactions are shown during matches, from anyone.	Disattivato: durante le partite non viene mostrata nessuna reazione, di nessuno.
+The colour of your aim line and ghost ball.	Il colore della tua linea di mira e della bilia fantasma.
+For VIP members: the colour of the aim line and the ghost ball.	Per i membri VIP: il colore della linea di mira e della bilia fantasma.
+Aim colour	Colore della mira
+Polished stone, veined right through	Pietra levigata, venata da parte a parte
+A night sky in every ball, under a clear coat	Un cielo notturno in ogni bilia, sotto la vernice
+Lit from within, like neon	Illuminate dall'interno, come il neon
+Cut glass: deep colour and a dazzling shine	Vetro tagliato: colore profondo e una lucentezza abbagliante
+White Carrara marble, gold castings and fluted columns	Marmo bianco di Carrara, finiture dorate e colonne scanalate
+Black gloss on slab legs, with a neon glow beneath	Nero lucido su gambe a lastra, con un bagliore al neon sotto
+Woven carbon rails, red trim and a light strip	Sponde in carbonio intrecciato, dettagli rossi e una striscia di luce
+Dark walnut and polished copper on a riveted steel frame	Noce scuro e rame lucidato su un telaio d'acciaio rivettato
+Frosted lacquer and silver, with a cold light beneath	Lacca brinata e argento, con una luce fredda sotto
+Black volcanic stone, cracked with molten orange	Pietra vulcanica nera, crepata di arancione incandescente
+Rough pine on square posts, with iron castings	Pino grezzo su gambe squadrate, con finiture in ferro
+Black lacquer and gold: the season champion's table	Lacca nera e oro: il tavolo del campione della stagione
+The table alone under the spotlight, dark stands and TV lights	Il tavolo da solo sotto il riflettore, tribune buie e luci da TV
+Crimson velvet	Velluto cremisi
+Eclipse	Eclissi
+Arena blue	Blu arena
+Millennium gold	Oro del millennio
+Holly	Agrifoglio
+Winter frost	Brina d'inverno
+Rainforest	Foresta pluviale
+Bonfire	Falò
+Spring meadow	Prato di primavera
+Gold filigree	Filigrana d'oro
+Thunderbolt	Fulmine
+Damascus steel	Acciaio di Damasco
+Glacier	Ghiacciaio
+Abalone	Abalone
+Volcano	Vulcano
+Aurora	Aurora
+Emperor	Imperatore
+Untouchable	Intoccabile
+Midas	Mida
+Empire	Impero
+Millennium	Millennio
+Four corners	Quattro angoli
+Back from the dead	Ritorno dall'aldilà
+Season champion	Campione della stagione
+Candy cane	Bastoncino di zucchero
+Countdown	Conto alla rovescia
+Carnival	Carnevale
+Easter egg	Uovo di Pasqua
+Festa junina	Festa junina
+Spider web	Ragnatela
+Winter cup	Coppa d'inverno
+Summer cup	Coppa d'estate
+Anniversary	Anniversario
+World cup	Coppa del mondo
+New dawn	Nuova alba
+Sakura	Sakura
+Tide	Marea
+Witching hour	Ora delle streghe
+Diamond dust chalk	Gesso di polvere di diamante
+Champion's chalk	Gesso del campione
+Marble	Marmo
+Glow	Bagliore
+Crystal	Cristallo
+Crown jewels	Gioielli della corona
+Champion's gold	Oro del campione
+Christmas baubles	Palline di Natale
+Haunted	Stregato
+Copper works	Officina del rame
+Carbon racer	Carbonio da corsa
+Neon night	Notte al neon
+Ice palace	Palazzo di ghiaccio
+Country barn	Fienile di campagna
+Pro arena	Arena professionale
+Obsidian	Ossidiana
+Prism	Prisma
+Phantom	Fantasma
+Pro tour	Circuito professionale
+Rose garden	Roseto
+Golden hour	Ora dorata
+Hearts	Cuori
+Thunderstorm	Temporale
+Black hole	Buco nero
+Shooting stars	Stelle cadenti
+Snowfall	Nevicata
+Champion's fireworks	Fuochi del campione
+Crown of glory	Corona di gloria
+Fingers crossed	Dita incrociate
+Call me	Chiamami
+Nerd	Nerd
+Money face	Faccia da soldi
+Monocle	Monocolo
+Facepalm	Facepalm
+Shrug	Alzata di spalle
+Hands up	Mani in alto
+Melting	Mi sciolgo
+Alien	Alieno
+Clown	Pagliaccio
+Little devil	Diavoletto
+Angel	Angelo
+Bomb	Bomba
+Money bag	Sacco di soldi
+Crystal ball	Sfera di cristallo
+Tornado	Tornado
+Dragon	Drago
+Santa	Babbo Natale
+Snowflake	Fiocco di neve
+Summer sun	Sole d'estate
+Easter bunny	Coniglietto pasquale
+Football	Calcio
+Balloon	Palloncino
+Season medal	Medaglia della stagione
+Common	Comune
+Rare	Raro
+Epic	Epico
+Legendary	Leggendario
+Institution	Istituzione
+Play 2,500 rated games.	Gioca 2.500 partite classificate.
+Living legend	Leggenda vivente
+Win 1,000 rated games.	Vinci 1.000 partite classificate.
+The last word	L'ultima parola
+Win 500 rated games on the 8-ball.	Vinci 500 partite classificate imbucando la 8.
+Seventh heaven	Settimo cielo
+Win 7 rated games in a row.	Vinci 7 partite classificate di fila.
+Clinical	Chirurgico
+Break and run 5 times.	Spacca e chiudi la partita 5 volte.
+Iron curtain	Cortina di ferro
+Win 25 rated shutouts.	Fai 25 cappotti in partite classificate.
+Win 10 tournaments.	Vinci 10 tornei.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Vinci una partita classificata nel periodo di Carnevale (1 feb – 10 mar).
+June festival	Feste di giugno
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Vinci una partita classificata durante le feste di giugno (1 – 30 giu).
+Three in one	Tre in un colpo
+Pocket three of your balls with one shot (not the break).	Imbuca tre delle tue bilie con un solo tiro (non alla spaccata).
+Pocket balls in four different pockets with one shot (not the break).	Imbuca bilie in quattro buche diverse con un solo tiro (non alla spaccata).
+Thunder break	Spaccata tuono
+Pocket five balls on the break.	Imbuca cinque bilie alla spaccata.
+Spotted	Sul punto
+Pocket the 8-ball on the break in a game under the official rules.	Imbuca la 8 alla spaccata in una partita con le regole ufficiali.
+Win a rated game after being six balls behind.	Vinci una partita classificata dopo essere stato sotto di sei bilie.
+Last stand	Ultima resistenza
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Vinci una partita classificata dopo che l'avversario era sulla 8 mentre a te restavano cinque bilie o più.
+Stolen table	Tavolo rubato
+Win a rated game from your opponent's break without them getting another shot.	Vinci una partita classificata dalla spaccata dell'avversario senza che lui tiri di nuovo.
+Marathon	Maratona
+Win a rated game that lasted 60 shots or more.	Vinci una partita classificata durata 60 tiri o più.
+Ugly but it counts	Brutta, ma vale
+Win a rated game in which you fouled four times or more.	Vinci una partita classificata in cui hai commesso quattro falli o più.
+This item can't be given: it stays with whoever won it.	Questo oggetto non si può regalare: resta a chi l'ha vinto.

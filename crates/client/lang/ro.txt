@@ -2086,3 +2086,189 @@ Every player has it	O au toți jucătorii
 Drag to make the chat taller or shorter	Trage ca să faci chatul mai înalt sau mai scund
 Hide the result to see the table and the chat	Ascunde rezultatul ca să vezi masa și chatul
 Show the result	Arată rezultatul
+A secret achievement: play to find it.	O realizare secretă: joacă pentru a o descoperi.
+Only won	Doar câștigat
+Collection	Colecție
+Everything you have, and how you got it	Tot ce ai și cum le-ai obținut
+A secret achievement	O realizare secretă
+Not yet yours	Încă nu e al tău
+Rarest first	Cele mai rare întâi
+Newest first	Cele mai noi întâi
+By name	După nume
+Reaction	Reacție
+Bought for {n} coins	Cumpărat cu {n} monede
+Bought in the shop	Cumpărat din magazin
+Gift from {name}	Cadou de la {name}
+A present from the staff	Un cadou de la echipă
+From the staff: {reason}	De la echipă: {reason}
+Champion of {name}	Campion la {name}
+Runner-up of {name}	Vicecampion la {name}
+Place {n} in {name}	Locul {n} la {name}
+Achievement: {title}	Realizare: {title}
+Won at auction for {n} coins	Câștigat la licitație cu {n} monede
+VIP's item of the month · {month}	Obiectul VIP al lunii · {month}
+Prize of {name}	Premiu de la {name}
+Yours	Al tău
+VIP's item of the month: VIP members get it that month	Obiectul VIP al lunii: membrii VIP îl primesc în acea lună
+Only the season's champion wins it	Doar campionul sezonului îl câștigă
+Won in the official tournaments	Se câștigă în turneele oficiale
+Only won: events, cups and seasons	Doar câștigat: evenimente, cupe și sezoane
+In the welcome pack	În pachetul de bun venit
+Yours while you are VIP	Al tău cât timp ești VIP
+Legendary cue	Tac legendar
+Epic cue	Tac epic
+{n} of {total} items	{n} din {total} obiecte
+Sign in to see your collection.	Conectează-te pentru a-ți vedea colecția.
+All	Toate
+Missing too	Și cele lipsă
+Nothing of this rarity here.	Nimic de această raritate aici.
+None yet: they are waiting to be won.	Niciunul încă: așteaptă să fie câștigate.
+Page {a} of {b}	Pagina {a} din {b}
+In the shop	În magazin
+Everything you have	Tot ce ai
+Show reactions	Arată reacțiile
+Off: no reactions are shown during matches, from anyone.	Oprit: în timpul partidelor nu se arată nicio reacție, de la nimeni.
+The colour of your aim line and ghost ball.	Culoarea liniei tale de țintire și a bilei fantomă.
+For VIP members: the colour of the aim line and the ghost ball.	Pentru membrii VIP: culoarea liniei de țintire și a bilei fantomă.
+Aim colour	Culoarea țintei
+Polished stone, veined right through	Piatră lustruită, cu vinișoare de la un capăt la altul
+A night sky in every ball, under a clear coat	Un cer noaptea în fiecare bilă, sub lac
+Lit from within, like neon	Luminate din interior, ca neonul
+Cut glass: deep colour and a dazzling shine	Sticlă șlefuită: culoare adâncă și o strălucire orbitoare
+White Carrara marble, gold castings and fluted columns	Marmură albă de Carrara, ornamente aurii și coloane canelate
+Black gloss on slab legs, with a neon glow beneath	Negru lucios pe picioare-placă, cu o strălucire neon dedesubt
+Woven carbon rails, red trim and a light strip	Manta din carbon împletit, accente roșii și o bandă de lumină
+Dark walnut and polished copper on a riveted steel frame	Nuc închis și cupru lustruit pe un cadru de oțel nituit
+Frosted lacquer and silver, with a cold light beneath	Lac brumat și argint, cu o lumină rece dedesubt
+Black volcanic stone, cracked with molten orange	Piatră vulcanică neagră, crăpată de portocaliu incandescent
+Rough pine on square posts, with iron castings	Pin brut pe picioare pătrate, cu ornamente din fier
+Black lacquer and gold: the season champion's table	Lac negru și aur: masa campionului sezonului
+The table alone under the spotlight, dark stands and TV lights	Masa singură în lumina reflectorului, tribune întunecate și lumini TV
+Crimson velvet	Catifea purpurie
+Eclipse	Eclipsă
+Arena blue	Albastru de arenă
+Millennium gold	Aurul mileniului
+Holly	Ilice
+Winter frost	Brumă de iarnă
+Rainforest	Pădure tropicală
+Bonfire	Foc de tabără
+Spring meadow	Pajiște de primăvară
+Gold filigree	Filigran de aur
+Thunderbolt	Fulger
+Damascus steel	Oțel de Damasc
+Glacier	Ghețar
+Abalone	Abalone
+Volcano	Vulcan
+Aurora	Auroră
+Emperor	Împărat
+Untouchable	De neatins
+Midas	Midas
+Empire	Imperiu
+Millennium	Mileniu
+Four corners	Patru colțuri
+Back from the dead	Înapoi din morți
+Season champion	Campionul sezonului
+Candy cane	Baston de bomboane
+Countdown	Numărătoare inversă
+Carnival	Carnaval
+Easter egg	Ou de Paște
+Festa junina	Festa junina
+Spider web	Pânză de păianjen
+Winter cup	Cupa de iarnă
+Summer cup	Cupa de vară
+Anniversary	Aniversare
+World cup	Cupa Mondială
+New dawn	Zori noi
+Sakura	Sakura
+Tide	Maree
+Witching hour	Ora vrăjitoarelor
+Diamond dust chalk	Cretă din praf de diamant
+Champion's chalk	Creta campionului
+Marble	Marmură
+Glow	Strălucire
+Crystal	Cristal
+Crown jewels	Bijuteriile coroanei
+Champion's gold	Aurul campionului
+Christmas baubles	Globuri de Crăciun
+Haunted	Bântuit
+Copper works	Atelierul de cupru
+Carbon racer	Bolid de carbon
+Neon night	Noapte neon
+Ice palace	Palat de gheață
+Country barn	Hambar la țară
+Pro arena	Arenă profesionistă
+Obsidian	Obsidian
+Prism	Prismă
+Phantom	Fantomă
+Pro tour	Circuit profesionist
+Rose garden	Grădină de trandafiri
+Golden hour	Ora de aur
+Hearts	Inimi
+Thunderstorm	Furtună
+Black hole	Gaură neagră
+Shooting stars	Stele căzătoare
+Snowfall	Ninsoare
+Champion's fireworks	Artificiile campionului
+Crown of glory	Coroana gloriei
+Fingers crossed	Degete încrucișate
+Call me	Sună-mă
+Nerd	Tocilar
+Money face	Ochi de bani
+Monocle	Monoclu
+Facepalm	Facepalm
+Shrug	Ridicare din umeri
+Hands up	Mâinile sus
+Melting	Mă topesc
+Alien	Extraterestru
+Clown	Clovn
+Little devil	Drăcușor
+Angel	Înger
+Bomb	Bombă
+Money bag	Sac de bani
+Crystal ball	Glob de cristal
+Tornado	Tornadă
+Dragon	Dragon
+Santa	Moș Crăciun
+Snowflake	Fulg de nea
+Summer sun	Soare de vară
+Easter bunny	Iepurașul de Paște
+Football	Fotbal
+Balloon	Balon
+Season medal	Medalia sezonului
+Common	Comun
+Rare	Rar
+Epic	Epic
+Legendary	Legendar
+Institution	Instituție
+Play 2,500 rated games.	Joacă 2.500 de partide cu rating.
+Living legend	Legendă vie
+Win 1,000 rated games.	Câștigă 1.000 de partide cu rating.
+The last word	Ultimul cuvânt
+Win 500 rated games on the 8-ball.	Câștigă 500 de partide cu rating băgând bila 8.
+Seventh heaven	În al nouălea cer
+Win 7 rated games in a row.	Câștigă 7 partide cu rating la rând.
+Clinical	Clinic
+Break and run 5 times.	Câștigă direct din spargere de 5 ori.
+Iron curtain	Cortina de fier
+Win 25 rated shutouts.	Câștigă la zero 25 de partide cu rating.
+Win 10 tournaments.	Câștigă 10 turnee.
+Win a rated game in Carnival season (Feb 1 – Mar 10).	Câștigă o partidă cu rating în perioada Carnavalului (1 feb. – 10 mar.).
+June festival	Sărbătoarea din iunie
+Win a rated game during the June festivals (Jun 1 – Jun 30).	Câștigă o partidă cu rating în timpul sărbătorilor din iunie (1–30 iun.).
+Three in one	Trei dintr-o lovitură
+Pocket three of your balls with one shot (not the break).	Bagă trei dintre bilele tale dintr-o singură lovitură (nu la spargere).
+Pocket balls in four different pockets with one shot (not the break).	Bagă bile în patru buzunare diferite dintr-o singură lovitură (nu la spargere).
+Thunder break	Spargere tunet
+Pocket five balls on the break.	Bagă cinci bile la spargere.
+Spotted	Pe punct
+Pocket the 8-ball on the break in a game under the official rules.	Bagă bila 8 la spargere într-o partidă cu regulile oficiale.
+Win a rated game after being six balls behind.	Câștigă o partidă cu rating după ce ai fost condus cu șase bile.
+Last stand	Ultima redută
+Win a rated game after your opponent was on the 8-ball while you still had five or more balls.	Câștigă o partidă cu rating după ce adversarul era pe bila 8, iar ție îți mai rămâneau cinci bile sau mai multe.
+Stolen table	Masă furată
+Win a rated game from your opponent's break without them getting another shot.	Câștigă o partidă cu rating din spargerea adversarului fără ca el să mai lovească.
+Marathon	Maraton
+Win a rated game that lasted 60 shots or more.	Câștigă o partidă cu rating care a durat 60 de lovituri sau mai mult.
+Ugly but it counts	Urât, dar contează
+Win a rated game in which you fouled four times or more.	Câștigă o partidă cu rating în care ai comis patru faulturi sau mai multe.
+This item can't be given: it stays with whoever won it.	Acest obiect nu poate fi dăruit: rămâne la cel care l-a câștigat.

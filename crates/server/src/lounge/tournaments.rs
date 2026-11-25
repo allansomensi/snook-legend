@@ -1304,7 +1304,18 @@ impl Lounge {
         let look = self.table_look_of(&host);
         let breaker = self.first_breaker(&players, rules);
         let game = Game { seed: rand::random(), breaker, rules };
-        self.create_room(room_id, players, users, guests, rated, game, Some(at), look, private);
+        self.create_room(
+            room_id,
+            players,
+            users,
+            guests,
+            rated,
+            game,
+            Some(at),
+            look,
+            private,
+            None,
+        );
     }
 
     /// Arena: pairs the players who are free (closest points, then rating;

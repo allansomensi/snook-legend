@@ -46,6 +46,7 @@ pub mod settings;
 pub mod shop;
 pub mod social;
 pub mod store;
+pub mod time_attack;
 pub mod tournament;
 
 use std::collections::{HashMap, HashSet};
@@ -466,6 +467,17 @@ impl Server {
         }
     }
 
+    /// The doubles ranking of `rules` (its first hundred).
+    pub async fn doubles_leaderboard(&self, rules: Rules) -> Vec<LeaderboardEntry> {
+        match self.store.doubles_leaderboard(rules, 100, now()).await {
+            Ok(list) => list,
+            Err(e) => {
+                tracing::error!("doubles leaderboard query failed: {e}");
+                Vec::new()
+            }
+        }
+    }
+
     pub(crate) fn invalidate_leaderboard(&self) {
         *self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()) = PerRules::default();
     }
@@ -610,10 +622,13 @@ struct LeaderboardQuery {
     /// "brazilian" (the default) or "official".
     #[serde(default)]
     rules: Option<String>,
+    /// "singles" (the default) or "doubles".
+    #[serde(default)]
+    mode: Option<String>,
 }
 
 /// The ranking under the rules asked (`?rules=official`; the Brazilian
-/// rules' by default).
+/// rules' by default), of singles or of doubles (`?mode=doubles`).
 async fn api_leaderboard(
     State(server): State<Arc<Server>>,
     axum::extract::Query(q): axum::extract::Query<LeaderboardQuery>,
@@ -622,7 +637,14 @@ async fn api_leaderboard(
         return (axum::http::StatusCode::BAD_REQUEST, "rules: brazilian or official")
             .into_response();
     };
-    let entries = server.leaderboard(rules).await;
+    let entries = match q.mode.as_deref() {
+        None | Some("singles") => server.leaderboard(rules).await,
+        Some("doubles") => server.doubles_leaderboard(rules).await,
+        Some(_) => {
+            return (axum::http::StatusCode::BAD_REQUEST, "mode: singles or doubles")
+                .into_response();
+        }
+    };
     public_json(serde_json::to_value(entries).unwrap_or_default())
 }
 
@@ -696,6 +718,10 @@ pub fn spawn_background(server: Arc<Server>) {
     // Promotions, maintenance, auctions, reminders of tournaments.
     if !server.config.settings.lan {
         tokio::spawn(ops::run(server.clone()));
+    }
+    // The week against the clock's prizes.
+    if !server.config.settings.lan {
+        tokio::spawn(time_attack::run(server.clone()));
     }
     // Microsoft Store purchases whose answer was lost on the way.
     if server.msstore.is_some() {
@@ -830,6 +856,39 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                             missions::after_game(server, &user, won, &record.stats[seat]).await;
                             shop::push_wallet(server, &user).await;
                         }
+                    }
+                }
+            }
+        }
+        Effect::RecordDoubles { record, keys } => {
+            match retrying_long("recording a doubles game", || server.store.record_doubles(&record))
+                .await
+            {
+                Ok(true) => {}
+                Ok(false) => {
+                    return tracing::warn!("the doubles game {keys:?} was recorded already");
+                }
+                Err(e) => {
+                    return tracing::error!("could not record the doubles game {keys:?}: {e}");
+                }
+            }
+            // A game played (not left after a few shots) earns experience;
+            // a rated one coins too, as in singles. The team that left it
+            // gets neither.
+            let played = record.shots >= account::MIN_SHOTS_FOR_COINS;
+            let left = (record.reason == GameOverReason::Abandoned).then_some(1 - record.winner);
+            for (team, ids) in record.players.iter().enumerate() {
+                if !played || left == Some(team) {
+                    continue;
+                }
+                for id in ids {
+                    let Ok(Some(user)) = server.store.user_by_id(*id).await else { continue };
+                    let won = record.winner == team;
+                    account::award_xp(server, &user, snook_legend_proto::xp::for_game(won, 0))
+                        .await;
+                    if record.rated {
+                        account::game_coins(server, &user, won).await;
+                        shop::push_wallet(server, &user).await;
                     }
                 }
             }
@@ -1242,6 +1301,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
     let mut hello = false;
     // The rules the player plays (the game says so in its hello).
     let mut rules = Rules::default();
+    // The game's protocol (doubles are for games that know them).
+    let mut protocol = 0;
     let mut user: Option<(User, bool)> = None;
     let mut failures = 0;
     let mut token_in_use: Option<String> = None;
@@ -1295,6 +1356,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 {
                     hello = true;
                     rules = r;
+                    protocol = v;
                 }
                 // A game newer than the server: the server hasn't been
                 // updated yet (updating the game can't help).
@@ -1356,7 +1418,11 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 ip_text.clone(),
                                 blocked,
                             );
+                            l.set_protocol(&row.username, protocol);
                         });
+                        if !guest && let Ok(records) = server.store.doubles_records(row.id).await {
+                            server.with(|l| l.set_doubles_records(&row.username, records));
+                        }
                         if !guest {
                             token_in_use = Some(token);
                             send(age_msg(&row));
@@ -1417,6 +1483,10 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 ClientMsg::Leaderboard { rules } => {
                     send(ServerMsg::Leaderboard { rules, entries: server.leaderboard(rules).await })
                 }
+                ClientMsg::DoublesLeaderboard { rules } => send(ServerMsg::DoublesLeaderboard {
+                    rules,
+                    entries: server.doubles_leaderboard(rules).await,
+                }),
                 ClientMsg::Profile { username } => {
                     // (Counted per address, as sign-ins are: a profile is a
                     // dozen queries, and a new connection has a full bucket.)
@@ -1448,6 +1518,10 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::Leaderboard { rules } => {
                 send(ServerMsg::Leaderboard { rules, entries: server.leaderboard(rules).await })
             }
+            ClientMsg::DoublesLeaderboard { rules } => send(ServerMsg::DoublesLeaderboard {
+                rules,
+                entries: server.doubles_leaderboard(rules).await,
+            }),
             ClientMsg::Profile { username } => {
                 let viewer = (!guest).then_some(&me);
                 match profile_msg(&server, viewer, &username).await {
@@ -1578,6 +1652,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 correspondence::handle(&server, &me, msg, &send).await
             }
             msg if daily::is_msg(&msg) => daily::handle(&server, &me, msg, &send).await,
+            msg if time_attack::is_msg(&msg) => time_attack::handle(&server, &me, msg, &send).await,
             msg if drills::is_msg(&msg) => drills::handle(&server, &me, msg, &send).await,
             msg if cup_medals::is_msg(&msg) => cup_medals::handle(&server, &me, msg, &send).await,
             msg if inbox::is_msg(&msg) => inbox::handle(&server, &me, msg, &send).await,
@@ -1994,6 +2069,10 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DmRead { .. }
             | ClientMsg::DmThreads
             | ClientMsg::AdvancedStats { .. }
+            | ClientMsg::DoublesLeaderboard { .. }
+            | ClientMsg::TimeAttack
+            | ClientMsg::TimeAttackStart
+            | ClientMsg::TimeAttackSubmit { .. }
     )
 }
 
@@ -2078,6 +2157,9 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DmRead { .. }
             | ClientMsg::DmThreads
             | ClientMsg::AdvancedStats { .. }
+            | ClientMsg::TimeAttack
+            | ClientMsg::TimeAttackStart
+            | ClientMsg::TimeAttackSubmit { .. }
     )
 }
 

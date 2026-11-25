@@ -31,6 +31,7 @@ use crate::limits::Bucket;
 use crate::now;
 use crate::store::{LiveMatch, MatchRecord, TournamentRecord, User};
 
+mod doubles;
 mod match_social;
 mod social;
 mod tournaments;
@@ -133,6 +134,13 @@ pub enum Effect {
     ShotStats {
         user_id: i64,
         bands: Vec<(usize, u32, u32)>,
+    },
+    /// Store a finished doubles game (each player's record, coins and
+    /// experience follow).
+    RecordDoubles {
+        record: Box<crate::store::DoublesRecord>,
+        /// The teams' players (lower-case names).
+        keys: [[String; 2]; 2],
     },
     /// Give (or give back) coins: a tournament prize or refund.
     Pay {
@@ -345,6 +353,9 @@ struct Room {
     /// For a seat whose connection dropped: `chat_total` then (the lines
     /// after it are sent again when they come back).
     chat_missed: [Option<u64>; 2],
+    /// A doubles game: the teams' second players and who holds the cue
+    /// (see `doubles.rs`); each seat is a team.
+    doubles: Option<Box<doubles::Doubles>>,
 }
 
 struct Table {
@@ -442,6 +453,8 @@ pub struct Lounge {
     /// The start of a weekly cup the staff called off: it is not opened
     /// again (the next week's is).
     cup_called_off: Option<i64>,
+    /// Doubles: pairs of partners, their searches and tables.
+    doubles: doubles::Lobby,
 }
 
 struct Queued {
@@ -773,7 +786,7 @@ impl Lounge {
             old.kill.notify_one();
         }
         // A game going on first (one just finished could also be waiting).
-        let mine = |r: &&Room| r.keys.contains(&k) && r.present[r.seat_of(&k)];
+        let mine = |r: &&Room| r.players_present().iter().any(|(p, at)| *p == k && *at);
         let room = self.rooms.values().filter(mine).min_by_key(|r| r.finished).map(|r| r.id);
         let info = player_info(
             &user,
@@ -849,6 +862,9 @@ impl Lounge {
     /// there when it was rebuilt): the table is sent to them and the
     /// opponent is told.
     fn back_to_room(&mut self, k: &str, id: u64) {
+        if self.rooms.get(&id).is_some_and(|r| r.doubles.is_some()) {
+            return self.doubles_back(k, id);
+        }
         let clock = self.settings.shot_clock.as_secs() as u32;
         let grace = self.settings.reconnect_grace;
         let Some(room) = self.rooms.get_mut(&id) else { return };
@@ -958,9 +974,17 @@ impl Lounge {
         self.stop_watching(&k);
         self.queue.retain(|q| q.key != k);
         self.drop_seek(&k);
+        self.doubles_left(&k);
         let session = self.sessions.remove(&k).expect("checked");
         self.left_limits.insert(k.clone(), (session.limits(), Instant::now()));
         if let Some(id) = session.room
+            && self.rooms.get(&id).is_some_and(|r| r.doubles.is_some())
+        {
+            if self.rooms.get(&id).is_some_and(|r| r.finished) {
+                self.end_watching_of(&k, id);
+            }
+            self.doubles_dropped(&k, id);
+        } else if let Some(id) = session.room
             && let Some(room) = self.rooms.get_mut(&id)
         {
             let seat = room.seat_of(&k);
@@ -1045,7 +1069,7 @@ impl Lounge {
     pub fn rename_blocker(&self, name: &str) -> Option<&'static str> {
         let k = key(name);
         let s = self.sessions.get(&k)?;
-        if s.room.is_some() || self.rooms.values().any(|r| !r.finished && r.keys.contains(&k)) {
+        if s.room.is_some() || self.rooms.values().any(|r| !r.finished && r.has(&k)) {
             Some("Finish your game before changing your username.")
         } else if s.table.is_some() || self.queue.iter().any(|q| q.key == k) {
             Some("Leave your table or the queue before changing your username.")
@@ -1066,7 +1090,7 @@ impl Lounge {
     /// the seat).
     pub fn is_busy(&self, name: &str) -> bool {
         let k = key(name);
-        self.rooms.values().any(|r| !r.finished && r.keys.contains(&k))
+        self.rooms.values().any(|r| !r.finished && r.has(&k))
             || self.sessions.get(&k).is_some_and(|s| s.table.is_some() || s.room.is_some())
             || self.queue.iter().any(|q| q.key == k)
             || self
@@ -1370,9 +1394,7 @@ impl Lounge {
             .map(|l| format!("[lounge] {}: {}", l.from, l.text))
             .collect();
         lines.reverse();
-        if let Some(room) =
-            self.rooms.values().find(|room| room.keys.contains(&r) && room.keys.contains(&t))
-        {
+        if let Some(room) = self.rooms.values().find(|room| room.has(&r) && room.has(&t)) {
             lines.extend(room.chat.iter().map(|l| format!("[match] {}: {}", l.from, l.text)));
         }
         lines.join("\n")
@@ -1430,7 +1452,7 @@ impl Lounge {
     }
 
     fn close_room_if_empty(&mut self, id: u64) {
-        if self.rooms.get(&id).is_some_and(|r| !r.present[0] && !r.present[1]) {
+        if self.rooms.get(&id).is_some_and(|r| r.players_present().iter().all(|(_, at)| !at)) {
             self.rooms.remove(&id);
             self.featured_dirty = true;
         }
@@ -1469,8 +1491,16 @@ impl Lounge {
                 | ClientMsg::PostSeek { .. }
                 | ClientMsg::RemoveSeek { .. }
                 | ClientMsg::WatchMatch { .. }
+                | ClientMsg::DoublesQueue { .. }
+                | ClientMsg::DoublesQueueLeave
+                | ClientMsg::DoublesOpenTable { .. }
+                | ClientMsg::DoublesJoinTable { .. }
+                | ClientMsg::DoublesCloseTable
         );
         if announced && !self.take_action(&k) {
+            return;
+        }
+        if self.handle_doubles(&k, &msg) {
             return;
         }
         match msg {
@@ -1662,7 +1692,20 @@ impl Lounge {
             | ClientMsg::DmHistory { .. }
             | ClientMsg::DmRead { .. }
             | ClientMsg::DmThreads
-            | ClientMsg::AdvancedStats { .. } => {}
+            | ClientMsg::AdvancedStats { .. }
+            | ClientMsg::DoublesLeaderboard { .. }
+            | ClientMsg::TimeAttack
+            | ClientMsg::TimeAttackStart
+            | ClientMsg::TimeAttackSubmit { .. } => {}
+            // Handled above (`handle_doubles`).
+            ClientMsg::DoublesInvite { .. }
+            | ClientMsg::DoublesAnswer { .. }
+            | ClientMsg::DoublesLeave
+            | ClientMsg::DoublesQueue { .. }
+            | ClientMsg::DoublesQueueLeave
+            | ClientMsg::DoublesOpenTable { .. }
+            | ClientMsg::DoublesJoinTable { .. }
+            | ClientMsg::DoublesCloseTable => {}
         }
     }
 
@@ -2069,10 +2112,9 @@ impl Lounge {
         let Some(room) = self.rooms.get(&id) else { return Vec::new() };
         // (One who is offline is still theirs: their friends watching them
         // hear how it ended.)
-        room.keys
-            .iter()
-            .filter(|k| !room.finished || self.sessions.get(*k).is_none_or(|s| s.room == Some(id)))
-            .cloned()
+        room.all_keys()
+            .into_iter()
+            .filter(|k| !room.finished || self.sessions.get(k).is_none_or(|s| s.room == Some(id)))
             .collect()
     }
 
@@ -2083,7 +2125,7 @@ impl Lounge {
             .iter()
             .filter_map(|k| self.watchers.get(k))
             .flatten()
-            .filter(|w| !room.keys.contains(w))
+            .filter(|w| !room.has(w))
             .cloned()
             .collect();
         out.sort();
@@ -2132,7 +2174,7 @@ impl Lounge {
         }
         let Some(id) = self.watched_room(k) else { return };
         let Some(room) = self.rooms.get_mut(&id) else { return };
-        if room.keys.iter().any(|p| p == k) || room.cheers.get(k) == Some(&seat) {
+        if room.has(k) || room.cheers.get(k) == Some(&seat) {
             return;
         }
         room.cheers.insert(k.to_string(), seat);
@@ -2142,6 +2184,7 @@ impl Lounge {
     fn send_spectator_start(&self, w: &str, id: u64, seat: usize) {
         if let Some(room) = self.rooms.get(&id) {
             let clock = self.settings.shot_clock.as_secs() as u32;
+            self.send_lineup(w, id);
             self.send(w, room.started_msg(seat, &self.sessions, clock, true));
             if let Some(result) = room.result.clone() {
                 self.send(w, ServerMsg::MatchEnded { result });
@@ -2175,12 +2218,12 @@ impl Lounge {
             .get(&friend)
             .and_then(|f| f.room)
             .and_then(|id| self.rooms.get(&id))
-            .or_else(|| self.rooms.values().find(|r| !r.finished && r.keys.contains(&friend)));
+            .or_else(|| self.rooms.values().find(|r| !r.finished && r.has(&friend)));
         let Some(room) = room else {
             return self.error(k, "Your friend isn't playing right now.");
         };
         // Neither player may have blocked whoever watches.
-        if room.keys.iter().any(|p| self.blocks(p, k)) {
+        if room.all_keys().iter().any(|p| self.blocks(p, k)) {
             return self.error(k, "You can't watch this game.");
         }
         let (id, seat) = (room.id, room.seat_of(&friend));
@@ -2216,7 +2259,7 @@ impl Lounge {
         }
         let watched = self.sessions.get(&b).and_then(|s| s.watching.clone());
         let room = watched.and_then(|p| self.sessions.get(&p)).and_then(|s| s.room);
-        if room.and_then(|id| self.rooms.get(&id)).is_some_and(|r| r.keys.contains(&a)) {
+        if room.and_then(|id| self.rooms.get(&id)).is_some_and(|r| r.has(&a)) {
             self.end_spectating(&b, "You can't watch this game.");
         }
     }
@@ -2554,7 +2597,7 @@ impl Lounge {
         let seed: u64 = rand::thread_rng().r#gen();
         let breaker = self.first_breaker(&keys, rules);
         let game = Game { seed, breaker, rules };
-        self.create_room(id, keys, users, guests, rated, game, tournament, look, private);
+        self.create_room(id, keys, users, guests, rated, game, tournament, look, private, None);
     }
 
     /// Who breaks a new game between these two: under the Brazilian rules
@@ -2594,15 +2637,19 @@ impl Lounge {
         tournament: Option<(u64, usize, usize)>,
         table_look: [String; 2],
         private: bool,
+        doubles: Option<Box<doubles::Doubles>>,
     ) {
         let Game { seed, breaker, rules } = game;
-        if rules == Rules::Brazilian {
+        if rules == Rules::Brazilian && doubles.is_none() {
             let (a, b, _) = pair_key(&keys, false);
             self.last_break.insert((a, b), (keys[breaker % 2].clone(), Instant::now()));
         }
         let mut turns = [0, 0];
         turns[breaker] = 1;
-        let stakes = rated.then(|| self.stakes_for(&keys, &users, rules));
+        let stakes = match &doubles {
+            Some(d) => rated.then(|| Self::doubles_stakes(d)),
+            None => rated.then(|| self.stakes_for(&keys, &users, rules)),
+        };
         let room = Room {
             id,
             keys: keys.clone(),
@@ -2640,9 +2687,11 @@ impl Lounge {
             spectator_chat: VecDeque::new(),
             chat_total: 0,
             chat_missed: [None, None],
+            doubles,
         };
         let clock = self.settings.shot_clock.as_secs() as u32;
-        for k in &keys {
+        let everyone = room.all_keys();
+        for k in &everyone {
             self.stop_watching(k);
             // Found a game: off the "looking for a game" board.
             self.drop_seek(k);
@@ -2654,22 +2703,26 @@ impl Lounge {
                 s.focus = false;
             }
         }
-        for (seat, k) in keys.iter().enumerate() {
-            let msg = room.started_msg(seat, &self.sessions, clock, false);
+        self.rooms.insert(id, room);
+        let room = &self.rooms[&id];
+        for k in &everyone {
+            // (A doubles player hears who plays with whom first.)
+            self.send_lineup(k, id);
+            let msg = room.started_msg(room.seat_of(k), &self.sessions, clock, false);
             self.send(k, msg);
         }
-        self.rooms.insert(id, room);
         self.featured_dirty = true;
-        for k in &keys {
+        for k in &everyone {
             self.announce(k);
         }
         // Friends watching either player follow them to the new game; who
         // watched on the lounge's TV only to a game the TV could show, and
         // nobody to a game whose players blocked them.
-        for (seat, k) in keys.iter().enumerate() {
+        for k in &everyone {
+            let seat = self.rooms[&id].seat_of(k);
             for w in self.watchers.get(k).cloned().unwrap_or_default() {
                 let tv = self.sessions.get(&w).is_some_and(|s| s.watching_tv);
-                if (tv && private) || keys.iter().any(|p| self.blocks(p, &w)) {
+                if (tv && private) || everyone.iter().any(|p| self.blocks(p, &w)) {
                     self.end_spectating(&w, "You can't watch this game.");
                     continue;
                 }
@@ -2678,13 +2731,18 @@ impl Lounge {
         }
         self.announce_spectators(id);
         self.save_live(id);
-        tracing::info!(room = id, rated, "match started: {} vs {}", keys[0], keys[1]);
+        tracing::info!(room = id, rated, "match started: {everyone:?}");
     }
 
     /// Saves a game in progress (games with accounts only).
     fn save_live(&self, id: u64) {
         let Some(room) = self.rooms.get(&id) else { return };
-        if self.settings.lan || room.guests.iter().any(|g| *g) || room.finished {
+        // (Doubles games aren't saved: they go on here to the end.)
+        if self.settings.lan
+            || room.guests.iter().any(|g| *g)
+            || room.finished
+            || room.doubles.is_some()
+        {
             return;
         }
         self.effect(Effect::SaveLive(LiveMatch {
@@ -2701,7 +2759,9 @@ impl Lounge {
         let id = self.sessions.get(k)?.room?;
         let room = self.rooms.get(&id)?;
         let seat = room.seat_of(k);
-        (!room.finished && room.busy.is_none() && room.game.current_player() == seat)
+        // (In doubles, the team's player whose visit it is.)
+        let holds = room.doubles.is_none() || room.holds_cue(k);
+        (!room.finished && room.busy.is_none() && room.game.current_player() == seat && holds)
             .then_some((id, seat))
     }
 
@@ -2727,8 +2787,10 @@ impl Lounge {
         }
         let room = self.rooms.get_mut(&id).expect("room");
         if room.game.ball_in_hand().is_some() && room.game.place_cue_ball(p) {
-            let opponent = room.keys[1 - seat].clone();
-            self.send(&opponent, ServerMsg::OpponentCueBall { position: p });
+            let _ = seat;
+            for other in room.all_keys().into_iter().filter(|o| o != k) {
+                self.send(&other, ServerMsg::OpponentCueBall { position: p });
+            }
             for w in self.spectators(id) {
                 self.send(&w, ServerMsg::OpponentCueBall { position: p });
             }
@@ -2748,8 +2810,10 @@ impl Lounge {
         if !self.aim_allowed(k) {
             return;
         }
-        let opponent = self.rooms[&id].keys[1 - seat].clone();
-        self.send(&opponent, ServerMsg::OpponentAim { aim });
+        let _ = seat;
+        for other in self.rooms[&id].all_keys().into_iter().filter(|o| o != k) {
+            self.send(&other, ServerMsg::OpponentAim { aim });
+        }
         for w in self.spectators(id) {
             self.send(&w, ServerMsg::OpponentAim { aim });
         }
@@ -2879,6 +2943,7 @@ impl Lounge {
         let msg = ServerMsg::ShotResult { turn, end: room.game.clone(), report, clock_left };
         let over = room.game.game_over().is_some();
         self.send_room(id, &msg);
+        self.doubles_changed(id);
         if over {
             self.finish(id);
         } else if !self.resign_waiting(id) {
@@ -2942,6 +3007,7 @@ impl Lounge {
         let msg =
             ServerMsg::TimeFoul { seat, game: room.game.clone(), clock_left: clock.as_secs_f32() };
         self.send_room(id, &msg);
+        self.doubles_changed(id);
         if over {
             self.finish(id);
         } else {
@@ -2988,6 +3054,7 @@ impl Lounge {
             clock_left: clock.as_secs_f32(),
         };
         self.send_room(id, &msg);
+        self.doubles_changed(id);
         self.save_live(id);
     }
 
@@ -3008,7 +3075,7 @@ impl Lounge {
     /// `k` resigns the game in room `id` (if they play in it).
     fn resign_in(&mut self, id: u64, k: &str) {
         let Some(room) = self.rooms.get_mut(&id) else { return };
-        if room.finished || !room.keys.iter().any(|p| p == k) {
+        if room.finished || !room.has(k) {
             return;
         }
         let seat = room.seat_of(k);
@@ -3029,6 +3096,9 @@ impl Lounge {
         let Some(over) = room.game.game_over() else { return };
         if room.finished {
             return;
+        }
+        if room.doubles.is_some() {
+            return self.finish_doubles(id);
         }
         // The freshest numbers: from the session if the player is online.
         let current = |seat: usize| -> User {
@@ -3192,6 +3262,9 @@ impl Lounge {
         if room.tournament.is_some() {
             return self.error(k, "Tournament games have no rematch.");
         }
+        if room.doubles.is_some() {
+            return self.doubles_rematch(k, id);
+        }
         let seat = room.seat_of(k);
         let opponent = room.keys[1 - seat].clone();
         // Gone, or on to another game (or back in the lounge).
@@ -3236,7 +3309,9 @@ impl Lounge {
             let users =
                 [self.sessions[&keys[0]].user.clone(), self.sessions[&keys[1]].user.clone()];
             let new_id = self.new_id();
-            self.create_room(new_id, keys, users, guests, rated, game, None, table_look, private);
+            self.create_room(
+                new_id, keys, users, guests, rated, game, None, table_look, private, None,
+            );
             if let Some(r) = self.rooms.get_mut(&new_id) {
                 r.chat = chat;
             }
@@ -3270,6 +3345,16 @@ impl Lounge {
     fn leave_finished(&mut self, k: &str) {
         let Some(id) = self.sessions.get(k).and_then(|s| s.room) else { return };
         let Some(room) = self.rooms.get_mut(&id).filter(|r| r.finished) else { return };
+        if room.doubles.is_some() {
+            if let Some(s) = self.sessions.get_mut(k) {
+                s.room = None;
+            }
+            self.doubles_leave_finished(k, id);
+            self.end_watching_of(k, id);
+            self.close_room_if_empty(id);
+            self.announce(k);
+            return;
+        }
         let seat = room.seat_of(k);
         room.present[seat] = false;
         let opponent = room.keys[1 - seat].clone();
@@ -3295,6 +3380,7 @@ impl Lounge {
         if !self.queue.is_empty() {
             self.match_queue();
         }
+        self.match_doubles();
         self.expire_seeks();
         let nowi = Instant::now();
         // A saved game is gone from the database within a day at most.
@@ -3337,7 +3423,7 @@ impl Lounge {
                 tracing::info!(room = id, "game dropped: both players gone");
                 // (Its saved copy, not deleted yet, isn't rebuilt.)
                 self.finished_rooms.insert(id, Instant::now());
-                for k in &room.keys {
+                for k in &room.all_keys() {
                     if let Some(s) = self.sessions.get_mut(k)
                         && s.room == Some(id)
                     {
@@ -3345,7 +3431,7 @@ impl Lounge {
                     }
                 }
                 self.effect(Effect::DeleteLive(id as i64));
-                for k in &room.keys {
+                for k in &room.all_keys() {
                     self.end_watching_of(k, id);
                 }
                 // A knockout can't wait for a game that is gone: its match
@@ -3367,6 +3453,8 @@ impl Lounge {
                 .rooms
                 .values()
                 .filter(|r| !r.finished && r.busy.is_none() && r.game.game_over().is_none())
+                // (A doubles game isn't handed over: it is played to its end.)
+                .filter(|r| r.doubles.is_none())
                 .filter(|r| {
                     nowi >= deadline
                         || (r.disconnected.iter().any(Option::is_some)
@@ -3394,8 +3482,14 @@ impl Lounge {
             // the other's, who may be back in a moment for the result).
             if let Some(room) = self.rooms.get_mut(&id) {
                 room.present[seat] = false;
-                let gone = room.keys[seat].clone();
-                self.end_watching_of(&gone, id);
+                let mut gone = vec![room.keys[seat].clone()];
+                if let Some(d) = room.doubles.as_mut() {
+                    d.present[seat] = [false, false];
+                    gone.push(d.partners[seat].clone());
+                }
+                for k in gone {
+                    self.end_watching_of(&k, id);
+                }
             }
             self.close_room_if_empty(id);
         }
@@ -3405,9 +3499,8 @@ impl Lounge {
             .values()
             .filter(|r| {
                 r.finished
-                    && (0..2).all(|s| {
-                        !r.present[s]
-                            || self.sessions.get(&r.keys[s]).is_none_or(|x| x.room != Some(r.id))
+                    && r.players_present().iter().all(|(k, at)| {
+                        !at || self.sessions.get(k).is_none_or(|x| x.room != Some(r.id))
                     })
             })
             .map(|r| r.id)
@@ -3581,10 +3674,7 @@ impl Lounge {
     /// The game being played between two players, if any (its room id).
     pub fn live_game_between(&self, a: &str, b: &str) -> Option<u64> {
         let (a, b) = (key(a), key(b));
-        self.rooms
-            .values()
-            .find(|r| !r.finished && r.keys.contains(&a) && r.keys.contains(&b))
-            .map(|r| r.id)
+        self.rooms.values().find(|r| !r.finished && r.has(&a) && r.has(&b)).map(|r| r.id)
     }
 
     /// A game still in this server (playing or just finished): the players,
@@ -3667,7 +3757,7 @@ impl Lounge {
         // isn't played again.
         if self.rooms.contains_key(&id)
             || self.finished_rooms.contains_key(&id)
-            || self.rooms.values().any(|r| !r.finished && r.keys.iter().any(|k| keys.contains(k)))
+            || self.rooms.values().any(|r| !r.finished && keys.iter().any(|k| r.has(k)))
         {
             return false;
         }
@@ -3716,6 +3806,7 @@ impl Lounge {
             spectator_chat: VecDeque::new(),
             chat_total: 0,
             chat_missed: [None, None],
+            doubles: None,
         };
         self.rooms.insert(id, room);
         self.featured_dirty = true;
@@ -3777,14 +3868,14 @@ impl Lounge {
         if self.featured.as_ref().is_none_or(|f| f.match_id != id) {
             return self.error(k, "You can't watch this game.");
         }
-        if room.keys.iter().any(|p| p == k) {
+        if room.has(k) {
             return;
         }
         if self.sessions.get(k).is_none_or(|s| s.room.is_some()) {
             return self.error(k, "Finish your game first.");
         }
         let target = room.keys[0].clone();
-        if room.keys.iter().any(|p| self.blocks(p, k)) {
+        if room.all_keys().iter().any(|p| self.blocks(p, k)) {
             return self.error(k, "You can't watch this game.");
         }
         self.stop_watching(k);
@@ -3895,7 +3986,12 @@ impl Rebuilt {
 
 impl Room {
     fn seat_of(&self, k: &str) -> usize {
-        if self.keys[0] == k { 0 } else { 1 }
+        match &self.doubles {
+            Some(d) if self.keys[0] == k || d.partners[0] == k => 0,
+            Some(_) => 1,
+            None if self.keys[0] == k => 0,
+            None => 1,
+        }
     }
 
     /// The player at `seat`'s rating under the rules of this game.

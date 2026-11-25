@@ -132,7 +132,7 @@ impl Lounge {
         if let Some(id) = self.sessions.get(&friend).and_then(|f| f.room) {
             return Some(id);
         }
-        self.rooms.values().find(|r| !r.finished && r.keys.contains(&friend)).map(|r| r.id)
+        self.rooms.values().find(|r| !r.finished && r.has(&friend)).map(|r| r.id)
     }
 
     /// A spectator's line: to the others watching the game (never to its

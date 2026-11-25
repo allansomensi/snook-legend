@@ -420,6 +420,13 @@ async fn the_weeks_prizes_are_paid_once() {
     let (board, players) = server.store.time_attack_board(week, 10).await.unwrap();
     assert_eq!(players, 4);
     assert_eq!(board[0].username, "duda");
+    // A server that stopped after crediting the first place's coins (and
+    // before recording the prize): they aren't paid again.
+    let first = snook_legend_server::time_attack::prizes(&server)[0];
+    let reference = format!("time_attack:{week}:1");
+    assert!(
+        server.store.credit(ids[3], first, "against the clock", Some(&reference), 1).await.unwrap()
+    );
     snook_legend_server::time_attack::pay_prizes(&server).await;
     snook_legend_server::time_attack::pay_prizes(&server).await;
     let coins = |id| {
@@ -430,4 +437,8 @@ async fn the_weeks_prizes_are_paid_once() {
     assert_eq!(coins(ids[3]).await - before, snook_legend_server::time_attack::prizes(&server)[0]);
     assert_eq!(coins(ids[2]).await - before, snook_legend_server::time_attack::prizes(&server)[1]);
     assert_eq!(coins(ids[1]).await - before, snook_legend_server::time_attack::prizes(&server)[2]);
+    // Every prize recorded (the first one too, after the "crash").
+    for (place, id) in [(1, ids[3]), (2, ids[2]), (3, ids[1])] {
+        assert!(!server.store.time_attack_prize(week, place, id, 1, 1, 1).await.unwrap());
+    }
 }

@@ -157,6 +157,11 @@ pub fn prizes(server: &Server) -> [i64; 3] {
 
 /// Pays last week's prizes if they haven't been (each place once, however
 /// often this runs, on any server): coins and a note in the inbox.
+///
+/// The coins go first, then the prize is recorded: the credit is keyed by
+/// `time_attack:{week}:{place}` (applied once whatever happens), so a
+/// crash between the two only leaves the prize to be recorded on the next
+/// run, never unpaid nor paid twice.
 pub async fn pay_prizes(server: &Server) {
     let t = now();
     let week = week_of(t) - 1;
@@ -169,19 +174,29 @@ pub async fn pay_prizes(server: &Server) {
         if coins <= 0 {
             continue;
         }
-        match server.store.time_attack_prize(week, place, row.user_id, coins, row.ms, t).await {
-            Ok(true) => {}
-            Ok(false) => continue,
+        let reference = format!("time_attack:{week}:{place}");
+        let credit =
+            || server.store.credit(row.user_id, coins, "against the clock", Some(&reference), t);
+        let credited = match crate::retrying("paying a prize against the clock", credit).await {
+            Ok(applied) => applied,
+            Err(e) => {
+                tracing::error!("against the clock, prize of {}: {e}", row.username);
+                continue;
+            }
+        };
+        let recorded = match server
+            .store
+            .time_attack_prize(week, place, row.user_id, coins, row.ms, t)
+            .await
+        {
+            Ok(inserted) => inserted,
             Err(e) => {
                 tracing::error!("against the clock, prize of week {week}: {e}");
                 return;
             }
-        }
-        let reference = format!("time_attack:{week}:{place}");
-        let credit =
-            || server.store.credit(row.user_id, coins, "against the clock", Some(&reference), t);
-        if let Err(e) = crate::retrying("paying a prize against the clock", credit).await {
-            tracing::error!("against the clock, prize of {}: {e}", row.username);
+        };
+        // Paid and recorded before: nothing new to tell.
+        if !credited && !recorded {
             continue;
         }
         tracing::info!(user = %row.username, week, place, coins, "against the clock: prize");

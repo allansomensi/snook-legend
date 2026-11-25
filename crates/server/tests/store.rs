@@ -1362,6 +1362,12 @@ async fn ops_and_modes(store: &Store) {
     store.set_ban(b, None, None).await.unwrap();
     assert!(store.time_attack_prize(week, 1, b, 300, 50_000, t).await.unwrap());
     assert!(!store.time_attack_prize(week, 1, c, 300, 50_000, t).await.unwrap(), "once");
+    // The prize's coins: credited once by their reference, however often.
+    let coins = store.wallet(b).await.unwrap().coins;
+    let prize = format!("time_attack:{week}:1");
+    assert!(store.credit(b, 300, "against the clock", Some(&prize), t).await.unwrap());
+    assert!(!store.credit(b, 300, "against the clock", Some(&prize), t).await.unwrap());
+    assert_eq!(store.wallet(b).await.unwrap().coins, coins + 300);
 
     // Doubles: each player's record moves with a rated game, once a room.
     let d = DoublesRecord {

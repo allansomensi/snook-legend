@@ -355,7 +355,7 @@ pub fn draw_tab(ui: &mut Ui, online: &mut Online, asked: &mut Option<i64>, body:
             if online.time_attack.refused == Some(Refused::NoAttemptsLeft) {
                 say(ui, t("No attempts left today: come back tomorrow."), 13.0, ALERT, &mut y);
             }
-            let b = Rect::new(x, y + 4.0, w.min(240.0), 40.0);
+            let b = Rect::new(x, y + 4.0, w, 40.0);
             if info.attempts_left > 0 && ui.primary_button(b, t("Start an attempt")) {
                 online.time_attack.refused = None;
                 online.send(ClientMsg::TimeAttackStart);
@@ -369,7 +369,7 @@ pub fn draw_tab(ui: &mut Ui, online: &mut Online, asked: &mut Option<i64>, body:
     } else {
         say(ui, t("Sign in to put your times on the week's table."), 14.0, CREAM, &mut y);
     }
-    let practice = Rect::new(x, y + 2.0, w.min(240.0), 36.0);
+    let practice = Rect::new(x, y + 2.0, w, 36.0);
     if ui.button(practice, t("Practice (not counted)"), true) {
         offline_start = true;
     }

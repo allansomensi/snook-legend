@@ -996,7 +996,7 @@ impl Versus {
                 };
                 say(ui, text, 13.0, ALERT, &mut y);
             }
-            let b = Rect::new(x, y + 4.0, w.min(240.0), 40.0);
+            let b = Rect::new(x, y + 4.0, w, 40.0);
             if self.daily_starting.is_some() {
                 crate::ui::spinner(vec2(b.x + 12.0, b.y + 20.0), 8.0, GOLD);
                 ui.text(t("Setting up the table…"), b.x + 30.0, b.y + 12.0, 14.0, MUTED, false);

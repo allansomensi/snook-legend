@@ -303,6 +303,8 @@ impl SettingsScreen {
             self.rows(tab, ui, config, in_match, startup_msaa, advanced, &mut rows);
         }
         if max_scroll > 0.0 {
+            let view = Rect::new(body.x - 4.0, body.y, body.w + 8.0, body.h);
+            Ui::scroll_fades(r, view, self.scroll > 0.5, self.scroll < max_scroll - 0.5);
             let track = Rect::new(r.x + r.w - 15.0, body.y, 4.0, body.h);
             rrect(track, 2.0, Color::new(1.0, 1.0, 1.0, 0.06));
             let h = (track.h * body.h / content).max(20.0);

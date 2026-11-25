@@ -2599,7 +2599,13 @@ impl Online {
         let enter = (age / 0.35).min(1.0);
         let ease = 1.0 - (1.0 - enter).powi(3);
         let alpha = ((ACHIEVEMENT_CARD_SECS - age) / 0.5).clamp(0.0, 1.0);
-        let r = Rect::new((sw - w) / 2.0, 14.0 - (1.0 - ease) * (h + 20.0), w, h);
+        // On the main menu: right of its column, under the player's card
+        // (not over the game's name); elsewhere at the top, in the middle.
+        let (cx, top) = match self.toast_left.get().filter(|l| sw - l > w + 24.0) {
+            Some(left) => ((left + sw) / 2.0, 86.0),
+            None => (sw / 2.0, 14.0),
+        };
+        let r = Rect::new(cx - w / 2.0, top - (1.0 - ease) * (h + top + 6.0), w, h);
         if ui.clicked(r)
             && age > 0.4
             && let Some(card) = self.achievement_cards.front_mut()

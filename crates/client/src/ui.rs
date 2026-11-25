@@ -769,6 +769,30 @@ impl Ui {
         rrect_lines(r, PANEL_RADIUS, 1.0, BORDER);
     }
 
+    /// The colour of a [`Ui::panel`] in `r` at height `y` (to fade a
+    /// scrolled list into it).
+    pub fn panel_color_at(r: Rect, y: f32) -> Color {
+        let body = Color::new(PANEL.r, PANEL.g, PANEL.b, 1.0);
+        mix(shade(body, 0.05), shade(body, -0.25), (y - r.y) / r.h.max(1.0))
+    }
+
+    /// A scrolled list's edges fade into the panel `panel` (top: when it is
+    /// scrolled; bottom: when there is more below), instead of cutting rows
+    /// in half.
+    pub fn scroll_fades(panel: Rect, view: Rect, top: bool, bottom: bool) {
+        let h = 26.0f32.min(view.h / 4.0);
+        let clear = |c: Color| Color::new(c.r, c.g, c.b, 0.0);
+        if top {
+            let c = Self::panel_color_at(panel, view.y);
+            rrect_gradient(Rect::new(view.x, view.y, view.w, h), 0.0, c, clear(c));
+        }
+        if bottom {
+            let c = Self::panel_color_at(panel, view.y + view.h);
+            let fade = Rect::new(view.x, view.y + view.h - h, view.w, h);
+            rrect_gradient(fade, 0.0, clear(c), c);
+        }
+    }
+
     /// A panel that lets what is under it show through by `clear` (0: as
     /// [`Ui::panel`]; 1: mostly glass), for one over the table that should
     /// not hide the game while nobody uses it.
@@ -2279,11 +2303,32 @@ impl Ui {
     pub fn segmented(&mut self, r: Rect, options: &[&str], selected: usize) -> Option<usize> {
         self.block(r);
         let n = options.len().max(1) as f32;
-        let w = r.w / n;
+        // Equal cells while every label fits; otherwise each as wide as its
+        // label, the room left shared out (a long "Hide opponent" no longer
+        // shrinks to a whisper beside "All"). One type size for all.
+        let base = (r.h * 0.42).clamp(12.0, 16.0);
+        let natural: Vec<f32> =
+            options.iter().map(|l| self.text_size(l, base, true).x + 16.0).collect();
+        let widths: Vec<f32> = if natural.iter().all(|w| *w <= r.w / n) {
+            vec![r.w / n; options.len()]
+        } else {
+            let total: f32 = natural.iter().sum();
+            let extra = ((r.w - total) / n).max(0.0);
+            let scale = (r.w / total).min(1.0);
+            natural.iter().map(|w| w * scale + extra).collect()
+        };
+        let size = options
+            .iter()
+            .zip(&widths)
+            .map(|(l, w)| self.fit_with(base, l, w - 10.0, true, 10.0))
+            .fold(base, f32::min);
         rrect(r, BUTTON_RADIUS, Color::new(0.05, 0.035, 0.025, 1.0));
         let mut clicked = None;
+        let mut x = r.x;
         for (i, label) in options.iter().enumerate() {
-            let cell = Rect::new(r.x + i as f32 * w, r.y, w, r.h);
+            let w = widths[i];
+            let cell = Rect::new(x, r.y, w, r.h);
+            x += w;
             let hover = cell.contains(self.mouse);
             let inner = Rect::new(cell.x + 3.0, cell.y + 3.0, cell.w - 6.0, cell.h - 6.0);
             if i == selected {
@@ -2293,7 +2338,7 @@ impl Ui {
             } else if hover {
                 rrect(inner, BUTTON_RADIUS - 2.5, Color::new(1.0, 0.9, 0.75, 0.06));
             }
-            let (label, size) = self.fitted(label, (r.h * 0.42).clamp(12.0, 16.0), w - 10.0, true);
+            let (label, size) = self.fitted(label, size, w - 10.0, true);
             let color = if i == selected { GOLD } else { CREAM };
             self.text_centered(
                 &label,

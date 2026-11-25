@@ -18,6 +18,7 @@ mod countries;
 pub mod cup;
 pub mod daily;
 pub mod dm;
+pub mod doubles;
 pub mod drills;
 pub mod events;
 pub mod ghost;
@@ -28,6 +29,7 @@ pub mod ops;
 pub mod reactions;
 pub mod replay;
 pub mod shop;
+pub mod time_attack;
 pub mod xp;
 
 pub use achievements::{ACHIEVEMENTS, Achievement, GOLDEN_BREAK, RUBY, Stat, Stats, month_day};
@@ -1720,6 +1722,50 @@ pub enum ClientMsg {
     AdvancedStats {
         rules: Rules,
     },
+    /// Asks a friend to be this player's doubles partner (see [`doubles`]).
+    DoublesInvite {
+        to: String,
+    },
+    /// The answer to a friend's [`ServerMsg::DoublesInvited`].
+    DoublesAnswer {
+        from: String,
+        accept: bool,
+    },
+    /// Leaves the pair (its search or table ends with it; the partner is
+    /// told).
+    DoublesLeave,
+    /// The pair looks for another pair of a similar average doubles rating
+    /// under these rules ("Play now" for doubles). Either partner may ask.
+    DoublesQueue {
+        rated: bool,
+        rules: Rules,
+    },
+    DoublesQueueLeave,
+    /// The pair opens a doubles table and waits there for another pair.
+    DoublesOpenTable {
+        rated: bool,
+        rules: Rules,
+    },
+    /// The pair takes the other seats of a doubles table.
+    DoublesJoinTable {
+        id: u64,
+    },
+    DoublesCloseTable,
+    /// The doubles ranking of these rules.
+    DoublesLeaderboard {
+        rules: Rules,
+    },
+    /// The week against the clock (answered with [`ServerMsg::TimeAttack`]).
+    TimeAttack,
+    /// Starts an attempt against the clock (one of
+    /// [`time_attack::ATTEMPTS_PER_DAY`]): the server deals the rack.
+    TimeAttackStart,
+    /// The strokes that cleared the rack of attempt `attempt` (the server
+    /// plays them again and times them).
+    TimeAttackSubmit {
+        attempt: i64,
+        strokes: Vec<time_attack::Stroke>,
+    },
 }
 
 /// The longest settings an account keeps (see [`ClientMsg::SaveSettings`]).
@@ -2367,6 +2413,51 @@ pub enum ServerMsg {
     /// The answer to [`ClientMsg::AdvancedStats`].
     AdvancedStats {
         stats: Box<advanced::AdvancedStats>,
+    },
+    /// A friend asks this player to be their doubles partner.
+    DoublesInvited {
+        from: String,
+    },
+    /// This player's invitation to be partners reached `to`.
+    DoublesInviteSent {
+        to: String,
+    },
+    /// This player's pair as it is now (after signing in when there is one,
+    /// and whenever it changes); `None`: no partner.
+    DoublesPair {
+        pair: Option<doubles::Pair>,
+    },
+    /// Every doubles table waiting for a pair (after signing in and
+    /// whenever one opens or closes).
+    DoublesTables {
+        tables: Vec<doubles::Table>,
+    },
+    /// Who plays the doubles game `lineup.match_id` and who holds the cue:
+    /// sent just before its [`ServerMsg::MatchStarted`] and again whenever
+    /// it changes (a visit, a connection, the result).
+    DoublesLineup {
+        lineup: doubles::Lineup,
+    },
+    /// The doubles ranking of `rules`.
+    DoublesLeaderboard {
+        rules: Rules,
+        entries: Vec<LeaderboardEntry>,
+    },
+    /// The week against the clock (the answer to [`ClientMsg::TimeAttack`],
+    /// and after an attempt).
+    TimeAttack {
+        info: time_attack::Info,
+    },
+    /// An attempt started: its rack comes from `seed`
+    /// ([`snook_legend_core::EightBallGame::time_attack`]).
+    TimeAttackStarted {
+        attempt: i64,
+        seed: u64,
+    },
+    /// An attempt was counted, or refused.
+    TimeAttackResult {
+        attempt: i64,
+        result: Result<time_attack::Outcome, time_attack::Refused>,
     },
 }
 

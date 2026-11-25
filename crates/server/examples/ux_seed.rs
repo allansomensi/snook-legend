@@ -13,7 +13,7 @@
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
-use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, Rules};
+use snook_legend_proto::{ClientMsg, PROTOCOL_VERSION, Role, Rules, ServerMsg};
 use snook_legend_server::store::{MatchRecord, NewUser, SessionKind};
 use snook_legend_server::{Config, Server, inbox, new_token, now, serve, token_hash};
 use tokio::net::TcpListener;
@@ -320,7 +320,37 @@ async fn main() {
             let mut tick = tokio::time::interval(Duration::from_secs(25));
             loop {
                 tokio::select! {
-                    m = ws.next() => if !matches!(m, Some(Ok(_))) { break },
+                    m = ws.next() => {
+                        let Some(Ok(m)) = m else { break };
+                        // Wei, Aisha and Tomasz take any invitation and greet the table
+                        // (the screenshots of an online game, its chat).
+                        let Message::Text(text) = m else { continue };
+                        let Ok(msg) = snook_legend_proto::parse_server(&text) else { continue };
+                        if !["Wei", "Aisha", "Tomasz"].contains(&name.as_str()) {
+                            continue;
+                        }
+                        match msg {
+                            ServerMsg::Invited { from, .. } => {
+                                let _ = ws.send(send(ClientMsg::AnswerInvite { from, accept: true })).await;
+                            }
+                            ServerMsg::MatchStarted { .. } => {
+                                for text in ["Good luck, have fun!", "Nice break 👏"] {
+                                    let text = text.to_string();
+                                    let _ = ws.send(send(ClientMsg::MatchChat { text })).await;
+                                }
+                            }
+                            // The game's window closed: resign and go back
+                            // to the lounge, free for the next screenshot.
+                            ServerMsg::OpponentConnection { connected: false, .. } => {
+                                let _ = ws.send(send(ClientMsg::Resign)).await;
+                                let _ = ws.send(send(ClientMsg::LeaveMatch)).await;
+                            }
+                            ServerMsg::MatchEnded { .. } | ServerMsg::OpponentLeft => {
+                                let _ = ws.send(send(ClientMsg::LeaveMatch)).await;
+                            }
+                            _ => {}
+                        }
+                    }
                     _ = tick.tick() => { let _ = ws.send(send(ClientMsg::Ping)).await; }
                 }
             }

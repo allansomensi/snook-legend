@@ -96,8 +96,16 @@ SCREENS = {
     "match-paused": (["--vs", "medium"], {"SNOOK_LEGEND_PAUSED": "1"}, False, 120),
     "match-result": (["--vs", "medium"], {"SNOOK_LEGEND_RESIGN": "1"}, False, 260),
     "match-hotseat": (["--hotseat"], {}, False, 150),
-    "match-chat": (["--vs", "medium"], {"SNOOK_LEGEND_CHAT_OPEN": "1"}, False, 150),
-    "match-reactions": (["--vs", "medium"], {"SNOOK_LEGEND_OPEN_REACTIONS": "1"}, False, 150),
+    # Online games against the seed's players who take any invitation
+    # (one each, so a game still closing on the server doesn't hold the next).
+    "match-online": ([], {"SNOOK_LEGEND_AUTOINVITE": "Wei"}, True, 420),
+    "match-chat": ([], {"SNOOK_LEGEND_AUTOINVITE": "Aisha", "SNOOK_LEGEND_CHAT_OPEN": "1"}, True, 420),
+    "match-reactions": (
+        [],
+        {"SNOOK_LEGEND_AUTOINVITE": "Tomasz", "SNOOK_LEGEND_OPEN_REACTIONS": "1"},
+        True,
+        420,
+    ),
     "replay": ([], {"SNOOK_LEGEND_SAMPLE_REPLAY": "1"}, False, 150),
     "spectator": ([], {"SNOOK_LEGEND_SAMPLE_REPLAY": "1", "SNOOK_LEGEND_TV": "1"}, False, 150),
     "toasts": (["--screen", "toasts"], {}, True, 150),
@@ -207,6 +215,7 @@ def main():
     p.add_argument("--langs", default=",".join(LANGS))
     p.add_argument("--sizes", default=",".join(SIZES))
     p.add_argument("--jobs", type=int, default=3)
+    p.add_argument("--port", type=int, default=PORT, help="the first server's port (two runs at once need different ones)")
     a = p.parse_args()
     names = [n for n in a.only.split(",") if n] or list(SCREENS)
     for n in names:
@@ -217,7 +226,7 @@ def main():
     slots = queue.Queue()
     online = any(SCREENS[n][2] for n in names)
     for k in range(a.jobs):
-        port = PORT + k
+        port = a.port + k
         token = ""
         if online:
             proc, tokens = start_server(tmp, port)

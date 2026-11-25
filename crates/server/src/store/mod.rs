@@ -876,6 +876,11 @@ pub struct GameEvent {
     pub entry_fee: u32,
     /// Coins the house adds to a tournament's prizes.
     pub prize: u32,
+    /// The champion's share of a tournament's prizes, percent (the
+    /// runner-up has the rest; 0: the usual shares).
+    pub champion_share: u32,
+    /// An item the champion wins too (shop code; empty: none).
+    pub item_prize: String,
     pub created_by: String,
     pub created_at: i64,
     pub cancelled_at: Option<i64>,
@@ -895,6 +900,9 @@ pub struct NewEvent<'a> {
     pub rules: Rules,
     pub entry_fee: u32,
     pub prize: u32,
+    /// See [`GameEvent::champion_share`].
+    pub champion_share: u32,
+    pub item_prize: &'a str,
     pub created_by: i64,
     pub at: i64,
 }
@@ -2017,6 +2025,17 @@ pub const AUDIT_NOT_PLAYERS: &[&str] = &[
     "msstore-retry",
     "pin",
     "unpin",
+    // Operations and the economy (0.12).
+    "setting",
+    "setting-reset",
+    "promotion",
+    "promotion-edit",
+    "promotion-cancel",
+    "maintenance",
+    "maintenance-cancel",
+    "auction",
+    "auction-cancel",
+    "export",
 ];
 
 /// VIP time changed along with a coin credit ([`Store::credit_vip`]).
@@ -2037,3 +2056,6 @@ pub fn deleted_name(id: i64) -> String {
 pub fn day_of(t: i64) -> i64 {
     t.div_euclid(86_400)
 }
+
+mod ops;
+pub use ops::*;

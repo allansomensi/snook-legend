@@ -9,6 +9,7 @@ use snook_legend_proto::replay::Replay;
 
 mod correspondence;
 mod msstore;
+mod ops;
 
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
@@ -2426,8 +2427,10 @@ impl PgStore {
     pub async fn add_event(&self, e: &super::NewEvent<'_>) -> StoreResult<i64> {
         let row = query(
             "INSERT INTO events (kind, title, multiplier, starts_at, ends_at, format, size, rated,
-                                 rules, entry_fee, prize, created_by, created_at)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id",
+                                 rules, entry_fee, prize, created_by, created_at,
+                                 champion_share, item_prize)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+             RETURNING id",
         )
         .bind(e.kind)
         .bind(e.title)
@@ -2442,6 +2445,8 @@ impl PgStore {
         .bind(e.prize as i32)
         .bind(e.created_by)
         .bind(e.at)
+        .bind(e.champion_share as i16)
+        .bind(e.item_prize)
         .fetch_one(&self.pool)
         .await?;
         Ok(row.get("id"))
@@ -2479,6 +2484,8 @@ impl PgStore {
                 rules: Rules::parse(r.get("rules")).unwrap_or_default(),
                 entry_fee: n(r, "entry_fee"),
                 prize: n(r, "prize"),
+                champion_share: r.get::<i16, _>("champion_share").clamp(0, 100) as u32,
+                item_prize: r.get("item_prize"),
                 created_by: r.get("author"),
                 created_at: r.get("created_at"),
                 cancelled_at: r.get("cancelled_at"),

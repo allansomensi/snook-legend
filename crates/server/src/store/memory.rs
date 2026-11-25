@@ -9,6 +9,7 @@ use snook_legend_proto::CareerNumbers;
 
 mod correspondence;
 mod msstore;
+mod ops;
 
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
@@ -104,6 +105,8 @@ struct Inner {
     drills: BTreeMap<(i64, String), (u32, i64)>,
     /// user -> (challenge rating, stars, when)
     challenge: HashMap<i64, (u32, u32, i64)>,
+    /// Operations and the economy (see `ops.rs`).
+    ops: ops::State,
 }
 
 impl Inner {
@@ -1547,6 +1550,8 @@ impl MemoryStore {
             rules: e.rules,
             entry_fee: e.entry_fee,
             prize: e.prize,
+            champion_share: e.champion_share,
+            item_prize: e.item_prize.to_string(),
             created_by: String::new(),
             created_at: e.at,
             cancelled_at: None,

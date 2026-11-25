@@ -14,6 +14,8 @@
 pub mod account;
 pub mod admin;
 pub mod analysis;
+pub mod analytics;
+pub mod auction;
 pub mod collection;
 pub mod computer;
 pub mod correspondence;
@@ -25,13 +27,19 @@ pub mod inbox;
 pub mod lan;
 pub mod limits;
 pub mod lounge;
+pub mod maintenance;
 pub mod metrics;
 pub mod missions;
 pub mod msstore;
+pub mod official;
+pub mod ops;
 pub mod pages;
 pub mod payments;
+pub mod promotions;
+pub mod public_api;
 pub mod replay_view;
 pub mod reports;
+pub mod settings;
 pub mod shop;
 pub mod social;
 pub mod store;
@@ -257,6 +265,8 @@ pub struct Server {
     pub computer: computer::Computer,
     /// The staff's events not over yet (see [`events`]).
     pub events: events::Events,
+    /// Live settings, promotions, maintenance, auctions (see [`ops`]).
+    pub ops: ops::Ops,
 }
 
 /// Drops connections that send nothing (clients ping every ~15 s).
@@ -327,7 +337,8 @@ impl Server {
         if let Ok(notes) = store.board_notes(now()).await {
             lounge.set_board(notes.into_iter().map(board_note).collect());
         }
-        Arc::new(Server {
+        let ops = ops::Ops::new(&config);
+        let server = Arc::new(Server {
             stripe,
             msstore,
             store,
@@ -345,7 +356,11 @@ impl Server {
             corr: correspondence::State::default(),
             computer: computer::Computer::default(),
             events: events::Events::default(),
-        })
+            ops,
+        });
+        // What the staff set in the portal is in force from the start.
+        ops::init(&server).await;
+        server
     }
 
     /// Reads the board again and shows it to everyone.
@@ -537,6 +552,7 @@ pub fn router(server: Arc<Server>) -> Router {
         .route("/ws", get(ws_handler))
         .route("/api/status", get(api_status))
         .route("/api/leaderboard", get(api_leaderboard))
+        .merge(public_api::router())
         .route("/stripe/webhook", axum::routing::post(shop::webhook))
         .route("/shop/thanks", get(shop::thanks))
         .route("/shop/cancelled", get(shop::cancelled))
@@ -670,6 +686,10 @@ pub fn spawn_background(server: Arc<Server>) {
     // The staff's events: boosts and themed tournaments.
     if !server.config.settings.lan {
         tokio::spawn(events::run(server.clone()));
+    }
+    // Promotions, maintenance, auctions, reminders of tournaments.
+    if !server.config.settings.lan {
+        tokio::spawn(ops::run(server.clone()));
     }
     // Microsoft Store purchases whose answer was lost on the way.
     if server.msstore.is_some() {
@@ -838,6 +858,7 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
         Effect::Pay { user_id, name, coins, reason, reference } => {
             pay(server, user_id, &name, coins, &reason, &reference).await;
         }
+        Effect::RecordOfficial(f) => official::finished(server, &f).await,
         Effect::RecordTournament(t) => {
             if let Err(e) =
                 retrying("recording a tournament", || server.store.record_tournament(&t)).await
@@ -865,7 +886,9 @@ async fn ws_handler(
     {
         let mut conns = server.connections.lock().unwrap_or_else(|e| e.into_inner());
         let n = conns.entry(ip).or_default();
-        if *n >= server.config.settings.max_connections_per_ip {
+        // (As set now: see `settings`.)
+        let max = server.with(|l| l.settings.max_connections_per_ip);
+        if *n >= max {
             return (axum::http::StatusCode::TOO_MANY_REQUESTS, "too many connections")
                 .into_response();
         }
@@ -1209,8 +1232,13 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
     let mut user: Option<(User, bool)> = None;
     let mut failures = 0;
     let mut token_in_use: Option<String> = None;
-    // ~40 messages a second sustained (aim updates are ~20), short bursts more.
-    let mut flood = Bucket::new(120.0, 40.0);
+    // ~40 messages a second sustained (aim updates are ~20), short bursts
+    // more (as set now: see `settings`).
+    let mut flood = {
+        let live = &server.ops.settings;
+        let burst = live.int(settings::MESSAGE_BURST).max(1) as f64;
+        Bucket::new(burst, live.int(settings::MESSAGES_PER_SEC).max(1) as f64)
+    };
     let ConnLimits {
         shop: mut shop_bucket,
         store: mut store_bucket,
@@ -1323,6 +1351,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                             tokio::spawn(async move {
                                 s.check_achievements(&r).await;
                                 account::signed_in(&s, &r).await;
+                                ops::signed_in(&s, &r).await;
                                 shop::push_wallet(&s, &r).await;
                                 social::signed_in(&s, &r).await;
                                 if !s.config.settings.lan {
@@ -1512,6 +1541,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             msg if cup_medals::is_msg(&msg) => cup_medals::handle(&server, &me, msg, &send).await,
             msg if inbox::is_msg(&msg) => inbox::handle(&server, &me, msg, &send).await,
             msg if collection::is_msg(&msg) => collection::handle(&server, &me, msg, &send).await,
+            msg if ops::is_msg(&msg) => ops::handle(&server, &me, msg, &send).await,
             ClientMsg::LadderTicket => send(computer::ticket(&server, &me).await),
             // Seconds of simulation each: answered on their own tasks.
             ClientMsg::LadderClaim { replay } => {
@@ -1881,6 +1911,10 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::InboxRead { .. }
             | ClientMsg::InboxDelete { .. }
             | ClientMsg::Collection
+            | ClientMsg::Auctions
+            | ClientMsg::Bid { .. }
+            | ClientMsg::SetCredits { .. }
+            | ClientMsg::Supporters
             | ClientMsg::Daily
             | ClientMsg::DailyStart
             | ClientMsg::DailySubmit { .. }
@@ -1913,6 +1947,10 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::InboxRead { .. }
             | ClientMsg::InboxDelete { .. }
             | ClientMsg::Collection
+            | ClientMsg::Auctions
+            | ClientMsg::Bid { .. }
+            | ClientMsg::SetCredits { .. }
+            | ClientMsg::Supporters
             | ClientMsg::Daily
             | ClientMsg::DailyStart
             | ClientMsg::DailySubmit { .. }

@@ -21,6 +21,7 @@ pub mod ghost;
 pub mod inbox;
 pub mod ladder;
 pub mod missions;
+pub mod ops;
 pub mod reactions;
 pub mod replay;
 pub mod shop;
@@ -894,6 +895,17 @@ pub struct TournamentInfo {
     /// Arena: Unix time the arena closes.
     #[serde(default)]
     pub ends_at: Option<i64>,
+    /// The coins to be won as they stand now: the entry fees less the
+    /// house's cut, and what the house adds (0: none).
+    #[serde(default, skip_serializing_if = "is_zero_u64")]
+    pub prize_pool: u64,
+    /// An item the champion wins too (shop code; empty: none).
+    #[serde(default, skip_serializing_if = "String::is_empty")]
+    pub item_prize: String,
+}
+
+fn is_zero_u64(n: &u64) -> bool {
+    *n == 0
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
@@ -1637,6 +1649,20 @@ pub enum ClientMsg {
     /// Every item this player has, with how and when they got it (answered
     /// with [`ServerMsg::Collection`]).
     Collection,
+    /// The auctions open and coming (answered with [`ServerMsg::Auctions`]).
+    Auctions,
+    /// Bids `amount` coins on auction `id`: the coins are held until someone
+    /// bids more (then they come back) or the auction ends.
+    Bid {
+        id: i64,
+        amount: i64,
+    },
+    /// Shows (or hides) this player's name in the supporters' credits.
+    SetCredits {
+        show: bool,
+    },
+    /// The supporters' credits (answered with [`ServerMsg::Supporters`]).
+    Supporters,
     Ping,
 }
 
@@ -1974,6 +2000,16 @@ pub enum ServerMsg {
         /// Username changes the player has left (see [`MAX_NAME_CHANGES`]).
         #[serde(default)]
         name_changes_left: u32,
+        /// What a change costs in coins once the free ones are used (0:
+        /// none can be bought).
+        #[serde(default)]
+        name_change_price: u32,
+        /// VIP now or before: may appear in the supporters' credits.
+        #[serde(default)]
+        supporter: bool,
+        /// Chose to appear in the supporters' credits.
+        #[serde(default)]
+        in_credits: bool,
     },
     /// The account was deleted: forget the saved session.
     AccountDeleted,
@@ -2184,6 +2220,40 @@ pub enum ServerMsg {
     /// Every item this player has, with how and when they got it.
     Collection {
         items: Vec<collection::OwnedItem>,
+    },
+    /// The shop's promotions running and coming (after signing in and
+    /// whenever one is made, changed, starts or ends). Empty: none.
+    Promotions {
+        list: Vec<ops::Promotion>,
+    },
+    /// The auctions open, coming and just over (when asked, and after
+    /// signing in when there are some).
+    Auctions {
+        list: Vec<ops::AuctionInfo>,
+    },
+    /// An auction changed (a bid, its end, the staff called it off).
+    AuctionUpdated {
+        auction: ops::AuctionInfo,
+    },
+    /// The server stops for maintenance at `at` (Unix seconds) for about
+    /// `minutes`; `message` is the staff's. `at` 0: none planned (any
+    /// earlier one was called off).
+    Maintenance {
+        at: i64,
+        minutes: u32,
+        #[serde(default)]
+        message: String,
+    },
+    /// The supporters who chose to appear in the credits, longest first.
+    Supporters {
+        list: Vec<ops::Supporter>,
+    },
+    /// Today's daily bonus: day `day` in a row brought `coins`; tomorrow
+    /// brings `tomorrow` (if the player comes back).
+    DailyStreak {
+        day: u32,
+        coins: u32,
+        tomorrow: u32,
     },
     Pong,
 }

@@ -36,7 +36,8 @@ mod tournaments;
 
 pub use social::SEEK_LIFETIME;
 pub use tournaments::{
-    ARENA_MINUTES, Cup, Joined, KNOCKOUT_SIZES, MAX_HOUSE_PRIZE, ScheduledTournament,
+    ARENA_MINUTES, Cup, HOUSE_CUT, Joined, KNOCKOUT_SIZES, MAX_HOUSE_PRIZE, OfficialStart,
+    ScheduledTournament,
 };
 
 pub fn tournaments_max_fee() -> u32 {
@@ -68,6 +69,9 @@ pub struct Settings {
     pub cup: Option<Cup>,
     /// How long a note stays on the "looking for a game" board.
     pub seek_lifetime: Duration,
+    /// The share of the entry fees the house keeps (percent): the rest
+    /// goes to the prizes. Coins that leave the economy.
+    pub house_cut: u32,
 }
 
 impl Default for Settings {
@@ -84,6 +88,7 @@ impl Default for Settings {
             max_open_tournaments: 20,
             cup: None,
             seek_lifetime: SEEK_LIFETIME,
+            house_cut: tournaments::HOUSE_CUT,
         }
     }
 }
@@ -99,6 +104,9 @@ pub enum Effect {
         shot: Shot,
         called: Option<PocketId>,
     },
+    /// Keep an official tournament once over (the website shows it), and
+    /// tell its players how they did (see `crate::official`).
+    RecordOfficial(Box<crate::official::Finished>),
     /// Store a finished match (players are notified of achievements).
     RecordMatch {
         record: MatchRecord,
@@ -663,6 +671,15 @@ impl Lounge {
         let mut counts = PerRules::<usize>::default();
         for s in self.sessions.values() {
             *counts.get_mut(s.rules) += 1;
+        }
+        counts
+    }
+
+    /// Players online from each country (the empty code: not given).
+    pub fn online_countries(&self) -> BTreeMap<String, usize> {
+        let mut counts = BTreeMap::new();
+        for s in self.sessions.values() {
+            *counts.entry(s.user.country.clone()).or_default() += 1;
         }
         counts
     }
@@ -1506,6 +1523,10 @@ impl Lounge {
             | ClientMsg::InboxRead { .. }
             | ClientMsg::InboxDelete { .. }
             | ClientMsg::Collection
+            | ClientMsg::Auctions
+            | ClientMsg::Bid { .. }
+            | ClientMsg::SetCredits { .. }
+            | ClientMsg::Supporters
             | ClientMsg::Daily
             | ClientMsg::DailyStart
             | ClientMsg::DailySubmit { .. }

@@ -995,6 +995,8 @@ async fn staff_tools(store: &Store) {
             rules: snook_legend_proto::Rules::Official,
             entry_fee: 50,
             prize: 1000,
+            champion_share: 0,
+            item_prize: "",
             created_by: a.id,
             at: t,
         }

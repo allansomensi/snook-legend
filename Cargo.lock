@@ -2208,6 +2208,8 @@ dependencies = [
  "futures-util",
  "glam 0.33.12",
  "hmac",
+ "hyper",
+ "hyper-util",
  "rand 0.8.8",
  "reqwest",
  "rustls",
@@ -2219,6 +2221,7 @@ dependencies = [
  "sqlx",
  "tokio",
  "tokio-tungstenite 0.30.0",
+ "tower",
  "tracing",
  "tracing-subscriber",
 ]

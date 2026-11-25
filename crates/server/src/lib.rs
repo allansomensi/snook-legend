@@ -675,15 +675,59 @@ async fn api_leaderboard(
 }
 
 /// Runs the server on an already-bound listener until the process stops.
+///
+/// Served like `axum::serve` does (HTTP/1, WebSocket upgrades, each
+/// request told the peer's address), with a timer: a connection that
+/// doesn't send a request's headers within [`HEADER_READ_TIMEOUT`] —
+/// silent, or a byte now and then — is closed (it stayed open for ever,
+/// a socket and a task each).
 pub async fn serve(listener: TcpListener, server: Arc<Server>) -> std::io::Result<()> {
-    use axum::serve::ListenerExt;
+    use hyper_util::rt::{TokioIo, TokioTimer};
+    use tower::ServiceExt;
     spawn_background(server.clone());
-    // No Nagle delay: small game messages go out at once.
-    let listener = listener.tap_io(|tcp| {
+    let app = router(server);
+    loop {
+        let (tcp, peer) = match listener.accept().await {
+            Ok(accepted) => accepted,
+            Err(e) => {
+                // Out of file descriptors and the like: wait a moment
+                // rather than spin (a connection reset before it was taken
+                // is nothing).
+                if !matches!(
+                    e.kind(),
+                    std::io::ErrorKind::ConnectionRefused
+                        | std::io::ErrorKind::ConnectionAborted
+                        | std::io::ErrorKind::ConnectionReset
+                ) {
+                    tracing::error!("accepting a connection: {e}");
+                    tokio::time::sleep(Duration::from_millis(500)).await;
+                }
+                continue;
+            }
+        };
+        // No Nagle delay: small game messages go out at once.
         let _ = tcp.set_nodelay(true);
-    });
-    axum::serve(listener, router(server).into_make_service_with_connect_info::<SocketAddr>()).await
+        let service = app.clone().map_request(move |req: axum::http::Request<_>| {
+            let mut req = req.map(axum::body::Body::new);
+            req.extensions_mut().insert(ConnectInfo(peer));
+            req
+        });
+        let service = hyper_util::service::TowerToHyperService::new(service);
+        tokio::spawn(async move {
+            let conn = hyper::server::conn::http1::Builder::new()
+                .timer(TokioTimer::new())
+                .header_read_timeout(HEADER_READ_TIMEOUT)
+                .serve_connection(TokioIo::new(tcp), service)
+                .with_upgrades();
+            if let Err(e) = conn.await {
+                tracing::trace!("connection from {peer}: {e}");
+            }
+        });
+    }
 }
+
+/// The longest a connection may take to send a request's headers.
+const HEADER_READ_TIMEOUT: Duration = Duration::from_secs(20);
 
 /// Stops gracefully: no new games, a notice in the lounge, and up to `secs`
 /// for the games in progress to end. Whatever is still being played then is

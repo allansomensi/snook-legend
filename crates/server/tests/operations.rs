@@ -529,6 +529,21 @@ async fn the_public_api_shows_players_and_official_tournaments() {
 }
 
 #[tokio::test]
+async fn a_connection_that_never_finishes_its_request_is_closed() {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    let s = start().await;
+    // Half a request, then nothing (a "slowloris"): closed, not kept for ever.
+    let mut c = TcpStream::connect(&s.host).await.unwrap();
+    c.write_all(b"GET /health HTTP/1.1\r\nHost: x\r\n").await.unwrap();
+    let mut buf = [0u8; 64];
+    let read = tokio::time::timeout(Duration::from_secs(40), c.read(&mut buf)).await;
+    assert!(matches!(read, Ok(Ok(0)) | Ok(Err(_))), "still open: {read:?}");
+    // Requests sent in one go are answered as before.
+    let (code, _, body) = raw(&s.host, "GET", "/health", "", "").await;
+    assert_eq!((code, body.as_str()), (200, "ok"));
+}
+
+#[tokio::test]
 async fn the_public_api_slows_down_an_address_that_asks_too_often() {
     let s = start().await;
     user(&s.server, "ana", Role::Player).await;

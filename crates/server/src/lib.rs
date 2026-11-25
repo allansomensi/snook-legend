@@ -13,12 +13,14 @@
 
 pub mod account;
 pub mod admin;
+pub mod advanced;
 pub mod analysis;
 pub mod collection;
 pub mod computer;
 pub mod correspondence;
 pub mod cup_medals;
 pub mod daily;
+pub mod dm;
 pub mod drills;
 pub mod events;
 pub mod inbox;
@@ -30,6 +32,7 @@ pub mod missions;
 pub mod msstore;
 pub mod pages;
 pub mod payments;
+pub mod prefs;
 pub mod replay_view;
 pub mod reports;
 pub mod shop;
@@ -257,6 +260,8 @@ pub struct Server {
     pub computer: computer::Computer,
     /// The staff's events not over yet (see [`events`]).
     pub events: events::Events,
+    /// The leagues' numbers for the advanced statistics (see [`advanced`]).
+    pub(crate) leagues: advanced::LeagueCache,
 }
 
 /// Drops connections that send nothing (clients ping every ~15 s).
@@ -345,6 +350,7 @@ impl Server {
             corr: correspondence::State::default(),
             computer: computer::Computer::default(),
             events: events::Events::default(),
+            leagues: advanced::LeagueCache::default(),
         })
     }
 
@@ -1167,6 +1173,7 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
                 avatar: String::new(),
                 minor: None,
                 chat_allowed_at: None,
+                chat_phrases_only: false,
             };
             Auth::Ok { user: Box::new(user), token: String::new(), guest: true }
         }
@@ -1216,6 +1223,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         store: mut store_bucket,
         query: mut query_bucket,
         status: mut status_bucket,
+        dm: mut dm_bucket,
+        settings: mut settings_bucket,
     } = ConnLimits::fresh();
     loop {
         let next = tokio::select! {
@@ -1327,12 +1336,24 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 social::signed_in(&s, &r).await;
                                 if !s.config.settings.lan {
                                     correspondence::signed_in(&s, &r).await;
+                                    prefs::signed_in(&s, &r).await;
+                                    dm::signed_in(&s, &r).await;
                                 }
                             });
-                            if let Ok(friends) = server.store.friends(row.id).await
-                                && friends.iter().any(|(_, st)| *st == FriendState::Incoming)
-                            {
-                                send(friends_msg(&server, row.id, friends).await);
+                            if let Ok(friends) = server.store.friends(row.id).await {
+                                // The lounge tells them what their friends
+                                // do (and their friends what they do).
+                                let names = friends
+                                    .iter()
+                                    .filter(|(_, st)| *st == FriendState::Friends)
+                                    .map(|(u, _)| u.username.clone());
+                                server.with(|l| {
+                                    l.set_friends(&row.username, names);
+                                    l.tell(&row.username);
+                                });
+                                if friends.iter().any(|(_, st)| *st == FriendState::Incoming) {
+                                    send(friends_msg(&server, row.id, friends).await);
+                                }
                             }
                         }
                         // The account's limits as its last connection left them.
@@ -1342,6 +1363,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 store: store_bucket,
                                 query: query_bucket,
                                 status: status_bucket,
+                                dm: dm_bucket,
+                                settings: settings_bucket,
                             } = kept;
                         }
                         user = Some((row, guest));
@@ -1472,16 +1495,28 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     }
                 }
             }
-            ClientMsg::AllowChat { allowed } => {
+            ClientMsg::AllowChat { allowed, phrases_only } => {
                 if me.minor != Some(true) {
                     send(age_msg(&me));
                 } else {
                     let at = allowed.then(now);
-                    match server.store.set_chat_allowed(me.id, at).await {
+                    // The quick phrases only: as the parent or guardian
+                    // chose (a game before 0.12 doesn't say: it stays).
+                    let phrases = phrases_only.unwrap_or(me.chat_phrases_only);
+                    let kept = if phrases == me.chat_phrases_only {
+                        Ok(())
+                    } else {
+                        server.store.set_phrases_only(me.id, phrases).await
+                    };
+                    match kept.and(server.store.set_chat_allowed(me.id, at).await) {
                         Ok(()) => {
                             let mut fresh = me.clone();
                             fresh.chat_allowed_at = at;
-                            server.with(|l| l.set_age(&me.username, fresh.minor, at));
+                            fresh.chat_phrases_only = phrases;
+                            server.with(|l| {
+                                l.set_phrases_only(&me.username, phrases);
+                                l.set_age(&me.username, fresh.minor, at)
+                            });
                             // Chat turned off: what they wrote for others
                             // to read (the status on their card, a note on
                             // the board) goes as well.
@@ -1490,7 +1525,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 fresh.status_message.clear();
                                 server.with(|l| l.silenced(&me.username));
                             }
-                            tracing::info!(player = %me.username, allowed, "chat for a minor");
+                            tracing::info!(player = %me.username, allowed, phrases, "chat for a minor");
                             send(age_msg(&fresh));
                             user = Some((fresh, guest));
                         }
@@ -1512,6 +1547,17 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             msg if cup_medals::is_msg(&msg) => cup_medals::handle(&server, &me, msg, &send).await,
             msg if inbox::is_msg(&msg) => inbox::handle(&server, &me, msg, &send).await,
             msg if collection::is_msg(&msg) => collection::handle(&server, &me, msg, &send).await,
+            msg if dm::is_msg(&msg) => dm::handle(&server, &me, msg, &send, &mut dm_bucket).await,
+            msg if prefs::is_msg(&msg) => {
+                if settings_bucket.take() {
+                    prefs::handle(&server, &me, msg, &send).await
+                } else {
+                    send(ServerMsg::Error { message: "Slow down a little.".into() });
+                }
+            }
+            ClientMsg::AdvancedStats { rules } => {
+                advanced::handle(&server, &me, rules, &send).await
+            }
             ClientMsg::LadderTicket => send(computer::ticket(&server, &me).await),
             // Seconds of simulation each: answered on their own tasks.
             ClientMsg::LadderClaim { replay } => {
@@ -1785,6 +1831,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             store: store_bucket,
             query: query_bucket,
             status: status_bucket,
+            dm: dm_bucket,
+            settings: settings_bucket,
         };
         server.keep_limits(u.id, limits);
         server.with(|l| l.leave(&u.username, conn_id));
@@ -1813,6 +1861,10 @@ struct ConnLimits {
     query: Bucket,
     /// Status messages (everyone in the lounge sees each change).
     status: Bucket,
+    /// Direct messages (see [`dm::bucket`]).
+    dm: Bucket,
+    /// The account's settings (the game sends them a moment after a change).
+    settings: Bucket,
 }
 
 impl ConnLimits {
@@ -1822,6 +1874,8 @@ impl ConnLimits {
             store: Bucket::new(12.0, 0.2),
             query: Bucket::new(30.0, 2.0),
             status: Bucket::new(4.0, 1.0 / 15.0),
+            dm: dm::bucket(),
+            settings: Bucket::new(6.0, 0.1),
         }
     }
 }
@@ -1896,12 +1950,20 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::Gifts
             | ClientMsg::GiftsSeen { .. }
             | ClientMsg::ThankGift { .. }
+            | ClientMsg::DmHistory { .. }
+            | ClientMsg::DmRead { .. }
+            | ClientMsg::DmThreads
+            | ClientMsg::AdvancedStats { .. }
     )
 }
 
 /// The player's age group, as their game is told it.
 fn age_msg(user: &User) -> ServerMsg {
-    ServerMsg::Age { minor: user.minor, chat_allowed: user.chat_allowed_at.is_some() }
+    ServerMsg::Age {
+        minor: user.minor,
+        chat_allowed: user.chat_allowed_at.is_some(),
+        phrases_only: lounge::phrases_only(user),
+    }
 }
 
 fn is_account_msg(msg: &ClientMsg) -> bool {
@@ -1966,6 +2028,12 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::Gifts
             | ClientMsg::GiftsSeen { .. }
             | ClientMsg::ThankGift { .. }
+            | ClientMsg::SaveSettings { .. }
+            | ClientMsg::DmSend { .. }
+            | ClientMsg::DmHistory { .. }
+            | ClientMsg::DmRead { .. }
+            | ClientMsg::DmThreads
+            | ClientMsg::AdvancedStats { .. }
     )
 }
 
@@ -2055,6 +2123,7 @@ async fn friends_msg(server: &Server, user_id: i64, list: Vec<(User, FriendState
                     friends.push(FriendInfo {
                         online: online.is_some(),
                         last_seen: u.last_seen,
+                        activity: l.activity(&lounge::key(&u.username)).unwrap_or_default(),
                         player: online.unwrap_or_else(|| {
                             player_info(&u, false, PlayerStatus::Available, Rules::default())
                         }),
@@ -2075,8 +2144,18 @@ async fn refresh_friends(server: &Server, user: &User) {
         return;
     }
     if let Ok(list) = server.store.friends(user.id).await {
+        let names: Vec<String> = list
+            .iter()
+            .filter(|(_, st)| *st == FriendState::Friends)
+            .map(|(u, _)| u.username.clone())
+            .collect();
         let msg = friends_msg(server, user.id, list).await;
-        server.with(|l| l.notify(&user.username, msg));
+        server.with(|l| {
+            l.set_friends(&user.username, names);
+            l.notify(&user.username, msg);
+            // A new friend learns at once what this player is doing.
+            l.tell(&user.username);
+        });
     }
 }
 

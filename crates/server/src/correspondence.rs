@@ -36,7 +36,7 @@ use snook_legend_proto::correspondence::{
 use snook_legend_proto::replay::{Replay, Stroke, apply};
 use snook_legend_proto::{ClientMsg, EIGHT_CALL_PROTOCOL, PlayerInfo, PlayerStatus, ServerMsg};
 
-use crate::limits::Bucket;
+use crate::limits::Buckets;
 use crate::lounge::{key, player_info};
 use crate::store::{AsyncGame, MatchRecord, NewAsyncGame, User};
 use crate::{Server, now, parse_reason};
@@ -48,13 +48,22 @@ const CACHE_SIZE: usize = 256;
 
 /// What the server keeps between messages: one lock per game being
 /// changed, the latest tables and each player's challenge allowance.
-#[derive(Default)]
 pub struct State {
     locks: Mutex<HashMap<i64, Arc<tokio::sync::Mutex<()>>>>,
     /// Game id -> (strokes, the table after them).
     tables: Mutex<HashMap<i64, (usize, EightBallGame)>>,
     /// User id -> challenges they may still send.
-    challenges: Mutex<HashMap<i64, Bucket>>,
+    challenges: Mutex<Buckets<i64>>,
+}
+
+impl Default for State {
+    fn default() -> Self {
+        State {
+            locks: Mutex::default(),
+            tables: Mutex::default(),
+            challenges: Mutex::new(Buckets::new(10.0, 1.0 / 60.0)),
+        }
+    }
 }
 
 impl State {
@@ -85,11 +94,7 @@ impl State {
 
     /// Ten challenges at once, then one a minute.
     fn may_challenge(&self, user_id: i64) -> bool {
-        let mut map = self.challenges.lock().unwrap_or_else(|e| e.into_inner());
-        if map.len() > 10_000 {
-            map.clear();
-        }
-        map.entry(user_id).or_insert_with(|| Bucket::new(10.0, 1.0 / 60.0)).take()
+        self.challenges.lock().unwrap_or_else(|e| e.into_inner()).take(user_id)
     }
 }
 

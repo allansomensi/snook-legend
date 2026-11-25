@@ -40,12 +40,12 @@ pub struct Computer {
     /// Drill sessions being scored (each simulates up to fifteen shots).
     pub(crate) drills: Semaphore,
     last_claim: Mutex<HashMap<i64, Instant>>,
-    ghost_limits: Mutex<HashMap<i64, crate::limits::Bucket>>,
+    ghost_limits: Mutex<crate::limits::Buckets<i64>>,
     /// user -> (when, their latest match then, the style).
     cache: Mutex<HashMap<i64, (Instant, i64, GhostStyle)>>,
     /// Finals of the tour dealt lately, per account (a few, then one now
     /// and then: the racks can't be shopped for).
-    ticket_limits: Mutex<HashMap<i64, crate::limits::Bucket>>,
+    ticket_limits: Mutex<crate::limits::Buckets<i64>>,
     /// The drill session each account is playing: (drill, session, since).
     pub(crate) drill_sessions: Mutex<HashMap<i64, (String, u64, Instant)>>,
 }
@@ -58,9 +58,9 @@ impl Default for Computer {
             styles: Semaphore::new(2),
             drills: Semaphore::new(2),
             last_claim: Mutex::new(HashMap::new()),
-            ghost_limits: Mutex::new(HashMap::new()),
+            ghost_limits: Mutex::new(crate::limits::Buckets::new(GHOST_BURST, GHOST_RATE)),
             cache: Mutex::new(HashMap::new()),
-            ticket_limits: Mutex::new(HashMap::new()),
+            ticket_limits: Mutex::new(crate::limits::Buckets::new(TICKET_BURST, TICKET_RATE)),
             drill_sessions: Mutex::new(HashMap::new()),
         }
     }
@@ -91,14 +91,9 @@ impl Computer {
     }
 
     fn may_ask_ghost(&self, user: i64) -> bool {
-        let mut limits = lock(&self.ghost_limits);
-        if limits.len() > 10_000 {
-            limits.clear();
-        }
-        limits
-            .entry(user)
-            .or_insert_with(|| crate::limits::Bucket::new(GHOST_BURST, GHOST_RATE))
-            .take()
+        // (Busy accounts keep their bucket however many ask: clearing them
+        // all once ten thousand had asked gave everyone a fresh burst.)
+        lock(&self.ghost_limits).take(user)
     }
 
     fn cached(&self, user: i64, latest: i64) -> Option<GhostStyle> {
@@ -191,16 +186,7 @@ pub async fn claim(server: &Server, me: &User, replay: Replay) -> ClaimResult {
 /// Deals `me` a final of the tour to play for the reward: a rack of the
 /// server's choosing, the computer breaking.
 pub async fn ticket(server: &Server, me: &User) -> ServerMsg {
-    let allowed = {
-        let mut limits = lock(&server.computer.ticket_limits);
-        if limits.len() > 10_000 {
-            limits.clear();
-        }
-        limits
-            .entry(me.id)
-            .or_insert_with(|| crate::limits::Bucket::new(TICKET_BURST, TICKET_RATE))
-            .take()
-    };
+    let allowed = lock(&server.computer.ticket_limits).take(me.id);
     if !allowed {
         return ServerMsg::Error { message: "Slow down a little.".into() };
     }

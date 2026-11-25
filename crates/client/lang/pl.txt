@@ -2086,3 +2086,85 @@ Every player has it	Ma ją każdy gracz
 Drag to make the chat taller or shorter	Przeciągnij, aby wydłużyć lub skrócić czat
 Hide the result to see the table and the chat	Ukryj wynik, aby widzieć stół i czat
 Show the result	Pokaż wynik
+Play online: your games are added up here as they end.	Graj online: twoje partie sumują się tutaj, gdy się kończą.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Zobacz, jak wbijasz łuza po łuzie i według kąta cięcia, jak robisz postępy tydzień po tygodniu i jak wypadasz na tle graczy twojej ligi.
+Advanced statistics	Statystyki zaawansowane
+Become VIP	Zostań VIP
+By pocket	Według łuzy
+By cut angle	Według kąta cięcia
+The white mark: your league.	Biała kreska: twoja liga.
+Week by week	Tydzień po tygodniu
+Against your league	Na tle twojej ligi
+{tier}: {n} players	{tier}: {n} graczy
+You	Ty
+League	Liga
+{pocket}: {n} points above	{pocket}: {n} pkt powyżej
+{pocket}: {n} points below	{pocket}: {n} pkt poniżej
+Messages with {name}	Wiadomości z {name}
+No messages with {name} yet. Say hello!	Brak jeszcze wiadomości z {name}. Przywitaj się!
+Write a message… (Enter to send)	Napisz wiadomość… (Enter, aby wysłać)
+You can write to your friends only.	Możesz pisać tylko do znajomych.
+Choose a quick phrase…	Wybierz szybką frazę…
+Looking for a game ({rules})	Szuka partii ({rules})
+At a table, waiting ({rules})	Przy stole, czeka ({rules})
+Playing a tournament game against {name}	Gra partię turniejową z {name}
+Playing against {name}	Gra z {name}
+Watching {name}'s game	Ogląda partię {name}
+In {name}	W {name}
+Playing the computer	Gra z komputerem
+Practising	Trenuje
+In the daily challenge	W wyzwaniu dnia
+Doing drills	Robi ćwiczenia
+On the tour	Na tourze
+Away	Nieobecny
+Victory by abandonment	Zwycięstwo walkowerem
+Players (administrator)	Gracze (administrator)
+Spectators	Widzowie
+Chat (muted)	Czat (wyciszony)
+Say something to the others watching (the players don't see it).	Napisz coś do innych widzów (gracze tego nie widzą).
+Rated game	Partia rankingowa
+Casual game	Partia towarzyska
+Click to skip	Kliknij, aby pominąć
+Guest	Gość
+Win	Wygrana
+Loss	Przegrana
+{n} rating points at stake	{n} pkt rankingu do zdobycia
+No rating at stake	Bez rankingu
+Hide the shot's numbers	Ukryj liczby uderzenia
+Show the shot's numbers	Pokaż liczby uderzenia
+Last shot	Ostatnie uderzenie
+No shot yet.	Jeszcze brak uderzeń.
+Balls left	Pozostałe bile
+Right side	Rotacja w prawo
+Left side	Rotacja w lewo
+Centre ball	Środek bili
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Tylko szybkie frazy (bez dowolnego tekstu)
+Messages	Wiadomości
+World	Świat
+Friends ranking	Ranking znajomych
+You and your friends · rated games	Ty i twoi znajomi · partie rankingowe
+Add friends to see where you stand among them.	Dodaj znajomych, aby zobaczyć swoje miejsce wśród nich.
+Chat and reactions	Czat i reakcje
+Mute the opponent's chat	Wycisz czat przeciwnika
+Their messages in online games are not shown (yours still reach them).	Jego wiadomości w partiach online nie są pokazywane (twoje nadal do niego docierają).
+Hide the opponent's reactions	Ukryj reakcje przeciwnika
+The reactions they send at the table are not shown.	Reakcje, które wysyła przy stole, nie są pokazywane.
+Players muted from a game: {n}	Gracze wyciszeni w partii: {n}
+Unmute them all	Przywróć wszystkich
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Ta partia liczy się do rankingu: +{win}, jeśli wygrasz, {loss}, jeśli przegrasz.
+This game counts for the rating.	Ta partia liczy się do rankingu.
+A casual game: the rating doesn't change.	Partia towarzyska: ranking się nie zmienia.
+{name} lost the connection	{name} stracił połączenie
+If they don't come back in time, you win by abandonment.	Jeśli nie wróci na czas, wygrywasz walkowerem.
+Mute {name}	Wycisz {name}
+Mute {name}'s chat	Wycisz czat {name}
+Hide {name}'s reactions	Ukryj reakcje {name}
+Remembered for your next games against them.	Zapamiętane na twoje kolejne partie z nim.
+Broadcast	Transmisja
+3D	3D
+You can only send messages to your friends.	Możesz wysyłać wiadomości tylko znajomym.
+You can't send messages to this player.	Nie możesz wysyłać wiadomości temu graczowi.
+Your chat is set to the quick phrases only.	Twój czat jest ograniczony do szybkich fraz.
+These settings can't be kept.	Tych ustawień nie można zachować.
+You aren't watching a game.	Nie oglądasz żadnej partii.

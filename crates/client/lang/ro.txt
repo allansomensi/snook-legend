@@ -2086,3 +2086,85 @@ Every player has it	O au toți jucătorii
 Drag to make the chat taller or shorter	Trage ca să faci chatul mai înalt sau mai scund
 Hide the result to see the table and the chat	Ascunde rezultatul ca să vezi masa și chatul
 Show the result	Arată rezultatul
+Play online: your games are added up here as they end.	Joacă online: partidele tale se adună aici când se termină.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Vezi cum bagi bile buzunar cu buzunar și după unghiul de tăiere, cum progresezi săptămână de săptămână și cum te compari cu jucătorii din liga ta.
+Advanced statistics	Statistici avansate
+Become VIP	Devino VIP
+By pocket	Pe buzunar
+By cut angle	Pe unghi de tăiere
+The white mark: your league.	Semnul alb: liga ta.
+Week by week	Săptămână de săptămână
+Against your league	Față de liga ta
+{tier}: {n} players	{tier}: {n} jucători
+You	Tu
+League	Liga
+{pocket}: {n} points above	{pocket}: cu {n} puncte peste
+{pocket}: {n} points below	{pocket}: cu {n} puncte sub
+Messages with {name}	Mesaje cu {name}
+No messages with {name} yet. Say hello!	Încă niciun mesaj cu {name}. Salută!
+Write a message… (Enter to send)	Scrie un mesaj… (Enter pentru a trimite)
+You can write to your friends only.	Poți scrie doar prietenilor tăi.
+Choose a quick phrase…	Alege o frază rapidă…
+Looking for a game ({rules})	Caută o partidă ({rules})
+At a table, waiting ({rules})	La o masă, așteaptă ({rules})
+Playing a tournament game against {name}	Joacă o partidă de turneu cu {name}
+Playing against {name}	Joacă cu {name}
+Watching {name}'s game	Urmărește partida lui {name}
+In {name}	În {name}
+Playing the computer	Joacă cu calculatorul
+Practising	Se antrenează
+In the daily challenge	În provocarea zilei
+Doing drills	Face exerciții
+On the tour	În turneu
+Away	Absent
+Victory by abandonment	Victorie prin abandon
+Players (administrator)	Jucători (administrator)
+Spectators	Spectatori
+Chat (muted)	Chat (dezactivat)
+Say something to the others watching (the players don't see it).	Spune ceva celorlalți spectatori (jucătorii nu văd).
+Rated game	Partidă cu rating
+Casual game	Partidă amicală
+Click to skip	Apasă pentru a sări
+Guest	Invitat
+Win	Victorie
+Loss	Înfrângere
+{n} rating points at stake	{n} puncte de rating în joc
+No rating at stake	Niciun rating în joc
+Hide the shot's numbers	Ascunde cifrele loviturii
+Show the shot's numbers	Arată cifrele loviturii
+Last shot	Ultima lovitură
+No shot yet.	Nicio lovitură încă.
+Balls left	Bile rămase
+Right side	Efect la dreapta
+Left side	Efect la stânga
+Centre ball	Bila la centru
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Doar frazele rapide (fără text liber)
+Messages	Mesaje
+World	Lume
+Friends ranking	Clasamentul prietenilor
+You and your friends · rated games	Tu și prietenii tăi · partide cu rating
+Add friends to see where you stand among them.	Adaugă prieteni ca să vezi unde te afli printre ei.
+Chat and reactions	Chat și reacții
+Mute the opponent's chat	Dezactivează chatul adversarului
+Their messages in online games are not shown (yours still reach them).	Mesajele lui în partidele online nu apar (ale tale ajung în continuare la el).
+Hide the opponent's reactions	Ascunde reacțiile adversarului
+The reactions they send at the table are not shown.	Reacțiile pe care le trimite la masă nu apar.
+Players muted from a game: {n}	Jucători dezactivați într-o partidă: {n}
+Unmute them all	Reactivează-i pe toți
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Partida aceasta contează pentru rating: +{win} dacă câștigi, {loss} dacă pierzi.
+This game counts for the rating.	Partida aceasta contează pentru rating.
+A casual game: the rating doesn't change.	Partidă amicală: ratingul nu se schimbă.
+{name} lost the connection	{name} a pierdut conexiunea
+If they don't come back in time, you win by abandonment.	Dacă nu revine la timp, câștigi prin abandon.
+Mute {name}	Dezactivează-l pe {name}
+Mute {name}'s chat	Dezactivează chatul lui {name}
+Hide {name}'s reactions	Ascunde reacțiile lui {name}
+Remembered for your next games against them.	Ținut minte pentru următoarele tale partide cu el.
+Broadcast	Transmisiune
+3D	3D
+You can only send messages to your friends.	Poți trimite mesaje doar prietenilor tăi.
+You can't send messages to this player.	Nu poți trimite mesaje acestui jucător.
+Your chat is set to the quick phrases only.	Chatul tău e limitat la frazele rapide.
+These settings can't be kept.	Aceste setări nu pot fi păstrate.
+You aren't watching a game.	Nu urmărești nicio partidă.

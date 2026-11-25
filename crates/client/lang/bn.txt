@@ -2086,3 +2086,85 @@ Every player has it	সব খেলোয়াড়ের কাছে আছ
 Drag to make the chat taller or shorter	চ্যাট লম্বা বা ছোট করতে টানুন
 Hide the result to see the table and the chat	টেবিল আর চ্যাট দেখতে ফলাফল লুকান
 Show the result	ফলাফল দেখুন
+Play online: your games are added up here as they end.	অনলাইনে খেলুন: আপনার খেলাগুলো শেষ হলেই এখানে যোগ হয়।
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	দেখুন প্রতিটি পকেটে ও প্রতিটি কাট কোণে আপনি কতটা বল ফেলেন, সপ্তাহে সপ্তাহে কীভাবে উন্নতি করছেন, আর আপনার লিগের খেলোয়াড়দের তুলনায় কোথায় আছেন।
+Advanced statistics	উন্নত পরিসংখ্যান
+Become VIP	VIP হোন
+By pocket	পকেট অনুযায়ী
+By cut angle	কাট কোণ অনুযায়ী
+The white mark: your league.	সাদা দাগ: আপনার লিগ।
+Week by week	সপ্তাহে সপ্তাহে
+Against your league	আপনার লিগের তুলনায়
+{tier}: {n} players	{tier}: {n} জন খেলোয়াড়
+You	আপনি
+League	লিগ
+{pocket}: {n} points above	{pocket}: {n} পয়েন্ট বেশি
+{pocket}: {n} points below	{pocket}: {n} পয়েন্ট কম
+Messages with {name}	{name}-এর সঙ্গে বার্তা
+No messages with {name} yet. Say hello!	{name}-এর সঙ্গে এখনো কোনো বার্তা নেই। শুভেচ্ছা জানান!
+Write a message… (Enter to send)	একটি বার্তা লিখুন… (পাঠাতে Enter)
+You can write to your friends only.	আপনি শুধু বন্ধুদের লিখতে পারেন।
+Choose a quick phrase…	একটি দ্রুত বাক্য বেছে নিন…
+Looking for a game ({rules})	খেলা খুঁজছেন ({rules})
+At a table, waiting ({rules})	টেবিলে অপেক্ষায় ({rules})
+Playing a tournament game against {name}	{name}-এর বিরুদ্ধে টুর্নামেন্টের খেলা খেলছেন
+Playing against {name}	{name}-এর বিরুদ্ধে খেলছেন
+Watching {name}'s game	{name}-এর খেলা দেখছেন
+In {name}	{name}-এ
+Playing the computer	কম্পিউটারের বিরুদ্ধে খেলছেন
+Practising	অনুশীলন করছেন
+In the daily challenge	দৈনিক চ্যালেঞ্জে
+Doing drills	ড্রিল করছেন
+On the tour	ট্যুরে
+Away	দূরে
+Victory by abandonment	প্রতিপক্ষ ছেড়ে যাওয়ায় জয়
+Players (administrator)	খেলোয়াড় (প্রশাসক)
+Spectators	দর্শক
+Chat (muted)	চ্যাট (মিউট করা)
+Say something to the others watching (the players don't see it).	অন্য দর্শকদের কিছু বলুন (খেলোয়াড়রা দেখতে পান না)।
+Rated game	রেটেড খেলা
+Casual game	সাধারণ খেলা
+Click to skip	এড়িয়ে যেতে ক্লিক করুন
+Guest	অতিথি
+Win	জয়
+Loss	পরাজয়
+{n} rating points at stake	{n} রেটিং পয়েন্ট বাজিতে
+No rating at stake	কোনো রেটিং বাজিতে নেই
+Hide the shot's numbers	শটের সংখ্যাগুলো লুকান
+Show the shot's numbers	শটের সংখ্যাগুলো দেখান
+Last shot	শেষ শট
+No shot yet.	এখনো কোনো শট নেই।
+Balls left	বাকি বল
+Right side	ডান স্পিন
+Left side	বাম স্পিন
+Centre ball	বলের মাঝখান
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	শুধু দ্রুত বাক্য (মুক্ত লেখা নয়)
+Messages	বার্তা
+World	বিশ্ব
+Friends ranking	বন্ধুদের র‍্যাঙ্কিং
+You and your friends · rated games	আপনি ও আপনার বন্ধুরা · রেটেড খেলা
+Add friends to see where you stand among them.	বন্ধু যোগ করুন, দেখুন তাদের মধ্যে আপনি কোথায়।
+Chat and reactions	চ্যাট ও প্রতিক্রিয়া
+Mute the opponent's chat	প্রতিপক্ষের চ্যাট মিউট করুন
+Their messages in online games are not shown (yours still reach them).	অনলাইন খেলায় তাদের বার্তা দেখানো হয় না (আপনার বার্তা তাদের কাছে পৌঁছায়)।
+Hide the opponent's reactions	প্রতিপক্ষের প্রতিক্রিয়া লুকান
+The reactions they send at the table are not shown.	টেবিলে তারা যে প্রতিক্রিয়া পাঠায় তা দেখানো হয় না।
+Players muted from a game: {n}	খেলা থেকে মিউট করা খেলোয়াড়: {n}
+Unmute them all	সবাইকে আনমিউট করুন
+This game counts for the rating: +{win} if you win, {loss} if you lose.	এই খেলা রেটিংয়ে গোনা হয়: জিতলে +{win}, হারলে {loss}।
+This game counts for the rating.	এই খেলা রেটিংয়ে গোনা হয়।
+A casual game: the rating doesn't change.	সাধারণ খেলা: রেটিং বদলায় না।
+{name} lost the connection	{name}-এর সংযোগ বিচ্ছিন্ন হয়েছে
+If they don't come back in time, you win by abandonment.	সময়মতো না ফিরলে, প্রতিপক্ষ ছেড়ে যাওয়ায় আপনি জিতবেন।
+Mute {name}	{name}-কে মিউট করুন
+Mute {name}'s chat	{name}-এর চ্যাট মিউট করুন
+Hide {name}'s reactions	{name}-এর প্রতিক্রিয়া লুকান
+Remembered for your next games against them.	তাদের বিরুদ্ধে আপনার পরের খেলাগুলোর জন্য মনে রাখা হবে।
+Broadcast	সম্প্রচার
+3D	3D
+You can only send messages to your friends.	আপনি শুধু বন্ধুদের বার্তা পাঠাতে পারেন।
+You can't send messages to this player.	আপনি এই খেলোয়াড়কে বার্তা পাঠাতে পারবেন না।
+Your chat is set to the quick phrases only.	আপনার চ্যাট শুধু দ্রুত বাক্যে সীমাবদ্ধ।
+These settings can't be kept.	এই সেটিংস রাখা যাবে না।
+You aren't watching a game.	আপনি কোনো খেলা দেখছেন না।

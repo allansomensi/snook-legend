@@ -2086,3 +2086,85 @@ Every player has it	Dimiliki semua pemain
 Drag to make the chat taller or shorter	Seret untuk meninggikan atau memendekkan chat
 Hide the result to see the table and the chat	Sembunyikan hasil untuk melihat meja dan chat
 Show the result	Tampilkan hasil
+Play online: your games are added up here as they end.	Main online: permainanmu dijumlahkan di sini setiap kali selesai.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Lihat bagaimana kamu memasukkan bola per lubang dan per sudut potong, bagaimana kamu berkembang minggu demi minggu, dan bagaimana kamu dibanding pemain di liga-mu.
+Advanced statistics	Statistik lanjutan
+Become VIP	Jadi VIP
+By pocket	Per lubang
+By cut angle	Per sudut potong
+The white mark: your league.	Tanda putih: liga-mu.
+Week by week	Minggu demi minggu
+Against your league	Dibanding liga-mu
+{tier}: {n} players	{tier}: {n} pemain
+You	Kamu
+League	Liga
+{pocket}: {n} points above	{pocket}: {n} poin di atas
+{pocket}: {n} points below	{pocket}: {n} poin di bawah
+Messages with {name}	Pesan dengan {name}
+No messages with {name} yet. Say hello!	Belum ada pesan dengan {name}. Sapa dia!
+Write a message… (Enter to send)	Tulis pesan… (Enter untuk mengirim)
+You can write to your friends only.	Kamu hanya bisa menulis ke teman.
+Choose a quick phrase…	Pilih frasa cepat…
+Looking for a game ({rules})	Mencari permainan ({rules})
+At a table, waiting ({rules})	Di meja, menunggu ({rules})
+Playing a tournament game against {name}	Bermain laga turnamen melawan {name}
+Playing against {name}	Bermain melawan {name}
+Watching {name}'s game	Menonton permainan {name}
+In {name}	Di {name}
+Playing the computer	Bermain melawan komputer
+Practising	Berlatih
+In the daily challenge	Di tantangan harian
+Doing drills	Mengerjakan latihan
+On the tour	Di tur
+Away	Sedang pergi
+Victory by abandonment	Menang karena lawan meninggalkan permainan
+Players (administrator)	Pemain (administrator)
+Spectators	Penonton
+Chat (muted)	Obrolan (dibisukan)
+Say something to the others watching (the players don't see it).	Katakan sesuatu kepada penonton lain (pemain tidak melihatnya).
+Rated game	Permainan berperingkat
+Casual game	Permainan santai
+Click to skip	Klik untuk melewati
+Guest	Tamu
+Win	Menang
+Loss	Kalah
+{n} rating points at stake	{n} poin rating dipertaruhkan
+No rating at stake	Tidak ada rating yang dipertaruhkan
+Hide the shot's numbers	Sembunyikan angka pukulan
+Show the shot's numbers	Tampilkan angka pukulan
+Last shot	Pukulan terakhir
+No shot yet.	Belum ada pukulan.
+Balls left	Bola tersisa
+Right side	Efek kanan
+Left side	Efek kiri
+Centre ball	Tengah bola
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Hanya frasa cepat (tanpa teks bebas)
+Messages	Pesan
+World	Dunia
+Friends ranking	Peringkat teman
+You and your friends · rated games	Kamu dan teman-temanmu · permainan berperingkat
+Add friends to see where you stand among them.	Tambahkan teman untuk melihat posisimu di antara mereka.
+Chat and reactions	Obrolan dan reaksi
+Mute the opponent's chat	Bisukan obrolan lawan
+Their messages in online games are not shown (yours still reach them).	Pesannya di permainan online tidak ditampilkan (pesanmu tetap sampai kepadanya).
+Hide the opponent's reactions	Sembunyikan reaksi lawan
+The reactions they send at the table are not shown.	Reaksi yang dia kirim di meja tidak ditampilkan.
+Players muted from a game: {n}	Pemain yang dibisukan dari permainan: {n}
+Unmute them all	Aktifkan suara semuanya
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Permainan ini dihitung untuk rating: +{win} jika menang, {loss} jika kalah.
+This game counts for the rating.	Permainan ini dihitung untuk rating.
+A casual game: the rating doesn't change.	Permainan santai: rating tidak berubah.
+{name} lost the connection	{name} kehilangan koneksi
+If they don't come back in time, you win by abandonment.	Jika dia tidak kembali tepat waktu, kamu menang karena dia meninggalkan permainan.
+Mute {name}	Bisukan {name}
+Mute {name}'s chat	Bisukan obrolan {name}
+Hide {name}'s reactions	Sembunyikan reaksi {name}
+Remembered for your next games against them.	Diingat untuk permainanmu berikutnya melawan dia.
+Broadcast	Siaran
+3D	3D
+You can only send messages to your friends.	Kamu hanya bisa mengirim pesan ke teman.
+You can't send messages to this player.	Kamu tidak bisa mengirim pesan ke pemain ini.
+Your chat is set to the quick phrases only.	Obrolanmu dibatasi pada frasa cepat.
+These settings can't be kept.	Pengaturan ini tidak dapat disimpan.
+You aren't watching a game.	Kamu tidak sedang menonton permainan.

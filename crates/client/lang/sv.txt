@@ -2086,3 +2086,85 @@ Every player has it	Alla spelare har den
 Drag to make the chat taller or shorter	Dra för att göra chatten högre eller lägre
 Hide the result to see the table and the chat	Dölj resultatet för att se bordet och chatten
 Show the result	Visa resultatet
+Play online: your games are added up here as they end.	Spela online: dina partier läggs ihop här när de är slut.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Se hur du sänker hål för hål och efter snittvinkel, hur du utvecklas vecka för vecka och hur du står dig mot spelarna i din liga.
+Advanced statistics	Avancerad statistik
+Become VIP	Bli VIP
+By pocket	Per hål
+By cut angle	Per snittvinkel
+The white mark: your league.	Det vita strecket: din liga.
+Week by week	Vecka för vecka
+Against your league	Mot din liga
+{tier}: {n} players	{tier}: {n} spelare
+You	Du
+League	Liga
+{pocket}: {n} points above	{pocket}: {n} poäng över
+{pocket}: {n} points below	{pocket}: {n} poäng under
+Messages with {name}	Meddelanden med {name}
+No messages with {name} yet. Say hello!	Inga meddelanden med {name} än. Säg hej!
+Write a message… (Enter to send)	Skriv ett meddelande… (Enter för att skicka)
+You can write to your friends only.	Du kan bara skriva till dina vänner.
+Choose a quick phrase…	Välj en snabbfras…
+Looking for a game ({rules})	Letar efter ett parti ({rules})
+At a table, waiting ({rules})	Vid ett bord, väntar ({rules})
+Playing a tournament game against {name}	Spelar ett turneringsparti mot {name}
+Playing against {name}	Spelar mot {name}
+Watching {name}'s game	Tittar på partiet med {name}
+In {name}	I {name}
+Playing the computer	Spelar mot datorn
+Practising	Tränar
+In the daily challenge	I dagens utmaning
+Doing drills	Gör övningar
+On the tour	På touren
+Away	Borta
+Victory by abandonment	Seger genom uppgivet parti
+Players (administrator)	Spelare (administratör)
+Spectators	Åskådare
+Chat (muted)	Chatt (tystad)
+Say something to the others watching (the players don't see it).	Säg något till de andra som tittar (spelarna ser det inte).
+Rated game	Rankat parti
+Casual game	Vänskapsparti
+Click to skip	Klicka för att hoppa över
+Guest	Gäst
+Win	Vinst
+Loss	Förlust
+{n} rating points at stake	{n} rankingpoäng står på spel
+No rating at stake	Ingen ranking på spel
+Hide the shot's numbers	Dölj stötens siffror
+Show the shot's numbers	Visa stötens siffror
+Last shot	Senaste stöten
+No shot yet.	Ingen stöt än.
+Balls left	Kvarvarande bollar
+Right side	Högereffekt
+Left side	Vänstereffekt
+Centre ball	Boll i mitten
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Bara snabbfraserna (ingen fri text)
+Messages	Meddelanden
+World	Världen
+Friends ranking	Vänrankning
+You and your friends · rated games	Du och dina vänner · rankade partier
+Add friends to see where you stand among them.	Lägg till vänner för att se var du står bland dem.
+Chat and reactions	Chatt och reaktioner
+Mute the opponent's chat	Tysta motståndarens chatt
+Their messages in online games are not shown (yours still reach them).	Hans meddelanden i onlinepartier visas inte (dina når honom fortfarande).
+Hide the opponent's reactions	Dölj motståndarens reaktioner
+The reactions they send at the table are not shown.	Reaktionerna han skickar vid bordet visas inte.
+Players muted from a game: {n}	Spelare tystade i ett parti: {n}
+Unmute them all	Slå på alla igen
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Det här partiet räknas till rankingen: +{win} om du vinner, {loss} om du förlorar.
+This game counts for the rating.	Det här partiet räknas till rankingen.
+A casual game: the rating doesn't change.	Vänskapsparti: rankingen ändras inte.
+{name} lost the connection	{name} tappade anslutningen
+If they don't come back in time, you win by abandonment.	Kommer han inte tillbaka i tid vinner du genom uppgivet parti.
+Mute {name}	Tysta {name}
+Mute {name}'s chat	Tysta chatten från {name}
+Hide {name}'s reactions	Dölj reaktionerna från {name}
+Remembered for your next games against them.	Kom ihåg till dina nästa partier mot honom.
+Broadcast	Sändning
+3D	3D
+You can only send messages to your friends.	Du kan bara skicka meddelanden till dina vänner.
+You can't send messages to this player.	Du kan inte skicka meddelanden till den här spelaren.
+Your chat is set to the quick phrases only.	Din chatt är begränsad till snabbfraserna.
+These settings can't be kept.	De här inställningarna kan inte sparas.
+You aren't watching a game.	Du tittar inte på något parti.

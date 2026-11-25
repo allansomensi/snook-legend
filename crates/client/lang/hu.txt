@@ -2086,3 +2086,85 @@ Every player has it	Minden játékosnak megvan
 Drag to make the chat taller or shorter	Húzd a csevegés magasításához vagy alacsonyításához
 Hide the result to see the table and the chat	Rejtsd el az eredményt, hogy lásd az asztalt és a csevegést
 Show the result	Eredmény mutatása
+Play online: your games are added up here as they end.	Játssz online: a játszmáid itt adódnak össze, ahogy véget érnek.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Nézd meg, hogyan lövöd be lyukról lyukra és vágási szög szerint, hogyan fejlődsz hétről hétre, és hogyan állsz a ligád játékosaihoz képest.
+Advanced statistics	Részletes statisztikák
+Become VIP	Legyél VIP
+By pocket	Lyukanként
+By cut angle	Vágási szög szerint
+The white mark: your league.	A fehér jel: a ligád.
+Week by week	Hétről hétre
+Against your league	A ligádhoz képest
+{tier}: {n} players	{tier}: {n} játékos
+You	Te
+League	Liga
+{pocket}: {n} points above	{pocket}: {n} ponttal felette
+{pocket}: {n} points below	{pocket}: {n} ponttal alatta
+Messages with {name}	Üzenetek: {name}
+No messages with {name} yet. Say hello!	Még nincs üzenet {name} játékossal. Köszönj!
+Write a message… (Enter to send)	Írj üzenetet… (Enter a küldéshez)
+You can write to your friends only.	Csak a barátaidnak írhatsz.
+Choose a quick phrase…	Válassz egy gyors mondatot…
+Looking for a game ({rules})	Játszmát keres ({rules})
+At a table, waiting ({rules})	Asztalnál vár ({rules})
+Playing a tournament game against {name}	Versenyjátszmát játszik {name} ellen
+Playing against {name}	{name} ellen játszik
+Watching {name}'s game	{name} játszmáját nézi
+In {name}	Itt: {name}
+Playing the computer	A gép ellen játszik
+Practising	Gyakorol
+In the daily challenge	A napi kihívásban
+Doing drills	Gyakorlatokat csinál
+On the tour	A túrán
+Away	Távol
+Victory by abandonment	Győzelem feladással
+Players (administrator)	Játékosok (adminisztrátor)
+Spectators	Nézők
+Chat (muted)	Chat (némítva)
+Say something to the others watching (the players don't see it).	Írj valamit a többi nézőnek (a játékosok nem látják).
+Rated game	Pontszámított játszma
+Casual game	Barátságos játszma
+Click to skip	Kattints a kihagyáshoz
+Guest	Vendég
+Win	Győzelem
+Loss	Vereség
+{n} rating points at stake	{n} pontszám a tét
+No rating at stake	Nincs pontszám a tét
+Hide the shot's numbers	A lökés számainak elrejtése
+Show the shot's numbers	A lökés számainak mutatása
+Last shot	Utolsó lökés
+No shot yet.	Még nincs lökés.
+Balls left	Maradék golyók
+Right side	Jobb oldali csavar
+Left side	Bal oldali csavar
+Centre ball	Golyó közepe
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Csak a gyors mondatok (nincs szabad szöveg)
+Messages	Üzenetek
+World	Világ
+Friends ranking	Barátok ranglistája
+You and your friends · rated games	Te és a barátaid · pontszámított játszmák
+Add friends to see where you stand among them.	Adj hozzá barátokat, hogy lásd, hol állsz köztük.
+Chat and reactions	Chat és reakciók
+Mute the opponent's chat	Az ellenfél chatjének némítása
+Their messages in online games are not shown (yours still reach them).	Az üzenetei az online játszmákban nem jelennek meg (a tieid továbbra is eljutnak hozzá).
+Hide the opponent's reactions	Az ellenfél reakcióinak elrejtése
+The reactions they send at the table are not shown.	Az asztalnál küldött reakciói nem jelennek meg.
+Players muted from a game: {n}	Játszmában némított játékosok: {n}
+Unmute them all	Mindenki némításának feloldása
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Ez a játszma számít a pontszámba: +{win}, ha nyersz, {loss}, ha veszítesz.
+This game counts for the rating.	Ez a játszma számít a pontszámba.
+A casual game: the rating doesn't change.	Barátságos játszma: a pontszám nem változik.
+{name} lost the connection	{name} elvesztette a kapcsolatot
+If they don't come back in time, you win by abandonment.	Ha nem tér vissza időben, feladással nyersz.
+Mute {name}	{name} némítása
+Mute {name}'s chat	{name} chatjének némítása
+Hide {name}'s reactions	{name} reakcióinak elrejtése
+Remembered for your next games against them.	Megjegyezve a következő játszmáidra ellene.
+Broadcast	Közvetítés
+3D	3D
+You can only send messages to your friends.	Csak a barátaidnak küldhetsz üzenetet.
+You can't send messages to this player.	Ennek a játékosnak nem küldhetsz üzenetet.
+Your chat is set to the quick phrases only.	A chated a gyors mondatokra korlátozódik.
+These settings can't be kept.	Ezek a beállítások nem tárolhatók.
+You aren't watching a game.	Nem nézel egy játszmát sem.

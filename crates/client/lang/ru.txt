@@ -2086,3 +2086,85 @@ Every player has it	Есть у всех игроков
 Drag to make the chat taller or shorter	Тяните, чтобы сделать чат выше или ниже
 Hide the result to see the table and the chat	Скройте итог, чтобы видеть стол и чат
 Show the result	Показать итог
+Play online: your games are added up here as they end.	Играйте онлайн: ваши партии суммируются здесь по их окончании.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Посмотрите, как вы забиваете по каждой лузе и по углу резки, как растёте неделя за неделей и как выглядите на фоне игроков своей лиги.
+Advanced statistics	Подробная статистика
+Become VIP	Стать VIP
+By pocket	По лузам
+By cut angle	По углу резки
+The white mark: your league.	Белая отметка: ваша лига.
+Week by week	Неделя за неделей
+Against your league	На фоне вашей лиги
+{tier}: {n} players	{tier}: игроков — {n}
+You	Вы
+League	Лига
+{pocket}: {n} points above	{pocket}: выше на {n} п.
+{pocket}: {n} points below	{pocket}: ниже на {n} п.
+Messages with {name}	Сообщения с {name}
+No messages with {name} yet. Say hello!	Пока нет сообщений с {name}. Поздоровайтесь!
+Write a message… (Enter to send)	Напишите сообщение… (Enter — отправить)
+You can write to your friends only.	Писать можно только друзьям.
+Choose a quick phrase…	Выберите быструю фразу…
+Looking for a game ({rules})	Ищет партию ({rules})
+At a table, waiting ({rules})	За столом, ждёт ({rules})
+Playing a tournament game against {name}	Играет турнирную партию против {name}
+Playing against {name}	Играет против {name}
+Watching {name}'s game	Смотрит партию {name}
+In {name}	В {name}
+Playing the computer	Играет против компьютера
+Practising	Тренируется
+In the daily challenge	В испытании дня
+Doing drills	Выполняет упражнения
+On the tour	В туре
+Away	Отошёл
+Victory by abandonment	Победа из-за ухода соперника
+Players (administrator)	Игроки (администратор)
+Spectators	Зрители
+Chat (muted)	Чат (заглушён)
+Say something to the others watching (the players don't see it).	Напишите что-нибудь другим зрителям (игроки этого не видят).
+Rated game	Рейтинговая партия
+Casual game	Товарищеская партия
+Click to skip	Нажмите, чтобы пропустить
+Guest	Гость
+Win	Победа
+Loss	Поражение
+{n} rating points at stake	На кону {n} очков рейтинга
+No rating at stake	Рейтинг не на кону
+Hide the shot's numbers	Скрыть цифры удара
+Show the shot's numbers	Показать цифры удара
+Last shot	Последний удар
+No shot yet.	Ударов пока нет.
+Balls left	Осталось шаров
+Right side	Правый винт
+Left side	Левый винт
+Centre ball	Центр шара
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Только быстрые фразы (без свободного текста)
+Messages	Сообщения
+World	Мир
+Friends ranking	Рейтинг друзей
+You and your friends · rated games	Вы и ваши друзья · рейтинговые партии
+Add friends to see where you stand among them.	Добавьте друзей, чтобы увидеть своё место среди них.
+Chat and reactions	Чат и реакции
+Mute the opponent's chat	Заглушить чат соперника
+Their messages in online games are not shown (yours still reach them).	Его сообщения в онлайн-партиях не показываются (ваши по-прежнему до него доходят).
+Hide the opponent's reactions	Скрыть реакции соперника
+The reactions they send at the table are not shown.	Реакции, которые он отправляет за столом, не показываются.
+Players muted from a game: {n}	Игроков заглушено в партиях: {n}
+Unmute them all	Включить всех снова
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Эта партия идёт в рейтинг: +{win} за победу, {loss} за поражение.
+This game counts for the rating.	Эта партия идёт в рейтинг.
+A casual game: the rating doesn't change.	Товарищеская партия: рейтинг не меняется.
+{name} lost the connection	{name} потерял соединение
+If they don't come back in time, you win by abandonment.	Если он не вернётся вовремя, вы победите из-за его ухода.
+Mute {name}	Заглушить {name}
+Mute {name}'s chat	Заглушить чат {name}
+Hide {name}'s reactions	Скрыть реакции {name}
+Remembered for your next games against them.	Запомнится для следующих партий против него.
+Broadcast	Трансляция
+3D	3D
+You can only send messages to your friends.	Отправлять сообщения можно только друзьям.
+You can't send messages to this player.	Вы не можете отправлять сообщения этому игроку.
+Your chat is set to the quick phrases only.	Ваш чат ограничен быстрыми фразами.
+These settings can't be kept.	Эти настройки нельзя сохранить.
+You aren't watching a game.	Вы не смотрите ни одну партию.

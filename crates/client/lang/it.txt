@@ -2086,3 +2086,85 @@ Every player has it	Ce l'hanno tutti i giocatori
 Drag to make the chat taller or shorter	Trascina per allungare o accorciare la chat
 Hide the result to see the table and the chat	Nascondi il risultato per vedere il tavolo e la chat
 Show the result	Mostra il risultato
+Play online: your games are added up here as they end.	Gioca online: le tue partite si sommano qui quando finiscono.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Scopri come imbuchi buca per buca e per angolo di taglio, come progredisci settimana dopo settimana e come ti confronti con i giocatori della tua lega.
+Advanced statistics	Statistiche avanzate
+Become VIP	Diventa VIP
+By pocket	Per buca
+By cut angle	Per angolo di taglio
+The white mark: your league.	Il segno bianco: la tua lega.
+Week by week	Settimana per settimana
+Against your league	Rispetto alla tua lega
+{tier}: {n} players	{tier}: {n} giocatori
+You	Tu
+League	Lega
+{pocket}: {n} points above	{pocket}: {n} punti sopra
+{pocket}: {n} points below	{pocket}: {n} punti sotto
+Messages with {name}	Messaggi con {name}
+No messages with {name} yet. Say hello!	Ancora nessun messaggio con {name}. Saluta!
+Write a message… (Enter to send)	Scrivi un messaggio… (Invio per inviare)
+You can write to your friends only.	Puoi scrivere solo ai tuoi amici.
+Choose a quick phrase…	Scegli una frase rapida…
+Looking for a game ({rules})	Cerca una partita ({rules})
+At a table, waiting ({rules})	A un tavolo, in attesa ({rules})
+Playing a tournament game against {name}	Gioca una partita di torneo contro {name}
+Playing against {name}	Gioca contro {name}
+Watching {name}'s game	Guarda la partita di {name}
+In {name}	In {name}
+Playing the computer	Gioca contro il computer
+Practising	Si allena
+In the daily challenge	Nella sfida del giorno
+Doing drills	Fa esercizi
+On the tour	Nel tour
+Away	Assente
+Victory by abandonment	Vittoria per abbandono
+Players (administrator)	Giocatori (amministratore)
+Spectators	Spettatori
+Chat (muted)	Chat (silenziata)
+Say something to the others watching (the players don't see it).	Di' qualcosa agli altri spettatori (i giocatori non lo vedono).
+Rated game	Partita classificata
+Casual game	Partita amichevole
+Click to skip	Clicca per saltare
+Guest	Ospite
+Win	Vittoria
+Loss	Sconfitta
+{n} rating points at stake	{n} punti di rating in palio
+No rating at stake	Nessun rating in palio
+Hide the shot's numbers	Nascondi i numeri del colpo
+Show the shot's numbers	Mostra i numeri del colpo
+Last shot	Ultimo colpo
+No shot yet.	Ancora nessun colpo.
+Balls left	Bilie rimaste
+Right side	Effetto a destra
+Left side	Effetto a sinistra
+Centre ball	Bilia al centro
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Solo le frasi rapide (niente testo libero)
+Messages	Messaggi
+World	Mondo
+Friends ranking	Classifica degli amici
+You and your friends · rated games	Tu e i tuoi amici · partite classificate
+Add friends to see where you stand among them.	Aggiungi amici per vedere la tua posizione tra loro.
+Chat and reactions	Chat e reazioni
+Mute the opponent's chat	Silenzia la chat dell'avversario
+Their messages in online games are not shown (yours still reach them).	I suoi messaggi nelle partite online non vengono mostrati (i tuoi gli arrivano comunque).
+Hide the opponent's reactions	Nascondi le reazioni dell'avversario
+The reactions they send at the table are not shown.	Le reazioni che invia al tavolo non vengono mostrate.
+Players muted from a game: {n}	Giocatori silenziati in una partita: {n}
+Unmute them all	Riattivali tutti
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Questa partita conta per il rating: +{win} se vinci, {loss} se perdi.
+This game counts for the rating.	Questa partita conta per il rating.
+A casual game: the rating doesn't change.	Partita amichevole: il rating non cambia.
+{name} lost the connection	{name} ha perso la connessione
+If they don't come back in time, you win by abandonment.	Se non torna in tempo, vinci per abbandono.
+Mute {name}	Silenzia {name}
+Mute {name}'s chat	Silenzia la chat di {name}
+Hide {name}'s reactions	Nascondi le reazioni di {name}
+Remembered for your next games against them.	Ricordato per le tue prossime partite contro di lui.
+Broadcast	Diretta
+3D	3D
+You can only send messages to your friends.	Puoi inviare messaggi solo ai tuoi amici.
+You can't send messages to this player.	Non puoi inviare messaggi a questo giocatore.
+Your chat is set to the quick phrases only.	La tua chat è limitata alle frasi rapide.
+These settings can't be kept.	Queste impostazioni non possono essere salvate.
+You aren't watching a game.	Non stai guardando nessuna partita.

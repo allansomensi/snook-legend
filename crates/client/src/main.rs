@@ -2324,6 +2324,9 @@ async fn main() {
         if let Some(intro) = dev_intro.as_mut() {
             intro.draw(&mut ui, 0.03);
         }
+        if current.is_none() && matches!(screen, Screen::Menu) {
+            online.toast_left.set(Some(menu.column_right + 16.0));
+        }
         online.draw_toasts(&ui, toast_bottom);
         if let Some(l) = &mut lan {
             l.net.draw_toasts(&ui, toast_bottom);

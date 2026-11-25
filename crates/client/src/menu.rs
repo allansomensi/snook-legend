@@ -53,6 +53,9 @@ pub struct Menu {
     /// And of each place along the bottom.
     dock_hover: [f32; 8],
     shade: Option<Texture2D>,
+    /// Where the menu's column (cards and the row of places) ends on the
+    /// right, as last drawn: notices go to the right of it.
+    pub column_right: f32,
 }
 
 /// The game's name, drawn by `tools/gen_wordmark.py` (gold lit from above,
@@ -306,6 +309,7 @@ impl Menu {
             })
             .fold(0.0, f32::max);
         let w = (sw * 0.36).clamp(300.0, 440.0).max(needed).min(sw - left - EDGE);
+        self.column_right = left + w;
         let h = m.card_h;
         let block = m.rules_block() + 4.0 * h + 3.0 * m.gap;
         let below = 24.0 + m.icon + EDGE;

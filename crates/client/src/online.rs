@@ -337,6 +337,9 @@ pub struct Online {
     /// Where toasts must stay above this frame: the lounge sets it (its chat
     /// field is at the bottom), [`Online::draw_toasts`] takes it.
     toast_floor: std::cell::Cell<Option<f32>>,
+    /// The left edge of the room the toasts have this frame (the main
+    /// menu: right of its column, so they never cover its buttons).
+    pub toast_left: std::cell::Cell<Option<f32>>,
     /// Recent opponents and the "looking for a game" board.
     social: social::Social,
     /// Presents from friends.
@@ -799,6 +802,7 @@ impl Online {
             quit_for_update: false,
             form_focused: false,
             toast_floor: std::cell::Cell::new(None),
+            toast_left: std::cell::Cell::new(None),
             social: social::Social {
                 // Development aid (screenshots): SNOOK_LEGEND_RECENT=1 opens
                 // the Friends tab on the people played recently.
@@ -2653,8 +2657,11 @@ impl Online {
         // In the lounge they stay clear of the chat field at the bottom.
         let bottom = self.toast_floor.take().map_or(bottom, |floor| bottom.min(floor));
         let sw = crate::ui::vw();
+        // The room they have: the screen, or right of the main menu's column.
+        let left = self.toast_left.take().filter(|l| sw - l > 260.0).unwrap_or(0.0);
+        let mid = (left + sw) / 2.0;
         // Long messages wrap (up to three lines) rather than being cut.
-        let max_text = (sw - 72.0).min(520.0);
+        let max_text = (sw - left - 72.0).min(520.0);
         let mut toasts = Vec::new();
         let mut y = bottom;
         for (text, ttl, good) in self.toasts.iter().rev() {
@@ -2663,7 +2670,7 @@ impl Online {
             let text_w = lines.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max);
             let h = lines.len() as f32 * 20.0 + 16.0;
             y -= h + 8.0;
-            let r = Rect::new((sw - text_w - 40.0) / 2.0, y, text_w + 40.0, h);
+            let r = Rect::new(mid - (text_w + 40.0) / 2.0, y, text_w + 40.0, h);
             toasts.push((r, lines, ttl.min(1.0), *good));
         }
         // Drawn over everything at the end of the frame: they float above the

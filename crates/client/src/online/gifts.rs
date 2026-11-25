@@ -66,18 +66,10 @@ fn gift_name(code: &str) -> String {
     shop::item(code).map(|i| t(i.name).to_string()).unwrap_or_else(|| code.to_string())
 }
 
-/// The present's picture: the shop's, or a crown for VIP.
-fn picture(ui: &Ui, code: &str, r: Rect) {
-    // On a card, as in the shop.
-    rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.04));
-    match shop::item(code) {
-        Some(item) => crate::shop::preview(ui, item, r),
-        None => {
-            rrect(r, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08));
-            let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
-            crate::icons::draw(Icon::Crown, c, r.h * 0.55, GOLD);
-        }
-    }
+/// The present's picture, `age` seconds after it was first shown: it comes
+/// out of its box (see `reveal`), the shop's picture, or a crown for VIP.
+fn picture(ui: &Ui, code: &str, r: Rect, age: f32) {
+    crate::reveal::item(ui, code, r, age);
 }
 
 impl Online {
@@ -146,7 +138,8 @@ impl Online {
         let (line, size) = ui.fitted(&line, 15.0, inner, false);
         ui.text_centered(&line, cx, y + 2.0, size, MUTED, false);
         y += 22.0 + 14.0;
-        picture(ui, code, Rect::new(r.x + pad + 20.0, y, inner - 40.0, pic_h));
+        let age = self.gifts.reward_shown.map_or(0.0, |at| (get_time() - at) as f32);
+        picture(ui, code, Rect::new(r.x + pad + 20.0, y, inner - 40.0, pic_h), age);
         y += pic_h + 12.0;
         let name = gift_name(code);
         let (name, size) = ui.fitted(&name, 20.0, inner, true);
@@ -291,7 +284,11 @@ impl Online {
             nw + flag_w,
         );
         y += 22.0 + 14.0;
-        picture(ui, &g.code, Rect::new(r.x + pad + 20.0, y, inner - 40.0, pic_h));
+        let age = match self.gifts.shown {
+            Some((id, at)) if id == g.id => (get_time() - at) as f32,
+            _ => 0.0,
+        };
+        picture(ui, &g.code, Rect::new(r.x + pad + 20.0, y, inner - 40.0, pic_h), age);
         y += pic_h + 12.0;
         let name = gift_name(&g.code);
         let (name, size) = ui.fitted(&name, 20.0, inner, true);

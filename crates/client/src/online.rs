@@ -149,6 +149,9 @@ pub struct Online {
     /// used to end the match and forget the saved session).
     held: std::cell::RefCell<Vec<ClientMsg>>,
     pub wallet: Option<WalletView>,
+    /// Everything this player has, with how and when they got it (see
+    /// `collection`); None until it is asked for.
+    pub collection: Option<Vec<snook_legend_proto::collection::OwnedItem>>,
     pub offers: Option<ShopOffers>,
     /// The Microsoft Store build's coin packs (see msstore.rs).
     pub store_shop: crate::msstore::StoreShop,
@@ -702,6 +705,7 @@ impl Online {
             queue: None,
             corr: Default::default(),
             wallet: None,
+            collection: None,
             offers: None,
             store_shop: Default::default(),
             looks_changed: false,
@@ -1670,12 +1674,12 @@ impl Online {
                     }
                     _ => "",
                 };
-                let text = tw("+{n} coins · {why}", &[("n", &amount), ("why", &why)]);
                 let boost = match reason.as_str() {
                     "game" | "win" => self.boost(snook_legend_proto::events::EventKind::Coins),
                     _ => 1,
                 };
-                self.toast(with_boost(text, boost), true);
+                // The coins count up at the top of the screen (see `reveal`).
+                crate::reveal::coins(amount as i64, with_boost(why.to_string(), boost));
             }
             ServerMsg::Age { minor, chat_allowed } => {
                 self.age = Some(AgeState { minor, chat_allowed });
@@ -1733,6 +1737,14 @@ impl Online {
             }
             ServerMsg::Wallet { coins, vip_until, owned, equipped, cue_wins } => {
                 let wallet = WalletView { coins, vip_until, owned, equipped, cue_wins };
+                crate::perks::set_vip(wallet.is_vip());
+                // Something new: the collection, if it was looked at, is asked
+                // for again (with how it was got).
+                let grew =
+                    self.wallet.as_ref().is_some_and(|w| w.owned.len() != wallet.owned.len());
+                if grew && self.collection.is_some() {
+                    self.send(ClientMsg::Collection);
+                }
                 // A cue that just reached a new level (a game was won).
                 use snook_legend_proto::shop::{Category, cue_level};
                 let cue = self.effective(&wallet, Category::Cue);
@@ -1934,6 +1946,7 @@ impl Online {
             ServerMsg::SeekRemoved { username } => self.social.removed(&username),
             ServerMsg::NewGifts { gifts } => self.gifts_arrived(gifts, current.is_some()),
             ServerMsg::Gifts { gifts } => self.gifts.history = Some(gifts),
+            ServerMsg::Collection { items } => self.collection = Some(items),
             ServerMsg::GiftThanked { by, code } => self.gift_thanked(&by, &code),
             other => {
                 if let Some(m) = current.as_mut().filter(|m| m.is_online()) {
@@ -2263,6 +2276,7 @@ impl Online {
 
     /// Short messages (achievements, declined invitations…), on top of everything.
     pub fn draw_toasts(&self, ui: &Ui, bottom: f32) {
+        crate::reveal::draw_coins(ui);
         // In the lounge they stay clear of the chat field at the bottom.
         let bottom = self.toast_floor.take().map_or(bottom, |floor| bottom.min(floor));
         let sw = crate::ui::vw();

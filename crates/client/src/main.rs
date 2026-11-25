@@ -8,12 +8,14 @@
 
 mod aa;
 mod analysis;
+mod arena_hall;
 mod assess;
 mod audio;
 mod avatars;
 mod banter;
 mod camera;
 mod channel;
+mod collection;
 mod config;
 mod coords;
 mod correspondence;
@@ -50,11 +52,13 @@ mod notify;
 mod online;
 mod opponents;
 mod paint;
+mod perks;
 mod play;
 mod profile;
 mod ranking;
 mod reactions;
 mod report;
+mod reveal;
 mod room;
 mod rulesui;
 mod saved;
@@ -439,6 +443,11 @@ async fn main() {
             if let Some(s) = showroom.as_mut() {
                 s.dev();
             }
+            screen = Screen::Shop;
+        }
+        Some("collection") => {
+            online.connect();
+            shop.open_collection(&mut online);
             screen = Screen::Shop;
         }
         Some(tab) if tab.starts_with("shop") => {
@@ -931,6 +940,13 @@ async fn main() {
             None => scene::Looks::of(&config.cloth, &config.balls),
         }
         .themed(&config.table, &config.hall);
+        // An official tournament's game is played in the pro arena.
+        if current.as_ref().and_then(|m| m.online.as_ref()).is_some_and(|o| o.tournament.is_some())
+            && !match_from_lan
+        {
+            looks.hall = snook_legend_proto::shop::HallStyle::Arena;
+        }
+        perks::update(&config.aim_color, config.show_reactions);
         // An item of the shop in the showroom: on its stage, or tried on
         // the table (in the hall of the setting chosen).
         let in_showroom = matches!(screen, Screen::Shop) && current.is_none();
@@ -1475,6 +1491,12 @@ async fn main() {
                                 }
                                 MenuAction::Shop => {
                                     shop.open(&mut online);
+                                    shop.close_collection();
+                                    back_to_lounge = false;
+                                    next = Some(Screen::Shop);
+                                }
+                                MenuAction::Collection => {
+                                    shop.open_collection(&mut online);
                                     back_to_lounge = false;
                                     next = Some(Screen::Shop);
                                 }

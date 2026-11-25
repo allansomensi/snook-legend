@@ -551,6 +551,13 @@ impl SettingsScreen {
                     ),
                     &mut config.focus_mode,
                 );
+                switch_row(
+                    rows,
+                    ui,
+                    t("Show reactions"),
+                    t("Off: no reactions are shown during matches, from anyone."),
+                    &mut config.show_reactions,
+                );
 
                 rows.heading(ui, t("Aiming"), None);
                 let hint = match config.guide {
@@ -579,6 +586,37 @@ impl SettingsScreen {
                     ),
                     &mut config.head_string,
                 );
+                // VIP: the colour of the aim line and the ghost ball.
+                let vip = crate::perks::vip();
+                let hint = if vip {
+                    t("The colour of your aim line and ghost ball.")
+                } else {
+                    t("For VIP members: the colour of the aim line and the ghost ball.")
+                };
+                if let Some((_, c)) =
+                    rows.row_ex(ui, t("Aim colour"), hint, MUTED, Control::Wide(30.0), true, true)
+                {
+                    let n = crate::perks::AIM_COLORS.len();
+                    let d = ((c.w - 4.0) / n as f32).min(30.0);
+                    for (k, (code, rgb)) in crate::perks::AIM_COLORS.iter().enumerate() {
+                        let cell = Rect::new(c.x + k as f32 * d, c.y, d - 4.0, d - 4.0);
+                        let center = vec2(cell.x + cell.w / 2.0, cell.y + cell.h / 2.0);
+                        let chosen = config.aim_color == *code || (k == 0 && !vip);
+                        let alpha = if vip || k == 0 { 1.0 } else { 0.35 };
+                        let color = Color::from_rgba(rgb[0], rgb[1], rgb[2], (alpha * 255.0) as u8);
+                        draw_circle(center.x, center.y, cell.w * 0.36, color);
+                        if chosen {
+                            draw_circle_lines(center.x, center.y, cell.w * 0.48, 2.0, GOLD);
+                        }
+                        let hover = ui.hovering(cell);
+                        if hover && vip && ui.clicked(cell) {
+                            config.aim_color = code.to_string();
+                        }
+                        if hover && !vip && k > 0 {
+                            ui.tooltip(t("For VIP members"), cell);
+                        }
+                    }
+                }
                 if let Some((_, c)) = rows.row(
                     ui,
                     t("Mouse aim sensitivity"),

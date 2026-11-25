@@ -1288,8 +1288,14 @@ impl ProfileScreen {
         }
         if let Some((a, at, c)) = tip {
             let level = a.level;
-            let title = t(a.title);
-            let desc = achievement_text(a);
+            // A secret stays one until it is won.
+            let hidden = a.secret && at.is_none();
+            let title = if hidden { "???" } else { t(a.title) };
+            let desc = if hidden {
+                t("A secret achievement: play to find it.").to_string()
+            } else {
+                achievement_text(a)
+            };
             let when = at
                 .map(|at| tw("Unlocked {date}", &[("date", &date(at))]))
                 .unwrap_or_else(|| t("Locked").to_string());

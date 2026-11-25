@@ -38,6 +38,8 @@ pub enum MenuAction {
     Ranking,
     Profile,
     Shop,
+    /// Everything the player has (see `collection`).
+    Collection,
     Settings,
     Quit,
 }
@@ -463,6 +465,7 @@ impl Menu {
             (Icon::Trophy, t("Ranking"), Some(t("World ranking")), MenuAction::Ranking),
             (Icon::Person, t("Profile"), None, MenuAction::Profile),
             (Icon::Shop, t("Shop"), None, MenuAction::Shop),
+            (Icon::Star, t("Collection"), Some(t("Everything you have")), MenuAction::Collection),
             (Icon::Book, t("Rules"), Some(t("Rules of the game")), MenuAction::Rules(rules)),
             (Icon::Gear, t("Settings"), None, MenuAction::Settings),
         ];

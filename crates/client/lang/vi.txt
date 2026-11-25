@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Chưa có: chúng đang chờ được gi�
 Page {a} of {b}	Trang {a} / {b}
 In the shop	Trong cửa hàng
 Everything you have	Mọi thứ bạn có
-Show reactions	Hiện biểu cảm
 Off: no reactions are shown during matches, from anyone.	Tắt: không hiện biểu cảm của ai trong các ván đấu.
 The colour of your aim line and ghost ball.	Màu đường ngắm và bi ảo của bạn.
 For VIP members: the colour of the aim line and the ghost ball.	Dành cho thành viên VIP: màu đường ngắm và bi ảo.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Thêm bạn bè để xem bạn �
 Chat and reactions	Trò chuyện và biểu cảm
 Mute the opponent's chat	Tắt tiếng trò chuyện của đối thủ
 Their messages in online games are not shown (yours still reach them).	Tin nhắn của họ trong các ván trực tuyến sẽ không hiện (tin của bạn vẫn đến được họ).
-Hide the opponent's reactions	Ẩn biểu cảm của đối thủ
 The reactions they send at the table are not shown.	Các biểu cảm họ gửi tại bàn sẽ không hiện.
 Players muted from a game: {n}	Người chơi bị tắt tiếng từ một ván: {n}
 Unmute them all	Bật tiếng lại tất cả
@@ -2515,3 +2513,5 @@ That player already has a partner.	Người chơi đó đã có đồng đội.
 Leave your pair first.	Hãy rời cặp hiện tại trước.
 Your doubles partner left the pair.	Đồng đội của bạn đã rời cặp.
 Not all four players are at the table.	Chưa đủ cả bốn người chơi tại bàn.
+Hide opponent	Ẩn đối thủ
+Everyone's reactions are shown during matches.	Biểu cảm của mọi người được hiển thị trong trận.

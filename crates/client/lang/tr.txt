@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Henüz yok: kazanılmayı bekliyorlar.
 Page {a} of {b}	Sayfa {a} / {b}
 In the shop	Mağazada
 Everything you have	Sahip olduğun her şey
-Show reactions	Tepkileri göster
 Off: no reactions are shown during matches, from anyone.	Kapalı: maçlarda kimsenin tepkisi gösterilmez.
 The colour of your aim line and ghost ball.	Nişan çizginin ve hayalet topun rengi.
 For VIP members: the colour of the aim line and the ghost ball.	VIP üyeler için: nişan çizgisinin ve hayalet topun rengi.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Aralarındaki yerini görmek içi
 Chat and reactions	Sohbet ve tepkiler
 Mute the opponent's chat	Rakibin sohbetini sessize al
 Their messages in online games are not shown (yours still reach them).	Çevrimiçi oyunlardaki mesajları gösterilmez (seninkiler ona ulaşmaya devam eder).
-Hide the opponent's reactions	Rakibin tepkilerini gizle
 The reactions they send at the table are not shown.	Masada gönderdiği tepkiler gösterilmez.
 Players muted from a game: {n}	Bir oyunda sessize alınan oyuncular: {n}
 Unmute them all	Hepsinin sesini aç
@@ -2515,3 +2513,5 @@ That player already has a partner.	O oyuncunun zaten bir eşi var.
 Leave your pair first.	Önce çiftini boz.
 Your doubles partner left the pair.	Eşin çifti bozdu.
 Not all four players are at the table.	Dört oyuncunun hepsi masada değil.
+Hide opponent	Rakibi gizle
+Everyone's reactions are shown during matches.	Maçlarda herkesin tepkileri gösterilir.

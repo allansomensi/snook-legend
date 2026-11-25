@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	ยัง​ไม่​มี: กำล�
 Page {a} of {b}	หน้า {a} จาก {b}
 In the shop	ใน​ร้านค้า
 Everything you have	ทุก​อย่าง​ที่​คุณ​มี
-Show reactions	แสดง​รีแอคชัน
 Off: no reactions are shown during matches, from anyone.	ปิด: ไม่​แสดง​รีแอคชัน​ของ​ใคร​ระหว่าง​แมตช์
 The colour of your aim line and ghost ball.	สี​ของ​เส้น​เล็ง​และ​ลูก​เงา​ของ​คุณ
 For VIP members: the colour of the aim line and the ghost ball.	สำหรับ​สมาชิก VIP: สี​ของ​เส้น​เล็ง​และ​ลูก​เงา
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	เพิ่มเพื่อน
 Chat and reactions	แชตและรีแอ็กชัน
 Mute the opponent's chat	ปิดเสียงแชตของคู่แข่ง
 Their messages in online games are not shown (yours still reach them).	ข้อความของเขาในเกมออนไลน์จะไม่แสดง (ข้อความของคุณยังส่งถึงเขา)
-Hide the opponent's reactions	ซ่อนรีแอ็กชันของคู่แข่ง
 The reactions they send at the table are not shown.	รีแอ็กชันที่เขาส่งที่โต๊ะจะไม่แสดง
 Players muted from a game: {n}	ผู้เล่นที่ปิดเสียงจากเกม: {n}
 Unmute them all	เปิดเสียงทั้งหมด
@@ -2515,3 +2513,5 @@ That player already has a partner.	ผู้เล่นคนนั้นมี
 Leave your pair first.	เลิกเป็นคู่ปัจจุบันก่อน
 Your doubles partner left the pair.	คู่ของคุณเลิกเป็นคู่แล้ว
 Not all four players are at the table.	ผู้เล่นทั้งสี่คนยังไม่อยู่ที่โต๊ะครบ
+Hide opponent	ซ่อนคู่แข่ง
+Everyone's reactions are shown during matches.	แสดงรีแอคชันของทุกคนระหว่างแมตช์

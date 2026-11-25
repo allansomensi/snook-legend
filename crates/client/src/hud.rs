@@ -2588,7 +2588,7 @@ const REACTION_TIME: f32 = 2.8;
 fn draw_reactions(m: &mut Match, xs: [f32; 2], eye: Vec2) {
     let dt = get_frame_time();
     let Some(o) = m.online.as_mut() else { return };
-    // The setting "Show reactions" off: no one's are shown.
+    // The setting "Reactions" (set to off) off: no one's are shown.
     if !crate::perks::reactions_shown() {
         o.reactions.clear();
         return;

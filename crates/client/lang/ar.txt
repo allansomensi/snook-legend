@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	لا شيء بعد: إنها تنتظر م
 Page {a} of {b}	الصفحة {a} من {b}
 In the shop	في المتجر
 Everything you have	كل ما لديك
-Show reactions	إظهار التفاعلات
 Off: no reactions are shown during matches, from anyone.	إيقاف: لا تظهر أي تفاعلات أثناء المباريات، من أي أحد.
 The colour of your aim line and ghost ball.	لون خط التصويب والكرة الشبحية لديك.
 For VIP members: the colour of the aim line and the ghost ball.	لأعضاء VIP: لون خط التصويب والكرة الشبحية.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	أضف أصدقاء لترى تر
 Chat and reactions	الدردشة وردود الفعل
 Mute the opponent's chat	كتم دردشة الخصم
 Their messages in online games are not shown (yours still reach them).	لا تظهر رسائله في المباريات عبر الإنترنت (رسائلك تصله كالمعتاد).
-Hide the opponent's reactions	إخفاء ردود فعل الخصم
 The reactions they send at the table are not shown.	لا تظهر ردود الفعل التي يرسلها على الطاولة.
 Players muted from a game: {n}	لاعبون مكتومون من مباراة: {n}
 Unmute them all	إلغاء الكتم عن الجميع
@@ -2515,3 +2513,5 @@ That player already has a partner.	لهذا اللاعب شريك بالفعل.
 Leave your pair first.	فك ثنائيك أولًا.
 Your doubles partner left the pair.	فك شريكك الثنائي.
 Not all four players are at the table.	ليس اللاعبون الأربعة جميعهم على الطاولة.
+Hide opponent	إخفاء الخصم
+Everyone's reactions are shown during matches.	تظهر تفاعلات الجميع أثناء المباريات.

@@ -34,6 +34,8 @@ pub struct Intro {
     pub rules: Rules,
     /// Seconds it has shown.
     age: f32,
+    /// Held once in (screenshots: see [`Intro::sample`]).
+    hold: bool,
 }
 
 impl Intro {
@@ -53,13 +55,35 @@ impl Intro {
             stakes: stakes.filter(|_| rated),
             rules,
             age: 0.0,
+            hold: false,
         }
+    }
+
+    /// Development aid (screenshots, SNOOK_LEGEND_INTRO): a rated game of
+    /// two made-up players, held still once in.
+    pub fn sample() -> Intro {
+        let player = |name: &str, country: &str, rating: i32| PlayerInfo {
+            username: name.into(),
+            country: country.into(),
+            standings: snook_legend_proto::PerRules::both(snook_legend_proto::Standing {
+                rating,
+                games: 120,
+                wins: 70,
+            }),
+            vip: rating > 1700,
+            ..Default::default()
+        };
+        let players = [player("Ana", "BR", 1684), player("Maximilian_Großmann", "DE", 1761)];
+        let mut intro =
+            Intro::new(&players, 0, true, Some([[9, -11], [7, -13]]), Rules::Official, false);
+        intro.hold = true;
+        intro
     }
 
     /// Draws it over the table; false once it is over or skipped (the
     /// caller drops it).
     pub fn draw(&mut self, ui: &mut Ui, dt: f32) -> bool {
-        self.age += dt;
+        self.age = if self.hold { (self.age + dt).min(IN + 0.4) } else { self.age + dt };
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         let keys = [KeyCode::Escape, KeyCode::Space, KeyCode::Enter];

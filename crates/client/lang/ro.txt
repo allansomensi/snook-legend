@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Niciunul încă: așteaptă să fie câșt
 Page {a} of {b}	Pagina {a} din {b}
 In the shop	În magazin
 Everything you have	Tot ce ai
-Show reactions	Arată reacțiile
 Off: no reactions are shown during matches, from anyone.	Oprit: în timpul partidelor nu se arată nicio reacție, de la nimeni.
 The colour of your aim line and ghost ball.	Culoarea liniei tale de țintire și a bilei fantomă.
 For VIP members: the colour of the aim line and the ghost ball.	Pentru membrii VIP: culoarea liniei de țintire și a bilei fantomă.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Adaugă prieteni ca să vezi unde
 Chat and reactions	Chat și reacții
 Mute the opponent's chat	Dezactivează chatul adversarului
 Their messages in online games are not shown (yours still reach them).	Mesajele lui în partidele online nu apar (ale tale ajung în continuare la el).
-Hide the opponent's reactions	Ascunde reacțiile adversarului
 The reactions they send at the table are not shown.	Reacțiile pe care le trimite la masă nu apar.
 Players muted from a game: {n}	Jucători dezactivați într-o partidă: {n}
 Unmute them all	Reactivează-i pe toți
@@ -2515,3 +2513,5 @@ That player already has a partner.	Acel jucător are deja un partener.
 Leave your pair first.	Desfă mai întâi perechea ta.
 Your doubles partner left the pair.	Partenerul tău a desfăcut perechea.
 Not all four players are at the table.	Nu toți cei patru jucători sunt la masă.
+Hide opponent	Ascunde rivalul
+Everyone's reactions are shown during matches.	Reacțiile tuturor sunt afișate în timpul meciurilor.

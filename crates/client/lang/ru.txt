@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Пока ничего: они ждут, к
 Page {a} of {b}	Страница {a} из {b}
 In the shop	В магазине
 Everything you have	Всё, что у вас есть
-Show reactions	Показывать реакции
 Off: no reactions are shown during matches, from anyone.	Выкл.: во время партий не показываются ничьи реакции.
 The colour of your aim line and ghost ball.	Цвет вашей прицельной линии и шара-призрака.
 For VIP members: the colour of the aim line and the ghost ball.	Для участников VIP: цвет прицельной линии и шара-призрака.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Добавьте друзей, ч
 Chat and reactions	Чат и реакции
 Mute the opponent's chat	Заглушить чат соперника
 Their messages in online games are not shown (yours still reach them).	Его сообщения в онлайн-партиях не показываются (ваши по-прежнему до него доходят).
-Hide the opponent's reactions	Скрыть реакции соперника
 The reactions they send at the table are not shown.	Реакции, которые он отправляет за столом, не показываются.
 Players muted from a game: {n}	Игроков заглушено в партиях: {n}
 Unmute them all	Включить всех снова
@@ -2515,3 +2513,5 @@ That player already has a partner.	У этого игрока уже есть н
 Leave your pair first.	Сначала распустите свою пару.
 Your doubles partner left the pair.	Ваш напарник распустил пару.
 Not all four players are at the table.	Не все четверо игроков за столом.
+Hide opponent	Скрыть соперника
+Everyone's reactions are shown during matches.	Во время матчей видны реакции всех.

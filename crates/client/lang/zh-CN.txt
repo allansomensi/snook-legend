@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	还没有：它们等着被赢取。
 Page {a} of {b}	第{a}页，共{b}页
 In the shop	去商店
 Everything you have	你拥有的一切
-Show reactions	显示表情
 Off: no reactions are shown during matches, from anyone.	关闭：对局中不显示任何人的表情。
 The colour of your aim line and ghost ball.	你的瞄准线和幽灵球的颜色。
 For VIP members: the colour of the aim line and the ghost ball.	VIP会员专享：瞄准线和幽灵球的颜色。
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	添加好友，看看你在他们
 Chat and reactions	聊天与互动表情
 Mute the opponent's chat	屏蔽对手的聊天
 Their messages in online games are not shown (yours still reach them).	在线对局中不显示对手的消息（你的消息仍会发给对方）。
-Hide the opponent's reactions	隐藏对手的互动表情
 The reactions they send at the table are not shown.	不显示对手在球桌上发送的互动表情。
 Players muted from a game: {n}	在对局中屏蔽的玩家：{n}
 Unmute them all	全部取消屏蔽
@@ -2515,3 +2513,5 @@ That player already has a partner.	该玩家已经有搭档了。
 Leave your pair first.	请先解散你现在的搭档。
 Your doubles partner left the pair.	你的搭档解散了搭档关系。
 Not all four players are at the table.	四名玩家没有全部在球台。
+Hide opponent	隐藏对手
+Everyone's reactions are shown during matches.	比赛中显示所有人的表情。

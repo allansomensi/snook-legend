@@ -47,6 +47,7 @@ mod ladder;
 mod lan;
 mod languages;
 mod legal;
+mod medal_art;
 mod medals;
 mod menu;
 mod more_halls;
@@ -467,20 +468,40 @@ async fn main() {
             shop.show_tab(tab);
             screen = Screen::Shop;
         }
-        Some("ranking") => {
+        Some(board @ ("ranking" | "ranking-friends" | "ranking-doubles")) => {
+            ranking.dev(board);
             ranking.open(&mut online);
             screen = Screen::Ranking;
         }
-        Some(tab @ ("players" | "tables" | "tournaments" | "friends" | "daily")) => {
+        Some(
+            tab @ ("players" | "tables" | "tournaments" | "friends" | "daily" | "doubles"
+            | "auctions" | "credits"),
+        ) => {
             online.connect();
             online.tab = match tab {
-                "players" => online::Tab::Players,
+                "players" | "auctions" | "credits" => online::Tab::Players,
                 "tables" => online::Tab::Tables,
                 "tournaments" => online::Tab::Tournaments,
                 "daily" => online::Tab::Daily,
+                "doubles" => online::Tab::Doubles,
                 _ => online::Tab::Friends,
             };
             screen = Screen::Online;
+        }
+        Some(name) if name.starts_with("dm:") => {
+            online.connect();
+            online.tab = online::Tab::Friends;
+            screen = Screen::Online;
+        }
+        // An achievement's card and toasts over the menu.
+        Some("toasts") => online.dev_toasts(),
+        Some("inbox") => {
+            online.connect();
+            inbox.open(&mut online);
+            screen = Screen::Inbox;
+        }
+        Some("clock") => {
+            screen = Screen::Versus(versus::Versus::new(versus::Tab::TimeAttack, &config))
         }
         Some(name) if name.starts_with("profile:") => {
             profile.open(&name["profile:".len()..], &mut online);
@@ -517,6 +538,9 @@ async fn main() {
     // waiting for the GPU) every 300 frames.
     let profiling = crate::dev::flag("SNOOK_LEGEND_PROFILE");
     let mut cpu = (0.0f64, 0.0f64, 0u32);
+    // Development aid (screenshots): SNOOK_LEGEND_INTRO shows a match's
+    // introduction (made-up players) over whatever is on screen.
+    let mut dev_intro = crate::dev::flag("SNOOK_LEGEND_INTRO").then(intro::Intro::sample);
     loop {
         let frame_start = std::time::Instant::now();
         let dt = get_frame_time().min(0.1);
@@ -2294,8 +2318,11 @@ async fn main() {
             ui_sounds.push(game::ImpactSound { kind: game::ImpactKind::Click, speed: 1.0 });
         }
         sounds.play(&mut ui_sounds, config.volume);
+        if let Some(intro) = dev_intro.as_mut() {
+            intro.draw(&mut ui, 0.03);
+        }
         online.draw_toasts(&ui, toast_bottom);
-        if let Some(l) = &lan {
+        if let Some(l) = &mut lan {
             l.net.draw_toasts(&ui, toast_bottom);
         }
 

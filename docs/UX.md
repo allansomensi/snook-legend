@@ -122,3 +122,41 @@ nothing overlapped, clipped or was cut short.
 Esc steps back everywhere (closing a dialog before its screen), Enter
 submits forms and starts a game from the setup screen, and the country
 list works with the arrows and Enter.
+
+# UI/UX review (0.12.0)
+
+## Screenshots of every screen
+
+`tools/screens.py` renders the screens offscreen (Xvfb and Mesa's software
+renderer) against a local server full of made-up players
+(`crates/server/examples/ux_seed.rs`: the account `Ana` with VIP, coins,
+items, achievements of every metal, friends, messages, an inbox and a
+history; others in the lounge, an open table and a tournament):
+
+```sh
+export CARGO_TARGET_DIR=target   # any target dir; a debug build is needed
+cargo build -p snook-legend -p snook_legend_server --example ux_seed
+python3 tools/screens.py --out /tmp/shots                     # everything
+python3 tools/screens.py --only menu,profile-achievements --langs en,ar --sizes 1024x600
+```
+
+Pictures land in `<out>/<size>/<lang>/<screen>.png` (default languages
+en, pt-BR, de, ar; sizes 1280×720, 1920×1080, 1024×600). The list of
+screens is at the top of the script; it relies on development switches
+that release builds ignore (`--screen inbox|doubles|clock|toasts|dm:<name>|
+ranking-friends|ranking-doubles|auctions|credits`, `SNOOK_LEGEND_OPEN`,
+`SNOOK_LEGEND_INTRO`, besides the older ones).
+
+The medals alone: `cargo test -p snook-legend export_medals -- --ignored`
+(sheets at 32, 64, 128 and 288 px in `$SNOOK_LEGEND_MEDALS_OUT`).
+
+## Changes
+
+| Where | Before | Now |
+|---|---|---|
+| Achievement medals (profile, collection of tournament medals, the new achievement card) | Flat circles and triangles: a disc, a star, a plain V ribbon. | Rendered like jewellery (`medal_art.rs`): a struck disc with a rounded milled rim, a guilloché field and a ring of beads, an embossed faceted star (a cut diamond in platinum, a ruby in gold), lit by a studio environment with specular highlights, ambient occlusion and a soft drop shadow; a striped grosgrain ribbon with a satin sheen and the ring that holds it. Cached per size, with fine detail only where it reads. |
+| Achievement unlocked | A one-line toast. | A card at the top with the medal (it settles with a small overshoot), the metal, the title and what it was for; a click puts it away. |
+| Tournament medals (against the computer) | A medal icon in a flat colour. | The same gold, silver and bronze medals. |
+| Settings → Game | "Show reactions" (General) and "Hide the opponent's reactions" (Chat and reactions): two switches for one thing. | One "Reactions" choice in Chat and reactions: All / Hide opponent / Off. |
+| Profile → Achievements | On short windows the reactions ran out of the panel. | Medals and reactions shrink together to fit the panel at every size. |
+| Main menu | Crashed with seven places along the bottom (hover state for five). | Fixed. |

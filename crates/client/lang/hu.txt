@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Még egy sincs: arra várnak, hogy megnyer
 Page {a} of {b}	{a}. oldal / {b}
 In the shop	A boltban
 Everything you have	Minden, amid van
-Show reactions	Reakciók mutatása
 Off: no reactions are shown during matches, from anyone.	Ki: a játszmák alatt senki reakciója nem jelenik meg.
 The colour of your aim line and ghost ball.	A célzóvonalad és a szellemgolyó színe.
 For VIP members: the colour of the aim line and the ghost ball.	VIP-tagoknak: a célzóvonal és a szellemgolyó színe.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Adj hozzá barátokat, hogy lásd
 Chat and reactions	Chat és reakciók
 Mute the opponent's chat	Az ellenfél chatjének némítása
 Their messages in online games are not shown (yours still reach them).	Az üzenetei az online játszmákban nem jelennek meg (a tieid továbbra is eljutnak hozzá).
-Hide the opponent's reactions	Az ellenfél reakcióinak elrejtése
 The reactions they send at the table are not shown.	Az asztalnál küldött reakciói nem jelennek meg.
 Players muted from a game: {n}	Játszmában némított játékosok: {n}
 Unmute them all	Mindenki némításának feloldása
@@ -2515,3 +2513,5 @@ That player already has a partner.	Annak a játékosnak már van párja.
 Leave your pair first.	Előbb bontsd fel a párodat.
 Your doubles partner left the pair.	A párod felbontotta a párt.
 Not all four players are at the table.	Nincs mind a négy játékos az asztalnál.
+Hide opponent	Ellenfél rejtve
+Everyone's reactions are shown during matches.	Mérkőzés közben mindenki reakciója látszik.

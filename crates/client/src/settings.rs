@@ -551,13 +551,6 @@ impl SettingsScreen {
                     ),
                     &mut config.focus_mode,
                 );
-                switch_row(
-                    rows,
-                    ui,
-                    t("Show reactions"),
-                    t("Off: no reactions are shown during matches, from anyone."),
-                    &mut config.show_reactions,
-                );
 
                 // What the opponent says and sends in online games.
                 rows.heading(ui, t("Chat and reactions"), None);
@@ -568,13 +561,25 @@ impl SettingsScreen {
                     t("Their messages in online games are not shown (yours still reach them)."),
                     &mut config.mute_chat,
                 );
-                switch_row(
-                    rows,
-                    ui,
-                    t("Hide the opponent's reactions"),
-                    t("The reactions they send at the table are not shown."),
-                    &mut config.hide_reactions,
-                );
+                // Whose reactions are shown at the table: one choice for
+                // the two settings (everyone's, all but the opponent's, none).
+                let sel = match (config.show_reactions, config.hide_reactions) {
+                    (false, _) => 2,
+                    (true, true) => 1,
+                    (true, false) => 0,
+                };
+                let hint = match sel {
+                    0 => t("Everyone's reactions are shown during matches."),
+                    1 => t("The reactions they send at the table are not shown."),
+                    _ => t("Off: no reactions are shown during matches, from anyone."),
+                };
+                if let Some((_, c)) = rows.row(ui, t("Reactions"), hint, Control::Wide(32.0)) {
+                    let options = [t("All"), t("Hide opponent"), t("Off")];
+                    if let Some(i) = ui.segmented(c, &options, sel) {
+                        config.show_reactions = i != 2;
+                        config.hide_reactions = i == 1;
+                    }
+                }
                 let muted: std::collections::BTreeSet<&String> =
                     config.muted_chat.iter().chain(&config.muted_reactions).collect();
                 if !muted.is_empty() {

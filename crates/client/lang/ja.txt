@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	まだありません：獲得されるの
 Page {a} of {b}	{a} / {b} ページ
 In the shop	ショップへ
 Everything you have	持っているすべて
-Show reactions	リアクションを表示
 Off: no reactions are shown during matches, from anyone.	オフ：試合中は誰のリアクションも表示されません。
 The colour of your aim line and ghost ball.	あなたのエイムラインとゴーストボールの色。
 For VIP members: the colour of the aim line and the ghost ball.	VIPメンバー向け：エイムラインとゴーストボールの色。
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	フレンドを追加すると、
 Chat and reactions	チャットとリアクション
 Mute the opponent's chat	相手のチャットをミュート
 Their messages in online games are not shown (yours still reach them).	オンライン対戦で相手のメッセージを表示しません（あなたのメッセージは届きます）。
-Hide the opponent's reactions	相手のリアクションを隠す
 The reactions they send at the table are not shown.	相手がテーブルで送るリアクションを表示しません。
 Players muted from a game: {n}	試合中にミュートしたプレイヤー：{n}人
 Unmute them all	全員のミュートを解除
@@ -2515,3 +2513,5 @@ That player already has a partner.	そのプレイヤーにはすでにパート
 Leave your pair first.	まず今のペアを解消してください。
 Your doubles partner left the pair.	パートナーがペアを解消しました。
 Not all four players are at the table.	4人全員が台にそろっていません。
+Hide opponent	相手を非表示
+Everyone's reactions are shown during matches.	対戦中は全員のリアクションが表示されます。

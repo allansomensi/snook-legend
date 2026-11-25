@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Wala pa: hinihintay silang mapanalunan.
 Page {a} of {b}	Pahina {a} ng {b}
 In the shop	Nasa shop
 Everything you have	Lahat ng mayroon ka
-Show reactions	Ipakita ang mga reaksyon
 Off: no reactions are shown during matches, from anyone.	Naka-off: walang reaksyong ipinapakita sa mga laro, mula kahit kanino.
 The colour of your aim line and ghost ball.	Ang kulay ng aim line at ghost ball mo.
 For VIP members: the colour of the aim line and the ghost ball.	Para sa mga VIP: ang kulay ng aim line at ghost ball.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Magdagdag ng kaibigan para makita
 Chat and reactions	Chat at mga reaksyon
 Mute the opponent's chat	I-mute ang chat ng kalaban
 Their messages in online games are not shown (yours still reach them).	Hindi ipinapakita ang mga mensahe niya sa mga online na laro (nakakarating pa rin sa kanya ang sa iyo).
-Hide the opponent's reactions	Itago ang mga reaksyon ng kalaban
 The reactions they send at the table are not shown.	Hindi ipinapakita ang mga reaksyong ipinapadala niya sa mesa.
 Players muted from a game: {n}	Mga manlalarong na-mute mula sa laro: {n}
 Unmute them all	I-unmute silang lahat
@@ -2515,3 +2513,5 @@ That player already has a partner.	May kapareha na ang manlalarong iyon.
 Leave your pair first.	Iwan muna ang pares mo.
 Your doubles partner left the pair.	Iniwan ng kapareha mo ang pares.
 Not all four players are at the table.	Hindi kumpleto ang apat na manlalaro sa mesa.
+Hide opponent	Itago kalaban
+Everyone's reactions are shown during matches.	Ipinapakita ang reaksiyon ng lahat habang may laro.

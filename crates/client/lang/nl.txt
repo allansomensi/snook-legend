@@ -2189,7 +2189,6 @@ None yet: they are waiting to be won.	Nog geen: ze wachten erop gewonnen te word
 Page {a} of {b}	Pagina {a} van {b}
 In the shop	In de winkel
 Everything you have	Alles wat je hebt
-Show reactions	Reacties tonen
 Off: no reactions are shown during matches, from anyone.	Uit: tijdens partijen worden geen reacties getoond, van niemand.
 The colour of your aim line and ghost ball.	De kleur van je richtlijn en de spookbal.
 For VIP members: the colour of the aim line and the ghost ball.	Voor VIP-leden: de kleur van de richtlijn en de spookbal.
@@ -2444,7 +2443,6 @@ Add friends to see where you stand among them.	Voeg vrienden toe om te zien waar
 Chat and reactions	Chat en reacties
 Mute the opponent's chat	Chat van de tegenstander dempen
 Their messages in online games are not shown (yours still reach them).	Zijn berichten in online partijen worden niet getoond (die van jou komen nog aan).
-Hide the opponent's reactions	Reacties van de tegenstander verbergen
 The reactions they send at the table are not shown.	De reacties die hij aan tafel stuurt worden niet getoond.
 Players muted from a game: {n}	Spelers gedempt in een partij: {n}
 Unmute them all	Iedereen weer toelaten
@@ -2515,3 +2513,5 @@ That player already has a partner.	Die speler heeft al een partner.
 Leave your pair first.	Hef eerst je duo op.
 Your doubles partner left the pair.	Je dubbelpartner heeft het duo opgeheven.
 Not all four players are at the table.	Niet alle vier spelers zitten aan tafel.
+Hide opponent	Rivaal verbergen
+Everyone's reactions are shown during matches.	Ieders reacties worden tijdens potjes getoond.

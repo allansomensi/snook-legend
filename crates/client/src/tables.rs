@@ -61,6 +61,21 @@ enum Apron {
     Plate,
 }
 
+/// What the rails and the body are made of (the texture laid on them).
+#[derive(Clone, Copy, PartialEq)]
+enum Finish {
+    /// Wood, of the style's two tones.
+    Wood,
+    /// Polished stone: the light tone, veined with the dark one.
+    Marble,
+    /// Woven carbon fibre of the two tones.
+    Carbon,
+    /// Black rock, cracked, the cracks glowing in the dark tone.
+    Lava,
+    /// Frosted lacquer: soft crystals of the two tones.
+    Frost,
+}
+
 /// The metal (or leather) on the rail around the pockets.
 #[derive(Clone, Copy, PartialEq)]
 enum Pockets {
@@ -93,7 +108,16 @@ struct Style {
     apron: Apron,
     apron_h: f32,
     pockets: Pockets,
+    /// The rails' and body's material (wood for all but the newest).
+    finish: Finish,
+    /// The colour of the light under a slim apron.
+    glow: Color,
+    /// The bead along the apron is gilt.
+    gilt: bool,
 }
+
+/// What every style shares unless it says otherwise.
+const PLAIN: (Finish, Color, bool) = (Finish::Wood, Color::new(0.62, 0.82, 1.0, 1.0), false);
 
 fn style(s: TableStyle) -> Style {
     let brass = Surface::lit(1.6, 90.0, 0.12, 0.7);
@@ -116,6 +140,9 @@ fn style(s: TableStyle) -> Style {
             apron: Apron::Lip,
             apron_h: 0.2,
             pockets: Pockets::Plates,
+            finish: PLAIN.0,
+            glow: PLAIN.1,
+            gilt: PLAIN.2,
         },
         TableStyle::Beach => Style {
             rail: ([0.62, 0.40, 0.21], [0.36, 0.20, 0.09], 23),
@@ -133,6 +160,9 @@ fn style(s: TableStyle) -> Style {
             apron: Apron::Bamboo,
             apron_h: 0.19,
             pockets: Pockets::Plates,
+            finish: PLAIN.0,
+            glow: PLAIN.1,
+            gilt: PLAIN.2,
         },
         TableStyle::Club => Style {
             rail: ([0.30, 0.10, 0.05], [0.085, 0.028, 0.016], 41),
@@ -150,6 +180,9 @@ fn style(s: TableStyle) -> Style {
             apron: Apron::Beaded,
             apron_h: 0.25,
             pockets: Pockets::Nets,
+            finish: PLAIN.0,
+            glow: PLAIN.1,
+            gilt: PLAIN.2,
         },
         TableStyle::Modern => Style {
             rail: ([0.055, 0.055, 0.06], [0.03, 0.03, 0.034], 53),
@@ -167,6 +200,9 @@ fn style(s: TableStyle) -> Style {
             apron: Apron::Slim,
             apron_h: 0.12,
             pockets: Pockets::Plates,
+            finish: PLAIN.0,
+            glow: PLAIN.1,
+            gilt: PLAIN.2,
         },
         TableStyle::Royal => Style {
             rail: ([0.075, 0.05, 0.04], [0.02, 0.014, 0.012], 61),
@@ -184,6 +220,9 @@ fn style(s: TableStyle) -> Style {
             apron: Apron::Beaded,
             apron_h: 0.2,
             pockets: Pockets::Plates,
+            finish: PLAIN.0,
+            glow: PLAIN.1,
+            gilt: true,
         },
         TableStyle::Industrial => Style {
             rail: ([0.47, 0.38, 0.29], [0.20, 0.15, 0.11], 71),
@@ -201,6 +240,9 @@ fn style(s: TableStyle) -> Style {
             apron: Apron::Plate,
             apron_h: 0.2,
             pockets: Pockets::Plates,
+            finish: PLAIN.0,
+            glow: PLAIN.1,
+            gilt: PLAIN.2,
         },
         TableStyle::Tournament => Style {
             rail: ([0.115, 0.115, 0.125], [0.06, 0.06, 0.066], 79),
@@ -218,6 +260,9 @@ fn style(s: TableStyle) -> Style {
             apron: Apron::Plain,
             apron_h: 0.25,
             pockets: Pockets::Plates,
+            finish: PLAIN.0,
+            glow: PLAIN.1,
+            gilt: PLAIN.2,
         },
         TableStyle::Heritage => Style {
             rail: ([0.40, 0.22, 0.10], [0.13, 0.065, 0.03], 89),
@@ -235,6 +280,9 @@ fn style(s: TableStyle) -> Style {
             apron: Apron::Beaded,
             apron_h: 0.24,
             pockets: Pockets::Nets,
+            finish: PLAIN.0,
+            glow: PLAIN.1,
+            gilt: true,
         },
         TableStyle::Deco => Style {
             rail: ([0.88, 0.84, 0.76], [0.74, 0.69, 0.60], 101),
@@ -252,6 +300,169 @@ fn style(s: TableStyle) -> Style {
             apron: Apron::Beaded,
             apron_h: 0.21,
             pockets: Pockets::Plates,
+            finish: PLAIN.0,
+            glow: PLAIN.1,
+            gilt: true,
+        },
+        TableStyle::Marble => Style {
+            rail: ([0.93, 0.92, 0.90], [0.52, 0.54, 0.58], 109),
+            body: ([0.90, 0.89, 0.87], [0.50, 0.52, 0.56], 113),
+            wood: Surface::lit(1.4, 130.0, 0.08, 0.8),
+            cast: Color::new(0.86, 0.68, 0.30, 1.0),
+            cast_surface: Surface::lit(2.2, 120.0, 0.15, 0.9),
+            lip: rgb(24, 22, 22),
+            lip_surface: leather,
+            sights: Color::new(0.88, 0.70, 0.32, 1.0),
+            diamonds: true,
+            trim: Color::new(0.86, 0.68, 0.30, 1.0),
+            legs: Legs::Column,
+            leg_rings: true,
+            apron: Apron::Beaded,
+            apron_h: 0.22,
+            pockets: Pockets::Plates,
+            finish: Finish::Marble,
+            glow: PLAIN.1,
+            gilt: true,
+        },
+        TableStyle::Neon => Style {
+            rail: ([0.035, 0.03, 0.045], [0.015, 0.012, 0.02], 127),
+            body: ([0.03, 0.028, 0.04], [0.012, 0.01, 0.016], 131),
+            wood: Surface::lit(1.6, 150.0, 0.12, 0.9),
+            cast: Color::new(0.30, 0.30, 0.34, 1.0),
+            cast_surface: Surface::lit(1.6, 90.0, 0.2, 0.6),
+            lip: rgb(14, 12, 18),
+            lip_surface: Surface::lit(0.3, 20.0, 0.0, 0.1),
+            sights: Color::new(1.0, 0.35, 0.85, 1.0),
+            diamonds: true,
+            trim: Color::new(0.10, 0.95, 1.0, 1.0),
+            legs: Legs::Slab,
+            leg_rings: false,
+            apron: Apron::Slim,
+            apron_h: 0.12,
+            pockets: Pockets::Plates,
+            finish: Finish::Wood,
+            glow: Color::new(1.0, 0.2, 0.8, 1.0),
+            gilt: false,
+        },
+        TableStyle::Carbon => Style {
+            rail: ([0.16, 0.16, 0.18], [0.05, 0.05, 0.06], 137),
+            body: ([0.14, 0.14, 0.16], [0.04, 0.04, 0.05], 139),
+            wood: Surface::lit(1.5, 110.0, 0.1, 0.75),
+            cast: Color::new(0.62, 0.64, 0.67, 1.0),
+            cast_surface: chrome,
+            lip: rgb(18, 18, 20),
+            lip_surface: Surface::lit(0.3, 20.0, 0.0, 0.1),
+            sights: Color::new(0.90, 0.12, 0.10, 1.0),
+            diamonds: false,
+            trim: Color::new(0.86, 0.10, 0.08, 1.0),
+            legs: Legs::Slab,
+            leg_rings: false,
+            apron: Apron::Slim,
+            apron_h: 0.13,
+            pockets: Pockets::Plates,
+            finish: Finish::Carbon,
+            glow: Color::new(1.0, 0.16, 0.10, 1.0),
+            gilt: false,
+        },
+        TableStyle::Copper => Style {
+            rail: ([0.26, 0.15, 0.08], [0.08, 0.045, 0.025], 149),
+            body: ([0.24, 0.14, 0.075], [0.075, 0.04, 0.022], 151),
+            wood: Surface::lit(0.7, 70.0, 0.06, 0.5),
+            cast: Color::new(0.78, 0.42, 0.22, 1.0),
+            cast_surface: Surface::lit(2.0, 100.0, 0.14, 0.85),
+            lip: rgb(40, 22, 14),
+            lip_surface: leather,
+            sights: Color::new(0.86, 0.50, 0.28, 1.0),
+            diamonds: false,
+            trim: Color::new(0.74, 0.40, 0.20, 1.0),
+            legs: Legs::Steel,
+            leg_rings: false,
+            apron: Apron::Plate,
+            apron_h: 0.2,
+            pockets: Pockets::Plates,
+            finish: Finish::Wood,
+            glow: PLAIN.1,
+            gilt: false,
+        },
+        TableStyle::Ice => Style {
+            rail: ([0.86, 0.93, 0.98], [0.56, 0.72, 0.86], 157),
+            body: ([0.84, 0.91, 0.97], [0.52, 0.68, 0.84], 163),
+            wood: Surface::lit(1.5, 140.0, 0.12, 0.85),
+            cast: Color::new(0.80, 0.84, 0.90, 1.0),
+            cast_surface: chrome,
+            lip: rgb(36, 52, 70),
+            lip_surface: Surface::lit(0.6, 40.0, 0.05, 0.3),
+            sights: Color::new(0.55, 0.80, 1.0, 1.0),
+            diamonds: true,
+            trim: Color::new(0.84, 0.88, 0.94, 1.0),
+            legs: Legs::Column,
+            leg_rings: true,
+            apron: Apron::Slim,
+            apron_h: 0.14,
+            pockets: Pockets::Plates,
+            finish: Finish::Frost,
+            glow: Color::new(0.55, 0.85, 1.0, 1.0),
+            gilt: false,
+        },
+        TableStyle::Volcano => Style {
+            rail: ([0.07, 0.06, 0.06], [1.0, 0.42, 0.06], 167),
+            body: ([0.06, 0.05, 0.05], [0.9, 0.34, 0.04], 173),
+            wood: Surface::lit(0.8, 60.0, 0.08, 0.4),
+            cast: Color::new(0.16, 0.15, 0.15, 1.0),
+            cast_surface: Surface::lit(0.9, 40.0, 0.12, 0.3),
+            lip: rgb(14, 12, 12),
+            lip_surface: Surface::lit(0.3, 16.0, 0.0, 0.05),
+            sights: Color::new(1.0, 0.55, 0.12, 1.0),
+            diamonds: true,
+            trim: Color::new(0.18, 0.17, 0.17, 1.0),
+            legs: Legs::Block,
+            leg_rings: false,
+            apron: Apron::Slim,
+            apron_h: 0.2,
+            pockets: Pockets::Plates,
+            finish: Finish::Lava,
+            glow: Color::new(1.0, 0.45, 0.06, 1.0),
+            gilt: false,
+        },
+        TableStyle::Rustic => Style {
+            rail: ([0.66, 0.50, 0.32], [0.38, 0.25, 0.13], 179),
+            body: ([0.60, 0.45, 0.28], [0.34, 0.22, 0.11], 181),
+            wood: Surface::lit(0.2, 20.0, 0.04, 0.12),
+            cast: Color::new(0.16, 0.15, 0.14, 1.0),
+            cast_surface: Surface::lit(0.8, 30.0, 0.1, 0.25),
+            lip: rgb(50, 34, 20),
+            lip_surface: leather,
+            sights: rgb(236, 228, 210),
+            diamonds: false,
+            trim: Color::new(0.18, 0.17, 0.16, 1.0),
+            legs: Legs::Square,
+            leg_rings: false,
+            apron: Apron::Lip,
+            apron_h: 0.22,
+            pockets: Pockets::Nets,
+            finish: Finish::Wood,
+            glow: PLAIN.1,
+            gilt: false,
+        },
+        TableStyle::Champion => Style {
+            rail: ([0.05, 0.045, 0.045], [0.015, 0.013, 0.013], 191),
+            body: ([0.045, 0.04, 0.04], [0.012, 0.011, 0.011], 193),
+            wood: Surface::lit(1.6, 150.0, 0.1, 0.95),
+            cast: Color::new(0.92, 0.72, 0.30, 1.0),
+            cast_surface: Surface::lit(2.4, 130.0, 0.16, 0.95),
+            lip: rgb(110, 14, 24),
+            lip_surface: leather,
+            sights: Color::new(0.95, 0.76, 0.34, 1.0),
+            diamonds: true,
+            trim: Color::new(0.92, 0.72, 0.30, 1.0),
+            legs: Legs::Turned,
+            leg_rings: true,
+            apron: Apron::Beaded,
+            apron_h: 0.22,
+            pockets: Pockets::Plates,
+            finish: Finish::Wood,
+            glow: PLAIN.1,
+            gilt: true,
         },
     }
 }
@@ -260,8 +471,8 @@ fn style(s: TableStyle) -> Style {
 pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
     let st = style(theme);
     let mut kit = Kit::default();
-    let rail_tex = kit.texture(textures::fine_wood(st.rail.0, st.rail.1, st.rail.2), true);
-    let body_tex = kit.texture(textures::fine_wood(st.body.0, st.body.1, st.body.2), true);
+    let rail_tex = kit.texture(material(st.finish, st.rail), true);
+    let body_tex = kit.texture(material(st.finish, st.body), true);
     let apron_tex = match st.apron {
         Apron::Bamboo => kit.texture(bamboo(), true),
         _ => rail_tex,
@@ -445,8 +656,7 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
             let bead_y = split - 0.03;
             let r = 0.009;
             let steps = 4;
-            let gilt = matches!(theme, TableStyle::Royal | TableStyle::Deco | TableStyle::Heritage);
-            let target = if gilt { &mut trim } else { &mut rail };
+            let target = if st.gilt { &mut trim } else { &mut rail };
             for s in 0..steps {
                 let b0 =
                     -std::f32::consts::FRAC_PI_2 + s as f32 / steps as f32 * std::f32::consts::PI;
@@ -495,7 +705,7 @@ pub fn build(table: &Table, quality: Quality, theme: TableStyle) -> Kit {
                         ],
                         [Vec2::ZERO; 4],
                         normal_out,
-                        Color::new(0.62, 0.82, 1.0, 1.0),
+                        st.glow,
                     );
                 }
             }
@@ -1216,6 +1426,57 @@ pub(crate) fn bamboo() -> Pixels {
 }
 
 /// A net of cord (diamonds of knotted string) over the dark of the pocket.
+/// The texture of a rail or a body of `finish`, from its two tones and seed.
+fn material(finish: Finish, (light, dark, seed): ([f32; 3], [f32; 3], u32)) -> Pixels {
+    match finish {
+        Finish::Wood => textures::fine_wood(light, dark, seed),
+        Finish::Marble => image(512, move |u, v| {
+            // Soft cloudy stone with veins winding through it, one bold
+            // network and a finer one.
+            let warp = fbm(u * 3.0, v * 3.0, 3, seed, 4);
+            let vein = ((u * 2.0 + v * 5.0 + warp * 4.0) * std::f32::consts::TAU).sin().abs();
+            let fine = ((u * 7.0 - v * 3.0 + warp * 6.0) * std::f32::consts::TAU).sin().abs();
+            let cloud = fbm(u * 6.0, v * 6.0, 6, seed + 3, 3);
+            let mut t = 0.08 * cloud;
+            t += (1.0 - (vein / 0.06).min(1.0)) * 0.75;
+            t += (1.0 - (fine / 0.03).min(1.0)) * 0.3;
+            lerp3(light, dark, t)
+        }),
+        Finish::Carbon => image(256, move |u, v| {
+            // A 2x2 twill: tows of fibre crossing, each with a sheen along it.
+            let n = 32.0;
+            let (x, y) = (u * n, v * n);
+            let over = ((x.floor() + (y * 0.5).floor()) as i32).rem_euclid(2) == 0;
+            let along = if over { x.fract() } else { y.fract() };
+            let sheen = (along * std::f32::consts::PI).sin();
+            let fibre = 0.5 + 0.5 * ((if over { y } else { x }) * 40.0).sin() * 0.15;
+            lerp3(dark, light, sheen * 0.8 * fibre + if over { 0.15 } else { 0.0 })
+        }),
+        Finish::Lava => image(512, move |u, v| {
+            // Plates of black rock split by thin glowing cracks.
+            let warp = fbm(u * 5.0, v * 5.0, 5, seed, 3) * 0.6;
+            let crack = (((u * 9.0 + warp) * std::f32::consts::TAU).sin()
+                * ((v * 7.0 - warp) * std::f32::consts::TAU).sin())
+            .abs();
+            let rock = fbm(u * 16.0, v * 16.0, 16, seed + 7, 3);
+            let base = [
+                light[0] * (0.7 + 0.6 * rock),
+                light[1] * (0.7 + 0.6 * rock),
+                light[2] * (0.7 + 0.6 * rock),
+            ];
+            let glow = (1.0 - (crack / 0.05).min(1.0)).powf(1.5);
+            lerp3(base, dark, glow)
+        }),
+        Finish::Frost => image(256, move |u, v| {
+            // Frosted lacquer: soft drifts and fine crystals catching light.
+            let drift = fbm(u * 4.0, v * 4.0, 4, seed, 3);
+            let crystal = noise(u * 96.0, v * 96.0, 96, seed + 9);
+            let t = 0.35 * drift + if crystal > 0.8 { -0.25 } else { 0.0 };
+            lerp3(light, dark, t)
+        }),
+    }
+}
+
 fn net_pixels() -> Pixels {
     image(128, |u, v| {
         let (a, b) = ((u + v) * 4.0, (u - v + 1.0) * 4.0);
@@ -1235,17 +1496,7 @@ mod tests {
     #[test]
     fn every_table_builds() {
         let table = Table::default();
-        for theme in [
-            TableStyle::Classic,
-            TableStyle::Beach,
-            TableStyle::Club,
-            TableStyle::Modern,
-            TableStyle::Royal,
-            TableStyle::Industrial,
-            TableStyle::Tournament,
-            TableStyle::Heritage,
-            TableStyle::Deco,
-        ] {
+        for theme in TableStyle::ALL {
             for q in [Quality::Low, Quality::Ultra] {
                 let kit = build(&table, q, theme);
                 assert!(kit.parts.iter().any(|p| p.layer == Layer::Inside), "{q:?}");

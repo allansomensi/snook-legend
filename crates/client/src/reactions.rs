@@ -1,4 +1,5 @@
-//! Reaction pictures from the bundled atlas (Twemoji, CC-BY 4.0).
+//! Reaction pictures from the bundled atlas (Twemoji, CC-BY 4.0). The
+//! rarest ones move: they breathe, spin, sway or sparkle (see [`motion`]).
 
 use std::cell::OnceCell;
 
@@ -42,7 +43,12 @@ pub fn how(r: &snook_legend_proto::Reaction, have: bool) -> String {
         // Bought or given by a friend: from the shop either way.
         return if have { t("From the shop").to_string() } else { shop_hint(r) };
     }
+    if r.is_earned() {
+        return t("Only won: events, cups and seasons").to_string();
+    }
     match r.unlock.and_then(|a| snook_legend_proto::ACHIEVEMENTS.iter().find(|x| x.code == a)) {
+        // A secret stays one until it is won.
+        Some(a) if a.secret && !have => t("A secret achievement").to_string(),
         Some(a) => tw(
             "{title}: {how}",
             &[("title", &t(a.title)), ("how", &crate::profile::achievement_text(a))],
@@ -51,13 +57,90 @@ pub fn how(r: &snook_legend_proto::Reaction, have: bool) -> String {
     }
 }
 
-/// Draws reaction `code` centred on `at`, `size` wide, with `alpha`.
-/// False for an unknown code.
+/// How a rare reaction moves.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum Motion {
+    /// Grows and shrinks, with a glow behind.
+    Pulse([u8; 3]),
+    /// Turns round and round.
+    Spin,
+    /// Sways from side to side.
+    Sway,
+    /// Floats up and down, sparkling.
+    Float([u8; 3]),
+    /// Trembles, with a hot glow.
+    Rumble([u8; 3]),
+}
+
+/// The reactions that move (the rarest), and how.
+pub fn motion(code: &str) -> Option<Motion> {
+    Some(match code {
+        "dragon" => Motion::Sway,
+        "volcano" => Motion::Rumble([255, 110, 30]),
+        "tornado" => Motion::Spin,
+        "crystal_ball" => Motion::Pulse([190, 130, 255]),
+        "lion" => Motion::Pulse([255, 200, 80]),
+        "unicorn" => Motion::Float([255, 170, 240]),
+        "zombie" => Motion::Sway,
+        "rainbow" => Motion::Pulse([140, 220, 255]),
+        "comet" => Motion::Float([140, 200, 255]),
+        "dizzy" => Motion::Spin,
+        "season_medal" => Motion::Float([255, 214, 100]),
+        _ => return None,
+    })
+}
+
+/// Draws reaction `code` centred on `at`, `size` wide, with `alpha` (the
+/// rare ones moving). False for an unknown code.
 pub fn draw(code: &str, at: Vec2, size: f32, alpha: f32) -> bool {
     let Some(i) = REACTIONS.iter().position(|r| r.code == code) else { return false };
     let (col, row) = (i % COLUMNS, i / COLUMNS);
     let src = Rect::new(col as f32 * SIZE, row as f32 * SIZE, SIZE, SIZE);
     let a = alpha;
+    let time = get_time() as f32;
+    // Each reaction moves on its own beat.
+    let phase = i as f32 * 0.7;
+    let (mut at, mut size, mut rotation) = (at, size, 0.0);
+    let glow = |c: [u8; 3], k: f32, at: Vec2, size: f32| {
+        let color = Color::from_rgba(c[0], c[1], c[2], 255);
+        for (r, alpha) in [(0.62, 0.10), (0.5, 0.12), (0.38, 0.14)] {
+            crate::paint::draw_circle(
+                at.x,
+                at.y,
+                size * r * (1.0 + 0.1 * k),
+                Color::new(color.r, color.g, color.b, alpha * a * (0.6 + 0.4 * k)),
+            );
+        }
+    };
+    let sparkles = |c: [u8; 3], at: Vec2, size: f32| {
+        for k in 0..4 {
+            let t = (time * 0.8 + k as f32 * 0.25 + phase).fract();
+            let ang = k as f32 * 1.9 + phase;
+            let p = at + vec2(ang.cos(), ang.sin()) * size * (0.38 + 0.18 * t);
+            let s = size * 0.07 * (1.0 - (t * 2.0 - 1.0).abs());
+            let color = Color::from_rgba(c[0], c[1], c[2], (220.0 * a) as u8);
+            crate::paint::draw_line(p.x - s, p.y, p.x + s, p.y, 1.2, color);
+            crate::paint::draw_line(p.x, p.y - s, p.x, p.y + s, 1.2, color);
+        }
+    };
+    match motion(code) {
+        None => {}
+        Some(Motion::Pulse(c)) => {
+            let k = 0.5 + 0.5 * (time * 3.0 + phase).sin();
+            glow(c, k, at, size);
+            size *= 1.0 + 0.07 * k;
+        }
+        Some(Motion::Spin) => rotation = (time * 2.2 + phase) % std::f32::consts::TAU,
+        Some(Motion::Sway) => rotation = (time * 2.5 + phase).sin() * 0.16,
+        Some(Motion::Float(c)) => {
+            at.y += (time * 2.0 + phase).sin() * size * 0.06;
+            sparkles(c, at, size);
+        }
+        Some(Motion::Rumble(c)) => {
+            glow(c, 0.5 + 0.5 * (time * 7.0).sin(), at, size);
+            at += vec2((time * 47.0).sin(), (time * 39.0).cos()) * size * 0.015;
+        }
+    }
     draw_texture_ex(
         &atlas(),
         at.x - size / 2.0,
@@ -66,6 +149,7 @@ pub fn draw(code: &str, at: Vec2, size: f32, alpha: f32) -> bool {
         DrawTextureParams {
             dest_size: Some(vec2(size, size)),
             source: Some(src),
+            rotation,
             ..Default::default()
         },
     );

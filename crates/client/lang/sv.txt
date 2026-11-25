@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} är på 8-bollen: anmält hål {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} är på 8-bollen (ditt sikte anmäler hålet; klicka på ett hål för att anmäla ett annat)
 On the 8-ball: {pocket} pocket	På 8-bollen: {pocket}
 Show ping	Visa ping
 Your connection's delay, in online games.	Din anslutnings fördröjning i onlinepartier.
@@ -2018,14 +2019,14 @@ your call	ditt val
 {n} points to {tier} ({rules})	{n} poäng till {tier} ({rules})
 {n} waiting	{n} väntar
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	En foul ger motståndaren bollar ur sin grupp. Vita bollen i hand bara på utslaget, och bara 8-bollens hål anmäls.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	En foul ger motståndaren vita bollen i hand, var som helst på bordet. Ingenting anmäls, och utslaget måste driva fyra bollar till en vall.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	En foul ger motståndaren vita bollen i hand, var som helst på bordet. Bara 8-bollens hål anmäls, vid varje stöt på den, och utslaget måste driva fyra bollar till en vall.
 A foul gives balls to the opponent	En foul ger bollar till motståndaren
 Ball in hand on the break only	Boll i hand bara på utslaget
 Only the 8's pocket is called	Bara 8-bollens hål anmäls
 The most played in Brazil	Mest spelad i Brasilien
 A foul gives ball in hand	En foul ger boll i hand
 The break drives four balls to a cushion	Utslaget driver fyra bollar till en vall
-Any pocket counts	Alla hål räknas
+Only the 8 is called, shot by shot	Bara 8-bollen anmäls, stöt för stöt
 The same all over the world	Samma i hela världen
 Game type	Partityp
 called: {pocket}	anmält: {pocket}

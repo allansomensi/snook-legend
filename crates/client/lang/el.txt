@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	Ο/Η {name} είναι στην 8: δηλωμένη τρύπα {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	Ο/Η {name} είναι στην 8 (η σκόπευσή σου δηλώνει την τρύπα· κάνε κλικ σε μια τρύπα για να δηλώσεις άλλη)
 On the 8-ball: {pocket} pocket	Στη μπάλα 8: τρύπα {pocket}
 Show ping	Εμφάνιση ping
 Your connection's delay, in online games.	Η καθυστέρηση της σύνδεσής σου στα online παιχνίδια.
@@ -2018,14 +2019,14 @@ your call	δική σου δήλωση
 {n} points to {tier} ({rules})	{n} πόντοι για {tier} ({rules})
 {n} waiting	Σε αναμονή: {n}
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Ένα φάουλ δίνει στον αντίπαλο μπάλες της ομάδας του. Μπάλα στο χέρι υπάρχει μόνο στο σπάσιμο, και δηλώνεται μόνο η τρύπα της 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Ένα φάουλ δίνει στον αντίπαλο μπάλα στο χέρι, οπουδήποτε στο τραπέζι. Δεν δηλώνεται τίποτα, και το σπάσιμο πρέπει να στείλει τέσσερις μπάλες σε μπάντα.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Ένα φάουλ δίνει στον αντίπαλο μπάλα στο χέρι, οπουδήποτε στο τραπέζι. Δηλώνεται μόνο η τρύπα της 8, σε κάθε χτύπημα σε αυτήν, και το σπάσιμο πρέπει να στείλει τέσσερις μπάλες σε μπάντα.
 A foul gives balls to the opponent	Το φάουλ δίνει μπάλες στον αντίπαλο
 Ball in hand on the break only	Μπάλα στο χέρι μόνο στο σπάσιμο
 Only the 8's pocket is called	Δηλώνεται μόνο η τρύπα της 8
 The most played in Brazil	Το πιο δημοφιλές στη Βραζιλία
 A foul gives ball in hand	Το φάουλ δίνει μπάλα στο χέρι
 The break drives four balls to a cushion	Το σπάσιμο στέλνει τέσσερις μπάλες σε μπάντα
-Any pocket counts	Μετράει κάθε τρύπα
+Only the 8 is called, shot by shot	Δηλώνεται μόνο η 8, χτύπημα με χτύπημα
 The same all over the world	Ίδιοι σε όλο τον κόσμο
 Game type	Είδος παρτίδας
 called: {pocket}	δήλωση: {pocket}

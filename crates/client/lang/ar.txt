@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} على الكرة 8: الجيب المعلن {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} على الكرة 8 (تصويبك يعلن الجيب؛ انقر على جيب لإعلان جيب آخر)
 On the 8-ball: {pocket} pocket	على الكرة 8: الجيب {pocket}
 Show ping	إظهار البينغ
 Your connection's delay, in online games.	تأخر اتصالك في المباريات عبر الإنترنت.
@@ -2018,14 +2019,14 @@ your call	إعلانك
 {n} points to {tier} ({rules})	{n} نقطة للوصول إلى {tier} ({rules})
 {n} waiting	{n} في الانتظار
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	الخطأ يمنح الخصم كرات من مجموعته. الكرة البيضاء في اليد في الافتتاحية فقط، ولا يعلن إلا جيب الكرة 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	الخطأ يمنح الخصم الكرة البيضاء في اليد، في أي مكان على الطاولة. لا يُعلن أي جيب، ويجب أن توصل الافتتاحية أربع كرات إلى الحواف.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	الخطأ يمنح الخصم الكرة البيضاء في اليد، في أي مكان على الطاولة. لا يُعلن إلا جيب الكرة 8، في كل ضربة عليها، ويجب أن توصل الافتتاحية أربع كرات إلى الحواف.
 A foul gives balls to the opponent	الخطأ يمنح الخصم كرات
 Ball in hand on the break only	الكرة في اليد في الافتتاحية فقط
 Only the 8's pocket is called	لا يعلن إلا جيب الكرة 8
 The most played in Brazil	الأكثر لعبا في البرازيل
 A foul gives ball in hand	الخطأ يمنح الكرة في اليد
 The break drives four balls to a cushion	الافتتاحية توصل أربع كرات إلى الحواف
-Any pocket counts	أي جيب يُحتسب
+Only the 8 is called, shot by shot	لا تُعلن إلا الكرة 8، ضربة بضربة
 The same all over the world	هي نفسها في كل العالم
 Game type	نوع المباراة
 called: {pocket}	المعلن: {pocket}

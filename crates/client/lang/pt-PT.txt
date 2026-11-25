@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} está na bola 8: cantou o buraco {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} está na bola 8 (a tua mira canta o buraco; clica num buraco para cantar outro)
 On the 8-ball: {pocket} pocket	Na bola 8: buraco {pocket}
 Show ping	Mostrar ping
 Your connection's delay, in online games.	O atraso da tua ligação nas partidas online.
@@ -2018,14 +2019,14 @@ your call	cantado por ti
 {n} points to {tier} ({rules})	{n} pontos para {tier} ({rules})
 {n} waiting	{n} à espera
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Uma falta dá ao adversário bolas do grupo dele. A bola branca só fica na mão na abertura, e só se canta o buraco da 8.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Uma falta dá ao adversário bola na mão, em qualquer ponto da mesa. Nada se canta, e a abertura tem de levar quatro bolas a uma tabela.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Uma falta dá ao adversário bola na mão, em qualquer ponto da mesa. Só se canta o buraco da 8, em cada jogada a ela, e a abertura tem de levar quatro bolas a uma tabela.
 A foul gives balls to the opponent	Uma falta dá bolas ao adversário
 Ball in hand on the break only	Bola na mão só na abertura
 Only the 8's pocket is called	Só se canta o buraco da 8
 The most played in Brazil	As mais jogadas no Brasil
 A foul gives ball in hand	Uma falta dá bola na mão
 The break drives four balls to a cushion	A abertura leva quatro bolas à tabela
-Any pocket counts	Conta qualquer buraco
+Only the 8 is called, shot by shot	Só se canta a 8, jogada a jogada
 The same all over the world	As mesmas no mundo inteiro
 Game type	Tipo de partida
 called: {pocket}	cantado: {pocket}

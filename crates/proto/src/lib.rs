@@ -154,6 +154,12 @@ pub const PROTOCOL_VERSION: u32 = 25;
 /// server's, so it is asked to update.
 pub const OLDEST_PROTOCOL_VERSION: u32 = 24;
 
+/// The first version whose games call the 8 under the official rules
+/// (0.12.0): an older game (0.11.x, version 24) plays the 8 in any pocket,
+/// and the server counts the 8 it makes as called in the pocket it goes
+/// into (see `EightBallGame::call_the_eight_where_it_went`).
+pub const EIGHT_CALL_PROTOCOL: u32 = 25;
+
 /// Username rules: 3–16 characters, letters, digits and underscores.
 pub fn valid_username(name: &str) -> bool {
     (3..=16).contains(&name.chars().count())

@@ -722,7 +722,7 @@ pub fn spawn_background(server: Arc<Server>) {
 
 async fn run_effect(server: &Arc<Server>, effect: Effect) {
     match effect {
-        Effect::Simulate { room, turn, game, shot, called } => {
+        Effect::Simulate { room, turn, game, shot, called, eight_anywhere } => {
             let server = server.clone();
             tokio::spawn(async move {
                 let outcome = tokio::task::spawn_blocking(move || {
@@ -730,6 +730,9 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
                     let mut pending =
                         game.prepare_shot(&shot, called).map_err(|e| e.to_string())?;
                     pending.simulation.run_to_rest();
+                    if eight_anywhere {
+                        game.call_the_eight_where_it_went(&mut pending);
+                    }
                     let duration = pending.simulation.time();
                     let report = game.finish_shot(pending);
                     Ok((game, report, duration))
@@ -1242,6 +1245,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
     let mut hello = false;
     // The rules the player plays (the game says so in its hello).
     let mut rules = Rules::default();
+    // The protocol of the player's game (its hello).
+    let mut protocol = PROTOCOL_VERSION;
     let mut user: Option<(User, bool)> = None;
     let mut failures = 0;
     let mut token_in_use: Option<String> = None;
@@ -1295,6 +1300,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 {
                     hello = true;
                     rules = r;
+                    protocol = v;
                 }
                 // A game newer than the server: the server hasn't been
                 // updated yet (updating the game can't help).
@@ -1356,6 +1362,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 ip_text.clone(),
                                 blocked,
                             );
+                            l.set_protocol(&row.username, protocol);
                         });
                         if !guest {
                             token_in_use = Some(token);
@@ -1575,7 +1582,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             }
             ClientMsg::Missions => send(missions::message(&server, &me).await),
             msg if correspondence::is_msg(&msg) => {
-                correspondence::handle(&server, &me, msg, &send).await
+                correspondence::handle(&server, &me, protocol, msg, &send).await
             }
             msg if daily::is_msg(&msg) => daily::handle(&server, &me, msg, &send).await,
             msg if drills::is_msg(&msg) => drills::handle(&server, &me, msg, &send).await,

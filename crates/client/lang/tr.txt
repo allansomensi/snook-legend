@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} 8'e kaldı: söylenen cep {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} 8'e kaldı (nişanın cebi söyler; başka bir cep söylemek için bir cebe tıkla)
 On the 8-ball: {pocket} pocket	8 için cep: {pocket}
 Show ping	Ping'i göster
 Your connection's delay, in online games.	Çevrim içi oyunlarda bağlantının gecikmesi.
@@ -2018,14 +2019,14 @@ your call	senin seçimin
 {n} points to {tier} ({rules})	{tier} için {n} puan ({rules})
 {n} waiting	{n} bekliyor
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Faul, rakibe kendi grubundan top verir. Elde top yalnızca açılışta olur ve yalnızca 8'in cebi söylenir.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Faul, rakibe masanın herhangi bir yerinde elde top verir. Cep söylenmez ve açılışta dört top banda ulaşmalıdır.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Faul, rakibe masanın herhangi bir yerinde elde top verir. Yalnızca 8'in cebi söylenir, ona her vuruşta, ve açılışta dört top banda ulaşmalıdır.
 A foul gives balls to the opponent	Faul rakibe top verir
 Ball in hand on the break only	Elde top yalnızca açılışta
 Only the 8's pocket is called	Yalnızca 8'in cebi söylenir
 The most played in Brazil	Brezilya'da en çok oynanan
 A foul gives ball in hand	Faul elde top verir
 The break drives four balls to a cushion	Açılışta dört top banda ulaşır
-Any pocket counts	Her cep geçerli
+Only the 8 is called, shot by shot	Yalnızca 8 söylenir, her vuruşta
 The same all over the world	Tüm dünyada aynı
 Game type	Oyun türü
 called: {pocket}	söylenen: {pocket}

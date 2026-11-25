@@ -2,6 +2,7 @@
 # One text per line: the English text (as written in the code), a tab, the translation.
 # Placeholders like {name} must stay as they are; \n is a new line.
 {name} is on the 8: called pocket {pocket}	{name} speelt op de 8, aangegeven: {pocket}
+{name} is on the 8 (your aim calls the pocket; click a pocket to call another)	{name} speelt op de 8 (je richting geeft de pocket aan; klik op een pocket om een andere aan te geven)
 On the 8-ball: {pocket} pocket	Op de 8-bal: {pocket}
 Show ping	Ping tonen
 Your connection's delay, in online games.	De vertraging van je verbinding in online partijen.
@@ -2018,14 +2019,14 @@ your call	door jou aangegeven
 {n} points to {tier} ({rules})	Nog {n} punten tot {tier} ({rules})
 {n} waiting	{n} wachtend
 A foul gives the opponent balls of their group. The cue ball is in hand on the break only, and only the 8's pocket is called.	Een fout geeft de tegenstander ballen van diens groep. Alleen bij de afstoot heb je de speelbal in de hand, en alleen de pocket van de 8 wordt aangegeven.
-A foul gives the opponent the cue ball in hand, anywhere on the table. Nothing is called, and the break must drive four balls to a cushion.	Een fout geeft de tegenstander de speelbal in de hand, overal op de tafel. Je geeft niets aan, en de afstoot moet vier ballen naar een band sturen.
+A foul gives the opponent the cue ball in hand, anywhere on the table. Only the 8's pocket is called, on each shot at it, and the break must drive four balls to a cushion.	Een fout geeft de tegenstander de speelbal in de hand, overal op de tafel. Alleen de pocket van de 8 geef je aan, bij elke stoot op de 8, en de afstoot moet vier ballen naar een band sturen.
 A foul gives balls to the opponent	Een fout geeft ballen aan de tegenstander
 Ball in hand on the break only	Bal in de hand alleen bij de afstoot
 Only the 8's pocket is called	Alleen de pocket van de 8 wordt aangegeven
 The most played in Brazil	Het meest gespeeld in Brazilië
 A foul gives ball in hand	Een fout geeft bal in de hand
 The break drives four balls to a cushion	De afstoot stuurt vier ballen naar een band
-Any pocket counts	Elke pocket telt
+Only the 8 is called, shot by shot	Alleen de 8 geef je aan, stoot voor stoot
 The same all over the world	Overal ter wereld hetzelfde
 Game type	Soort partij
 called: {pocket}	aangegeven: {pocket}

@@ -230,16 +230,16 @@ async fn push_list(server: &Server, user_id: i64, name: &str) {
 
 /// How players look in the lists: as in the lounge when online.
 async fn infos(server: &Server, ids: impl IntoIterator<Item = i64>) -> HashMap<i64, PlayerInfo> {
+    let mut ids: Vec<i64> = ids.into_iter().collect();
+    ids.sort_unstable();
+    ids.dedup();
+    let users = server.store.users_by_ids(&ids).await.unwrap_or_default();
     let mut out = HashMap::new();
-    for id in ids {
-        if out.contains_key(&id) {
-            continue;
-        }
-        let Ok(Some(u)) = server.store.user_by_id(id).await else { continue };
+    for u in users {
         let info = server
             .with(|l| l.player(&u.username))
             .unwrap_or_else(|| player_info(&u, false, PlayerStatus::Available, Rules::default()));
-        out.insert(id, info);
+        out.insert(u.id, info);
     }
     out
 }

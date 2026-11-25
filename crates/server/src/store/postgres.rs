@@ -224,6 +224,14 @@ impl PgStore {
         Ok(row.map(|r| user(&r)).transpose()?)
     }
 
+    pub async fn users_by_ids(&self, ids: &[i64]) -> StoreResult<Vec<User>> {
+        let rows = query(&format!("SELECT {USER_COLUMNS} FROM users WHERE id = ANY($1)"))
+            .bind(ids)
+            .fetch_all(&self.pool)
+            .await?;
+        Ok(rows.iter().map(user).collect::<Result<_, _>>()?)
+    }
+
     pub async fn create_session(
         &self,
         hash: &str,

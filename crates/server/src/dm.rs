@@ -180,17 +180,17 @@ pub async fn threads(server: &Server, me: &User) -> ServerMsg {
     for (u, _) in server.store.friends(me.id).await.unwrap_or_default() {
         names.insert(u.id, u.username);
     }
+    // The others (not friends) in one request.
+    let others: Vec<i64> =
+        rows.iter().map(|r| r.other).filter(|id| !names.contains_key(id)).collect();
+    for u in server.store.users_by_ids(&others).await.unwrap_or_default() {
+        if u.deleted_at.is_none() {
+            names.insert(u.id, u.username);
+        }
+    }
     let mut threads = Vec::new();
     for row in rows {
-        if !names.contains_key(&row.other) {
-            match server.store.user_by_id(row.other).await {
-                Ok(Some(u)) if u.deleted_at.is_none() => {
-                    names.insert(u.id, u.username);
-                }
-                _ => continue,
-            }
-        }
-        let with = names[&row.other].clone();
+        let Some(with) = names.get(&row.other).cloned() else { continue };
         threads.push(DmThread { with, last: message(row.last, &names), unread: row.unread });
     }
     ServerMsg::DmThreads { threads }

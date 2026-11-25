@@ -529,6 +529,29 @@ async fn the_public_api_shows_players_and_official_tournaments() {
 }
 
 #[tokio::test]
+async fn the_public_api_slows_down_an_address_that_asks_too_often() {
+    let s = start().await;
+    user(&s.server, "ana", Role::Player).await;
+    // Each page is a dozen database requests: one address gets a burst,
+    // then a few a second.
+    let mut refused = None;
+    for i in 0..80 {
+        let (code, head, _) = raw(&s.host, "GET", "/api/players/ana", "", "").await;
+        if code == 429 {
+            refused = Some((i, head.to_lowercase()));
+            break;
+        }
+        assert_eq!(code, 200);
+    }
+    let (i, head) = refused.expect("turned away at some point");
+    assert!(i >= 30, "not before the burst: {i}");
+    assert!(head.contains("retry-after: 1") && head.contains("access-control-allow-origin: *"));
+    // The game's own ranking (kept a few seconds) is not counted.
+    let (code, _) = request(&s.host, "GET", "/api/leaderboard", "", "").await;
+    assert_eq!(code, 200);
+}
+
+#[tokio::test]
 async fn the_analytics_and_exports_read_the_economy() {
     let s = start().await;
     let boss = token(&s.host, "boss").await;

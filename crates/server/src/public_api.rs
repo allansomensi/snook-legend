@@ -19,12 +19,41 @@ use snook_legend_proto::{ACHIEVEMENTS, Role, Rules, Tier, TrophyKind};
 use crate::store::User;
 use crate::{Server, now};
 
-pub fn router() -> Router<Arc<Server>> {
+/// Requests one address may make at once, and then a second (a player's
+/// page is a dozen database requests; a browser, or the website building its
+/// pages, asks far less often).
+pub const BURST: f64 = 40.0;
+pub const PER_SEC: f64 = 4.0;
+
+pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
     Router::new()
         .route("/api/players/{name}", get(player))
         .route("/api/tournaments", get(tournaments))
         .route("/api/tournaments/{id}", get(tournament))
         .route("/api/supporters", get(supporters))
+        .route_layer(axum::middleware::from_fn_with_state(server, limit))
+}
+
+/// Turns away an address that asks too often (429, with when to try again).
+async fn limit(
+    State(server): State<Arc<Server>>,
+    req: axum::extract::Request,
+    next: axum::middleware::Next,
+) -> Response {
+    let peer = req.extensions().get::<axum::extract::ConnectInfo<std::net::SocketAddr>>();
+    if let Some(&axum::extract::ConnectInfo(peer)) = peer {
+        let ip = server.client_ip(peer, req.headers());
+        if !server.api_limits.lock().unwrap_or_else(|e| e.into_inner()).take(ip) {
+            let mut res =
+                (StatusCode::TOO_MANY_REQUESTS, axum::Json(json!({ "error": "slow down" })))
+                    .into_response();
+            let h = res.headers_mut();
+            h.insert(header::ACCESS_CONTROL_ALLOW_ORIGIN, HeaderValue::from_static("*"));
+            h.insert(header::RETRY_AFTER, HeaderValue::from_static("1"));
+            return res;
+        }
+    }
+    next.run(req).await
 }
 
 /// JSON anyone may read, cached a minute.
@@ -205,16 +234,11 @@ struct ListQuery {
 /// Current names of accounts, by id (a deleted one keeps its anonymous
 /// name; one gone entirely is left out).
 async fn names(server: &Server, ids: impl IntoIterator<Item = i64>) -> HashMap<i64, String> {
-    let mut out = HashMap::new();
-    for id in ids {
-        if out.contains_key(&id) {
-            continue;
-        }
-        if let Ok(Some(u)) = server.store.user_by_id(id).await {
-            out.insert(id, u.username);
-        }
-    }
-    out
+    let mut ids: Vec<i64> = ids.into_iter().collect();
+    ids.sort_unstable();
+    ids.dedup();
+    let users = server.store.users_by_ids(&ids).await.unwrap_or_default();
+    users.into_iter().map(|u| (u.id, u.username)).collect()
 }
 
 /// `GET /api/tournaments?limit=50`: the official tournaments, newest first.

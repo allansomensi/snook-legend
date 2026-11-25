@@ -216,12 +216,14 @@ pub async fn detail_with_names(server: &Server, detail: &str) -> Value {
     }
     ids.sort_unstable();
     ids.dedup();
-    let mut names = std::collections::HashMap::new();
-    for id in ids {
-        if let Ok(Some(u)) = server.store.user_by_id(id).await {
-            names.insert(id, (u.username, u.country));
-        }
-    }
+    let names: std::collections::HashMap<i64, (String, String)> = server
+        .store
+        .users_by_ids(&ids)
+        .await
+        .unwrap_or_default()
+        .into_iter()
+        .map(|u| (u.id, (u.username, u.country)))
+        .collect();
     for key in ["players", "standings"] {
         if let Some(list) = v[key].as_array_mut() {
             for p in list {

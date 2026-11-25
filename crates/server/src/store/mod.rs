@@ -1061,6 +1061,14 @@ impl Store {
     pub async fn user_by_id(&self, id: i64) -> StoreResult<Option<User>> {
         dispatch!(self, s => s.user_by_id(id))
     }
+    /// The accounts of `ids` (those that exist, in no particular order): one
+    /// request for a list of names, rather than one per player.
+    pub async fn users_by_ids(&self, ids: &[i64]) -> StoreResult<Vec<User>> {
+        if ids.is_empty() {
+            return Ok(Vec::new());
+        }
+        dispatch!(self, s => s.users_by_ids(ids))
+    }
     pub async fn create_session(
         &self,
         token_hash: &str,

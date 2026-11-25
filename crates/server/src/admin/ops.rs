@@ -138,12 +138,12 @@ struct PromotionBody {
     ends_at: i64,
 }
 
+/// A promotion's terms once checked: title, percent, items, categories,
+/// start.
+type Checked = (String, u32, Vec<String>, Vec<String>, i64);
+
 /// The promotion as it will be kept, or why it can't be.
-fn checked(
-    body: &PromotionBody,
-    t: i64,
-    editing: bool,
-) -> Result<(String, u32, Vec<String>, Vec<String>, i64), super::ApiError> {
+fn checked(body: &PromotionBody, t: i64, editing: bool) -> Result<Checked, super::ApiError> {
     let title = clean_text(&body.title, promotions::MAX_TITLE);
     if title.is_empty() {
         return Err(bad("Give the promotion a title."));

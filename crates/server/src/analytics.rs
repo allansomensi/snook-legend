@@ -75,7 +75,6 @@ pub fn sink_of(reason: &str) -> String {
         "staff" => "staff".into(),
         // A payment refunded takes its coins back.
         "pack" | "vip" | "welcome" | "refund" => "payment_refunds".into(),
-        other if other.is_empty() => "other".into(),
         _ => "other".into(),
     }
 }

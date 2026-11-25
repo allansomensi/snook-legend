@@ -117,7 +117,7 @@ pub async fn bid(server: &Server, me: &User, id: i64, amount: i64, send: &impl F
     let Ok(w) = server.store.wallet(me.id).await else {
         return error("Something went wrong. Please try again.");
     };
-    if w.owned.iter().any(|o| *o == a.code) {
+    if w.owned.contains(&a.code) {
         return error("You already have this item.");
     }
     let t = now();

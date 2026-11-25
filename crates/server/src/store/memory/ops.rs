@@ -367,7 +367,7 @@ impl MemoryStore {
         let (row, by) = s.ops.auctions[k].clone();
         if let Some(winner) = row.leader_id {
             let w = s.wallets.entry(winner).or_default();
-            if !w.owned.iter().any(|o| *o == row.code) {
+            if !w.owned.contains(&row.code) {
                 w.owned.push(row.code.clone());
             }
         }

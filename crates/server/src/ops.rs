@@ -59,7 +59,7 @@ pub async fn run(server: Arc<Server>) {
         ticks += 1;
         // What the portal changed on another server (or in the database)
         // comes in within a minute.
-        if ticks % 6 == 0 {
+        if ticks.is_multiple_of(6) {
             settings::reload(&server).await;
             promotions::reload(&server).await;
             maintenance::reload(&server).await;

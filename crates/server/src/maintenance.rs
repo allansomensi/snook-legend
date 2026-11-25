@@ -23,13 +23,16 @@ pub const MAX_MINUTES: u32 = 24 * 60;
 /// The longest message.
 pub const MAX_MESSAGE: usize = 200;
 
+/// A maintenance as players were told it: id, time, minutes, message.
+type Told = (i64, i64, u32, String);
+
 /// The next maintenance, and what was said about it.
 #[derive(Default)]
 pub struct State {
     next: RwLock<Option<MaintenanceRow>>,
     /// What players were last told (id and time; None: nothing planned),
     /// and the notices given for it.
-    told: Mutex<(Option<(i64, i64, u32, String)>, Vec<i64>)>,
+    told: Mutex<(Option<Told>, Vec<i64>)>,
     /// Wakes `main.rs` when it is time to go down.
     due: Notify,
 }

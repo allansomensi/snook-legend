@@ -1199,6 +1199,7 @@ impl Lounge {
                 serde_json::json!({
                     "id": l.id, "from": l.from, "text": l.text, "at": l.at,
                     "kind": l.kind, "rating": l.rating, "admin": l.admin, "deleted": deleted,
+                    "mentions": l.mentions,
                 })
             })
             .collect()

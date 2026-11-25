@@ -2134,3 +2134,85 @@ The server stops for maintenance in {n} min.	服务器将在 {n} 分钟后停机
 This auction is not open.	此拍卖未开放。
 The credits are for VIP members, now or before.	鸣谢名单面向现任或曾经的 VIP 会员。
 The server stops for maintenance now. Games in progress go on.	服务器现在停机维护。进行中的对局继续。
+Play online: your games are added up here as they end.	在线对战：每局结束后都会汇总到这里。
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	看看你在每个袋口、每种切球角度的进球率，每周的进步，以及与同联赛玩家的对比。
+Advanced statistics	高级统计
+Become VIP	成为 VIP
+By pocket	按袋口
+By cut angle	按切球角度
+The white mark: your league.	白色标记：你的联赛。
+Week by week	按周
+Against your league	与联赛对比
+{tier}: {n} players	{tier}：{n} 名玩家
+You	你
+League	联赛
+{pocket}: {n} points above	{pocket}：高 {n} 个百分点
+{pocket}: {n} points below	{pocket}：低 {n} 个百分点
+Messages with {name}	与 {name} 的消息
+No messages with {name} yet. Say hello!	还没有与 {name} 的消息。打个招呼吧！
+Write a message… (Enter to send)	输入消息…（按 Enter 发送）
+You can write to your friends only.	只能给好友发消息。
+Choose a quick phrase…	选择快捷短语…
+Looking for a game ({rules})	正在找对局（{rules}）
+At a table, waiting ({rules})	在球桌旁等待（{rules}）
+Playing a tournament game against {name}	正在与 {name} 进行锦标赛对局
+Playing against {name}	正在与 {name} 对战
+Watching {name}'s game	正在观看 {name} 的对局
+In {name}	在 {name} 中
+Playing the computer	正在与电脑对战
+Practising	正在练习
+In the daily challenge	正在进行每日挑战
+Doing drills	正在做练习题
+On the tour	正在巡回赛中
+Away	离开
+Victory by abandonment	对手弃局获胜
+Players (administrator)	玩家（管理员）
+Spectators	观众
+Chat (muted)	聊天（已屏蔽）
+Say something to the others watching (the players don't see it).	和其他观众说点什么（玩家看不到）。
+Rated game	排位对局
+Casual game	休闲对局
+Click to skip	点击跳过
+Guest	访客
+Win	胜
+Loss	负
+{n} rating points at stake	本局涉及 {n} 分等级分
+No rating at stake	不涉及等级分
+Hide the shot's numbers	隐藏这一杆的数据
+Show the shot's numbers	显示这一杆的数据
+Last shot	上一杆
+No shot yet.	还没有击球。
+Balls left	剩余球数
+Right side	右塞
+Left side	左塞
+Centre ball	中杆
+{name}: {text}	{name}：{text}
+Only the quick phrases (no free text)	仅限快捷短语（不能自由输入）
+Messages	消息
+World	全球
+Friends ranking	好友排行
+You and your friends · rated games	你和你的好友 · 排位对局
+Add friends to see where you stand among them.	添加好友，看看你在他们之中的排名。
+Chat and reactions	聊天与互动表情
+Mute the opponent's chat	屏蔽对手的聊天
+Their messages in online games are not shown (yours still reach them).	在线对局中不显示对手的消息（你的消息仍会发给对方）。
+Hide the opponent's reactions	隐藏对手的互动表情
+The reactions they send at the table are not shown.	不显示对手在球桌上发送的互动表情。
+Players muted from a game: {n}	在对局中屏蔽的玩家：{n}
+Unmute them all	全部取消屏蔽
+This game counts for the rating: +{win} if you win, {loss} if you lose.	本局计入等级分：赢了 +{win}，输了 {loss}。
+This game counts for the rating.	本局计入等级分。
+A casual game: the rating doesn't change.	休闲对局：等级分不变。
+{name} lost the connection	{name} 断开了连接
+If they don't come back in time, you win by abandonment.	如果对方没能及时回来，你将以对手弃局获胜。
+Mute {name}	屏蔽 {name}
+Mute {name}'s chat	屏蔽 {name} 的聊天
+Hide {name}'s reactions	隐藏 {name} 的互动表情
+Remembered for your next games against them.	之后与该对手的对局也会沿用。
+Broadcast	转播
+3D	3D
+You can only send messages to your friends.	只能给好友发送消息。
+You can't send messages to this player.	你不能给这名玩家发送消息。
+Your chat is set to the quick phrases only.	你的聊天仅限快捷短语。
+These settings can't be kept.	这些设置无法保存。
+You aren't watching a game.	你没有在观看任何对局。

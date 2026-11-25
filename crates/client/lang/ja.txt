@@ -2134,3 +2134,85 @@ The server stops for maintenance in {n} min.	サーバーは{n}分後にメン�
 This auction is not open.	このオークションは開いていません。
 The credits are for VIP members, now or before.	クレジットは現在または過去のVIPメンバー向けです。
 The server stops for maintenance now. Games in progress go on.	サーバーはメンテナンスのため停止します。進行中の対局は続きます。
+Play online: your games are added up here as they end.	オンラインで対戦しよう：試合が終わるたびにここに集計されます。
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	ポケットごと・カット角度ごとの成功率、週ごとの成長、同じリーグのプレイヤーとの比較が分かります。
+Advanced statistics	詳細統計
+Become VIP	VIPになる
+By pocket	ポケット別
+By cut angle	カット角度別
+The white mark: your league.	白い印：あなたのリーグ。
+Week by week	週ごと
+Against your league	リーグとの比較
+{tier}: {n} players	{tier}：{n}人
+You	あなた
+League	リーグ
+{pocket}: {n} points above	{pocket}：{n}ポイント上
+{pocket}: {n} points below	{pocket}：{n}ポイント下
+Messages with {name}	{name}とのメッセージ
+No messages with {name} yet. Say hello!	{name}とのメッセージはまだありません。あいさつしよう！
+Write a message… (Enter to send)	メッセージを入力…（Enterで送信）
+You can write to your friends only.	メッセージはフレンドにだけ送れます。
+Choose a quick phrase…	定型文を選ぶ…
+Looking for a game ({rules})	対戦相手を探しています（{rules}）
+At a table, waiting ({rules})	テーブルで待機中（{rules}）
+Playing a tournament game against {name}	{name}と大会の試合中
+Playing against {name}	{name}と対戦中
+Watching {name}'s game	{name}の試合を観戦中
+In {name}	{name}に参加中
+Playing the computer	コンピューターと対戦中
+Practising	練習中
+In the daily challenge	デイリーチャレンジ中
+Doing drills	ドリル中
+On the tour	ツアー中
+Away	離席中
+Victory by abandonment	放棄による勝利
+Players (administrator)	プレイヤー（管理者）
+Spectators	観戦者
+Chat (muted)	チャット（ミュート中）
+Say something to the others watching (the players don't see it).	ほかの観戦者に話しかけよう（プレイヤーには見えません）。
+Rated game	レート戦
+Casual game	カジュアル戦
+Click to skip	クリックでスキップ
+Guest	ゲスト
+Win	勝ち
+Loss	負け
+{n} rating points at stake	{n}レートポイントがかかっています
+No rating at stake	レートはかかっていません
+Hide the shot's numbers	ショットの数値を隠す
+Show the shot's numbers	ショットの数値を表示
+Last shot	直前のショット
+No shot yet.	まだショットはありません。
+Balls left	残りのボール
+Right side	右ひねり
+Left side	左ひねり
+Centre ball	センター
+{name}: {text}	{name}：{text}
+Only the quick phrases (no free text)	定型文のみ（自由入力なし）
+Messages	メッセージ
+World	世界
+Friends ranking	フレンドランキング
+You and your friends · rated games	あなたとフレンド・レート戦
+Add friends to see where you stand among them.	フレンドを追加すると、その中での順位が分かります。
+Chat and reactions	チャットとリアクション
+Mute the opponent's chat	相手のチャットをミュート
+Their messages in online games are not shown (yours still reach them).	オンライン対戦で相手のメッセージを表示しません（あなたのメッセージは届きます）。
+Hide the opponent's reactions	相手のリアクションを隠す
+The reactions they send at the table are not shown.	相手がテーブルで送るリアクションを表示しません。
+Players muted from a game: {n}	試合中にミュートしたプレイヤー：{n}人
+Unmute them all	全員のミュートを解除
+This game counts for the rating: +{win} if you win, {loss} if you lose.	この試合はレートに反映されます：勝てば+{win}、負ければ{loss}。
+This game counts for the rating.	この試合はレートに反映されます。
+A casual game: the rating doesn't change.	カジュアル戦：レートは変わりません。
+{name} lost the connection	{name}の接続が切れました
+If they don't come back in time, you win by abandonment.	時間内に戻らなければ、放棄による勝利になります。
+Mute {name}	{name}をミュート
+Mute {name}'s chat	{name}のチャットをミュート
+Hide {name}'s reactions	{name}のリアクションを隠す
+Remembered for your next games against them.	次回以降のこの相手との試合でも有効です。
+Broadcast	中継
+3D	3D
+You can only send messages to your friends.	メッセージはフレンドにだけ送れます。
+You can't send messages to this player.	このプレイヤーにはメッセージを送れません。
+Your chat is set to the quick phrases only.	あなたのチャットは定型文のみに制限されています。
+These settings can't be kept.	この設定は保存できません。
+You aren't watching a game.	観戦中の試合はありません。

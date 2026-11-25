@@ -2134,3 +2134,85 @@ The server stops for maintenance in {n} min.	Hihinto ang server para sa maintena
 This auction is not open.	Hindi bukas ang subastang ito.
 The credits are for VIP members, now or before.	Ang credits ay para sa mga VIP, ngayon o dati.
 The server stops for maintenance now. Games in progress go on.	Humihinto na ang server para sa maintenance. Tuloy ang mga larong nagaganap.
+Play online: your games are added up here as they end.	Maglaro online: dito pinagsasama ang mga laro mo pagkatapos ng bawat isa.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Tingnan kung paano ka nagpapasok bawat butas at bawat anggulo ng cut, paano ka umuunlad linggo-linggo, at paano ka kumpara sa mga manlalaro ng liga mo.
+Advanced statistics	Advanced na estadistika
+Become VIP	Maging VIP
+By pocket	Bawat butas
+By cut angle	Bawat anggulo ng cut
+The white mark: your league.	Ang puting marka: ang liga mo.
+Week by week	Linggo-linggo
+Against your league	Kumpara sa liga mo
+{tier}: {n} players	{tier}: {n} manlalaro
+You	Ikaw
+League	Liga
+{pocket}: {n} points above	{pocket}: {n} puntos na mas mataas
+{pocket}: {n} points below	{pocket}: {n} puntos na mas mababa
+Messages with {name}	Mga mensahe kay {name}
+No messages with {name} yet. Say hello!	Wala pang mensahe kay {name}. Bumati ka!
+Write a message… (Enter to send)	Sumulat ng mensahe… (Enter para ipadala)
+You can write to your friends only.	Sa mga kaibigan mo lang puwedeng sumulat.
+Choose a quick phrase…	Pumili ng mabilis na parirala…
+Looking for a game ({rules})	Naghahanap ng laro ({rules})
+At a table, waiting ({rules})	Nasa mesa, naghihintay ({rules})
+Playing a tournament game against {name}	Naglalaro ng laro sa torneo laban kay {name}
+Playing against {name}	Naglalaro laban kay {name}
+Watching {name}'s game	Nanonood ng laro ni {name}
+In {name}	Nasa {name}
+Playing the computer	Naglalaro laban sa computer
+Practising	Nagsasanay
+In the daily challenge	Nasa daily challenge
+Doing drills	Gumagawa ng drills
+On the tour	Nasa tour
+Away	Wala
+Victory by abandonment	Panalo dahil umalis ang kalaban
+Players (administrator)	Mga manlalaro (administrator)
+Spectators	Mga manonood
+Chat (muted)	Chat (naka-mute)
+Say something to the others watching (the players don't see it).	Magsabi ng kahit ano sa ibang nanonood (hindi ito nakikita ng mga manlalaro).
+Rated game	Larong may rating
+Casual game	Kaswal na laro
+Click to skip	I-click para laktawan
+Guest	Bisita
+Win	Panalo
+Loss	Talo
+{n} rating points at stake	{n} puntos ng rating ang nakataya
+No rating at stake	Walang rating na nakataya
+Hide the shot's numbers	Itago ang mga numero ng tira
+Show the shot's numbers	Ipakita ang mga numero ng tira
+Last shot	Huling tira
+No shot yet.	Wala pang tira.
+Balls left	Natitirang bola
+Right side	English sa kanan
+Left side	English sa kaliwa
+Centre ball	Gitna ng bola
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Mabilis na parirala lang (walang malayang teksto)
+Messages	Mga mensahe
+World	Mundo
+Friends ranking	Ranggo ng mga kaibigan
+You and your friends · rated games	Ikaw at ang mga kaibigan mo · mga larong may rating
+Add friends to see where you stand among them.	Magdagdag ng kaibigan para makita ang puwesto mo sa kanila.
+Chat and reactions	Chat at mga reaksyon
+Mute the opponent's chat	I-mute ang chat ng kalaban
+Their messages in online games are not shown (yours still reach them).	Hindi ipinapakita ang mga mensahe niya sa mga online na laro (nakakarating pa rin sa kanya ang sa iyo).
+Hide the opponent's reactions	Itago ang mga reaksyon ng kalaban
+The reactions they send at the table are not shown.	Hindi ipinapakita ang mga reaksyong ipinapadala niya sa mesa.
+Players muted from a game: {n}	Mga manlalarong na-mute mula sa laro: {n}
+Unmute them all	I-unmute silang lahat
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Bilang sa rating ang larong ito: +{win} kung manalo ka, {loss} kung matalo ka.
+This game counts for the rating.	Bilang sa rating ang larong ito.
+A casual game: the rating doesn't change.	Kaswal na laro: hindi nagbabago ang rating.
+{name} lost the connection	Nawalan ng koneksyon si {name}
+If they don't come back in time, you win by abandonment.	Kung hindi siya makabalik sa oras, panalo ka dahil umalis siya.
+Mute {name}	I-mute si {name}
+Mute {name}'s chat	I-mute ang chat ni {name}
+Hide {name}'s reactions	Itago ang mga reaksyon ni {name}
+Remembered for your next games against them.	Tatandaan para sa mga susunod mong laro laban sa kanya.
+Broadcast	Broadcast
+3D	3D
+You can only send messages to your friends.	Sa mga kaibigan mo lang puwedeng magpadala ng mensahe.
+You can't send messages to this player.	Hindi ka puwedeng magpadala ng mensahe sa manlalarong ito.
+Your chat is set to the quick phrases only.	Limitado sa mabilis na parirala ang chat mo.
+These settings can't be kept.	Hindi maitatago ang mga setting na ito.
+You aren't watching a game.	Wala kang pinapanood na laro.

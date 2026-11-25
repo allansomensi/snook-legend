@@ -2134,3 +2134,85 @@ The server stops for maintenance in {n} min.	เซิร์ฟเวอร์�
 This auction is not open.	การประมูลนี้ยังไม่เปิด
 The credits are for VIP members, now or before.	รายชื่อนี้สำหรับสมาชิก VIP ทั้งปัจจุบันและอดีต
 The server stops for maintenance now. Games in progress go on.	เซิร์ฟเวอร์กำลังหยุดปิดปรับปรุงตอนนี้ เกมที่เล่นอยู่ดำเนินต่อ
+Play online: your games are added up here as they end.	เล่นออนไลน์: เกมของคุณจะถูกรวมไว้ที่นี่เมื่อจบ
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	ดูว่าคุณแทงลงแต่ละหลุมและแต่ละมุมตัดได้แค่ไหน พัฒนาขึ้นอย่างไรในแต่ละสัปดาห์ และเทียบกับผู้เล่นในลีกเดียวกันได้อย่างไร
+Advanced statistics	สถิติขั้นสูง
+Become VIP	สมัคร VIP
+By pocket	ตามหลุม
+By cut angle	ตามมุมตัด
+The white mark: your league.	ขีดสีขาว: ลีกของคุณ
+Week by week	รายสัปดาห์
+Against your league	เทียบกับลีกของคุณ
+{tier}: {n} players	{tier}: ผู้เล่น {n} คน
+You	คุณ
+League	ลีก
+{pocket}: {n} points above	{pocket}: สูงกว่า {n} จุด
+{pocket}: {n} points below	{pocket}: ต่ำกว่า {n} จุด
+Messages with {name}	ข้อความกับ {name}
+No messages with {name} yet. Say hello!	ยังไม่มีข้อความกับ {name} ทักทายกันเลย!
+Write a message… (Enter to send)	พิมพ์ข้อความ… (กด Enter เพื่อส่ง)
+You can write to your friends only.	คุณส่งข้อความได้เฉพาะเพื่อนเท่านั้น
+Choose a quick phrase…	เลือกวลีด่วน…
+Looking for a game ({rules})	กำลังหาเกม ({rules})
+At a table, waiting ({rules})	อยู่ที่โต๊ะ กำลังรอ ({rules})
+Playing a tournament game against {name}	กำลังเล่นเกมทัวร์นาเมนต์กับ {name}
+Playing against {name}	กำลังเล่นกับ {name}
+Watching {name}'s game	กำลังดูเกมของ {name}
+In {name}	อยู่ใน {name}
+Playing the computer	กำลังเล่นกับคอมพิวเตอร์
+Practising	กำลังฝึกซ้อม
+In the daily challenge	อยู่ในชาเลนจ์ประจำวัน
+Doing drills	กำลังทำแบบฝึก
+On the tour	อยู่ในทัวร์
+Away	ไม่อยู่
+Victory by abandonment	ชนะเพราะคู่แข่งออกจากเกม
+Players (administrator)	ผู้เล่น (ผู้ดูแล)
+Spectators	ผู้ชม
+Chat (muted)	แชต (ปิดเสียง)
+Say something to the others watching (the players don't see it).	พูดอะไรกับผู้ชมคนอื่นสักหน่อย (ผู้เล่นมองไม่เห็น)
+Rated game	เกมจัดอันดับ
+Casual game	เกมสบาย ๆ
+Click to skip	คลิกเพื่อข้าม
+Guest	ผู้เยี่ยมชม
+Win	ชนะ
+Loss	แพ้
+{n} rating points at stake	มีคะแนนเรตติ้ง {n} คะแนนเป็นเดิมพัน
+No rating at stake	ไม่มีเรตติ้งเป็นเดิมพัน
+Hide the shot's numbers	ซ่อนตัวเลขของช็อต
+Show the shot's numbers	แสดงตัวเลขของช็อต
+Last shot	ช็อตล่าสุด
+No shot yet.	ยังไม่มีช็อต
+Balls left	ลูกที่เหลือ
+Right side	สปินขวา
+Left side	สปินซ้าย
+Centre ball	กลางลูก
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	เฉพาะวลีด่วน (พิมพ์อิสระไม่ได้)
+Messages	ข้อความ
+World	ทั่วโลก
+Friends ranking	อันดับเพื่อน
+You and your friends · rated games	คุณและเพื่อน · เกมจัดอันดับ
+Add friends to see where you stand among them.	เพิ่มเพื่อนเพื่อดูว่าคุณอยู่อันดับไหนในหมู่พวกเขา
+Chat and reactions	แชตและรีแอ็กชัน
+Mute the opponent's chat	ปิดเสียงแชตของคู่แข่ง
+Their messages in online games are not shown (yours still reach them).	ข้อความของเขาในเกมออนไลน์จะไม่แสดง (ข้อความของคุณยังส่งถึงเขา)
+Hide the opponent's reactions	ซ่อนรีแอ็กชันของคู่แข่ง
+The reactions they send at the table are not shown.	รีแอ็กชันที่เขาส่งที่โต๊ะจะไม่แสดง
+Players muted from a game: {n}	ผู้เล่นที่ปิดเสียงจากเกม: {n}
+Unmute them all	เปิดเสียงทั้งหมด
+This game counts for the rating: +{win} if you win, {loss} if you lose.	เกมนี้นับเรตติ้ง: ชนะ +{win} แพ้ {loss}
+This game counts for the rating.	เกมนี้นับเรตติ้ง
+A casual game: the rating doesn't change.	เกมสบาย ๆ: เรตติ้งไม่เปลี่ยน
+{name} lost the connection	{name} ขาดการเชื่อมต่อ
+If they don't come back in time, you win by abandonment.	ถ้าเขากลับมาไม่ทัน คุณจะชนะเพราะคู่แข่งออกจากเกม
+Mute {name}	ปิดเสียง {name}
+Mute {name}'s chat	ปิดเสียงแชตของ {name}
+Hide {name}'s reactions	ซ่อนรีแอ็กชันของ {name}
+Remembered for your next games against them.	จะจำไว้สำหรับเกมถัดไปที่เจอเขา
+Broadcast	ถ่ายทอด
+3D	3D
+You can only send messages to your friends.	คุณส่งข้อความได้เฉพาะเพื่อนเท่านั้น
+You can't send messages to this player.	คุณส่งข้อความถึงผู้เล่นนี้ไม่ได้
+Your chat is set to the quick phrases only.	แชตของคุณจำกัดเฉพาะวลีด่วน
+These settings can't be kept.	ไม่สามารถเก็บการตั้งค่าเหล่านี้ได้
+You aren't watching a game.	คุณไม่ได้ดูเกมใดอยู่

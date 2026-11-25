@@ -283,7 +283,7 @@ pub struct Online {
     pub cup_medal_news: Vec<(snook_legend_proto::cup::Medals, Option<u64>)>,
     /// What the server was last told: (playing the computer, away, in
     /// focus mode).
-    activity_sent: (bool, bool, bool),
+    activity_sent: (bool, bool, bool, snook_legend_proto::activity::Pastime),
     /// Nobody has touched the game for a while (set every frame).
     pub away: bool,
     /// What the right side of the lounge shows.
@@ -368,6 +368,17 @@ pub struct Online {
     staff_shown: Option<f64>,
     /// The account password typed into the e-mail offer.
     offer_password: String,
+    /// The settings that follow the account (see `sync.rs`).
+    pub sync: crate::sync::SettingsSync,
+    /// Direct messages with friends (see `dm.rs`).
+    pub dms: crate::dm::Dms,
+    /// The advanced statistics, as the server last sent them (VIP).
+    pub advanced: Option<Box<snook_legend_proto::advanced::AdvancedStats>>,
+    /// The chat dialog's "quick phrases only" (a parent's or guardian's
+    /// choice).
+    phrases_ticked: bool,
+    /// The lounge's list of quick phrases is open (the chat kept to them).
+    phrases_open: bool,
 }
 
 /// How many players online play one of the rules (the menu and the
@@ -686,7 +697,7 @@ impl Online {
             invite_area: None,
             invite_sound: false,
             outgoing: None,
-            activity_sent: (false, false, false),
+            activity_sent: (false, false, false, Default::default()),
             away: false,
             motd: String::new(),
             token: String::new(),
@@ -783,6 +794,11 @@ impl Online {
             staff_warnings: Vec::new(),
             staff_shown: None,
             offer_password: String::new(),
+            sync: Default::default(),
+            dms: Default::default(),
+            advanced: None,
+            phrases_ticked: false,
+            phrases_open: false,
         }
     }
 
@@ -975,7 +991,12 @@ impl Online {
                     };
                     // A line to the opponent with the chat off waits for
                     // the dialog that turns it on.
-                    if chat_off && matches!(msg, ClientMsg::MatchChat { .. }) {
+                    if chat_off
+                        && matches!(
+                            msg,
+                            ClientMsg::MatchChat { .. } | ClientMsg::SpectatorChat { .. }
+                        )
+                    {
                         held = Some(msg);
                         continue;
                     }
@@ -1105,10 +1126,20 @@ impl Online {
         // Focus mode, during a game played here: no invitations (the
         // server turns them away, and withdraws those waiting).
         let focus = config.focus_mode && current.as_ref().is_some_and(|m| m.is_played_offline());
-        let activity = (vs_computer, self.away, focus);
+        // What exactly, for their friends ("In the daily challenge").
+        let pastime = current.as_ref().map_or(Default::default(), crate::dm::pastime);
+        let activity = (vs_computer, self.away, focus, pastime);
         if self.signed_in() && activity != self.activity_sent {
             self.activity_sent = activity;
-            self.send(ClientMsg::SetActivity { vs_computer, away: self.away, focus });
+            self.send(ClientMsg::SetActivity { vs_computer, away: self.away, focus, pastime });
+        }
+        // The settings that follow the account.
+        let account = self.account().map(str::to_string);
+        let mut out = Vec::new();
+        let session = account.as_deref().map(|a| (a, self.session_count));
+        save |= self.sync.update(dt, get_time(), config, session, &mut out);
+        for msg in out {
+            self.send(msg);
         }
         // The rules the player plays: the lounge shows them (a new session
         // says them in its hello).
@@ -1185,6 +1216,13 @@ impl Online {
                     | ServerMsg::AuctionUpdated { .. }
                     | ServerMsg::Supporters { .. }
                     | ServerMsg::DailyStreak { .. }
+                    // Nor over the account's settings, messages and numbers.
+                    | ServerMsg::Settings { .. }
+                    | ServerMsg::SettingsSaved { .. }
+                    | ServerMsg::Dm { .. }
+                    | ServerMsg::DmHistory { .. }
+                    | ServerMsg::DmThreads { .. }
+                    | ServerMsg::AdvancedStats { .. }
             )
         {
             return save;
@@ -1239,7 +1277,7 @@ impl Online {
                 }
                 // A new session: the server learns again what this player
                 // is doing (its welcome follows).
-                self.activity_sent = (false, false, false);
+                self.activity_sent = (false, false, false, Default::default());
                 // A new session: the board comes again; the recent games may have changed.
                 self.social.seeks.clear();
                 self.social.recent_stale = true;
@@ -1555,8 +1593,25 @@ impl Online {
                 tournament,
                 spectating,
                 table_look,
+                stakes,
             } => {
                 self.table_look = table_look;
+                // A game that starts now (not one come back to after a
+                // dropped connection, nor joined half way): its introduction.
+                let fresh = current.as_ref().is_none_or(|m| m.match_id() != match_id)
+                    && game.shots_taken() == 0
+                    && game.game_over().is_none()
+                    && clock_left > shot_clock_secs as f32 - 4.0;
+                let intro = fresh.then(|| {
+                    crate::intro::Intro::new(
+                        &players,
+                        seat,
+                        rated,
+                        stakes,
+                        game.rules(),
+                        spectating,
+                    )
+                });
                 if !spectating && current.as_ref().is_none_or(|m| m.match_id() != match_id) {
                     let other = &players[1 - seat.min(1)].username;
                     self.attention =
@@ -1614,6 +1669,10 @@ impl Online {
                 }
                 if let Some(o) = current.as_mut().and_then(|m| m.online.as_mut()) {
                     o.unlocked = self.achievements.clone();
+                    o.stakes = stakes;
+                    if intro.is_some() {
+                        o.intro = intro;
+                    }
                 }
                 // A message sent just before the match (e.g. "this game is
                 // casual"): only one that has just arrived, not whatever
@@ -1693,8 +1752,8 @@ impl Online {
                 };
                 self.toast(with_boost(text, boost), true);
             }
-            ServerMsg::Age { minor, chat_allowed } => {
-                self.age = Some(AgeState { minor, chat_allowed });
+            ServerMsg::Age { minor, chat_allowed, phrases_only } => {
+                self.age = Some(AgeState { minor, chat_allowed, phrases_only });
                 if !self.chat_off() {
                     self.send_pending_text();
                 } else {
@@ -1970,6 +2029,39 @@ impl Online {
             ServerMsg::NewGifts { gifts } => self.gifts_arrived(gifts, current.is_some()),
             ServerMsg::Gifts { gifts } => self.gifts.history = Some(gifts),
             ServerMsg::GiftThanked { by, code } => self.gift_thanked(&by, &code),
+            ServerMsg::Settings { data, updated_at } => {
+                if let Some(account) = self.account().map(str::to_string) {
+                    let mut out = Vec::new();
+                    let session = self.session_count;
+                    save |=
+                        self.sync.received(config, &account, session, &data, updated_at, &mut out);
+                    for msg in out {
+                        self.send(msg);
+                    }
+                }
+            }
+            ServerMsg::SettingsSaved { updated_at } => save |= self.sync.saved(config, updated_at),
+            msg @ (ServerMsg::Dm { .. }
+            | ServerMsg::DmHistory { .. }
+            | ServerMsg::DmThreads { .. }) => self.dm_message(msg, current.is_some()),
+            ServerMsg::FriendActivity { username, activity } => {
+                if let Some(f) =
+                    self.friends.friends.iter_mut().find(|f| f.player.username == username)
+                {
+                    f.activity = activity;
+                }
+            }
+            ServerMsg::AdvancedStats { stats } => self.advanced = Some(stats),
+            // The opponent muted in the settings, or by name from a game:
+            // what they say or send is not shown (the next games against
+            // them start muted too).
+            ServerMsg::MatchChat { line }
+                if current
+                    .as_ref()
+                    .is_some_and(|m| crate::dm::muted_line(m, &line.from, config)) => {}
+            ServerMsg::Reaction { seat, .. }
+                if current.as_ref().is_some_and(|m| crate::dm::muted_reaction(m, seat, config)) => {
+            }
             other => {
                 if let Some(m) = current.as_mut().filter(|m| m.is_online()) {
                     m.handle_server(other);
@@ -2013,6 +2105,66 @@ impl Online {
         self.send(ClientMsg::Spectate { username: name.to_string() });
     }
 
+    /// Opens the conversation with the friend `name`.
+    pub fn open_dm(&mut self, name: &str) {
+        // With the chat off, the dialog that turns it on comes first.
+        if self.chat_off() {
+            self.open_chat_dialog();
+            return;
+        }
+        for msg in self.dms.open_with(name) {
+            self.send(msg);
+        }
+    }
+
+    /// The conversation open with a friend, over the lounge.
+    pub fn draw_dms(&mut self, ui: &mut Ui) {
+        if self.dms.open.is_none() || !self.signed_in() {
+            return;
+        }
+        let me = self.username.clone();
+        let with = self.dms.open.clone().unwrap_or_default();
+        let friend =
+            self.friends.friends.iter().any(|f| f.player.username.eq_ignore_ascii_case(&with));
+        let phrases = self.phrases_only();
+        for msg in self.dms.draw(ui, &me, friend, phrases) {
+            self.send_text(msg);
+        }
+    }
+
+    /// Direct messages from the server.
+    fn dm_message(&mut self, msg: ServerMsg, in_game: bool) {
+        match msg {
+            ServerMsg::Dm { message } => {
+                let me = self.username.clone();
+                let open = self.dms.open.clone();
+                let text = message.text.clone();
+                let theirs = !message.from.eq_ignore_ascii_case(&me);
+                if let Some(from) = self.dms.arrived(message, &me) {
+                    // Somewhere else: a word of it, and the badge.
+                    let shown = if snook_legend_proto::is_quick_phrase(&text) {
+                        t(&text).to_string()
+                    } else {
+                        text
+                    };
+                    let line = tw("{name}: {text}", &[("name", &from), ("text", &shown)]);
+                    self.toast(line.clone(), true);
+                    if !in_game {
+                        self.attention = Some(line);
+                    }
+                } else if let Some(with) = open.filter(|_| theirs) {
+                    // Read as it came (the conversation is open).
+                    self.send(ClientMsg::DmRead { with });
+                }
+            }
+            ServerMsg::DmHistory { with, messages, more } => {
+                self.dms.history(&with, messages, more)
+            }
+            ServerMsg::DmThreads { threads } => self.dms.set_threads(threads),
+            _ => {}
+        }
+    }
+
     pub fn leave_match(&mut self, m: &Match) {
         // A game was played: who was played recently has changed.
         self.social.recent_stale = true;
@@ -2045,6 +2197,8 @@ impl Online {
     /// sent as theirs.
     fn forget_account(&mut self) {
         self.forget_invitations();
+        self.dms.clear();
+        self.advanced = None;
         self.account = None;
         self.email_offer = None;
         self.offer_password.clear();
@@ -3115,7 +3269,11 @@ impl Online {
         }
         for ((tab, _), r) in tabs.iter().zip(&rects) {
             let badge = match tab {
-                Tab::Friends => self.unread_friend_requests || !self.friends.incoming.is_empty(),
+                Tab::Friends => {
+                    self.unread_friend_requests
+                        || !self.friends.incoming.is_empty()
+                        || self.dms.total_unread() > 0
+                }
                 Tab::Daily => waiting > 0,
                 _ => false,
             };
@@ -3360,19 +3518,33 @@ impl Online {
                 self.open_chat_dialog();
             }
         }
-        let sent = ui.text_area(30, input, &mut self.chat_input, MAX_CHAT_LEN);
-        crate::ui::chat_counter(ui, &self.chat_input, input);
-        self.emoji.track(ui, 30);
-        let emoji_r =
-            Rect::new(input.x + input.w + 6.0, input.y + input.h - input_h, input_h, input_h);
-        let chat_area = Rect::new(inner_x, log.y, inner_w, input.y + input.h - log.y);
-        self.emoji.draw(ui, emoji_r, input, chat_area, 30, &mut self.chat_input, MAX_CHAT_LEN);
-        let hint = if self.chat_off() {
-            t("Write to turn the chat on…")
+        // Kept to the quick phrases (a parent's or guardian's choice): their
+        // picker in the field's place.
+        let phrases = self.phrases_only();
+        let sent = if phrases {
+            self.chat_input.clear();
+            let picked = crate::dm::phrase_picker(ui, input, &mut self.phrases_open);
+            if let Some(p) = picked {
+                self.chat_input = p.to_string();
+            }
+            picked.is_some()
         } else {
-            t("Say hello… (Enter to send)")
+            ui.text_area(30, input, &mut self.chat_input, MAX_CHAT_LEN)
         };
-        placeholder(ui, 30, input, &self.chat_input, hint);
+        if !phrases {
+            crate::ui::chat_counter(ui, &self.chat_input, input);
+            self.emoji.track(ui, 30);
+            let emoji_r =
+                Rect::new(input.x + input.w + 6.0, input.y + input.h - input_h, input_h, input_h);
+            let chat_area = Rect::new(inner_x, log.y, inner_w, input.y + input.h - log.y);
+            self.emoji.draw(ui, emoji_r, input, chat_area, 30, &mut self.chat_input, MAX_CHAT_LEN);
+            let hint = if self.chat_off() {
+                t("Write to turn the chat on…")
+            } else {
+                t("Say hello… (Enter to send)")
+            };
+            placeholder(ui, 30, input, &self.chat_input, hint);
+        }
         let send_r = Rect::new(
             input.x + input.w + 6.0 + input_h + 6.0,
             input.y + input.h - input_h,
@@ -3430,6 +3602,7 @@ impl Online {
     pub fn open_chat_dialog(&mut self) {
         self.chat_dialog_open = true;
         self.guardian_ticked = false;
+        self.phrases_ticked = self.age.is_some_and(|a| a.phrases_only);
     }
 
     /// The chat is on: what the player wrote while it was off goes now.
@@ -3537,6 +3710,10 @@ impl Online {
         );
         let ticks = !asks_age && !allowed;
         let decl_h = if ticks { 14.0 + declaration.len() as f32 * 19.0 } else { 0.0 };
+        // Under 18: the parent or guardian may keep the chat to the quick
+        // phrases (off unless they choose it).
+        let phrases_h = if asks_age { 0.0 } else { 34.0 };
+        let decl_h = decl_h + phrases_h;
         let note_h = if note.is_empty() { 0.0 } else { 10.0 + note.len() as f32 * 17.0 };
         let buttons_h = if asks_age { 44.0 + 10.0 + 44.0 } else { 44.0 };
         let h = pad
@@ -3587,6 +3764,22 @@ impl Online {
             }
             y += declaration.len() as f32 * 19.0;
         }
+        if !asks_age {
+            y += 12.0;
+            let label = t("Only the quick phrases (no free text)");
+            let mut on = self.phrases_ticked;
+            if ui.checkbox(r.x + pad, y, label, &mut on) {
+                self.phrases_ticked = on;
+                // With the chat on, it changes at once.
+                if allowed {
+                    self.send(ClientMsg::AllowChat { allowed: true, phrases_only: Some(on) });
+                    if let Some(a) = self.age.as_mut() {
+                        a.phrases_only = on;
+                    }
+                }
+            }
+            y += 22.0;
+        }
         y += 20.0;
         let half = (inner - 10.0) / 2.0;
         let later = if allowed { t("Close") } else { t("Not now") };
@@ -3620,9 +3813,11 @@ impl Online {
                 ui.button(go, t("Turn the chat on"), false)
             };
             if act && (allowed || self.guardian_ticked) {
-                self.send(ClientMsg::AllowChat { allowed: !allowed });
+                let phrases_only = Some(self.phrases_ticked);
+                self.send(ClientMsg::AllowChat { allowed: !allowed, phrases_only });
                 if let Some(a) = self.age.as_mut() {
                     a.chat_allowed = !allowed;
+                    a.phrases_only = self.phrases_ticked;
                 }
                 if allowed {
                     self.chat_dialog_open = false;
@@ -4994,6 +5189,7 @@ impl Online {
         let mut remove = None;
         let mut watch = None;
         let mut daily = None;
+        let mut message = None;
         let friends = self.friends.friends.clone();
         let outgoing = self.friends.outgoing.clone();
         let rows = friends.iter().map(Some).chain(outgoing.iter().map(|_| None));
@@ -5004,6 +5200,8 @@ impl Online {
             let x_r = Rect::new(r.x + r.w - 6.0 - 30.0, r.y + 6.0, 30.0, r.h - 12.0);
             let button = Rect::new(x_r.x - 8.0 - bw, r.y + 6.0, bw, r.h - 12.0);
             let corr = Rect::new(button.x - 6.0 - 30.0, r.y + 6.0, 30.0, r.h - 12.0);
+            // Messages, with the unread ones on its corner.
+            let dm_r = Rect::new(corr.x - 6.0 - 30.0, r.y + 6.0, 30.0, r.h - 12.0);
             match friend {
                 Some(f) => {
                     let hover = row_card(ui, r, true);
@@ -5013,10 +5211,12 @@ impl Online {
                         let grey = Color::new(0.4, 0.4, 0.4, 1.0);
                         draw_circle(r.x + 14.0, r.y + r.h / 2.0, 4.5, grey);
                     }
-                    let name_w = corr.x - 12.0 - (r.x + 28.0);
+                    let name_w = dm_r.x - 12.0 - (r.x + 28.0);
                     ui.player_name(&f.player, r.x + 28.0, r.y + 5.0, 15.0, name_w);
+                    // What they are doing, in detail ("Playing against Ana").
                     let sub = if f.online {
-                        Self::status_text(&f.player)
+                        crate::dm::activity_text(&f.activity)
+                            .unwrap_or_else(|| Self::status_text(&f.player))
                     } else {
                         last_seen(f.last_seen)
                     };
@@ -5027,14 +5227,21 @@ impl Online {
                         && !button.contains(ui.mouse())
                         && !x_r.contains(ui.mouse())
                         && !corr.contains(ui.mouse())
+                        && !dm_r.contains(ui.mouse())
                     {
                         action = Some(OnlineAction::Profile(f.player.username.clone()));
+                    }
+                    let unread = self.dms.unread(&f.player.username);
+                    if dm_button(ui, dm_r, unread) {
+                        message = Some(f.player.username.clone());
                     }
                     let tip = t("Challenge to a daily game");
                     if ui.icon_button_ex(corr, Icon::Hourglass, tip, true, true) {
                         daily = Some(f.player.username.clone());
                     }
-                    if f.online && f.player.status == PlayerStatus::Playing {
+                    let playing =
+                        f.activity.watchable() || f.player.status == PlayerStatus::Playing;
+                    if f.online && playing {
                         // Watch their game.
                         if ui.button(button, watch_label, true) {
                             watch = Some(f.player.username.clone());
@@ -5080,8 +5287,42 @@ impl Online {
         if let Some(to) = daily {
             crate::correspondence::challenge(self, &to);
         }
+        if let Some(name) = message {
+            self.open_dm(&name);
+        }
         action
     }
+}
+
+/// The button that opens the conversation with a friend: a speech bubble,
+/// with the unread messages counted on its corner.
+fn dm_button(ui: &mut Ui, r: Rect, unread: u32) -> bool {
+    let hover = ui.hovering(r);
+    ui.block(r);
+    rrect(r, 7.0, Color::new(1.0, 1.0, 1.0, if hover { 0.12 } else { 0.05 }));
+    if hover {
+        rrect_lines(r, 7.0, 1.0, GOLD);
+    }
+    let ink = if hover || unread > 0 { GOLD } else { CREAM };
+    chat_glyph(vec2(r.x + r.w / 2.0, r.y + r.h / 2.0), 16.0, ink);
+    if unread > 0 {
+        let label = if unread > 9 { "9+".to_string() } else { unread.to_string() };
+        let w = (ui.text_size(&label, 10.0, true).x + 8.0).max(15.0);
+        let badge = Rect::new(r.x + r.w - w * 0.6, r.y - 5.0, w, 15.0);
+        rrect(badge, 7.5, ALERT);
+        ui.text_centered(
+            &label,
+            badge.x + badge.w / 2.0,
+            badge.y + 2.0,
+            10.0,
+            Color::new(0.1, 0.05, 0.03, 1.0),
+            true,
+        );
+    }
+    if hover {
+        ui.tooltip(t("Messages"), r);
+    }
+    hover && ui.released_in(r)
 }
 
 /// "seen 5 min ago", "seen yesterday"… (friends only).
@@ -5522,6 +5763,15 @@ fn hide_players_text(msg: &mut ServerMsg, me: &str) {
         ServerMsg::TournamentUpdated { tournament: t } if !t.host.is_empty() && other(&t.host) => {
             t.name = tw("{name}'s tournament", &[("name", &t.host)]);
         }
+        // Messages from friends written before the chat was turned off.
+        ServerMsg::Dm { message } if other(&message.from) => message.text.clear(),
+        ServerMsg::DmHistory { messages, .. } => {
+            messages.iter_mut().filter(|m| other(&m.from)).for_each(|m| m.text.clear())
+        }
+        ServerMsg::DmThreads { threads } => {
+            threads.iter_mut().filter(|t| other(&t.last.from)).for_each(|t| t.last.text.clear())
+        }
+        ServerMsg::SpectatorChat { line } if other(&line.from) => line.text.clear(),
         _ => {}
     }
 }
@@ -5533,9 +5783,18 @@ pub struct AgeState {
     /// writes to others).
     pub minor: Option<bool>,
     pub chat_allowed: bool,
+    /// The chat is on with the quick phrases only (a parent's or
+    /// guardian's choice).
+    pub phrases_only: bool,
 }
 
 impl Online {
+    /// The player may send only the quick phrases (the game shows only
+    /// their picker).
+    pub fn phrases_only(&self) -> bool {
+        !self.lan && self.age.is_some_and(|a| a.phrases_only && a.minor == Some(true))
+    }
+
     /// The chat with other players is off: the player hasn't said they are
     /// 18 or older, nor, under 18, has a parent or guardian turned it on.
     /// The server passes on no messages either way (what others write is
@@ -5550,7 +5809,10 @@ impl Online {
 /// `msg` carries text for other players (see [`Online::send_text`]).
 fn has_text(msg: &ClientMsg) -> bool {
     match msg {
-        ClientMsg::Chat { text } | ClientMsg::MatchChat { text } => !text.is_empty(),
+        ClientMsg::Chat { text }
+        | ClientMsg::MatchChat { text }
+        | ClientMsg::SpectatorChat { text }
+        | ClientMsg::DmSend { text, .. } => !text.is_empty(),
         ClientMsg::SetStatusMessage { text } | ClientMsg::PostSeek { text, .. } => !text.is_empty(),
         ClientMsg::GiftItem { message, .. } => !message.is_empty(),
         _ => false,

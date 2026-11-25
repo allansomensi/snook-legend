@@ -7,6 +7,7 @@
 //! runs on practically any PC, including old integrated graphics.
 
 mod aa;
+mod advanced;
 mod analysis;
 mod assess;
 mod audio;
@@ -22,6 +23,7 @@ mod country_names;
 mod cues;
 mod cup;
 mod dev;
+mod dm;
 mod effects;
 mod emoji;
 mod emoji_tray;
@@ -36,6 +38,7 @@ mod i18n;
 mod icon;
 mod icons;
 mod instance;
+mod intro;
 mod keys;
 mod ladder;
 mod lan;
@@ -47,6 +50,7 @@ mod more_halls;
 mod msstore;
 mod net;
 mod notify;
+mod observer;
 mod online;
 mod opponents;
 mod paint;
@@ -65,6 +69,8 @@ mod setup;
 mod shop;
 mod showroom;
 mod swatch;
+mod sync;
+mod table_social;
 mod tables;
 mod tabrow;
 mod textures;
@@ -864,6 +870,8 @@ async fn main() {
 
         // VIP and bought reactions follow the wallet.
         if let Some(o) = current.as_mut().and_then(|m| m.online.as_mut()) {
+            // The chat kept to the quick phrases (a parent's or guardian's choice).
+            o.phrases_only = !match_from_lan && online.phrases_only();
             o.vip = !match_from_lan && online.wallet.as_ref().is_some_and(|w| w.is_vip());
             if let Some(w) = online.wallet.as_ref().filter(|_| !match_from_lan) {
                 let bought = snook_legend_proto::reactions::bought(&w.owned);
@@ -886,12 +894,24 @@ async fn main() {
             && current.as_ref().is_some_and(|m| {
                 m.is_spectating() || m.is_replay() || crate::dev::flag("SNOOK_LEGEND_TV")
             });
+        // Watching: the camera the spectator chose (the pro observer mode).
+        let watching = current.as_ref().is_some_and(|m| m.is_spectating());
+        if !watching {
+            hud.observer.camera = None;
+        }
+        hud.tv_default = config.tv_camera;
+        if let Some(tv) = hud.observer.broadcast().filter(|_| watching) {
+            rig.tv = tv;
+        }
         if rig.top_only != config.top_view_only {
             rig.top_only = config.top_view_only;
             rig.reset();
         }
-        if rig.follow_cue != config.camera_follow {
-            rig.follow_cue = config.camera_follow;
+        let follow = hud.observer.follow_cue().filter(|_| watching).unwrap_or(config.camera_follow);
+        if hud.observer.changed {
+            hud.observer.apply(&mut rig);
+        } else if rig.follow_cue != follow {
+            rig.follow_cue = follow;
             rig.reset();
         }
         hud.top_view = rig.mode == CameraMode::Top;
@@ -907,6 +927,12 @@ async fn main() {
                 let seat = m.online.as_ref()?.seat;
                 online.relation_to(&m.names[1 - seat])
             });
+        // The opponent muted in the settings or by name (remembered).
+        hud.opponent_muted = current
+            .as_ref()
+            .filter(|m| m.is_online() && !m.is_spectating())
+            .and_then(|m| m.online.as_ref().map(|o| m.names[1 - o.seat.min(1)].clone()))
+            .map_or([false, false], |name| [config.muted(&name, true), config.muted(&name, false)]);
         hud.aim_sensitivity = config.aim_sensitivity;
         hud.zoom = rig.zoom_level();
         // The chat's height as the player left it (not while it is dragged).
@@ -1174,6 +1200,17 @@ async fn main() {
         let ops_saved = (!settings_open && current.is_none() && online.ops_page_open())
             .then(|| ui.suspend_input());
         let chat_saved = (!settings_open && online.chat_dialog_open).then(|| ui.suspend_input());
+        // A conversation with a friend, over the lounge: nothing under it
+        // takes the pointer.
+        let dm_up = online.dms.open.is_some()
+            && current.is_none()
+            && !settings_open
+            && matches!(screen, Screen::Online)
+            && online.stage == online::Stage::Lounge;
+        if !dm_up {
+            online.dms.open = None;
+        }
+        let dm_saved = dm_up.then(|| ui.suspend_input());
         let ask_saved = ask_rules.then(|| ui.suspend_input());
         // The offer before the invitation: drawn over it, it is given the
         // pointer back last (the invitation under it gets none).
@@ -1238,6 +1275,17 @@ async fn main() {
                     // The chat was made taller or shorter: kept for the next games.
                     if let Some(h) = hud.chat_resized.take() {
                         config.chat_height = h;
+                        config.save();
+                    }
+                    // The opponent muted (or not) from the game: their next
+                    // games start the same.
+                    if let Some([chat, reactions]) = hud.mute_request.take()
+                        && let Some(o) = m.online.as_ref()
+                    {
+                        let name = m.names[1 - o.seat.min(1)].clone();
+                        // (Only them: the settings' "every opponent" stays.)
+                        config.set_muted(&name, true, chat);
+                        config.set_muted(&name, false, reactions);
                         config.save();
                     }
                     // Passing the time while "Play now" looks for an opponent.
@@ -1821,6 +1869,12 @@ async fn main() {
                                 online.logout(&mut config);
                                 next = Some(Screen::Online);
                             }
+                            // The advanced statistics' preview: becoming VIP.
+                            ProfileAction::ShopVip => {
+                                shop.open(&mut online);
+                                shop.show_tab("shop-vip");
+                                next = Some(Screen::Shop);
+                            }
                             ProfileAction::None => {}
                         },
                     }
@@ -2029,6 +2083,10 @@ async fn main() {
                 Some(None) => replace_save = None,
                 None => {}
             }
+        }
+        if let Some(saved) = dm_saved {
+            ui.resume_input(saved);
+            online.draw_dms(&mut ui);
         }
         // The chat with other players turned on (opened by writing with it
         // off), over any screen, a game too.

@@ -2134,3 +2134,85 @@ The server stops for maintenance in {n} min.	서버가 {n}분 후 점검으로 �
 This auction is not open.	이 경매는 열려 있지 않습니다.
 The credits are for VIP members, now or before.	크레딧은 현재 또는 과거 VIP 회원을 위한 것입니다.
 The server stops for maintenance now. Games in progress go on.	서버가 지금 점검으로 멈춥니다. 진행 중인 게임은 계속됩니다.
+Play online: your games are added up here as they end.	온라인으로 플레이하세요: 경기가 끝날 때마다 여기에 합산됩니다.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	포켓별·커트 각도별로 얼마나 넣는지, 주마다 어떻게 발전하는지, 같은 리그 플레이어들과 비교해 어떤지 확인하세요.
+Advanced statistics	상세 통계
+Become VIP	VIP 되기
+By pocket	포켓별
+By cut angle	커트 각도별
+The white mark: your league.	흰색 표시: 내 리그.
+Week by week	주별
+Against your league	리그와 비교
+{tier}: {n} players	{tier}: 플레이어 {n}명
+You	나
+League	리그
+{pocket}: {n} points above	{pocket}: {n}점 높음
+{pocket}: {n} points below	{pocket}: {n}점 낮음
+Messages with {name}	{name}님과의 메시지
+No messages with {name} yet. Say hello!	아직 {name}님과 주고받은 메시지가 없습니다. 인사해 보세요!
+Write a message… (Enter to send)	메시지 입력… (Enter로 보내기)
+You can write to your friends only.	친구에게만 메시지를 쓸 수 있습니다.
+Choose a quick phrase…	빠른 문구 선택…
+Looking for a game ({rules})	경기를 찾는 중 ({rules})
+At a table, waiting ({rules})	테이블에서 대기 중 ({rules})
+Playing a tournament game against {name}	{name}님과 토너먼트 경기 중
+Playing against {name}	{name}님과 경기 중
+Watching {name}'s game	{name}님의 경기를 관전 중
+In {name}	{name} 참가 중
+Playing the computer	컴퓨터와 경기 중
+Practising	연습 중
+In the daily challenge	일일 챌린지 중
+Doing drills	드릴 중
+On the tour	투어 중
+Away	자리 비움
+Victory by abandonment	기권승
+Players (administrator)	플레이어 (관리자)
+Spectators	관전자
+Chat (muted)	채팅 (음소거)
+Say something to the others watching (the players don't see it).	다른 관전자들에게 말해 보세요 (플레이어에게는 보이지 않습니다).
+Rated game	랭크 경기
+Casual game	일반 경기
+Click to skip	클릭해서 건너뛰기
+Guest	게스트
+Win	승리
+Loss	패배
+{n} rating points at stake	레이팅 {n}점이 걸려 있습니다
+No rating at stake	걸린 레이팅 없음
+Hide the shot's numbers	샷 수치 숨기기
+Show the shot's numbers	샷 수치 보기
+Last shot	마지막 샷
+No shot yet.	아직 샷이 없습니다.
+Balls left	남은 공
+Right side	오른쪽 회전
+Left side	왼쪽 회전
+Centre ball	공 중앙
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	빠른 문구만 (자유 입력 없음)
+Messages	메시지
+World	전체
+Friends ranking	친구 랭킹
+You and your friends · rated games	나와 친구들 · 랭크 경기
+Add friends to see where you stand among them.	친구를 추가하면 그 안에서 내 순위를 볼 수 있습니다.
+Chat and reactions	채팅과 리액션
+Mute the opponent's chat	상대의 채팅 음소거
+Their messages in online games are not shown (yours still reach them).	온라인 경기에서 상대의 메시지를 표시하지 않습니다 (내 메시지는 계속 전달됩니다).
+Hide the opponent's reactions	상대의 리액션 숨기기
+The reactions they send at the table are not shown.	상대가 테이블에서 보내는 리액션을 표시하지 않습니다.
+Players muted from a game: {n}	경기 중 음소거한 플레이어: {n}명
+Unmute them all	모두 음소거 해제
+This game counts for the rating: +{win} if you win, {loss} if you lose.	이 경기는 레이팅에 반영됩니다: 이기면 +{win}, 지면 {loss}.
+This game counts for the rating.	이 경기는 레이팅에 반영됩니다.
+A casual game: the rating doesn't change.	일반 경기: 레이팅이 바뀌지 않습니다.
+{name} lost the connection	{name}님의 연결이 끊겼습니다
+If they don't come back in time, you win by abandonment.	제시간에 돌아오지 않으면 기권승을 거둡니다.
+Mute {name}	{name}님 음소거
+Mute {name}'s chat	{name}님의 채팅 음소거
+Hide {name}'s reactions	{name}님의 리액션 숨기기
+Remembered for your next games against them.	이 상대와의 다음 경기에도 적용됩니다.
+Broadcast	중계
+3D	3D
+You can only send messages to your friends.	친구에게만 메시지를 보낼 수 있습니다.
+You can't send messages to this player.	이 플레이어에게는 메시지를 보낼 수 없습니다.
+Your chat is set to the quick phrases only.	채팅이 빠른 문구로 제한되어 있습니다.
+These settings can't be kept.	이 설정은 저장할 수 없습니다.
+You aren't watching a game.	관전 중인 경기가 없습니다.

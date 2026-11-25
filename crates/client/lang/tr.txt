@@ -2134,3 +2134,85 @@ The server stops for maintenance in {n} min.	Sunucu {n} dk sonra bakım için du
 This auction is not open.	Bu açık artırma açık değil.
 The credits are for VIP members, now or before.	Jenerik, şimdiki veya eski VIP üyeleri içindir.
 The server stops for maintenance now. Games in progress go on.	Sunucu şimdi bakım için duruyor. Süren oyunlar devam ediyor.
+Play online: your games are added up here as they end.	Çevrimiçi oyna: oyunların bittikçe burada toplanır.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Cep cep ve kesme açısına göre nasıl top soktuğunu, hafta hafta nasıl geliştiğini ve liginin oyuncularıyla nasıl karşılaştırıldığını gör.
+Advanced statistics	Gelişmiş istatistikler
+Become VIP	VIP ol
+By pocket	Cebe göre
+By cut angle	Kesme açısına göre
+The white mark: your league.	Beyaz işaret: ligin.
+Week by week	Hafta hafta
+Against your league	Liginle karşılaştırma
+{tier}: {n} players	{tier}: {n} oyuncu
+You	Sen
+League	Lig
+{pocket}: {n} points above	{pocket}: {n} puan üstte
+{pocket}: {n} points below	{pocket}: {n} puan altta
+Messages with {name}	{name} ile mesajlar
+No messages with {name} yet. Say hello!	{name} ile henüz mesaj yok. Merhaba de!
+Write a message… (Enter to send)	Bir mesaj yaz… (göndermek için Enter)
+You can write to your friends only.	Yalnızca arkadaşlarına yazabilirsin.
+Choose a quick phrase…	Hızlı bir ifade seç…
+Looking for a game ({rules})	Oyun arıyor ({rules})
+At a table, waiting ({rules})	Bir masada bekliyor ({rules})
+Playing a tournament game against {name}	{name} ile turnuva oyunu oynuyor
+Playing against {name}	{name} ile oynuyor
+Watching {name}'s game	{name} oyununu izliyor
+In {name}	{name} içinde
+Playing the computer	Bilgisayara karşı oynuyor
+Practising	Antrenman yapıyor
+In the daily challenge	Günün mücadelesinde
+Doing drills	Alıştırma yapıyor
+On the tour	Turda
+Away	Uzakta
+Victory by abandonment	Hükmen galibiyet
+Players (administrator)	Oyuncular (yönetici)
+Spectators	İzleyiciler
+Chat (muted)	Sohbet (sessizde)
+Say something to the others watching (the players don't see it).	Diğer izleyicilere bir şey söyle (oyuncular görmez).
+Rated game	Puanlı oyun
+Casual game	Dostluk oyunu
+Click to skip	Geçmek için tıkla
+Guest	Misafir
+Win	Galibiyet
+Loss	Mağlubiyet
+{n} rating points at stake	{n} puan söz konusu
+No rating at stake	Puan söz konusu değil
+Hide the shot's numbers	Vuruşun sayılarını gizle
+Show the shot's numbers	Vuruşun sayılarını göster
+Last shot	Son vuruş
+No shot yet.	Henüz vuruş yok.
+Balls left	Kalan toplar
+Right side	Sağ falso
+Left side	Sol falso
+Centre ball	Topun ortası
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Yalnızca hızlı ifadeler (serbest metin yok)
+Messages	Mesajlar
+World	Dünya
+Friends ranking	Arkadaş sıralaması
+You and your friends · rated games	Sen ve arkadaşların · puanlı oyunlar
+Add friends to see where you stand among them.	Aralarındaki yerini görmek için arkadaş ekle.
+Chat and reactions	Sohbet ve tepkiler
+Mute the opponent's chat	Rakibin sohbetini sessize al
+Their messages in online games are not shown (yours still reach them).	Çevrimiçi oyunlardaki mesajları gösterilmez (seninkiler ona ulaşmaya devam eder).
+Hide the opponent's reactions	Rakibin tepkilerini gizle
+The reactions they send at the table are not shown.	Masada gönderdiği tepkiler gösterilmez.
+Players muted from a game: {n}	Bir oyunda sessize alınan oyuncular: {n}
+Unmute them all	Hepsinin sesini aç
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Bu oyun puana sayılır: kazanırsan +{win}, kaybedersen {loss}.
+This game counts for the rating.	Bu oyun puana sayılır.
+A casual game: the rating doesn't change.	Dostluk oyunu: puan değişmez.
+{name} lost the connection	{name} bağlantıyı kaybetti
+If they don't come back in time, you win by abandonment.	Zamanında dönmezse hükmen kazanırsın.
+Mute {name}	{name} oyuncusunu sessize al
+Mute {name}'s chat	{name} sohbetini sessize al
+Hide {name}'s reactions	{name} tepkilerini gizle
+Remembered for your next games against them.	Ona karşı sonraki oyunların için hatırlanır.
+Broadcast	Yayın
+3D	3D
+You can only send messages to your friends.	Yalnızca arkadaşlarına mesaj gönderebilirsin.
+You can't send messages to this player.	Bu oyuncuya mesaj gönderemezsin.
+Your chat is set to the quick phrases only.	Sohbetin hızlı ifadelerle sınırlı.
+These settings can't be kept.	Bu ayarlar saklanamıyor.
+You aren't watching a game.	Hiçbir oyunu izlemiyorsun.

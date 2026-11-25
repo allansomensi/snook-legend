@@ -2134,3 +2134,85 @@ The server stops for maintenance in {n} min.	De server stopt over {n} min voor o
 This auction is not open.	Deze veiling is niet open.
 The credits are for VIP members, now or before.	De aftiteling is voor VIP-leden, nu of vroeger.
 The server stops for maintenance now. Games in progress go on.	De server stopt nu voor onderhoud. Lopende potjes gaan door.
+Play online: your games are added up here as they end.	Speel online: je partijen worden hier opgeteld zodra ze eindigen.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Zie hoe je pot per pocket en per snijhoek, hoe je week na week vooruitgaat en hoe je je verhoudt tot de spelers van je competitie.
+Advanced statistics	Geavanceerde statistieken
+Become VIP	Word VIP
+By pocket	Per pocket
+By cut angle	Per snijhoek
+The white mark: your league.	Het witte streepje: je competitie.
+Week by week	Week na week
+Against your league	Tegenover je competitie
+{tier}: {n} players	{tier}: {n} spelers
+You	Jij
+League	Competitie
+{pocket}: {n} points above	{pocket}: {n} punten hoger
+{pocket}: {n} points below	{pocket}: {n} punten lager
+Messages with {name}	Berichten met {name}
+No messages with {name} yet. Say hello!	Nog geen berichten met {name}. Zeg hallo!
+Write a message… (Enter to send)	Schrijf een bericht… (Enter om te versturen)
+You can write to your friends only.	Je kunt alleen je vrienden schrijven.
+Choose a quick phrase…	Kies een snelle zin…
+Looking for a game ({rules})	Zoekt een partij ({rules})
+At a table, waiting ({rules})	Aan een tafel, wacht ({rules})
+Playing a tournament game against {name}	Speelt een toernooipartij tegen {name}
+Playing against {name}	Speelt tegen {name}
+Watching {name}'s game	Kijkt naar de partij van {name}
+In {name}	In {name}
+Playing the computer	Speelt tegen de computer
+Practising	Oefent
+In the daily challenge	In de dagelijkse uitdaging
+Doing drills	Doet oefeningen
+On the tour	Op de tour
+Away	Afwezig
+Victory by abandonment	Winst door opgave
+Players (administrator)	Spelers (beheerder)
+Spectators	Toeschouwers
+Chat (muted)	Chat (gedempt)
+Say something to the others watching (the players don't see it).	Zeg iets tegen de andere kijkers (de spelers zien het niet).
+Rated game	Partij voor de rating
+Casual game	Vriendschappelijke partij
+Click to skip	Klik om over te slaan
+Guest	Gast
+Win	Winst
+Loss	Verlies
+{n} rating points at stake	{n} ratingpunten op het spel
+No rating at stake	Geen rating op het spel
+Hide the shot's numbers	Cijfers van de stoot verbergen
+Show the shot's numbers	Cijfers van de stoot tonen
+Last shot	Laatste stoot
+No shot yet.	Nog geen stoot.
+Balls left	Resterende ballen
+Right side	Effect rechts
+Left side	Effect links
+Centre ball	Bal in het midden
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Alleen de snelle zinnen (geen vrije tekst)
+Messages	Berichten
+World	Wereld
+Friends ranking	Ranglijst van vrienden
+You and your friends · rated games	Jij en je vrienden · partijen voor de rating
+Add friends to see where you stand among them.	Voeg vrienden toe om te zien waar je tussen hen staat.
+Chat and reactions	Chat en reacties
+Mute the opponent's chat	Chat van de tegenstander dempen
+Their messages in online games are not shown (yours still reach them).	Zijn berichten in online partijen worden niet getoond (die van jou komen nog aan).
+Hide the opponent's reactions	Reacties van de tegenstander verbergen
+The reactions they send at the table are not shown.	De reacties die hij aan tafel stuurt worden niet getoond.
+Players muted from a game: {n}	Spelers gedempt in een partij: {n}
+Unmute them all	Iedereen weer toelaten
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Deze partij telt voor de rating: +{win} als je wint, {loss} als je verliest.
+This game counts for the rating.	Deze partij telt voor de rating.
+A casual game: the rating doesn't change.	Vriendschappelijke partij: de rating verandert niet.
+{name} lost the connection	{name} heeft de verbinding verloren
+If they don't come back in time, you win by abandonment.	Komt hij niet op tijd terug, dan win je door opgave.
+Mute {name}	{name} dempen
+Mute {name}'s chat	Chat van {name} dempen
+Hide {name}'s reactions	Reacties van {name} verbergen
+Remembered for your next games against them.	Onthouden voor je volgende partijen tegen hem.
+Broadcast	Uitzending
+3D	3D
+You can only send messages to your friends.	Je kunt alleen je vrienden berichten sturen.
+You can't send messages to this player.	Je kunt deze speler geen berichten sturen.
+Your chat is set to the quick phrases only.	Je chat is beperkt tot de snelle zinnen.
+These settings can't be kept.	Deze instellingen kunnen niet bewaard worden.
+You aren't watching a game.	Je kijkt naar geen enkele partij.

@@ -78,6 +78,9 @@ pub struct User {
     /// When a parent or guardian turned the chat on for an account under 18
     /// (Unix seconds); see [`User::chat_restricted`].
     pub chat_allowed_at: Option<i64>,
+    /// With the chat on, a parent or guardian kept it to the quick phrases
+    /// (`snook_legend_proto::QUICK_CHAT`): nothing else is sent.
+    pub chat_phrases_only: bool,
 }
 
 /// An account's record under one of the rules.
@@ -1003,6 +1006,10 @@ macro_rules! dispatch {
         }
     };
 }
+
+// (After the macro: it dispatches these too.)
+mod match_social;
+pub use match_social::{DM_KEPT, DM_THREADS, DmRow, DmThreadRow, WeekRow};
 
 impl Store {
     pub fn memory() -> Store {

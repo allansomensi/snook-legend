@@ -26,6 +26,43 @@ pub struct Ranking {
     first: usize,
     /// The rules whose ranking is shown (a tab each).
     rules: Rules,
+    /// Only the player and their friends (else the world's top 100).
+    friends: bool,
+}
+
+/// The player and their friends with rated games under `rules`, best first,
+/// numbered (the player is always in it, to see their place).
+pub fn friends_board(online: &Online, rules: Rules) -> Vec<snook_legend_proto::LeaderboardEntry> {
+    let me = online.me.as_ref().filter(|m| !m.guest);
+    let mut list: Vec<snook_legend_proto::LeaderboardEntry> = online
+        .friends
+        .friends
+        .iter()
+        .map(|f| &f.player)
+        .filter(|p| p.standing(rules).games > 0)
+        .filter(|p| me.is_none_or(|me| !me.username.eq_ignore_ascii_case(&p.username)))
+        .chain(me)
+        .map(|p| {
+            let s = p.standing(rules);
+            snook_legend_proto::LeaderboardEntry {
+                rank: 0,
+                username: p.username.clone(),
+                rating: s.rating,
+                games: s.games,
+                wins: s.wins,
+                country: p.country.clone(),
+                vip: p.vip,
+                admin: p.role == snook_legend_proto::Role::Admin,
+            }
+        })
+        .collect();
+    list.sort_by(|a, b| {
+        b.rating.cmp(&a.rating).then(b.wins.cmp(&a.wins)).then(a.username.cmp(&b.username))
+    });
+    for (k, e) in list.iter_mut().enumerate() {
+        e.rank = k as u32 + 1;
+    }
+    list
 }
 
 /// Inner padding of the screens' panels.
@@ -157,7 +194,12 @@ impl Ranking {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
-        let entries = online.leaderboard.get(self.rules).clone();
+        // The world's top 100, or only the player and their friends.
+        let entries = if self.friends {
+            friends_board(online, self.rules)
+        } else {
+            online.leaderboard.get(self.rules).clone()
+        };
         // The panel fits the list (up to the screen's height); an empty or
         // loading list gets room for its message. The tabs of the rules
         // under the header, a note on the ratings under the list.
@@ -172,9 +214,34 @@ impl Ranking {
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         let mut action = RankingAction::None;
-        let subtitle = t("The top 100 of each rules · rated games");
-        if screen_header(ui, r, Icon::Trophy, t("World ranking"), Some(subtitle)) || ui.escape() {
+        // World or friends, by the refresh button (signed in only: the
+        // friends are the account's).
+        let can_friends = online.account().is_some();
+        if !can_friends {
+            self.friends = false;
+        }
+        let views = [t("World"), t("Friends")];
+        let seg_w = if can_friends {
+            views.iter().map(|v| ui.text_size(v, 13.0, true).x + 28.0).sum::<f32>().max(180.0)
+        } else {
+            0.0
+        };
+        let seg = Rect::new(r.x + r.w - PAD - 36.0 - 12.0 - seg_w, r.y + 22.0, seg_w, 32.0);
+        let (title, subtitle) = if self.friends {
+            (t("Friends ranking"), t("You and your friends · rated games"))
+        } else {
+            (t("World ranking"), t("The top 100 of each rules · rated games"))
+        };
+        let right = if can_friends { seg.x - 12.0 } else { r.x + r.w - PAD - 48.0 };
+        if screen_header_until(ui, r, Icon::Trophy, title, Some(subtitle), right) || ui.escape() {
             action = RankingAction::Back;
+        }
+        if can_friends && let Some(k) = ui.segmented(seg, &views, usize::from(self.friends)) {
+            self.friends = k == 1;
+            self.first = 0;
+            if self.friends {
+                online.send(snook_legend_proto::ClientMsg::Friends);
+            }
         }
         if ui.icon_button(
             Rect::new(r.x + r.w - PAD - 36.0, r.y + 20.0, 36.0, 36.0),
@@ -182,7 +249,11 @@ impl Ranking {
             t("Refresh"),
             true,
         ) {
-            online.request_leaderboard(self.rules);
+            if self.friends {
+                online.send(snook_legend_proto::ClientMsg::Friends);
+            } else {
+                online.request_leaderboard(self.rules);
+            }
         }
         // A tab for each of the rules, with how many play it now.
         let tabs = Rect::new(r.x + PAD, r.y + HEADER_H, r.w - PAD * 2.0, TABS_H);
@@ -235,8 +306,16 @@ impl Ranking {
         let line_y = head_y + 21.0;
         draw_line(r.x + PAD - 8.0, line_y, r.x + r.w - PAD + 8.0, line_y, 1.0, BORDER);
         let list = Rect::new(x0, line_y + 5.0, r.x + r.w - PAD + 8.0 - x0, body_h);
+        // Friends without rated games: only the player in the list.
+        if self.friends && entries.len() <= 1 && online.friends.friends.is_empty() {
+            let text = t("Add friends to see where you stand among them.");
+            empty_state(ui, list, Icon::People, text);
+            return action;
+        }
         if entries.is_empty() {
-            if *online.leaderboard_loaded.get(self.rules) {
+            if self.friends {
+                empty_state(ui, list, Icon::People, t("No rated games yet. Be the first!"));
+            } else if *online.leaderboard_loaded.get(self.rules) {
                 empty_state(ui, list, Icon::Trophy, t("No rated games yet. Be the first!"));
             } else if let Some(error) = unreachable(online) {
                 if offline_state(ui, list, &error) {

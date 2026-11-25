@@ -2134,3 +2134,85 @@ The server stops for maintenance in {n} min.	El servidor se detiene por mantenim
 This auction is not open.	Esta subasta no está abierta.
 The credits are for VIP members, now or before.	Los créditos son para miembros VIP, actuales o anteriores.
 The server stops for maintenance now. Games in progress go on.	El servidor se detiene por mantenimiento ahora. Las partidas en curso siguen.
+Play online: your games are added up here as they end.	Juega en línea: tus partidas se suman aquí cuando terminan.
+See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Mira cómo embocas tronera por tronera y por ángulo de corte, cómo progresas semana a semana y cómo te comparas con los jugadores de tu liga.
+Advanced statistics	Estadísticas avanzadas
+Become VIP	Hazte VIP
+By pocket	Por tronera
+By cut angle	Por ángulo de corte
+The white mark: your league.	La marca blanca: tu liga.
+Week by week	Semana a semana
+Against your league	Frente a tu liga
+{tier}: {n} players	{tier}: {n} jugadores
+You	Tú
+League	Liga
+{pocket}: {n} points above	{pocket}: {n} puntos por encima
+{pocket}: {n} points below	{pocket}: {n} puntos por debajo
+Messages with {name}	Mensajes con {name}
+No messages with {name} yet. Say hello!	Aún no hay mensajes con {name}. ¡Saluda!
+Write a message… (Enter to send)	Escribe un mensaje… (Enter para enviar)
+You can write to your friends only.	Solo puedes escribir a tus amigos.
+Choose a quick phrase…	Elige una frase rápida…
+Looking for a game ({rules})	Buscando partida ({rules})
+At a table, waiting ({rules})	En una mesa, esperando ({rules})
+Playing a tournament game against {name}	Jugando una partida de torneo contra {name}
+Playing against {name}	Jugando contra {name}
+Watching {name}'s game	Viendo la partida de {name}
+In {name}	En {name}
+Playing the computer	Jugando contra la computadora
+Practising	Practicando
+In the daily challenge	En el desafío del día
+Doing drills	Haciendo ejercicios
+On the tour	En el circuito
+Away	Ausente
+Victory by abandonment	Victoria por abandono
+Players (administrator)	Jugadores (administrador)
+Spectators	Espectadores
+Chat (muted)	Chat (silenciado)
+Say something to the others watching (the players don't see it).	Di algo a los demás espectadores (los jugadores no lo ven).
+Rated game	Partida con rating
+Casual game	Partida amistosa
+Click to skip	Haz clic para saltar
+Guest	Invitado
+Win	Victoria
+Loss	Derrota
+{n} rating points at stake	{n} puntos de rating en juego
+No rating at stake	Sin rating en juego
+Hide the shot's numbers	Ocultar los números del tiro
+Show the shot's numbers	Mostrar los números del tiro
+Last shot	Último tiro
+No shot yet.	Aún no hay tiros.
+Balls left	Bolas restantes
+Right side	Efecto a la derecha
+Left side	Efecto a la izquierda
+Centre ball	Bola al centro
+{name}: {text}	{name}: {text}
+Only the quick phrases (no free text)	Solo las frases rápidas (sin texto libre)
+Messages	Mensajes
+World	Mundo
+Friends ranking	Ranking de amigos
+You and your friends · rated games	Tú y tus amigos · partidas con rating
+Add friends to see where you stand among them.	Agrega amigos para ver tu posición entre ellos.
+Chat and reactions	Chat y reacciones
+Mute the opponent's chat	Silenciar el chat del rival
+Their messages in online games are not shown (yours still reach them).	Sus mensajes en las partidas en línea no se muestran (los tuyos le siguen llegando).
+Hide the opponent's reactions	Ocultar las reacciones del rival
+The reactions they send at the table are not shown.	Las reacciones que envía en la mesa no se muestran.
+Players muted from a game: {n}	Jugadores silenciados en una partida: {n}
+Unmute them all	Reactivarlos a todos
+This game counts for the rating: +{win} if you win, {loss} if you lose.	Esta partida cuenta para el rating: +{win} si ganas, {loss} si pierdes.
+This game counts for the rating.	Esta partida cuenta para el rating.
+A casual game: the rating doesn't change.	Partida amistosa: el rating no cambia.
+{name} lost the connection	{name} perdió la conexión
+If they don't come back in time, you win by abandonment.	Si no vuelve a tiempo, ganas por abandono.
+Mute {name}	Silenciar a {name}
+Mute {name}'s chat	Silenciar el chat de {name}
+Hide {name}'s reactions	Ocultar las reacciones de {name}
+Remembered for your next games against them.	Se recuerda para tus próximas partidas contra él.
+Broadcast	Transmisión
+3D	3D
+You can only send messages to your friends.	Solo puedes enviar mensajes a tus amigos.
+You can't send messages to this player.	No puedes enviar mensajes a este jugador.
+Your chat is set to the quick phrases only.	Tu chat está limitado a las frases rápidas.
+These settings can't be kept.	Esta configuración no se puede guardar.
+You aren't watching a game.	No estás viendo ninguna partida.

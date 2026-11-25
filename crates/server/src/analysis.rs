@@ -29,9 +29,17 @@ pub async fn after_match(server: &Arc<Server>, record: &MatchRecord) {
             return;
         }
     };
+    let week = snook_legend_proto::advanced::week_of(record.ended_at);
     for (seat, sums) in sums.iter().enumerate() {
         if let Err(e) = server.store.add_shot_analysis(players[seat], sums).await {
             tracing::warn!("shot analysis of {}: {e}", players[seat]);
+        }
+        // The week's pots, for the advanced statistics' progress.
+        let pots = sums.attempts();
+        if let Err(e) =
+            server.store.add_shot_week(players[seat], week, pots.attempts, pots.made).await
+        {
+            tracing::warn!("shot week of {}: {e}", players[seat]);
         }
     }
 }

@@ -207,6 +207,15 @@ pub fn ui_scale() -> f32 {
     f32::from_bits(UI_SCALE.load(std::sync::atomic::Ordering::Relaxed))
 }
 
+static POINTER_PARKED: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+
+/// Development aid (screenshots): the interface acts as if the pointer were
+/// off the window, so no hover state or tooltip depends on where the
+/// offscreen server happened to leave it.
+pub fn park_pointer() {
+    POINTER_PARKED.store(true, std::sync::atomic::Ordering::Relaxed);
+}
+
 /// Width of the screen in interface units.
 pub fn vw() -> f32 {
     screen_width() / ui_scale()
@@ -375,7 +384,11 @@ impl Ui {
         self.frame += 1;
         self.overlays.get_mut().clear();
         self.panels.get_mut().clear();
-        self.mouse = Vec2::from(mouse_position()) / ui_scale();
+        self.mouse = if POINTER_PARKED.load(std::sync::atomic::Ordering::Relaxed) {
+            Vec2::splat(-1.0e4)
+        } else {
+            Vec2::from(mouse_position()) / ui_scale()
+        };
         self.pressed = is_mouse_button_pressed(MouseButton::Left);
         self.released = is_mouse_button_released(MouseButton::Left);
         if self.pressed {

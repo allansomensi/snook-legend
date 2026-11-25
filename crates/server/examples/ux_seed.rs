@@ -180,7 +180,7 @@ async fn main() {
             reason: snook_legend_core::GameOverReason::PocketedEight,
             rated: true,
             rules: if g % 3 == 0 { Rules::Official } else { Rules::Brazilian },
-            delta: [12, -12],
+            delta: if g % 2 == 0 { [12, -12] } else { [-12, 12] },
             ratings_after: [1500, 1500],
             shots: 25,
             tournament: None,
@@ -315,7 +315,15 @@ async fn main() {
                 }
                 _ => {}
             }
-            while let Some(Ok(_)) = ws.next().await {}
+            // A ping now and then, or the server lets them go when idle (and
+            // the lounge empties in a long run of screenshots).
+            let mut tick = tokio::time::interval(Duration::from_secs(25));
+            loop {
+                tokio::select! {
+                    m = ws.next() => if !matches!(m, Some(Ok(_))) { break },
+                    _ = tick.tick() => { let _ = ws.send(send(ClientMsg::Ping)).await; }
+                }
+            }
         });
     }
     std::future::pending::<()>().await;

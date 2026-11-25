@@ -87,7 +87,12 @@ SCREENS = {
     "match-3d": (["--vs", "medium"], {"SNOOK_LEGEND_VIEW": "3d"}, False, 150),
     "match-call8": (["--vs", "medium", "--on-eight"], {"_ini": "rules=official"}, False, 150),
     "match-call8-br": (["--vs", "medium", "--on-eight"], {}, False, 150),
-    "match-intro": (["--vs", "Rex"], {"SNOOK_LEGEND_INTRO": "1"}, False, 60),
+    "match-intro": (["--vs", "medium"], {"SNOOK_LEGEND_INTRO": "1"}, False, 90),
+    # The introduction's animation midway: the cards sliding in, the VS
+    # landing, the way out.
+    "match-intro-in": (["--vs", "medium"], {"SNOOK_LEGEND_INTRO": "0.24s"}, False, 90),
+    "match-intro-vs": (["--vs", "medium"], {"SNOOK_LEGEND_INTRO": "0.5s"}, False, 90),
+    "match-intro-out": (["--vs", "medium"], {"SNOOK_LEGEND_INTRO": "3.2s"}, False, 140),
     "match-paused": (["--vs", "medium"], {"SNOOK_LEGEND_PAUSED": "1"}, False, 120),
     "match-result": (["--vs", "medium"], {"SNOOK_LEGEND_RESIGN": "1"}, False, 260),
     "match-hotseat": (["--hotseat"], {}, False, 150),
@@ -142,6 +147,9 @@ def settings(lang, online, token, port):
     ]
     if online:
         lines += [f"username=Ana", f"token={token}", f"token_server={server}"]
+        # Newer than the account's settings on the server: the language
+        # (and the rest) set here stay, instead of the account's.
+        lines += ["settings_account=Ana", "settings_changed_at=4102444800"]
     return "\n".join(lines) + "\n"
 
 

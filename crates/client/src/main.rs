@@ -326,6 +326,9 @@ async fn main() {
     } else if options.screenshot.is_some() {
         whats_new = None;
     }
+    if options.screenshot.is_some() && !crate::dev::flag("SNOOK_LEGEND_POINTER") {
+        ui::park_pointer();
+    }
     if config.last_version != update::VERSION {
         config.last_version = update::VERSION.to_string();
         config.save();

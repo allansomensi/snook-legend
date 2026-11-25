@@ -242,6 +242,23 @@ async fn friends_send_each_other_messages() {
 }
 
 #[tokio::test]
+async fn messages_to_strangers_count_against_the_limit() {
+    let (url, _) = start().await;
+    let (mut ana, _) = Client::register(&url, "ana").await;
+    let (_bob, _) = Client::register(&url, "bob").await;
+    // Each one costs database requests (the friends, the blocks) before it
+    // is refused: past the burst the server stops asking.
+    let mut errors = Vec::new();
+    for _ in 0..8 {
+        ana.send(ClientMsg::DmSend { to: "bob".into(), text: "hi".into() }).await;
+        let m = ana.expect("refused", |m| matches!(m, ServerMsg::Error { .. })).await;
+        errors.push(error_text(&m).to_string());
+    }
+    assert_eq!(errors[0], snook_legend_server::dm::FRIENDS_ONLY);
+    assert_eq!(errors[7], snook_legend_server::dm::TOO_QUICKLY);
+}
+
+#[tokio::test]
 async fn messages_follow_the_chat_rules() {
     let (url, _) = start().await;
     let (mut ana, _) = Client::register(&url, "ana").await;

@@ -1659,7 +1659,8 @@ async fn username_changes() {
     // Only the case of the letters: still a change.
     assert_eq!(erin.rename("ERIN_2").await, 1);
     assert_eq!(erin.rename("Erin_Last").await, 0);
-    erin.rename_refused("Erin_More", "You can't change your username again.").await;
+    // The free ones used, another costs coins (see `settings::NAME_CHANGE_PRICE`).
+    erin.rename_refused("Erin_More", "Not enough coins.").await;
 
     // The session stays good, the old names are free and sign in to nothing.
     let mut c = Client::connect(&url).await;

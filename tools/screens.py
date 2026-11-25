@@ -1,0 +1,222 @@
+#!/usr/bin/env python3
+"""Screenshots of every screen of the game, for UI reviews (docs/UX.md).
+
+Runs the development build of the game offscreen (Xvfb, Mesa's software
+renderer) once per screen, language and window size, against a local server
+full of made-up players (crates/server/examples/ux_seed.rs), and writes
+`<out>/<size>/<lang>/<screen>.png`.
+
+    cargo build -p snook-legend -p snook_legend_server --example ux_seed
+    python3 tools/screens.py --out /tmp/shots                # everything
+    python3 tools/screens.py --only menu,settings --langs en --sizes 1280x720
+
+Needs Xvfb (`xvfb-run`). The binaries are looked for in $CARGO_TARGET_DIR
+(or ./target)/debug. Release builds ignore the development switches used
+here, so it must be a debug build.
+"""
+
+import argparse
+import concurrent.futures
+import os
+import pathlib
+import shutil
+import subprocess
+import sys
+import tempfile
+import time
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+PORT = 7979
+
+# name: (arguments, environment, online, frames)
+# online: the game signs in as Ana on the local server.
+SCREENS = {
+    "menu": ([], {}, False, 90),
+    "menu-online": ([], {}, True, 150),
+    "whats-new": ([], {"SNOOK_LEGEND_WHATS_NEW": "1"}, False, 90),
+    "rules": ([], {"SNOOK_LEGEND_WHATS_NEW": "rules"}, False, 90),
+    "setup-free": (["--screen", "setup"], {}, False, 90),
+    "setup-ladder": (["--screen", "ladder"], {}, False, 90),
+    "setup-cup": (["--screen", "cup"], {}, False, 90),
+    "setup-drills": (["--screen", "drills"], {}, True, 150),
+    "setup-daily": (["--screen", "challenge"], {}, True, 150),
+    "setup-clock": (["--screen", "clock"], {}, True, 150),
+    "hotseat": (["--screen", "hotseat"], {}, False, 90),
+    "lan": (["--screen", "lan"], {}, False, 90),
+    "settings-video": (["--settings"], {}, False, 90),
+    "settings-game": (["--settings"], {"SNOOK_LEGEND_SETTINGS_TAB": "game"}, False, 90),
+    "settings-controls": (["--settings"], {"SNOOK_LEGEND_SETTINGS_TAB": "controls"}, False, 90),
+    "settings-sound": (["--settings"], {"SNOOK_LEGEND_SETTINGS_TAB": "sound"}, False, 90),
+    "settings-advanced": (["--settings"], {"SNOOK_LEGEND_SETTINGS_ADVANCED": "1"}, False, 90),
+    "avatars": (["--screen", "avatars"], {}, False, 90),
+    "signin": (["--online"], {}, False, 120),
+    "lounge-players": (["--screen", "players"], {}, True, 200),
+    "lounge-tables": (["--screen", "tables"], {}, True, 200),
+    "lounge-tournaments": (["--screen", "tournaments"], {}, True, 200),
+    "lounge-friends": (["--screen", "friends"], {}, True, 200),
+    "lounge-daily": (["--screen", "daily"], {}, True, 200),
+    "lounge-doubles": (["--screen", "doubles"], {}, True, 200),
+    "inbox": (["--screen", "inbox"], {}, True, 200),
+    "dm": (["--screen", "dm:Bruno"], {"SNOOK_LEGEND_OPEN": "dm:Bruno"}, True, 220),
+    "ranking": (["--screen", "ranking"], {}, True, 200),
+    "ranking-friends": (["--screen", "ranking-friends"], {}, True, 200),
+    "ranking-doubles": (["--screen", "ranking-doubles"], {}, True, 200),
+    "profile-games": (["--screen", "profile:Ana"], {}, True, 200),
+    "profile-rating": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "rating"}, True, 200),
+    "profile-numbers": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "numbers"}, True, 200),
+    "profile-analysis": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "analysis"}, True, 200),
+    "profile-achievements": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "achievements"}, True, 200),
+    "profile-journey": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "journey"}, True, 200),
+    "profile-other": (["--screen", "profile:Kenji"], {}, True, 200),
+    "shop": (["--screen", "shop"], {}, True, 200),
+    "shop-cues": (["--screen", "shop-cues"], {}, True, 200),
+    "shop-coins": (["--screen", "shop-coins"], {}, True, 200),
+    "shop-vip": (["--screen", "shop-vip"], {}, True, 200),
+    "shop-confirm": (["--screen", "shop-confirm"], {}, True, 200),
+    "auctions": (["--screen", "auctions"], {"SNOOK_LEGEND_OPEN": "auctions"}, True, 220),
+    "credits": (["--screen", "credits"], {"SNOOK_LEGEND_OPEN": "credits"}, True, 220),
+    "collection": (["--screen", "collection"], {}, True, 200),
+    "match-8ball": (["--vs", "medium"], {}, False, 150),
+    "match-official": (["--vs", "medium"], {"_ini": "rules=official"}, False, 150),
+    "match-3d": (["--vs", "medium"], {"SNOOK_LEGEND_VIEW": "3d"}, False, 150),
+    "match-call8": (["--vs", "medium", "--on-eight"], {"_ini": "rules=official"}, False, 150),
+    "match-call8-br": (["--vs", "medium", "--on-eight"], {}, False, 150),
+    "match-intro": (["--vs", "Rex"], {"SNOOK_LEGEND_INTRO": "1"}, False, 60),
+    "match-paused": (["--vs", "medium"], {"SNOOK_LEGEND_PAUSED": "1"}, False, 120),
+    "match-result": (["--vs", "medium"], {"SNOOK_LEGEND_RESIGN": "1"}, False, 260),
+    "match-hotseat": (["--hotseat"], {}, False, 150),
+    "match-chat": (["--vs", "medium"], {"SNOOK_LEGEND_CHAT_OPEN": "1"}, False, 150),
+    "match-reactions": (["--vs", "medium"], {"SNOOK_LEGEND_OPEN_REACTIONS": "1"}, False, 150),
+    "replay": ([], {"SNOOK_LEGEND_SAMPLE_REPLAY": "1"}, False, 150),
+    "spectator": ([], {"SNOOK_LEGEND_SAMPLE_REPLAY": "1", "SNOOK_LEGEND_TV": "1"}, False, 150),
+    "toasts": (["--screen", "toasts"], {}, True, 150),
+}
+
+LANGS = ["en", "pt-BR", "de", "ar"]
+SIZES = ["1280x720", "1920x1080", "1024x600"]
+
+
+def target_dir():
+    return pathlib.Path(os.environ.get("CARGO_TARGET_DIR", ROOT / "target")) / "debug"
+
+
+def start_server(tmp):
+    tokens = pathlib.Path(tmp) / "tokens.txt"
+    exe = target_dir() / "examples" / "ux_seed"
+    proc = subprocess.Popen(
+        [str(exe), str(PORT), str(tokens)],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.DEVNULL,
+        cwd=tmp,
+    )
+    for _ in range(200):
+        if tokens.exists() and tokens.stat().st_size > 0:
+            break
+        time.sleep(0.1)
+    time.sleep(1.5)
+    found = dict(
+        line.split("=", 1) for line in tokens.read_text().splitlines() if "=" in line
+    )
+    return proc, found
+
+
+def settings(lang, online, token):
+    server = f"ws://127.0.0.1:{PORT}/ws"
+    lines = [
+        f"language={lang}",
+        "coached=true",
+        "graphics_checked=true",
+        "auto_update=false",
+        "last_version=99.0.0",
+        "player_name=Ana",
+        f"server={server}",
+        "quality=high",
+    ]
+    if online:
+        lines += [f"username=Ana", f"token={token}", f"token_server={server}"]
+    return "\n".join(lines) + "\n"
+
+
+def shoot(job):
+    name, lang, size, out, token = job
+    args, env_extra, online, frames = SCREENS[name]
+    w, h = size.split("x")
+    dest = pathlib.Path(out) / size / lang / f"{name}.png"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    home = tempfile.mkdtemp(prefix="screens-")
+    try:
+        cfg = pathlib.Path(home) / "snook-legend"
+        cfg.mkdir()
+        ini = settings(lang, online, token) + env_extra.get("_ini", "") + "\n"
+        (cfg / "settings.ini").write_text(ini)
+        env = dict(os.environ)
+        env.update(
+            {
+                "XDG_CONFIG_HOME": home,
+                "SNOOK_LEGEND_MANY": "1",
+                "SNOOK_LEGEND_SEED": "7",
+                "LIBGL_ALWAYS_SOFTWARE": "1",
+            }
+        )
+        env.update({k: v for k, v in env_extra.items() if not k.startswith("_")})
+        cmd = [
+            "xvfb-run",
+            "-a",
+            "-s",
+            f"-screen 0 {w}x{h}x24",
+            str(target_dir() / "snook-legend"),
+            "--window",
+            size,
+            "--screenshot",
+            str(dest),
+            "--frames",
+            str(frames),
+        ] + args
+        r = subprocess.run(cmd, env=env, capture_output=True, timeout=240)
+        ok = dest.exists()
+        return name, lang, size, ok, (r.stderr.decode(errors="replace")[-400:] if not ok else "")
+    except subprocess.TimeoutExpired:
+        return name, lang, size, False, "timeout"
+    finally:
+        shutil.rmtree(home, ignore_errors=True)
+
+
+def main():
+    p = argparse.ArgumentParser()
+    p.add_argument("--out", default="screens")
+    p.add_argument("--only", default="")
+    p.add_argument("--langs", default=",".join(LANGS))
+    p.add_argument("--sizes", default=",".join(SIZES))
+    p.add_argument("--jobs", type=int, default=3)
+    a = p.parse_args()
+    names = [n for n in a.only.split(",") if n] or list(SCREENS)
+    for n in names:
+        if n not in SCREENS:
+            sys.exit(f"unknown screen {n}; known: {', '.join(SCREENS)}")
+    tmp = tempfile.mkdtemp(prefix="screens-server-")
+    server = None
+    token = ""
+    if any(SCREENS[n][2] for n in names):
+        server, tokens = start_server(tmp)
+        token = tokens.get("Ana", "")
+    jobs = [
+        (n, lang, size, a.out, token)
+        for size in a.sizes.split(",")
+        for lang in a.langs.split(",")
+        for n in names
+    ]
+    failed = 0
+    try:
+        with concurrent.futures.ThreadPoolExecutor(a.jobs) as pool:
+            for name, lang, size, ok, err in pool.map(shoot, jobs):
+                print(f"{'ok ' if ok else 'ERR'} {size} {lang} {name} {err}", flush=True)
+                failed += not ok
+    finally:
+        if server:
+            server.kill()
+        shutil.rmtree(tmp, ignore_errors=True)
+    sys.exit(1 if failed else 0)
+
+
+if __name__ == "__main__":
+    main()

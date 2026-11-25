@@ -1071,7 +1071,7 @@ impl Hud {
             let title = tw("{name} wins!", &[("name", &m.names[over.winner])]);
             // Wide enough for the title with a margin (long computer names).
             let w =
-                crate::ui::clamp_soft(ui.text_size(&title, 28.0, true).x + 64.0, 420.0, sw - 20.0);
+                crate::ui::clamp_soft(ui.text_size(&title, 28.0, true).x + 100.0, 420.0, sw - 20.0);
             let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 95.0 - STATS_H / 2.0, w, 190.0);
             ui.panel(r);
             replay_now |= replay_button(ui, m, r);
@@ -1079,7 +1079,35 @@ impl Hud {
             let stats_w = 420.0f32.min(w);
             let stats = Rect::new((sw - stats_w) / 2.0, r.y + r.h + 8.0, stats_w, STATS_H - 8.0);
             draw_match_stats(ui, m, stats, view);
-            ui.text_centered(&title, sw / 2.0, r.y + 18.0, 28.0, GOLD, true);
+            // The player beat the computer: the title in gold with a trophy
+            // and a glow of gold along the top; lost to it: plainer, no
+            // trophy (two players at one computer: always the winner's gold).
+            let human = |seat: usize| matches!(m.controllers[seat], Controller::Human);
+            let lost = !human(over.winner) && human(1 - over.winner);
+            if !lost {
+                crate::ui::rrect_gradient(
+                    Rect::new(r.x + 1.0, r.y + 1.0, r.w - 2.0, 56.0),
+                    crate::ui::PANEL_RADIUS - 1.0,
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12),
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.0),
+                );
+                let tw_ = ui.text_size(&title, 28.0, true).x;
+                crate::icons::draw(
+                    Icon::Trophy,
+                    vec2(sw / 2.0 - tw_ / 2.0 - 22.0, r.y + 33.0),
+                    24.0,
+                    GOLD,
+                );
+            }
+            let color = if lost { CREAM } else { GOLD };
+            ui.text_centered(
+                &title,
+                sw / 2.0 + if lost { 0.0 } else { 14.0 },
+                r.y + 18.0,
+                28.0,
+                color,
+                true,
+            );
             ui.text_centered(
                 &crate::i18n::result_line(
                     over.reason,

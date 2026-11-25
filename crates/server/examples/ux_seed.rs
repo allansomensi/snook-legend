@@ -234,6 +234,40 @@ async fn main() {
     inbox::send(&server, ana, inbox::New::game(Kind::Maintenance { at: t0 + 7_200, minutes: 15 }))
         .await;
 
+    // Auctions: three going on (one with bids), one over.
+    let items: Vec<&str> = snook_legend_proto::shop::ITEMS
+        .iter()
+        .enumerate()
+        .filter(|(k, _)| k % 3 != 0)
+        .map(|(_, i)| i.code)
+        .step_by(7)
+        .take(4)
+        .collect();
+    for (k, code) in items.iter().enumerate() {
+        let ends_at = if k == 3 { t0 - 3_600 } else { t0 + 3_600 * (2 + 20 * k as i64) };
+        let id = store
+            .add_auction(&snook_legend_server::store::NewAuction {
+                code,
+                starts_at: t0 - 86_400,
+                ends_at,
+                min_bid: 500 * (k as i64 + 1),
+                min_increment: 50,
+                by: ana,
+                at: t0 - 86_400,
+            })
+            .await
+            .unwrap();
+        if k % 2 == 0 {
+            store.credit(ids[2], 50_000, "staff", None, t0).await.unwrap();
+            let _ = store.bid(id, ids[2], 900 * (k as i64 + 1), t0 - 600, 120, 120).await;
+        }
+    }
+    // The supporters in the credits.
+    for &id in [ana, ids[2], ids[4], ids[10], ids[16]].iter() {
+        store.set_vip(id, t0 + 86_400 * 30, true).await.unwrap();
+        store.set_credits(id, true, t0).await.unwrap();
+    }
+
     let listener = TcpListener::bind(addr).await.unwrap();
     tokio::spawn(serve(listener, server.clone()));
     snook_legend_server::spawn_background(server.clone());

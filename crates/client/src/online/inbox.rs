@@ -332,6 +332,11 @@ impl Online {
 
     /// The oldest important notification not confirmed yet.
     fn important_waiting(&self) -> Option<&Notification> {
+        // Development aid (screenshots): SNOOK_LEGEND_QUIET_INBOX keeps it
+        // off the screens it would cover.
+        if crate::dev::flag("SNOOK_LEGEND_QUIET_INBOX") {
+            return None;
+        }
         self.inbox.items.iter().rev().find(|n| n.important && n.unread())
     }
 

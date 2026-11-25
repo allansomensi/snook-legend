@@ -6,7 +6,8 @@ renderer) once per screen, language and window size, against a local server
 full of made-up players (crates/server/examples/ux_seed.rs), and writes
 `<out>/<size>/<lang>/<screen>.png`.
 
-    cargo build -p snook-legend -p snook_legend_server --example ux_seed
+    cargo build -p snook-legend
+    cargo build -p snook_legend_server --example ux_seed
     python3 tools/screens.py --out /tmp/shots                # everything
     python3 tools/screens.py --only menu,settings --langs en --sizes 1280x720
 
@@ -19,6 +20,7 @@ import argparse
 import concurrent.futures
 import os
 import pathlib
+import queue
 import shutil
 import subprocess
 import sys
@@ -26,13 +28,17 @@ import tempfile
 import time
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-PORT = 7979
+PORT = 7979  # the first worker's server; the next ones count up
 
 # name: (arguments, environment, online, frames)
-# online: the game signs in as Ana on the local server.
+# online: the game signs in as Ana on the local server. Her pinned message
+# from the staff (a dialog until read) is kept off every screen but
+# "staff-message" (SNOOK_LEGEND_QUIET_INBOX), where her new achievement's
+# card waits behind it.
 SCREENS = {
     "menu": ([], {}, False, 90),
     "menu-online": ([], {}, True, 150),
+    "staff-message": ([], {"_loud": "1"}, True, 150),
     "whats-new": ([], {"SNOOK_LEGEND_WHATS_NEW": "1"}, False, 90),
     "rules": ([], {"SNOOK_LEGEND_WHATS_NEW": "rules"}, False, 90),
     "setup-free": (["--screen", "setup"], {}, False, 90),
@@ -100,11 +106,13 @@ def target_dir():
     return pathlib.Path(os.environ.get("CARGO_TARGET_DIR", ROOT / "target")) / "debug"
 
 
-def start_server(tmp):
-    tokens = pathlib.Path(tmp) / "tokens.txt"
+def start_server(tmp, port):
+    """A seeded server of its own per worker: Ana signed in on two screens
+    at once would sign herself out of the first."""
+    tokens = pathlib.Path(tmp) / f"tokens-{port}.txt"
     exe = target_dir() / "examples" / "ux_seed"
     proc = subprocess.Popen(
-        [str(exe), str(PORT), str(tokens)],
+        [str(exe), str(port), str(tokens)],
         stdout=subprocess.PIPE,
         stderr=subprocess.DEVNULL,
         cwd=tmp,
@@ -120,8 +128,8 @@ def start_server(tmp):
     return proc, found
 
 
-def settings(lang, online, token):
-    server = f"ws://127.0.0.1:{PORT}/ws"
+def settings(lang, online, token, port):
+    server = f"ws://127.0.0.1:{port}/ws"
     lines = [
         f"language={lang}",
         "coached=true",
@@ -137,8 +145,9 @@ def settings(lang, online, token):
     return "\n".join(lines) + "\n"
 
 
-def shoot(job):
-    name, lang, size, out, token = job
+def shoot(job, slot):
+    name, lang, size, out = job
+    port, token = slot
     args, env_extra, online, frames = SCREENS[name]
     w, h = size.split("x")
     dest = pathlib.Path(out) / size / lang / f"{name}.png"
@@ -147,7 +156,7 @@ def shoot(job):
     try:
         cfg = pathlib.Path(home) / "snook-legend"
         cfg.mkdir()
-        ini = settings(lang, online, token) + env_extra.get("_ini", "") + "\n"
+        ini = settings(lang, online, token, port) + env_extra.get("_ini", "") + "\n"
         (cfg / "settings.ini").write_text(ini)
         env = dict(os.environ)
         env.update(
@@ -158,6 +167,8 @@ def shoot(job):
                 "LIBGL_ALWAYS_SOFTWARE": "1",
             }
         )
+        if online and "_loud" not in env_extra:
+            env["SNOOK_LEGEND_QUIET_INBOX"] = "1"
         env.update({k: v for k, v in env_extra.items() if not k.startswith("_")})
         cmd = [
             "xvfb-run",
@@ -194,13 +205,27 @@ def main():
         if n not in SCREENS:
             sys.exit(f"unknown screen {n}; known: {', '.join(SCREENS)}")
     tmp = tempfile.mkdtemp(prefix="screens-server-")
-    server = None
-    token = ""
-    if any(SCREENS[n][2] for n in names):
-        server, tokens = start_server(tmp)
-        token = tokens.get("Ana", "")
+    servers = []
+    slots = queue.Queue()
+    online = any(SCREENS[n][2] for n in names)
+    for k in range(a.jobs):
+        port = PORT + k
+        token = ""
+        if online:
+            proc, tokens = start_server(tmp, port)
+            servers.append(proc)
+            token = tokens.get("Ana", "")
+        slots.put((port, token))
+
+    def run(job):
+        slot = slots.get()
+        try:
+            return shoot(job, slot)
+        finally:
+            slots.put(slot)
+
     jobs = [
-        (n, lang, size, a.out, token)
+        (n, lang, size, a.out)
         for size in a.sizes.split(",")
         for lang in a.langs.split(",")
         for n in names
@@ -208,12 +233,12 @@ def main():
     failed = 0
     try:
         with concurrent.futures.ThreadPoolExecutor(a.jobs) as pool:
-            for name, lang, size, ok, err in pool.map(shoot, jobs):
+            for name, lang, size, ok, err in pool.map(run, jobs):
                 print(f"{'ok ' if ok else 'ERR'} {size} {lang} {name} {err}", flush=True)
                 failed += not ok
     finally:
-        if server:
-            server.kill()
+        for proc in servers:
+            proc.kill()
         shutil.rmtree(tmp, ignore_errors=True)
     sys.exit(1 if failed else 0)
 

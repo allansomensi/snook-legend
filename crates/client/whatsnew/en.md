@@ -3,6 +3,32 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.0
+
+### Doubles and against the clock
+Play 2 against 2 with a friend (partners take turns at the table), with a doubles ranking for each rules. Or clear the table against the clock and climb the week's ranking.
+
+### Official rules: call the 8
+The group's balls still count in any pocket, but the 8 must be called: click the pocket before the shot. The 8 in another pocket loses.
+
+### Your collection
+Every item you have, with its rarity and how and when you got it. Dozens of new cues, tables, ball sets, cloths, frames, effects and 49 new reactions, some animated, some only won in events and tournaments.
+
+### Inbox
+Messages from the staff, prizes, tournaments and achievements stay in your inbox until you read them, with a button to act on each one.
+
+### Friends
+Messages between friends, what each friend is doing (with a button to watch), a friends' ranking and your settings on every computer.
+
+### At the table
+An intro with what is at stake in rated games, a clear rated badge, a big countdown when the opponent drops, a chat for spectators and an observer mode. Mute the chat or reactions of one opponent, and it is remembered.
+
+### Tournaments, auctions and sales
+Official tournaments with a live prize pool, a weekly auction of rare items, sales in the shop and a bonus for playing on days in a row.
+
+### For VIP
+An item of the month to keep for good, an aim colour, a victory animation of its own and advanced statistics.
+
 ## 0.11.2
 
 ### Official rules: any pocket counts

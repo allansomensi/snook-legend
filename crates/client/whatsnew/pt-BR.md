@@ -3,6 +3,32 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.12.0
+
+### Duplas e contra o relógio
+Jogue 2 contra 2 com um amigo (os parceiros se revezam na mesa), com ranking de duplas para cada regra. Ou limpe a mesa contra o relógio e suba no ranking da semana.
+
+### Regra oficial: cante a 8
+As bolas do grupo continuam valendo em qualquer caçapa, mas a 8 precisa ser cantada: clique na caçapa antes de tacar. A 8 em outra caçapa perde.
+
+### Sua coleção
+Todos os seus itens, com a raridade e como e quando você ganhou cada um. Dezenas de tacos, mesas, bolas, panos, molduras e efeitos novos, e 49 reações novas, algumas animadas, algumas só de eventos e torneios.
+
+### Caixa de entrada
+Mensagens da equipe, prêmios, torneios e conquistas ficam na sua caixa de entrada até você ler, com um botão para agir em cada uma.
+
+### Amigos
+Mensagens entre amigos, o que cada amigo está fazendo (com botão para assistir), um ranking de amigos e suas configurações em qualquer computador.
+
+### Na mesa
+Uma abertura com o que está em jogo nas partidas ranqueadas, um selo claro de ranqueada, uma contagem grande quando o adversário cai, um chat para espectadores e um modo observador. Silencie o chat ou as reações de um adversário, e isso fica lembrado.
+
+### Torneios, leilões e promoções
+Torneios oficiais com prêmio ao vivo, um leilão semanal de itens raros, promoções na loja e um bônus por jogar dias seguidos.
+
+### Para VIP
+Um item do mês para guardar para sempre, cor da mira, uma animação de vitória exclusiva e estatísticas avançadas.
+
 ## 0.11.2
 
 ### Regra oficial: vale qualquer caçapa

@@ -1,5 +1,71 @@
 # Changelog
 
+## 0.12.0 (protocol 25)
+
+Doubles and against the clock, the official 8 called by hand, the
+collection with dozens of new items, the inbox, friends' messages, and a
+staff portal that runs the game without redeploys. Games of 0.11.x still
+connect (protocol 24): they ignore what they don't know, play official
+games with the 8 counted in the pocket it went into, and can't play
+doubles.
+
+### Modes
+- **Doubles (2 v 2)**: partners take the team's visits in turn; a
+  partner who drops is covered by the other; a doubles rating and
+  ranking under each of the rules (`/api/leaderboard?mode=doubles`).
+  Migration `0031`.
+- **Against the clock**: clear the rack in the least time (fouls: ball in
+  hand and +10 s), checked by the server, 10 attempts a day, a weekly
+  ranking with coins for the top 3; practice offline.
+
+### Official rules
+- **The 8 is called by hand**, as under the Brazilian rules (a click on
+  the pocket before every shot at the 8; no call, no shot); the group's
+  balls still count in any pocket. Recorded games keep their rules
+  (`eight_call`, migration `0032`).
+
+### Collection and content
+- **The collection**: every item with its rarity (common, rare, epic,
+  legendary) and how and when it was got; equip and preview from there.
+  Migration `0029`.
+- 31 cues, 8 tables, 10 ball sets, a pro tournament arena (used for
+  tournament games), cloths, frames, chalks, winning effects, VIP's items
+  of the month (Dec 2026 – Nov 2027) and 49 reactions (11 animated).
+  Items only won (events, tournaments, auctions) are never sold; those of
+  achievements and champions can't be given or auctioned.
+- 9 new achievements and 9 secret ones; rewards open with an animation;
+  a rare cue glows for the opponent.
+
+### Inbox and moderation
+- **The inbox**: staff messages, warnings, mutes (with reason and end),
+  rating corrections, prizes, tournaments, achievements; filters,
+  pinned notices, actions, read confirmations. Migration `0027`.
+- Staff: direct messages, rating adjustments, notification previews,
+  thanks to reporters, batch gifts, ending or annulling games, name and
+  country history, a player timeline, every shot of a game, editable
+  banned words, a pinned lounge line, @mentions.
+
+### Operations and economy
+- **Live settings** in the portal (shot clock, weekly cup, limits…):
+  environment variables are only the defaults.
+- Promotions in the shop, official tournaments with a live prize pool
+  (house cut), scheduled maintenance, weekly auctions, a daily streak
+  bonus, paid name changes after the free ones, VIP's item of the month,
+  what VIP keeps and loses, supporters' credits. Analytics, CSV exports,
+  a calendar; the public API for the website (`/api/players/{name}`,
+  `/api/tournaments`, `/api/supporters`). Migration `0028`.
+
+### Match and social
+- Messages between friends, friends' activity with a Watch button,
+  friends' ranking, settings saved to the account (not graphics), mutes
+  per opponent remembered, phrases-only chat for minors, a match intro
+  with the rating at stake, a rated badge, a big reconnection countdown,
+  spectators' chat, an observer mode, VIP's advanced statistics.
+  Migration `0030`.
+- Online reliability: chat said while a player was away comes back to
+  them, the shot clock waits for a disconnected shooter, a stuck write
+  no longer freezes the game, and more (see `docs/ONLINE.md`).
+
 ## 0.11.2 (protocol 24)
 
 The official rules without calls (any pocket counts), and a result that

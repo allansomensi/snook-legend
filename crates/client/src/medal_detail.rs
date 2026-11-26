@@ -294,11 +294,14 @@ fn draw_achievement(
             let tr = Rect::new(tx, y, tile, tile);
             rrect(tr, 10.0, Color::new(1.0, 1.0, 1.0, 0.05));
             rrect_lines(tr, 10.0, 1.0, BORDER);
+            // Whatever the item draws stays in its tile.
+            crate::ui::motion::push_clip(tr);
             crate::shop::preview(
                 ui,
                 item,
                 Rect::new(tr.x + 6.0, tr.y + 6.0, tile - 12.0, tile - 12.0),
             );
+            crate::ui::motion::pop_clip();
             caption(ui, t(item.name), tr, gap);
             if ui.hovering(tr) {
                 ui.tooltip(t(item.name), tr);

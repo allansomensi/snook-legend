@@ -190,7 +190,8 @@ pub fn cue_picture(ui: &Ui, code: &str, r: Rect, level: u8) {
 /// a big picture shows the butt half, where the patterns are) and how much
 /// thicker it is drawn.
 fn cue_zoom(r: Rect) -> (f32, f32) {
-    if r.h >= 60.0 { (0.56, (r.h / 32.0).clamp(1.0, 3.6)) } else { (1.0, 1.0) }
+    // (A wide picture only: in a small square the whole cue shows.)
+    if r.h >= 60.0 && r.w >= 1.4 * r.h { (0.56, (r.h / 32.0).clamp(1.0, 3.6)) } else { (1.0, 1.0) }
 }
 
 /// Where a point `k` along the cue (0: the butt, 1: the tip) is drawn.
@@ -253,15 +254,22 @@ pub fn frame(r: Rect, a: [u8; 3], b: [u8; 3], shine: bool, time: f32) {
     }
 }
 
-fn draw_styled_name_preview(ui: &Ui, label: &str, c: Vec2, style: Option<([u8; 3], [u8; 3])>) {
-    let w = ui.text_size(label, 22.0, true).x;
+fn draw_styled_name_preview(
+    ui: &Ui,
+    label: &str,
+    c: Vec2,
+    style: Option<([u8; 3], [u8; 3])>,
+    room: f32,
+) {
+    // 22 at most, smaller to fit `room` (a small picture).
+    let size = ui.fit(22.0, label, room).min(22.0);
+    let w = ui.text_size(label, size, true).x;
+    let y = c.y - size / 2.0;
     match style {
-        Some((a, b)) => {
-            ui.styled_text(label, c.x - w / 2.0, c.y - 11.0, 22.0, rgb(a), rgb(b), true)
-        }
+        Some((a, b)) => ui.styled_text(label, c.x - w / 2.0, y, size, rgb(a), rgb(b), true),
         None => {
             let color = crate::ui::tier_color(snook_legend_proto::Tier::Expert);
-            ui.text(label, c.x - w / 2.0, c.y - 11.0, 22.0, color, true)
+            ui.text(label, c.x - w / 2.0, y, size, color, true)
         }
     }
 }
@@ -363,19 +371,27 @@ pub fn preview(ui: &Ui, item: &Item, r: Rect) {
         Look::Frame { a, b, shine } => {
             // A name card inside the frame.
             rrect(r, 8.0, Color::new(0.0, 0.0, 0.0, 0.25));
-            let card = Rect::new(c.x - 70.0, c.y - 30.0, 140.0, 60.0);
+            // (140 × 60 at most, smaller to fit a small picture.)
+            let k = ((r.w - 12.0) / 140.0).min((r.h - 12.0) / 60.0).clamp(0.2, 1.0);
+            let card = Rect::new(c.x - 70.0 * k, c.y - 30.0 * k, 140.0 * k, 60.0 * k);
             frame(card, a, b, shine, get_time() as f32);
+            let inset = 5.0 * k;
             rrect(
-                Rect::new(card.x + 5.0, card.y + 5.0, card.w - 10.0, card.h - 10.0),
-                8.0,
+                Rect::new(
+                    card.x + inset,
+                    card.y + inset,
+                    card.w - 2.0 * inset,
+                    card.h - 2.0 * inset,
+                ),
+                8.0 * k,
                 Color::new(0.08, 0.05, 0.03, 1.0),
             );
-            crate::icons::draw(Icon::Person, vec2(card.x + 26.0, c.y), 26.0, rgb(a));
+            crate::icons::draw(Icon::Person, vec2(card.x + 26.0 * k, c.y), 26.0 * k, rgb(a));
         }
         Look::Name(style) => {
             rrect(r, 8.0, Color::new(0.0, 0.0, 0.0, 0.25));
             let label = crate::i18n::t("Your name");
-            draw_styled_name_preview(ui, label, c, style);
+            draw_styled_name_preview(ui, label, c, style, r.w - 12.0);
         }
         Look::Effect { kind, color } => {
             rrect(r, 8.0, Color::new(0.03, 0.08, 0.05, 1.0));

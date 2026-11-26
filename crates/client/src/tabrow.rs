@@ -5,7 +5,9 @@
 
 use macroquad::prelude::*;
 
-use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_gradient, rrect_lines, shade};
+use crate::ui::{
+    BORDER, CREAM, GOLD, MUTED, Ui, mix, motion, rrect, rrect_gradient, rrect_lines, shade,
+};
 
 /// The smallest a label gets before it is shortened.
 const MIN_SIZE: f32 = 11.0;
@@ -104,21 +106,17 @@ fn tab(
 ) -> bool {
     ui.block(r);
     let hover = ui.hovering(r);
-    let bg = if selected {
-        Color::new(0.38, 0.25, 0.12, 1.0)
-    } else if hover {
-        Color::new(0.25, 0.16, 0.09, 1.0)
-    } else {
-        Color::new(0.12, 0.08, 0.05, 1.0)
-    };
-    if selected || hover {
+    let a = ui.hover_anim(r, hover && !selected);
+    let sel = ui.anim(motion::rect_key(motion::id("tab-on"), r), selected as u8 as f32, 22.0);
+    let idle = mix(Color::new(0.12, 0.08, 0.05, 1.0), Color::new(0.25, 0.16, 0.09, 1.0), a);
+    let bg = mix(idle, Color::new(0.38, 0.25, 0.12, 1.0), sel);
+    if sel > 0.01 || a > 0.01 {
         rrect_gradient(r, 6.0, shade(bg, 0.06), shade(bg, -0.15));
     } else {
         rrect(r, 6.0, bg);
     }
-    if selected {
-        rrect(Rect::new(r.x + 8.0, r.y + r.h - 3.0, r.w - 16.0, 3.0), 1.5, GOLD);
-    }
+    // The underline glides to the tab chosen.
+    ui.tab_underline(r, selected, 8.0, 1.5);
     if !count.is_empty() {
         let cw = ui.text_size(count, 11.0, false).x;
         ui.text(count, r.x + r.w - cw - 10.0, r.y + (r.h - 11.0) / 2.0, 11.0, MUTED, false);
@@ -127,9 +125,13 @@ fn tab(
     let label = shorten(ui, label, r.w - 16.0 - reserve, size);
     let width = ui.text_size(&label, size, true).x;
     let centre = (r.x + r.w / 2.0).min(r.x + r.w - reserve - 6.0 - width / 2.0);
-    let color = if selected { GOLD } else { CREAM };
+    let color = mix(CREAM, GOLD, sel);
     ui.text_centered(&label, centre, r.y + (r.h - size) / 2.0, size, color, true);
-    hover && ui.released_in(r) && !selected
+    let clicked = !selected && hover && ui.released_in(r);
+    if clicked {
+        ui.note_click();
+    }
+    clicked
 }
 
 /// A switch of several options (as [`crate::ui::Ui::segmented`]), each as
@@ -139,21 +141,35 @@ pub fn segmented(ui: &mut Ui, r: Rect, options: &[&str], selected: usize) -> Opt
     let size = (r.h * 0.42).clamp(12.0, 16.0);
     let (widths, size) = layout(ui, options, &[], r.w, 0.0, size, 6.0);
     rrect(r, 7.0, Color::new(0.06, 0.04, 0.03, 1.0));
-    let mut clicked = None;
+    let mut cells = Vec::with_capacity(options.len());
     let mut x = r.x;
+    for w in &widths {
+        cells.push(Rect::new(x, r.y, *w, r.h));
+        x += w;
+    }
+    let inset = |c: Rect| Rect::new(c.x + 2.0, c.y + 2.0, c.w - 4.0, c.h - 4.0);
+    // The chosen one's plate glides to the option clicked.
+    if let Some(cell) = cells.get(selected) {
+        let key = motion::rect_key(motion::id("segmented"), r);
+        let plate = ui.glide_rect(key, inset(*cell), 20.0);
+        let bg = Color::new(0.38, 0.25, 0.12, 1.0);
+        rrect_gradient(plate, 6.0, shade(bg, 0.08), shade(bg, -0.15));
+    }
+    let mut clicked = None;
     for (i, label) in options.iter().enumerate() {
-        let cell = Rect::new(x, r.y, widths[i], r.h);
-        x += widths[i];
+        let cell = cells[i];
         let hover = ui.hovering(cell);
-        let inner = Rect::new(cell.x + 2.0, cell.y + 2.0, cell.w - 4.0, cell.h - 4.0);
-        if i == selected {
-            let bg = Color::new(0.38, 0.25, 0.12, 1.0);
-            rrect_gradient(inner, 6.0, shade(bg, 0.08), shade(bg, -0.15));
-        } else if hover {
-            rrect(inner, 6.0, Color::new(0.22, 0.15, 0.09, 1.0));
+        let a = ui.hover_anim(cell, hover && i != selected);
+        if a > 0.01 {
+            rrect(inset(cell), 6.0, Color::new(0.22, 0.15, 0.09, a));
         }
+        let sel = ui.anim(
+            motion::rect_key(motion::id("seg-on"), cell),
+            (i == selected) as u8 as f32,
+            20.0,
+        );
         let label = shorten(ui, label, cell.w - 8.0, size);
-        let color = if i == selected { GOLD } else { CREAM };
+        let color = mix(CREAM, GOLD, sel);
         ui.text_centered(
             &label,
             cell.x + cell.w / 2.0,
@@ -162,8 +178,9 @@ pub fn segmented(ui: &mut Ui, r: Rect, options: &[&str], selected: usize) -> Opt
             color,
             true,
         );
-        if hover && ui.released_in(cell) && i != selected {
+        if i != selected && hover && ui.released_in(cell) {
             clicked = Some(i);
+            ui.note_click();
         }
     }
     rrect_lines(r, 7.0, 1.2, BORDER);

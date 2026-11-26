@@ -2524,3 +2524,5 @@ Comes with it	Ce primești cu ea
 See the achievement	Vezi realizarea
 Animated	Animată
 Previous	Anterior
+Reduce motion	Reduce mișcarea
+Screens, windows and lists change at once, without sliding or easing.	Ecranele, ferestrele și listele se schimbă imediat, fără glisare sau tranziții.

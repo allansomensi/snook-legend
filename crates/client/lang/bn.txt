@@ -2524,3 +2524,5 @@ Comes with it	এর সাথে যা পাবেন
 See the achievement	অর্জনটি দেখুন
 Animated	অ্যানিমেটেড
 Previous	আগেরটি
+Reduce motion	গতি কমান
+Screens, windows and lists change at once, without sliding or easing.	স্ক্রিন, উইন্ডো আর তালিকা সঙ্গে সঙ্গে বদলায়, সরে বা ধীরে ধীরে নয়।

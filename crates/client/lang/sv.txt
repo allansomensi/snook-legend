@@ -2524,3 +2524,5 @@ Comes with it	Det här ingår
 See the achievement	Visa prestationen
 Animated	Animerad
 Previous	Föregående
+Reduce motion	Minska rörelse
+Screens, windows and lists change at once, without sliding or easing.	Skärmar, fönster och listor byts direkt, utan glidning eller övergångar.

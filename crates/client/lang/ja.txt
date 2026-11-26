@@ -2524,3 +2524,5 @@ Comes with it	一緒にもらえるもの
 See the achievement	実績を見る
 Animated	アニメーション
 Previous	前へ
+Reduce motion	動きを減らす
+Screens, windows and lists change at once, without sliding or easing.	画面・ウィンドウ・リストが、スライドやなめらかな切り替えなしで即座に変わります。

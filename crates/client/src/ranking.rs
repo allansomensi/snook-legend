@@ -23,7 +23,7 @@ pub enum RankingAction {
 
 #[derive(Default)]
 pub struct Ranking {
-    first: usize,
+    scroll: crate::ui::Scroll,
     /// The rules whose ranking is shown (a tab each).
     rules: Rules,
     /// Only the player and their friends (else the world's top 100).
@@ -194,7 +194,7 @@ impl Ranking {
 
     /// Opens on the ranking of the rules the player plays.
     pub fn open(&mut self, online: &mut Online) {
-        self.first = 0;
+        self.scroll.reset();
         self.rules = online.rules;
         self.request(online, self.rules);
     }
@@ -211,7 +211,7 @@ impl Ranking {
     pub fn draw(&mut self, ui: &mut Ui, online: &mut Online) -> RankingAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+        ui.screen_dim(0.5);
         // The world's top 100, or only the player and their friends.
         let entries = if self.doubles {
             online.doubles.leaderboard.get(self.rules).clone()
@@ -264,7 +264,7 @@ impl Ranking {
         if let Some(k) = ui.segmented(seg, &views, picked) {
             self.doubles = k == views.len() - 1;
             self.friends = can_friends && k == 1;
-            self.first = 0;
+            self.scroll.reset();
             if self.friends {
                 online.send(snook_legend_proto::ClientMsg::Friends);
             } else {
@@ -288,9 +288,14 @@ impl Ranking {
         let players = online.counts().map(|c| c.map(|_, n| n.players));
         if let Some(rules) = crate::rulesui::switch(ui, tabs, self.rules, players) {
             self.rules = rules;
-            self.first = 0;
+            self.scroll.reset();
             self.request(online, rules);
         }
+        // Other rules or another board: the list slides in from that side.
+        let board = if self.doubles { 2 } else { i64::from(self.friends) };
+        let rules = i64::from(self.rules == snook_legend_core::Rules::Official);
+        let _switch =
+            ui.switch_scope(crate::ui::motion::id("ranking-board"), rules * 4 + board, 16.0);
         // Each of the rules has its own rating: said under the list.
         let note = online.me.as_ref().filter(|m| !m.guest).map(|me| {
             let other = self.rules.other();
@@ -359,44 +364,53 @@ impl Ranking {
         }
         let me = online.me.as_ref().map(|m| m.username.clone()).unwrap_or_default();
         let mine = entries.iter().position(|e| e.username.eq_ignore_ascii_case(&me));
-        let visible = entries.len().min(room);
-        self.first = ui.scroll_list(list, self.first, entries.len(), visible);
         // Your own row, when it is scrolled out of sight, stays pinned at
-        // the bottom (under a thin line), so you always see where you are.
-        let pinned = mine.filter(|&m| m < self.first || m >= self.first + visible);
-        let shown = if pinned.is_some() { visible - 1 } else { visible };
-        let mut rows: Vec<(usize, f32)> = (self.first..(self.first + shown).min(entries.len()))
-            .enumerate()
-            .map(|(k, i)| (i, list.y + k as f32 * ROW_H))
-            .collect();
+        // the bottom (under a thin line), so you always see where you are:
+        // it takes the last place, where it slides into the list.
+        let pin_h = ROW_H + 2.0;
+        let offset = self.scroll.offset();
+        let pinned = mine.filter(|&m| {
+            let top = m as f32 * ROW_H - offset;
+            scrolls && (top < -0.5 || top + ROW_H > list.h - pin_h + 0.5)
+        });
+        let view_r = if pinned.is_some() { Rect { h: list.h - pin_h, ..list } } else { list };
+        let view = ui.list_begin(view_r, &mut self.scroll, entries.len(), ROW_H);
+        let mut rows: Vec<(usize, f32)> = view.rows().map(|i| (i, view.y(i))).collect();
+        let in_view = rows.len();
         if let Some(m) = pinned {
-            let y = list.y + shown as f32 * ROW_H;
-            draw_line(
-                x0 + 8.0,
-                y + 1.0,
-                x1 - 8.0,
-                y + 1.0,
-                1.0,
-                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.35),
-            );
-            rows.push((m, y + 2.0));
+            rows.push((m, view_r.y + view_r.h + 2.0));
         }
-        for (i, y) in rows {
+        let mut view = Some(view);
+        for (k, (i, y)) in rows.into_iter().enumerate() {
+            if k == in_view
+                && let Some(v) = view.take()
+            {
+                ui.scroll_end(v, &mut self.scroll);
+                let y = view_r.y + view_r.h;
+                draw_line(
+                    x0 + 8.0,
+                    y + 1.0,
+                    x1 - 8.0,
+                    y + 1.0,
+                    1.0,
+                    Color::new(GOLD.r, GOLD.g, GOLD.b, 0.35),
+                );
+            }
             let e = &entries[i];
             let row = Rect::new(x0, y + 2.0, x1 - x0, ROW_H - 4.0);
             let is_me = Some(i) == mine;
             let hover = ui.hovering(row);
+            // Lights up under the pointer, easing in and out.
+            let lit = ui.hover_anim(row, hover);
             if is_me {
-                rrect(
-                    row,
-                    6.0,
-                    Color::new(GOLD.r, GOLD.g, GOLD.b, if hover { 0.22 } else { 0.15 }),
-                );
+                rrect(row, 6.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.15 + 0.07 * lit));
                 rrect_lines(row, 6.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.55));
-            } else if hover {
-                rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, 0.08));
-            } else if i % 2 == 0 {
-                rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, 0.025));
+            } else {
+                let rest = if i % 2 == 0 { 0.025 } else { 0.0 };
+                let a = rest + (0.08 - rest) * lit;
+                if a > 0.001 {
+                    rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, a));
+                }
             }
             let mid = row.y + row.h / 2.0;
             let medal = match e.rank {
@@ -453,6 +467,9 @@ impl Ranking {
             if hover && ui.clicked(row) {
                 action = RankingAction::Profile(e.username.clone());
             }
+        }
+        if let Some(v) = view.take() {
+            ui.scroll_end(v, &mut self.scroll);
         }
         action
     }

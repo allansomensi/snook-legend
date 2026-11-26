@@ -2524,3 +2524,5 @@ Comes with it	Das gibt es dazu
 See the achievement	Erfolg ansehen
 Animated	Animiert
 Previous	Zurück
+Reduce motion	Bewegung reduzieren
+Screens, windows and lists change at once, without sliding or easing.	Bildschirme, Fenster und Listen wechseln sofort, ohne Gleiten oder Übergänge.

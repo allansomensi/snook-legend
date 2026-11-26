@@ -153,7 +153,7 @@ impl Versus {
     ) -> VersusAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+        ui.screen_dim(0.5);
         let w = (sw - 40.0).min(1000.0);
         let h = (sh - 40.0).min(660.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
@@ -230,6 +230,9 @@ impl Versus {
         let body =
             Rect::new(r.x + PAD, r.y + HEADER_H + 8.0, r.w - 2.0 * PAD, r.h - HEADER_H - 8.0 - PAD);
         draw_line(r.x + PAD - 8.0, body.y - 6.0, r.x + r.w - PAD + 8.0, body.y - 6.0, 1.0, BORDER);
+        // Another tab slides in from its side.
+        let picked = order.iter().position(|t| *t == self.tab).unwrap_or(0);
+        let fx = ui.switch_in(crate::ui::motion::id("versus-tab"), picked as i64, 18.0);
         let inner = match self.tab {
             Tab::Free => self.free(ui, config, online, body),
             Tab::Ladder => self.ladder(ui, config, online, progress, claimer, body),
@@ -250,6 +253,7 @@ impl Versus {
                 self.cup(ui, config, cup, body, (shown, waiting, account.is_some()))
             }
         };
+        ui.pop_fx(fx);
         if !matches!(inner, VersusAction::None) {
             action = inner;
         }

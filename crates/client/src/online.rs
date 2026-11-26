@@ -235,7 +235,7 @@ pub struct Online {
     auto_resume: bool,
     pub rated_games: bool,
     pub tab: Tab,
-    list_first: usize,
+    list_first: crate::ui::Scroll,
     tables: Vec<TableInfo>,
     table_private: bool,
     table_password: String,
@@ -767,7 +767,7 @@ impl Online {
             auto_resume: false,
             rated_games: true,
             tab: Tab::Players,
-            list_first: 0,
+            list_first: Default::default(),
             tables: Vec::new(),
             table_private: false,
             table_password: String::new(),
@@ -2443,7 +2443,7 @@ impl Online {
         let show_note = base + note_h <= sh - 16.0;
         let h = if show_note { base + note_h } else { base };
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
+        let _modal = ui.modal_scope(crate::ui::motion::id("email-offer"), 0.55);
         ui.panel(r);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
         let mut y = r.y + pad;
@@ -2560,7 +2560,7 @@ impl Online {
         }
         let h = fixed + lines.len() as f32 * line_h;
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.6));
+        let _modal = ui.modal_scope(crate::ui::motion::id("staff-warning"), 0.6);
         ui.panel(r);
         rrect_lines(r, 8.0, 2.0, ALERT);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
@@ -2713,8 +2713,14 @@ impl Online {
             let text_w = lines.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max);
             let h = lines.len() as f32 * 20.0 + 16.0;
             y -= h + 8.0;
-            let r = Rect::new(mid - (text_w + 40.0) / 2.0, y, text_w + 40.0, h);
-            toasts.push((r, lines, ttl.min(1.0), *good));
+            // A new one rises in and fades in; those above it glide up to
+            // make room instead of jumping.
+            let key = crate::ui::motion::id(text);
+            let come = crate::ui::motion::ease_out(ui.appear(key, 0.22));
+            let at = ui.glide(crate::ui::motion::mix(key, 1), y, 14.0);
+            let r =
+                Rect::new(mid - (text_w + 40.0) / 2.0, at + 18.0 * (1.0 - come), text_w + 40.0, h);
+            toasts.push((r, lines, ttl.min(1.0) * come, *good));
         }
         // Drawn over everything at the end of the frame: they float above the
         // panels and are not held to any panel's edge.
@@ -2894,7 +2900,7 @@ impl Online {
             if note_lines.is_empty() { 0.0 } else { 10.0 + note_lines.len() as f32 * 18.0 };
         let h = pad + 64.0 + 22.0 + 24.0 + 44.0 + 20.0 + 24.0 + 48.0 + note_h + 28.0 + 44.0 + pad;
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
+        let _modal = ui.modal_scope(crate::ui::motion::id("invite"), 0.55);
         crate::ui::soft_shadow(r, 10.0, 1.0);
         ui.panel(r);
         let x = r.x + pad;
@@ -3308,7 +3314,7 @@ impl Online {
             && !self.chat_dialog_open
             && self.invite_dialog.is_none();
         // A dark wash over the slowly turning table: the room is the backdrop.
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.42));
+        ui.screen_dim(0.42);
         let mut action = OnlineAction::None;
         if esc {
             if self.tournament_form.is_some() {
@@ -3508,7 +3514,7 @@ impl Online {
         if let Some(k) = clicked {
             let tab = tabs[k].0;
             self.tab = tab;
-            self.list_first = 0;
+            self.list_first.reset();
             if tab == Tab::Friends {
                 self.send(ClientMsg::Friends);
                 self.unread_friend_requests = false;
@@ -3543,6 +3549,9 @@ impl Online {
         let top = left.y + pad + 34.0 + 14.0;
         let area =
             Rect::new(left.x + pad, top, left.w - pad * 2.0, left.y + left.h - pad - top - reserve);
+        // Another tab slides in from its side.
+        let index = tabs.iter().position(|(tab, _)| *tab == self.tab).unwrap_or(0);
+        let fx = ui.switch_in(crate::ui::motion::id("lounge-tab"), index as i64, 16.0);
         match self.tab {
             Tab::Players => {
                 if let Some(a) = self.draw_players(ui, area) {
@@ -3563,6 +3572,7 @@ impl Online {
             }
             Tab::Doubles => self.draw_doubles(ui, area),
         }
+        ui.pop_fx(fx);
 
         // Outgoing invitation.
         if let Some((to, rated, rules)) = self.outgoing.clone() {
@@ -3653,6 +3663,10 @@ impl Online {
         }
         if self.side != Side::Chat {
             let area = Rect::new(inner_x, log_top, inner_w, bottom - log_top);
+            // (Each comes in when it is picked.)
+            let key =
+                crate::ui::motion::mix(crate::ui::motion::id("lounge-side"), self.side as u64);
+            let fx = ui.come_in(key, vec2(16.0, 0.0));
             match self.side {
                 Side::Missions => self.draw_missions(ui, area),
                 _ => {
@@ -3661,6 +3675,7 @@ impl Online {
                     }
                 }
             }
+            ui.pop_fx(fx);
             return action;
         }
         // The featured game: anyone can watch it. One of this player's own,
@@ -3753,6 +3768,8 @@ impl Online {
                 empty_state(ui, log, Glyph::Chat, t("No messages yet."), None);
             }
         } else {
+            // (Back from the missions or the board, it comes in again.)
+            let fx = ui.come_in(crate::ui::motion::id("lounge-chat"), vec2(-16.0, 0.0));
             let (scroll, act) = ui.chat_log_ex(
                 LOUNGE_LOG,
                 log,
@@ -3762,6 +3779,7 @@ impl Online {
                 staff,
                 self.chat_scroll,
             );
+            ui.pop_fx(fx);
             self.chat_scroll = scroll;
             match act {
                 Some(crate::ui::ChatAction::Delete { id, silent }) => {
@@ -4009,7 +4027,7 @@ impl Online {
             + 20.0
             + pad;
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.6));
+        let _modal = ui.modal_scope(crate::ui::motion::id("chat-dialog"), 0.6);
         ui.panel(r);
         let mut y = r.y + pad;
         ui.text(title, r.x + pad, y, 22.0, GOLD, true);
@@ -4583,14 +4601,13 @@ impl Online {
             let cta = Some(t("Open a table"));
             if empty_state(ui, list, Glyph::Icon(Icon::People), text, cta) {
                 self.tab = Tab::Tables;
-                self.list_first = 0;
+                self.list_first.reset();
             }
             return action;
         }
         let row_h = 48.0;
-        let visible = (list.h / row_h).floor().max(1.0) as usize;
-        self.list_first = ui.scroll_list(list, self.list_first, players.len(), visible);
-        let row_w = list.w - if players.len() > visible { 12.0 } else { 0.0 };
+        let view = ui.list_begin(list, &mut self.list_first, players.len(), row_h);
+        let row_w = list.w - if view.scrolls() { 12.0 } else { 0.0 };
         let invite_label = t("Invite");
         let watch_label = t("Watch");
         let challenge_label = t("Challenge");
@@ -4604,8 +4621,9 @@ impl Online {
         let mut watch = None;
         let mut daily = None;
         let mut take_down = None;
-        for (k, p) in players.iter().skip(self.list_first).take(visible).enumerate() {
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
+        for k in view.rows() {
+            let p = &players[k];
+            let r = Rect::new(list.x, view.y(k), row_w, row_h - 6.0);
             let note = self.social.note_of(&p.username, now).cloned();
             let button = Rect::new(r.x + r.w - bw - 6.0, r.y + 6.0, bw, r.h - 12.0);
             // The staff can take a note down (×, before the button).
@@ -4702,6 +4720,7 @@ impl Online {
                 }
             }
         }
+        ui.scroll_end(view, &mut self.list_first);
         if let Some(to) = invite {
             self.open_invite(&to);
         }
@@ -4872,15 +4891,15 @@ impl Online {
             return;
         }
         let row_h = 52.0;
-        let visible = (list.h / row_h).floor().max(1.0) as usize;
-        self.list_first = ui.scroll_list(list, self.list_first, others.len(), visible);
-        let row_w = list.w - if others.len() > visible { 12.0 } else { 0.0 };
+        let view = ui.list_begin(list, &mut self.list_first, others.len(), row_h);
+        let row_w = list.w - if view.scrolls() { 12.0 } else { 0.0 };
         let sit = t("Sit down");
         let join_label = t("Join");
         let bw = button_w(ui, sit, 32.0).max(button_w(ui, join_label, 32.0)).max(96.0);
         let mut join = None;
-        for (k, table) in others.iter().skip(self.list_first).take(visible).enumerate() {
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
+        for k in view.rows() {
+            let table = &others[k];
+            let r = Rect::new(list.x, view.y(k), row_w, row_h - 6.0);
             row_card(ui, r, false);
             crate::icons::draw(Icon::Table, vec2(r.x + 22.0, r.y + r.h / 2.0), 22.0, CREAM);
             let button = Rect::new(r.x + r.w - bw - 7.0, r.y + 7.0, bw, r.h - 14.0);
@@ -4929,6 +4948,7 @@ impl Online {
                 }
             }
         }
+        ui.scroll_end(view, &mut self.list_first);
         if let Some((id, password)) = join {
             self.send(ClientMsg::JoinTable { id, password });
         }
@@ -5120,16 +5140,16 @@ impl Online {
             return;
         }
         let row_h = 58.0;
-        let visible = (list.h / row_h).floor().max(1.0) as usize;
         let mut order: Vec<&TournamentInfo> = self.tournaments.iter().collect();
         order.sort_by_key(|t| {
             (t.state != TournamentState::Registering, t.state == TournamentState::Finished, t.id)
         });
-        self.list_first = ui.scroll_list(list, self.list_first, order.len(), visible);
-        let row_w = list.w - if order.len() > visible { 12.0 } else { 0.0 };
+        let view = ui.list_begin(list, &mut self.list_first, order.len(), row_h);
+        let row_w = list.w - if view.scrolls() { 12.0 } else { 0.0 };
         let mut open = None;
-        for (k, tour) in order.iter().skip(self.list_first).take(visible).enumerate() {
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
+        for k in view.rows() {
+            let tour = &order[k];
+            let r = Rect::new(list.x, view.y(k), row_w, row_h - 6.0);
             let hover = row_card(ui, r, true);
             crate::icons::draw(Icon::Trophy, vec2(r.x + 22.0, r.y + r.h / 2.0), 22.0, GOLD);
             // On the right: the state, and a star (rated) and a lock (password).
@@ -5166,6 +5186,7 @@ impl Online {
                 open = Some(tour.id);
             }
         }
+        ui.scroll_end(view, &mut self.list_first);
         if let Some(id) = open {
             self.selected_tournament = Some(id);
             self.tournament_password.clear();
@@ -5463,9 +5484,8 @@ impl Online {
             return action;
         }
         let row_h = 48.0;
-        let visible = (list.h / row_h).floor().max(1.0) as usize;
-        self.list_first = ui.scroll_list(list, self.list_first, total, visible);
-        let row_w = list.w - if total > visible { 12.0 } else { 0.0 };
+        let view = ui.list_begin(list, &mut self.list_first, total, row_h);
+        let row_w = list.w - if view.scrolls() { 12.0 } else { 0.0 };
         let invite_label = t("Invite");
         let watch_label = t("Watch");
         let bw = button_w(ui, invite_label, 30.0).max(button_w(ui, watch_label, 30.0)).max(96.0);
@@ -5476,9 +5496,10 @@ impl Online {
         let mut message = None;
         let friends = self.friends.friends.clone();
         let outgoing = self.friends.outgoing.clone();
-        let rows = friends.iter().map(Some).chain(outgoing.iter().map(|_| None));
-        for (k, (friend, i)) in rows.zip(0..).skip(self.list_first).take(visible).enumerate() {
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
+        // The friends, then the requests sent (no friend yet).
+        for k in view.rows() {
+            let (friend, i) = (friends.get(k), k);
+            let r = Rect::new(list.x, view.y(k), row_w, row_h - 6.0);
             // Remove (×) at the far right; the main button before it, and a
             // daily game (friends who are away too) before that.
             let x_r = Rect::new(r.x + r.w - 6.0 - 30.0, r.y + 6.0, 30.0, r.h - 12.0);
@@ -5559,6 +5580,7 @@ impl Online {
                 }
             }
         }
+        ui.scroll_end(view, &mut self.list_first);
         if let Some(to) = invite {
             self.open_invite(&to);
         }
@@ -5919,10 +5941,14 @@ fn header_chip(ui: &mut Ui, r: Rect, active: bool) -> bool {
 /// pointer. Returns whether the pointer is over it.
 pub(crate) fn row_card(ui: &Ui, r: Rect, clickable: bool) -> bool {
     let hover = ui.hovering(r);
-    let lit = hover && clickable;
-    rrect(r, 7.0, Color::new(1.0, 1.0, 1.0, if lit { 0.075 } else { 0.035 }));
-    if lit {
-        rrect_lines(r, 7.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.35));
+    // Lights up under the pointer, easing in and out.
+    let lit = ui.hover_anim(r, hover && clickable);
+    rrect(r, 7.0, Color::new(1.0, 1.0, 1.0, 0.035 + 0.04 * lit));
+    if lit > 0.01 {
+        rrect_lines(r, 7.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.35 * lit));
+    }
+    if hover && clickable {
+        ui.clickable(r);
     }
     hover
 }

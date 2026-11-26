@@ -2524,3 +2524,5 @@ Comes with it	附带奖励
 See the achievement	查看成就
 Animated	动态
 Previous	上一个
+Reduce motion	减少动态效果
+Screens, windows and lists change at once, without sliding or easing.	界面、窗口和列表即时切换，不滑动、不渐变。

@@ -2524,3 +2524,5 @@ Comes with it	Dit hoort erbij
 See the achievement	Prestatie bekijken
 Animated	Geanimeerd
 Previous	Vorige
+Reduce motion	Beweging beperken
+Screens, windows and lists change at once, without sliding or easing.	Schermen, vensters en lijsten wisselen meteen, zonder schuiven of overgangen.

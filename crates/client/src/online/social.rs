@@ -201,7 +201,7 @@ impl Online {
         let r = Rect::new(area.x, area.y, area.w.min(320.0), 30.0);
         if let Some(i) = ui.segmented(r, &options, self.social.recent_view as usize) {
             self.social.recent_view = i == 1;
-            self.list_first = 0;
+            self.list_first.reset();
             if self.social.recent_view {
                 self.request_recent();
             }
@@ -224,7 +224,7 @@ impl Online {
             let text = t("Nobody yet. The people you play online will show up here.");
             if empty_state(ui, area, Glyph::Icon(Icon::Replay), text, Some(t("Play now"))) {
                 self.tab = Tab::Players;
-                self.list_first = 0;
+                self.list_first.reset();
                 if self.queue.is_none() {
                     self.send(ClientMsg::QueueJoin { rated: self.rated_games, rules: self.rules });
                 }
@@ -233,9 +233,8 @@ impl Online {
         }
         let now = crate::game::unix_now();
         let row_h = 48.0;
-        let visible = (area.h / row_h).floor().max(1.0) as usize;
-        self.list_first = ui.scroll_list(area, self.list_first, recent.len(), visible);
-        let row_w = area.w - if recent.len() > visible { 12.0 } else { 0.0 };
+        let view = ui.list_begin(area, &mut self.list_first, recent.len(), row_h);
+        let row_w = area.w - if view.scrolls() { 12.0 } else { 0.0 };
         let invite_label = t("Invite");
         let watch_label = t("Watch");
         let bw = button_w(ui, invite_label, 30.0).max(button_w(ui, watch_label, 30.0)).max(96.0);
@@ -243,8 +242,9 @@ impl Online {
         let mut invite = None;
         let mut befriend = None;
         let mut watch = None;
-        for (k, r_) in recent.iter().skip(self.list_first).take(visible).enumerate() {
-            let r = Rect::new(area.x, area.y + k as f32 * row_h, row_w, row_h - 6.0);
+        for k in view.rows() {
+            let r_ = &recent[k];
+            let r = Rect::new(area.x, view.y(k), row_w, row_h - 6.0);
             let mid = r.y + r.h / 2.0;
             // As they are now, if they are here.
             let live = self.players.iter().find(|p| p.username == r_.player.username);
@@ -327,6 +327,7 @@ impl Online {
                 }
             }
         }
+        ui.scroll_end(view, &mut self.list_first);
         if let Some(to) = invite {
             self.open_invite(&to);
         }

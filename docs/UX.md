@@ -235,8 +235,62 @@ game and needs other cut points.
 | At the table: a recorded game | Its controls floated over the table's bottom cushion while the bottom bar sat empty. | In the bottom bar. |
 | Game over | "Computer wins!" in the same celebratory gold as a win. | A win: gold, a trophy and a glow; a loss: plain. |
 
+## Motion: scrolling, transitions, feedback
+
+Navigating felt hard: lists jumped by whole rows, screens and dialogs
+appeared in one frame, selections snapped from one tab to another. Every
+screen was gone through for it; the fixes are in the toolkit
+(`ui/motion.rs`, `ui/scroll.rs`), so every screen has them.
+
+| Where | Before | Now |
+|---|---|---|
+| Lists (lounge, ranking, profile, inbox, gifts, friends, daily games, LAN, countries, languages, pictures, supporters) | Scrolled by whole rows, three a notch: rows popped in and out; a touchpad's small moves became whole jumps; the bar only showed where it was. The supporters' credits never scrolled (two arguments swapped). | By the pixel, eased toward where the wheel sends it (a notch is 96 units, notches add up; there in about 0.2 s, the same at any frame rate; a touchpad's small steps scroll a little). Rows cut by the edges are clipped and fade into the panel. Dragged with the pointer, a flick carries on and slows down, past an end it resists and springs back; a press that moves is a drag, not a click. The bar's thumb is dragged (a press on the track goes there), widens under the pointer, moves with the list. Arrows, Page Up/Down, Home and End for the list under the pointer (or the only one on screen). The ranking's own row slides into its pinned place at the bottom. |
+| Settings, notes, rules | 48 units a notch, at once. | The same smooth scrolling. |
+| Chats (lounge, table, messages) | Three rows a notch, at once; new lines pushed the others up in one frame; reading back, a new line moved what was being read. | Eased; a new line slides up into place; reading back, the view stays put. Its edges clipped and faded. |
+| Screens | Faded in over 0.2 s; the darkening behind the pages faded in again on every page, so the table flashed between two pages. | Fade in rising 14 units and growing from 98.5 % (0.2 s, eased out); the darkening stays from one page to the next (it fades in from the main menu only). |
+| Dialogs (purchases, gifts, account, settings, what's new, pickers, invitations, pause…) | Appeared in one frame, dimming included. | The dimming fades in (0.15 s); the dialog fades in growing from 95 % and rising 10 units (0.18 s, eased out). |
+| Popovers (emoji, phrases and reactions at the table, spin and elevation) | Appeared in one frame. | Grow out of their button (0.13 s). |
+| Tabs | The selection and its underline jumped. | The underline glides to the tab chosen; colours cross-fade; the content slides in 16–18 units from the tab's side (lounge, profile, settings, inbox, ranking, against the computer). The shop's and the collection's categories: the plate glides down the list, the page rises in. |
+| Segmented controls, the rules' switch, switches | The selection and the knob jumped. | The selection's plate and the knob slide; colours follow (the rules' switch turns from brown to blue on the way). |
+| Shop and collection pages | The next page replaced the last in one frame; a touchpad's stream of small turns turned pages at random. | The page slides by (out one side, in the other, 0.26 s, eased in and out; the one going out takes no clicks); a notch or a touchpad gesture turns one page. |
+| Panels that change size (profile panes, settings tabs) | Jumped to the new height. | Grow or shrink to it. |
+| Buttons, rows | Only some lit up eased; pressing moved the label a pixel. | Light eases in and out everywhere in the toolkit (buttons, icon buttons, tabs, toggles, rows of the lounge, ranking, inbox, the shop's categories); pressed, a button sinks (a little smaller and darker), eased; a press that began elsewhere doesn't press it. |
+| Toasts | Popped in; the stack jumped. | Rise in and fade in; those above glide up. |
+| Pointer | Always the arrow. | A hand over what can be clicked, the text cursor over fields. |
+| Back | A profile opened from the ranking (or the inbox), the shop opened from the inbox, went back to the main menu: the place in the list was lost. | Back (and Esc) goes back there, the list scrolled where it was. |
+
+Settings → Game → **Reduce motion** (follows the account): what slides,
+grows or glides is there at once, scrolling included; colours still ease.
+
+For code: `Ui::anim`, `glide`, `glide_rect`, `appear` (a small store keyed
+by a hash, forgotten three frames after the widget was last drawn);
+`Scroll` with `list_begin`/`scroll_begin`/`scroll_end`; `push_fx`/`pop_fx`
+and the scoped `modal_scope`, `switch_scope`, `popover_scope`;
+`switch_in`, `switch_down`, `come_in`, `carousel`, `wheel_steps`,
+`take_wheel`, `selection_glide`; `motion::push_clip`/`pop_clip` (scissor,
+nested, following what moves); `motion::want_cursor`.
+
+`tools/screens.py --input "<script>" --shots <frames> [--frames <last>]`
+takes a screen frame by frame at a fixed 60 frames a second
+(`SNOOK_LEGEND_INPUT`, `SNOOK_LEGEND_DT`, `SNOOK_LEGEND_SHOTS`), to see
+what moves: `--input "180:move 640 450;182:wheel -1"` scrolls the
+ranking, `"170:move 618 334;172:down;173:up"` opens a purchase.
+
+What moves is drawn through the batcher's model matrix, never a camera
+change: a camera change flushes what was drawn, and an extra flush in a
+frame let the bundled miniquad's texture cache (its `delete_texture`
+leaves the cache as it was) draw the bold font's atlas black at some
+sizes.
+
 ## Still to do
 
 - Arabic is shaped and ordered right, but laid out left to right (labels
   on the left, controls on the right, chevrons pointing right): a mirrored
   layout for right-to-left languages is a larger piece of work.
+- Dialogs come in but go out at once (a dialog closed is no longer drawn:
+  going out needs its last frame kept).
+- The mouse's back button: the bundled miniquad drops X11's buttons 8 and 9
+  and Windows' XBUTTON messages.
+- Tab moves between text fields only; buttons have no keyboard focus.
+- Some hand-drawn rows (cards in the shop, history rows) still light up at
+  once rather than easing.

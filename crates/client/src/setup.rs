@@ -39,7 +39,7 @@ impl Setup {
     pub fn draw(&mut self, ui: &mut Ui, config: &mut Config) -> SetupAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.45));
+        ui.screen_dim(0.45);
         let w = WIDTH.min(sw - 20.0);
         let inner = w - 2.0 * PAD;
 

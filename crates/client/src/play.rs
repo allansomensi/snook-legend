@@ -84,11 +84,12 @@ impl Controls {
         self.set_over_cue(false);
     }
 
+    /// (The interface shows the pointer's shape asked for each frame: see
+    /// `ui::motion::want_cursor`.)
     fn set_over_cue(&mut self, over: bool) {
-        if over != self.over_cue {
-            self.over_cue = over;
-            use macroquad::miniquad::{CursorIcon, window::set_mouse_cursor};
-            set_mouse_cursor(if over { CursorIcon::Move } else { CursorIcon::Default });
+        self.over_cue = over;
+        if over {
+            crate::ui::motion::want_cursor(macroquad::miniquad::CursorIcon::Move);
         }
     }
 }

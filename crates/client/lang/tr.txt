@@ -2524,3 +2524,5 @@ Comes with it	Bununla gelenler
 See the achievement	Başarımı gör
 Animated	Hareketli
 Previous	Önceki
+Reduce motion	Hareketi azalt
+Screens, windows and lists change at once, without sliding or easing.	Ekranlar, pencereler ve listeler kaymadan ya da geçiş olmadan anında değişir.

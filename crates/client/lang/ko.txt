@@ -2524,3 +2524,5 @@ Comes with it	함께 받는 보상
 See the achievement	업적 보기
 Animated	애니메이션
 Previous	이전
+Reduce motion	동작 줄이기
+Screens, windows and lists change at once, without sliding or easing.	화면, 창, 목록이 미끄러지거나 서서히 바뀌지 않고 즉시 바뀝니다.

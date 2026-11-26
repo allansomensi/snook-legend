@@ -2524,3 +2524,5 @@ Comes with it	इसके साथ मिलता है
 See the achievement	उपलब्धि देखें
 Animated	एनिमेटेड
 Previous	पिछला
+Reduce motion	गति कम करें
+Screens, windows and lists change at once, without sliding or easing.	स्क्रीन, विंडो और सूचियाँ तुरंत बदलती हैं, बिना खिसके या धीरे-धीरे बदले।

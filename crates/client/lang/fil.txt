@@ -2524,3 +2524,5 @@ Comes with it	Kasama nito
 See the achievement	Tingnan ang achievement
 Animated	Animated
 Previous	Nakaraan
+Reduce motion	Bawasan ang galaw
+Screens, windows and lists change at once, without sliding or easing.	Agad na nagbabago ang mga screen, window at listahan, nang walang pag-slide o unti-unting paglipat.

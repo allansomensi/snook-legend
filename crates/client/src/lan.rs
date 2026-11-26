@@ -26,7 +26,7 @@ pub struct LanScreen {
     discovery: Discovery,
     address: String,
     error: Option<String>,
-    first: usize,
+    first: crate::ui::Scroll,
     /// The name field was filled in once (emptying it must not refill it).
     named: bool,
 }
@@ -50,7 +50,7 @@ impl LanScreen {
             discovery: Discovery::new(),
             address: String::new(),
             error: None,
-            first: 0,
+            first: Default::default(),
             named: false,
         }
     }
@@ -73,7 +73,7 @@ impl LanScreen {
         self.discovery.poll();
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.45));
+        ui.screen_dim(0.45);
         if !self.named && config.lan_name.is_empty() {
             config.lan_name = if config.username.is_empty() {
                 config
@@ -208,13 +208,16 @@ impl LanScreen {
                 }
             }
         }
-        let visible = ((list.h - 12.0) / ROW_H).floor().max(1.0) as usize;
-        self.first = ui.scroll_list(list, self.first, games.len(), visible);
-        let scrolls = games.len() > visible;
-        for (k, g) in games.iter().skip(self.first).take(visible).enumerate() {
+        let games_area = Rect::new(list.x, list.y + 6.0, list.w, list.h - 12.0);
+        let mut view = ui.list_begin(games_area, &mut self.first, games.len(), ROW_H);
+        // (On a darker box of its own: no fades into the panel.)
+        view.fades = false;
+        let scrolls = view.scrolls();
+        for k in view.rows() {
+            let g = &games[k];
             let row = Rect::new(
                 list.x + 6.0,
-                list.y + 6.0 + k as f32 * ROW_H,
+                view.y(k),
                 list.w - if scrolls { 20.0 } else { 12.0 },
                 ROW_H - 4.0,
             );
@@ -233,6 +236,7 @@ impl LanScreen {
                 action = LanAction::Join(g.url(), config.lan_name.trim().to_string());
             }
         }
+        ui.scroll_end(view, &mut self.first);
         y = list.y + list.h + 20.0;
 
         // By address.

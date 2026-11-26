@@ -2524,3 +2524,5 @@ Comes with it	Що дає
 See the achievement	Переглянути досягнення
 Animated	Анімована
 Previous	Назад
+Reduce motion	Зменшити рух
+Screens, windows and lists change at once, without sliding or easing.	Екрани, вікна й списки змінюються одразу, без ковзання й плавних переходів.

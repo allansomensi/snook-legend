@@ -2524,3 +2524,5 @@ Comes with it	Hadiahnya
 See the achievement	Lihat pencapaian
 Animated	Animasi
 Previous	Sebelumnya
+Reduce motion	Kurangi gerakan
+Screens, windows and lists change at once, without sliding or easing.	Layar, jendela, dan daftar langsung berganti, tanpa bergeser atau transisi halus.

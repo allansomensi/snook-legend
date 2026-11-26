@@ -2524,3 +2524,5 @@ Comes with it	Insieme ottieni
 See the achievement	Vedi l’obiettivo
 Animated	Animata
 Previous	Precedente
+Reduce motion	Riduci il movimento
+Screens, windows and lists change at once, without sliding or easing.	Schermate, finestre ed elenchi cambiano subito, senza scorrimenti né transizioni.

@@ -13,7 +13,7 @@ use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_lines};
 #[derive(Default)]
 struct Picker {
     open: bool,
-    first: usize,
+    first: crate::ui::Scroll,
     /// The row Enter picks (moved with the arrow keys).
     sel: usize,
     /// The arrow keys have moved the highlight.
@@ -64,7 +64,7 @@ pub fn draw_picker(ui: &mut Ui, current: Lang) -> Option<Lang> {
     }
     let sw = crate::ui::vw();
     let sh = crate::ui::vh();
-    draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
+    let _modal = ui.modal_scope(crate::ui::motion::id("languages"), 0.55);
     let w = 380.0f32.min(sw - 20.0);
     // Header 24 + 28 + 16, list, 24.
     let chrome = 24.0 + 28.0 + 16.0 + 24.0;
@@ -100,7 +100,8 @@ pub fn draw_picker(ui: &mut Ui, current: Lang) -> Option<Lang> {
         if p.fresh {
             p.fresh = false;
             p.sel = Lang::ALL.iter().position(|l| *l == current).unwrap_or(0);
-            p.first = p.sel.saturating_sub(visible / 2);
+            let top = p.sel.saturating_sub(visible / 2) as f32 * ROW_H;
+            p.first.jump_to(top);
         }
         let down = is_key_pressed(KeyCode::Down);
         let up = is_key_pressed(KeyCode::Up);
@@ -112,17 +113,17 @@ pub fn draw_picker(ui: &mut Ui, current: Lang) -> Option<Lang> {
         }
         if down || up {
             p.keyed = true;
-            if p.sel < p.first {
-                p.first = p.sel;
-            } else if p.sel >= p.first + visible {
-                p.first = p.sel + 1 - visible;
-            }
+            let sel = p.sel;
+            p.first.reveal_row(sel, ROW_H);
         }
-        p.first = ui.scroll_list(area, p.first, count, visible);
-        let scrolls = count > visible;
-        for (k, lang) in Lang::ALL.iter().enumerate().skip(p.first).take(visible) {
+        // (The arrows move the highlight here, not the list.)
+        p.first.no_keys = true;
+        let view = ui.list_begin(area, &mut p.first, count, ROW_H);
+        let scrolls = view.scrolls();
+        for k in view.rows() {
+            let lang = &Lang::ALL[k];
             let row_w = area.w - if scrolls { 12.0 } else { 0.0 };
-            let row = Rect::new(area.x, area.y + (k - p.first) as f32 * ROW_H, row_w, ROW_H - 2.0);
+            let row = Rect::new(area.x, view.y(k), row_w, ROW_H - 2.0);
             let hover = ui.hovering(row);
             let selected = *lang == current;
             if selected {
@@ -141,6 +142,7 @@ pub fn draw_picker(ui: &mut Ui, current: Lang) -> Option<Lang> {
                 chosen = Some(*lang);
             }
         }
+        ui.scroll_end(view, &mut p.first);
         if is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter) {
             chosen = Some(Lang::ALL[p.sel]);
         }

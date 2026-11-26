@@ -2524,3 +2524,5 @@ Comes with it	Đi kèm
 See the achievement	Xem thành tựu
 Animated	Động
 Previous	Trước
+Reduce motion	Giảm chuyển động
+Screens, windows and lists change at once, without sliding or easing.	Màn hình, cửa sổ và danh sách đổi ngay, không trượt hay chuyển dần.

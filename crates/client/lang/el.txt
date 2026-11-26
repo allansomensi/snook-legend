@@ -2524,3 +2524,5 @@ Comes with it	Μαζί του παίρνεις
 See the achievement	Δες το επίτευγμα
 Animated	Κινούμενη
 Previous	Προηγούμενο
+Reduce motion	Μείωση κίνησης
+Screens, windows and lists change at once, without sliding or easing.	Οθόνες, παράθυρα και λίστες αλλάζουν αμέσως, χωρίς ολίσθηση ή ομαλή μετάβαση.

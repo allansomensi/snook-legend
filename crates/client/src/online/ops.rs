@@ -34,8 +34,8 @@ pub struct OpsView {
     /// The auction picked to bid on, and the amount typed.
     selected: Option<i64>,
     bid: String,
-    /// The first supporter shown (the list scrolls).
-    first: usize,
+    /// How far the supporters' list is scrolled.
+    first: crate::ui::Scroll,
 }
 
 impl OpsView {
@@ -140,7 +140,7 @@ impl Online {
     pub fn open_supporters(&mut self) {
         self.send(ClientMsg::Supporters);
         self.ops.supporters_open = true;
-        self.ops.first = 0;
+        self.ops.first.reset();
     }
 
     /// A page of this module is open (it takes the input).
@@ -206,7 +206,7 @@ impl Online {
     fn draw_auctions(&mut self, ui: &mut Ui) {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.6));
+        let _modal = ui.modal_scope(crate::ui::motion::id("ops-209"), 0.6);
         let w = (sw - 32.0).min(760.0);
         let h = (sh - 32.0).min(600.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
@@ -352,7 +352,7 @@ impl Online {
     fn draw_supporters(&mut self, ui: &mut Ui) {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.6));
+        let _modal = ui.modal_scope(crate::ui::motion::id("ops-355"), 0.6);
         let w = (sw - 32.0).min(560.0);
         let h = (sh - 32.0).min(600.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
@@ -386,11 +386,12 @@ impl Online {
             }
             Some(l) => {
                 let row_h = 30.0;
-                let rows = (list.h / row_h).floor().max(1.0) as usize;
-                self.ops.first = ui.scroll_list(list, self.ops.first, rows, l.len());
-                let mut ry = list.y;
-                for s in l.iter().skip(self.ops.first).take(rows) {
-                    let mid = ry + row_h / 2.0;
+                let view = ui.list_begin(list, &mut self.ops.first, l.len(), row_h);
+                // Clear of the scroll bar.
+                let inner = inner - if view.scrolls() { 14.0 } else { 0.0 };
+                for k in view.rows() {
+                    let s = &l[k];
+                    let mid = view.y(k) + row_h / 2.0;
                     let mut nx = x + 4.0;
                     if s.vip {
                         crate::icons::draw(Icon::Crown, vec2(nx + 8.0, mid), 15.0, GOLD);
@@ -407,8 +408,8 @@ impl Online {
                     );
                     let w_ = ui.text_size(&since, 12.0, false).x;
                     ui.text(&since, x + inner - w_, text_y(mid, 12.0), 12.0, MUTED, false);
-                    ry += row_h;
                 }
+                ui.scroll_end(view, &mut self.ops.first);
             }
         }
         if let Some(a) = account.filter(|a| a.supporter) {

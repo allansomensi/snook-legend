@@ -279,6 +279,13 @@ enum Screen {
     Inbox,
 }
 
+/// The screen a profile or the shop was opened from, to go back to.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum CameFrom {
+    Ranking,
+    Inbox,
+}
+
 /// A LAN game: the server this computer hosts (if any) and the connection.
 struct LanSession {
     host: Option<snook_legend_server::lan::LanHost>,
@@ -387,6 +394,9 @@ async fn main() {
     let mut notifier = notify::Notifier::default();
     // Where the profile and ranking go back to.
     let mut back_to_lounge = false;
+    // A profile opened from the ranking or the inbox (or the shop from the
+    // inbox) goes back there, where the player was, not to the menu.
+    let mut came_from: Option<CameFrom> = None;
     let mut settings_open = options.settings || pick_avatar;
     let mut settings_screen = SettingsScreen::default();
     settings_screen.dev_tab();
@@ -563,6 +573,7 @@ async fn main() {
         let frame_start = std::time::Instant::now();
         let dt = get_frame_time().min(0.1);
         ui::update_scale(config.ui_size);
+        ui::motion::set_reduce_motion(config.reduce_motion);
         // Every frame starts with nothing fading (a screen that opened sets
         // its fade while it is drawn).
         paint::set_screen_fade(1.0);
@@ -1570,9 +1581,17 @@ async fn main() {
                 }
                 None => {
                     let mut next: Option<Screen> = None;
-                    screen_fade = (screen_fade + get_frame_time() / 0.2).min(1.0);
-                    // Eased out: quick at first, settling gently.
-                    paint::set_screen_fade(1.0 - (1.0 - screen_fade).powi(3));
+                    screen_fade =
+                        (screen_fade + ui::motion::dt() / ui::motion::SCREEN_SECS).min(1.0);
+                    if ui::motion::reduced() {
+                        screen_fade = 1.0;
+                    }
+                    // Eased out: quick at first, settling gently. The page
+                    // fades in rising a little and growing the last bit to
+                    // its size (the darkening behind it stays put: see
+                    // `Ui::screen_dim`).
+                    let eased = ui::motion::ease_out(screen_fade);
+                    paint::set_screen_fade(eased);
                     // A gift is on screen (drawn over it below): the screen
                     // gets neither the pointer nor Esc (screens leave Esc
                     // alone while a field has the keyboard).
@@ -1588,6 +1607,12 @@ async fn main() {
                         ui.focus = Some(GIFT_DIALOG_FOCUS);
                         (ui.suspend_input(), field)
                     });
+                    let screen_fx = ui.push_fx(
+                        vec2(0.0, 14.0 * (1.0 - eased)),
+                        0.985 + 0.015 * eased,
+                        vec2(ui::vw() / 2.0, ui::vh() / 2.0),
+                        1.0,
+                    );
                     match &mut screen {
                         Screen::Menu => {
                             match menu.draw(&mut ui, &online, saved_balls, config.rules()) {
@@ -1960,6 +1985,7 @@ async fn main() {
                             }
                             RankingAction::Profile(name) => {
                                 profile.open(&name, &mut online);
+                                came_from = Some(CameFrom::Ranking);
                                 next = Some(Screen::Profile);
                             }
                             RankingAction::None => {}
@@ -1983,7 +2009,9 @@ async fn main() {
                         }
                         Screen::Shop => match shop.draw(&mut ui, &mut online) {
                             shop::ShopAction::Back => {
-                                next = Some(if back_to_lounge && online.signed_in() {
+                                next = Some(if came_from.take() == Some(CameFrom::Inbox) {
+                                    Screen::Inbox
+                                } else if back_to_lounge && online.signed_in() {
                                     Screen::Online
                                 } else {
                                     Screen::Menu
@@ -2025,9 +2053,11 @@ async fn main() {
                             }
                             inbox::InboxAction::Profile(name) => {
                                 profile.open(&name, &mut online);
+                                came_from = Some(CameFrom::Inbox);
                                 next = Some(Screen::Profile);
                             }
                             inbox::InboxAction::Shop(code) => {
+                                came_from = Some(CameFrom::Inbox);
                                 shop.open(&mut online);
                                 if !code.is_empty() {
                                     shop.show_item(&code);
@@ -2035,6 +2065,7 @@ async fn main() {
                                 next = Some(Screen::Shop);
                             }
                             inbox::InboxAction::Vip => {
+                                came_from = Some(CameFrom::Inbox);
                                 shop.open(&mut online);
                                 shop.show_tab("shop-vip");
                                 next = Some(Screen::Shop);
@@ -2045,6 +2076,7 @@ async fn main() {
                             }
                             // The collection (on the item) and the auctions' page.
                             inbox::InboxAction::Collection(code) => {
+                                came_from = Some(CameFrom::Inbox);
                                 shop.open_collection(&mut online);
                                 shop.show_item(&code);
                                 next = Some(Screen::Shop);
@@ -2053,10 +2085,11 @@ async fn main() {
                         },
                         Screen::Profile => match profile.draw(&mut ui, &mut online) {
                             ProfileAction::Back => {
-                                next = Some(if back_to_lounge && online.signed_in() {
-                                    Screen::Online
-                                } else {
-                                    Screen::Menu
+                                next = Some(match came_from.take() {
+                                    Some(CameFrom::Ranking) => Screen::Ranking,
+                                    Some(CameFrom::Inbox) => Screen::Inbox,
+                                    None if back_to_lounge && online.signed_in() => Screen::Online,
+                                    None => Screen::Menu,
                                 })
                             }
                             ProfileAction::Ghost(name) => {
@@ -2073,6 +2106,7 @@ async fn main() {
                             }
                             // The advanced statistics' preview: becoming VIP.
                             ProfileAction::ShopVip => {
+                                came_from = None;
                                 shop.open(&mut online);
                                 shop.show_tab("shop-vip");
                                 next = Some(Screen::Shop);
@@ -2080,6 +2114,7 @@ async fn main() {
                             ProfileAction::None => {}
                         },
                     }
+                    ui.pop_fx(screen_fx);
                     if let Some((saved, field)) = under_gift {
                         ui.resume_input(saved);
                         if ui.focus == Some(GIFT_DIALOG_FOCUS) {
@@ -2088,6 +2123,11 @@ async fn main() {
                     }
                     paint::set_screen_fade(1.0);
                     if let Some(n) = next {
+                        // (Only the profile and the shop go back where they
+                        // were opened from.)
+                        if !matches!(n, Screen::Profile | Screen::Shop) {
+                            came_from = None;
+                        }
                         screen = n;
                         screen_fade = 0.0;
                     }
@@ -2185,9 +2225,11 @@ async fn main() {
         }
         if let Some((text, t)) = &mut toast {
             *t -= dt;
-            let alpha = t.clamp(0.0, 1.0);
+            // Rises in, fades out.
+            let come = ui::motion::ease_out(ui.appear(ui::motion::id("graphics-toast"), 0.22));
+            let alpha = t.clamp(0.0, 1.0) * come;
             let w = ui.text_size(text, 15.0, false).x + 32.0;
-            let r = Rect::new((ui::vw() - w) / 2.0, ui::vh() - 60.0, w, 34.0);
+            let r = Rect::new((ui::vw() - w) / 2.0, ui::vh() - 60.0 + 16.0 * (1.0 - come), w, 34.0);
             ui::rrect(r, 17.0, Color::new(0.0, 0.0, 0.0, 0.7 * alpha));
             ui.text_centered(
                 text,
@@ -2490,7 +2532,7 @@ async fn main() {
 fn draw_replace_save(ui: &mut Ui, balls_left: usize, cup_game: bool) -> Option<Option<bool>> {
     use crate::i18n::{t, tw};
     let (sw, sh) = (ui::vw(), ui::vh());
-    draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.45));
+    let _modal = ui.modal_scope(ui::motion::id("replace-save"), 0.45);
     let w = 460.0f32.min(sw - 24.0);
     let text = if cup_game {
         t("You have your tournament game in progress. A new game takes its place, and the tournament game counts as lost.")
@@ -2723,7 +2765,7 @@ fn warn_unrewarded(
 /// to stop waiting (`hint`).
 fn draw_waiting(ui: &mut Ui, text: &str, hint: &str) {
     let (sw, sh) = (ui::vw(), ui::vh());
-    draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.45));
+    let _modal = ui.modal_scope(ui::motion::id("waiting"), 0.45);
     let widest = ui.text_size(text, 15.0, false).x.max(ui.text_size(hint, 12.0, false).x);
     let w = (widest + 64.0).min(sw - 32.0);
     let r = Rect::new((sw - w) / 2.0, sh / 2.0 - 36.0, w, 72.0);

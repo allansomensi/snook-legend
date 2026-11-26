@@ -2524,3 +2524,5 @@ Comes with it	Ce qui vient avec
 See the achievement	Voir le succès
 Animated	Animée
 Previous	Précédent
+Reduce motion	Réduire les animations
+Screens, windows and lists change at once, without sliding or easing.	Les écrans, fenêtres et listes changent d'un coup, sans glissement ni transition.

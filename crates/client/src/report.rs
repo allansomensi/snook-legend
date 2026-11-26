@@ -77,7 +77,7 @@ impl ReportDialog {
     pub fn draw(&mut self, ui: &mut Ui) -> ReportOutcome {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+        let _modal = ui.modal_scope(crate::ui::motion::id("report"), 0.5);
         let w = 460.0f32.min(sw - 20.0);
         let inner = w - 2.0 * PAD;
         let lines = ui.wrap(&self.note, inner - 34.0, 13.0);

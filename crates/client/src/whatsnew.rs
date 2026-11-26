@@ -186,7 +186,7 @@ fn unseen(seen: &str) -> Vec<String> {
 /// The dialog.
 pub struct WhatsNew {
     versions: Vec<String>,
-    scroll: f32,
+    scroll: crate::ui::Scroll,
     /// The rules of the game (the tab shown) instead of the notes.
     rules: Option<Rules>,
     /// The text laid out (blocks and height), for the width, the language
@@ -208,7 +208,7 @@ impl WhatsNew {
         let versions = unseen(seen);
         (!versions.is_empty()).then_some(WhatsNew {
             versions,
-            scroll: 0.0,
+            scroll: Default::default(),
             rules: None,
             layout: None,
         })
@@ -222,7 +222,7 @@ impl WhatsNew {
             .map(|n| n.version.clone())
             .filter(|v| !newer(v, VERSION))
             .collect();
-        WhatsNew { versions, scroll: 0.0, rules: None, layout: None }
+        WhatsNew { versions, scroll: Default::default(), rules: None, layout: None }
     }
 
     /// One version's notes (development aid: SNOOK_LEGEND_WHATS_NEW=0.2.0
@@ -230,7 +230,7 @@ impl WhatsNew {
     pub fn of(version: &str) -> Option<WhatsNew> {
         version_notes(version).map(|n| WhatsNew {
             versions: vec![n.version.clone()],
-            scroll: 0.0,
+            scroll: Default::default(),
             rules: None,
             layout: None,
         })
@@ -239,7 +239,12 @@ impl WhatsNew {
     /// The rules of the game, in the player's language, open on `rules`
     /// (the other's tab beside it).
     pub fn rules(rules: Rules) -> WhatsNew {
-        WhatsNew { versions: Vec::new(), scroll: 0.0, rules: Some(rules), layout: None }
+        WhatsNew {
+            versions: Vec::new(),
+            scroll: Default::default(),
+            rules: Some(rules),
+            layout: None,
+        }
     }
 
     /// Lays the notes (or the rules) out `inner` wide: the blocks of text and
@@ -281,7 +286,7 @@ impl WhatsNew {
     pub fn draw(&mut self, ui: &mut Ui) -> bool {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
+        let _modal = ui.modal_scope(crate::ui::motion::id("whats-new"), 0.55);
         const PAD: f32 = 28.0;
         // The rules have their tabs under the title.
         let header = if self.rules.is_some() { 76.0 + 58.0 } else { 76.0 };
@@ -334,35 +339,25 @@ impl WhatsNew {
             )
         {
             self.rules = Some(other);
-            self.scroll = 0.0;
+            self.scroll.reset();
             self.layout = None;
         }
 
         let body = Rect::new(r.x + PAD, r.y + header, inner, body_h);
-        let max_scroll = (content - body_h).max(0.0);
-        if max_scroll > 0.0 && ui.hovering(body) {
-            let (_, wheel) = mouse_wheel();
-            if wheel != 0.0 {
-                self.scroll -= wheel.signum() * 48.0;
-            }
-        }
-        if max_scroll > 0.0 {
-            if is_key_pressed(KeyCode::Down) || is_key_pressed(KeyCode::PageDown) {
-                self.scroll += if is_key_pressed(KeyCode::PageDown) { body_h * 0.8 } else { 40.0 };
-            }
-            if is_key_pressed(KeyCode::Up) || is_key_pressed(KeyCode::PageUp) {
-                self.scroll -= if is_key_pressed(KeyCode::PageUp) { body_h * 0.8 } else { 40.0 };
-            }
-        }
-        self.scroll = self.scroll.clamp(0.0, max_scroll);
-        if max_scroll > 0.0 {
-            crate::settings::clip(Some(Rect::new(body.x - 4.0, body.y, body.w + 8.0, body.h)));
-        }
+        // Scrolled smoothly (the wheel, a drag, the arrows and Page Up and
+        // Down), the lines cut by the edges fading into the panel.
+        let mut view = ui.scroll_begin(
+            Rect::new(body.x - 4.0, body.y, body.w + 8.0, body.h),
+            &mut self.scroll,
+            content,
+        );
+        view.track = Rect::new(r.x + r.w - 15.0, body.y, 4.0, body.h);
+        let top = view.top();
         for (by, lines, size, color, bold) in &blocks {
             let x = if *size == 16.0 || *size == 14.0 { body.x + 18.0 } else { body.x };
             for (i, line) in lines.iter().enumerate() {
-                let ly = body.y + by - self.scroll + i as f32 * (size + 5.0);
-                if ly + size < body.y || ly > body.y + body.h {
+                let ly = top + by + i as f32 * (size + 5.0);
+                if !view.visible(ly, *size) {
                     continue;
                 }
                 // A gold dot before each highlight.
@@ -372,20 +367,7 @@ impl WhatsNew {
                 ui.text(line, x, ly, *size, *color, *bold);
             }
         }
-        if max_scroll > 0.0 {
-            crate::settings::clip(None);
-            let view = Rect::new(body.x - 4.0, body.y, body.w + 8.0, body.h);
-            Ui::scroll_fades(r, view, self.scroll > 0.5, self.scroll < max_scroll - 0.5);
-            let track = Rect::new(r.x + r.w - 15.0, body.y, 4.0, body.h);
-            crate::ui::rrect(track, 2.0, Color::new(1.0, 1.0, 1.0, 0.06));
-            let bar = (track.h * body.h / content).max(20.0);
-            let at = track.y + (track.h - bar) * self.scroll / max_scroll;
-            crate::ui::rrect(
-                Rect::new(track.x, at, 4.0, bar),
-                2.0,
-                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7),
-            );
-        }
+        ui.scroll_end(view, &mut self.scroll);
         if shown.is_empty() {
             ui.text_centered(
                 t("No notes for this version."),

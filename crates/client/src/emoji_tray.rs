@@ -124,6 +124,9 @@ impl EmojiTray {
         );
         let y = (field_rect.y - h - 4.0).max(8.0);
         let p = Rect::new(x, y, w, h);
+        // Grows out of its button.
+        let anchor = vec2(button.x + button.w / 2.0, button.y);
+        let _pop = ui.popover_scope(crate::ui::motion::id("emoji-tray"), anchor);
         // Fades in, a small tray: the chat stays readable around it.
         self.fade = (self.fade + get_frame_time() / 0.12).min(1.0);
         crate::paint::set_opacity(opacity * self.fade);

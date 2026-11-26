@@ -38,7 +38,7 @@ pub struct DoublesView {
     /// just before the game itself.
     pub lineup: Option<Lineup>,
     /// The first row of the friends' list shown.
-    first: usize,
+    first: crate::ui::Scroll,
 }
 
 /// Puts a doubles game's line-up on its table: the teams' names, and the
@@ -228,12 +228,12 @@ impl Online {
             return y + 8.0;
         }
         let row_h = 46.0;
-        let visible = (list.h / row_h).floor().max(1.0) as usize;
-        self.doubles.first = ui.scroll_list(list, self.doubles.first, friends.len(), visible);
+        let view = ui.list_begin(list, &mut self.doubles.first, friends.len(), row_h);
         let ask = t("Invite");
         let bw = button_w(ui, ask, 30.0).max(84.0);
-        for (k, f) in friends.iter().skip(self.doubles.first).take(visible).enumerate() {
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, list.w - 12.0, row_h - 6.0);
+        for k in view.rows() {
+            let f = &friends[k];
+            let r = Rect::new(list.x, view.y(k), list.w - 12.0, row_h - 6.0);
             row_card(ui, r, false);
             ui.player_name(&f.player, r.x + 12.0, r.y + 11.0, 15.0, r.w - bw - 36.0);
             let b = Rect::new(r.x + r.w - bw - 6.0, r.y + 5.0, bw, r.h - 10.0);
@@ -241,7 +241,8 @@ impl Online {
                 self.send(ClientMsg::DoublesInvite { to: f.player.username.clone() });
             }
         }
-        list.y + (friends.len().min(visible) as f32) * row_h + 8.0
+        ui.scroll_end(view, &mut self.doubles.first);
+        list.y + (friends.len() as f32 * row_h).min(list.h) + 8.0
     }
 
     /// With a partner: who, and the two ways to find another pair.

@@ -2524,3 +2524,5 @@ Comes with it	Co k němu patří
 See the achievement	Zobrazit úspěch
 Animated	Animovaná
 Previous	Předchozí
+Reduce motion	Omezit pohyb
+Screens, windows and lists change at once, without sliding or easing.	Obrazovky, okna a seznamy se mění okamžitě, bez posouvání a plynulých přechodů.

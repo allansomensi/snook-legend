@@ -2524,3 +2524,5 @@ Comes with it	Co za nie dostajesz
 See the achievement	Zobacz osiągnięcie
 Animated	Animowana
 Previous	Poprzednie
+Reduce motion	Ogranicz ruch
+Screens, windows and lists change at once, without sliding or easing.	Ekrany, okna i listy zmieniają się od razu, bez przesuwania i płynnych przejść.

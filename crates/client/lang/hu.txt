@@ -2524,3 +2524,5 @@ Comes with it	Ezzel jár
 See the achievement	Teljesítmény megtekintése
 Animated	Animált
 Previous	Előző
+Reduce motion	Mozgás csökkentése
+Screens, windows and lists change at once, without sliding or easing.	A képernyők, ablakok és listák azonnal váltanak, csúszás és áttűnés nélkül.

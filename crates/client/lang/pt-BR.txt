@@ -2524,3 +2524,5 @@ Comes with it	Vem junto
 See the achievement	Ver a conquista
 Animated	Animada
 Previous	Anterior
+Reduce motion	Reduzir movimento
+Screens, windows and lists change at once, without sliding or easing.	Telas, janelas e listas mudam na hora, sem deslizar nem suavizar.

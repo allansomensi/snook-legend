@@ -2524,3 +2524,5 @@ Comes with it	สิ่งที่ได้รับ
 See the achievement	ดูความสำเร็จ
 Animated	เคลื่อนไหว
 Previous	ก่อนหน้า
+Reduce motion	ลด​การ​เคลื่อนไหว
+Screens, windows and lists change at once, without sliding or easing.	หน้าจอ หน้าต่าง และ​รายการ​เปลี่ยน​ทันที โดย​ไม่​เลื่อน​หรือ​ค่อยๆ​เปลี่ยน

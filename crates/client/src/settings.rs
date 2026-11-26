@@ -14,7 +14,7 @@ use crate::config::{AimGuide, Config, DEFAULT_SERVER, Quality};
 use crate::i18n::{t, tw};
 use crate::icons::Icon;
 use crate::keys::{self, Action, Bindings, Conflict};
-use crate::ui::{ALERT, BORDER, CREAM, Drag, GOLD, MUTED, Ui, rrect, rrect_lines};
+use crate::ui::{ALERT, BORDER, CREAM, Drag, GOLD, MUTED, Ui, mix, motion, rrect, rrect_lines};
 use crate::update::{self, Status};
 use crate::whatsnew::WhatsNew;
 
@@ -88,7 +88,7 @@ pub struct SettingsScreen {
     /// The "Advanced" section is open.
     advanced: bool,
     /// How far the rows are scrolled (only when the window is too short).
-    scroll: f32,
+    scroll: crate::ui::Scroll,
     /// "Reset to defaults" was pressed once, at this time: a second press
     /// within a few seconds resets.
     reset_armed: Option<f64>,
@@ -119,7 +119,7 @@ impl SettingsScreen {
             // (At the end of the Game tab: shown scrolled to it.)
             self.advanced = true;
             self.tab = Tab::Game;
-            self.scroll = f32::MAX;
+            self.scroll.jump_to(f32::MAX);
         }
         // SNOOK_LEGEND_SETTINGS_CAPTURE=shoot: waiting for a key for that action.
         if let Some(a) = crate::dev::var("SNOOK_LEGEND_SETTINGS_CAPTURE")
@@ -225,7 +225,7 @@ impl SettingsScreen {
         // Setting a key when the frame began: a press elsewhere only stops it.
         let was_capturing = self.capture.is_some();
         let esc_used = dialog.is_none() && self.capture_keys(ui, &mut config.keys);
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+        let _modal = ui.modal_scope(crate::ui::motion::id("settings"), 0.5);
 
         let w = WIDTH.min(sw - 2.0 * MARGIN);
         let inner = w - 2.0 * PAD;
@@ -251,7 +251,9 @@ impl SettingsScreen {
         } else {
             room
         };
-        let body_h = content.min(room);
+        // Another tab taller or shorter: the panel grows or shrinks to it.
+        let fits = content <= room;
+        let body_h = ui.glide(motion::id("settings-body"), content.min(room), 16.0);
         let r = Rect::new((sw - w) / 2.0, top, w, HEADER_H + body_h + FOOTER_H);
         ui.panel(r);
         let x = r.x + PAD;
@@ -272,45 +274,31 @@ impl SettingsScreen {
             let tr = Rect::new(x + k as f32 * (tab_w + 8.0), r.y + 60.0, tab_w, 34.0);
             if ui.tab_with_icon(tr, icon, label, self.tab == tab) && self.tab != tab {
                 self.tab = tab;
-                self.scroll = 0.0;
+                self.scroll.reset();
                 self.capture = None;
             }
         }
 
-        // The rows, scrolled when the window is too short for them.
+        // The rows, scrolled when the window is too short for them: rows
+        // cut by the edges are clipped there and fade into the panel, and
+        // the parts out of sight take no clicks.
         let body = Rect::new(x, r.y + HEADER_H, inner, body_h);
-        let max_scroll = (content - body_h).max(0.0);
-        if max_scroll > 0.0 && ui.hovering(body) {
-            let (_, wheel) = mouse_wheel();
-            if wheel != 0.0 {
-                self.scroll -= wheel.signum() * 48.0;
-            }
-        }
-        self.scroll = self.scroll.clamp(0.0, max_scroll);
-        let mut rows = Rows::draw(body, self.scroll, cards);
+        // Another tab slides in from its side.
+        let index = TABS.iter().position(|t| *t == self.tab).unwrap_or(0);
+        let fx = ui.switch_in(motion::id("settings-tab"), index as i64, 16.0);
+        let mut view = ui.scroll_begin(
+            Rect::new(body.x - 4.0, body.y, body.w + 8.0, body.h),
+            &mut self.scroll,
+            content,
+        );
+        view.track = Rect::new(r.x + r.w - 15.0, body.y, 4.0, body.h);
+        // (While the panel grows to a tab that fits, it doesn't scroll.)
+        view.bar = !fits;
+        let mut rows = Rows::draw(body, view.offset, cards);
         let tab = self.tab;
-        if max_scroll > 0.0 {
-            // Rows cut by the edges are clipped there, and the parts out of
-            // sight take no clicks (a drag already under way goes on).
-            clip(Some(Rect::new(body.x - 4.0, body.y, body.w + 8.0, body.h)));
-            let saved = ui.suspend_input();
-            let inside = body.contains(saved.0);
-            ui.resume_input((saved.0, saved.1 && inside, saved.2 && inside, saved.3));
-            self.rows(tab, ui, config, in_match, startup_msaa, advanced, &mut rows);
-            ui.resume_input(saved);
-            clip(None);
-        } else {
-            self.rows(tab, ui, config, in_match, startup_msaa, advanced, &mut rows);
-        }
-        if max_scroll > 0.0 {
-            let view = Rect::new(body.x - 4.0, body.y, body.w + 8.0, body.h);
-            Ui::scroll_fades(r, view, self.scroll > 0.5, self.scroll < max_scroll - 0.5);
-            let track = Rect::new(r.x + r.w - 15.0, body.y, 4.0, body.h);
-            rrect(track, 2.0, Color::new(1.0, 1.0, 1.0, 0.06));
-            let h = (track.h * body.h / content).max(20.0);
-            let y = track.y + (track.h - h) * self.scroll / max_scroll;
-            rrect(Rect::new(track.x, y, 4.0, h), 2.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7));
-        }
+        self.rows(tab, ui, config, in_match, startup_msaa, advanced, &mut rows);
+        ui.scroll_end(view, &mut self.scroll);
+        ui.pop_fx(fx);
 
         // Buttons. On the Controls tab, the reset is for the keys only.
         let by = r.y + r.h - 22.0 - 40.0;
@@ -555,6 +543,13 @@ impl SettingsScreen {
                         "No invitations while you play: they are turned away until the game is over.",
                     ),
                     &mut config.focus_mode,
+                );
+                switch_row(
+                    rows,
+                    ui,
+                    t("Reduce motion"),
+                    t("Screens, windows and lists change at once, without sliding or easing."),
+                    &mut config.reduce_motion,
                 );
 
                 // What the opponent says and sends in online games.
@@ -1295,50 +1290,33 @@ fn switch_row(rows: &mut Rows, ui: &mut Ui, label: &str, hint: &str, value: &mut
 fn toggle_on_click(ui: &mut Ui, row: Rect, place: Rect, value: &mut bool, enabled: bool) -> bool {
     ui.block(row);
     let hover = enabled && ui.hovering(row);
-    switch(place, *value, enabled, hover);
     if hover && ui.clicked(row) {
         *value = !*value;
+        switch(ui, place, *value, enabled, hover);
         return true;
     }
+    switch(ui, place, *value, enabled, hover);
     false
 }
 
 /// An on/off switch: a gold track with the knob on the right when on, a
-/// dark one with the knob on the left when off.
-fn switch(track: Rect, on: bool, enabled: bool, hover: bool) {
+/// dark one with the knob on the left when off. The knob slides across and
+/// the track's colour follows it.
+fn switch(ui: &Ui, track: Rect, on: bool, enabled: bool, hover: bool) {
     let a = if enabled { 1.0 } else { 0.4 };
     let radius = track.h / 2.0;
-    let (bg, edge) = if on {
-        (
-            Color::new(0.62, 0.46, 0.19, a),
-            if hover { GOLD } else { Color::new(0.80, 0.63, 0.30, a) },
-        )
-    } else {
-        (
-            Color::new(0.07, 0.05, 0.035, a),
-            if hover { GOLD } else { Color::new(BORDER.r, BORDER.g, BORDER.b, a) },
-        )
-    };
+    let k = ui.glide(motion::rect_key(motion::id("switch"), track), on as u8 as f32, 16.0);
+    let lit = ui.hover_anim(track, hover);
+    let bg = mix(Color::new(0.07, 0.05, 0.035, a), Color::new(0.62, 0.46, 0.19, a), k);
+    let rest = mix(Color::new(BORDER.r, BORDER.g, BORDER.b, a), Color::new(0.80, 0.63, 0.30, a), k);
+    let edge = mix(rest, GOLD, lit);
     rrect(track, radius, bg);
     rrect_lines(track, radius, 1.2, edge);
-    let kx = if on { track.x + track.w - radius } else { track.x + radius };
+    let kx = track.x + radius + (track.w - 2.0 * radius) * k;
     let cy = track.y + radius;
     draw_circle(kx, cy + 1.0, radius - 3.5, Color::new(0.0, 0.0, 0.0, 0.3 * a));
-    let knob =
-        if on { Color::new(1.0, 0.97, 0.9, a) } else { Color::new(MUTED.r, MUTED.g, MUTED.b, a) };
+    let knob = mix(Color::new(MUTED.r, MUTED.g, MUTED.b, a), Color::new(1.0, 0.97, 0.9, a), k);
     draw_circle(kx, cy, radius - 3.5, knob);
-}
-
-/// Clips what is drawn from now on to `r` (in interface units), or stops
-/// clipping.
-pub(crate) fn clip(r: Option<Rect>) {
-    let k = crate::ui::ui_scale();
-    let gl = unsafe { get_internal_gl() }.quad_gl;
-    gl.scissor(r.map(|r| {
-        let (x0, y0) = ((r.x * k).floor() as i32, (r.y * k).floor() as i32);
-        let (x1, y1) = (((r.x + r.w) * k).ceil() as i32, ((r.y + r.h) * k).ceil() as i32);
-        (x0, y0, x1 - x0, y1 - y0)
-    }));
 }
 
 /// A slider with a visible track and its value written at the right.

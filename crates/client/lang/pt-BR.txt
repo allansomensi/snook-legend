@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	As reações de todos aparecem du
 with {name}	com {name}
 {n} trophies	{n} troféus
 The only player that day	Único jogador do dia
+Reduce motion	Reduzir movimento
+Screens, windows and lists change at once, without sliding or easing.	Telas, janelas e listas mudam na hora, sem deslizar nem suavizar.

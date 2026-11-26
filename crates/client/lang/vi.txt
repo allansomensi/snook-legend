@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	Biểu cảm của mọi người
 with {name}	cùng {name}
 {n} trophies	{n} cúp
 The only player that day	Người chơi duy nhất hôm đó
+Reduce motion	Giảm chuyển động
+Screens, windows and lists change at once, without sliding or easing.	Màn hình, cửa sổ và danh sách đổi ngay, không trượt hay chuyển dần.

@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	แสดงรีแอคชั
 with {name}	กับ {name}
 {n} trophies	{n} ถ้วยรางวัล
 The only player that day	ผู้เล่นคนเดียวในวันนั้น
+Reduce motion	ลด​การ​เคลื่อนไหว
+Screens, windows and lists change at once, without sliding or easing.	หน้าจอ หน้าต่าง และ​รายการ​เปลี่ยน​ทันที โดย​ไม่​เลื่อน​หรือ​ค่อยๆ​เปลี่ยน

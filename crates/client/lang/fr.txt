@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	Les réactions de tous sont affic
 with {name}	avec {name}
 {n} trophies	{n} trophées
 The only player that day	Seul joueur ce jour-là
+Reduce motion	Réduire les animations
+Screens, windows and lists change at once, without sliding or easing.	Les écrans, fenêtres et listes changent d'un coup, sans glissement ni transition.

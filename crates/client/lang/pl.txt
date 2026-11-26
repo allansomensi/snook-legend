@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	Podczas meczów widać reakcje ws
 with {name}	z {name}
 {n} trophies	Trofea: {n}
 The only player that day	Jedyny gracz tego dnia
+Reduce motion	Ogranicz ruch
+Screens, windows and lists change at once, without sliding or easing.	Ekrany, okna i listy zmieniają się od razu, bez przesuwania i płynnych przejść.

@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	Ipinapakita ang reaksiyon ng laha
 with {name}	kasama si {name}
 {n} trophies	{n} tropeo
 The only player that day	Nag-iisang manlalaro noong araw na iyon
+Reduce motion	Bawasan ang galaw
+Screens, windows and lists change at once, without sliding or easing.	Agad na nagbabago ang mga screen, window at listahan, nang walang pag-slide o unti-unting paglipat.

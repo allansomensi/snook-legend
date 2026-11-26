@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	対戦中は全員のリアクシ
 with {name}	{name}と
 {n} trophies	トロフィー {n} 個
 The only player that day	その日の唯一の参加者
+Reduce motion	動きを減らす
+Screens, windows and lists change at once, without sliding or easing.	画面・ウィンドウ・リストが、スライドやなめらかな切り替えなしで即座に変わります。

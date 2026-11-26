@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	تظهر تفاعلات الجم�
 with {name}	مع {name}
 {n} trophies	{n} كؤوس
 The only player that day	اللاعب الوحيد في ذلك اليوم
+Reduce motion	تقليل الحركة
+Screens, windows and lists change at once, without sliding or easing.	تتغيّر الشاشات والنوافذ والقوائم فورًا، دون انزلاق أو انتقال تدريجي.

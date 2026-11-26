@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	比赛中显示所有人的表情
 with {name}	与 {name}
 {n} trophies	{n} 座奖杯
 The only player that day	当天唯一的参与者
+Reduce motion	减少动态效果
+Screens, windows and lists change at once, without sliding or easing.	界面、窗口和列表即时切换，不滑动、不渐变。

@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	मैच के दौरान 
 with {name}	{name} के साथ
 {n} trophies	{n} ट्रॉफ़ियाँ
 The only player that day	उस दिन के इकलौते खिलाड़ी
+Reduce motion	गति कम करें
+Screens, windows and lists change at once, without sliding or easing.	स्क्रीन, विंडो और सूचियाँ तुरंत बदलती हैं, बिना खिसके या धीरे-धीरे बदले।

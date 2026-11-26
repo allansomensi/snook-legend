@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	Ieders reacties worden tijdens po
 with {name}	met {name}
 {n} trophies	{n} trofeeën
 The only player that day	Enige speler die dag
+Reduce motion	Beweging beperken
+Screens, windows and lists change at once, without sliding or easing.	Schermen, vensters en lijsten wisselen meteen, zonder schuiven of overgangen.

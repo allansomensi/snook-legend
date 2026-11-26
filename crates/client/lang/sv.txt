@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	Allas reaktioner visas under matc
 with {name}	med {name}
 {n} trophies	{n} troféer
 The only player that day	Enda spelaren den dagen
+Reduce motion	Minska rörelse
+Screens, windows and lists change at once, without sliding or easing.	Skärmar, fönster och listor byts direkt, utan glidning eller övergångar.

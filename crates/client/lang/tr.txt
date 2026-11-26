@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	Maçlarda herkesin tepkileri gös
 with {name}	{name} ile
 {n} trophies	{n} kupa
 The only player that day	O günün tek oyuncusu
+Reduce motion	Hareketi azalt
+Screens, windows and lists change at once, without sliding or easing.	Ekranlar, pencereler ve listeler kaymadan ya da geçiş olmadan anında değişir.

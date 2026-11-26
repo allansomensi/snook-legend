@@ -2518,3 +2518,5 @@ Everyone's reactions are shown during matches.	Reaksi semua orang ditampilkan se
 with {name}	bersama {name}
 {n} trophies	{n} trofi
 The only player that day	Satu-satunya pemain hari itu
+Reduce motion	Kurangi gerakan
+Screens, windows and lists change at once, without sliding or easing.	Layar, jendela, dan daftar langsung berganti, tanpa bergeser atau transisi halus.

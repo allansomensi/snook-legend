@@ -382,7 +382,7 @@ impl WhatsNew {
         let bw = 180.0f32.min(inner);
         let button = Rect::new(r.x + r.w - PAD - bw, r.y + r.h - PAD - 40.0, bw, 40.0);
         ui.primary_button(button, if self.rules.is_some() { t("Close") } else { t("Got it") })
-            || is_key_pressed(KeyCode::Escape)
+            || crate::ui::esc_pressed()
             || is_key_pressed(KeyCode::Enter)
             || is_key_pressed(KeyCode::KpEnter)
             || ui.dismissed(r)

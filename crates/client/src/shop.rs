@@ -2102,5 +2102,9 @@ const GIFT_MESSAGE: u64 = 64;
 /// drawn over it (a present arriving, a warning from the staff), which
 /// holds the keyboard meanwhile.
 fn key_for_shop(ui: &Ui, key: KeyCode) -> bool {
-    is_key_pressed(key) && ui.focus.is_none_or(|f| f == GIFT_MESSAGE)
+    let pressed = match key {
+        KeyCode::Escape => crate::ui::esc_pressed(),
+        _ => is_key_pressed(key),
+    };
+    pressed && ui.focus.is_none_or(|f| f == GIFT_MESSAGE)
 }

@@ -1,6 +1,6 @@
 # Vendored crates
 
-`miniquad/` is miniquad 0.4.11 with five small fixes and a hook, marked "Snook Legend patch" in the
+`miniquad/` is miniquad 0.4.11 with six small fixes and a hook, marked "Snook Legend patch" in the
 source (used through `[patch.crates-io]` in the workspace `Cargo.toml`):
 
 - `src/graphics/gl.rs`: stream buffers are re-specified ("orphaned") on every
@@ -24,3 +24,12 @@ source (used through `[patch.crates-io]` in the workspace `Cargo.toml`):
   (`date::set_fixed`). Only the game's development recorder uses it
   (`crates/client/src/record.rs`): each frame of a video is exactly 1/60 s
   of the game, however long it took to draw.
+- `src/event.rs` and the platforms (`src/native/linux_x11/keycodes.rs`,
+  `linux_wayland.rs`, `windows.rs`, `macos.rs`, `wasm/keycodes.rs`): the
+  mouse's side buttons reach the game as `MouseButton::Back` and
+  `MouseButton::Forward` (X11's buttons 8 and 9, Wayland's `BTN_SIDE` and
+  `BTN_EXTRA`, Windows' `WM_XBUTTONDOWN`/`WM_XBUTTONUP` with `XBUTTON1` and
+  `XBUTTON2`, macOS' buttons 3 and 4, the browser's 3 and 4). Upstream
+  dropped them (and took every other button on macOS for the middle one).
+  The game's screens take Back as Esc (`crates/client/src/ui.rs`,
+  `esc_pressed`), not at the table during a match.

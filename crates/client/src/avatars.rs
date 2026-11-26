@@ -238,7 +238,7 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
     ui.scroll_end(view, &mut scroll);
     STATE.with(|s| s.borrow_mut().scroll = scroll);
     // Closed also by a press on the dimmed screen around it.
-    if chosen.is_some() || close || is_key_pressed(KeyCode::Escape) || (armed && ui.dismissed(r)) {
+    if chosen.is_some() || close || crate::ui::esc_pressed() || (armed && ui.dismissed(r)) {
         STATE.with(|s| {
             let mut s = s.borrow_mut();
             s.open = false;

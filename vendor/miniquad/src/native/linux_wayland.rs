@@ -737,6 +737,10 @@ unsafe extern "C" fn pointer_handle_button(
             272 => MouseButton::Left,
             273 => MouseButton::Right,
             274 => MouseButton::Middle,
+            // Snook Legend patch: the side buttons (BTN_SIDE, BTN_EXTRA,
+            // and BTN_FORWARD, BTN_BACK as some mice send them).
+            275 | 278 => MouseButton::Back,
+            276 | 277 => MouseButton::Forward,
             _ => MouseButton::Unknown,
         };
         display

@@ -530,6 +530,25 @@ unsafe extern "system" fn win32_wndproc(
 
             event_handler.mouse_button_up_event(MouseButton::Middle, mouse_x, mouse_y);
         }
+        // Snook Legend patch: the side buttons (upstream drops them).
+        WM_XBUTTONDOWN | WM_XBUTTONUP => {
+            let mouse_x = payload.mouse_x;
+            let mouse_y = payload.mouse_y;
+            let button = match HIWORD(wparam as DWORD) {
+                XBUTTON1 => MouseButton::Back,
+                XBUTTON2 => MouseButton::Forward,
+                _ => MouseButton::Unknown,
+            };
+            if button != MouseButton::Unknown {
+                if umsg == WM_XBUTTONDOWN {
+                    event_handler.mouse_button_down_event(button, mouse_x, mouse_y);
+                } else {
+                    event_handler.mouse_button_up_event(button, mouse_x, mouse_y);
+                }
+            }
+            // (An application that handles them returns TRUE.)
+            return TRUE as LRESULT;
+        }
 
         WM_MOUSEMOVE => {
             payload.mouse_x = GET_X_LPARAM(lparam) as f32 * payload.mouse_scale;

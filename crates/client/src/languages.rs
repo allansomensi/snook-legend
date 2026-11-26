@@ -150,7 +150,7 @@ pub fn draw_picker(ui: &mut Ui, current: Lang) -> Option<Lang> {
         rrect_lines(frame, 6.0, 1.0, BORDER);
         if chosen.is_some()
             || (close && armed)
-            || is_key_pressed(KeyCode::Escape)
+            || crate::ui::esc_pressed()
             || (armed && ui.dismissed(r))
         {
             p.open = false;

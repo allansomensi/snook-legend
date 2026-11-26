@@ -161,6 +161,9 @@ pub unsafe fn translate_mouse_button(button: i32) -> MouseButton {
         1 => MouseButton::Left,
         2 => MouseButton::Middle,
         3 => MouseButton::Right,
+        // Snook Legend patch: the side buttons.
+        8 => MouseButton::Back,
+        9 => MouseButton::Forward,
         _ => MouseButton::Unknown,
     }
 }

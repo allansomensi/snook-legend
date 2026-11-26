@@ -4,6 +4,11 @@ pub enum MouseButton {
     Left = 0,
     Middle = 1,
     Right = 2,
+    /// Snook Legend patch: the side buttons of a mouse (X11's 8 and 9,
+    /// Windows' XBUTTON1 and XBUTTON2, macOS' buttons 3 and 4), which
+    /// upstream drops. Back goes back a screen.
+    Back = 3,
+    Forward = 4,
     Unknown = 255,
 }
 

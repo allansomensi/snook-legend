@@ -9,6 +9,9 @@ pub fn translate_mouse_button(button: i32) -> MouseButton {
         0 => MouseButton::Left,
         1 => MouseButton::Right,
         2 => MouseButton::Middle,
+        // Snook Legend patch: the side buttons.
+        3 => MouseButton::Back,
+        4 => MouseButton::Forward,
         _ => MouseButton::Unknown,
     }
 }

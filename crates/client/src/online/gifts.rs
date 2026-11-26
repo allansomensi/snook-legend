@@ -174,7 +174,7 @@ impl Online {
         let settled = now - since > 1.0;
         let enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
         let away = ui.dismissed(r);
-        if ok || seen || (settled && (enter || is_key_pressed(KeyCode::Escape) || away)) {
+        if ok || seen || (settled && (enter || crate::ui::esc_pressed() || away)) {
             self.gifts.rewards.remove(0);
             self.gifts.reward_shown = None;
         }
@@ -357,7 +357,7 @@ impl Online {
         let enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
         // A press on the dimmed screen around it is OK, as Esc is.
         let away = ui.dismissed(r);
-        if ok || seen || (settled && (enter || is_key_pressed(KeyCode::Escape) || away)) {
+        if ok || seen || (settled && (enter || crate::ui::esc_pressed() || away)) {
             if let Some(id) = self.gifts.done() {
                 self.send(ClientMsg::GiftsSeen { ids: vec![id] });
             }

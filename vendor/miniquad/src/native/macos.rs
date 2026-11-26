@@ -582,11 +582,21 @@ unsafe fn view_base_decl(decl: &mut ClassDecl) {
     extern "C" fn right_mouse_up(this: &Object, _sel: Sel, event: ObjcId) {
         fire_mouse_event(this, event, false, MouseButton::Right);
     }
+    /// Snook Legend patch: which of the other buttons (upstream took
+    /// them all for the middle one): 2 the middle, 3 and 4 the side buttons.
+    fn other_button(event: ObjcId) -> MouseButton {
+        let n: i64 = unsafe { msg_send![event, buttonNumber] };
+        match n {
+            3 => MouseButton::Back,
+            4 => MouseButton::Forward,
+            _ => MouseButton::Middle,
+        }
+    }
     extern "C" fn other_mouse_down(this: &Object, _sel: Sel, event: ObjcId) {
-        fire_mouse_event(this, event, true, MouseButton::Middle);
+        fire_mouse_event(this, event, true, other_button(event));
     }
     extern "C" fn other_mouse_up(this: &Object, _sel: Sel, event: ObjcId) {
-        fire_mouse_event(this, event, false, MouseButton::Middle);
+        fire_mouse_event(this, event, false, other_button(event));
     }
     extern "C" fn scroll_wheel(this: &Object, _sel: Sel, event: ObjcId) {
         let payload = get_window_payload(this);

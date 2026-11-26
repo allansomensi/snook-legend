@@ -238,7 +238,7 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
         // the click that opened it).
         if chosen.is_some()
             || (close && armed)
-            || is_key_pressed(KeyCode::Escape)
+            || crate::ui::esc_pressed()
             || (armed && ui.dismissed(r))
         {
             p.open = false;

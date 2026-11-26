@@ -579,6 +579,8 @@ async fn main() {
         // its fade while it is drawn).
         paint::set_screen_fade(1.0);
         paint::set_opacity(1.0);
+        // The mouse's back button is Back on the screens, not in a match.
+        ui::back_button(current.is_none());
         ui.begin();
         // The chat's dialog (drawn near the end, over any screen or game)
         // holds the keyboard too: no Esc, Space or arrow reaches the game,
@@ -2215,7 +2217,7 @@ async fn main() {
                 };
                 draw_waiting(&mut ui, text, i18n::t("Esc to cancel"));
                 // Its own Esc (nothing under it reads the keyboard).
-                if is_key_pressed(KeyCode::Escape) {
+                if ui::esc_pressed() {
                     waiting = None;
                     online.awaiting_ticket = false;
                 }

@@ -665,12 +665,33 @@ type Script = (Vec<(u64, String)>, Vec2, bool);
 
 thread_local! {
     static SCRIPT: std::cell::RefCell<Option<Script>> = const { std::cell::RefCell::new(None) };
+    /// The keys the script presses this frame (and whether with Shift), and
+    /// the mouse's back button.
+    static SCRIPT_KEYS: std::cell::RefCell<(Vec<KeyCode>, bool, bool)> =
+        const { std::cell::RefCell::new((Vec::new(), false, false)) };
+}
+
+/// The script pressed `key` this frame.
+pub(super) fn scripted_key(key: KeyCode) -> bool {
+    SCRIPT_KEYS.with(|k| k.borrow().0.contains(&key))
+}
+
+/// The script holds Shift with its keys this frame.
+pub(super) fn scripted_shift() -> bool {
+    SCRIPT_KEYS.with(|k| k.borrow().1)
+}
+
+/// The script pressed the mouse's back button this frame.
+pub(super) fn scripted_back() -> bool {
+    SCRIPT_KEYS.with(|k| k.borrow().2)
 }
 
 /// Development builds: SNOOK_LEGEND_INPUT plays the pointer from a script,
 /// for screenshots taken frame by frame (SNOOK_LEGEND_SHOTS) of what moves:
 /// `40:move 600 300;45:wheel -3;50:down;52:up` (interface units; the wheel
-/// in the platform's raw steps, -1 a notch down on Linux). None: no
+/// in the platform's raw steps, -1 a notch down on Linux); keys too
+/// (`60:key tab`, `61:key shift+tab`, `62:key enter`: tab, enter, space,
+/// escape and the arrows) and the mouse's back button (`70:back`). None: no
 /// script.
 pub(super) fn scripted_input(frame: u64) -> Option<Scripted> {
     SCRIPT.with(|cell| {
@@ -687,6 +708,7 @@ pub(super) fn scripted_input(frame: u64) -> Option<Scripted> {
             *cell = Some((steps, Vec2::splat(-1.0e4), false));
         }
         let (steps, at, held) = cell.as_mut()?;
+        let mut keys = (Vec::new(), false, false);
         let mut out =
             Scripted { mouse: *at, pressed: false, released: false, down: *held, wheel: 0.0 };
         for (_, what) in steps.iter().filter(|(f, _)| *f == frame) {
@@ -711,9 +733,31 @@ pub(super) fn scripted_input(frame: u64) -> Option<Scripted> {
                 Some("wheel") => {
                     out.wheel += words.next().and_then(|v| v.parse().ok()).unwrap_or(0.0);
                 }
+                Some("key") => {
+                    let name = words.next().unwrap_or("");
+                    let (shift, name) = match name.strip_prefix("shift+") {
+                        Some(rest) => (true, rest),
+                        None => (false, name),
+                    };
+                    let key = match name {
+                        "tab" => Some(KeyCode::Tab),
+                        "enter" => Some(KeyCode::Enter),
+                        "space" => Some(KeyCode::Space),
+                        "escape" => Some(KeyCode::Escape),
+                        "left" => Some(KeyCode::Left),
+                        "right" => Some(KeyCode::Right),
+                        "up" => Some(KeyCode::Up),
+                        "down" => Some(KeyCode::Down),
+                        _ => None,
+                    };
+                    keys.0.extend(key);
+                    keys.1 |= shift;
+                }
+                Some("back") => keys.2 = true,
                 _ => {}
             }
         }
+        SCRIPT_KEYS.with(|k| *k.borrow_mut() = keys);
         Some(out)
     })
 }

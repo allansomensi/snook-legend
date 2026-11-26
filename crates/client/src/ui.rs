@@ -214,6 +214,31 @@ pub fn ui_scale() -> f32 {
 
 static POINTER_PARKED: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
 
+/// The mouse's back button counts as Esc this frame (see [`back_button`]).
+static BACK_BUTTON: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(true);
+
+/// Whether the mouse's back button acts as Esc (Back) from now on: on the
+/// screens, not at the table while a match is played (a press while aiming
+/// must not pause or leave it).
+pub fn back_button(on: bool) {
+    BACK_BUTTON.store(on, std::sync::atomic::Ordering::Relaxed);
+}
+
+/// Esc was pressed this frame, or the mouse's back button (where it acts:
+/// see [`back_button`]). Every Back, Cancel and Close that answers Esc
+/// answers this.
+pub fn esc_pressed() -> bool {
+    key_pressed(KeyCode::Escape)
+        || (BACK_BUTTON.load(std::sync::atomic::Ordering::Relaxed)
+            && (is_mouse_button_pressed(MouseButton::Back) || motion::scripted_back()))
+}
+
+/// `key` was pressed this frame (by a development script too, see
+/// [`motion::scripted_input`]).
+pub fn key_pressed(key: KeyCode) -> bool {
+    is_key_pressed(key) || motion::scripted_key(key)
+}
+
 /// Development aid (screenshots): the interface acts as if the pointer were
 /// off the window, so no hover state or tooltip depends on where the
 /// offscreen server happened to leave it.
@@ -1563,7 +1588,7 @@ impl Ui {
     /// dialog over it has the keyboard, and not the Esc a field just used
     /// to let go of it.
     pub fn escape(&self) -> bool {
-        is_key_pressed(KeyCode::Escape) && self.focus.is_none() && !self.escape_taken
+        esc_pressed() && self.focus.is_none() && !self.escape_taken
     }
 
     /// A square toggle button with no label (the caller draws its content);

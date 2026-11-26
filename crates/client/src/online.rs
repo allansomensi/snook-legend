@@ -2509,7 +2509,7 @@ impl Online {
             let password = std::mem::take(&mut self.offer_password);
             self.send(ClientMsg::SetRecoveryEmail { email, password });
             close(self, ui);
-        } else if is_key_pressed(KeyCode::Escape) || (!typed && ui.dismissed(r)) {
+        } else if crate::ui::esc_pressed() || (!typed && ui.dismissed(r)) {
             // Not now (Esc, or a press around it before the password is
             // typed): asked again after the next payment.
             close(self, ui);
@@ -2968,10 +2968,7 @@ impl Online {
         let send = Rect::new(x + cw + 16.0, by, inner - cw - 16.0, 44.0);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
         let enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
-        if ui.button(cancel, t("Cancel"), true)
-            || is_key_pressed(KeyCode::Escape)
-            || ui.dismissed(r)
-        {
+        if ui.button(cancel, t("Cancel"), true) || crate::ui::esc_pressed() || ui.dismissed(r) {
             self.invite_dialog = None;
             return;
         }
@@ -3155,7 +3152,7 @@ impl Online {
         // Esc leaves the form, also from its fields (they have the keyboard
         // from the start), never from under a dialog.
         let modal = ui.focus.is_some_and(|f| f >= crate::ui::MODAL_FOCUS);
-        if back || (is_key_pressed(KeyCode::Escape) && !picker_open && !modal) {
+        if back || (crate::ui::esc_pressed() && !picker_open && !modal) {
             return OnlineAction::Leave;
         }
         crate::icons::draw(Icon::Globe, vec2(x + 36.0 + 16.0 + 11.0, y + 18.0), 22.0, GOLD);

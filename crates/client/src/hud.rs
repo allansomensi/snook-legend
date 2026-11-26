@@ -236,10 +236,9 @@ impl Hud {
 
     /// The pointer as up-down arrows over the chat's top edge.
     fn set_resize_cursor(&mut self, on: bool) {
-        if on != self.resize_cursor {
-            self.resize_cursor = on;
-            use macroquad::miniquad::{CursorIcon, window::set_mouse_cursor};
-            set_mouse_cursor(if on { CursorIcon::NSResize } else { CursorIcon::Default });
+        self.resize_cursor = on;
+        if on {
+            crate::ui::motion::want_cursor(macroquad::miniquad::CursorIcon::NSResize);
         }
     }
 
@@ -1227,7 +1226,7 @@ impl Hud {
             }
         }
         if self.show_help && self.paused {
-            draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+            let _modal = ui.modal_scope(crate::ui::motion::id("match-help"), 0.5);
             let lines = controls_list(self.top_only);
             const ROW: f32 = 26.0;
             const PAD: f32 = 24.0;
@@ -1271,7 +1270,7 @@ impl Hud {
             let online = m.is_online();
             // A correspondence game waits: leaving loses nothing.
             let corr = crate::correspondence::is_corr(m);
-            draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+            let _modal = ui.modal_scope(crate::ui::motion::id("match-pause"), 0.5);
             const PAD: f32 = 28.0;
             const GAP: f32 = 10.0;
             const BH: f32 = 38.0;
@@ -1955,6 +1954,9 @@ impl Hud {
             .min(crate::ui::vw() - 16.0);
         let h = n * row_h + 34.0;
         let r = popover_rect(b, w, h);
+        // Grows out of its button.
+        let anchor = vec2(b.x + b.w / 2.0, b.y + b.h / 2.0);
+        let _pop = ui.popover_scope(crate::ui::motion::id("quick-phrases"), anchor);
         ui.panel(r);
         ui.text(label, r.x + 10.0, r.y + 8.0, 13.0, GOLD, true);
         let mut chosen = None;
@@ -2093,6 +2095,9 @@ impl Hud {
         let h = rows as f32 * cell + 40.0;
         // Above the button, or below it when the chat reaches the top.
         let p = popover_rect(b, w, h);
+        // Grows out of its button.
+        let anchor = vec2(b.x + b.w / 2.0, b.y + b.h / 2.0);
+        let _pop = ui.popover_scope(crate::ui::motion::id("reactions-grid"), anchor);
         ui.panel(p);
         let open = snook_legend_proto::REACTIONS
             .iter()
@@ -3100,11 +3105,15 @@ impl Hud {
             };
             let x = crate::ui::clamp_soft(anchors[k] - w / 2.0, 10.0, sw - w - 10.0);
             let r = Rect::new(x, bar.y - h - 8.0, w, h);
+            // Grows out of its button in the bar.
+            let key = crate::ui::motion::mix(crate::ui::motion::id("hud-pop"), k as u64);
+            let fx = ui.popover_in(key, vec2(anchors[k], bar.y));
             ui.panel(r);
             match pop {
                 Pop::Spin => self.spin_panel(ui, m, r),
                 Pop::Elevation => elevation_panel(ui, m, r),
             }
+            ui.pop_fx(fx);
             // A press anywhere else closes it (the setting stays; the press
             // goes on to the table or the bar).
             if ui.pressed_outside(&[r, toggles[0], toggles[1]]) {
@@ -3311,7 +3320,7 @@ fn elevation_panel(ui: &mut Ui, m: &mut Match, r: Rect) {
 
     // The cue, from just behind the ball, raised by `a` (its butt runs out
     // of the picture).
-    crate::settings::clip(Some(scene));
+    crate::ui::motion::push_clip(scene);
     let dir = vec2(-a.cos(), -a.sin());
     let tip = ball + dir * (ball_r + 4.0);
     let length = (scene.w - 30.0).min(200.0);
@@ -3341,7 +3350,7 @@ fn elevation_panel(ui: &mut Ui, m: &mut Match, r: Rect) {
     let h0 = ferrule + normal * 1.0;
     let h1 = joint + normal * (w_at(joint) * 0.5);
     draw_line(h0.x, h0.y, h1.x, h1.y, 1.0, hl);
-    crate::settings::clip(None);
+    crate::ui::motion::pop_clip();
 
     // The cue ball, over the cue's end.
     draw_circle(ball.x + 2.0, floor - 1.0, ball_r * 0.9, Color::new(0.0, 0.0, 0.0, 0.25));

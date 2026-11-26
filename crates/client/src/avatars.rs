@@ -81,8 +81,8 @@ struct State {
     open: bool,
     /// The click that opened the picker doesn't choose in it.
     armed: bool,
-    /// The first line shown, when they don't all fit.
-    scroll: usize,
+    /// How far the lines are scrolled, when they don't all fit.
+    scroll: crate::ui::Scroll,
 }
 
 thread_local! {
@@ -107,7 +107,7 @@ pub fn open() {
         let mut s = s.borrow_mut();
         s.open = true;
         s.armed = false;
-        s.scroll = 0;
+        s.scroll.reset();
     });
 }
 
@@ -148,7 +148,7 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
     }
     let sw = crate::ui::vw();
     let sh = crate::ui::vh();
-    draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
+    let _modal = ui.modal_scope(crate::ui::motion::id("avatars"), 0.55);
     const PAD: f32 = 24.0;
     const GAP: f32 = 10.0;
     // The room between the people and the things.
@@ -167,20 +167,8 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
         Line::Divider => SEP,
     };
     // In a window too small for them all, the lines scroll.
-    let scroll = STATE.with(|s| s.borrow().scroll).min(lines.len() - 1);
-    let fits = |first: usize| {
-        let mut h = -GAP;
-        lines[first..]
-            .iter()
-            .take_while(|l| {
-                h += line_h(l);
-                h <= room_h
-            })
-            .count()
-            .max(1)
-    };
-    let visible = fits(scroll);
-    let shown: f32 = lines[scroll..scroll + visible].iter().map(line_h).sum::<f32>() - GAP;
+    let total: f32 = lines.iter().map(line_h).sum::<f32>() - GAP;
+    let shown = total.min(room_h);
     let w = 2.0 * PAD + cols as f32 * (cell + GAP) - GAP;
     let h = head + shown + PAD;
     let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
@@ -196,11 +184,6 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
         true,
         true,
     );
-    if visible < lines.len() {
-        let area = Rect::new(r.x + PAD, r.y + head, r.w - PAD, shown);
-        let first = ui.scroll_list(area, scroll, lines.len(), visible);
-        STATE.with(|s| s.borrow_mut().scroll = first);
-    }
     let (mine, armed) = STATE.with(|s| {
         let mut s = s.borrow_mut();
         if is_mouse_button_pressed(MouseButton::Left) {
@@ -209,8 +192,15 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
         (s.mine.clone(), s.armed)
     });
     let mut chosen = None;
-    let mut y = r.y + head;
-    for line in &lines[scroll..scroll + visible] {
+    let mut scroll = STATE.with(|s| s.borrow().scroll.clone());
+    let area = Rect::new(r.x + PAD, r.y + head, r.w - PAD, shown);
+    let view = ui.scroll_begin(area, &mut scroll, total);
+    let mut y = view.top();
+    for line in &lines {
+        if !view.visible(y, line_h(line)) {
+            y += line_h(line);
+            continue;
+        }
         let codes = match line {
             Line::Divider => {
                 let mid = y + SEP / 2.0 - GAP / 2.0;
@@ -242,6 +232,8 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
         }
         y += cell + GAP;
     }
+    ui.scroll_end(view, &mut scroll);
+    STATE.with(|s| s.borrow_mut().scroll = scroll);
     // Closed also by a press on the dimmed screen around it.
     if chosen.is_some() || close || is_key_pressed(KeyCode::Escape) || (armed && ui.dismissed(r)) {
         STATE.with(|s| {

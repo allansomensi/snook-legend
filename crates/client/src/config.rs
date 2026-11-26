@@ -214,6 +214,9 @@ pub struct Config {
     pub desktop_notifications: bool,
     /// The interface's own sounds (the click of buttons, tabs and windows).
     pub interface_sounds: bool,
+    /// Less motion in the interface: screens, dialogs, panes and lists
+    /// change at once instead of sliding, growing or gliding.
+    pub reduce_motion: bool,
     /// The height of the match's chat, in interface units, as the player
     /// dragged its top edge (0: the size that fits the window).
     pub chat_height: f32,
@@ -350,6 +353,7 @@ impl Default for Config {
             tv_camera: false,
             desktop_notifications: true,
             interface_sounds: true,
+            reduce_motion: false,
             chat_height: 0.0,
             focus_mode: false,
             keys: crate::keys::Bindings::default(),
@@ -603,6 +607,7 @@ impl Config {
                 "tv_view" => c.tv_camera = v == "true",
                 "desktop_notifications" => c.desktop_notifications = v != "false",
                 "interface_sounds" => c.interface_sounds = v != "false",
+                "reduce_motion" => c.reduce_motion = v == "true",
                 "chat_height" => {
                     c.chat_height = v
                         .parse::<f32>()
@@ -636,7 +641,7 @@ impl Config {
             "# Snook Legend settings\nplayer_name = {}\nsecond_player_name = {}\nguide = {}\nhead_string = {}\ncoached = {}\nshow_help = {}\nshot_camera = {}\ncamera_follow = {}\ngraphics_checked = {}\nlanguage = {}\nvignette = {}\nfocused_scene = {}\nshow_fps = {}\nshow_ping = {}\nshadows = {}\nopponent_talk = {}\ntop_view_only = {}\navatar = {}\naim_sensitivity = {:.2}\nui_size = {:.2}\n\
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\ntoken_server = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
-             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nfocus_mode = {}\nauto_update = {}\nlast_version = {}\nnext_breaker = {}\nrules = {}\ninterface_sounds = {}\nchat_height = {:.0}\n\
+             board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nfocus_mode = {}\nauto_update = {}\nlast_version = {}\nnext_breaker = {}\nrules = {}\ninterface_sounds = {}\nreduce_motion = {}\nchat_height = {:.0}\n\
              mute_chat = {}\nhide_reactions = {}\nmuted_chat = {}\nmuted_reactions = {}\nsettings_account = {}\nsettings_synced_at = {}\nsettings_changed_at = {}\n{}",
             self.player_name,
             self.second_player_name,
@@ -688,6 +693,7 @@ impl Config {
             self.next_breaker,
             self.rules.map_or("", Rules::code),
             self.interface_sounds,
+            self.reduce_motion,
             self.chat_height,
             self.mute_chat,
             self.hide_reactions,

@@ -14,7 +14,7 @@ use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_lines};
 struct Picker {
     open: bool,
     query: String,
-    first: usize,
+    first: crate::ui::Scroll,
     /// The row Enter picks (moved with the arrow keys).
     sel: usize,
     /// The query `sel` belongs to (a new search starts at the top).
@@ -85,7 +85,7 @@ pub fn open() {
         let mut p = p.borrow_mut();
         p.open = true;
         p.query.clear();
-        p.first = 0;
+        p.first.reset();
         p.sel = 0;
         p.sel_query.clear();
         p.fresh = true;
@@ -112,7 +112,7 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
     }
     let sw = crate::ui::vw();
     let sh = crate::ui::vh();
-    draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
+    let _modal = ui.modal_scope(crate::ui::motion::id("countries"), 0.55);
     let w = 400.0f32.min(sw - 20.0);
     // Header 24 + 28 + 16, search 36 + 12, list, 16 + button 36 + 24.
     let chrome = 24.0 + 28.0 + 16.0 + 36.0 + 12.0 + 16.0 + 36.0 + 24.0;
@@ -161,7 +161,7 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
         if p.sel_query != p.query {
             p.sel_query = p.query.clone();
             p.sel = 0;
-            p.first = 0;
+            p.first.reset();
         }
         // The list sits in a box as wide as the search field above it.
         let frame = Rect::new(x, input.y + input.h + 12.0, input.w, rows * ROW_H + 8.0);
@@ -171,7 +171,7 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
             p.fresh = false;
             if let Some(i) = list.iter().position(|(c, _, _)| *c == p.current) {
                 p.sel = i;
-                p.first = i.saturating_sub(visible / 2);
+                p.first.jump_to(i.saturating_sub(visible / 2) as f32 * ROW_H);
             }
         }
         // The arrow keys move the highlight (and the list with it).
@@ -185,21 +185,21 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
             p.sel = p.sel.min(list.len() - 1);
             if is_key_pressed(KeyCode::Down) || is_key_pressed(KeyCode::Up) {
                 p.keyed = true;
-                if p.sel < p.first {
-                    p.first = p.sel;
-                } else if p.sel >= p.first + visible {
-                    p.first = p.sel + 1 - visible;
-                }
+                let sel = p.sel;
+                p.first.reveal_row(sel, ROW_H);
             }
         }
-        p.first = ui.scroll_list(area, p.first, list.len(), visible);
-        let scrolls = list.len() > visible;
+        // (The arrows move the highlight here, not the list.)
+        p.first.no_keys = true;
+        let view = ui.list_begin(area, &mut p.first, list.len(), ROW_H);
+        let scrolls = view.scrolls();
         if list.is_empty() {
             empty_state(ui, area, Icon::Globe, t("No country found."));
         }
-        for (k, (code, name, _)) in list.iter().enumerate().skip(p.first).take(visible) {
+        for k in view.rows() {
+            let (code, name, _) = &list[k];
             let row_w = area.w - if scrolls { 12.0 } else { 0.0 };
-            let row = Rect::new(area.x, area.y + (k - p.first) as f32 * ROW_H, row_w, ROW_H - 2.0);
+            let row = Rect::new(area.x, view.y(k), row_w, ROW_H - 2.0);
             let hover = ui.hovering(row);
             let current = *code == p.current;
             if current {
@@ -220,6 +220,7 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
                 chosen = Some(code.to_string());
             }
         }
+        ui.scroll_end(view, &mut p.first);
         if (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
             && let Some((code, _, _)) = list.get(p.sel)
         {

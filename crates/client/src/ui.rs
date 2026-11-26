@@ -3,9 +3,14 @@
 use macroquad::prelude::*;
 
 use crate::emoji::{self, Piece};
+
+pub mod motion;
+pub mod scroll;
+
 use crate::fonts::{Face, Run};
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_circle_lines, draw_line, draw_rectangle, draw_triangle};
+pub use scroll::Scroll;
 
 pub const GOLD: Color = Color::new(0.91, 0.75, 0.38, 1.0);
 pub const CREAM: Color = Color::new(0.94, 0.89, 0.80, 1.0);
@@ -252,13 +257,8 @@ pub fn update_scale(preference: f32) {
 
 /// Draws the interface from here on in interface units (see [`vw`]).
 pub fn begin_ui_camera() {
-    let (w, h) = (vw(), vh());
-    let cam = Camera2D {
-        target: vec2(w / 2.0, h / 2.0),
-        zoom: vec2(2.0 / w, 2.0 / h),
-        ..Default::default()
-    };
-    set_camera(&cam);
+    motion::reset_xf();
+    motion::apply_camera();
 }
 
 /// Something drawn on top of the interface at the end of the frame.
@@ -329,10 +329,21 @@ pub struct Ui {
     /// The panels drawn so far this frame: text that starts inside one never
     /// runs past its edge (see [`Ui::text`]).
     panels: std::cell::RefCell<Vec<Rect>>,
-    /// How far each widget has lit up under the pointer (0..1), by where it
-    /// is, and the frame it was last drawn (see [`Ui::hover_anim`]).
-    hover_anims: std::cell::RefCell<std::collections::HashMap<[i32; 4], (f32, u64)>>,
+    /// What moves, eased frame by frame: how far each widget has lit up
+    /// under the pointer, where a tab's underline is, how far a dialog has
+    /// come in… (see [`motion`]).
+    anims: std::cell::RefCell<motion::Store>,
     frame: u64,
+    /// The wheel's turns this frame, and whether a scrolled view took them.
+    wheel: f32,
+    wheel_taken: bool,
+    /// The last tab drawn this frame, which way its run goes (down: true)
+    /// and the run's key (see [`Ui::selection_glide`]).
+    tab_run: Option<(Rect, bool, u64)>,
+    /// Scrolled views drawn this frame and the last (with one alone on
+    /// screen, the arrow keys scroll it wherever the pointer is).
+    scroll_views: u32,
+    last_scroll_views: u32,
     /// A button was pressed this frame (the interface's click is played).
     click: std::cell::Cell<bool>,
 }
@@ -370,18 +381,26 @@ impl Ui {
             cursor_owner: None,
             overlays: std::cell::RefCell::new(Vec::new()),
             panels: std::cell::RefCell::new(Vec::new()),
-            hover_anims: Default::default(),
+            anims: Default::default(),
             frame: 0,
+            wheel: 0.0,
+            wheel_taken: false,
+            tab_run: None,
+            scroll_views: 0,
+            last_scroll_views: 0,
             click: std::cell::Cell::new(false),
         }
     }
 
     /// Call once at the start of each frame.
     pub fn begin(&mut self) {
-        // Widgets not drawn last frame are gone: their hover state with them.
-        let last = self.frame;
-        self.hover_anims.get_mut().retain(|_, (_, seen)| *seen + 1 >= last);
+        // Widgets not drawn lately are gone: their motion with them.
+        self.sweep_anims();
         self.frame += 1;
+        self.wheel = scroll::wheel_this_frame();
+        self.wheel_taken = false;
+        self.tab_run = None;
+        self.last_scroll_views = std::mem::replace(&mut self.scroll_views, 0);
         self.overlays.get_mut().clear();
         self.panels.get_mut().clear();
         self.mouse = if POINTER_PARKED.load(std::sync::atomic::Ordering::Relaxed) {
@@ -391,10 +410,15 @@ impl Ui {
         };
         self.pressed = is_mouse_button_pressed(MouseButton::Left);
         self.released = is_mouse_button_released(MouseButton::Left);
+        self.down = is_mouse_button_down(MouseButton::Left);
+        if let Some(i) = motion::scripted_input(self.frame) {
+            (self.mouse, self.pressed, self.released, self.down) =
+                (i.mouse, i.pressed, i.released, i.down);
+            self.wheel += i.wheel;
+        }
         if self.pressed {
             self.press_at = self.mouse;
         }
-        self.down = is_mouse_button_down(MouseButton::Left);
         self.prev_blocks = std::mem::take(&mut self.blocks);
         let over_ui = self.prev_blocks.iter().any(|r| r.contains(self.mouse));
         self.hovered = over_ui || self.hovered_next || self.active.is_some();
@@ -433,7 +457,9 @@ impl Ui {
 
     /// Marks a rectangle as UI so clicks there don't reach the game.
     pub fn block(&mut self, r: Rect) {
-        self.blocks.push(r);
+        // Kept where it is on screen (it is checked against next frame's
+        // pointer, whatever moves then).
+        self.blocks.push(motion::xf().rect(r));
         if r.contains(self.mouse) {
             self.hovered_next = true;
         }
@@ -749,13 +775,7 @@ impl Ui {
     /// How far the widget at `r` has lit up under the pointer (0..1): it
     /// eases in and out over a tenth of a second instead of snapping.
     pub fn hover_anim(&self, r: Rect, hover: bool) -> f32 {
-        let key = [r.x, r.y, r.w, r.h].map(|v| (v * 4.0).round() as i32);
-        let mut map = self.hover_anims.borrow_mut();
-        let entry = map.entry(key).or_insert((if hover { 1.0 } else { 0.0 }, self.frame));
-        let k = 1.0 - (-get_frame_time() * 18.0).exp();
-        entry.0 += (if hover { 1.0 } else { 0.0 } - entry.0) * k;
-        entry.1 = self.frame;
-        entry.0
+        self.anim(motion::rect_key(motion::id("lit"), r), hover as u8 as f32, motion::HOVER_RATE)
     }
 
     /// Notes that a button was pressed: the interface's click is played.
@@ -834,23 +854,22 @@ impl Ui {
     pub fn button(&mut self, r: Rect, label: &str, enabled: bool) -> bool {
         self.block(r);
         let hover = enabled && r.contains(self.mouse);
+        let (a, p) = self.hover_press(r, hover, self.held(r));
+        let body = press_rect(r, p);
         if !enabled {
             // Flat and quiet: clearly not something to press.
             rrect(r, BUTTON_RADIUS, Color::new(0.1, 0.075, 0.055, 0.85));
             rrect_lines(r, BUTTON_RADIUS, 1.0, Color::new(1.0, 1.0, 1.0, 0.04));
         } else {
-            let a = self.hover_anim(r, hover);
-            let bg = if hover && self.down {
-                Color::new(0.20, 0.135, 0.08, 1.0)
-            } else {
-                mix(Color::new(0.23, 0.155, 0.09, 1.0), Color::new(0.33, 0.225, 0.125, 1.0), a)
-            };
+            let lit =
+                mix(Color::new(0.23, 0.155, 0.09, 1.0), Color::new(0.33, 0.225, 0.125, 1.0), a);
+            let bg = mix(lit, Color::new(0.19, 0.125, 0.075, 1.0), p);
             let edge = mix(HAIRLINE, Color { a: 0.8, ..GOLD }, a);
-            raised(r, BUTTON_RADIUS, bg, edge, 1.0);
+            raised(body, BUTTON_RADIUS, bg, edge, 1.0);
         }
         let (label, size) = self.fitted(label, (r.h * 0.45).clamp(13.0, 22.0), r.w - 12.0, true);
         let color = if enabled { CREAM } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.6) };
-        let y = r.y + (r.h - size) / 2.0 + if hover && self.down { 1.0 } else { 0.0 };
+        let y = r.y + (r.h - size) / 2.0 + p;
         self.text_centered(&label, r.x + r.w / 2.0, y, size, color, true);
         let clicked = enabled && hover && self.released_in(r);
         if clicked {
@@ -859,21 +878,29 @@ impl Ui {
         clicked
     }
 
+    /// The button is held down on `r`: pressed there and the pointer still
+    /// on it (a press that began elsewhere and slid over it is not).
+    pub fn held(&self, r: Rect) -> bool {
+        self.down && r.contains(self.press_at) && r.contains(self.mouse)
+    }
+
     /// A button styled as the main call to action.
     pub fn primary_button(&mut self, r: Rect, label: &str) -> bool {
         self.block(r);
         let hover = r.contains(self.mouse);
-        let a = self.hover_anim(r, hover);
-        let bg = if hover && self.down {
-            Color::new(0.10, 0.40, 0.22, 1.0)
-        } else {
-            mix(GREEN, Color::new(0.18, 0.58, 0.33, 1.0), a)
-        };
-        rrect(Rect::new(r.x, r.y + 2.0, r.w, r.h), BUTTON_RADIUS, Color::new(0.0, 0.0, 0.0, 0.3));
+        let (a, p) = self.hover_press(r, hover, self.held(r));
+        let body = press_rect(r, p);
+        let lit = mix(GREEN, Color::new(0.18, 0.58, 0.33, 1.0), a);
+        let bg = mix(lit, Color::new(0.09, 0.36, 0.2, 1.0), p);
+        rrect(
+            Rect::new(body.x, body.y + 2.0 - p, body.w, body.h),
+            BUTTON_RADIUS,
+            Color::new(0.0, 0.0, 0.0, 0.3 * (1.0 - p)),
+        );
         let edge = mix(Color::new(0.45, 0.85, 0.6, 0.45), Color::new(0.62, 0.95, 0.72, 0.85), a);
-        raised(r, BUTTON_RADIUS, bg, edge, 1.0);
+        raised(body, BUTTON_RADIUS, bg, edge, 1.0);
         let (label, size) = self.fitted(label, (r.h * 0.45).clamp(13.0, 24.0), r.w - 12.0, true);
-        let y = r.y + (r.h - size) / 2.0 + if hover && self.down { 1.0 } else { 0.0 };
+        let y = r.y + (r.h - size) / 2.0 + p;
         self.text_centered(&label, r.x + r.w / 2.0, y, size, WHITE, true);
         let clicked = hover && self.released_in(r);
         if clicked {
@@ -1000,6 +1027,7 @@ impl Ui {
     pub fn text_area(&mut self, id: u64, r: Rect, value: &mut String, max_len: usize) -> bool {
         self.block(r);
         self.fields.push(id);
+        self.text_cursor(r);
         if self.focus == Some(id) && self.cursor_owner != Some(id) {
             self.cursor_owner = Some(id);
             self.cursor = value.chars().count();
@@ -1265,6 +1293,7 @@ impl Ui {
     ) -> bool {
         self.block(r);
         self.fields.push(id);
+        self.text_cursor(r);
         let mut submitted = false;
         let size = (r.h * 0.5).clamp(12.0, 18.0);
         if self.focus == Some(id) && self.cursor_owner != Some(id) {
@@ -1536,21 +1565,17 @@ impl Ui {
     pub fn toggle(&mut self, r: Rect, on: bool) -> bool {
         self.block(r);
         let hover = r.contains(self.mouse);
-        let bg = if on {
-            Color::new(0.38, 0.25, 0.12, 1.0)
-        } else if hover {
-            Color::new(0.25, 0.16, 0.09, 1.0)
-        } else {
-            Color::new(0.12, 0.08, 0.05, 1.0)
-        };
-        let edge = if on {
-            GOLD
-        } else if hover {
-            Color { a: 0.7, ..GOLD }
-        } else {
-            HAIRLINE
-        };
-        raised(r, BUTTON_RADIUS, bg, edge, if on { 1.6 } else { 1.0 });
+        let (a, p) = self.hover_press(r, hover, self.held(r));
+        let sel =
+            self.anim(motion::rect_key(motion::id("on"), r), on as u8 as f32, motion::HOVER_RATE);
+        let idle = mix(Color::new(0.12, 0.08, 0.05, 1.0), Color::new(0.25, 0.16, 0.09, 1.0), a);
+        let bg = mix(
+            mix(idle, Color::new(0.38, 0.25, 0.12, 1.0), sel),
+            Color::new(0.16, 0.1, 0.06, 1.0),
+            p * 0.6,
+        );
+        let edge = mix(mix(HAIRLINE, Color { a: 0.7, ..GOLD }, a), GOLD, sel);
+        raised(press_rect(r, p), BUTTON_RADIUS, bg, edge, 1.0 + 0.6 * sel);
         let clicked = hover && self.released_in(r);
         if clicked {
             self.note_click();
@@ -1590,21 +1615,17 @@ impl Ui {
     ) -> bool {
         self.block(r);
         let hover = r.contains(self.mouse);
-        let bg = if selected {
-            Color::new(0.38, 0.25, 0.12, 1.0)
-        } else if hover {
-            Color::new(0.25, 0.16, 0.09, 1.0)
-        } else {
-            Color::new(0.12, 0.08, 0.05, 1.0)
-        };
-        if selected || hover {
+        let a = self.hover_anim(r, hover && !selected);
+        let sel = self.anim(motion::rect_key(motion::id("tab-on"), r), selected as u8 as f32, 22.0);
+        let idle = mix(Color::new(0.12, 0.08, 0.05, 1.0), Color::new(0.25, 0.16, 0.09, 1.0), a);
+        let bg = mix(idle, Color::new(0.38, 0.25, 0.12, 1.0), sel);
+        if sel > 0.01 || a > 0.01 {
             rrect_gradient(r, BUTTON_RADIUS, shade(bg, 0.06), shade(bg, -0.15));
         } else {
             rrect(r, BUTTON_RADIUS, bg);
         }
-        if selected {
-            rrect(Rect::new(r.x + 8.0, r.y + r.h - 3.0, r.w - 16.0, 3.0), 1.5, GOLD);
-        }
+        // The gold underline glides from the tab left to the one chosen.
+        self.tab_underline(r, selected, 8.0, 1.5);
         // Room for the count on the right; the label is centred when that
         // clears it, else moved left (and shrunk only if it must).
         let reserve = if count.is_empty() {
@@ -1618,13 +1639,8 @@ impl Ui {
         let (label, size) = self.fitted(label, 15.0, r.w - 16.0 - reserve - icon_w, true);
         let width = self.text_size(&label, size, true).x + icon_w;
         let centre = (r.x + r.w / 2.0).min(r.x + r.w - reserve - 6.0 - width / 2.0);
-        let color = if selected {
-            GOLD
-        } else if hover {
-            CREAM
-        } else {
-            Color::new(CREAM.r, CREAM.g, CREAM.b, 0.82)
-        };
+        let rest = mix(Color::new(CREAM.r, CREAM.g, CREAM.b, 0.82), CREAM, a);
+        let color = mix(rest, GOLD, sel);
         if let Some(icon) = icon {
             let c = vec2(centre - width / 2.0 + 9.0, r.y + r.h / 2.0);
             if selected {
@@ -1641,11 +1657,26 @@ impl Ui {
             color,
             true,
         );
-        let clicked = hover && self.released_in(r) && !selected;
+        let clicked = !selected && hover && self.released_in(r);
         if clicked {
             self.note_click();
         }
         clicked
+    }
+
+    /// The gold underline of a row of tabs, under the tab chosen: it glides
+    /// there from the tab chosen before. Each tab draws the part of it over
+    /// itself (and half the gap to its neighbours), so the tabs drawn later
+    /// never cover it. `inset`: how far in from the tab's sides it stops.
+    pub fn tab_underline(&mut self, r: Rect, selected: bool, inset: f32, radius: f32) {
+        let Some(p) = self.selection_glide(r, selected, false) else { return };
+        let bar = Rect::new(p.x + inset, r.y + r.h - 3.0, p.w - 2.0 * inset, 3.0);
+        let mine = Rect::new(r.x - 4.0, r.y, r.w + 8.0, r.h);
+        if bar.overlaps(&mine) {
+            motion::push_clip(mine);
+            rrect(bar, radius, GOLD);
+            motion::pop_clip();
+        }
     }
 
     /// Splits `text` into lines no wider than `width`: at spaces, and also
@@ -1833,12 +1864,43 @@ impl Ui {
         }
         let max_scroll = rows.len().saturating_sub(top_rows.max(1));
         let mut scroll = scroll.min(max_scroll);
-        if r.contains(self.mouse) {
-            let (_, wheel) = mouse_wheel();
-            if wheel > 0.0 {
-                scroll = (scroll + 3).min(max_scroll);
-            } else if wheel < 0.0 {
-                scroll = scroll.saturating_sub(3);
+        // The log moves smoothly: how far up it is shown (in units, from
+        // the bottom) eases toward where `scroll` puts it. State kept per
+        // log: [shown offset, shown rows (the thumb), wheel left over],
+        // and how many lines it had.
+        let key = motion::mix(motion::id("chat-log"), id);
+        let height_of = |rows: &[LogRow], i: usize| LINE + if rows[i].gap { GAP } else { 0.0 };
+        let px_of = |rows: &[LogRow], s: usize| -> f32 {
+            (rows.len().saturating_sub(s)..rows.len()).map(|i| height_of(rows, i)).sum()
+        };
+        let (mut shown, mut shown_rows, mut carry, seen) =
+            self.with_slot(key, [0.0, scroll as f32, 0.0, 0.0], |slot| {
+                let seen = slot.aux;
+                slot.aux = lines.len() as i64;
+                (slot.v[0], slot.v[1], slot.v[2], seen)
+            });
+        // New lines: at the bottom they slide up into place; further up,
+        // what is being read stays where it is.
+        if seen != i64::MIN && lines.len() as i64 > seen {
+            let added: Vec<usize> =
+                (0..rows.len()).filter(|&i| rows[i].index as i64 >= seen).collect();
+            let px: f32 = added.iter().map(|&i| height_of(&rows, i)).sum();
+            shown += px;
+            if scroll > 0 {
+                scroll = (scroll + added.len()).min(rows.len().saturating_sub(top_rows.max(1)));
+                shown_rows += added.len() as f32;
+            }
+        }
+        if r.contains(self.mouse) && !self.wheel_taken {
+            let units = scroll::wheel_units(self.wheel);
+            if units != 0.0 {
+                self.wheel_taken = true;
+                // Rows up (positive) for the wheel turned up; what is left
+                // of a touchpad's small steps waits for the next.
+                let rows_up = -units * 0.6 / LINE + carry;
+                let whole = rows_up.trunc();
+                carry = rows_up - whole;
+                scroll = (scroll as i64 + whole as i64).clamp(0, max_scroll as i64) as usize;
             }
         }
         // The scroll bar: its thumb is as long as the part shown, and is
@@ -1850,14 +1912,15 @@ impl Ui {
             rows.len() + (lines.len() - wrapped) * rows.len() / wrapped
         };
         let reach = total.saturating_sub(top_rows.max(1)).max(max_scroll);
+        let mut bar = None;
         if reach > 0 {
             let track = Rect::new(r.x + r.w - 10.0, r.y + 6.0, 6.0, r.h - 12.0);
             let hold = Rect::new(r.x + r.w - BAR, r.y, BAR, r.h);
             let thumb_h = (track.h * top_rows as f32 / total.max(1) as f32).max(20.0).min(track.h);
             let travel = (track.h - thumb_h).max(1.0);
             let thumb_y =
-                |scroll: usize| track.y + travel * (1.0 - scroll.min(reach) as f32 / reach as f32);
-            let y = thumb_y(scroll);
+                |scroll: f32| track.y + travel * (1.0 - scroll.min(reach as f32) / reach as f32);
+            let y = thumb_y(scroll as f32);
             if self.pressed && hold.contains(self.mouse) {
                 // Taken where it was pressed; from the track, by its middle.
                 self.scroll_grab = if self.mouse.y >= y && self.mouse.y <= y + thumb_h {
@@ -1872,27 +1935,58 @@ impl Ui {
                 scroll = (((1.0 - f) * reach as f32).round() as usize).min(max_scroll);
             }
             let lit = matches!(drag, Drag::Held(_) | Drag::Hover);
+            bar = Some((track, thumb_h, lit));
+        }
+        // Eased toward where it should be (at once with reduced motion).
+        let dt = motion::dt();
+        let target = px_of(&rows, scroll);
+        if motion::reduced() {
+            shown = target;
+            shown_rows = scroll as f32;
+        } else {
+            shown = motion::follow(shown, target, 16.0, dt, 0.25);
+            shown_rows = motion::follow(shown_rows, scroll as f32, 16.0, dt, 0.01);
+        }
+        self.with_slot(key, [0.0; 4], |slot| {
+            slot.v[0] = shown;
+            slot.v[1] = shown_rows;
+            slot.v[2] = carry;
+        });
+        if let Some((track, thumb_h, lit)) = bar {
+            let travel = (track.h - thumb_h).max(1.0);
+            let ty = track.y + travel * (1.0 - shown_rows.clamp(0.0, reach as f32) / reach as f32);
             rrect(track, 3.0, Color::new(1.0, 1.0, 1.0, if lit { 0.10 } else { 0.05 }));
-            let thumb = Rect::new(track.x, thumb_y(scroll), track.w, thumb_h);
+            let thumb = Rect::new(track.x, ty, track.w, thumb_h);
             rrect(thumb, 3.0, Color::new(GOLD.r, GOLD.g, GOLD.b, if lit { 0.9 } else { 0.5 }));
         }
-        // Laid out from the bottom up: the newest against the field.
-        let end = rows.len() - scroll;
+        // Laid out from the bottom up: the newest against the field, the
+        // whole moved down by how far up it is shown (rows cut by the
+        // edges are clipped there).
+        let k = ui_scale();
+        let mut bottom = inner.y + inner.h + (shown * k).round() / k;
         let mut placed: Vec<(usize, f32)> = Vec::new();
-        let mut bottom = inner.y + inner.h;
-        for i in (0..end).rev() {
+        for i in (0..rows.len()).rev() {
             let y = bottom - LINE;
-            if y < inner.y - 0.5 {
+            if y + LINE < inner.y - 0.5 {
                 break;
             }
-            placed.push((i, y));
+            if y < inner.y + inner.h + 0.5 {
+                placed.push((i, y));
+            }
             bottom = y - if rows[i].gap { GAP } else { 0.0 };
         }
         placed.reverse();
+        let view = Rect::new(r.x, inner.y, r.w, inner.h);
+        let clipped = shown > 0.01 || rows.len() > top_rows;
+        if clipped {
+            motion::push_clip(view);
+        }
         // The message under the pointer, if it may be deleted by this reader.
         let hovered = placed
             .iter()
-            .find(|(_, y)| r.contains(self.mouse) && self.mouse.y >= *y && self.mouse.y < y + LINE)
+            .find(|(_, y)| {
+                view.contains(self.mouse) && self.mouse.y >= *y && self.mouse.y < y + LINE
+            })
             .map(|(i, _)| rows[*i].index)
             .filter(|&i| {
                 let l = &lines[i];
@@ -2015,6 +2109,10 @@ impl Ui {
                 }
             }
         }
+        // (No fades: a chat lies on its own darker box, or over the table.)
+        if clipped {
+            motion::pop_clip();
+        }
         // Newer lines below: a pill to bring them back.
         if scroll > 0 {
             let label = crate::i18n::t("▼ newer messages");
@@ -2056,33 +2154,35 @@ impl Ui {
     ) -> bool {
         self.block(r);
         let hover = enabled && r.contains(self.mouse);
-        let a = self.hover_anim(r, hover);
-        let bg = if hover && self.down {
-            Color::new(0.20, 0.135, 0.08, 1.0)
-        } else if a > 0.01 && !subtle && enabled {
-            mix(Color::new(0.21, 0.145, 0.085, 0.95), Color::new(0.33, 0.225, 0.125, 0.97), a)
-        } else if hover {
-            Color::new(0.33, 0.225, 0.125, 0.97)
-        } else if subtle {
+        let (a, p) = self.hover_press(r, hover, self.held(r));
+        let body = press_rect(r, p);
+        let rest = if subtle {
             Color::new(0.05, 0.035, 0.025, 0.45)
         } else if !enabled {
             Color::new(0.1, 0.075, 0.055, 0.85)
         } else {
             Color::new(0.21, 0.145, 0.085, 0.95)
         };
+        let lit = mix(rest, Color::new(0.33, 0.225, 0.125, 0.97), if enabled { a } else { 0.0 });
+        let bg = mix(lit, Color::new(0.19, 0.125, 0.075, 1.0), p);
         let radius = (r.h * 0.26).min(BUTTON_RADIUS);
-        if !subtle || hover {
+        if !subtle || a > 0.01 {
             let edge = if enabled {
-                mix(HAIRLINE, Color { a: 0.8, ..GOLD }, a)
+                mix(
+                    if subtle { Color { a: 0.0, ..HAIRLINE } } else { HAIRLINE },
+                    Color { a: 0.8, ..GOLD },
+                    a,
+                )
             } else {
                 Color::new(1.0, 1.0, 1.0, 0.04)
             };
-            raised(r, radius, bg, edge, 1.0);
+            raised(body, radius, bg, edge, 1.0);
         } else {
-            rrect(r, radius, bg);
+            rrect(body, radius, bg);
         }
         let color = if !enabled { Color::new(0.5, 0.45, 0.4, 0.6) } else { mix(CREAM, GOLD, a) };
-        crate::icons::draw(icon, vec2(r.x + r.w / 2.0, r.y + r.h / 2.0), r.h * 0.52, color);
+        let size = r.h * 0.52 * (1.0 - 0.06 * p);
+        crate::icons::draw(icon, vec2(r.x + r.w / 2.0, r.y + r.h / 2.0 + p * 0.5), size, color);
         // Also when it can't be used now: what it is, all the same.
         if r.contains(self.mouse) && !tip.is_empty() {
             self.tooltip(tip, r);
@@ -2099,6 +2199,8 @@ impl Ui {
     /// last one asked for in a frame is shown.
     pub fn tooltip(&self, text: &str, anchor: Rect) {
         let text = text.to_string();
+        // Where it is on screen: hints are drawn when nothing moves.
+        let anchor = motion::xf().rect(anchor);
         let mut list = self.overlays.borrow_mut();
         list.retain(|(o, _)| !o.tooltip);
         list.push((
@@ -2154,7 +2256,10 @@ impl Ui {
     /// Draws this frame's hover hints over everything drawn so far. Call
     /// once, after the rest of the interface (in interface units).
     pub fn draw_overlays(&self) {
-        // Hints float above everything: they are not held to any panel.
+        // Hints float above everything: they are not held to any panel,
+        // nor moved with what was drawn last.
+        motion::reset_xf();
+        motion::apply_cursor();
         self.panels.borrow_mut().clear();
         let list = std::mem::take(&mut *self.overlays.borrow_mut());
         let before = crate::paint::opacity();
@@ -2250,40 +2355,31 @@ impl Ui {
         w
     }
 
-    /// Scrolls a list area with the mouse wheel; returns the new first row.
-    pub fn scroll_list(&mut self, area: Rect, first: usize, rows: usize, visible: usize) -> usize {
-        self.block(area);
-        let max = rows.saturating_sub(visible);
-        let mut first = first.min(max);
-        if area.contains(self.mouse) {
-            let (_, wheel) = mouse_wheel();
-            if wheel > 0.0 {
-                first = first.saturating_sub(3);
-            } else if wheel < 0.0 {
-                first = (first + 3).min(max);
-            }
-        }
-        if rows > visible && visible > 0 {
-            // A scroll bar on the right: the track shows there is more.
-            let track = Rect::new(area.x + area.w - 5.0, area.y, 5.0, area.h);
-            rrect(track, 2.5, Color::new(1.0, 1.0, 1.0, 0.06));
-            let h = (track.h * visible as f32 / rows as f32).max(16.0);
-            let y = track.y + (track.h - h) * first as f32 / max.max(1) as f32;
-            rrect(Rect::new(track.x, y, 5.0, h), 2.5, Color::new(0.91, 0.75, 0.38, 0.7));
-        }
-        first
-    }
-
     /// True if the left button was released over `r` this frame (a click).
     /// The button was let go this frame after being pressed inside `r`:
     /// a press that started elsewhere (dragging the power, the spin, the
     /// aim) and ends over a button is not a click on it.
     pub fn released_in(&self, r: Rect) -> bool {
+        self.clickable(r);
         self.released && r.contains(self.press_at)
     }
 
     pub fn clicked(&self, r: Rect) -> bool {
         self.released_in(r) && r.contains(self.mouse)
+    }
+
+    /// Over a text field, the pointer is the text cursor.
+    fn text_cursor(&self, r: Rect) {
+        if r.contains(self.mouse) && self.active.is_none() {
+            motion::want_cursor(macroquad::miniquad::CursorIcon::Text);
+        }
+    }
+
+    /// `r` can be clicked: the pointer is a hand over it.
+    pub fn clickable(&self, r: Rect) {
+        if r.contains(self.mouse) && self.active.is_none() {
+            motion::want_cursor(macroquad::miniquad::CursorIcon::Pointer);
+        }
     }
 
     /// A floating panel or popover (the match's chat, the spin panel)
@@ -2318,43 +2414,33 @@ impl Ui {
     pub fn segmented(&mut self, r: Rect, options: &[&str], selected: usize) -> Option<usize> {
         self.block(r);
         let n = options.len().max(1) as f32;
-        // Equal cells while every label fits; otherwise each as wide as its
-        // label, the room left shared out (a long "Hide opponent" no longer
-        // shrinks to a whisper beside "All"). One type size for all.
-        let base = (r.h * 0.42).clamp(12.0, 16.0);
-        let natural: Vec<f32> =
-            options.iter().map(|l| self.text_size(l, base, true).x + 16.0).collect();
-        let widths: Vec<f32> = if natural.iter().all(|w| *w <= r.w / n) {
-            vec![r.w / n; options.len()]
-        } else {
-            let total: f32 = natural.iter().sum();
-            let extra = ((r.w - total) / n).max(0.0);
-            let scale = (r.w / total).min(1.0);
-            natural.iter().map(|w| w * scale + extra).collect()
-        };
-        let size = options
-            .iter()
-            .zip(&widths)
-            .map(|(l, w)| self.fit_with(base, l, w - 10.0, true, 10.0))
-            .fold(base, f32::min);
+        let w = r.w / n;
         rrect(r, BUTTON_RADIUS, Color::new(0.05, 0.035, 0.025, 1.0));
+        let cell = |i: usize| Rect::new(r.x + i as f32 * w, r.y, w, r.h);
+        let inset = |c: Rect| Rect::new(c.x + 3.0, c.y + 3.0, c.w - 6.0, c.h - 6.0);
+        // The chosen one's plate glides to the option clicked.
+        if selected < options.len() {
+            let key = motion::rect_key(motion::id("segmented"), r);
+            let plate = self.glide_rect(key, inset(cell(selected)), 20.0);
+            let bg = Color::new(0.36, 0.245, 0.12, 1.0);
+            rrect_gradient(plate, BUTTON_RADIUS - 2.5, shade(bg, 0.1), shade(bg, -0.15));
+            top_light(plate, BUTTON_RADIUS - 2.5, 0.1);
+        }
         let mut clicked = None;
-        let mut x = r.x;
         for (i, label) in options.iter().enumerate() {
-            let w = widths[i];
-            let cell = Rect::new(x, r.y, w, r.h);
-            x += w;
+            let cell = cell(i);
             let hover = cell.contains(self.mouse);
-            let inner = Rect::new(cell.x + 3.0, cell.y + 3.0, cell.w - 6.0, cell.h - 6.0);
-            if i == selected {
-                let bg = Color::new(0.36, 0.245, 0.12, 1.0);
-                rrect_gradient(inner, BUTTON_RADIUS - 2.5, shade(bg, 0.1), shade(bg, -0.15));
-                top_light(inner, BUTTON_RADIUS - 2.5, 0.1);
-            } else if hover {
-                rrect(inner, BUTTON_RADIUS - 2.5, Color::new(1.0, 0.9, 0.75, 0.06));
+            let a = self.hover_anim(cell, hover && i != selected);
+            if a > 0.01 {
+                rrect(inset(cell), BUTTON_RADIUS - 2.5, Color::new(1.0, 0.9, 0.75, 0.06 * a));
             }
-            let (label, size) = self.fitted(label, size, w - 10.0, true);
-            let color = if i == selected { GOLD } else { CREAM };
+            let sel = self.anim(
+                motion::rect_key(motion::id("seg-on"), cell),
+                (i == selected) as u8 as f32,
+                20.0,
+            );
+            let (label, size) = self.fitted(label, (r.h * 0.42).clamp(12.0, 16.0), w - 10.0, true);
+            let color = mix(CREAM, GOLD, sel);
             self.text_centered(
                 &label,
                 cell.x + w / 2.0,
@@ -2363,7 +2449,7 @@ impl Ui {
                 color,
                 true,
             );
-            if hover && self.released_in(cell) && i != selected {
+            if i != selected && hover && self.released_in(cell) {
                 clicked = Some(i);
                 self.note_click();
             }
@@ -2494,6 +2580,16 @@ pub fn mix(a: Color, b: Color, t: f32) -> Color {
         a.b + (b.b - a.b) * t,
         a.a + (b.a - a.a) * t,
     )
+}
+
+/// A button's body pressed in by `p` (0..1): a little smaller.
+pub fn press_rect(r: Rect, p: f32) -> Rect {
+    if p <= 0.0 {
+        return r;
+    }
+    let dx = (r.w * 0.012).min(2.5) * p + 0.5 * p;
+    let dy = 0.75 * p;
+    Rect::new(r.x + dx, r.y + dy, r.w - 2.0 * dx, r.h - 2.0 * dy)
 }
 
 /// The corners of panels and dialogs.

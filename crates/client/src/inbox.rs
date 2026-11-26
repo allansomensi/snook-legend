@@ -15,7 +15,7 @@ use crate::i18n::{t, tw};
 use crate::icons::Icon;
 use crate::online::{Online, action_label, category_color, category_name, wording};
 use crate::ranking::{HEADER_H, PAD, empty_state, loading, screen_header_until};
-use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_lines};
+use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui, motion, rrect, rrect_lines};
 
 /// What the inbox asks of the rest of the game.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -46,7 +46,7 @@ pub struct InboxScreen {
     /// The notification shown in full.
     selected: Option<i64>,
     /// The first row of the list on screen.
-    first: usize,
+    first: crate::ui::Scroll,
 }
 
 const ROW_H: f32 = 62.0;
@@ -78,13 +78,13 @@ impl InboxScreen {
     pub fn open(&mut self, online: &mut Online) {
         self.filter = None;
         self.selected = None;
-        self.first = 0;
+        self.first.reset();
         online.request_inbox();
     }
 
     pub fn draw(&mut self, ui: &mut Ui, online: &mut Online) -> InboxAction {
         let (sw, sh) = (crate::ui::vw(), crate::ui::vh());
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+        ui.screen_dim(0.5);
         let w = (sw - 40.0).min(980.0);
         let h = (sh - 40.0).min(760.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
@@ -139,8 +139,11 @@ impl InboxScreen {
         let (clicked, _) = crate::tabrow::tabs(ui, row, &labels, &counts, picked, 6.0);
         if let Some(k) = clicked {
             self.filter = FILTERS[k];
-            self.first = 0;
+            self.first.reset();
         }
+        // Another filter: the list slides in from its side.
+        let picked = FILTERS.iter().position(|c| *c == self.filter).unwrap_or(0);
+        let _switch = ui.switch_scope(motion::id("inbox-filter"), picked as i64, 16.0);
         let body = Rect::new(
             r.x + PAD,
             r.y + HEADER_H + TABS_H,
@@ -187,9 +190,13 @@ impl InboxScreen {
         if let Some(dr) = detail_r {
             match &selected {
                 Some(n) => {
+                    // Each notification picked comes in.
+                    let key = motion::mix(motion::id("inbox-detail"), n.id as u64);
+                    let fx = ui.come_in(key, vec2(12.0, 0.0));
                     if let Some(a) = self.draw_detail(ui, online, dr, n, now) {
                         action = a;
                     }
+                    ui.pop_fx(fx);
                 }
                 None => {
                     rrect(dr, 8.0, Color::new(1.0, 1.0, 1.0, 0.025));
@@ -216,24 +223,18 @@ impl InboxScreen {
         list: &[Notification],
         now: i64,
     ) -> Option<i64> {
-        let visible = (area.h / ROW_H).floor().max(1.0) as usize;
-        self.first = ui.scroll_list(area, self.first, list.len(), visible);
-        let scrolls = list.len() > visible;
+        let view = ui.list_begin(area, &mut self.first, list.len(), ROW_H);
+        let scrolls = view.scrolls();
         let mut picked = None;
-        for (k, n) in list.iter().skip(self.first).take(visible).enumerate() {
+        for k in view.rows() {
+            let n = &list[k];
             let w = area.w - if scrolls { 12.0 } else { 0.0 };
-            let r = Rect::new(area.x, area.y + k as f32 * ROW_H, w, ROW_H - 6.0);
+            let r = Rect::new(area.x, view.y(k), w, ROW_H - 6.0);
             let hover = ui.hovering(r);
             let chosen = self.selected == Some(n.id);
-            let alpha = if chosen {
-                0.10
-            } else if hover {
-                0.07
-            } else if n.unread() {
-                0.055
-            } else {
-                0.03
-            };
+            let rest = if n.unread() { 0.055 } else { 0.03 };
+            let lit = ui.hover_anim(r, hover);
+            let alpha = if chosen { 0.10 } else { rest + (0.07 - rest) * lit };
             rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, alpha));
             let color = category_color(n.category());
             if chosen {
@@ -285,6 +286,7 @@ impl InboxScreen {
                 picked = Some(n.id);
             }
         }
+        ui.scroll_end(view, &mut self.first);
         picked
     }
 

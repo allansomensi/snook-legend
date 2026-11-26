@@ -21,7 +21,9 @@ use crate::i18n::{t, tw};
 use crate::icons::Icon;
 use crate::online::Online;
 use crate::ranking::{HEADER_H, PAD, empty_state, screen_header, text_y};
-use crate::ui::{ALERT, BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_gradient, rrect_lines, shade};
+use crate::ui::{
+    ALERT, BORDER, CREAM, GOLD, MUTED, Ui, motion, rrect, rrect_gradient, rrect_lines, shade,
+};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum Tab {
@@ -68,15 +70,12 @@ pub struct ShopScreen {
     page: usize,
     /// An item to bring into view (back from trying it on the table).
     focus: Option<&'static str>,
-    /// When the mouse wheel last turned a page (a trackpad sends a stream
-    /// of small turns: one page per gesture).
-    wheel_at: f64,
     asked: bool,
     confirm: Option<Confirm>,
     /// Choosing the friend who gets this item.
     gift_pick: Option<&'static str>,
     /// The first friend shown in that list.
-    gift_first: usize,
+    gift_first: crate::ui::Scroll,
     /// The purchase that just went through: (item, given to).
     done: Option<(&'static str, Option<String>)>,
     /// The dark stage is on (the hall doesn't show around the table).
@@ -95,11 +94,11 @@ impl Default for ShopScreen {
             tab: Tab::Items(Category::Cloth),
             page: 0,
             focus: None,
-            wheel_at: 0.0,
+
             asked: false,
             confirm: None,
             gift_pick: None,
-            gift_first: 0,
+            gift_first: Default::default(),
             done: None,
             dark_stage: false,
             gift_message: String::new(),
@@ -500,13 +499,23 @@ pub(crate) enum SideNote<'a> {
 pub(crate) fn side_tab(ui: &mut Ui, r: Rect, label: &str, note: SideNote, selected: bool) -> bool {
     ui.block(r);
     let hover = ui.hovering(r);
-    if selected {
-        let bg = Color::new(0.38, 0.25, 0.12, 1.0);
-        rrect_gradient(r, 6.0, shade(bg, 0.06), shade(bg, -0.15));
-        rrect(Rect::new(r.x + 4.0, r.y + 8.0, 3.0, r.h - 16.0), 1.5, GOLD);
-    } else if hover {
-        rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, 0.07));
+    let lit = ui.hover_anim(r, hover && !selected);
+    if lit > 0.01 {
+        rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, 0.07 * lit));
     }
+    // The chosen one's plate glides up or down the list to the one
+    // clicked: each row draws the part over itself (and half the gap).
+    if let Some(p) = ui.selection_glide(r, selected, true) {
+        let mine = Rect::new(r.x - 2.0, r.y - 2.0, r.w + 4.0, r.h + 4.0);
+        if p.overlaps(&mine) {
+            motion::push_clip(mine);
+            let bg = Color::new(0.38, 0.25, 0.12, 1.0);
+            rrect_gradient(p, 6.0, shade(bg, 0.06), shade(bg, -0.15));
+            rrect(Rect::new(p.x + 4.0, p.y + 8.0, 3.0, p.h - 16.0), 1.5, GOLD);
+            motion::pop_clip();
+        }
+    }
+    let sel = ui.anim(motion::rect_key(motion::id("side-on"), r), selected as u8 as f32, 20.0);
     let mid = r.y + r.h / 2.0;
     let right = r.x + r.w - 12.0;
     let note_w = match note {
@@ -534,7 +543,7 @@ pub(crate) fn side_tab(ui: &mut Ui, r: Rect, label: &str, note: SideNote, select
     } else {
         label.to_string()
     };
-    let color = if selected { GOLD } else { CREAM };
+    let color = crate::ui::mix(CREAM, GOLD, sel);
     ui.text(&label, x, text_y(mid, size), size, color, true);
     hover && ui.clicked(r) && !selected
 }
@@ -725,13 +734,17 @@ impl ShopScreen {
         let mut action = self.page(ui, online, modal);
         if let Some(saved) = saved {
             ui.resume_input(saved);
-            draw_rectangle(
-                0.0,
-                0.0,
-                crate::ui::vw(),
-                crate::ui::vh(),
-                Color::new(0.0, 0.0, 0.0, 0.55),
-            );
+            // One dimming for the three (it stays while one follows
+            // another); each dialog comes in on its own.
+            ui.backdrop(motion::id("shop-dialog"), 0.55);
+            let which = if self.done.is_some() {
+                "shop-done"
+            } else if self.gift_pick.is_some() {
+                "shop-gift"
+            } else {
+                "shop-confirm"
+            };
+            let fx = ui.dialog_in(motion::id(which));
             if self.done.is_some() {
                 self.done_dialog(ui);
             } else if self.gift_pick.is_some() {
@@ -741,6 +754,7 @@ impl ShopScreen {
             {
                 action = a;
             }
+            ui.pop_fx(fx);
         }
         action
     }
@@ -748,7 +762,7 @@ impl ShopScreen {
     fn page(&mut self, ui: &mut Ui, online: &mut Online, modal: bool) -> ShopAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+        ui.screen_dim(0.5);
         let w = (sw - 40.0).min(1060.0);
         let h = (sh - 40.0).min(680.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
@@ -899,6 +913,14 @@ impl ShopScreen {
             }
             body = Rect::new(body.x, body.y + 58.0, body.w, body.h - 58.0);
         }
+        // Another category: its page rises in from the side it was picked
+        // on (below for one further down the list).
+        let index = match self.tab {
+            Tab::Items(c) => Category::ALL.iter().position(|x| *x == c).unwrap_or(0),
+            Tab::Coins => Category::ALL.len(),
+            Tab::Vip => Category::ALL.len() + 1,
+        };
+        let fx = ui.switch_down(motion::id("shop-tab"), index as i64, 14.0);
         match self.tab {
             Tab::Items(c) => {
                 if let Some(a) = self.items(ui, online, c, body, modal) {
@@ -908,6 +930,7 @@ impl ShopScreen {
             Tab::Coins => self.coins(ui, online, body),
             Tab::Vip => self.vip(ui, online, body),
         }
+        ui.pop_fx(fx);
         action
     }
 
@@ -1048,13 +1071,9 @@ impl ShopScreen {
                 };
                 chevron(vec2(b.x + b.w / 2.0, b.y + b.h / 2.0), 16.0, left, color);
             }
-            if ui.hovering(grid) {
-                let (_, wheel) = mouse_wheel();
-                let now = get_time();
-                if wheel != 0.0 && now - self.wheel_at > 0.3 {
-                    self.wheel_at = now;
-                    turn = if wheel < 0.0 { 1 } else { -1 };
-                }
+            let wheel = ui.wheel_steps(motion::id("shop-wheel"), grid);
+            if wheel != 0 {
+                turn = wheel;
             }
             if !modal && ui.focus.is_none() {
                 if is_key_pressed(KeyCode::Right) || is_key_pressed(KeyCode::PageDown) {
@@ -1066,154 +1085,174 @@ impl ShopScreen {
             self.page = (self.page as i32 + turn).clamp(0, pages as i32 - 1) as usize;
         }
         let mut tip = None;
-        for (k, item) in items.iter().enumerate().skip(self.page * per_page).take(per_page) {
-            let k = k - self.page * per_page;
-            let c = Rect::new(
-                area.x + (k % cols) as f32 * (cw + GAP),
-                area.y + (k / cols) as f32 * (ch + GAP),
-                cw,
-                ch,
-            );
-            let usable = signed_in && online.can_use(item) || item.price == Price::Free;
-            let equipped = signed_in && in_use == item.code;
-            let featured = online.ops.featured(item);
-            // In the colour of its rarity, its name in a corner (a star on
-            // those featured in a sale).
-            let rarity = snook_legend_proto::shop::rarity(item);
-            crate::collection::rarity_card(ui, c, rarity, equipped, get_time() as f32);
-            if featured && !equipped {
-                rrect_lines(c, 10.0, 1.5, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.6));
-            }
-            if featured {
-                crate::icons::draw(Icon::Star, vec2(c.x + 16.0, c.y + 16.0), 14.0, GOLD);
-            }
-            let inner = c.w - 24.0;
-            let top = if rarity > snook_legend_proto::shop::Rarity::Common { 30.0 } else { 12.0 };
-            let pic = Rect::new(c.x + 12.0, c.y + top, inner, (c.h - 108.0 - top).max(40.0));
-            // A cue's level, under its picture (what it has won online).
-            let level_info = (item.category == Category::Cue && signed_in)
-                .then(|| wallet.cue_wins(item.code))
-                .filter(|&w| w > 0 || usable);
-            match level_info {
-                Some(wins) => {
-                    let art = Rect::new(pic.x, pic.y, pic.w, pic.h - 18.0);
-                    preview(ui, item, art);
-                    cue_marks(art, snook_legend_proto::shop::cue_level(wins));
-                    let (line, progress, how) = cue_level_text(wins);
-                    let mid = pic.y + pic.h - 12.0;
-                    let (line, size) = ui.fitted(&line, 12.0, pic.w, false);
-                    ui.text(&line, pic.x, text_y(mid, size), size, MUTED, false);
-                    let bar = Rect::new(pic.x, pic.y + pic.h - 3.0, pic.w, 3.0);
-                    rrect(bar, 1.5, Color::new(1.0, 1.0, 1.0, 0.1));
-                    rrect(Rect::new(bar.x, bar.y, bar.w * progress, bar.h), 1.5, GOLD);
-                    let zone = Rect::new(pic.x, pic.y + pic.h - 20.0, pic.w, 20.0);
-                    if ui.hovering(zone) {
-                        tip = Some((how, zone));
-                    }
+        // A page turned slides by: the one that was there goes out to one
+        // side as the new one comes in from the other (the one going out
+        // takes no pointer).
+        let key = motion::mix(motion::id("shop-page"), category as u64);
+        let (going, coming) = ui.carousel(key, self.page, area.w + GAP);
+        if going.is_some() {
+            motion::push_clip(Rect::new(grid.x - 2.0, grid.y - 8.0, grid.w + 4.0, grid.h + 16.0));
+        }
+        let pages_drawn =
+            going.map(|(p, dx)| (p, dx, false)).into_iter().chain([(self.page, coming, true)]);
+        for (page, dx, live) in pages_drawn {
+            let saved = (!live).then(|| ui.suspend_input());
+            for (k, item) in items.iter().enumerate().skip(page * per_page).take(per_page) {
+                let k = k - page * per_page;
+                let c = Rect::new(
+                    area.x + dx + (k % cols) as f32 * (cw + GAP),
+                    area.y + (k / cols) as f32 * (ch + GAP),
+                    cw,
+                    ch,
+                );
+                let usable = signed_in && online.can_use(item) || item.price == Price::Free;
+                let equipped = signed_in && in_use == item.code;
+                let featured = online.ops.featured(item);
+                // In the colour of its rarity, its name in a corner (a star on
+                // those featured in a sale).
+                let rarity = snook_legend_proto::shop::rarity(item);
+                crate::collection::rarity_card(ui, c, rarity, equipped, get_time() as f32);
+                if featured && !equipped {
+                    rrect_lines(c, 10.0, 1.5, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.6));
                 }
-                None => preview(ui, item, pic),
-            }
-            let name_y = pic.y + pic.h + 10.0;
-            let size = ui.fit(15.0, t(item.name), inner).max(12.0);
-            let (name, size) = ui.fitted(t(item.name), size, inner, true);
-            ui.text(&name, c.x + 12.0, name_y, size, CREAM, true);
-            let percent = online.ops.discount(item);
-            status_line(ui, item, usable, coins, c.x + 12.0, name_y + 29.0, inner, percent);
-            // The actions, along the bottom: the main one, then try it on
-            // the table and give it to a friend.
-            let b = Rect::new(c.x + 12.0, c.y + c.h - 46.0, inner, 34.0);
-            let mut right = b.x + b.w;
-            if can_give && item.coins().is_some() {
-                right -= 34.0;
-                let g = Rect::new(right, b.y, 34.0, 34.0);
-                if ui.icon_button(g, Icon::Gift, t("Give to a friend"), true) {
-                    self.gift_pick = Some(item.code);
-                    self.gift_first = 0;
-                    online.send(ClientMsg::Friends);
+                if featured {
+                    crate::icons::draw(Icon::Star, vec2(c.x + 16.0, c.y + 16.0), 14.0, GOLD);
                 }
-                right -= 4.0;
-            }
-            if has_3d_preview(item) {
-                right -= 34.0;
-                let e = Rect::new(right, b.y, 34.0, 34.0);
-                if ui.icon_button(e, Icon::Eye, t("Look at it closely"), true) {
-                    action = Some(ShopAction::Preview(item.code));
-                }
-                right -= 4.0;
-            }
-            let b = Rect::new(b.x, b.y, right - b.x, b.h);
-            let size = 14.0;
-            if equipped {
-                button(ui, b, Kind::Disabled, Some(Icon::Check), t("In use"), size);
-            } else if usable && item.category == Category::Reaction {
-                // A reaction is kept, not put on: it is in the match's picker.
-                button(ui, b, Kind::Disabled, Some(Icon::Check), t("In your reactions"), size);
-            } else if !signed_in && matches!(item.price, Price::Coins(_) | Price::Free) {
-                // Signed out: the button leads to signing in (rather than
-                // a row of dead grey buttons).
-                let label = if usable { t("Use") } else { t("Buy") };
-                if button(ui, b, Kind::Normal, None, label, size) {
-                    self.sign_in = true;
-                }
-            } else if usable {
-                let kind = if signed_in { Kind::Normal } else { Kind::Disabled };
-                if button(ui, b, kind, None, t("Use"), size) {
-                    online.send(ClientMsg::Equip { code: item.code.to_string() });
-                }
-            } else {
-                match item.price {
-                    Price::Coins(_) => {
-                        // Too few coins: a quiet button (the price above is
-                        // in red); it still opens the dialog that says how
-                        // many are missing. Signed out, or the coins not
-                        // known yet: nothing to press.
-                        let n = online.ops.price(item).unwrap_or(0);
-                        let kind = match coins {
-                            None => Kind::Disabled,
-                            Some(c) if c >= n as i64 => Kind::Primary,
-                            Some(_) => Kind::Short,
-                        };
-                        if kind == Kind::Short && ui.hovering(b) {
-                            let text = t("Not enough coins: get more in the Coins tab.");
-                            tip = Some((text.to_string(), b));
-                        }
-                        if button(
-                            ui,
-                            b,
-                            kind,
-                            (kind == Kind::Short).then_some(Icon::Lock),
-                            t("Buy"),
-                            size,
-                        ) {
-                            self.confirm = Some(Confirm { code: item.code, gift_to: None });
-                            online.shop_error = None;
+                let inner = c.w - 24.0;
+                let top =
+                    if rarity > snook_legend_proto::shop::Rarity::Common { 30.0 } else { 12.0 };
+                let pic = Rect::new(c.x + 12.0, c.y + top, inner, (c.h - 108.0 - top).max(40.0));
+                // A cue's level, under its picture (what it has won online).
+                let level_info = (item.category == Category::Cue && signed_in)
+                    .then(|| wallet.cue_wins(item.code))
+                    .filter(|&w| w > 0 || usable);
+                match level_info {
+                    Some(wins) => {
+                        let art = Rect::new(pic.x, pic.y, pic.w, pic.h - 18.0);
+                        preview(ui, item, art);
+                        cue_marks(art, snook_legend_proto::shop::cue_level(wins));
+                        let (line, progress, how) = cue_level_text(wins);
+                        let mid = pic.y + pic.h - 12.0;
+                        let (line, size) = ui.fitted(&line, 12.0, pic.w, false);
+                        ui.text(&line, pic.x, text_y(mid, size), size, MUTED, false);
+                        let bar = Rect::new(pic.x, pic.y + pic.h - 3.0, pic.w, 3.0);
+                        rrect(bar, 1.5, Color::new(1.0, 1.0, 1.0, 0.1));
+                        rrect(Rect::new(bar.x, bar.y, bar.w * progress, bar.h), 1.5, GOLD);
+                        let zone = Rect::new(pic.x, pic.y + pic.h - 20.0, pic.w, 20.0);
+                        if ui.hovering(zone) {
+                            tip = Some((how, zone));
                         }
                     }
-                    Price::Vip => {
-                        if button(ui, b, Kind::Normal, Some(Icon::Crown), t("VIP only"), size) {
-                            self.tab = Tab::Vip;
-                        }
+                    None => preview(ui, item, pic),
+                }
+                let name_y = pic.y + pic.h + 10.0;
+                let size = ui.fit(15.0, t(item.name), inner).max(12.0);
+                let (name, size) = ui.fitted(t(item.name), size, inner, true);
+                ui.text(&name, c.x + 12.0, name_y, size, CREAM, true);
+                let percent = online.ops.discount(item);
+                status_line(ui, item, usable, coins, c.x + 12.0, name_y + 29.0, inner, percent);
+                // The actions, along the bottom: the main one, then try it on
+                // the table and give it to a friend.
+                let b = Rect::new(c.x + 12.0, c.y + c.h - 46.0, inner, 34.0);
+                let mut right = b.x + b.w;
+                if can_give && item.coins().is_some() {
+                    right -= 34.0;
+                    let g = Rect::new(right, b.y, 34.0, 34.0);
+                    if ui.icon_button(g, Icon::Gift, t("Give to a friend"), true) {
+                        self.gift_pick = Some(item.code);
+                        self.gift_first.reset();
+                        online.send(ClientMsg::Friends);
                     }
-                    // Sold with the welcome pack, on the coins tab.
-                    Price::Pack => {
-                        if button(ui, b, Kind::Normal, None, t("Buy"), size) {
-                            self.tab = Tab::Coins;
-                        }
+                    right -= 4.0;
+                }
+                if has_3d_preview(item) {
+                    right -= 34.0;
+                    let e = Rect::new(right, b.y, 34.0, 34.0);
+                    if ui.icon_button(e, Icon::Eye, t("Look at it closely"), true) {
+                        action = Some(ShopAction::Preview(item.code));
                     }
-                    Price::Achievement(a) => {
-                        let (title, desc) = achievement_of(a).unwrap_or((a, ""));
-                        button(ui, b, Kind::Disabled, Some(Icon::Lock), title, size);
-                        let status = Rect::new(c.x, name_y + 20.0, c.w, 20.0);
-                        if ui.hovering(b) || ui.hovering(status) {
-                            tip = Some((
-                                tw("{title}: {how}", &[("title", &title), ("how", &desc)]),
+                    right -= 4.0;
+                }
+                let b = Rect::new(b.x, b.y, right - b.x, b.h);
+                let size = 14.0;
+                if equipped {
+                    button(ui, b, Kind::Disabled, Some(Icon::Check), t("In use"), size);
+                } else if usable && item.category == Category::Reaction {
+                    // A reaction is kept, not put on: it is in the match's picker.
+                    button(ui, b, Kind::Disabled, Some(Icon::Check), t("In your reactions"), size);
+                } else if !signed_in && matches!(item.price, Price::Coins(_) | Price::Free) {
+                    // Signed out: the button leads to signing in (rather than
+                    // a row of dead grey buttons).
+                    let label = if usable { t("Use") } else { t("Buy") };
+                    if button(ui, b, Kind::Normal, None, label, size) {
+                        self.sign_in = true;
+                    }
+                } else if usable {
+                    let kind = if signed_in { Kind::Normal } else { Kind::Disabled };
+                    if button(ui, b, kind, None, t("Use"), size) {
+                        online.send(ClientMsg::Equip { code: item.code.to_string() });
+                    }
+                } else {
+                    match item.price {
+                        Price::Coins(_) => {
+                            // Too few coins: a quiet button (the price above is
+                            // in red); it still opens the dialog that says how
+                            // many are missing. Signed out, or the coins not
+                            // known yet: nothing to press.
+                            let n = online.ops.price(item).unwrap_or(0);
+                            let kind = match coins {
+                                None => Kind::Disabled,
+                                Some(c) if c >= n as i64 => Kind::Primary,
+                                Some(_) => Kind::Short,
+                            };
+                            if kind == Kind::Short && ui.hovering(b) {
+                                let text = t("Not enough coins: get more in the Coins tab.");
+                                tip = Some((text.to_string(), b));
+                            }
+                            if button(
+                                ui,
                                 b,
-                            ));
+                                kind,
+                                (kind == Kind::Short).then_some(Icon::Lock),
+                                t("Buy"),
+                                size,
+                            ) {
+                                self.confirm = Some(Confirm { code: item.code, gift_to: None });
+                                online.shop_error = None;
+                            }
                         }
+                        Price::Vip => {
+                            if button(ui, b, Kind::Normal, Some(Icon::Crown), t("VIP only"), size) {
+                                self.tab = Tab::Vip;
+                            }
+                        }
+                        // Sold with the welcome pack, on the coins tab.
+                        Price::Pack => {
+                            if button(ui, b, Kind::Normal, None, t("Buy"), size) {
+                                self.tab = Tab::Coins;
+                            }
+                        }
+                        Price::Achievement(a) => {
+                            let (title, desc) = achievement_of(a).unwrap_or((a, ""));
+                            button(ui, b, Kind::Disabled, Some(Icon::Lock), title, size);
+                            let status = Rect::new(c.x, name_y + 20.0, c.w, 20.0);
+                            if ui.hovering(b) || ui.hovering(status) {
+                                tip = Some((
+                                    tw("{title}: {how}", &[("title", &title), ("how", &desc)]),
+                                    b,
+                                ));
+                            }
+                        }
+                        Price::Free | Price::Earned => {}
                     }
-                    Price::Free | Price::Earned => {}
                 }
             }
+            if let Some(saved) = saved {
+                ui.resume_input(saved);
+            }
+        }
+        if going.is_some() {
+            motion::pop_clip();
         }
         if let Some((text, r)) = tip {
             ui.tooltip(&text, r);
@@ -1530,13 +1569,12 @@ impl ShopScreen {
         if friends.is_empty() {
             empty_state(ui, list, Icon::People, t("Add friends to give them items."));
         }
-        let visible = (list.h / row_h).floor().max(1.0) as usize;
-        self.gift_first = ui.scroll_list(list, self.gift_first, friends.len(), visible);
-        let scrolls = friends.len() > visible;
-        for (k, f) in friends.iter().enumerate().skip(self.gift_first).take(visible) {
-            let k = k - self.gift_first;
+        let view = ui.list_begin(list, &mut self.gift_first, friends.len(), row_h);
+        let scrolls = view.scrolls();
+        for k in view.rows() {
+            let f = &friends[k];
             let row_w = list.w - if scrolls { 12.0 } else { 0.0 };
-            let row = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 4.0);
+            let row = Rect::new(list.x, view.y(k), row_w, row_h - 4.0);
             // A friend who is VIP already can't be given VIP.
             let taken = vip && f.player.vip;
             let hover = !taken && ui.hovering(row);
@@ -1566,6 +1604,7 @@ impl ShopScreen {
                 }
             }
         }
+        ui.scroll_end(view, &mut self.gift_first);
         let b = Rect::new(r.x + 24.0, r.y + h - 24.0 - 40.0, 140.0, 40.0);
         // The message written so far stays (it is the shop's).
         if ui.button(b, t("Cancel"), true) || key_for_shop(ui, KeyCode::Escape) || ui.dismissed(r) {
@@ -1934,7 +1973,7 @@ impl ShopScreen {
             let label = tw("Give a month to a friend · {p}", &[("p", &offers.vip_gift_price)]);
             if ui.button(g, &label, online.signed_in()) {
                 self.gift_pick = Some(VIP_GIFT);
-                self.gift_first = 0;
+                self.gift_first.reset();
                 online.send(ClientMsg::Friends);
             }
             y += 52.0;

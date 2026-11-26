@@ -11,7 +11,7 @@ use crate::i18n::{t, tw};
 use crate::icons::Icon;
 use crate::online::Online;
 use crate::ranking::{PAD, caps_y, empty_state, loading, text_y, unreachable};
-use crate::ui::{ALERT, BORDER, CREAM, GOLD, MUTED, Ui, rrect, rrect_lines, tier_color};
+use crate::ui::{ALERT, BORDER, CREAM, GOLD, MUTED, Ui, motion, rrect, rrect_lines, tier_color};
 
 pub enum ProfileAction {
     None,
@@ -51,7 +51,7 @@ enum Pane {
 #[derive(Default)]
 pub struct ProfileScreen {
     pub name: String,
-    history_first: usize,
+    history_first: crate::ui::Scroll,
     report: Option<crate::report::ReportDialog>,
     confirm_block: bool,
     pane: Pane,
@@ -65,9 +65,9 @@ pub struct ProfileScreen {
     /// The status message being written (own profile).
     status_edit: Option<String>,
     /// The first present shown in the Gifts pane.
-    gifts_first: usize,
+    gifts_first: crate::ui::Scroll,
     /// The first trophy row shown.
-    trophies_first: usize,
+    trophies_first: crate::ui::Scroll,
     /// The trophy group opened to show each one (kind, tournament's name).
     trophies_open: Option<(snook_legend_proto::TrophyKind, String)>,
     /// The rules whose rating, rank, league and chart are shown (a rating
@@ -334,7 +334,7 @@ impl ProfileScreen {
         self.follow = None;
         // The rules of the viewer's games first.
         self.rules = online.rules;
-        self.history_first = 0;
+        self.history_first.reset();
         self.report = None;
         self.confirm_block = false;
         self.account = None;
@@ -348,8 +348,8 @@ impl ProfileScreen {
             _ => Pane::Games,
         };
         self.status_edit = None;
-        self.gifts_first = 0;
-        self.trophies_first = 0;
+        self.gifts_first.reset();
+        self.trophies_first.reset();
         self.trophies_open = None;
         self.asked_signed_in = online.signed_in();
         online.request_profile(name);
@@ -362,7 +362,7 @@ impl ProfileScreen {
     pub fn draw(&mut self, ui: &mut Ui, online: &mut Online) -> ProfileAction {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+        ui.screen_dim(0.5);
         let w = (sw - 40.0).min(960.0);
         let half = (w - 2.0 * PAD - 24.0) / 2.0;
         // Opened before signing in (e.g. straight from a link): ask again
@@ -405,7 +405,9 @@ impl ProfileScreen {
             }
             .max(BODY_H - TABS_H);
         let h = if loaded.is_some() { BODY_TOP + body_h + PAD } else { 240.0 };
-        let h = h.min(sh - 40.0);
+        // A pane taller or shorter than the last: the panel grows or
+        // shrinks to it instead of jumping.
+        let h = ui.glide(motion::id("profile-height"), h.min(sh - 40.0), 16.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         let mut action = ProfileAction::None;
@@ -473,11 +475,15 @@ impl ProfileScreen {
         // prizes, the medals and reactions won so far) and the pane on the
         // right, or a pane over the whole width.
         let under = Rect::new(body.x, body.y + TABS_H, body.w, body.h - TABS_H);
-        if !wide
-            && let Some(pane) =
+        if !wide {
+            // (Back from a pane over the whole width: it comes in again.)
+            let fx = ui.come_in(motion::id("profile-summary"), vec2(-14.0, 0.0));
+            if let Some(pane) =
                 self.summary(ui, online, &p, Rect::new(under.x, under.y, half, under.h))
-        {
-            self.pane = pane;
+            {
+                self.pane = pane;
+            }
+            ui.pop_fx(fx);
         }
         let right = Rect::new(body.x + half + 24.0, body.y, half, body.h);
         // One's own profile also keeps the presents.
@@ -519,6 +525,9 @@ impl ProfileScreen {
             draw_circle(seg.x + seg.w - 8.0, seg.y + 7.0, 4.0, ALERT);
         }
         let content = Rect::new(right.x, under.y, right.w, under.h);
+        // Another pane slides in from the side of its tab.
+        let index = panes.iter().position(|(pane, _)| *pane == self.pane).unwrap_or(0);
+        let fx = ui.switch_in(motion::id("profile-pane"), index as i64, 18.0);
         match self.pane {
             Pane::Games => self.history(ui, online, &p, content),
             Pane::Rating => rating_chart(ui, &p, self.rules, content),
@@ -553,6 +562,7 @@ impl ProfileScreen {
             Pane::Journey => journey(ui, online, &p, self.rules, under),
             Pane::Renames => renames(ui, &p, content),
         }
+        ui.pop_fx(fx);
         if let Some(saved) = saved {
             ui.resume_input(saved);
         }
@@ -1366,12 +1376,12 @@ impl ProfileScreen {
             return;
         }
         let row_h = 46.0;
-        let visible = (list.h / row_h).floor().max(1.0) as usize;
-        self.history_first = ui.scroll_list(list, self.history_first, p.history.len(), visible);
-        let scrolls = p.history.len() > visible;
-        for (k, h) in p.history.iter().skip(self.history_first).take(visible).enumerate() {
+        let view = ui.list_begin(list, &mut self.history_first, p.history.len(), row_h);
+        let scrolls = view.scrolls();
+        for k in view.rows() {
+            let h = &p.history[k];
             let w = list.w - if scrolls { 12.0 } else { 0.0 };
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, w, row_h - 6.0);
+            let r = Rect::new(list.x, view.y(k), w, row_h - 6.0);
             rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, 0.035));
             let mid = r.y + r.h / 2.0;
             let (mark, color) = if h.won { (t("W"), WIN) } else { (t("L"), ALERT) };
@@ -1467,6 +1477,7 @@ impl ProfileScreen {
             let tx = x + ui.text_size(&sub, 12.0, false).x + 10.0;
             crate::rulesui::tag(ui, h.rules, tx, mid + 10.0, 12.0);
         }
+        ui.scroll_end(view, &mut self.history_first);
     }
 
     /// The trophy shelf: what they won, newest first. The same trophy won
@@ -1517,9 +1528,8 @@ impl ProfileScreen {
             }
         }
         let row_h = 52.0;
-        let visible = (list.h / row_h).floor().max(1.0) as usize;
-        self.trophies_first = ui.scroll_list(list, self.trophies_first, rows.len(), visible);
-        let scrolls = rows.len() > visible;
+        let view = ui.list_begin(list, &mut self.trophies_first, rows.len(), row_h);
+        let scrolls = view.scrolls();
         let w = list.w - if scrolls { 12.0 } else { 0.0 };
         let daily = |players: u32| {
             if players <= 1 {
@@ -1529,8 +1539,9 @@ impl ProfileScreen {
             }
         };
         let mut toggle = None;
-        for (k, row) in rows.iter().skip(self.trophies_first).take(visible).enumerate() {
-            let y = list.y + k as f32 * row_h;
+        for k in view.rows() {
+            let row = &rows[k];
+            let y = view.y(k);
             match row {
                 Row::Stack(i) => {
                     let (sk, v) = &stacks[*i];
@@ -1639,6 +1650,7 @@ impl ProfileScreen {
                 }
             }
         }
+        ui.scroll_end(view, &mut self.trophies_first);
         if let Some(k) = toggle {
             self.trophies_open =
                 if self.trophies_open.as_ref() == Some(&k) { None } else { Some(k) };
@@ -1656,7 +1668,7 @@ impl ProfileScreen {
         }
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.55));
+        let _modal = ui.modal_scope(crate::ui::motion::id("account"), 0.55);
         let w = 500.0f32.min(sw - 20.0);
         let fw = w - 2.0 * PAD;
         let wrap = |ui: &Ui, text: &str| ui.wrap(text, fw, 13.0);
@@ -1679,12 +1691,11 @@ impl ProfileScreen {
         // scrolls with the wheel, so every control stays in reach.
         let room = sh - 20.0;
         let max_scroll = (h - room).max(0.0);
-        let wheel = mouse_wheel().1;
-        if wheel != 0.0 {
-            form.scroll -= wheel.signum() * 48.0;
-        }
+        form.scroll += ui.take_wheel(None);
         form.scroll = form.scroll.clamp(0.0, max_scroll);
-        let top = if max_scroll > 0.0 { 10.0 - form.scroll } else { (sh - h) / 2.0 };
+        // (Eased toward where the wheel or a field sends it.)
+        let shown = ui.glide(motion::id("account-scroll"), form.scroll, 16.0);
+        let top = if max_scroll > 0.0 { 10.0 - shown } else { (sh - h) / 2.0 };
         let r = Rect::new((sw - w) / 2.0, top, w, h);
         ui.panel(r);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
@@ -1694,7 +1705,7 @@ impl ProfileScreen {
             let track = if track.x + track.w > sw { Rect { x: sw - 7.0, ..track } } else { track };
             rrect(track, 2.5, Color::new(1.0, 1.0, 1.0, 0.08));
             let bar_h = (room * room / h).max(24.0);
-            let bar_y = track.y + (room - bar_h) * form.scroll / max_scroll;
+            let bar_y = track.y + (room - bar_h) * shown.clamp(0.0, max_scroll) / max_scroll;
             rrect(
                 Rect::new(track.x, bar_y, 5.0, bar_h),
                 2.5,

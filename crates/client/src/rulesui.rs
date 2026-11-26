@@ -58,18 +58,28 @@ pub fn switch(
     rrect(r, 8.0, Color::new(0.06, 0.04, 0.03, 0.92));
     let w = r.w / 2.0;
     let size = (r.h * 0.36).clamp(13.0, 18.0);
+    let inner_of = |k: usize| Rect::new(r.x + k as f32 * w + 3.0, r.y + 3.0, w - 6.0, r.h - 6.0);
+    // The chosen one's plate glides across, its colour turning to the
+    // other rules' on the way.
+    let at = Rules::ALL.iter().position(|x| *x == selected).unwrap_or(0);
+    let key = crate::ui::motion::rect_key(crate::ui::motion::id("rules-switch"), r);
+    let plate = ui.glide_rect(key, inner_of(at), 18.0);
+    let k = ((plate.x - inner_of(0).x) / w).clamp(0.0, 1.0);
+    let fill = crate::ui::mix(chosen_fill(Rules::ALL[0]), chosen_fill(Rules::ALL[1]), k);
     let mut clicked = None;
     for (k, rules) in Rules::ALL.into_iter().enumerate() {
         let cell = Rect::new(r.x + k as f32 * w, r.y, w, r.h);
-        let inner = Rect::new(cell.x + 3.0, cell.y + 3.0, cell.w - 6.0, cell.h - 6.0);
+        let on = rules == selected;
+        let lit = ui.hover_anim(cell, ui.hovering(cell) && !on);
+        if lit > 0.01 {
+            rrect(inner_of(k), 6.0, Color::new(0.22, 0.15, 0.09, lit));
+        }
+    }
+    rrect_gradient(plate, 6.0, shade(fill, 0.1), shade(fill, -0.12));
+    for (k, rules) in Rules::ALL.into_iter().enumerate() {
+        let cell = Rect::new(r.x + k as f32 * w, r.y, w, r.h);
         let hover = ui.hovering(cell);
         let on = rules == selected;
-        if on {
-            let fill = chosen_fill(rules);
-            rrect_gradient(inner, 6.0, shade(fill, 0.1), shade(fill, -0.12));
-        } else if hover {
-            rrect(inner, 6.0, Color::new(0.22, 0.15, 0.09, 1.0));
-        }
         // The mark, the name and the count, centred together.
         let label_color = match (on, rules) {
             (true, Rules::Brazilian) => GOLD,
@@ -261,7 +271,7 @@ pub enum Asked {
 pub fn ask(ui: &mut Ui, counts: Option<PerRules<usize>>) -> Asked {
     let sw = crate::ui::vw();
     let sh = crate::ui::vh();
-    draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.62));
+    let _modal = ui.modal_scope(crate::ui::motion::id("ask-rules"), 0.62);
     let w = 1000.0f32.min(sw - 24.0);
     let pad = (w * 0.05).clamp(18.0, 52.0);
     let inner = w - pad * 2.0;

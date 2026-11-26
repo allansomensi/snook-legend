@@ -34,6 +34,7 @@ pub const PORTABLE: &[&str] = &[
     "tv_view",
     "desktop_notifications",
     "interface_sounds",
+    "reduce_motion",
     "focus_mode",
     "rules",
     "mute_chat",

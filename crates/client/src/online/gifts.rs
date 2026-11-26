@@ -119,7 +119,7 @@ impl Online {
         let pic_h = (sh * 0.2).clamp(80.0, 130.0);
         let h = pad + 32.0 + 10.0 + 22.0 + 14.0 + pic_h + 12.0 + 26.0 + 20.0 + 18.0 + 38.0 + pad;
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.6));
+        let _modal = ui.modal_scope(crate::ui::motion::id("gifts-122"), 0.6);
         ui.panel(r);
         rrect_lines(r, 8.0, 2.0, GOLD);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
@@ -254,7 +254,7 @@ impl Online {
             + 38.0
             + pad;
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.6));
+        let _modal = ui.modal_scope(crate::ui::motion::id("gifts-257"), 0.6);
         ui.panel(r);
         rrect_lines(r, 8.0, 2.0, GOLD);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
@@ -369,7 +369,7 @@ impl Online {
 
     /// The presents received and given, newest first, with thanks for the
     /// received ones (the own profile's Gifts pane).
-    pub fn draw_gift_history(&mut self, ui: &mut Ui, list: Rect, first: &mut usize) {
+    pub fn draw_gift_history(&mut self, ui: &mut Ui, list: Rect, first: &mut crate::ui::Scroll) {
         let Some(gifts) = self.gifts.history.clone() else {
             if !self.gifts.asked {
                 self.request_gifts();
@@ -388,13 +388,13 @@ impl Online {
         }
         let me = self.me.as_ref().map(|m| m.username.clone()).unwrap_or_default();
         let row_h = 46.0;
-        let visible = (list.h / row_h).floor().max(1.0) as usize;
-        *first = ui.scroll_list(list, *first, gifts.len(), visible);
-        let scrolls = gifts.len() > visible;
+        let view = ui.list_begin(list, first, gifts.len(), row_h);
+        let scrolls = view.scrolls();
         let mut thank = None;
-        for (k, g) in gifts.iter().skip(*first).take(visible).enumerate() {
+        for k in view.rows() {
+            let g = &gifts[k];
             let w = list.w - if scrolls { 12.0 } else { 0.0 };
-            let r = Rect::new(list.x, list.y + k as f32 * row_h, w, row_h - 6.0);
+            let r = Rect::new(list.x, view.y(k), w, row_h - 6.0);
             let received = g.to.eq_ignore_ascii_case(&me);
             let unseen = received && self.gifts.new.iter().any(|n| n.id == g.id);
             rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, if unseen { 0.07 } else { 0.035 }));
@@ -457,6 +457,7 @@ impl Online {
             let sub = ui.ellipsize(&sub, room, 12.0);
             ui.text(&sub, x, r.y + 23.0, 12.0, MUTED, false);
         }
+        ui.scroll_end(view, first);
         if let Some(id) = thank {
             self.thank(id);
         }

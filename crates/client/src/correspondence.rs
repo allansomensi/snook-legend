@@ -50,7 +50,7 @@ pub struct Corr {
     pub loaded: bool,
     /// A game the player asked to open, and when.
     opening: Option<(i64, f64)>,
-    first: usize,
+    first: crate::ui::Scroll,
     input: String,
 }
 
@@ -861,6 +861,8 @@ pub fn draw_tab(o: &mut Online, ui: &mut Ui, area: Rect) -> Option<OnlineAction>
         return None;
     }
     let me = o.me.as_ref().map(|m| m.username.clone()).unwrap_or_default();
+    // (Taken out while the rows borrow the games; put back below.)
+    let mut scroll = std::mem::take(&mut o.corr.first);
     let rows = rows(&o.corr, &me);
     if rows.is_empty() {
         let text =
@@ -872,15 +874,15 @@ pub fn draw_tab(o: &mut Online, ui: &mut Ui, area: Rect) -> Option<OnlineAction>
         return None;
     }
     let row_h = 54.0;
-    let visible = (list.h / row_h).floor().max(1.0) as usize;
-    o.corr.first = ui.scroll_list(list, o.corr.first, rows.len(), visible);
-    let row_w = list.w - if rows.len() > visible { 12.0 } else { 0.0 };
+    let view = ui.list_begin(list, &mut scroll, rows.len(), row_h);
+    let row_w = list.w - if view.scrolls() { 12.0 } else { 0.0 };
     let now = crate::game::unix_now();
     let mut send = None;
     let mut open = None;
     let opening = o.corr.opening.map(|(id, _)| id);
-    for (k, row) in rows.iter().skip(o.corr.first).take(visible).enumerate() {
-        let r = Rect::new(list.x, list.y + k as f32 * row_h, row_w, row_h - 6.0);
+    for k in view.rows() {
+        let row = &rows[k];
+        let r = Rect::new(list.x, view.y(k), row_w, row_h - 6.0);
         let by = r.y + (r.h - 30.0) / 2.0;
         match row {
             Row::Asked(c) => {
@@ -976,6 +978,9 @@ pub fn draw_tab(o: &mut Online, ui: &mut Ui, area: Rect) -> Option<OnlineAction>
             }
         }
     }
+    ui.scroll_end(view, &mut scroll);
+    drop(rows);
+    o.corr.first = scroll;
     if let Some(msg) = send {
         o.send(msg);
     }

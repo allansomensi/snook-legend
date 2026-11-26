@@ -398,7 +398,7 @@ impl Online {
         let h = fixed + lines.len() as f32 * line_h;
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
         let color = category_color(n.category());
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.6));
+        let _modal = ui.modal_scope(crate::ui::motion::id("inbox-message"), 0.6);
         ui.panel(r);
         rrect_lines(r, 8.0, 2.0, color);
         ui.block(Rect::new(0.0, 0.0, sw, sh));

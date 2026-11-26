@@ -157,7 +157,7 @@ impl Dms {
         let w = 460.0f32.min(sw - 24.0);
         let h = (sh * 0.7).clamp(300.0, 560.0).min(sh - 24.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
-        draw_rectangle(0.0, 0.0, sw, sh, Color::new(0.0, 0.0, 0.0, 0.5));
+        let _modal = ui.modal_scope(crate::ui::motion::id("dm"), 0.5);
         ui.panel(r);
         let title = tw("Messages with {name}", &[("name", &with)]);
         let (title, size) = ui.fitted(&title, 18.0, r.w - 70.0, true);

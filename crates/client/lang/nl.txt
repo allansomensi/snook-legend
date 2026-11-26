@@ -2180,8 +2180,6 @@ Won in the official tournaments	Te winnen in de officiële toernooien
 Only won: events, cups and seasons	Alleen te winnen: evenementen, bekers en seizoenen
 In the welcome pack	In het welkomstpakket
 Yours while you are VIP	Van jou zolang je VIP bent
-Legendary cue	Legendarische keu
-Epic cue	Epische keu
 {n} of {total} items	{n} van {total} items
 Sign in to see your collection.	Log in om je collectie te zien.
 Missing too	Ook wat ontbreekt

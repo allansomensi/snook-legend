@@ -2180,8 +2180,6 @@ Won in the official tournaments	ได้​จาก​ทัวร์นาเ
 Only won: events, cups and seasons	ได้​จาก​การ​ชนะ​เท่านั้น: อีเวนต์ ถ้วย และ​ฤดูกาล
 In the welcome pack	อยู่​ใน​แพ็ก​ต้อนรับ
 Yours while you are VIP	ของ​คุณ​ตราบ​ที่​คุณ​เป็น VIP
-Legendary cue	ไม้คิว​ระดับ​ตำนาน
-Epic cue	ไม้คิว​ระดับ​มหากาพย์
 {n} of {total} items	{n} จาก {total} ไอเทม
 Sign in to see your collection.	ลงชื่อ​เข้า​ใช้​เพื่อ​ดู​คอลเลกชัน​ของ​คุณ
 Missing too	รวม​ที่​ยัง​ขาด

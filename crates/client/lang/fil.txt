@@ -2180,8 +2180,6 @@ Won in the official tournaments	Napapanalunan sa mga opisyal na torneo
 Only won: events, cups and seasons	Napapanalunan lang: mga event, kopa at season
 In the welcome pack	Nasa welcome pack
 Yours while you are VIP	Iyo habang VIP ka
-Legendary cue	Maalamat na cue
-Epic cue	Epikong cue
 {n} of {total} items	{n} sa {total} item
 Sign in to see your collection.	Mag-sign in para makita ang koleksyon mo.
 Missing too	Pati ang kulang

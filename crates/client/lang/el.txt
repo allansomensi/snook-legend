@@ -2180,8 +2180,6 @@ Won in the official tournaments	Κερδίζεται στα επίσημα το�
 Only won: events, cups and seasons	Μόνο κερδίζεται: εκδηλώσεις, κύπελλα και σεζόν
 In the welcome pack	Στο πακέτο καλωσορίσματος
 Yours while you are VIP	Δικό σου όσο είσαι VIP
-Legendary cue	Θρυλική στέκα
-Epic cue	Επική στέκα
 {n} of {total} items	{n} από {total} αντικείμενα
 Sign in to see your collection.	Συνδέσου για να δεις τη συλλογή σου.
 Missing too	Και όσα λείπουν

@@ -2180,8 +2180,6 @@ Won in the official tournaments	Získává se v oficiálních turnajích
 Only won: events, cups and seasons	Jen k vyhrání: akce, poháry a sezóny
 In the welcome pack	V uvítacím balíčku
 Yours while you are VIP	Tvoje, dokud jsi VIP
-Legendary cue	Legendární tágo
-Epic cue	Epické tágo
 {n} of {total} items	{n} z {total} předmětů
 Sign in to see your collection.	Přihlas se, abys viděl svou sbírku.
 Missing too	I chybějící

@@ -2180,8 +2180,6 @@ Won in the official tournaments	Vinns i de officiella turneringarna
 Only won: events, cups and seasons	Kan bara vinnas: evenemang, cuper och säsonger
 In the welcome pack	I välkomstpaketet
 Yours while you are VIP	Din så länge du är VIP
-Legendary cue	Legendarisk kö
-Epic cue	Episk kö
 {n} of {total} items	{n} av {total} föremål
 Sign in to see your collection.	Logga in för att se din samling.
 Missing too	Även det som saknas

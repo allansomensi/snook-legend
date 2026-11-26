@@ -2180,8 +2180,6 @@ Won in the official tournaments	Разыгрывается в официальн
 Only won: events, cups and seasons	Только выиграть: события, кубки и сезоны
 In the welcome pack	В приветственном наборе
 Yours while you are VIP	Ваше, пока вы VIP
-Legendary cue	Легендарный кий
-Epic cue	Эпический кий
 {n} of {total} items	{n} из {total} предметов
 Sign in to see your collection.	Войдите, чтобы увидеть свою коллекцию.
 Missing too	И недостающие

@@ -2180,8 +2180,6 @@ Won in the official tournaments	Ganho nos torneios oficiais
 Only won: events, cups and seasons	Só se ganha: eventos, copas e temporadas
 In the welcome pack	No pacote de boas-vindas
 Yours while you are VIP	Seu enquanto você for VIP
-Legendary cue	Taco lendário
-Epic cue	Taco épico
 {n} of {total} items	{n} de {total} itens
 Sign in to see your collection.	Entre para ver sua coleção.
 Missing too	Mostrar os que faltam

@@ -2180,8 +2180,6 @@ Won in the official tournaments	Zu gewinnen in den offiziellen Turnieren
 Only won: events, cups and seasons	Nur zu gewinnen: Events, Pokale und Saisons
 In the welcome pack	Im Willkommenspaket
 Yours while you are VIP	Deins, solange du VIP bist
-Legendary cue	Legendäres Queue
-Epic cue	Episches Queue
 {n} of {total} items	{n} von {total} Artikeln
 Sign in to see your collection.	Melde dich an, um deine Sammlung zu sehen.
 Missing too	Auch fehlende

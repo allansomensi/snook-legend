@@ -2180,8 +2180,6 @@ Won in the official tournaments	A hivatalos versenyeken lehet elnyerni
 Only won: events, cups and seasons	Csak nyerni lehet: események, kupák és szezonok
 In the welcome pack	Az üdvözlőcsomagban
 Yours while you are VIP	A tiéd, amíg VIP vagy
-Legendary cue	Legendás dákó
-Epic cue	Epikus dákó
 {n} of {total} items	{n} / {total} tárgy
 Sign in to see your collection.	Jelentkezz be, hogy lásd a gyűjteményed.
 Missing too	A hiányzók is

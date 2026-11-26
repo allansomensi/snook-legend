@@ -355,18 +355,6 @@ pub fn card(ui: &mut Ui, intro: &Intro, seat: usize, r: Rect, stakes: f32) {
     };
     let (line, ls) = ui.fitted(&line, 17.0, max, true);
     ui.text_centered(&line, cx, top + 176.0, ls, accent, true);
-    // An epic or legendary cue shows: the card glows in its rarity's colour,
-    // with a gem and the cue's name.
-    if let Some(rarity) = crate::collection::rare_cue(&p.cue) {
-        let gem = crate::collection::rare_cue_badge(r, rarity, get_time() as f32);
-        let tip = crate::collection::rare_cue_tip(&p.cue, rarity);
-        let color = crate::collection::rarity_color(rarity);
-        let (text, size) = ui.fitted(&tip, 12.0, max, true);
-        ui.text_centered(&text, cx, top + 200.0, size, color, true);
-        if ui.hovering(gem) {
-            ui.tooltip(&tip, gem);
-        }
-    }
     // At stake: they come up once the cards are in.
     if stakes <= 0.0 {
         return;

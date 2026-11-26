@@ -2180,8 +2180,6 @@ Won in the official tournaments	Se gagne dans les tournois officiels
 Only won: events, cups and seasons	Seulement gagné : événements, coupes et saisons
 In the welcome pack	Dans le pack de bienvenue
 Yours while you are VIP	À vous tant que vous êtes VIP
-Legendary cue	Queue légendaire
-Epic cue	Queue épique
 {n} of {total} items	{n} sur {total} objets
 Sign in to see your collection.	Connectez-vous pour voir votre collection.
 Missing too	Ceux qui manquent aussi

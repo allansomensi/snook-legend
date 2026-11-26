@@ -2180,8 +2180,6 @@ Won in the official tournaments	공식 토너먼트에서 획득
 Only won: events, cups and seasons	획득으로만: 이벤트, 컵, 시즌
 In the welcome pack	웰컴 팩에 포함
 Yours while you are VIP	VIP인 동안 내 것
-Legendary cue	전설 큐
-Epic cue	에픽 큐
 {n} of {total} items	{n} / {total}개 아이템
 Sign in to see your collection.	로그인하고 컬렉션을 확인하세요.
 Missing too	없는 것도 보기

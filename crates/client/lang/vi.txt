@@ -2180,8 +2180,6 @@ Won in the official tournaments	Giành được ở các giải đấu chính th
 Only won: events, cups and seasons	Chỉ có thể thắng được: sự kiện, cúp và mùa giải
 In the welcome pack	Trong gói chào mừng
 Yours while you are VIP	Của bạn khi bạn còn là VIP
-Legendary cue	Cơ huyền thoại
-Epic cue	Cơ sử thi
 {n} of {total} items	{n} trên {total} vật phẩm
 Sign in to see your collection.	Đăng nhập để xem bộ sưu tập của bạn.
 Missing too	Cả những món còn thiếu

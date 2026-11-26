@@ -2180,8 +2180,6 @@ Won in the official tournaments	يُربح في البطولات الرسمية
 Only won: events, cups and seasons	يُربح فقط: فعاليات وكؤوس ومواسم
 In the welcome pack	في حزمة الترحيب
 Yours while you are VIP	لك ما دمت عضو VIP
-Legendary cue	عصا أسطورية
-Epic cue	عصا ملحمية
 {n} of {total} items	{n} من {total} عنصرًا
 Sign in to see your collection.	سجّل الدخول لترى مجموعتك.
 Missing too	والناقصة أيضًا

@@ -2180,8 +2180,6 @@ Won in the official tournaments	在官方锦标赛中赢取
 Only won: events, cups and seasons	只能赢取：活动、杯赛和赛季
 In the welcome pack	欢迎礼包中
 Yours while you are VIP	你是VIP期间归你所有
-Legendary cue	传说球杆
-Epic cue	史诗球杆
 {n} of {total} items	{n} / {total} 件物品
 Sign in to see your collection.	登录以查看你的收藏。
 Missing too	也显示缺少的

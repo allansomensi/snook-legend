@@ -364,53 +364,6 @@ pub fn shimmer(r: Rect, time: f32) {
     }
 }
 
-/// The rarity of a cue that stands out (epic or legendary), if it does.
-pub fn rare_cue(code: &str) -> Option<Rarity> {
-    shop::item(code).map(shop::rarity).filter(|r| *r >= Rarity::Epic)
-}
-
-/// A glow and a small gem on a player's card when their cue is epic or
-/// legendary (the opponent's card at the table, the match's intro):
-/// `r` is the card. Returns the gem's rect for a tooltip.
-pub fn rare_cue_badge(r: Rect, rarity: Rarity, time: f32) -> Rect {
-    let rc = rarity_color(rarity);
-    let k = 0.5 + 0.5 * (time * 2.4).sin();
-    let strong = if rarity == Rarity::Legendary { 1.0 } else { 0.6 };
-    for (grow, a) in [(3.0, 0.10), (1.5, 0.18)] {
-        let g = Rect::new(r.x - grow, r.y - grow, r.w + grow * 2.0, r.h + grow * 2.0);
-        rrect_lines(g, 9.0 + grow, 1.5, Color::new(rc.r, rc.g, rc.b, a * strong * (0.6 + 0.4 * k)));
-    }
-    // A cut gem in the bottom left corner.
-    let c = vec2(r.x + 9.0, r.y + r.h - 9.0);
-    let s = 5.5;
-    let top = Color::new(rc.r * 0.6 + 0.4, rc.g * 0.6 + 0.4, rc.b * 0.6 + 0.4, 1.0);
-    draw_triangle(
-        vec2(c.x - s, c.y - s * 0.2),
-        vec2(c.x + s, c.y - s * 0.2),
-        vec2(c.x, c.y + s),
-        rc,
-    );
-    draw_triangle(
-        vec2(c.x - s, c.y - s * 0.2),
-        vec2(c.x + s, c.y - s * 0.2),
-        vec2(c.x, c.y - s * 0.9),
-        top,
-    );
-    let glint = Color::new(1.0, 1.0, 1.0, 0.5 + 0.5 * k);
-    draw_line(c.x - s * 0.4, c.y - s * 0.5, c.x - s * 0.1, c.y - s * 0.5, 1.0, glint);
-    Rect::new(c.x - s - 2.0, c.y - s - 2.0, s * 2.0 + 4.0, s * 2.0 + 4.0)
-}
-
-/// "Legendary cue: Emperor", for the badge's tooltip.
-pub fn rare_cue_tip(code: &str, rarity: Rarity) -> String {
-    let name = shop::item(code).map_or(code, |i| t(i.name));
-    let what = match rarity {
-        Rarity::Legendary => t("Legendary cue"),
-        _ => t("Epic cue"),
-    };
-    format!("{what}: {name}")
-}
-
 const SIDE_W: f32 = 216.0;
 const CARD_MIN_W: f32 = 176.0;
 const CARD_MIN_H: f32 = 178.0;
@@ -808,7 +761,5 @@ mod tests {
             },
         ];
         assert_eq!(known(&items), 2);
-        assert_eq!(rare_cue("cue_emperor"), Some(Rarity::Legendary));
-        assert_eq!(rare_cue("cue_classic"), None);
     }
 }

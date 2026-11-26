@@ -2180,8 +2180,6 @@ Won in the official tournaments	Se câștigă în turneele oficiale
 Only won: events, cups and seasons	Doar câștigat: evenimente, cupe și sezoane
 In the welcome pack	În pachetul de bun venit
 Yours while you are VIP	Al tău cât timp ești VIP
-Legendary cue	Tac legendar
-Epic cue	Tac epic
 {n} of {total} items	{n} din {total} obiecte
 Sign in to see your collection.	Conectează-te pentru a-ți vedea colecția.
 Missing too	Și cele lipsă

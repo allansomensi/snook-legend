@@ -2180,8 +2180,6 @@ Won in the official tournaments	অফিশিয়াল টুর্না�
 Only won: events, cups and seasons	শুধু জিতে পাওয়া যায়: ইভেন্ট, কাপ আর সিজন
 In the welcome pack	ওয়েলকাম প্যাকে
 Yours while you are VIP	আপনি VIP থাকা পর্যন্ত আপনার
-Legendary cue	কিংবদন্তি কিউ
-Epic cue	মহাকাব্যিক কিউ
 {n} of {total} items	{total}টির মধ্যে {n}টি আইটেম
 Sign in to see your collection.	আপনার সংগ্রহ দেখতে সাইন ইন করুন।
 Missing too	যেগুলো নেই সেগুলোও

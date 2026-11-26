@@ -2180,8 +2180,6 @@ Won in the official tournaments	Розігрується в офіційних �
 Only won: events, cups and seasons	Лише виграти: події, кубки та сезони
 In the welcome pack	У вітальному наборі
 Yours while you are VIP	Ваше, поки ви VIP
-Legendary cue	Легендарний кий
-Epic cue	Епічний кий
 {n} of {total} items	{n} з {total} предметів
 Sign in to see your collection.	Увійдіть, щоб побачити свою колекцію.
 Missing too	І відсутні

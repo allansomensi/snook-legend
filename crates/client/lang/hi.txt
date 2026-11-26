@@ -2180,8 +2180,6 @@ Won in the official tournaments	आधिकारिक टूर्नाम�
 Only won: events, cups and seasons	केवल जीतकर: इवेंट, कप और सीज़न
 In the welcome pack	वेलकम पैक में
 Yours while you are VIP	जब तक आप VIP हैं, आपका
-Legendary cue	लीजेंडरी क्यू
-Epic cue	एपिक क्यू
 {n} of {total} items	{total} में से {n} आइटम
 Sign in to see your collection.	अपना संग्रह देखने के लिए साइन इन करें।
 Missing too	जो नहीं हैं वे भी

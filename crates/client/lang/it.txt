@@ -2180,8 +2180,6 @@ Won in the official tournaments	Si vince nei tornei ufficiali
 Only won: events, cups and seasons	Solo da vincere: eventi, coppe e stagioni
 In the welcome pack	Nel pacchetto di benvenuto
 Yours while you are VIP	Tuo finché sei VIP
-Legendary cue	Stecca leggendaria
-Epic cue	Stecca epica
 {n} of {total} items	{n} di {total} oggetti
 Sign in to see your collection.	Accedi per vedere la tua collezione.
 Missing too	Anche quelli mancanti

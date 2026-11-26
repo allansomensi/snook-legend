@@ -213,16 +213,6 @@ fn avatar(ui: &mut Ui, m: &Match, seat: usize, r: Rect, active: bool) {
             true,
         );
     }
-    // An epic or legendary cue shows: a glow round the card and a gem.
-    if m.online.is_some()
-        && let Some(rarity) = crate::collection::rare_cue(&m.cue_looks[seat].0)
-    {
-        let gem = crate::collection::rare_cue_badge(r, rarity, get_time() as f32);
-        if ui.hovering(gem) {
-            ui.tooltip(&crate::collection::rare_cue_tip(&m.cue_looks[seat].0, rarity), gem);
-            return;
-        }
-    }
     if ui.hovering(r) {
         let mut tip = m.names[seat].clone();
         if let Some(o) = &m.online {

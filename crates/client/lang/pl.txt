@@ -2180,8 +2180,6 @@ Won in the official tournaments	Do wygrania w oficjalnych turniejach
 Only won: events, cups and seasons	Tylko do wygrania: wydarzenia, puchary i sezony
 In the welcome pack	W pakiecie powitalnym
 Yours while you are VIP	Twoje, dopóki jesteś VIP
-Legendary cue	Legendarny kij
-Epic cue	Epicki kij
 {n} of {total} items	{n} z {total} przedmiotów
 Sign in to see your collection.	Zaloguj się, aby zobaczyć swoją kolekcję.
 Missing too	Także brakujące

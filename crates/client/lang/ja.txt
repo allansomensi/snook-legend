@@ -2180,8 +2180,6 @@ Won in the official tournaments	公式トーナメントで獲得
 Only won: events, cups and seasons	獲得のみ：イベント、カップ、シーズン
 In the welcome pack	ウェルカムパックに収録
 Yours while you are VIP	VIPの間はあなたのもの
-Legendary cue	レジェンダリーキュー
-Epic cue	エピックキュー
 {n} of {total} items	{n} / {total} アイテム
 Sign in to see your collection.	ログインしてコレクションを見よう。
 Missing too	未入手も表示

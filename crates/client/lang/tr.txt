@@ -2180,8 +2180,6 @@ Won in the official tournaments	Resmi turnuvalarda kazanılır
 Only won: events, cups and seasons	Yalnızca kazanılır: etkinlikler, kupalar ve sezonlar
 In the welcome pack	Hoş geldin paketinde
 Yours while you are VIP	VIP olduğun sürece senin
-Legendary cue	Efsanevi isteka
-Epic cue	Destansı isteka
 {n} of {total} items	{n} / {total} eşya
 Sign in to see your collection.	Koleksiyonunu görmek için giriş yap.
 Missing too	Eksikler de

@@ -2180,8 +2180,6 @@ Won in the official tournaments	Dimenangkan di turnamen resmi
 Only won: events, cups and seasons	Hanya dimenangkan: event, piala, dan musim
 In the welcome pack	Di paket selamat datang
 Yours while you are VIP	Milikmu selama kamu VIP
-Legendary cue	Stik legendaris
-Epic cue	Stik epik
 {n} of {total} items	{n} dari {total} item
 Sign in to see your collection.	Masuk untuk melihat koleksimu.
 Missing too	Yang belum juga

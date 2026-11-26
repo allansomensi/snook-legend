@@ -1,0 +1,78 @@
+<!doctype html>
+<!-- The title and end cards of the promotional video (tools/video.py renders
+     them frame by frame with tools/video/cards.js): ?card=title|end&w=&h= -->
+<html><head><meta charset="utf-8"><style>
+@font-face{font-family:Inter;src:url(../../crates/client/assets/inter/Inter-Regular.ttf);font-weight:400}
+@font-face{font-family:Inter;src:url(../../crates/client/assets/inter/Inter-SemiBold.ttf);font-weight:600}
+@font-face{font-family:Inter;src:url(../../crates/client/assets/inter/Inter-Bold.ttf);font-weight:700}
+:root{--u:1px}
+html,body{margin:0;overflow:hidden;background:#0b0907}
+#stage{position:absolute;inset:0;overflow:hidden;background:#0b0907}
+.bg{position:absolute;inset:-4%;background:url(../../store-art/scene-3840x2160.png) center/cover;
+ filter:brightness(.5) saturate(.9) blur(calc(5*var(--u)));transform-origin:50% 55%}
+.shade{position:absolute;inset:0;background:
+ radial-gradient(ellipse 62% 50% at 50% 50%,rgba(11,9,7,.28),rgba(11,9,7,.85) 72%,#0b0907 100%)}
+.glow{position:absolute;left:50%;top:var(--gy);width:calc(1500*var(--u));height:calc(640*var(--u));
+ transform:translate(-50%,-50%);background:radial-gradient(ellipse at center,rgba(232,186,96,.22),rgba(232,186,96,.06) 40%,rgba(0,0,0,0) 68%)}
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.wm{position:relative;width:var(--ww);aspect-ratio:8/1}
+.wm img{width:100%;display:block;filter:drop-shadow(0 calc(12*var(--u)) calc(34*var(--u)) rgba(0,0,0,.7))}
+.shine{position:absolute;inset:0;-webkit-mask:var(--mask) center/100% 100% no-repeat;
+ background:linear-gradient(105deg,rgba(255,255,255,0) 40%,rgba(255,247,222,.85) 50%,rgba(255,255,255,0) 60%) no-repeat;
+ background-size:300% 100%;mix-blend-mode:screen}
+.rule{height:calc(2*var(--u));margin-top:calc(34*var(--u));background:linear-gradient(90deg,rgba(232,194,106,0),rgba(232,194,106,.9),rgba(232,194,106,0))}
+.sub{font:600 calc(var(--fs)*1px)/1 Inter;color:#f3e7cf;letter-spacing:.3em;margin-top:calc(30*var(--u));padding-left:.3em;text-transform:uppercase}
+.line{font:600 calc(var(--fl)*1px)/1.2 Inter;color:#f3e7cf;margin-top:calc(54*var(--u));text-align:center}
+.line .dot{color:#c9a75e;padding:0 .35em}
+.url{font:700 calc(var(--fu)*1px)/1 Inter;color:#e8c26a;margin-top:calc(40*var(--u));letter-spacing:.01em;
+ text-shadow:0 0 calc(30*var(--u)) rgba(232,186,96,.35)}
+/* Timelines (the renderer sets every animation's time, frame by frame). */
+.title .bg{animation:push 2.8s linear both}
+.title .glow{animation:fade 1.4s ease-out both}
+/* (The first frame already shows the name: it is the post's still.) */
+.title .wm{animation:settle 1.1s cubic-bezier(.2,.7,.2,1) both}
+.title .shine{animation:sweep .9s ease-in-out .9s both}
+.title .rule{animation:grow .7s cubic-bezier(.3,.7,.2,1) .45s both}
+.title .sub{animation:rise .7s ease-out .7s both}
+.end .bg{animation:push 3.8s linear both}
+.end .glow{animation:fade 1.2s ease-out both}
+.end .wm{animation:arrive .9s cubic-bezier(.2,.7,.2,1) both}
+.end .line{animation:rise .7s ease-out .45s both}
+.end .url{animation:rise .7s ease-out .8s both}
+.end .shine{animation:sweep .9s ease-in-out 1.5s both}
+@keyframes push{from{transform:scale(1.02)}to{transform:scale(1.09)}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes settle{from{opacity:.55;transform:scale(.95);filter:blur(calc(3*var(--u)))}to{opacity:1;transform:none;filter:none}}
+@keyframes arrive{from{opacity:0;transform:scale(.93);filter:blur(calc(10*var(--u)))}to{opacity:1;transform:none;filter:none}}
+@keyframes sweep{from{background-position:100% 0}to{background-position:0 0}}
+@keyframes grow{from{width:0;opacity:0}to{width:var(--rw);opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(calc(18*var(--u)))}to{opacity:1;transform:none}}
+</style></head><body>
+<div id="stage">
+ <div class="bg"></div><div class="shade"></div><div class="glow"></div>
+ <div class="center" id="c"></div>
+</div>
+<script>
+const q=new URLSearchParams(location.search);
+const W=+q.get('w')||1920,H=+q.get('h')||1080,card=q.get('card')||'title';
+const s=document.getElementById('stage');
+s.style.width=W+'px';s.style.height=H+'px';
+// One unit: 1 px at 1920 wide (a square frame keeps the type large).
+const u=Math.min(W/1920,H/1080)*(W===H?1.6:1);
+const r=document.documentElement.style;
+r.setProperty('--u',u+'px');
+s.classList.add(card);
+const wm='<div class="wm"><img src="../../crates/client/assets/wordmark.png"><div class="shine"></div></div>';
+const c=document.getElementById('c');
+if(card==='title'){
+ r.setProperty('--ww',Math.min(1150*u,W*.86)+'px');r.setProperty('--rw',520*u+'px');
+ r.setProperty('--fs',40*u);r.setProperty('--gy','48%');
+ c.innerHTML=wm+'<div class="rule"></div><div class="sub">3D eight-ball pool</div>';
+}else{
+ r.setProperty('--ww',Math.min(860*u,W*.8)+'px');r.setProperty('--gy','46%');
+ r.setProperty('--fl',(W===H?44:48)*u);r.setProperty('--fu',(W===H?74:80)*u);
+ const free='Free on Windows<span class="dot">·</span>macOS<span class="dot">·</span>Linux';
+ c.innerHTML=wm+'<div class="line">'+free+'</div><div class="url">snooklegend.app</div>';
+}
+</script>
+</body></html>

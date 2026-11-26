@@ -183,17 +183,22 @@ async fn adjust_rating(
         return Err(err(StatusCode::BAD_REQUEST, "Give a reason."));
     }
     let now_rating = target.records.get(body.rules).rating;
-    let delta = match (body.delta, body.rating) {
-        (Some(d), None) => d,
-        (None, Some(r)) => r - now_rating,
+    // (In i64: a delta or a rating at the ends of an i32 is refused, not
+    // a sum that overflows.)
+    let after = match (body.delta, body.rating) {
+        (Some(d), None) => now_rating as i64 + d as i64,
+        (None, Some(r)) => r as i64,
         _ => return Err(err(StatusCode::BAD_REQUEST, "Give either a delta or a rating.")),
     };
-    if delta == 0 {
+    if after == now_rating as i64 {
         return Err(err(StatusCode::BAD_REQUEST, "That is their rating already."));
     }
-    if !RATINGS.contains(&(now_rating + delta)) {
+    if !(*RATINGS.start() as i64..=*RATINGS.end() as i64).contains(&after) {
         return Err(err(StatusCode::BAD_REQUEST, "Ratings stay between 100 and 4000."));
     }
+    let Ok(delta) = i32::try_from(after - now_rating as i64) else {
+        return Err(err(StatusCode::BAD_REQUEST, "Ratings stay between 100 and 4000."));
+    };
     if let Some(id) = body.match_id
         && server.store.match_row(id).await?.is_none_or(|m| !m.players.contains(&target.id))
     {

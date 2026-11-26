@@ -2389,7 +2389,6 @@ You	Ви
 Messages with {name}	Повідомлення з {name}
 No messages with {name} yet. Say hello!	Ще немає повідомлень з {name}. Привітайтеся!
 Write a message… (Enter to send)	Напишіть повідомлення… (Enter — надіслати)
-You can write to your friends only.	Писати можна лише друзям.
 Choose a quick phrase…	Виберіть швидку фразу…
 Looking for a game ({rules})	Шукає партію ({rules})
 At a table, waiting ({rules})	За столом, чекає ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Запам'ятається для 
 Broadcast	Трансляція
 3D	3D
 You can only send messages to your friends.	Надсилати повідомлення можна лише друзям.
+New message	Нове повідомлення
+Sign in to send and read messages.	Увійдіть, щоб надсилати й читати повідомлення.
+No messages yet. Write to a player from their profile, or start one with New message.	Повідомлень поки немає. Напишіть гравцеві з його профілю або почніть листування кнопкою «Нове повідомлення».
+Write the name of the player to write to.	Введіть ім'я гравця, якому хочете написати.
+Player's name	Ім'я гравця
+Write	Написати
+Pick a conversation to read it.	Виберіть листування, щоб прочитати його.
+No conversations yet.	Листувань поки немає.
+You: {text}	Ви: {text}
+Messages from anyone	Повідомлення від усіх
+Off: only your friends can send you private messages.	Вимкнено: особисті повідомлення вам можуть надсилати лише друзі.
+This player only takes messages from friends.	Цей гравець приймає повідомлення лише від друзів.
+Wait for an answer before writing again.	Дочекайтеся відповіді, перш ніж писати знову.
+You've started enough new conversations today. Try again tomorrow.	Сьогодні ви вже почали достатньо нових листувань. Спробуйте завтра.
 You can't send messages to this player.	Ви не можете надсилати повідомлення цьому гравцеві.
 Your chat is set to the quick phrases only.	Ваш чат обмежено швидкими фразами.
 These settings can't be kept.	Ці налаштування не можна зберегти.

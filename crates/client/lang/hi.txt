@@ -2389,7 +2389,6 @@ You	आप
 Messages with {name}	{name} के साथ संदेश
 No messages with {name} yet. Say hello!	{name} के साथ अभी कोई संदेश नहीं। नमस्ते कहें!
 Write a message… (Enter to send)	संदेश लिखें… (भेजने के लिए Enter)
-You can write to your friends only.	आप केवल अपने दोस्तों को लिख सकते हैं।
 Choose a quick phrase…	कोई त्वरित वाक्य चुनें…
 Looking for a game ({rules})	खेल ढूँढ रहे हैं ({rules})
 At a table, waiting ({rules})	टेबल पर इंतज़ार में ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	उनके खिलाफ़ आ
 Broadcast	प्रसारण
 3D	3D
 You can only send messages to your friends.	आप केवल अपने दोस्तों को संदेश भेज सकते हैं।
+New message	नया संदेश
+Sign in to send and read messages.	संदेश भेजने और पढ़ने के लिए साइन इन करें।
+No messages yet. Write to a player from their profile, or start one with New message.	अभी कोई संदेश नहीं। किसी खिलाड़ी को उसकी प्रोफ़ाइल से लिखें, या नया संदेश से शुरू करें।
+Write the name of the player to write to.	उस खिलाड़ी का नाम लिखें जिसे आप लिखना चाहते हैं।
+Player's name	खिलाड़ी का नाम
+Write	लिखें
+Pick a conversation to read it.	पढ़ने के लिए कोई बातचीत चुनें।
+No conversations yet.	अभी कोई बातचीत नहीं।
+You: {text}	आप: {text}
+Messages from anyone	किसी से भी संदेश
+Off: only your friends can send you private messages.	बंद: केवल आपके दोस्त आपको निजी संदेश भेज सकते हैं।
+This player only takes messages from friends.	यह खिलाड़ी केवल दोस्तों से संदेश लेता है।
+Wait for an answer before writing again.	दोबारा लिखने से पहले जवाब का इंतज़ार करें।
+You've started enough new conversations today. Try again tomorrow.	आज आप काफ़ी नई बातचीत शुरू कर चुके हैं। कल फिर कोशिश करें।
 You can't send messages to this player.	आप इस खिलाड़ी को संदेश नहीं भेज सकते।
 Your chat is set to the quick phrases only.	आपकी चैट केवल त्वरित वाक्यों तक सीमित है।
 These settings can't be kept.	ये सेटिंग्स सहेजी नहीं जा सकतीं।

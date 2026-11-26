@@ -2389,7 +2389,6 @@ You	나
 Messages with {name}	{name}님과의 메시지
 No messages with {name} yet. Say hello!	아직 {name}님과 주고받은 메시지가 없습니다. 인사해 보세요!
 Write a message… (Enter to send)	메시지 입력… (Enter로 보내기)
-You can write to your friends only.	친구에게만 메시지를 쓸 수 있습니다.
 Choose a quick phrase…	빠른 문구 선택…
 Looking for a game ({rules})	경기를 찾는 중 ({rules})
 At a table, waiting ({rules})	테이블에서 대기 중 ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	이 상대와의 다음 경기에�
 Broadcast	중계
 3D	3D
 You can only send messages to your friends.	친구에게만 메시지를 보낼 수 있습니다.
+New message	새 메시지
+Sign in to send and read messages.	메시지를 보내고 읽으려면 로그인하세요.
+No messages yet. Write to a player from their profile, or start one with New message.	아직 메시지가 없어요. 플레이어의 프로필에서 메시지를 보내거나 새 메시지로 시작하세요.
+Write the name of the player to write to.	메시지를 보낼 플레이어의 이름을 입력하세요.
+Player's name	플레이어 이름
+Write	쓰기
+Pick a conversation to read it.	읽을 대화를 선택하세요.
+No conversations yet.	아직 대화가 없어요.
+You: {text}	나: {text}
+Messages from anyone	누구에게서나 메시지 받기
+Off: only your friends can send you private messages.	끄기: 친구만 나에게 개인 메시지를 보낼 수 있어요.
+This player only takes messages from friends.	이 플레이어는 친구의 메시지만 받아요.
+Wait for an answer before writing again.	답장을 받은 뒤에 다시 보내세요.
+You've started enough new conversations today. Try again tomorrow.	오늘은 새 대화를 충분히 시작했어요. 내일 다시 시도하세요.
 You can't send messages to this player.	이 플레이어에게는 메시지를 보낼 수 없습니다.
 Your chat is set to the quick phrases only.	채팅이 빠른 문구로 제한되어 있습니다.
 These settings can't be kept.	이 설정은 저장할 수 없습니다.

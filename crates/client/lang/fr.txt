@@ -2389,7 +2389,6 @@ You	Vous
 Messages with {name}	Messages avec {name}
 No messages with {name} yet. Say hello!	Pas encore de messages avec {name}. Dites bonjour !
 Write a message… (Enter to send)	Écrivez un message… (Entrée pour envoyer)
-You can write to your friends only.	Vous ne pouvez écrire qu'à vos amis.
 Choose a quick phrase…	Choisir une phrase rapide…
 Looking for a game ({rules})	Cherche une partie ({rules})
 At a table, waiting ({rules})	À une table, en attente ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Retenu pour vos prochaines parties 
 Broadcast	Retransmission
 3D	3D
 You can only send messages to your friends.	Vous ne pouvez envoyer des messages qu'à vos amis.
+New message	Nouveau message
+Sign in to send and read messages.	Connectez-vous pour envoyer et lire des messages.
+No messages yet. Write to a player from their profile, or start one with New message.	Pas encore de messages. Écrivez à un joueur depuis son profil, ou commencez-en un avec Nouveau message.
+Write the name of the player to write to.	Écrivez le nom du joueur à qui écrire.
+Player's name	Nom du joueur
+Write	Écrire
+Pick a conversation to read it.	Choisissez une conversation pour la lire.
+No conversations yet.	Pas encore de conversations.
+You: {text}	Vous : {text}
+Messages from anyone	Messages de n'importe qui
+Off: only your friends can send you private messages.	Désactivé : seuls vos amis peuvent vous envoyer des messages privés.
+This player only takes messages from friends.	Ce joueur ne reçoit des messages que de ses amis.
+Wait for an answer before writing again.	Attendez une réponse avant d'écrire à nouveau.
+You've started enough new conversations today. Try again tomorrow.	Vous avez commencé assez de nouvelles conversations aujourd'hui. Réessayez demain.
 You can't send messages to this player.	Vous ne pouvez pas envoyer de messages à ce joueur.
 Your chat is set to the quick phrases only.	Votre chat est limité aux phrases rapides.
 These settings can't be kept.	Ces paramètres ne peuvent pas être gardés.

@@ -85,6 +85,31 @@ impl MemoryStore {
         Ok(threads)
     }
 
+    pub fn dm_waiting(&self, from: i64, to: i64) -> StoreResult<u32> {
+        let s = self.lock();
+        let answered =
+            s.dms.iter().filter(|m| m.from == to && m.to == from).map(|m| m.id).max().unwrap_or(0);
+        Ok(s.dms.iter().filter(|m| m.from == from && m.to == to && m.id > answered).count() as u32)
+    }
+
+    pub fn dm_started(&self, from: i64, since: i64) -> StoreResult<u32> {
+        let s = self.lock();
+        let mut seen: Vec<i64> = Vec::new();
+        let mut started = 0;
+        // Oldest first: the first message seen of each conversation is its first.
+        for m in s.dms.iter().filter(|m| m.from == from || m.to == from) {
+            let other = if m.from == from { m.to } else { m.from };
+            if seen.contains(&other) {
+                continue;
+            }
+            seen.push(other);
+            if m.from == from && m.at >= since {
+                started += 1;
+            }
+        }
+        Ok(started)
+    }
+
     pub fn set_phrases_only(&self, user_id: i64, on: bool) -> StoreResult<()> {
         if let Some(u) = self.lock().users.get_mut(&user_id) {
             u.chat_phrases_only = on;

@@ -2389,7 +2389,6 @@ You	Вы
 Messages with {name}	Сообщения с {name}
 No messages with {name} yet. Say hello!	Пока нет сообщений с {name}. Поздоровайтесь!
 Write a message… (Enter to send)	Напишите сообщение… (Enter — отправить)
-You can write to your friends only.	Писать можно только друзьям.
 Choose a quick phrase…	Выберите быструю фразу…
 Looking for a game ({rules})	Ищет партию ({rules})
 At a table, waiting ({rules})	За столом, ждёт ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Запомнится для сле�
 Broadcast	Трансляция
 3D	3D
 You can only send messages to your friends.	Отправлять сообщения можно только друзьям.
+New message	Новое сообщение
+Sign in to send and read messages.	Войдите, чтобы отправлять и читать сообщения.
+No messages yet. Write to a player from their profile, or start one with New message.	Сообщений пока нет. Напишите игроку из его профиля или начните переписку кнопкой «Новое сообщение».
+Write the name of the player to write to.	Введите имя игрока, которому хотите написать.
+Player's name	Имя игрока
+Write	Написать
+Pick a conversation to read it.	Выберите переписку, чтобы прочитать её.
+No conversations yet.	Переписок пока нет.
+You: {text}	Вы: {text}
+Messages from anyone	Сообщения от всех
+Off: only your friends can send you private messages.	Выкл.: личные сообщения вам могут отправлять только друзья.
+This player only takes messages from friends.	Этот игрок принимает сообщения только от друзей.
+Wait for an answer before writing again.	Дождитесь ответа, прежде чем писать снова.
+You've started enough new conversations today. Try again tomorrow.	Сегодня вы уже начали достаточно новых переписок. Попробуйте завтра.
 You can't send messages to this player.	Вы не можете отправлять сообщения этому игроку.
 Your chat is set to the quick phrases only.	Ваш чат ограничен быстрыми фразами.
 These settings can't be kept.	Эти настройки нельзя сохранить.

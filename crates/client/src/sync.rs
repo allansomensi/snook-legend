@@ -39,6 +39,7 @@ pub const PORTABLE: &[&str] = &[
     "rules",
     "mute_chat",
     "hide_reactions",
+    snook_legend_proto::dm::MESSAGES_FROM_ANYONE,
     "game_events_in_chat",
     "muted_chat",
     "muted_reactions",

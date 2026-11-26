@@ -151,12 +151,16 @@ Rated games use Elo (`snook_legend_core::rating`). See `docs/DEPLOY.md` for limi
   JSON, at most 8 KB) → `settings_saved { updated_at }`; after signing in
   the server sends `settings { data, updated_at }` (empty, at 0, when none).
   The game keeps the newest (see `crates/client/src/sync.rs`).
-- Direct messages between friends: `dm_send { to, text }` → `dm { message }`
-  to both (stored for an offline friend); `dm_history { with, before }` →
+- Private messages: `dm_send { to, text }` → `dm { message }` to both
+  (stored for a player who is offline); `dm_history { with, before }` →
   `dm_history { with, messages, more }` (50 a page); `dm_read { with }`;
   `dm_threads` → `dm_threads { threads }` (also after signing in when there
-  are some). Only friends, never across a block, the chat's rules (mutes,
-  age, quick phrases only) apply. A game older than protocol 25 (0.11) has
+  are some). The game shows them in the inbox (Messages) and over the
+  lounge. Never across a block; the chat's rules (mutes, age, quick phrases
+  only) apply. Friends write to each other freely; players who aren't
+  friends only when both are 18 or older, to someone whose settings keep
+  `messages_from_anyone` on (the default), 3 messages until the other
+  answers and 10 new conversations a day (`crates/server/src/dm.rs`). A game older than protocol 25 (0.11) has
   no direct messages: it is sent neither `dm` nor `dm_threads` (it would
   drop them as malformed); what its player is sent waits for the update.
 - Friends see what each other does: `friends.friends[].activity` and

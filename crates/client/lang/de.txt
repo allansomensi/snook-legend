@@ -2389,7 +2389,6 @@ You	Du
 Messages with {name}	Nachrichten mit {name}
 No messages with {name} yet. Say hello!	Noch keine Nachrichten mit {name}. Sag Hallo!
 Write a message… (Enter to send)	Schreib eine Nachricht… (Enter zum Senden)
-You can write to your friends only.	Du kannst nur deinen Freunden schreiben.
 Choose a quick phrase…	Schnellsatz wählen…
 Looking for a game ({rules})	Sucht eine Partie ({rules})
 At a table, waiting ({rules})	An einem Tisch, wartet ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Gilt auch für deine nächsten Part
 Broadcast	Übertragung
 3D	3D
 You can only send messages to your friends.	Du kannst nur deinen Freunden Nachrichten senden.
+New message	Neue Nachricht
+Sign in to send and read messages.	Melde dich an, um Nachrichten zu senden und zu lesen.
+No messages yet. Write to a player from their profile, or start one with New message.	Noch keine Nachrichten. Schreib einem Spieler über sein Profil oder beginne eine mit „Neue Nachricht“.
+Write the name of the player to write to.	Gib den Namen des Spielers ein, dem du schreiben willst.
+Player's name	Name des Spielers
+Write	Schreiben
+Pick a conversation to read it.	Wähle ein Gespräch, um es zu lesen.
+No conversations yet.	Noch keine Gespräche.
+You: {text}	Du: {text}
+Messages from anyone	Nachrichten von allen
+Off: only your friends can send you private messages.	Aus: Nur deine Freunde können dir private Nachrichten senden.
+This player only takes messages from friends.	Dieser Spieler nimmt nur Nachrichten von Freunden an.
+Wait for an answer before writing again.	Warte auf eine Antwort, bevor du wieder schreibst.
+You've started enough new conversations today. Try again tomorrow.	Du hast heute genug neue Gespräche begonnen. Versuch es morgen wieder.
 You can't send messages to this player.	Du kannst diesem Spieler keine Nachrichten senden.
 Your chat is set to the quick phrases only.	Dein Chat ist auf die Schnellsätze beschränkt.
 These settings can't be kept.	Diese Einstellungen können nicht gespeichert werden.

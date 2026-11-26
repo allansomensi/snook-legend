@@ -2389,7 +2389,6 @@ You	Sen
 Messages with {name}	{name} ile mesajlar
 No messages with {name} yet. Say hello!	{name} ile henüz mesaj yok. Merhaba de!
 Write a message… (Enter to send)	Bir mesaj yaz… (göndermek için Enter)
-You can write to your friends only.	Yalnızca arkadaşlarına yazabilirsin.
 Choose a quick phrase…	Hızlı bir ifade seç…
 Looking for a game ({rules})	Oyun arıyor ({rules})
 At a table, waiting ({rules})	Bir masada bekliyor ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Ona karşı sonraki oyunların içi
 Broadcast	Yayın
 3D	3D
 You can only send messages to your friends.	Yalnızca arkadaşlarına mesaj gönderebilirsin.
+New message	Yeni mesaj
+Sign in to send and read messages.	Mesaj göndermek ve okumak için giriş yap.
+No messages yet. Write to a player from their profile, or start one with New message.	Henüz mesaj yok. Bir oyuncuya profilinden yaz ya da Yeni mesaj ile bir tane başlat.
+Write the name of the player to write to.	Yazmak istediğin oyuncunun adını yaz.
+Player's name	Oyuncunun adı
+Write	Yaz
+Pick a conversation to read it.	Okumak için bir konuşma seç.
+No conversations yet.	Henüz konuşma yok.
+You: {text}	Sen: {text}
+Messages from anyone	Herkesten mesaj
+Off: only your friends can send you private messages.	Kapalı: sana özel mesajı yalnızca arkadaşların gönderebilir.
+This player only takes messages from friends.	Bu oyuncu yalnızca arkadaşlarından mesaj alıyor.
+Wait for an answer before writing again.	Yeniden yazmadan önce bir yanıt bekle.
+You've started enough new conversations today. Try again tomorrow.	Bugün yeterince yeni konuşma başlattın. Yarın yeniden dene.
 You can't send messages to this player.	Bu oyuncuya mesaj gönderemezsin.
 Your chat is set to the quick phrases only.	Sohbetin hızlı ifadelerle sınırlı.
 These settings can't be kept.	Bu ayarlar saklanamıyor.

@@ -2389,7 +2389,6 @@ You	Ty
 Messages with {name}	Zprávy s {name}
 No messages with {name} yet. Say hello!	Zatím žádné zprávy s {name}. Pozdrav!
 Write a message… (Enter to send)	Napiš zprávu… (Enter odešle)
-You can write to your friends only.	Psát můžeš jen svým přátelům.
 Choose a quick phrase…	Vyber rychlou frázi…
 Looking for a game ({rules})	Hledá partii ({rules})
 At a table, waiting ({rules})	U stolu, čeká ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Zapamatováno pro tvé další part
 Broadcast	Přenos
 3D	3D
 You can only send messages to your friends.	Zprávy můžeš posílat jen svým přátelům.
+New message	Nová zpráva
+Sign in to send and read messages.	Přihlas se, abys mohl posílat a číst zprávy.
+No messages yet. Write to a player from their profile, or start one with New message.	Zatím žádné zprávy. Napiš hráči z jeho profilu, nebo začni tlačítkem Nová zpráva.
+Write the name of the player to write to.	Napiš jméno hráče, kterému chceš psát.
+Player's name	Jméno hráče
+Write	Napsat
+Pick a conversation to read it.	Vyber konverzaci a přečti si ji.
+No conversations yet.	Zatím žádné konverzace.
+You: {text}	Ty: {text}
+Messages from anyone	Zprávy od kohokoli
+Off: only your friends can send you private messages.	Vypnuto: soukromé zprávy ti mohou posílat jen přátelé.
+This player only takes messages from friends.	Tento hráč přijímá zprávy jen od přátel.
+Wait for an answer before writing again.	Počkej na odpověď, než napíšeš znovu.
+You've started enough new conversations today. Try again tomorrow.	Dnes jsi už začal dost nových konverzací. Zkus to zítra.
 You can't send messages to this player.	Tomuto hráči nemůžeš posílat zprávy.
 Your chat is set to the quick phrases only.	Tvůj chat je omezen na rychlé fráze.
 These settings can't be kept.	Tato nastavení nelze uložit.

@@ -2389,7 +2389,6 @@ You	Kamu
 Messages with {name}	Pesan dengan {name}
 No messages with {name} yet. Say hello!	Belum ada pesan dengan {name}. Sapa dia!
 Write a message… (Enter to send)	Tulis pesan… (Enter untuk mengirim)
-You can write to your friends only.	Kamu hanya bisa menulis ke teman.
 Choose a quick phrase…	Pilih frasa cepat…
 Looking for a game ({rules})	Mencari permainan ({rules})
 At a table, waiting ({rules})	Di meja, menunggu ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Diingat untuk permainanmu berikutny
 Broadcast	Siaran
 3D	3D
 You can only send messages to your friends.	Kamu hanya bisa mengirim pesan ke teman.
+New message	Pesan baru
+Sign in to send and read messages.	Masuk untuk mengirim dan membaca pesan.
+No messages yet. Write to a player from their profile, or start one with New message.	Belum ada pesan. Kirim pesan ke pemain dari profilnya, atau mulai dengan Pesan baru.
+Write the name of the player to write to.	Tulis nama pemain yang ingin kamu kirimi pesan.
+Player's name	Nama pemain
+Write	Tulis
+Pick a conversation to read it.	Pilih percakapan untuk membacanya.
+No conversations yet.	Belum ada percakapan.
+You: {text}	Kamu: {text}
+Messages from anyone	Pesan dari siapa saja
+Off: only your friends can send you private messages.	Mati: hanya temanmu yang bisa mengirimimu pesan pribadi.
+This player only takes messages from friends.	Pemain ini hanya menerima pesan dari teman.
+Wait for an answer before writing again.	Tunggu balasan sebelum menulis lagi.
+You've started enough new conversations today. Try again tomorrow.	Kamu sudah memulai cukup banyak percakapan baru hari ini. Coba lagi besok.
 You can't send messages to this player.	Kamu tidak bisa mengirim pesan ke pemain ini.
 Your chat is set to the quick phrases only.	Obrolanmu dibatasi pada frasa cepat.
 These settings can't be kept.	Pengaturan ini tidak dapat disimpan.

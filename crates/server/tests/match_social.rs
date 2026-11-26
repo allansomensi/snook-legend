@@ -177,10 +177,6 @@ async fn friends_send_each_other_messages() {
     let (url, _) = start().await;
     let (mut ana, _) = Client::register(&url, "ana").await;
     let (mut bob, bob_token) = Client::register(&url, "bob").await;
-    // Only friends.
-    ana.send(ClientMsg::DmSend { to: "bob".into(), text: "hi".into() }).await;
-    let m = ana.expect("refused", |m| matches!(m, ServerMsg::Error { .. })).await;
-    assert_eq!(error_text(&m), snook_legend_server::dm::FRIENDS_ONLY);
     befriend(&mut ana, &mut bob, "ana", "bob").await;
     ana.send(ClientMsg::DmSend { to: "Bob".into(), text: "  hi bob  ".into() }).await;
     let ServerMsg::Dm { message: sent } =
@@ -235,10 +231,70 @@ async fn friends_send_each_other_messages() {
     bob.expect("friends", |m| matches!(m, ServerMsg::Friends { .. })).await;
     ana.send(ClientMsg::DmSend { to: "bob".into(), text: "?".into() }).await;
     let m = ana.expect("refused", |m| matches!(m, ServerMsg::Error { .. })).await;
-    assert!(
-        [snook_legend_server::dm::FRIENDS_ONLY, snook_legend_server::dm::CANT_WRITE]
-            .contains(&error_text(&m))
-    );
+    assert_eq!(error_text(&m), snook_legend_server::dm::CANT_WRITE);
+}
+
+/// Adults who aren't friends write to each other: a few messages until
+/// the other answers, and not to someone who takes messages from friends
+/// only.
+#[tokio::test]
+async fn players_who_arent_friends_write_to_each_other() {
+    use snook_legend_proto::dm::UNANSWERED;
+    use snook_legend_server::dm::{THEIR_FRIENDS_ONLY, WAIT_FOR_ANSWER};
+    let (url, _) = start().await;
+    let (mut ana, _) = Client::register(&url, "ana").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    for k in 0..UNANSWERED {
+        ana.send(ClientMsg::DmSend { to: "bob".into(), text: format!("hi {k}") }).await;
+        ana.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await;
+    }
+    ana.send(ClientMsg::DmSend { to: "bob".into(), text: "hello?".into() }).await;
+    let m = ana.expect("waits", |m| matches!(m, ServerMsg::Error { .. })).await;
+    assert_eq!(error_text(&m), WAIT_FOR_ANSWER);
+    // Bob got them, and answers: the conversation goes on.
+    bob.expect("got", |m| matches!(m, ServerMsg::Dm { message } if message.text == "hi 2")).await;
+    bob.send(ClientMsg::DmSend { to: "ana".into(), text: "hey".into() }).await;
+    bob.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await;
+    ana.send(ClientMsg::DmSend { to: "bob".into(), text: "hello!".into() }).await;
+    ana.expect("kept", |m| matches!(m, ServerMsg::Dm { message } if message.text == "hello!"))
+        .await;
+    // Cid takes messages from friends only (Settings → Game).
+    let (mut cid, _) = Client::register(&url, "cid").await;
+    let data = r#"{"messages_from_anyone":"false"}"#;
+    cid.send(ClientMsg::SaveSettings { data: data.into() }).await;
+    cid.expect("saved", |m| matches!(m, ServerMsg::SettingsSaved { .. })).await;
+    // (Bob writes: Ana has written as quickly as she may for a while.)
+    bob.send(ClientMsg::DmSend { to: "cid".into(), text: "hi".into() }).await;
+    let m = bob.expect("friends only", |m| matches!(m, ServerMsg::Error { .. })).await;
+    assert_eq!(error_text(&m), THEIR_FRIENDS_ONLY);
+    befriend(&mut bob, &mut cid, "bob", "cid").await;
+    bob.send(ClientMsg::DmSend { to: "cid".into(), text: "hi".into() }).await;
+    bob.expect("a friend's", |m| matches!(m, ServerMsg::Dm { .. })).await;
+    // Nobody by that name.
+    bob.send(ClientMsg::DmSend { to: "nobody".into(), text: "hi".into() }).await;
+    let m = bob.expect("no one", |m| matches!(m, ServerMsg::Error { .. })).await;
+    assert_eq!(error_text(&m), snook_legend_server::dm::NO_SUCH_PLAYER);
+}
+
+/// Minors write to their friends only, and only friends write to them.
+#[tokio::test]
+async fn minors_write_to_friends_only() {
+    use snook_legend_server::dm::{CANT_WRITE, FRIENDS_ONLY};
+    let (url, _) = start().await;
+    let (mut ana, _) = Client::register(&url, "ana").await;
+    let (mut kid, _) = Client::register_as(&url, "kid", Some(true)).await;
+    // A parent turned the chat on (not kept to the quick phrases).
+    kid.send(ClientMsg::AllowChat { allowed: true, phrases_only: Some(false) }).await;
+    kid.expect("age", |m| matches!(m, ServerMsg::Age { .. })).await;
+    kid.send(ClientMsg::DmSend { to: "ana".into(), text: "hi".into() }).await;
+    let m = kid.expect("refused", |m| matches!(m, ServerMsg::Error { .. })).await;
+    assert_eq!(error_text(&m), FRIENDS_ONLY);
+    ana.send(ClientMsg::DmSend { to: "kid".into(), text: "hi".into() }).await;
+    let m = ana.expect("refused", |m| matches!(m, ServerMsg::Error { .. })).await;
+    assert_eq!(error_text(&m), CANT_WRITE, "their age isn't given away");
+    befriend(&mut ana, &mut kid, "ana", "kid").await;
+    kid.send(ClientMsg::DmSend { to: "ana".into(), text: "hi".into() }).await;
+    kid.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await;
 }
 
 /// A 0.11 game (protocol 24) has no direct messages: it isn't sent them
@@ -274,16 +330,15 @@ async fn old_games_are_not_sent_messages() {
 async fn messages_to_strangers_count_against_the_limit() {
     let (url, _) = start().await;
     let (mut ana, _) = Client::register(&url, "ana").await;
-    let (_bob, _) = Client::register(&url, "bob").await;
-    // Each one costs database requests (the friends, the blocks) before it
-    // is refused: past the burst the server stops asking.
+    // Each one costs database requests (who it is, the friends, the
+    // blocks) before it is refused: past the burst the server stops asking.
     let mut errors = Vec::new();
     for _ in 0..8 {
-        ana.send(ClientMsg::DmSend { to: "bob".into(), text: "hi".into() }).await;
+        ana.send(ClientMsg::DmSend { to: "nobody".into(), text: "hi".into() }).await;
         let m = ana.expect("refused", |m| matches!(m, ServerMsg::Error { .. })).await;
         errors.push(error_text(&m).to_string());
     }
-    assert_eq!(errors[0], snook_legend_server::dm::FRIENDS_ONLY);
+    assert_eq!(errors[0], snook_legend_server::dm::NO_SUCH_PLAYER);
     assert_eq!(errors[7], snook_legend_server::dm::TOO_QUICKLY);
 }
 

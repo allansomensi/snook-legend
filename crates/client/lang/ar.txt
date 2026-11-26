@@ -2389,7 +2389,6 @@ You	أنت
 Messages with {name}	الرسائل مع {name}
 No messages with {name} yet. Say hello!	لا رسائل مع {name} بعد. ألقِ التحية!
 Write a message… (Enter to send)	اكتب رسالة… (Enter للإرسال)
-You can write to your friends only.	يمكنك الكتابة لأصدقائك فقط.
 Choose a quick phrase…	اختر عبارة سريعة…
 Looking for a game ({rules})	يبحث عن مباراة ({rules})
 At a table, waiting ({rules})	على طاولة، ينتظر ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	يُحفظ لمبارياتك ال�
 Broadcast	بث
 3D	3D
 You can only send messages to your friends.	يمكنك إرسال الرسائل لأصدقائك فقط.
+New message	رسالة جديدة
+Sign in to send and read messages.	سجّل الدخول لإرسال الرسائل وقراءتها.
+No messages yet. Write to a player from their profile, or start one with New message.	لا توجد رسائل بعد. راسل لاعبًا من ملفه الشخصي، أو ابدأ رسالة من «رسالة جديدة».
+Write the name of the player to write to.	اكتب اسم اللاعب الذي تريد مراسلته.
+Player's name	اسم اللاعب
+Write	اكتب
+Pick a conversation to read it.	اختر محادثة لقراءتها.
+No conversations yet.	لا توجد محادثات بعد.
+You: {text}	أنت: {text}
+Messages from anyone	رسائل من أي شخص
+Off: only your friends can send you private messages.	معطّل: أصدقاؤك فقط يمكنهم إرسال رسائل خاصة إليك.
+This player only takes messages from friends.	هذا اللاعب يستقبل الرسائل من الأصدقاء فقط.
+Wait for an answer before writing again.	انتظر ردًا قبل أن تكتب مجددًا.
+You've started enough new conversations today. Try again tomorrow.	بدأت ما يكفي من المحادثات الجديدة اليوم. حاول مجددًا غدًا.
 You can't send messages to this player.	لا يمكنك إرسال رسائل إلى هذا اللاعب.
 Your chat is set to the quick phrases only.	دردشتك مقتصرة على العبارات السريعة.
 These settings can't be kept.	لا يمكن حفظ هذه الإعدادات.

@@ -79,6 +79,8 @@ SCREENS = {
     "ranking-friends": (["--screen", "ranking-friends"], {}, True, 200),
     "ranking-doubles": (["--screen", "ranking-doubles"], {}, True, 200),
     "profile-games": (["--screen", "profile:Ana"], {}, True, 200),
+    # Another player's profile: what can be done with them (a message too).
+    "profile-other": (["--screen", "profile:Kenji"], {}, True, 200),
     "profile-rating": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "rating"}, True, 200),
     "profile-numbers": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "numbers"}, True, 200),
     "profile-analysis": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "analysis"}, True, 200),

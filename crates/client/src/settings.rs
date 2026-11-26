@@ -570,7 +570,13 @@ impl SettingsScreen {
                     ),
                     &mut config.game_events_in_chat,
                 );
-
+                switch_row(
+                    rows,
+                    ui,
+                    t("Messages from anyone"),
+                    t("Off: only your friends can send you private messages."),
+                    &mut config.messages_from_anyone,
+                );
                 // Whose reactions are shown at the table: one choice for
                 // the two settings (everyone's, all but the opponent's, none).
                 let sel = match (config.show_reactions, config.hide_reactions) {

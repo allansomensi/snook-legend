@@ -81,6 +81,16 @@ impl Store {
     pub async fn dm_threads(&self, me: i64) -> StoreResult<Vec<DmThreadRow>> {
         dispatch!(self, s => s.dm_threads(me))
     }
+    /// The messages `from` sent `to` since `to` last wrote back (all of
+    /// them when `to` never did).
+    pub async fn dm_waiting(&self, from: i64, to: i64) -> StoreResult<u32> {
+        dispatch!(self, s => s.dm_waiting(from, to))
+    }
+    /// The conversations `from` started since `since` (their first message
+    /// was `from`'s, at `since` or later).
+    pub async fn dm_started(&self, from: i64, since: i64) -> StoreResult<u32> {
+        dispatch!(self, s => s.dm_started(from, since))
+    }
     /// A parent or guardian keeps the chat to the quick phrases (or not).
     pub async fn set_phrases_only(&self, user_id: i64, on: bool) -> StoreResult<()> {
         dispatch!(self, s => s.set_phrases_only(user_id, on))

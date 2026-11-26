@@ -2389,7 +2389,6 @@ You	Jij
 Messages with {name}	Berichten met {name}
 No messages with {name} yet. Say hello!	Nog geen berichten met {name}. Zeg hallo!
 Write a message… (Enter to send)	Schrijf een bericht… (Enter om te versturen)
-You can write to your friends only.	Je kunt alleen je vrienden schrijven.
 Choose a quick phrase…	Kies een snelle zin…
 Looking for a game ({rules})	Zoekt een partij ({rules})
 At a table, waiting ({rules})	Aan een tafel, wacht ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Onthouden voor je volgende partijen
 Broadcast	Uitzending
 3D	3D
 You can only send messages to your friends.	Je kunt alleen je vrienden berichten sturen.
+New message	Nieuw bericht
+Sign in to send and read messages.	Log in om berichten te sturen en te lezen.
+No messages yet. Write to a player from their profile, or start one with New message.	Nog geen berichten. Schrijf een speler via zijn profiel, of begin er een met Nieuw bericht.
+Write the name of the player to write to.	Typ de naam van de speler aan wie je wilt schrijven.
+Player's name	Naam van de speler
+Write	Schrijven
+Pick a conversation to read it.	Kies een gesprek om het te lezen.
+No conversations yet.	Nog geen gesprekken.
+You: {text}	Jij: {text}
+Messages from anyone	Berichten van iedereen
+Off: only your friends can send you private messages.	Uit: alleen je vrienden kunnen je privéberichten sturen.
+This player only takes messages from friends.	Deze speler ontvangt alleen berichten van vrienden.
+Wait for an answer before writing again.	Wacht op een antwoord voordat je opnieuw schrijft.
+You've started enough new conversations today. Try again tomorrow.	Je bent vandaag al genoeg nieuwe gesprekken begonnen. Probeer het morgen opnieuw.
 You can't send messages to this player.	Je kunt deze speler geen berichten sturen.
 Your chat is set to the quick phrases only.	Je chat is beperkt tot de snelle zinnen.
 These settings can't be kept.	Deze instellingen kunnen niet bewaard worden.

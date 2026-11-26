@@ -241,6 +241,10 @@ pub struct Config {
     pub mute_chat: bool,
     /// The opponent's reactions are never shown (in every online game).
     pub hide_reactions: bool,
+    /// Players who aren't friends may send private messages (the server
+    /// reads it from the account's settings, see
+    /// `snook_legend_proto::dm::MESSAGES_FROM_ANYONE`).
+    pub messages_from_anyone: bool,
     /// What happens at the table (balls made, fouls…) also in the chat of
     /// online games; it is always in the game's history (the top bar).
     pub game_events_in_chat: bool,
@@ -369,6 +373,7 @@ impl Default for Config {
             aim_color: "white".into(),
             mute_chat: false,
             hide_reactions: false,
+            messages_from_anyone: true,
             game_events_in_chat: false,
             muted_chat: Vec::new(),
             muted_reactions: Vec::new(),
@@ -628,6 +633,7 @@ impl Config {
                 "aim_color" => c.aim_color = v.chars().take(16).collect(),
                 "mute_chat" => c.mute_chat = v == "true",
                 "hide_reactions" => c.hide_reactions = v == "true",
+                "messages_from_anyone" => c.messages_from_anyone = v != "false",
                 "game_events_in_chat" => c.game_events_in_chat = v == "true",
                 "muted_chat" => c.muted_chat = names(v),
                 "muted_reactions" => c.muted_reactions = names(v),
@@ -647,7 +653,7 @@ impl Config {
              quality = {}\nmsaa = {}\nfullscreen = {}\nvolume = {:.2}\nserver = {}\nusername = {}\ntoken = {}\ntoken_server = {}\n\
              difficulty = {}\nopponent = {}\nshot_clock = {}\nlan_name = {}\ncloth = {}\ncue = {}\nchalk = {}\nballs = {}\neffect = {}\ntable = {}\nhall = {}\ncue_level = {}\nemail_offer_declined = {}\n\
              board_seen = {}\ntv_view = {}\ndesktop_notifications = {}\nfocus_mode = {}\nauto_update = {}\nlast_version = {}\nnext_breaker = {}\nrules = {}\ninterface_sounds = {}\nreduce_motion = {}\nchat_height = {:.0}\n\
-             mute_chat = {}\nhide_reactions = {}\ngame_events_in_chat = {}\nmuted_chat = {}\nmuted_reactions = {}\nsettings_account = {}\nsettings_synced_at = {}\nsettings_changed_at = {}\n{}",
+             mute_chat = {}\nhide_reactions = {}\nmessages_from_anyone = {}\ngame_events_in_chat = {}\nmuted_chat = {}\nmuted_reactions = {}\nsettings_account = {}\nsettings_synced_at = {}\nsettings_changed_at = {}\n{}",
             self.player_name,
             self.second_player_name,
             self.guide.name(),
@@ -702,6 +708,7 @@ impl Config {
             self.chat_height,
             self.mute_chat,
             self.hide_reactions,
+            self.messages_from_anyone,
             self.game_events_in_chat,
             self.muted_chat.join(","),
             self.muted_reactions.join(","),

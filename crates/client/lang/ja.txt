@@ -2389,7 +2389,6 @@ You	あなた
 Messages with {name}	{name}とのメッセージ
 No messages with {name} yet. Say hello!	{name}とのメッセージはまだありません。あいさつしよう！
 Write a message… (Enter to send)	メッセージを入力…（Enterで送信）
-You can write to your friends only.	メッセージはフレンドにだけ送れます。
 Choose a quick phrase…	定型文を選ぶ…
 Looking for a game ({rules})	対戦相手を探しています（{rules}）
 At a table, waiting ({rules})	テーブルで待機中（{rules}）
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	次回以降のこの相手との�
 Broadcast	中継
 3D	3D
 You can only send messages to your friends.	メッセージはフレンドにだけ送れます。
+New message	新しいメッセージ
+Sign in to send and read messages.	メッセージを送ったり読んだりするにはログインしてください。
+No messages yet. Write to a player from their profile, or start one with New message.	メッセージはまだありません。プレイヤーのプロフィールから送るか、「新しいメッセージ」から始めましょう。
+Write the name of the player to write to.	メッセージを送りたいプレイヤーの名前を入力してください。
+Player's name	プレイヤー名
+Write	書く
+Pick a conversation to read it.	読む会話を選んでください。
+No conversations yet.	会話はまだありません。
+You: {text}	あなた：{text}
+Messages from anyone	誰からでもメッセージを受け取る
+Off: only your friends can send you private messages.	オフ：フレンドだけがあなたにメッセージを送れます。
+This player only takes messages from friends.	このプレイヤーはフレンドからのメッセージだけを受け取ります。
+Wait for an answer before writing again.	返事が来るまで次のメッセージは待ちましょう。
+You've started enough new conversations today. Try again tomorrow.	今日は新しい会話をもう十分始めました。明日また試してください。
 You can't send messages to this player.	このプレイヤーにはメッセージを送れません。
 Your chat is set to the quick phrases only.	あなたのチャットは定型文のみに制限されています。
 These settings can't be kept.	この設定は保存できません。

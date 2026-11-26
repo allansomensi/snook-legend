@@ -554,7 +554,7 @@ impl Menu {
             }
             // What isn't read yet in the inbox.
             if envelope {
-                crate::online::draw_badge(ui, r, online.inbox_unread());
+                crate::online::draw_badge(ui, r, online.inbox_unread() + online.dms.total_unread());
             }
         }
         // Quitting: plain, apart from the rest.

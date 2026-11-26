@@ -2236,7 +2236,7 @@ impl Online {
         self.send(ClientMsg::Spectate { username: name.to_string() });
     }
 
-    /// Opens the conversation with the friend `name`.
+    /// Opens the conversation with `name`.
     pub fn open_dm(&mut self, name: &str) {
         // With the chat off, the dialog that turns it on comes first.
         if self.chat_off() {
@@ -2254,11 +2254,17 @@ impl Online {
             return;
         }
         let me = self.username.clone();
-        let with = self.dms.open.clone().unwrap_or_default();
-        let friend =
-            self.friends.friends.iter().any(|f| f.player.username.eq_ignore_ascii_case(&with));
         let phrases = self.phrases_only();
-        for msg in self.dms.draw(ui, &me, friend, phrases) {
+        for msg in self.dms.draw(ui, &me, phrases) {
+            self.send_text(msg);
+        }
+    }
+
+    /// The open conversation in `r` (the inbox's messages).
+    pub fn draw_conversation(&mut self, ui: &mut Ui, r: Rect) {
+        let me = self.username.clone();
+        let phrases = self.phrases_only();
+        for msg in self.dms.conversation(ui, r, &me, phrases) {
             self.send_text(msg);
         }
     }
@@ -3427,7 +3433,8 @@ impl Online {
             }
             // The inbox, with what isn't read yet.
             right -= gap + 36.0;
-            if inbox_button(ui, Rect::new(right, by, 36.0, 36.0), self.inbox_unread()) {
+            let unread = self.inbox_unread() + self.dms.total_unread();
+            if inbox_button(ui, Rect::new(right, by, 36.0, 36.0), unread) {
                 action = OnlineAction::Inbox;
             }
             // The coins, which open the shop.
@@ -5597,7 +5604,7 @@ impl Online {
 
 /// The button that opens the conversation with a friend: a speech bubble,
 /// with the unread messages counted on its corner.
-fn dm_button(ui: &mut Ui, r: Rect, unread: u32) -> bool {
+pub fn dm_button(ui: &mut Ui, r: Rect, unread: u32) -> bool {
     let hover = ui.hovering(r);
     ui.block(r);
     rrect(r, 7.0, Color::new(1.0, 1.0, 1.0, if hover { 0.12 } else { 0.05 }));

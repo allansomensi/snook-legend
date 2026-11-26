@@ -2389,7 +2389,6 @@ You	Te
 Messages with {name}	Üzenetek: {name}
 No messages with {name} yet. Say hello!	Még nincs üzenet {name} játékossal. Köszönj!
 Write a message… (Enter to send)	Írj üzenetet… (Enter a küldéshez)
-You can write to your friends only.	Csak a barátaidnak írhatsz.
 Choose a quick phrase…	Válassz egy gyors mondatot…
 Looking for a game ({rules})	Játszmát keres ({rules})
 At a table, waiting ({rules})	Asztalnál vár ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Megjegyezve a következő játszmá
 Broadcast	Közvetítés
 3D	3D
 You can only send messages to your friends.	Csak a barátaidnak küldhetsz üzenetet.
+New message	Új üzenet
+Sign in to send and read messages.	Jelentkezz be üzenetek küldéséhez és olvasásához.
+No messages yet. Write to a player from their profile, or start one with New message.	Még nincsenek üzenetek. Írj egy játékosnak a profiljáról, vagy kezdj egyet az Új üzenet gombbal.
+Write the name of the player to write to.	Írd be annak a játékosnak a nevét, akinek írni szeretnél.
+Player's name	A játékos neve
+Write	Írás
+Pick a conversation to read it.	Válassz egy beszélgetést az elolvasásához.
+No conversations yet.	Még nincsenek beszélgetések.
+You: {text}	Te: {text}
+Messages from anyone	Üzenetek bárkitől
+Off: only your friends can send you private messages.	Ki: csak a barátaid küldhetnek neked privát üzenetet.
+This player only takes messages from friends.	Ez a játékos csak barátoktól fogad üzenetet.
+Wait for an answer before writing again.	Várj a válaszra, mielőtt újra írsz.
+You've started enough new conversations today. Try again tomorrow.	Ma már elég új beszélgetést kezdtél. Próbáld újra holnap.
 You can't send messages to this player.	Ennek a játékosnak nem küldhetsz üzenetet.
 Your chat is set to the quick phrases only.	A chated a gyors mondatokra korlátozódik.
 These settings can't be kept.	Ezek a beállítások nem tárolhatók.

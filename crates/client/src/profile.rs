@@ -20,8 +20,10 @@ pub enum ProfileAction {
     Ghost(String),
     /// Sign out (one's own profile), to sign in to another account.
     SignOut,
-    /// The shop's VIP page (from the advanced statistics' preview).
+    /// The shop's VIP page (from the shot analysis' preview).
     ShopVip,
+    /// A private message to this player (the inbox, on their conversation).
+    Message(String),
 }
 
 /// What the right-hand side of the profile shows.
@@ -468,7 +470,9 @@ impl ProfileScreen {
         // While a dialog is open, the page under it doesn't react to the
         // pointer (no hover hints through it).
         let saved = dialog.then(|| ui.suspend_input());
-        self.header(ui, online, &p, r);
+        if let Some(name) = self.header(ui, online, &p, r) {
+            action = ProfileAction::Message(name);
+        }
         // Their ghost: the computer in their style (signed in only: the
         // server measures it).
         if online.signed_in() && !online.lan && !p.player.guest {
@@ -708,7 +712,9 @@ impl ProfileScreen {
         hover && !shown && ui.clicked(c)
     }
 
-    fn header(&mut self, ui: &mut Ui, online: &mut Online, p: &Profile, r: Rect) {
+    /// The header: picture, name, status, records and what can be done
+    /// with the player. The player to write to, when asked.
+    fn header(&mut self, ui: &mut Ui, online: &mut Online, p: &Profile, r: Rect) -> Option<String> {
         let player = &p.player;
         let framed = snook_legend_proto::shop::item(&player.frame)
             .map(|i| i.look)
@@ -917,6 +923,7 @@ impl ProfileScreen {
         };
 
         let name = player.username.clone();
+        let mut message = None;
         let actions = !(player.guest || online.lan);
         match p.relation {
             _ if !actions => {}
@@ -998,8 +1005,19 @@ impl ProfileScreen {
                 {
                     crate::correspondence::challenge(online, &name);
                 }
+                // A private message (the server says when it can't be sent:
+                // a block, an age, their settings).
+                if relation != Relation::Blocked {
+                    bx -= size;
+                    let b = Rect::new(bx, row_mid - size / 2.0, size, size);
+                    let unread = online.dms.unread(&name);
+                    if crate::online::dm_button(ui, b, unread) {
+                        message = Some(name.clone());
+                    }
+                }
             }
         }
+        message
     }
 
     /// The status message on the name's line (`x` to `end`, centred on

@@ -2389,7 +2389,6 @@ You	Du
 Messages with {name}	Meddelanden med {name}
 No messages with {name} yet. Say hello!	Inga meddelanden med {name} än. Säg hej!
 Write a message… (Enter to send)	Skriv ett meddelande… (Enter för att skicka)
-You can write to your friends only.	Du kan bara skriva till dina vänner.
 Choose a quick phrase…	Välj en snabbfras…
 Looking for a game ({rules})	Letar efter ett parti ({rules})
 At a table, waiting ({rules})	Vid ett bord, väntar ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Kom ihåg till dina nästa partier 
 Broadcast	Sändning
 3D	3D
 You can only send messages to your friends.	Du kan bara skicka meddelanden till dina vänner.
+New message	Nytt meddelande
+Sign in to send and read messages.	Logga in för att skicka och läsa meddelanden.
+No messages yet. Write to a player from their profile, or start one with New message.	Inga meddelanden än. Skriv till en spelare från hens profil, eller börja ett med Nytt meddelande.
+Write the name of the player to write to.	Skriv namnet på spelaren du vill skriva till.
+Player's name	Spelarens namn
+Write	Skriv
+Pick a conversation to read it.	Välj en konversation för att läsa den.
+No conversations yet.	Inga konversationer än.
+You: {text}	Du: {text}
+Messages from anyone	Meddelanden från alla
+Off: only your friends can send you private messages.	Av: bara dina vänner kan skicka privata meddelanden till dig.
+This player only takes messages from friends.	Den här spelaren tar bara emot meddelanden från vänner.
+Wait for an answer before writing again.	Vänta på ett svar innan du skriver igen.
+You've started enough new conversations today. Try again tomorrow.	Du har startat tillräckligt många nya konversationer i dag. Försök igen i morgon.
 You can't send messages to this player.	Du kan inte skicka meddelanden till den här spelaren.
 Your chat is set to the quick phrases only.	Din chatt är begränsad till snabbfraserna.
 These settings can't be kept.	De här inställningarna kan inte sparas.

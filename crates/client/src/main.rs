@@ -1337,7 +1337,8 @@ async fn main() {
             && !settings_open
             && matches!(screen, Screen::Online)
             && online.stage == online::Stage::Lounge;
-        if !dm_up {
+        // (The inbox shows its conversation in its own page.)
+        if !dm_up && !matches!(screen, Screen::Inbox) {
             online.dms.open = None;
         }
         let dm_saved = dm_up.then(|| ui.suspend_input());
@@ -2054,47 +2055,55 @@ async fn main() {
                             }
                             shop::ShopAction::None => {}
                         },
-                        Screen::Inbox => match inbox.draw(&mut ui, &mut online) {
-                            inbox::InboxAction::None => {}
-                            inbox::InboxAction::Back => {
-                                next = Some(if back_to_lounge && online.signed_in() {
-                                    Screen::Online
-                                } else {
-                                    Screen::Menu
-                                })
+                        Screen::Inbox => {
+                            let a = inbox.draw(&mut ui, &mut online);
+                            // Out of the inbox: its conversation closes (it
+                            // would open again over the lounge).
+                            if a != inbox::InboxAction::None {
+                                online.dms.open = None;
                             }
-                            inbox::InboxAction::Profile(name) => {
-                                profile.open(&name, &mut online);
-                                came_from = Some(CameFrom::Inbox);
-                                next = Some(Screen::Profile);
-                            }
-                            inbox::InboxAction::Shop(code) => {
-                                came_from = Some(CameFrom::Inbox);
-                                shop.open(&mut online);
-                                if !code.is_empty() {
-                                    shop.show_item(&code);
+                            match a {
+                                inbox::InboxAction::None => {}
+                                inbox::InboxAction::Back => {
+                                    next = Some(if back_to_lounge && online.signed_in() {
+                                        Screen::Online
+                                    } else {
+                                        Screen::Menu
+                                    })
                                 }
-                                next = Some(Screen::Shop);
+                                inbox::InboxAction::Profile(name) => {
+                                    profile.open(&name, &mut online);
+                                    came_from = Some(CameFrom::Inbox);
+                                    next = Some(Screen::Profile);
+                                }
+                                inbox::InboxAction::Shop(code) => {
+                                    came_from = Some(CameFrom::Inbox);
+                                    shop.open(&mut online);
+                                    if !code.is_empty() {
+                                        shop.show_item(&code);
+                                    }
+                                    next = Some(Screen::Shop);
+                                }
+                                inbox::InboxAction::Vip => {
+                                    came_from = Some(CameFrom::Inbox);
+                                    shop.open(&mut online);
+                                    shop.show_tab("shop-vip");
+                                    next = Some(Screen::Shop);
+                                }
+                                inbox::InboxAction::Tournaments => {
+                                    online.connect();
+                                    next = Some(Screen::Online);
+                                }
+                                // The collection (on the item) and the auctions' page.
+                                inbox::InboxAction::Collection(code) => {
+                                    came_from = Some(CameFrom::Inbox);
+                                    shop.open_collection(&mut online);
+                                    shop.show_item(&code);
+                                    next = Some(Screen::Shop);
+                                }
+                                inbox::InboxAction::Auctions => online.open_auctions(),
                             }
-                            inbox::InboxAction::Vip => {
-                                came_from = Some(CameFrom::Inbox);
-                                shop.open(&mut online);
-                                shop.show_tab("shop-vip");
-                                next = Some(Screen::Shop);
-                            }
-                            inbox::InboxAction::Tournaments => {
-                                online.connect();
-                                next = Some(Screen::Online);
-                            }
-                            // The collection (on the item) and the auctions' page.
-                            inbox::InboxAction::Collection(code) => {
-                                came_from = Some(CameFrom::Inbox);
-                                shop.open_collection(&mut online);
-                                shop.show_item(&code);
-                                next = Some(Screen::Shop);
-                            }
-                            inbox::InboxAction::Auctions => online.open_auctions(),
-                        },
+                        }
                         Screen::Profile => match profile.draw(&mut ui, &mut online) {
                             ProfileAction::Back => {
                                 next = Some(match came_from.take() {
@@ -2122,6 +2131,11 @@ async fn main() {
                                 shop.open(&mut online);
                                 shop.show_tab("shop-vip");
                                 next = Some(Screen::Shop);
+                            }
+                            ProfileAction::Message(name) => {
+                                inbox.open_messages(&mut online, Some(&name));
+                                came_from = None;
+                                next = Some(Screen::Inbox);
                             }
                             ProfileAction::None => {}
                         },

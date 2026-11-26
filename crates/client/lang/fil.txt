@@ -2389,7 +2389,6 @@ You	Ikaw
 Messages with {name}	Mga mensahe kay {name}
 No messages with {name} yet. Say hello!	Wala pang mensahe kay {name}. Bumati ka!
 Write a message… (Enter to send)	Sumulat ng mensahe… (Enter para ipadala)
-You can write to your friends only.	Sa mga kaibigan mo lang puwedeng sumulat.
 Choose a quick phrase…	Pumili ng mabilis na parirala…
 Looking for a game ({rules})	Naghahanap ng laro ({rules})
 At a table, waiting ({rules})	Nasa mesa, naghihintay ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Tatandaan para sa mga susunod mong 
 Broadcast	Broadcast
 3D	3D
 You can only send messages to your friends.	Sa mga kaibigan mo lang puwedeng magpadala ng mensahe.
+New message	Bagong mensahe
+Sign in to send and read messages.	Mag-sign in para magpadala at magbasa ng mga mensahe.
+No messages yet. Write to a player from their profile, or start one with New message.	Wala pang mensahe. Sumulat sa isang manlalaro mula sa profile niya, o magsimula gamit ang Bagong mensahe.
+Write the name of the player to write to.	Isulat ang pangalan ng manlalarong susulatan mo.
+Player's name	Pangalan ng manlalaro
+Write	Sumulat
+Pick a conversation to read it.	Pumili ng usapan para basahin ito.
+No conversations yet.	Wala pang usapan.
+You: {text}	Ikaw: {text}
+Messages from anyone	Mga mensahe mula sa kahit sino
+Off: only your friends can send you private messages.	Naka-off: mga kaibigan mo lang ang puwedeng magpadala sa iyo ng pribadong mensahe.
+This player only takes messages from friends.	Mula sa mga kaibigan lang tumatanggap ng mensahe ang manlalarong ito.
+Wait for an answer before writing again.	Maghintay ng sagot bago sumulat ulit.
+You've started enough new conversations today. Try again tomorrow.	Sapat na ang mga bagong usapang sinimulan mo ngayon. Subukan ulit bukas.
 You can't send messages to this player.	Hindi ka puwedeng magpadala ng mensahe sa manlalarong ito.
 Your chat is set to the quick phrases only.	Limitado sa mabilis na parirala ang chat mo.
 These settings can't be kept.	Hindi maitatago ang mga setting na ito.

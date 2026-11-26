@@ -2389,7 +2389,6 @@ You	Tu
 Messages with {name}	Mesaje cu {name}
 No messages with {name} yet. Say hello!	Încă niciun mesaj cu {name}. Salută!
 Write a message… (Enter to send)	Scrie un mesaj… (Enter pentru a trimite)
-You can write to your friends only.	Poți scrie doar prietenilor tăi.
 Choose a quick phrase…	Alege o frază rapidă…
 Looking for a game ({rules})	Caută o partidă ({rules})
 At a table, waiting ({rules})	La o masă, așteaptă ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Ținut minte pentru următoarele ta
 Broadcast	Transmisiune
 3D	3D
 You can only send messages to your friends.	Poți trimite mesaje doar prietenilor tăi.
+New message	Mesaj nou
+Sign in to send and read messages.	Conectează-te pentru a trimite și a citi mesaje.
+No messages yet. Write to a player from their profile, or start one with New message.	Niciun mesaj încă. Scrie-i unui jucător din profilul lui sau începe unul cu Mesaj nou.
+Write the name of the player to write to.	Scrie numele jucătorului căruia vrei să-i scrii.
+Player's name	Numele jucătorului
+Write	Scrie
+Pick a conversation to read it.	Alege o conversație ca s-o citești.
+No conversations yet.	Nicio conversație încă.
+You: {text}	Tu: {text}
+Messages from anyone	Mesaje de la oricine
+Off: only your friends can send you private messages.	Dezactivat: doar prietenii îți pot trimite mesaje private.
+This player only takes messages from friends.	Acest jucător primește mesaje doar de la prieteni.
+Wait for an answer before writing again.	Așteaptă un răspuns înainte să scrii din nou.
+You've started enough new conversations today. Try again tomorrow.	Ai început destule conversații noi azi. Încearcă din nou mâine.
 You can't send messages to this player.	Nu poți trimite mesaje acestui jucător.
 Your chat is set to the quick phrases only.	Chatul tău e limitat la frazele rapide.
 These settings can't be kept.	Aceste setări nu pot fi păstrate.

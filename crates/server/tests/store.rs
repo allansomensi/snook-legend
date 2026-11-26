@@ -734,6 +734,23 @@ async fn match_social(store: &Store) {
     assert_eq!(store.dm_read(a, c, 6001).await.unwrap(), 0);
     assert_eq!(store.dm_threads(a).await.unwrap()[0].unread, 0);
     assert_eq!(store.dm_threads(b).await.unwrap()[0].unread, DM_KEPT as u32);
+    // Messages not answered yet, and the conversations started lately.
+    let d = make("ms_d").await.unwrap().unwrap().id;
+    assert_eq!(store.dm_waiting(a, b).await.unwrap(), DM_KEPT as u32, "b never answered");
+    assert_eq!(store.dm_waiting(b, a).await.unwrap(), 0);
+    store.dm_send(b, a, "at last", 7000).await.unwrap();
+    assert_eq!(store.dm_waiting(a, b).await.unwrap(), 0);
+    store.dm_send(a, b, "!", 7001).await.unwrap();
+    assert_eq!(store.dm_waiting(a, b).await.unwrap(), 1);
+    assert_eq!(store.dm_waiting(c, a).await.unwrap(), 1);
+    // a started the one with b (long ago), c the one with a; a writes to d.
+    assert_eq!(store.dm_started(a, 0).await.unwrap(), 1);
+    assert_eq!(store.dm_started(a, 7000).await.unwrap(), 0);
+    assert_eq!(store.dm_started(c, 0).await.unwrap(), 1);
+    store.dm_send(a, d, "hello", 8000).await.unwrap();
+    store.dm_send(d, a, "hi", 8001).await.unwrap();
+    assert_eq!(store.dm_started(a, 7500).await.unwrap(), 1);
+    assert_eq!(store.dm_started(d, 0).await.unwrap(), 0);
     // The quick phrases only.
     store.set_phrases_only(c, true).await.unwrap();
     assert!(store.user_by_id(c).await.unwrap().unwrap().chat_phrases_only);

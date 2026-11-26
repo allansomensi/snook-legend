@@ -2389,7 +2389,6 @@ You	আপনি
 Messages with {name}	{name}-এর সঙ্গে বার্তা
 No messages with {name} yet. Say hello!	{name}-এর সঙ্গে এখনো কোনো বার্তা নেই। শুভেচ্ছা জানান!
 Write a message… (Enter to send)	একটি বার্তা লিখুন… (পাঠাতে Enter)
-You can write to your friends only.	আপনি শুধু বন্ধুদের লিখতে পারেন।
 Choose a quick phrase…	একটি দ্রুত বাক্য বেছে নিন…
 Looking for a game ({rules})	খেলা খুঁজছেন ({rules})
 At a table, waiting ({rules})	টেবিলে অপেক্ষায় ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	তাদের বিরুদ্�
 Broadcast	সম্প্রচার
 3D	3D
 You can only send messages to your friends.	আপনি শুধু বন্ধুদের বার্তা পাঠাতে পারেন।
+New message	নতুন বার্তা
+Sign in to send and read messages.	বার্তা পাঠাতে ও পড়তে সাইন ইন করুন।
+No messages yet. Write to a player from their profile, or start one with New message.	এখনও কোনো বার্তা নেই। কোনো খেলোয়াড়কে তার প্রোফাইল থেকে লিখুন, অথবা নতুন বার্তা দিয়ে শুরু করুন।
+Write the name of the player to write to.	যে খেলোয়াড়কে লিখতে চান তার নাম লিখুন।
+Player's name	খেলোয়াড়ের নাম
+Write	লিখুন
+Pick a conversation to read it.	পড়তে একটি কথোপকথন বেছে নিন।
+No conversations yet.	এখনও কোনো কথোপকথন নেই।
+You: {text}	আপনি: {text}
+Messages from anyone	যে কারও বার্তা
+Off: only your friends can send you private messages.	বন্ধ: শুধু আপনার বন্ধুরা আপনাকে ব্যক্তিগত বার্তা পাঠাতে পারবে।
+This player only takes messages from friends.	এই খেলোয়াড় শুধু বন্ধুদের কাছ থেকে বার্তা নেন।
+Wait for an answer before writing again.	আবার লেখার আগে উত্তরের অপেক্ষা করুন।
+You've started enough new conversations today. Try again tomorrow.	আজ আপনি যথেষ্ট নতুন কথোপকথন শুরু করেছেন। কাল আবার চেষ্টা করুন।
 You can't send messages to this player.	আপনি এই খেলোয়াড়কে বার্তা পাঠাতে পারবেন না।
 Your chat is set to the quick phrases only.	আপনার চ্যাট শুধু দ্রুত বাক্যে সীমাবদ্ধ।
 These settings can't be kept.	এই সেটিংস রাখা যাবে না।

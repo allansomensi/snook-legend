@@ -2389,7 +2389,6 @@ You	Bạn
 Messages with {name}	Tin nhắn với {name}
 No messages with {name} yet. Say hello!	Chưa có tin nhắn nào với {name}. Hãy chào nhau!
 Write a message… (Enter to send)	Viết tin nhắn… (Enter để gửi)
-You can write to your friends only.	Bạn chỉ có thể nhắn cho bạn bè.
 Choose a quick phrase…	Chọn một câu nhanh…
 Looking for a game ({rules})	Đang tìm ván ({rules})
 At a table, waiting ({rules})	Ở một bàn, đang chờ ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Được ghi nhớ cho các ván sa
 Broadcast	Phát sóng
 3D	3D
 You can only send messages to your friends.	Bạn chỉ có thể gửi tin nhắn cho bạn bè.
+New message	Tin nhắn mới
+Sign in to send and read messages.	Đăng nhập để gửi và đọc tin nhắn.
+No messages yet. Write to a player from their profile, or start one with New message.	Chưa có tin nhắn nào. Hãy nhắn cho một người chơi từ hồ sơ của họ, hoặc bắt đầu bằng Tin nhắn mới.
+Write the name of the player to write to.	Nhập tên người chơi bạn muốn nhắn.
+Player's name	Tên người chơi
+Write	Viết
+Pick a conversation to read it.	Chọn một cuộc trò chuyện để đọc.
+No conversations yet.	Chưa có cuộc trò chuyện nào.
+You: {text}	Bạn: {text}
+Messages from anyone	Tin nhắn từ bất kỳ ai
+Off: only your friends can send you private messages.	Tắt: chỉ bạn bè mới có thể gửi tin nhắn riêng cho bạn.
+This player only takes messages from friends.	Người chơi này chỉ nhận tin nhắn từ bạn bè.
+Wait for an answer before writing again.	Hãy chờ trả lời trước khi nhắn tiếp.
+You've started enough new conversations today. Try again tomorrow.	Hôm nay bạn đã bắt đầu đủ cuộc trò chuyện mới. Hãy thử lại vào ngày mai.
 You can't send messages to this player.	Bạn không thể gửi tin nhắn cho người chơi này.
 Your chat is set to the quick phrases only.	Trò chuyện của bạn bị giới hạn ở các câu nhanh.
 These settings can't be kept.	Không thể lưu các cài đặt này.

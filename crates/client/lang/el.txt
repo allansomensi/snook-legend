@@ -2389,7 +2389,6 @@ You	Εσείς
 Messages with {name}	Μηνύματα με {name}
 No messages with {name} yet. Say hello!	Κανένα μήνυμα με {name} ακόμα. Πείτε γεια!
 Write a message… (Enter to send)	Γράψτε ένα μήνυμα… (Enter για αποστολή)
-You can write to your friends only.	Μπορείτε να γράφετε μόνο στους φίλους σας.
 Choose a quick phrase…	Επιλέξτε μια γρήγορη φράση…
 Looking for a game ({rules})	Ψάχνει παρτίδα ({rules})
 At a table, waiting ({rules})	Σε τραπέζι, περιμένει ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Θα ισχύει και στις �
 Broadcast	Μετάδοση
 3D	3D
 You can only send messages to your friends.	Μπορείτε να στέλνετε μηνύματα μόνο στους φίλους σας.
+New message	Νέο μήνυμα
+Sign in to send and read messages.	Συνδεθείτε για να στέλνετε και να διαβάζετε μηνύματα.
+No messages yet. Write to a player from their profile, or start one with New message.	Δεν υπάρχουν μηνύματα ακόμα. Γράψτε σε έναν παίκτη από το προφίλ του ή ξεκινήστε ένα με το Νέο μήνυμα.
+Write the name of the player to write to.	Γράψτε το όνομα του παίκτη στον οποίο θέλετε να γράψετε.
+Player's name	Όνομα παίκτη
+Write	Γράψτε
+Pick a conversation to read it.	Διαλέξτε μια συζήτηση για να τη διαβάσετε.
+No conversations yet.	Δεν υπάρχουν συζητήσεις ακόμα.
+You: {text}	Εσείς: {text}
+Messages from anyone	Μηνύματα από όλους
+Off: only your friends can send you private messages.	Ανενεργό: μόνο οι φίλοι σας μπορούν να σας στέλνουν ιδιωτικά μηνύματα.
+This player only takes messages from friends.	Αυτός ο παίκτης δέχεται μηνύματα μόνο από φίλους.
+Wait for an answer before writing again.	Περιμένετε μια απάντηση πριν γράψετε ξανά.
+You've started enough new conversations today. Try again tomorrow.	Ξεκινήσατε αρκετές νέες συζητήσεις σήμερα. Δοκιμάστε ξανά αύριο.
 You can't send messages to this player.	Δεν μπορείτε να στείλετε μηνύματα σε αυτόν τον παίκτη.
 Your chat is set to the quick phrases only.	Η συνομιλία σας περιορίζεται στις γρήγορες φράσεις.
 These settings can't be kept.	Αυτές οι ρυθμίσεις δεν μπορούν να φυλαχτούν.

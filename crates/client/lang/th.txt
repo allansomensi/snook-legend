@@ -2389,7 +2389,6 @@ You	คุณ
 Messages with {name}	ข้อความกับ {name}
 No messages with {name} yet. Say hello!	ยังไม่มีข้อความกับ {name} ทักทายกันเลย!
 Write a message… (Enter to send)	พิมพ์ข้อความ… (กด Enter เพื่อส่ง)
-You can write to your friends only.	คุณส่งข้อความได้เฉพาะเพื่อนเท่านั้น
 Choose a quick phrase…	เลือกวลีด่วน…
 Looking for a game ({rules})	กำลังหาเกม ({rules})
 At a table, waiting ({rules})	อยู่ที่โต๊ะ กำลังรอ ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	จะจำไว้สำหร�
 Broadcast	ถ่ายทอด
 3D	3D
 You can only send messages to your friends.	คุณส่งข้อความได้เฉพาะเพื่อนเท่านั้น
+New message	ข้อความ​ใหม่
+Sign in to send and read messages.	ลงชื่อ​เข้า​ใช้​เพื่อ​ส่ง​และ​อ่าน​ข้อความ
+No messages yet. Write to a player from their profile, or start one with New message.	ยัง​ไม่มี​ข้อความ เขียน​ถึง​ผู้เล่น​จาก​โปรไฟล์​ของ​เขา หรือ​เริ่ม​ด้วย​ข้อความ​ใหม่
+Write the name of the player to write to.	พิมพ์​ชื่อ​ผู้เล่น​ที่​คุณ​ต้องการ​เขียน​ถึง
+Player's name	ชื่อ​ผู้เล่น
+Write	เขียน
+Pick a conversation to read it.	เลือก​บทสนทนา​เพื่อ​อ่าน
+No conversations yet.	ยัง​ไม่มี​บทสนทนา
+You: {text}	คุณ: {text}
+Messages from anyone	ข้อความ​จาก​ทุกคน
+Off: only your friends can send you private messages.	ปิด: เฉพาะ​เพื่อน​เท่านั้น​ที่​ส่ง​ข้อความ​ส่วนตัว​ถึง​คุณ​ได้
+This player only takes messages from friends.	ผู้เล่น​คนนี้​รับ​ข้อความ​จาก​เพื่อน​เท่านั้น
+Wait for an answer before writing again.	รอ​คำตอบ​ก่อน​เขียน​อีกครั้ง
+You've started enough new conversations today. Try again tomorrow.	วันนี้​คุณ​เริ่ม​บทสนทนา​ใหม่​มาก​พอ​แล้ว ลอง​ใหม่​พรุ่งนี้
 You can't send messages to this player.	คุณส่งข้อความถึงผู้เล่นนี้ไม่ได้
 Your chat is set to the quick phrases only.	แชตของคุณจำกัดเฉพาะวลีด่วน
 These settings can't be kept.	ไม่สามารถเก็บการตั้งค่าเหล่านี้ได้

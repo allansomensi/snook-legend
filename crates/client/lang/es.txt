@@ -2389,7 +2389,6 @@ You	Tú
 Messages with {name}	Mensajes con {name}
 No messages with {name} yet. Say hello!	Aún no hay mensajes con {name}. ¡Saluda!
 Write a message… (Enter to send)	Escribe un mensaje… (Enter para enviar)
-You can write to your friends only.	Solo puedes escribir a tus amigos.
 Choose a quick phrase…	Elige una frase rápida…
 Looking for a game ({rules})	Buscando partida ({rules})
 At a table, waiting ({rules})	En una mesa, esperando ({rules})
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	Se recuerda para tus próximas part
 Broadcast	Transmisión
 3D	3D
 You can only send messages to your friends.	Solo puedes enviar mensajes a tus amigos.
+New message	Nuevo mensaje
+Sign in to send and read messages.	Inicia sesión para enviar y leer mensajes.
+No messages yet. Write to a player from their profile, or start one with New message.	Aún no hay mensajes. Escribe a un jugador desde su perfil, o empieza uno con Nuevo mensaje.
+Write the name of the player to write to.	Escribe el nombre del jugador al que quieres escribir.
+Player's name	Nombre del jugador
+Write	Escribir
+Pick a conversation to read it.	Elige una conversación para leerla.
+No conversations yet.	Aún no hay conversaciones.
+You: {text}	Tú: {text}
+Messages from anyone	Mensajes de cualquiera
+Off: only your friends can send you private messages.	Desactivado: solo tus amigos pueden enviarte mensajes privados.
+This player only takes messages from friends.	Este jugador solo recibe mensajes de amigos.
+Wait for an answer before writing again.	Espera una respuesta antes de volver a escribir.
+You've started enough new conversations today. Try again tomorrow.	Ya empezaste suficientes conversaciones nuevas hoy. Inténtalo de nuevo mañana.
 You can't send messages to this player.	No puedes enviar mensajes a este jugador.
 Your chat is set to the quick phrases only.	Tu chat está limitado a las frases rápidas.
 These settings can't be kept.	Esta configuración no se puede guardar.

@@ -2389,7 +2389,6 @@ You	你
 Messages with {name}	与 {name} 的消息
 No messages with {name} yet. Say hello!	还没有与 {name} 的消息。打个招呼吧！
 Write a message… (Enter to send)	输入消息…（按 Enter 发送）
-You can write to your friends only.	只能给好友发消息。
 Choose a quick phrase…	选择快捷短语…
 Looking for a game ({rules})	正在找对局（{rules}）
 At a table, waiting ({rules})	在球桌旁等待（{rules}）
@@ -2451,6 +2450,20 @@ Remembered for your next games against them.	之后与该对手的对局也会�
 Broadcast	转播
 3D	3D
 You can only send messages to your friends.	只能给好友发送消息。
+New message	新消息
+Sign in to send and read messages.	登录后才能发送和阅读消息。
+No messages yet. Write to a player from their profile, or start one with New message.	还没有消息。可以从玩家的资料页给他发消息，或点击“新消息”开始。
+Write the name of the player to write to.	输入你想发消息的玩家名字。
+Player's name	玩家名字
+Write	写消息
+Pick a conversation to read it.	选择一个对话来阅读。
+No conversations yet.	还没有对话。
+You: {text}	你：{text}
+Messages from anyone	接收任何人的消息
+Off: only your friends can send you private messages.	关闭：只有好友能给你发私信。
+This player only takes messages from friends.	该玩家只接收好友的消息。
+Wait for an answer before writing again.	请等对方回复后再发送。
+You've started enough new conversations today. Try again tomorrow.	你今天已经开始了足够多的新对话。明天再试吧。
 You can't send messages to this player.	你不能给这名玩家发送消息。
 Your chat is set to the quick phrases only.	你的聊天仅限快捷短语。
 These settings can't be kept.	这些设置无法保存。

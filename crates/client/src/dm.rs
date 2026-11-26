@@ -1,6 +1,6 @@
-//! Direct messages between friends (see `snook_legend_proto::dm`): the
-//! conversations, the panel that shows one (opened from the friends list),
-//! the unread counts, and what the chat's settings do at the table (the
+//! Private messages (see `snook_legend_proto::dm`): the conversations,
+//! one shown in the inbox or in a window over the lounge (opened from the
+//! friends list), the unread counts, and what the chat's settings do at the table (the
 //! muted opponents, the quick phrases only).
 
 use std::collections::HashMap;
@@ -15,7 +15,7 @@ use crate::config::Config;
 use crate::game::Match;
 use crate::i18n::{t, tw};
 use crate::icons::Icon;
-use crate::ui::{BORDER, CREAM, FeedLine, GOLD, MUTED, Ui, rrect, rrect_lines};
+use crate::ui::{BORDER, CREAM, FeedLine, GOLD, Ui, rrect, rrect_lines};
 
 /// The conversation's text field and its scroll bar.
 const FIELD: u64 = 9_310;
@@ -33,13 +33,14 @@ struct Conversation {
     loaded: bool,
 }
 
-/// The player's conversations with their friends.
+/// The player's conversations.
 #[derive(Debug, Default)]
 pub struct Dms {
     /// Newest first.
     threads: Vec<DmThread>,
     conversations: HashMap<String, Conversation>,
-    /// The friend whose conversation is open.
+    /// The player whose conversation is open (over the lounge, or in the
+    /// inbox).
     pub open: Option<String>,
     input: String,
     scroll: usize,
@@ -75,7 +76,7 @@ impl Dms {
         self.threads = threads;
     }
 
-    /// A message to or from `me` came. Returns the friend's name when it is
+    /// A message to or from `me` came. Returns the sender's name when it is
     /// theirs and their conversation isn't open (the game tells the player).
     pub fn arrived(&mut self, message: DirectMessage, me: &str) -> Option<String> {
         let mine = message.from.eq_ignore_ascii_case(me);
@@ -139,19 +140,16 @@ impl Dms {
         *self = Dms::default();
     }
 
-    /// The open conversation: its messages and the field to answer. What
-    /// to send to the server. `me`: this player; `can_write`: still friends
-    /// (a conversation stays readable after a friendship ends);
+    /// The conversations, newest first.
+    pub fn threads(&self) -> &[DmThread] {
+        &self.threads
+    }
+
+    /// The open conversation in a window over the lounge (opened from the
+    /// friends list): what to send to the server. `me`: this player;
     /// `phrases_only`: the chat kept to the quick phrases.
-    pub fn draw(
-        &mut self,
-        ui: &mut Ui,
-        me: &str,
-        can_write: bool,
-        phrases_only: bool,
-    ) -> Vec<ClientMsg> {
-        let mut out = Vec::new();
-        let Some(with) = self.open.clone() else { return out };
+    pub fn draw(&mut self, ui: &mut Ui, me: &str, phrases_only: bool) -> Vec<ClientMsg> {
+        let Some(with) = self.open.clone() else { return Vec::new() };
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         let w = 460.0f32.min(sw - 24.0);
@@ -164,8 +162,42 @@ impl Dms {
         ui.text(&title, r.x + 16.0, r.y + 14.0, size, GOLD, true);
         let close = Rect::new(r.x + r.w - 40.0, r.y + 10.0, 28.0, 28.0);
         let mut closing = ui.icon_button_ex(close, Icon::Close, t("Close"), true, true);
-        let field_h = if can_write { 40.0 } else { 0.0 };
-        let log = Rect::new(r.x + 10.0, r.y + 48.0, r.w - 20.0, r.h - 48.0 - field_h - 20.0);
+        let inner = Rect::new(r.x + 10.0, r.y + 48.0, r.w - 20.0, r.h - 58.0);
+        let out = self.conversation(ui, inner, me, phrases_only);
+        if !self.phrases_open && (ui.escape() || ui.dismissed(r)) {
+            closing = true;
+        }
+        // Nothing under it takes a click.
+        ui.block(Rect::new(0.0, 0.0, sw, sh));
+        if closing {
+            self.close(ui);
+        }
+        out
+    }
+
+    /// Closes the open conversation.
+    pub fn close(&mut self, ui: &mut Ui) {
+        self.open = None;
+        self.phrases_open = false;
+        if ui.focus == Some(FIELD) {
+            ui.focus = None;
+        }
+    }
+
+    /// The open conversation in `r`: its messages, and the field to answer
+    /// under them (the server says when a message can't be sent). What to
+    /// send to the server.
+    pub fn conversation(
+        &mut self,
+        ui: &mut Ui,
+        r: Rect,
+        me: &str,
+        phrases_only: bool,
+    ) -> Vec<ClientMsg> {
+        let mut out = Vec::new();
+        let Some(with) = self.open.clone() else { return out };
+        let field_h = 40.0;
+        let log = Rect::new(r.x, r.y, r.w, r.h - field_h - 10.0);
         rrect(log, 6.0, Color::new(0.0, 0.0, 0.0, 0.25));
         let c = self.conversations.get(&key(&with));
         let loaded = c.is_some_and(|c| c.loaded);
@@ -187,46 +219,28 @@ impl Dms {
                 out.push(ClientMsg::DmHistory { with: with.clone(), before });
             }
         }
-        if can_write {
-            let field =
-                Rect::new(r.x + 10.0, r.y + r.h - 10.0 - field_h, r.w - 20.0 - 46.0, field_h);
-            let send_r = Rect::new(field.x + field.w + 6.0, field.y, 40.0, field_h);
-            let text = if phrases_only {
-                self.input.clear();
-                phrase_picker(ui, field, &mut self.phrases_open).map(str::to_string)
-            } else {
-                let enter = ui.text_input(FIELD, field, &mut self.input, MAX_DM_LEN);
-                crate::online::placeholder(
-                    ui,
-                    FIELD,
-                    field,
-                    &self.input,
-                    t("Write a message… (Enter to send)"),
-                );
-                let can = !self.input.trim().is_empty();
-                let pressed = ui.icon_button(send_r, Icon::Play, t("Send"), can);
-                ((enter || pressed) && can).then(|| std::mem::take(&mut self.input))
-            };
-            if let Some(text) = text {
-                out.push(ClientMsg::DmSend { to: with.clone(), text });
-                self.scroll = 0;
-                ui.focus = (!phrases_only).then_some(FIELD);
-            }
+        let field = Rect::new(r.x, r.y + r.h - field_h, r.w - 46.0, field_h);
+        let send_r = Rect::new(field.x + field.w + 6.0, field.y, 40.0, field_h);
+        let text = if phrases_only {
+            self.input.clear();
+            phrase_picker(ui, field, &mut self.phrases_open).map(str::to_string)
         } else {
-            let note = t("You can write to your friends only.");
-            ui.text_centered(note, r.x + r.w / 2.0, r.y + r.h - 28.0, 13.0, MUTED, false);
-        }
-        if !self.phrases_open && (ui.escape() || ui.dismissed(r)) {
-            closing = true;
-        }
-        // Nothing under it takes a click.
-        ui.block(Rect::new(0.0, 0.0, sw, sh));
-        if closing {
-            self.open = None;
-            self.phrases_open = false;
-            if ui.focus == Some(FIELD) {
-                ui.focus = None;
-            }
+            let enter = ui.text_input(FIELD, field, &mut self.input, MAX_DM_LEN);
+            crate::online::placeholder(
+                ui,
+                FIELD,
+                field,
+                &self.input,
+                t("Write a message… (Enter to send)"),
+            );
+            let can = !self.input.trim().is_empty();
+            let pressed = ui.icon_button(send_r, Icon::Play, t("Send"), can);
+            ((enter || pressed) && can).then(|| std::mem::take(&mut self.input))
+        };
+        if let Some(text) = text {
+            out.push(ClientMsg::DmSend { to: with.clone(), text });
+            self.scroll = 0;
+            ui.focus = (!phrases_only).then_some(FIELD);
         }
         out
     }

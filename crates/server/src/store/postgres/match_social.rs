@@ -150,6 +150,38 @@ impl PgStore {
             .collect())
     }
 
+    pub async fn dm_waiting(&self, from: i64, to: i64) -> StoreResult<u32> {
+        let n: i64 = query(
+            "SELECT COUNT(*) FROM direct_messages
+             WHERE from_id = $1 AND to_id = $2
+               AND id > COALESCE(
+                   (SELECT MAX(id) FROM direct_messages WHERE from_id = $2 AND to_id = $1), 0)",
+        )
+        .bind(from)
+        .bind(to)
+        .fetch_one(&self.pool)
+        .await?
+        .get(0);
+        Ok(n.clamp(0, u32::MAX as i64) as u32)
+    }
+
+    pub async fn dm_started(&self, from: i64, since: i64) -> StoreResult<u32> {
+        let n: i64 = query(
+            "WITH firsts AS (
+                SELECT DISTINCT ON (LEAST(from_id, to_id), GREATEST(from_id, to_id)) from_id, at
+                FROM direct_messages WHERE from_id = $1 OR to_id = $1
+                ORDER BY LEAST(from_id, to_id), GREATEST(from_id, to_id), id
+             )
+             SELECT COUNT(*) FROM firsts WHERE from_id = $1 AND at >= $2",
+        )
+        .bind(from)
+        .bind(since)
+        .fetch_one(&self.pool)
+        .await?
+        .get(0);
+        Ok(n.clamp(0, u32::MAX as i64) as u32)
+    }
+
     pub async fn set_phrases_only(&self, user_id: i64, on: bool) -> StoreResult<()> {
         query("UPDATE users SET chat_phrases_only = $2 WHERE id = $1")
             .bind(user_id)

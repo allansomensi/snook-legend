@@ -231,10 +231,23 @@ pub fn shot_times(think: &[(usize, u32)], strokes: usize) -> Vec<Option<u32>> {
 /// A live game the staff ended (see [`Lounge::staff_end_match`]).
 #[derive(Debug, Clone, PartialEq)]
 pub struct EndedByStaff {
-    /// The players' usernames and accounts.
+    /// The players' usernames and accounts (in doubles, each team's first
+    /// player).
     pub names: [String; 2],
     pub ids: [i64; 2],
     pub guests: [bool; 2],
+    /// In doubles, each team's second player.
+    pub partners: Vec<EndedPartner>,
+}
+
+/// A doubles team's second player in a game the staff ended.
+#[derive(Debug, Clone, PartialEq)]
+pub struct EndedPartner {
+    /// Their team (the seat).
+    pub seat: usize,
+    pub name: String,
+    pub id: i64,
+    pub guest: bool,
 }
 
 impl Lounge {
@@ -265,10 +278,28 @@ impl Lounge {
         if room.finished {
             return Err("That game is over already.");
         }
+        // (Guests' accounts are numbered below zero; in doubles a seat's
+        // `guests` is the team's.)
+        let partners = match &room.doubles {
+            Some(d) => (0..2)
+                .map(|seat| EndedPartner {
+                    seat,
+                    name: d.partner_users[seat].username.clone(),
+                    id: d.partner_users[seat].id,
+                    guest: d.partner_users[seat].id < 0,
+                })
+                .collect(),
+            None => Vec::new(),
+        };
+        let guests = match &room.doubles {
+            Some(_) => [room.users[0].id < 0, room.users[1].id < 0],
+            None => room.guests,
+        };
         let ended = EndedByStaff {
             names: [room.users[0].username.clone(), room.users[1].username.clone()],
             ids: [room.users[0].id, room.users[1].id],
-            guests: room.guests,
+            guests,
+            partners,
         };
         match winner {
             Some(seat) => {
@@ -295,7 +326,8 @@ impl Lounge {
                 self.finished_rooms.insert(id, std::time::Instant::now());
                 self.featured_dirty = true;
                 self.effect(super::Effect::DeleteLive(id as i64));
-                for k in &room.keys {
+                // (All four of a doubles game.)
+                for k in &room.all_keys() {
                     self.end_watching_of(k, id);
                     if let Some(s) = self.sessions.get_mut(k)
                         && s.room == Some(id)

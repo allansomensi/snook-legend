@@ -673,6 +673,15 @@ async fn ratings_put_right_and_games_called_off() {
     )
     .await;
     assert_eq!(code, 400);
+    // The largest numbers are refused the same (not a sum that overflows).
+    for body in [
+        r#"{"rules":"official","delta":2147483647,"reason":"x"}"#,
+        r#"{"rules":"official","delta":-2147483648,"reason":"x"}"#,
+        r#"{"rules":"official","rating":-2147483648,"reason":"x"}"#,
+    ] {
+        let (code, v) = post("/admin/api/users/ana/rating".into(), body).await;
+        assert_eq!(code, 400, "{body}: {v}");
+    }
 
     // The game shot by shot.
     let (code, v) = request(&s.host, "GET", &format!("/admin/api/matches/{id}"), &boss, "").await;

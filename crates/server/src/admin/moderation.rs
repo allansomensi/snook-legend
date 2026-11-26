@@ -183,17 +183,22 @@ async fn adjust_rating(
         return Err(err(StatusCode::BAD_REQUEST, "Give a reason."));
     }
     let now_rating = target.records.get(body.rules).rating;
-    let delta = match (body.delta, body.rating) {
-        (Some(d), None) => d,
-        (None, Some(r)) => r - now_rating,
+    // (In i64: a delta or a rating at the ends of an i32 is refused, not
+    // a sum that overflows.)
+    let after = match (body.delta, body.rating) {
+        (Some(d), None) => now_rating as i64 + d as i64,
+        (None, Some(r)) => r as i64,
         _ => return Err(err(StatusCode::BAD_REQUEST, "Give either a delta or a rating.")),
     };
-    if delta == 0 {
+    if after == now_rating as i64 {
         return Err(err(StatusCode::BAD_REQUEST, "That is their rating already."));
     }
-    if !RATINGS.contains(&(now_rating + delta)) {
+    if !(*RATINGS.start() as i64..=*RATINGS.end() as i64).contains(&after) {
         return Err(err(StatusCode::BAD_REQUEST, "Ratings stay between 100 and 4000."));
     }
+    let Ok(delta) = i32::try_from(after - now_rating as i64) else {
+        return Err(err(StatusCode::BAD_REQUEST, "Ratings stay between 100 and 4000."));
+    };
     if let Some(id) = body.match_id
         && server.store.match_row(id).await?.is_none_or(|m| !m.players.contains(&target.id))
     {
@@ -787,13 +792,18 @@ async fn end_live(
         Some(w) => format!("given to {}", ended.names[w % 2]),
         None => "no result".to_string(),
     };
-    for seat in 0..2 {
-        if ended.guests[seat] {
+    // Each player (all four of a doubles game: a partner's seat is their team's).
+    let partners = ended.partners.iter().map(|p| (p.seat, &p.name, p.id, p.guest));
+    let players = (0..2)
+        .map(|seat| (seat, &ended.names[seat], ended.ids[seat], ended.guests[seat]))
+        .chain(partners);
+    for (seat, name, user_id, guest) in players {
+        if guest {
             continue;
         }
-        inbox::send(&server, ended.ids[seat], tell(seat, &ended.names)).await;
+        inbox::send(&server, user_id, tell(seat % 2, &ended.names)).await;
         let details = format!("live game {id}, {result}: {reason}");
-        log(&server, &s, "match-end", &ended.names[seat], &details).await;
+        log(&server, &s, "match-end", name, &details).await;
     }
     Ok(Json(json!({ "ok": true })))
 }

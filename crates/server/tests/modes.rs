@@ -426,6 +426,102 @@ async fn a_restart_hands_a_doubles_game_over() {
     assert_eq!(entries.len(), 4);
 }
 
+/// A player who resigns for their team and leaves while the shot is being
+/// played is back in the lounge once it is (as in singles), and the
+/// partner, who didn't leave, is still at the table.
+#[tokio::test]
+async fn leaving_a_doubles_game_during_a_shot_is_not_lost() {
+    let (url, _server) = start(Settings::default()).await;
+    let (mut clients, lineup, game) = doubles_game(&url).await;
+    let team = game.current_player();
+    let holder = lineup.shooter_of(team).username.clone();
+    let partner = lineup.teams[team].iter().find(|p| p.username != holder).unwrap();
+    let partner = partner.username.clone();
+    let shot = Shot::new(game.default_aim(), 8.0);
+    let c = client(&mut clients, &holder);
+    // The shot, the resignation and the leaving, one after the other.
+    c.send(ClientMsg::Shoot { turn: 0, shot, called_pocket: None, cue_ball: None }).await;
+    c.send(ClientMsg::Resign).await;
+    c.send(ClientMsg::LeaveMatch).await;
+    c.expect("ended", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    for (name, at_table) in [(holder.as_str(), false), (partner.as_str(), true)] {
+        let c = client(&mut clients, name);
+        c.send(ClientMsg::QueueJoin { rated: false, rules: Rules::Official }).await;
+        let m = c
+            .expect("queued", |m| matches!(m, ServerMsg::Queue { .. } | ServerMsg::Error { .. }))
+            .await;
+        assert_eq!(matches!(m, ServerMsg::Error { .. }), at_table, "{name}: {m:?}");
+    }
+}
+
+/// A doubles game the staff end without a result sends all four back to
+/// sign in (not only each team's first player: the partners were left at
+/// a table that was gone), and names all four for the staff's notes.
+#[tokio::test]
+async fn a_doubles_game_ended_by_the_staff_lets_all_four_go() {
+    let (url, server) = start(Settings::default()).await;
+    let (mut clients, lineup, _game) = doubles_game(&url).await;
+    let ended = server.with(|l| l.staff_end_match(lineup.match_id, None)).unwrap();
+    let mut named: Vec<String> =
+        ended.names.iter().chain(ended.partners.iter().map(|p| &p.name)).cloned().collect();
+    named.sort();
+    assert_eq!(named, ["ana", "bia", "caio", "duda"]);
+    for (name, c) in clients.iter_mut() {
+        let m = c.expect("sent away", |m| matches!(m, ServerMsg::Kicked { .. })).await;
+        assert!(matches!(m, ServerMsg::Kicked { .. }), "{name}");
+    }
+}
+
+/// A player who changes their username keeps their doubles rating: the
+/// pair's next table (and game) reckons with it, not with a newcomer's.
+#[tokio::test]
+async fn a_new_username_keeps_the_doubles_rating() {
+    let (url, _server) = start(Settings::default()).await;
+    let (mut clients, _lineup, _game) = doubles_game(&url).await;
+    // Ana's team resigns: her doubles rating (and Bia's) goes down.
+    client(&mut clients, "ana").send(ClientMsg::Resign).await;
+    for (_, c) in clients.iter_mut() {
+        c.expect("the end", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    }
+    for name in ["ana", "bia"] {
+        client(&mut clients, name).send(ClientMsg::LeaveMatch).await;
+    }
+    // The pair's table shows the pair's rating.
+    async fn table_rating(clients: &mut [(String, Client)], host: &str) -> i32 {
+        let c = client(clients, host);
+        c.send(ClientMsg::DoublesOpenTable { rated: true, rules: Rules::Official }).await;
+        let host = host.to_string();
+        let ServerMsg::DoublesTables { tables } = client(clients, "caio")
+            .expect("the table", |m| {
+                matches!(m, ServerMsg::DoublesTables { tables }
+                    if tables.iter().any(|t| t.team.iter().any(|p| p.username == host)))
+            })
+            .await
+        else {
+            unreachable!()
+        };
+        let c = client(clients, &host);
+        c.send(ClientMsg::DoublesCloseTable).await;
+        tables.iter().find(|t| t.team.iter().any(|p| p.username == host)).unwrap().rating
+    }
+    let before = table_rating(&mut clients, "ana").await;
+    assert!(before < 1200, "{before}");
+    // Ana becomes Anna (the pair ends with the old name) and pairs again.
+    let ana = client(&mut clients, "ana");
+    ana.send(ClientMsg::ChangeUsername { username: "Anna".into() }).await;
+    ana.expect("signed in again", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
+    clients[0].0 = "anna".into();
+    let (anna, rest) = clients.split_at_mut(1);
+    let bia = &mut rest[0].1;
+    anna[0].1.send(ClientMsg::DoublesInvite { to: "bia".into() }).await;
+    bia.expect("invited", |m| matches!(m, ServerMsg::DoublesInvited { .. })).await;
+    bia.send(ClientMsg::DoublesAnswer { from: "Anna".into(), accept: true }).await;
+    for c in [&mut anna[0].1, bia] {
+        c.expect("pair", |m| matches!(m, ServerMsg::DoublesPair { pair: Some(_) })).await;
+    }
+    assert_eq!(table_rating(&mut clients, "Anna").await, before);
+}
+
 /// One player of a team dropping doesn't lose the game (the partner plays
 /// on); both gone past the grace, the team has left it.
 #[tokio::test]
@@ -572,6 +668,11 @@ async fn the_weeks_prizes_are_paid_once() {
     assert!(
         server.store.credit(ids[3], first, "against the clock", Some(&reference), 1).await.unwrap()
     );
+    // An earlier run kept the first place and stopped before paying it
+    // (the database's trouble): the next one pays it all the same.
+    let t = snook_legend_server::now();
+    let kept = server.store.time_attack_prize(week, 1, ids[3], time_attack::PRIZES[0], 0, t).await;
+    assert!(kept.unwrap());
     snook_legend_server::time_attack::pay_prizes(&server).await;
     snook_legend_server::time_attack::pay_prizes(&server).await;
     let coins = |id| {

@@ -189,7 +189,8 @@ fn checked(body: &PromotionBody, t: i64, editing: bool) -> Result<Checked, super
     if body.ends_at <= t || (!editing && starts_at < t) {
         return Err(bad("That time is already past."));
     }
-    if body.ends_at - starts_at > promotions::MAX_LENGTH {
+    // (Saturating: an edit may keep a start long past.)
+    if body.ends_at.saturating_sub(starts_at) > promotions::MAX_LENGTH {
         return Err(bad("A promotion lasts a month at most."));
     }
     if starts_at > t + 365 * 86_400 {
@@ -652,7 +653,7 @@ async fn export(
     };
     let t = now();
     let to = q.to.unwrap_or(t + 1).min(t + 86_400);
-    let from = q.from.unwrap_or(to - 30 * 86_400).max(0);
+    let from = q.from.unwrap_or(to.saturating_sub(30 * 86_400)).max(0);
     if from >= to {
         return Err(bad("from must be before to."));
     }
@@ -716,8 +717,9 @@ async fn calendar(
     staff(&server, &headers).await?;
     let t = now();
     let from = q.from.unwrap_or(t - 7 * 86_400);
-    let to = q.to.unwrap_or(from + 42 * 86_400);
-    if to <= from || to - from > 400 * 86_400 {
+    let to = q.to.unwrap_or(from.saturating_add(42 * 86_400));
+    // (Saturating: any number may come in the query.)
+    if to <= from || to.saturating_sub(from) > 400 * 86_400 {
         return Err(bad("Ask for 400 days at most, from before to."));
     }
     Ok(Json(analytics::calendar(&server, from, to).await?))

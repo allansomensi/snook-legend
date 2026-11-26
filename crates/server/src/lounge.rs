@@ -1180,6 +1180,7 @@ impl Lounge {
             for (a, b, _) in &mut self.recent_pairs {
                 (*a, *b) = (swap(a), swap(b));
             }
+            self.doubles_renamed(&old_k, &new_k);
         }
         let name = user.username.clone();
         self.leave(old, conn_id);
@@ -3223,8 +3224,12 @@ impl Lounge {
         // rating (rated games), and a while without online games.
         if over.reason == GameOverReason::Abandoned {
             if rated {
-                delta[loser] -= ABANDON_RATING;
-                new_ratings[loser] = rating(loser) + delta[loser];
+                // Down to the floor at most, as any loss (and as in
+                // doubles): it never lifts a rating already below it.
+                let floor = EloConfig::default().floor.min(rating(loser));
+                let after = (rating(loser) + delta[loser] - ABANDON_RATING).max(floor);
+                delta[loser] = after - rating(loser);
+                new_ratings[loser] = after;
             }
             let key = keys[loser].clone();
             self.record_abandon(&key);
@@ -3409,6 +3414,11 @@ impl Lounge {
             let seat = room.seat_of(k);
             if room.resigning == Some(seat) {
                 room.leaving[seat] = true;
+                // (In doubles, the player of the team who asked.)
+                let (team, place) = room.place_of(k);
+                if let Some(d) = room.doubles.as_mut() {
+                    d.leaving[team][place] = true;
+                }
                 return;
             }
             return self.error(k, "Resign first to leave a game in progress.");
@@ -3865,6 +3875,7 @@ impl Lounge {
                 records: records.map(|t| t.map(|r| *r.get(rules))),
                 rematch: [[false; 2]; 2],
                 deltas: None,
+                leaving: [[false; 2]; 2],
             })
         });
         // (The break after this game is the other player's.)

@@ -213,7 +213,7 @@ def shoot(job, slot):
             "--frames",
             str(frames),
         ] + args
-        r = subprocess.run(cmd, env=env, capture_output=True, timeout=240)
+        r = subprocess.run(cmd, env=env, capture_output=True, timeout=int(os.environ.get("SCREENS_TIMEOUT", "240")))
         ok = dest.exists()
         return name, lang, size, ok, (r.stderr.decode(errors="replace")[-400:] if not ok else "")
     except subprocess.TimeoutExpired:
@@ -233,7 +233,9 @@ def main():
     p.add_argument("--input", default="", help="the pointer's script: '40:move 600 300;42:down;43:up;50:wheel -1'")
     p.add_argument("--shots", default="", help="more frames to save on the way: '181,184,190'")
     p.add_argument("--frames", type=int, default=0, help="the last frame (the screenshot), instead of the screen's own")
+    p.add_argument("--timeout", type=int, default=240, help="seconds a shot may take (a busy machine needs more)")
     a = p.parse_args()
+    os.environ["SCREENS_TIMEOUT"] = str(a.timeout)
     if a.frames:
         os.environ["SCREENS_FRAMES"] = str(a.frames)
     if a.input or a.shots:

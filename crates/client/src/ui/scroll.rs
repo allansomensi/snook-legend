@@ -558,6 +558,26 @@ mod tests {
     }
 
     #[test]
+    fn a_wheel_notch_scrolls_the_same_everywhere() {
+        // One notch down (negative, as the platforms report it) scrolls the
+        // content down by a notch; up, back.
+        let notch = if cfg!(windows) {
+            120.0
+        } else if cfg!(target_os = "macos") {
+            10.0
+        } else {
+            1.0
+        };
+        assert_eq!(wheel_units(-notch), NOTCH);
+        assert_eq!(wheel_units(notch), -NOTCH);
+        assert_eq!(wheel_units(0.0), 0.0);
+        // A touchpad's small step scrolls a little, never a whole notch.
+        let small = if cfg!(target_os = "macos") { 3.0 } else { notch / 4.0 };
+        let units = wheel_units(-small);
+        assert!(units > 0.0 && units < NOTCH, "{units}");
+    }
+
+    #[test]
     fn dragging_past_an_end_resists() {
         assert!(rubber(10.0, 300.0) < 10.0);
         assert!(rubber(1000.0, 300.0) < 100.0);

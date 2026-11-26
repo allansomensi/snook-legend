@@ -277,6 +277,13 @@ enum Screen {
     Inbox,
 }
 
+/// The screen a profile or the shop was opened from, to go back to.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum CameFrom {
+    Ranking,
+    Inbox,
+}
+
 /// A LAN game: the server this computer hosts (if any) and the connection.
 struct LanSession {
     host: Option<snook_legend_server::lan::LanHost>,
@@ -385,6 +392,9 @@ async fn main() {
     let mut notifier = notify::Notifier::default();
     // Where the profile and ranking go back to.
     let mut back_to_lounge = false;
+    // A profile opened from the ranking or the inbox (or the shop from the
+    // inbox) goes back there, where the player was, not to the menu.
+    let mut came_from: Option<CameFrom> = None;
     let mut settings_open = options.settings || pick_avatar;
     let mut settings_screen = SettingsScreen::default();
     settings_screen.dev_tab();
@@ -1923,6 +1933,7 @@ async fn main() {
                             }
                             RankingAction::Profile(name) => {
                                 profile.open(&name, &mut online);
+                                came_from = Some(CameFrom::Ranking);
                                 next = Some(Screen::Profile);
                             }
                             RankingAction::None => {}
@@ -1946,7 +1957,9 @@ async fn main() {
                         }
                         Screen::Shop => match shop.draw(&mut ui, &mut online) {
                             shop::ShopAction::Back => {
-                                next = Some(if back_to_lounge && online.signed_in() {
+                                next = Some(if came_from.take() == Some(CameFrom::Inbox) {
+                                    Screen::Inbox
+                                } else if back_to_lounge && online.signed_in() {
                                     Screen::Online
                                 } else {
                                     Screen::Menu
@@ -1988,9 +2001,11 @@ async fn main() {
                             }
                             inbox::InboxAction::Profile(name) => {
                                 profile.open(&name, &mut online);
+                                came_from = Some(CameFrom::Inbox);
                                 next = Some(Screen::Profile);
                             }
                             inbox::InboxAction::Shop(code) => {
+                                came_from = Some(CameFrom::Inbox);
                                 shop.open(&mut online);
                                 if !code.is_empty() {
                                     shop.show_item(&code);
@@ -1998,6 +2013,7 @@ async fn main() {
                                 next = Some(Screen::Shop);
                             }
                             inbox::InboxAction::Vip => {
+                                came_from = Some(CameFrom::Inbox);
                                 shop.open(&mut online);
                                 shop.show_tab("shop-vip");
                                 next = Some(Screen::Shop);
@@ -2008,6 +2024,7 @@ async fn main() {
                             }
                             // The collection (on the item) and the auctions' page.
                             inbox::InboxAction::Collection(code) => {
+                                came_from = Some(CameFrom::Inbox);
                                 shop.open_collection(&mut online);
                                 shop.show_item(&code);
                                 next = Some(Screen::Shop);
@@ -2016,10 +2033,11 @@ async fn main() {
                         },
                         Screen::Profile => match profile.draw(&mut ui, &mut online) {
                             ProfileAction::Back => {
-                                next = Some(if back_to_lounge && online.signed_in() {
-                                    Screen::Online
-                                } else {
-                                    Screen::Menu
+                                next = Some(match came_from.take() {
+                                    Some(CameFrom::Ranking) => Screen::Ranking,
+                                    Some(CameFrom::Inbox) => Screen::Inbox,
+                                    None if back_to_lounge && online.signed_in() => Screen::Online,
+                                    None => Screen::Menu,
                                 })
                             }
                             ProfileAction::Ghost(name) => {
@@ -2036,6 +2054,7 @@ async fn main() {
                             }
                             // The advanced statistics' preview: becoming VIP.
                             ProfileAction::ShopVip => {
+                                came_from = None;
                                 shop.open(&mut online);
                                 shop.show_tab("shop-vip");
                                 next = Some(Screen::Shop);
@@ -2052,6 +2071,11 @@ async fn main() {
                     }
                     paint::set_screen_fade(1.0);
                     if let Some(n) = next {
+                        // (Only the profile and the shop go back where they
+                        // were opened from.)
+                        if !matches!(n, Screen::Profile | Screen::Shop) {
+                            came_from = None;
+                        }
                         screen = n;
                         screen_fade = 0.0;
                     }

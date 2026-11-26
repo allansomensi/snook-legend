@@ -855,11 +855,23 @@ impl ShopScreen {
             }
             y += pitch;
         }
-        // The auctions of rare items (a page of their own, over the shop).
+        // The auctions of rare items (how many are open), and the credits of
+        // those who support the game: pages of their own, over the shop.
         if signed_in && !online.lan {
+            let open = online.open_auctions_count();
+            let auctions = if open > 0 {
+                crate::i18n::tw("Auctions ({n})", &[("n", &open)])
+            } else {
+                t("Auctions").to_string()
+            };
             let tr = Rect::new(side.x, y, side.w, row_h);
-            if side_tab(ui, tr, t("Auctions"), SideNote::Icon(Icon::Hourglass), false) && !modal {
+            if side_tab(ui, tr, &auctions, SideNote::Icon(Icon::Hourglass), false) && !modal {
                 online.open_auctions();
+            }
+            y += pitch;
+            let tr = Rect::new(side.x, y, side.w, row_h);
+            if side_tab(ui, tr, t("Supporters"), SideNote::Icon(Icon::Star), false) && !modal {
+                online.open_supporters();
             }
         }
         let bx = side.x + side.w + 20.0;

@@ -161,40 +161,9 @@ impl Online {
         }
     }
 
-    /// The ways to the auctions and the credits, at the top of the main
-    /// menu (signed in).
-    pub fn draw_ops_links(&mut self, ui: &mut Ui) {
-        if !self.signed_in() || self.lan || self.ops_page_open() {
-            return;
-        }
-        let open = self.ops.auctions.iter().filter(|a| a.state == AuctionState::Open).count();
-        let auctions = if open > 0 {
-            tw("Auctions ({n})", &[("n", &open)])
-        } else {
-            t("Auctions").to_string()
-        };
-        let links = [(Icon::Hourglass, auctions), (Icon::Star, t("Supporters").to_string())];
-        let widths: Vec<f32> =
-            links.iter().map(|(_, l)| ui.text_size(l, 14.0, true).x + 46.0).collect();
-        let total: f32 = widths.iter().sum::<f32>() + 8.0;
-        let mut x = (crate::ui::vw() - total) / 2.0;
-        for (k, ((icon, label), w)) in links.iter().zip(&widths).enumerate() {
-            let r = Rect::new(x, 16.0, *w, 32.0);
-            let hover = ui.hovering(r);
-            rrect(r, 16.0, Color::new(0.0, 0.0, 0.0, if hover { 0.5 } else { 0.35 }));
-            rrect_lines(r, 16.0, 1.0, if hover { GOLD } else { BORDER });
-            crate::icons::draw(*icon, vec2(r.x + 18.0, r.y + 16.0), 16.0, GOLD);
-            ui.text(label, r.x + 32.0, text_y(r.y + 16.0, 14.0), 14.0, CREAM, true);
-            ui.block(r);
-            if hover && ui.clicked(r) {
-                if k == 0 {
-                    self.open_auctions();
-                } else {
-                    self.open_supporters();
-                }
-            }
-            x += w + 8.0;
-        }
+    /// How many auctions are open (the shop's tab says so).
+    pub fn open_auctions_count(&self) -> usize {
+        self.ops.auctions.iter().filter(|a| a.state == AuctionState::Open).count()
     }
 
     /// "The server stops for maintenance in 25 min": a banner across the

@@ -168,6 +168,15 @@ impl Lounge {
         self.doubles.records.insert(key(name), records);
     }
 
+    /// The player known as `old` is `new` now (their username changed):
+    /// their doubles records go with them (else the next game would start
+    /// them from a newcomer's rating).
+    pub(super) fn doubles_renamed(&mut self, old: &str, new: &str) {
+        if let Some(records) = self.doubles.records.remove(old) {
+            self.doubles.records.insert(new.to_string(), records);
+        }
+    }
+
     /// `k`'s doubles record under `rules`.
     fn doubles_record(&self, k: &str, rules: Rules) -> Record {
         self.doubles.records.get(k).map(|r| *r.get(rules)).unwrap_or(Record::new(DOUBLES_START))

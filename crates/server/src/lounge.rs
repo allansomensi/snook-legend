@@ -1175,6 +1175,7 @@ impl Lounge {
             for (a, b, _) in &mut self.recent_pairs {
                 (*a, *b) = (swap(a), swap(b));
             }
+            self.doubles_renamed(&old_k, &new_k);
         }
         let name = user.username.clone();
         self.leave(old, conn_id);

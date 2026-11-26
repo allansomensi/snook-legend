@@ -1,6 +1,7 @@
 <!doctype html>
 <!-- The title and end cards of the promotional video (tools/video.py renders
-     them frame by frame with tools/video/cards.js): ?card=title|end&w=&h= -->
+     them frame by frame with tools/video/cards.js): ?card=title|end&w=&h=&lang=
+     (en, pt-BR). Wide, square or vertical: the layout follows w and h. -->
 <html><head><meta charset="utf-8"><style>
 @font-face{font-family:Inter;src:url(../../crates/client/assets/inter/Inter-Regular.ttf);font-weight:400}
 @font-face{font-family:Inter;src:url(../../crates/client/assets/inter/Inter-SemiBold.ttf);font-weight:600}
@@ -55,10 +56,18 @@ html,body{margin:0;overflow:hidden;background:#0b0907}
 <script>
 const q=new URLSearchParams(location.search);
 const W=+q.get('w')||1920,H=+q.get('h')||1080,card=q.get('card')||'title';
+// The words of the cards, by language (English for any other).
+const WORDS={
+ 'en':{sub:'3D eight-ball pool',free:'Free on'},
+ 'pt-BR':{sub:'Sinuca bola 8 em 3D',free:'Grátis para'},
+};
+const t=WORDS[q.get('lang')]||WORDS.en;
+const tall=H>W;
 const s=document.getElementById('stage');
 s.style.width=W+'px';s.style.height=H+'px';
-// One unit: 1 px at 1920 wide (a square frame keeps the type large).
-const u=Math.min(W/1920,H/1080)*(W===H?1.6:1);
+// One unit: 1 px at 1920 wide (a square or tall frame keeps the type
+// large: its width is what the phone shows).
+const u=tall?W/1080*1.15:Math.min(W/1920,H/1080)*(W===H?1.6:1);
 const r=document.documentElement.style;
 r.setProperty('--u',u+'px');
 s.classList.add(card);
@@ -67,11 +76,12 @@ const c=document.getElementById('c');
 if(card==='title'){
  r.setProperty('--ww',Math.min(1150*u,W*.86)+'px');r.setProperty('--rw',520*u+'px');
  r.setProperty('--fs',40*u);r.setProperty('--gy','48%');
- c.innerHTML=wm+'<div class="rule"></div><div class="sub">3D eight-ball pool</div>';
+ c.innerHTML=wm+'<div class="rule"></div><div class="sub">'+t.sub+'</div>';
 }else{
  r.setProperty('--ww',Math.min(860*u,W*.8)+'px');r.setProperty('--gy','46%');
- r.setProperty('--fl',(W===H?44:48)*u);r.setProperty('--fu',(W===H?74:80)*u);
- const free='Free on Windows<span class="dot">·</span>macOS<span class="dot">·</span>Linux';
+ r.setProperty('--fl',(W>=H*1.2?48:44)*u);r.setProperty('--fu',(W>=H*1.2?80:74)*u);
+ // (Tall: the platforms on a line of their own.)
+ const free=t.free+(tall?'<br>':' ')+'Windows<span class="dot">·</span>macOS<span class="dot">·</span>Linux';
  c.innerHTML=wm+'<div class="line">'+free+'</div><div class="url">snooklegend.app</div>';
 }
 </script>

@@ -345,8 +345,22 @@ impl CameraRig {
             }
             self.up = Vec3::Y;
             let dir = (self.target - self.eye).normalize_or(Vec3::NEG_Z);
-            let up = if dir.cross(Vec3::Y).length() < 1e-3 { Vec3::NEG_Z } else { Vec3::Y };
-            return SceneCamera { eye: self.eye, target: self.target, up, fovy: self.fovy };
+            // A window taller than wide (a phone's video) sees across as
+            // much of the table as a square one: the angles are framed
+            // for their width; from straight above, the table stands up
+            // the window, its long side along the long side.
+            let aspect = screen_width().max(1.0) / screen_height().max(1.0);
+            let up = match (dir.cross(Vec3::Y).length() < 1e-3, aspect < 1.0) {
+                (true, true) => Vec3::X,
+                (true, false) => Vec3::NEG_Z,
+                _ => Vec3::Y,
+            };
+            let fovy = if aspect < 1.0 {
+                2.0 * ((self.fovy / 2.0).tan() / aspect).atan()
+            } else {
+                self.fovy
+            };
+            return SceneCamera { eye: self.eye, target: self.target, up, fovy };
         }
         // Back from the broadcast: the next one starts with a wide shot.
         self.tv_state.angle = 0;

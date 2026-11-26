@@ -14,6 +14,13 @@ crossfades:
     cargo build -p snook-legend
     python3 tools/video.py --out /tmp/promo                  # 1920x1080
     python3 tools/video.py --out /tmp/promo --format square  # 1080x1080
+    python3 tools/video.py --out /tmp/promo --lang pt-BR --format square,vertical
+
+--format takes wide (1920x1080), square (1080x1080) and vertical
+(1080x1920, for stories and status), several with commas. --lang is the
+language of the game and of the cards (en by default; the cards know en
+and pt-BR); another language's files are named for it
+(snooklegend-promo-pt-square.mp4).
 
 The pieces stay in <out>/work and are made again only when missing (delete
 one to redo it). Recording a scene takes a few minutes per second of
@@ -75,9 +82,12 @@ def target_dir():
     return pathlib.Path(os.environ.get("CARGO_TARGET_DIR", ROOT / "target")) / "debug"
 
 
-def settings(server, token):
+FORMATS = {"wide": (1920, 1080), "square": (1080, 1080), "vertical": (1080, 1920)}
+
+
+def settings(server, token, lang, tall):
     lines = [
-        "language=en",
+        f"language={lang}",
         "coached=true",
         "graphics_checked=true",
         "auto_update=false",
@@ -92,6 +102,9 @@ def settings(server, token):
         "avatar=pic_crown",
         f"server={server}",
     ]
+    if tall:
+        # A phone's frame: the interface at its largest, for its width.
+        lines.append("ui_size=1.5")
     if token:
         lines += ["username=Ana", f"token={token}", f"token_server={server}"]
         # Newer than the account's settings on the server: these stay.
@@ -117,7 +130,7 @@ def start_server(tmp, port):
     return proc, found.get("Ana", "")
 
 
-def record(name, size, dest, seed, game, port):
+def record(name, size, dest, seed, game, port, lang):
     args, env_extra, online, skip, seconds = SCENES[name]
     w, h = size
     home = tempfile.mkdtemp(prefix="video-")
@@ -130,7 +143,7 @@ def record(name, size, dest, seed, game, port):
             url = f"ws://127.0.0.1:{port}/ws"
         cfg = pathlib.Path(home) / "snook-legend"
         cfg.mkdir()
-        (cfg / "settings.ini").write_text(settings(url, token))
+        (cfg / "settings.ini").write_text(settings(url, token, lang, h > w))
         env = dict(os.environ)
         env.update(
             {
@@ -165,10 +178,11 @@ def record(name, size, dest, seed, game, port):
         sys.exit(f"{name}: nothing recorded")
 
 
-def card(name, size, dest, seconds):
+def card(name, size, dest, seconds, lang):
     w, h = size
     js = ROOT / "tools" / "video" / "cards.js"
-    subprocess.run(["node", str(js), name, str(w), str(h), str(seconds), str(dest)], check=True)
+    cmd = ["node", str(js), name, str(w), str(h), str(seconds), str(dest), str(FPS), lang]
+    subprocess.run(cmd, check=True)
 
 
 def assemble(pieces, cut, dest, size):
@@ -226,7 +240,8 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--out", default="promo")
     p.add_argument("--seed", type=int, default=18)
-    p.add_argument("--format", choices=["wide", "square", "both"], default="wide")
+    p.add_argument("--format", default="wide", help="wide, square, vertical (several: a,b); both: wide,square")
+    p.add_argument("--lang", default="en", help="the game's and the cards' language (en, pt-BR)")
     p.add_argument("--game", default=str(target_dir() / "snook-legend"))
     p.add_argument("--port", type=int, default=7989, help="the local server's (online scenes)")
     p.add_argument("--only", default="", help="record these scenes only (no cut)")
@@ -234,13 +249,17 @@ def main():
     out = pathlib.Path(a.out).resolve()
     work = out / "work"
     work.mkdir(parents=True, exist_ok=True)
+    kinds = "wide,square" if a.format == "both" else a.format
+    # English keeps the plain names; another language's carry its code.
+    lang = "" if a.lang == "en" else "-" + a.lang.split("-")[0].lower()
     formats = []
-    if a.format in ("wide", "both"):
-        formats.append(("snooklegend-promo", (1920, 1080)))
-    if a.format in ("square", "both"):
-        formats.append(("snooklegend-promo-square", (1080, 1080)))
+    for kind in kinds.split(","):
+        if kind not in FORMATS:
+            sys.exit(f"--format: {kind}? ({', '.join(FORMATS)})")
+        suffix = "" if kind == "wide" else f"-{kind}"
+        formats.append((f"snooklegend-promo{lang}{suffix}", FORMATS[kind]))
     for title, size in formats:
-        tag = f"{size[0]}x{size[1]}"
+        tag = f"{size[0]}x{size[1]}{lang}"
         pieces = {}
         names = [n for n in a.only.split(",") if n] or sorted({c[0] for c in CUT})
         for name in names:
@@ -250,10 +269,10 @@ def main():
                 continue
             print(f"{tag}: {name}", flush=True)
             if name in SCENES:
-                record(name, size, dest, a.seed, a.game, a.port)
+                record(name, size, dest, a.seed, a.game, a.port, a.lang)
             else:
                 seconds = max(c[2] for c in CUT if c[0] == name)
-                card(name, size, dest, seconds)
+                card(name, size, dest, seconds, a.lang)
         if a.only:
             continue
         assemble(pieces, CUT, out / f"{title}.mp4", size)

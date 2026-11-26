@@ -1,13 +1,13 @@
 // Renders a card of tools/video/cards.html frame by frame into a video
 // (Playwright's Chromium; every CSS animation is set to each frame's time).
-//   node cards.js <title|end> <width> <height> <seconds> <out.mp4> [fps]
+//   node cards.js <title|end> <width> <height> <seconds> <out.mp4> [fps] [lang]
 const { chromium } = require('playwright');
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
 (async () => {
-  const [card, w, h, seconds, out, fpsArg] = process.argv.slice(2);
+  const [card, w, h, seconds, out, fpsArg, lang] = process.argv.slice(2);
   const fps = Number(fpsArg || 60);
   const width = Number(w);
   const height = Number(h);
@@ -18,7 +18,7 @@ const path = require('path');
   ], { stdio: ['pipe', 'inherit', 'inherit'] });
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width, height } });
-  const url = 'file://' + path.join(__dirname, 'cards.html') + `?card=${card}&w=${width}&h=${height}`;
+  const url = 'file://' + path.join(__dirname, 'cards.html') + `?card=${card}&w=${width}&h=${height}&lang=${lang || 'en'}`;
   await page.goto(url);
   // (A mask from a file:// address is refused: the wordmark goes in as data.)
   const wordmark = path.join(__dirname, '../../crates/client/assets/wordmark.png');

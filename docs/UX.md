@@ -185,7 +185,8 @@ language and size. What was wrong with it, and what changed:
 ## A promotional video
 
 `tools/video.py` makes a short video of the game for social media
-(1920×1080 or 1080×1080, 60 fps, H.264, with the game's own sounds): a
+(1920×1080, 1080×1080 or 1080×1920, 60 fps, H.264, with the game's own
+sounds), in English or Brazilian Portuguese: a
 title card, a game against Viktor from its introduction, the break and a
 run of pots under the broadcast camera, the main menu, and an end card
 with where to get the game.
@@ -194,7 +195,16 @@ with where to get the game.
 cargo build -p snook-legend
 python3 tools/video.py --out /tmp/promo                  # 1920x1080
 python3 tools/video.py --out /tmp/promo --format square  # 1080x1080
+python3 tools/video.py --out /tmp/promo --lang pt-BR --format square,vertical
 ```
+
+`--lang` sets the game's language (the match's introduction, Viktor's
+words, the menu, the ranking) and the cards'; the files of a language
+other than English carry its code (`snooklegend-promo-pt-vertical.mp4`).
+The vertical frame (Reels, Stories, a WhatsApp status) is recorded at
+1080×1920 with the interface at its largest size; the broadcast camera,
+in a window taller than wide, widens its lens to see across as much of
+the table as in a square one.
 
 The game records itself. With `SNOOK_LEGEND_RECORD=<file.mp4>` each frame
 moves the game's clock on by exactly 1/60 s, however long it took to draw
@@ -211,7 +221,8 @@ online). Like every development switch, release builds ignore them.
 
 The cards are `tools/video/cards.html` (the wordmark, Inter, the store
 art), drawn frame by frame by Playwright's Chromium
-(`tools/video/cards.js`). The cut and its crossfades are a list at the
+(`tools/video/cards.js`), laid out for the frame's shape, their words in
+the page by language. The cut and its crossfades are a list at the
 top of the script, timed for its default seed: another seed plays another
 game and needs other cut points.
 

@@ -1,6 +1,7 @@
-//! Advanced statistics (a VIP feature): how a player pots, pocket by pocket
-//! and by cut angle, how that changed week after week, and how it compares
-//! with the players of their league. They explain the game; nothing here
+//! The shot analysis (a VIP feature, on the player's own profile): how a
+//! player pots, pocket by pocket, where on the table, by kind of shot, cut
+//! angle and distance, how that changed week after week, and how it
+//! compares with the players of their league. They explain the game; nothing here
 //! plays for the player (no aim is suggested, nothing is drawn at the table).
 //!
 //! The server reads them from the shot analysis it keeps
@@ -69,6 +70,11 @@ pub struct AdvancedStats {
     pub league_players: u32,
     /// The last [`WEEKS`] weeks with games, oldest first.
     pub weeks: Vec<Week>,
+    /// The whole shot analysis (VIP): where the balls were, every kind of
+    /// shot, the distances, safeties and breaks. Profiles no longer carry
+    /// it (`Profile::analysis` is empty).
+    #[serde(default)]
+    pub analysis: Option<Box<ShotAnalysis>>,
 }
 
 /// The week a Unix time falls in: weeks start on Monday (the Unix epoch was

@@ -988,10 +988,8 @@ for the game	za hru
 for the win	za výhru
 games counted	započítané hry
 Analysis	Analýza
-The shot analysis isn't available on this server yet.	Analýza šťouchů zatím na tomto serveru není k dispozici.
 Only online accounts have a shot analysis.	Analýzu šťouchů mají jen online účty.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Hraj online a uvidíš, jak potápíš: analýza se objeví po dalších šťouších na díru (zbývá {n}).
-{name} hasn't played enough online games for an analysis yet.	{name} zatím neodehrál(a) dost online her pro analýzu.
 1 game	1 hra
 {pct}% of {n} shots at a pocket potted · {games}	Potopeno {pct} % z {n} šťouchů na díru · {games}
 {made} of {n} potted ({pct})	Potopeno {made} z {n} ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Server se kvůli údržbě zastaví
 This auction is not open.	Tato aukce není otevřená.
 The credits are for VIP members, now or before.	Titulky jsou pro členy VIP, současné i bývalé.
 The server stops for maintenance now. Games in progress go on.	Server se teď zastavuje kvůli údržbě. Rozehrané hry pokračují.
-Play online: your games are added up here as they end.	Hraj online: tvé partie se tu sčítají, jakmile skončí.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Podívej se, jak potápíš kapsu po kapse a podle úhlu seříznutí, jak se zlepšuješ týden po týdnu a jak si stojíš proti hráčům své ligy.
-Advanced statistics	Pokročilé statistiky
 Become VIP	Staň se VIP
-By pocket	Podle kapsy
-By cut angle	Podle úhlu seříznutí
 The white mark: your league.	Bílá značka: tvá liga.
 Week by week	Týden po týdnu
 Against your league	Proti tvé lize
-{tier}: {n} players	{tier}: {n} hráčů
+Shot analysis	Analýza šťouchů
+Your league: {pct}% ({tier}, {n} players)	Tvoje liga: {pct} % ({tier}, {n} hráčů)
 You	Ty
-League	Liga
 {pocket}: {n} points above	{pocket}: o {n} bodů výš
 {pocket}: {n} points below	{pocket}: o {n} bodů níž
 Messages with {name}	Zprávy s {name}

@@ -1,4 +1,4 @@
-//! The shot analysis on profiles, reports with the game attached and the
+//! The shot analysis, reports with the game attached and the
 //! staff panel's hourly metrics: the stores (memory always, PostgreSQL when
 //! `SNOOK_LEGEND_TEST_DATABASE_URL` points at a database that may be wiped)
 //! and the server end to end.
@@ -384,12 +384,14 @@ where
     }
 }
 
+/// Every game is replayed into both players' analyses; profiles don't
+/// carry them (VIP members see their own, see `match_social`).
 #[tokio::test]
-async fn profiles_carry_the_shot_analysis_for_new_games_only() {
+async fn the_shot_analysis_adds_up_new_games() {
     let s = start().await;
     let mut ana = Client::register(&s.url, "ana").await;
     let mut bia = Client::register(&s.url, "bia").await;
-    assert!(ana.profile("bia").await.analysis.as_ref().is_some_and(|a| a.games == 0));
+    assert_eq!(ana.profile("bia").await.analysis, None);
     let (game, sa) = start_match(&mut ana, &mut bia, "bia", "ana").await;
     let game = play(&mut ana, &mut bia, game, sa, 12).await;
     if game.game_over().is_none() {
@@ -412,8 +414,7 @@ async fn profiles_carry_the_shot_analysis_for_new_games_only() {
     let breaks = both.kinds[ShotKind::Break.index()].attempts;
     assert_eq!(breaks, 1, "{both:?}");
     assert!(both.attempts().attempts + both.safeties.attempts >= 1, "{both:?}");
-    let p = ana.profile("ana").await;
-    assert_eq!(p.analysis.as_deref(), Some(&analysis));
+    assert_eq!(ana.profile("ana").await.analysis, None);
 }
 
 #[tokio::test]

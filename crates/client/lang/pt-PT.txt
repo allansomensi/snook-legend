@@ -988,10 +988,8 @@ for the game	pela partida
 for the win	pela vitória
 games counted	partidas contadas
 Analysis	Análise
-The shot analysis isn't available on this server yet.	A análise das jogadas ainda não está disponível neste servidor.
 Only online accounts have a shot analysis.	Só as contas online têm análise das jogadas.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Joga online para veres como metes as bolas: a análise aparece depois de mais {n} jogadas a um buraco.
-{name} hasn't played enough online games for an analysis yet.	{name} ainda não jogou partidas online suficientes para uma análise.
 1 game	1 partida
 {pct}% of {n} shots at a pocket potted · {games}	{pct}% metidas em {n} jogadas a um buraco · {games}
 {made} of {n} potted ({pct})	{made} de {n} metidas ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	O servidor para para manutenção d
 This auction is not open.	Este leilão não está aberto.
 The credits are for VIP members, now or before.	Os créditos são para membros VIP, atuais ou antigos.
 The server stops for maintenance now. Games in progress go on.	O servidor está a parar para manutenção agora. Os jogos em curso continuam.
-Play online: your games are added up here as they end.	Joga online: os teus jogos são somados aqui quando terminam.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Vê como metes bolas bolsa a bolsa e por ângulo de corte, como evoluis semana a semana e como te comparas com os jogadores da tua liga.
-Advanced statistics	Estatísticas avançadas
 Become VIP	Torna-te VIP
-By pocket	Por bolsa
-By cut angle	Por ângulo de corte
 The white mark: your league.	A marca branca: a tua liga.
 Week by week	Semana a semana
 Against your league	Contra a tua liga
-{tier}: {n} players	{tier}: {n} jogadores
+Shot analysis	Análise das jogadas
+Your league: {pct}% ({tier}, {n} players)	A tua liga: {pct}% ({tier}, {n} jogadores)
 You	Tu
-League	Liga
 {pocket}: {n} points above	{pocket}: {n} pontos acima
 {pocket}: {n} points below	{pocket}: {n} pontos abaixo
 Messages with {name}	Mensagens com {name}

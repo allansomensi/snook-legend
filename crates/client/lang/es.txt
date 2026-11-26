@@ -988,10 +988,8 @@ for the game	por la partida
 for the win	por la victoria
 games counted	partidas contadas
 Analysis	Análisis
-The shot analysis isn't available on this server yet.	El análisis de tiros todavía no está disponible en este servidor.
 Only online accounts have a shot analysis.	Solo las cuentas en línea tienen análisis de tiros.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Juega en línea para ver cómo embocas: el análisis aparece después de {n} tiros más a una tronera.
-{name} hasn't played enough online games for an analysis yet.	{name} todavía no jugó suficientes partidas en línea para un análisis.
 1 game	1 partida
 {pct}% of {n} shots at a pocket potted · {games}	{pct}% de {n} tiros a una tronera embocados · {games}
 {made} of {n} potted ({pct})	{made} de {n} embocados ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	El servidor se detiene por mantenim
 This auction is not open.	Esta subasta no está abierta.
 The credits are for VIP members, now or before.	Los créditos son para miembros VIP, actuales o anteriores.
 The server stops for maintenance now. Games in progress go on.	El servidor se detiene por mantenimiento ahora. Las partidas en curso siguen.
-Play online: your games are added up here as they end.	Juega en línea: tus partidas se suman aquí cuando terminan.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Mira cómo embocas tronera por tronera y por ángulo de corte, cómo progresas semana a semana y cómo te comparas con los jugadores de tu liga.
-Advanced statistics	Estadísticas avanzadas
 Become VIP	Hazte VIP
-By pocket	Por tronera
-By cut angle	Por ángulo de corte
 The white mark: your league.	La marca blanca: tu liga.
 Week by week	Semana a semana
 Against your league	Frente a tu liga
-{tier}: {n} players	{tier}: {n} jugadores
+Shot analysis	Análisis de tiros
+Your league: {pct}% ({tier}, {n} players)	Tu liga: {pct}% ({tier}, {n} jugadores)
 You	Tú
-League	Liga
 {pocket}: {n} points above	{pocket}: {n} puntos por encima
 {pocket}: {n} points below	{pocket}: {n} puntos por debajo
 Messages with {name}	Mensajes con {name}

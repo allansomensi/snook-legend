@@ -988,10 +988,8 @@ for the game	voor de partij
 for the win	voor de overwinning
 games counted	getelde partijen
 Analysis	Analyse
-The shot analysis isn't available on this server yet.	De stootanalyse is nog niet beschikbaar op deze server.
 Only online accounts have a shot analysis.	Alleen online accounts hebben een stootanalyse.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Speel online om te zien hoe je pot: de analyse verschijnt na nog {n} stoten op een pocket.
-{name} hasn't played enough online games for an analysis yet.	{name} heeft nog niet genoeg online partijen gespeeld voor een analyse.
 1 game	1 partij
 {pct}% of {n} shots at a pocket potted · {games}	{pct}% van {n} stoten op een pocket gepot · {games}
 {made} of {n} potted ({pct})	{made} van {n} gepot ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	De server stopt over {n} min voor o
 This auction is not open.	Deze veiling is niet open.
 The credits are for VIP members, now or before.	De aftiteling is voor VIP-leden, nu of vroeger.
 The server stops for maintenance now. Games in progress go on.	De server stopt nu voor onderhoud. Lopende potjes gaan door.
-Play online: your games are added up here as they end.	Speel online: je partijen worden hier opgeteld zodra ze eindigen.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Zie hoe je pot per pocket en per snijhoek, hoe je week na week vooruitgaat en hoe je je verhoudt tot de spelers van je competitie.
-Advanced statistics	Geavanceerde statistieken
 Become VIP	Word VIP
-By pocket	Per pocket
-By cut angle	Per snijhoek
 The white mark: your league.	Het witte streepje: je competitie.
 Week by week	Week na week
 Against your league	Tegenover je competitie
-{tier}: {n} players	{tier}: {n} spelers
+Shot analysis	Stootanalyse
+Your league: {pct}% ({tier}, {n} players)	Je competitie: {pct}% ({tier}, {n} spelers)
 You	Jij
-League	Competitie
 {pocket}: {n} points above	{pocket}: {n} punten hoger
 {pocket}: {n} points below	{pocket}: {n} punten lager
 Messages with {name}	Berichten met {name}

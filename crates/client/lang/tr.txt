@@ -988,10 +988,8 @@ for the game	oyun için
 for the win	galibiyet için
 games counted	sayılan oyun
 Analysis	Analiz
-The shot analysis isn't available on this server yet.	Vuruş analizi bu sunucuda henüz yok.
 Only online accounts have a shot analysis.	Yalnızca çevrim içi hesapların vuruş analizi var.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Nasıl soktuğunu görmek için çevrim içi oyna: analiz, cebe {n} vuruş daha yaptıktan sonra görünür.
-{name} hasn't played enough online games for an analysis yet.	{name} henüz analiz için yeterince çevrim içi oyun oynamadı.
 1 game	1 oyun
 {pct}% of {n} shots at a pocket potted · {games}	Cebe {n} vuruşta %{pct} isabet · {games}
 {made} of {n} potted ({pct})	{n} vuruştan {made} girdi ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Sunucu {n} dk sonra bakım için du
 This auction is not open.	Bu açık artırma açık değil.
 The credits are for VIP members, now or before.	Jenerik, şimdiki veya eski VIP üyeleri içindir.
 The server stops for maintenance now. Games in progress go on.	Sunucu şimdi bakım için duruyor. Süren oyunlar devam ediyor.
-Play online: your games are added up here as they end.	Çevrimiçi oyna: oyunların bittikçe burada toplanır.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Cep cep ve kesme açısına göre nasıl top soktuğunu, hafta hafta nasıl geliştiğini ve liginin oyuncularıyla nasıl karşılaştırıldığını gör.
-Advanced statistics	Gelişmiş istatistikler
 Become VIP	VIP ol
-By pocket	Cebe göre
-By cut angle	Kesme açısına göre
 The white mark: your league.	Beyaz işaret: ligin.
 Week by week	Hafta hafta
 Against your league	Liginle karşılaştırma
-{tier}: {n} players	{tier}: {n} oyuncu
+Shot analysis	Vuruş analizi
+Your league: {pct}% ({tier}, {n} players)	Ligin: %{pct} ({tier}, {n} oyuncu)
 You	Sen
-League	Lig
 {pocket}: {n} points above	{pocket}: {n} puan üstte
 {pocket}: {n} points below	{pocket}: {n} puan altta
 Messages with {name}	{name} ile mesajlar

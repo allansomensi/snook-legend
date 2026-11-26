@@ -988,10 +988,8 @@ for the game	za partię
 for the win	za wygraną
 games counted	policzone partie
 Analysis	Analiza
-The shot analysis isn't available on this server yet.	Analiza uderzeń nie jest jeszcze dostępna na tym serwerze.
 Only online accounts have a shot analysis.	Analiza uderzeń jest dostępna tylko dla kont online.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Graj online, aby zobaczyć swoją skuteczność. Do analizy brakuje jeszcze uderzeń do łuzy: {n}.
-{name} hasn't played enough online games for an analysis yet.	{name} nie ma jeszcze dość partii online do analizy.
 1 game	1 partia
 {pct}% of {n} shots at a pocket potted · {games}	{pct}% wbitych (uderzenia do łuzy: {n}) · {games}
 {made} of {n} potted ({pct})	Wbite: {made} z {n} ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Serwer zatrzyma się na przerwę te
 This auction is not open.	Ta aukcja nie jest otwarta.
 The credits are for VIP members, now or before.	Podziękowania są dla członków VIP, obecnych lub dawnych.
 The server stops for maintenance now. Games in progress go on.	Serwer zatrzymuje się teraz na przerwę techniczną. Trwające gry toczą się dalej.
-Play online: your games are added up here as they end.	Graj online: twoje partie sumują się tutaj, gdy się kończą.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Zobacz, jak wbijasz łuza po łuzie i według kąta cięcia, jak robisz postępy tydzień po tygodniu i jak wypadasz na tle graczy twojej ligi.
-Advanced statistics	Statystyki zaawansowane
 Become VIP	Zostań VIP
-By pocket	Według łuzy
-By cut angle	Według kąta cięcia
 The white mark: your league.	Biała kreska: twoja liga.
 Week by week	Tydzień po tygodniu
 Against your league	Na tle twojej ligi
-{tier}: {n} players	{tier}: {n} graczy
+Shot analysis	Analiza uderzeń
+Your league: {pct}% ({tier}, {n} players)	Twoja liga: {pct}% ({tier}, graczy: {n})
 You	Ty
-League	Liga
 {pocket}: {n} points above	{pocket}: {n} pkt powyżej
 {pocket}: {n} points below	{pocket}: {n} pkt poniżej
 Messages with {name}	Wiadomości z {name}

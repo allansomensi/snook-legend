@@ -443,6 +443,7 @@ async fn advanced_statistics_are_for_vip_members() {
     };
     assert!(!stats.vip);
     assert_eq!(stats.mine, Default::default(), "no numbers without VIP");
+    assert_eq!(stats.analysis, None, "nor the shot analysis");
     // VIP, with games analysed over two weeks.
     let id = server.store.user_by_name("ana").await.unwrap().unwrap().id;
     let now = snook_legend_server::now();
@@ -464,6 +465,7 @@ async fn advanced_statistics_are_for_vip_members() {
     };
     assert!(stats.vip);
     assert_eq!(stats.games, 3);
+    assert_eq!(stats.analysis.as_deref(), Some(&a), "the whole analysis, for VIP");
     assert_eq!(stats.mine.pockets[0], Tally { attempts: 10, made: 7 });
     assert_eq!(stats.mine.cuts[0], Tally { attempts: 10, made: 7 });
     let weeks: Vec<(i64, u32)> = stats.weeks.iter().map(|w| (w.week, w.pots.made)).collect();

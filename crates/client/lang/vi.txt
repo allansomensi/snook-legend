@@ -988,10 +988,8 @@ for the game	cho ván đấu
 for the win	cho trận thắng
 games counted	ván được tính
 Analysis	Phân tích
-The shot analysis isn't available on this server yet.	Máy chủ này chưa có phân tích cú đánh.
 Only online accounts have a shot analysis.	Chỉ tài khoản trực tuyến mới có phân tích cú đánh.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Chơi trực tuyến để xem bạn ăn bi thế nào: phân tích sẽ hiện sau {n} cú nhắm lỗ nữa.
-{name} hasn't played enough online games for an analysis yet.	{name} chưa chơi đủ ván trực tuyến để phân tích.
 1 game	1 ván
 {pct}% of {n} shots at a pocket potted · {games}	Ăn {pct}% trong {n} cú nhắm lỗ · {games}
 {made} of {n} potted ({pct})	Ăn {made}/{n} ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Máy chủ dừng để bảo trì 
 This auction is not open.	Phiên đấu giá này chưa mở.
 The credits are for VIP members, now or before.	Danh sách dành cho thành viên VIP, hiện tại hoặc trước đây.
 The server stops for maintenance now. Games in progress go on.	Máy chủ đang dừng để bảo trì. Các ván đang chơi vẫn tiếp tục.
-Play online: your games are added up here as they end.	Chơi trực tuyến: các ván của bạn được cộng dồn ở đây khi kết thúc.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Xem bạn đưa bi vào từng lỗ và theo từng góc cắt ra sao, tiến bộ qua từng tuần thế nào và so với người chơi cùng giải đấu ra sao.
-Advanced statistics	Thống kê nâng cao
 Become VIP	Trở thành VIP
-By pocket	Theo lỗ
-By cut angle	Theo góc cắt
 The white mark: your league.	Vạch trắng: giải đấu của bạn.
 Week by week	Theo từng tuần
 Against your league	So với giải đấu của bạn
-{tier}: {n} players	{tier}: {n} người chơi
+Shot analysis	Phân tích cú đánh
+Your league: {pct}% ({tier}, {n} players)	Giải đấu của bạn: {pct}% ({tier}, {n} người chơi)
 You	Bạn
-League	Giải đấu
 {pocket}: {n} points above	{pocket}: cao hơn {n} điểm
 {pocket}: {n} points below	{pocket}: thấp hơn {n} điểm
 Messages with {name}	Tin nhắn với {name}

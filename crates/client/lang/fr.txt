@@ -988,10 +988,8 @@ for the game	pour la partie
 for the win	pour la victoire
 games counted	parties comptées
 Analysis	Analyse
-The shot analysis isn't available on this server yet.	L'analyse des coups n'est pas encore disponible sur ce serveur.
 Only online accounts have a shot analysis.	Seuls les comptes en ligne ont une analyse des coups.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Jouez en ligne pour voir comment vous empochez : l'analyse apparaît après encore {n} coups vers une poche.
-{name} hasn't played enough online games for an analysis yet.	{name} n'a pas encore joué assez de parties en ligne pour une analyse.
 1 game	1 partie
 {pct}% of {n} shots at a pocket potted · {games}	{pct} % de {n} coups vers une poche réussis · {games}
 {made} of {n} potted ({pct})	{made} sur {n} empochées ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Le serveur s'arrête pour maintenan
 This auction is not open.	Cette enchère n'est pas ouverte.
 The credits are for VIP members, now or before.	Les crédits sont pour les membres VIP, actuels ou anciens.
 The server stops for maintenance now. Games in progress go on.	Le serveur s'arrête maintenant pour maintenance. Les parties en cours continuent.
-Play online: your games are added up here as they end.	Jouez en ligne : vos parties s'ajoutent ici à la fin de chacune.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Voyez comment vous empochez poche par poche et selon l'angle de coupe, comment vous progressez semaine après semaine et comment vous vous situez face aux joueurs de votre ligue.
-Advanced statistics	Statistiques avancées
 Become VIP	Devenir VIP
-By pocket	Par poche
-By cut angle	Par angle de coupe
 The white mark: your league.	Le trait blanc : votre ligue.
 Week by week	Semaine après semaine
 Against your league	Face à votre ligue
-{tier}: {n} players	{tier} : {n} joueurs
+Shot analysis	Analyse des coups
+Your league: {pct}% ({tier}, {n} players)	Votre ligue : {pct} % ({tier}, {n} joueurs)
 You	Vous
-League	Ligue
 {pocket}: {n} points above	{pocket} : {n} points au-dessus
 {pocket}: {n} points below	{pocket} : {n} points en dessous
 Messages with {name}	Messages avec {name}

@@ -7,7 +7,6 @@
 //! runs on practically any PC, including old integrated graphics.
 
 mod aa;
-mod advanced;
 mod analysis;
 mod arena_hall;
 mod assess;

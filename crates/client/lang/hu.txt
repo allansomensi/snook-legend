@@ -988,10 +988,8 @@ for the game	a játszmáért
 for the win	a győzelemért
 games counted	beszámított játszmák
 Analysis	Elemzés
-The shot analysis isn't available on this server yet.	A lökéselemzés ezen a szerveren még nem érhető el.
 Only online accounts have a shot analysis.	Lökéselemzés csak online fiókokhoz van.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Játssz online, hogy lásd, hogyan rakod el a golyókat: az elemzés még {n} lyukra mért lökés után jelenik meg.
-{name} hasn't played enough online games for an analysis yet.	{name} még nem játszott elég online játszmát egy elemzéshez.
 1 game	1 játszma
 {pct}% of {n} shots at a pocket potted · {games}	{pct}% elrakva {n} lyukra mért lökésből · {games}
 {made} of {n} potted ({pct})	{made}/{n} elrakva ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	A szerver {n} perc múlva karbantar
 This auction is not open.	Ez az aukció nincs nyitva.
 The credits are for VIP members, now or before.	A stáblista a jelenlegi és korábbi VIP-tagoké.
 The server stops for maintenance now. Games in progress go on.	A szerver most karbantartás miatt leáll. A folyamatban lévő játékok folytatódnak.
-Play online: your games are added up here as they end.	Játssz online: a játszmáid itt adódnak össze, ahogy véget érnek.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Nézd meg, hogyan lövöd be lyukról lyukra és vágási szög szerint, hogyan fejlődsz hétről hétre, és hogyan állsz a ligád játékosaihoz képest.
-Advanced statistics	Részletes statisztikák
 Become VIP	Legyél VIP
-By pocket	Lyukanként
-By cut angle	Vágási szög szerint
 The white mark: your league.	A fehér jel: a ligád.
 Week by week	Hétről hétre
 Against your league	A ligádhoz képest
-{tier}: {n} players	{tier}: {n} játékos
+Shot analysis	Lökéselemzés
+Your league: {pct}% ({tier}, {n} players)	A ligád: {pct}% ({tier}, {n} játékos)
 You	Te
-League	Liga
 {pocket}: {n} points above	{pocket}: {n} ponttal felette
 {pocket}: {n} points below	{pocket}: {n} ponttal alatta
 Messages with {name}	Üzenetek: {name}

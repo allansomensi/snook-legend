@@ -988,10 +988,8 @@ for the game	para sa laro
 for the win	para sa panalo
 games counted	larong binilang
 Analysis	Pagsusuri
-The shot analysis isn't available on this server yet.	Hindi pa available ang pagsusuri ng tira sa server na ito.
 Only online accounts have a shot analysis.	Ang mga online account lang ang may pagsusuri ng tira.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Maglaro online para makita kung paano ka magpasok: lalabas ang pagsusuri pagkatapos ng {n} pang tira sa pocket.
-{name} hasn't played enough online games for an analysis yet.	Hindi pa sapat ang online na laro ni {name} para sa pagsusuri.
 1 game	1 laro
 {pct}% of {n} shots at a pocket potted · {games}	{pct}% ng {n} tira sa pocket ang pumasok · {games}
 {made} of {n} potted ({pct})	{made} sa {n} ang pumasok ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Hihinto ang server para sa maintena
 This auction is not open.	Hindi bukas ang subastang ito.
 The credits are for VIP members, now or before.	Ang credits ay para sa mga VIP, ngayon o dati.
 The server stops for maintenance now. Games in progress go on.	Humihinto na ang server para sa maintenance. Tuloy ang mga larong nagaganap.
-Play online: your games are added up here as they end.	Maglaro online: dito pinagsasama ang mga laro mo pagkatapos ng bawat isa.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Tingnan kung paano ka nagpapasok bawat butas at bawat anggulo ng cut, paano ka umuunlad linggo-linggo, at paano ka kumpara sa mga manlalaro ng liga mo.
-Advanced statistics	Advanced na estadistika
 Become VIP	Maging VIP
-By pocket	Bawat butas
-By cut angle	Bawat anggulo ng cut
 The white mark: your league.	Ang puting marka: ang liga mo.
 Week by week	Linggo-linggo
 Against your league	Kumpara sa liga mo
-{tier}: {n} players	{tier}: {n} manlalaro
+Shot analysis	Pagsusuri ng tira
+Your league: {pct}% ({tier}, {n} players)	Liga mo: {pct}% ({tier}, {n} manlalaro)
 You	Ikaw
-League	Liga
 {pocket}: {n} points above	{pocket}: {n} puntos na mas mataas
 {pocket}: {n} points below	{pocket}: {n} puntos na mas mababa
 Messages with {name}	Mga mensahe kay {name}

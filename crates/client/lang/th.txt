@@ -988,10 +988,8 @@ for the game	จาก​การ​เล่น
 for the win	จากการชนะ
 games counted	เกม​ที่​นับ
 Analysis	วิเคราะห์
-The shot analysis isn't available on this server yet.	เซิร์ฟเวอร์​นี้​ยัง​ไม่​มี​การ​วิเคราะห์​ช็อต
 Only online accounts have a shot analysis.	เฉพาะ​บัญชี​ออนไลน์​เท่านั้น​ที่​มี​การ​วิเคราะห์​ช็อต
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	เล่น​ออนไลน์​เพื่อ​ดู​ว่า​คุณ​แทงลง​แค่​ไหน: การ​วิเคราะห์​จะ​ปรากฏ​หลังจาก​แทง​ลูก​เข้า​หลุม​อีก {n} ช็อต
-{name} hasn't played enough online games for an analysis yet.	{name} ยัง​เล่น​เกม​ออนไลน์​ไม่​มาก​พอ​สำหรับ​การ​วิเคราะห์
 1 game	1 เกม
 {pct}% of {n} shots at a pocket potted · {games}	แทงลง {pct}% จาก {n} ช็อต​ที่​แทง​เข้า​หลุม · {games}
 {made} of {n} potted ({pct})	ลง {made} จาก {n} ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	เซิร์ฟเวอร์�
 This auction is not open.	การประมูลนี้ยังไม่เปิด
 The credits are for VIP members, now or before.	รายชื่อนี้สำหรับสมาชิก VIP ทั้งปัจจุบันและอดีต
 The server stops for maintenance now. Games in progress go on.	เซิร์ฟเวอร์กำลังหยุดปิดปรับปรุงตอนนี้ เกมที่เล่นอยู่ดำเนินต่อ
-Play online: your games are added up here as they end.	เล่นออนไลน์: เกมของคุณจะถูกรวมไว้ที่นี่เมื่อจบ
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	ดูว่าคุณแทงลงแต่ละหลุมและแต่ละมุมตัดได้แค่ไหน พัฒนาขึ้นอย่างไรในแต่ละสัปดาห์ และเทียบกับผู้เล่นในลีกเดียวกันได้อย่างไร
-Advanced statistics	สถิติขั้นสูง
 Become VIP	สมัคร VIP
-By pocket	ตามหลุม
-By cut angle	ตามมุมตัด
 The white mark: your league.	ขีดสีขาว: ลีกของคุณ
 Week by week	รายสัปดาห์
 Against your league	เทียบกับลีกของคุณ
-{tier}: {n} players	{tier}: ผู้เล่น {n} คน
+Shot analysis	การ​วิเคราะห์​ช็อต
+Your league: {pct}% ({tier}, {n} players)	ลีก​ของ​คุณ: {pct}% ({tier}, ผู้เล่น {n} คน)
 You	คุณ
-League	ลีก
 {pocket}: {n} points above	{pocket}: สูงกว่า {n} จุด
 {pocket}: {n} points below	{pocket}: ต่ำกว่า {n} จุด
 Messages with {name}	ข้อความกับ {name}

@@ -1,11 +1,20 @@
-//! The profile's shot analysis: success per pocket on a small table seen
-//! from above, where the object balls were (potted or missed) as a heat map,
-//! and bars by distance and by kind of shot, each with how many shots it is
-//! based on.
+//! The shot analysis, on the player's own profile (a VIP feature): how they
+//! pot pocket by pocket on a small table seen from above, where the object
+//! balls were (potted or missed) as a heat map, by kind of shot (the cut
+//! angles with their league's mark) and by distance, their safeties and
+//! breaks, how it went week after week, and how they compare with the
+//! players of their league, each with how many shots it rests on. A
+//! player who isn't VIP sees the same page with made-up numbers, dimmed,
+//! and what it is.
+//!
+//! It explains the player's game; nothing here helps at the table.
 
 use macroquad::prelude::*;
 use snook_legend_core::{PocketId, Table};
-use snook_legend_proto::analysis::{GRID_H, GRID_W, ShotAnalysis, ShotKind, Tally};
+use snook_legend_proto::advanced::{AdvancedStats, CUT_KINDS, Sums, Week, week_start};
+use snook_legend_proto::analysis::{
+    GRID_H, GRID_W, MIN_ATTEMPTS, POCKETS, ShotAnalysis, ShotKind, Tally,
+};
 
 #[allow(unused_imports)]
 use crate::paint::{draw_circle, draw_line, draw_rectangle};
@@ -23,6 +32,9 @@ const CUSHION: Color = Color::new(0.035, 0.16, 0.11, 1.0);
 const RAIL: Color = Color::new(0.27, 0.16, 0.09, 1.0);
 /// The heat map's colour at its strongest (a share of the busiest cell).
 const HEAT_ALPHA: f32 = 0.85;
+/// Ahead of the league, and behind it.
+const GOOD: Color = Color::new(0.45, 0.88, 0.5, 1.0);
+const BAD: Color = Color::new(1.0, 0.5, 0.42, 1.0);
 
 /// What the heat map shows.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
@@ -37,49 +49,81 @@ fn rate(t: Tally) -> String {
     if t.attempts == 0 { "—".to_string() } else { format!("{}%", t.rate()) }
 }
 
-/// The analysis in `area`; `name` is the profile's owner, `own` whether
-/// it is the viewer and `guest` whether it is a guest (local network).
+/// The share potted (None without shots).
+fn share(t: Tally) -> Option<f32> {
+    (t.attempts > 0).then(|| t.made.min(t.attempts) as f32 / t.attempts as f32)
+}
+
+/// The page in `area`, from what the server sent (None: on its way);
+/// `guest`: a guest's profile (local network). True when the player asks
+/// to become VIP.
 pub fn draw(
     ui: &mut Ui,
-    analysis: Option<&ShotAnalysis>,
-    own: bool,
+    stats: Option<&AdvancedStats>,
     guest: bool,
-    name: &str,
     area: Rect,
     heat: &mut Heat,
-) {
-    let Some(a) = analysis else {
-        let text = if guest {
-            t("Only online accounts have a shot analysis.")
-        } else {
-            t("The shot analysis isn't available on this server yet.")
-        };
-        empty_state(ui, area, Icon::Star, text);
-        return;
-    };
-    let pots = a.attempts();
-    if !a.is_enough() {
-        let more = snook_legend_proto::analysis::MIN_ATTEMPTS - pots.attempts;
-        let text = if own {
-            tw(
-                "Play online to see how you pot: the analysis appears after {n} more shots at a pocket.",
-                &[("n", &more)],
-            )
-        } else {
-            tw("{name} hasn't played enough online games for an analysis yet.", &[("name", &name)])
-        };
-        empty_state(ui, area, Icon::Star, &text);
-        return;
+) -> bool {
+    if guest {
+        empty_state(ui, area, Icon::Star, t("Only online accounts have a shot analysis."));
+        return false;
     }
-    // The numbers it all rests on.
+    let Some(stats) = stats else {
+        crate::online::loading(ui, area);
+        return false;
+    };
+    if !stats.vip {
+        // The page with made-up numbers, dimmed and still, under the pitch.
+        let saved = crate::paint::opacity();
+        crate::paint::set_opacity(saved * 0.28);
+        let input = ui.suspend_input();
+        page(ui, &sample_analysis(), &sample(), area, heat);
+        ui.resume_input(input);
+        crate::paint::set_opacity(saved);
+        return pitch(ui, area);
+    }
+    let none = ShotAnalysis::default();
+    let a = stats.analysis.as_deref().unwrap_or(&none);
+    if !a.is_enough() {
+        let more = MIN_ATTEMPTS.saturating_sub(a.attempts().attempts);
+        let text = tw(
+            "Play online to see how you pot: the analysis appears after {n} more shots at a pocket.",
+            &[("n", &more)],
+        );
+        empty_state(ui, area, Icon::Star, &text);
+        return false;
+    }
+    page(ui, a, stats, area, heat);
+    false
+}
+
+/// The numbers on top, then the table, the kinds of shot and the rest.
+fn page(ui: &mut Ui, a: &ShotAnalysis, s: &AdvancedStats, area: Rect, heat: &mut Heat) {
+    // What it all rests on, and the league's on the right.
+    let pots = a.attempts();
     let games =
         if a.games == 1 { t("1 game").to_string() } else { tw("{n} games", &[("n", &a.games)]) };
     let summary = tw(
         "{pct}% of {n} shots at a pocket potted · {games}",
         &[("pct", &pots.rate().to_string()), ("n", &pots.attempts.to_string()), ("games", &games)],
     );
-    let summary = ui.ellipsize(&summary, area.w, 13.0);
+    let league = share(s.league.overall).map(|v| {
+        let tier =
+            s.tier.map_or_else(|| t("Rookie").to_string(), |tier| t(tier.name()).to_string());
+        tw(
+            "Your league: {pct}% ({tier}, {n} players)",
+            &[("pct", &((v * 100.0).round() as i32)), ("tier", &tier), ("n", &s.league_players)],
+        )
+    });
+    let league_w =
+        league.as_ref().map_or(0.0, |l| ui.text_size(l, 13.0, false).x.min(area.w * 0.45));
+    let summary = ui.ellipsize(&summary, area.w - league_w - 16.0, 13.0);
     ui.text(&summary, area.x, area.y, 13.0, MUTED, false);
+    if let Some(l) = &league {
+        let l = ui.ellipsize(l, league_w, 13.0);
+        let w = ui.text_size(&l, 13.0, false).x;
+        ui.text(&l, area.x + area.w - w, area.y, 13.0, CREAM, false);
+    }
 
     let top = area.y + 26.0;
     let body = Rect::new(area.x, top, area.w, area.y + area.h - top);
@@ -88,8 +132,13 @@ pub fn draw(
     let kinds_w = ((body.w - table_w - 2.0 * gap) * 0.53).floor();
     let rest_w = body.w - table_w - kinds_w - 2.0 * gap;
     table_column(ui, a, Rect::new(body.x, body.y, table_w, body.h), heat);
-    kinds_column(ui, a, Rect::new(body.x + table_w + gap, body.y, kinds_w, body.h));
-    side_column(ui, a, Rect::new(body.x + table_w + kinds_w + 2.0 * gap, body.y, rest_w, body.h));
+    kinds_column(ui, a, s, Rect::new(body.x + table_w + gap, body.y, kinds_w, body.h));
+    side_column(
+        ui,
+        a,
+        s,
+        Rect::new(body.x + table_w + kinds_w + 2.0 * gap, body.y, rest_w, body.h),
+    );
 }
 
 fn heading(ui: &Ui, text: &str, x: f32, y: f32, w: f32) {
@@ -97,8 +146,10 @@ fn heading(ui: &Ui, text: &str, x: f32, y: f32, w: f32) {
     ui.text(&text, x, y, size, GOLD, true);
 }
 
-/// A labelled bar: the label on the left, the rate and its sample on the right.
-fn bar_row(ui: &mut Ui, label: &str, t: Tally, r: Rect) {
+/// A labelled bar: the label on the left, the rate and its sample on the
+/// right; `mark`, the league's rate, as a line across the bar; `what`, what
+/// the rate means when it isn't "potted" (for the tooltip).
+fn bar_row(ui: &mut Ui, label: &str, t: Tally, r: Rect, mark: Option<f32>, what: Option<&str>) {
     let mid = r.y + r.h / 2.0;
     let pct = rate(t);
     let n = format!("{}", t.attempts);
@@ -114,22 +165,30 @@ fn bar_row(ui: &mut Ui, label: &str, t: Tally, r: Rect) {
         let k = t.made as f32 / t.attempts as f32;
         rrect(Rect::new(track.x, track.y, (track.w * k).max(8.0), track.h), 4.0, GOLD);
     }
+    if let Some(v) = mark {
+        let x = track.x + track.w * v.clamp(0.0, 1.0);
+        draw_line(x, track.y - 3.0, x, track.y + track.h + 3.0, 2.0, CREAM);
+    }
     let pw = ui.text_size(&pct, 13.0, true).x;
     let px = track.x + track.w + 6.0 + num_w - pw;
     ui.text(&pct, px, text_y(mid, 13.0), 13.0, if dim { MUTED } else { CREAM }, true);
     let nw = ui.text_size(&n, 11.0, false).x;
     ui.text(&n, r.x + r.w - nw, text_y(mid, 11.0), 11.0, MUTED, false);
     if ui.hovering(r) && !dim {
-        let tip = tw(
-            "{made} of {n} potted ({pct})",
-            &[("made", &t.made.to_string()), ("n", &t.attempts.to_string()), ("pct", &pct)],
-        );
+        let tip = match what {
+            Some(what) => format!("{pct} {what}"),
+            None => tw(
+                "{made} of {n} potted ({pct})",
+                &[("made", &t.made.to_string()), ("n", &t.attempts.to_string()), ("pct", &pct)],
+            ),
+        };
         ui.tooltip(&tip, r);
     }
 }
 
-/// Success by kind of shot (the break is beside, with the safeties).
-fn kinds_column(ui: &mut Ui, a: &ShotAnalysis, r: Rect) {
+/// Success by kind of shot (the cut angles with the league's mark), then
+/// the safeties and the breaks.
+fn kinds_column(ui: &mut Ui, a: &ShotAnalysis, s: &AdvancedStats, r: Rect) {
     heading(ui, t("By kind of shot"), r.x, r.y, r.w);
     // The sample column's heading, over the counts.
     let shots = t("shots");
@@ -137,15 +196,30 @@ fn kinds_column(ui: &mut Ui, a: &ShotAnalysis, r: Rect) {
     ui.text(shots, r.x + r.w - sw, r.y + 3.0, 10.5, MUTED, false);
     let kinds: Vec<ShotKind> =
         ShotKind::ALL.into_iter().filter(|k| *k != ShotKind::Break).collect();
-    let row_h = ((r.h - 26.0) / kinds.len() as f32).clamp(18.0, 28.0);
+    let note_h = 18.0;
+    let rows = kinds.len() + 2;
+    let row_h = ((r.h - 26.0 - note_h) / rows as f32).clamp(18.0, 28.0);
+    let row = |k: usize| Rect::new(r.x, r.y + 26.0 + k as f32 * row_h, r.w, row_h);
+    let mut marked = false;
     for (k, kind) in kinds.iter().enumerate() {
-        let row = Rect::new(r.x, r.y + 26.0 + k as f32 * row_h, r.w, row_h);
-        bar_row(ui, t(kind.name()), a.kinds[kind.index()], row);
+        let mark = CUT_KINDS.iter().position(|c| c == kind).and_then(|i| share(s.league.cuts[i]));
+        marked |= mark.is_some();
+        bar_row(ui, t(kind.name()), a.kinds[kind.index()], row(k), mark, None);
+    }
+    let safeties = t("left the opponent nothing");
+    bar_row(ui, t("Safeties"), a.safeties, row(kinds.len()), None, Some(safeties));
+    let breaks = a.kinds[ShotKind::Break.index()];
+    bar_row(ui, t("Breaks"), breaks, row(kinds.len() + 1), None, Some(t("made a ball")));
+    if marked {
+        let note = t("The white mark: your league.");
+        let (note, size) = ui.fitted(note, 11.0, r.w, false);
+        ui.text(&note, r.x, r.y + 26.0 + rows as f32 * row_h + 4.0, size, MUTED, false);
     }
 }
 
-/// Distance bands, then safeties and breaks.
-fn side_column(ui: &mut Ui, a: &ShotAnalysis, r: Rect) {
+/// Distance bands, the weeks, and where the player is furthest ahead of
+/// their league and behind it.
+fn side_column(ui: &mut Ui, a: &ShotAnalysis, s: &AdvancedStats, r: Rect) {
     heading(ui, t("By distance"), r.x, r.y, r.w);
     let labels = [t("Short (under 0.75 m)"), t("Medium (to 1.5 m)"), t("Long (over 1.5 m)")];
     let mut y = r.y + 26.0;
@@ -156,36 +230,170 @@ fn side_column(ui: &mut Ui, a: &ShotAnalysis, r: Rect) {
         let (label, size) = ui.fitted(label, 12.0, r.w, false);
         ui.text(&label, r.x, y, size, CREAM, false);
         let bar = Rect::new(r.x, y + 15.0, r.w, row_h - 6.0);
-        bar_row(ui, "", tl, bar);
+        bar_row(ui, "", tl, bar, None, None);
         y += 15.0 + row_h;
     }
-    y += 6.0;
-    let cards = [
-        (t("Safeties"), a.safeties, t("left the opponent nothing")),
-        (t("Breaks"), a.kinds[ShotKind::Break.index()], t("made a ball")),
-    ];
-    for (title, tally, what) in cards.iter() {
-        let line = if tally.attempts == 0 {
-            "—".to_string()
-        } else {
-            format!("{} {what}", rate(*tally))
-        };
-        let mut lines = ui.wrap(&line, r.w - 20.0, 12.0);
-        lines.truncate(2);
-        let c = Rect::new(r.x, y, r.w, 34.0 + lines.len() as f32 * 15.0);
-        rrect(c, 8.0, Color::new(1.0, 1.0, 1.0, 0.04));
-        let top = c.y + 18.0;
-        let n = tally.attempts.to_string();
-        ui.text(&n, c.x + 10.0, text_y(top, 20.0), 20.0, CREAM, true);
-        let nw = ui.text_size(&n, 20.0, true).x;
-        let (title, size) = ui.fitted(title, 12.0, c.w - nw - 26.0, true);
-        ui.text(&title, c.x + 18.0 + nw, text_y(top, size), size, MUTED, true);
-        for (k, l) in lines.iter().enumerate() {
-            let l = ui.ellipsize(l, c.w - 20.0, 12.0);
-            ui.text(&l, c.x + 10.0, c.y + 30.0 + k as f32 * 15.0, 12.0, CREAM, false);
-        }
-        y += c.h + 8.0;
+    // The league at the bottom, the weeks between.
+    let lines = 2.0 * 17.0;
+    let league_top = r.y + r.h - 20.0 - lines;
+    y += 8.0;
+    heading(ui, t("Week by week"), r.x, y, r.w);
+    let chart =
+        Rect::new(r.x + 30.0, y + 24.0, r.w - 30.0, (league_top - 22.0 - y - 24.0).max(30.0));
+    weeks(ui, s, chart);
+    heading(ui, t("Against your league"), r.x, league_top, r.w);
+    ahead_and_behind(ui, s, r.x, league_top + 20.0, r.w);
+}
+
+/// Success week by week (the last weeks with games), in `chart`, with the
+/// rates on its left and the first and last weeks under it.
+fn weeks(ui: &mut Ui, s: &AdvancedStats, chart: Rect) {
+    rrect(chart, 6.0, Color::new(0.0, 0.0, 0.0, 0.2));
+    for k in 0..=2 {
+        let y = chart.y + chart.h * k as f32 / 2.0;
+        draw_line(chart.x, y, chart.x + chart.w, y, 1.0, Color::new(1.0, 1.0, 1.0, 0.05));
+        let label = format!("{}%", 100 - k * 50);
+        ui.text(&label, chart.x - 30.0, y - 6.0, 10.0, MUTED, false);
     }
+    let points: Vec<(usize, f32)> =
+        s.weeks.iter().enumerate().filter_map(|(k, w)| share(w.pots).map(|v| (k, v))).collect();
+    if points.is_empty() {
+        let note = t("No games yet.");
+        let mid = chart.y + chart.h / 2.0;
+        ui.text_centered(note, chart.x + chart.w / 2.0, mid - 7.0, 13.0, MUTED, false);
+        return;
+    }
+    let n = s.weeks.len().max(2) as f32 - 1.0;
+    let at = |k: usize, v: f32| {
+        let x = if s.weeks.len() < 2 {
+            chart.x + chart.w / 2.0
+        } else {
+            chart.x + chart.w * k as f32 / n
+        };
+        vec2(x, chart.y + chart.h * (1.0 - v))
+    };
+    for pair in points.windows(2) {
+        let (a, b) = (at(pair[0].0, pair[0].1), at(pair[1].0, pair[1].1));
+        draw_line(a.x, a.y, b.x, b.y, 2.0, GOLD);
+    }
+    for &(k, v) in &points {
+        let p = at(k, v);
+        draw_circle(p.x, p.y, 3.5, GOLD);
+    }
+    let date = |w: &Week| crate::profile::date(week_start(w.week));
+    if let (Some(first), Some(last)) = (s.weeks.first(), s.weeks.last()) {
+        ui.text(&date(first), chart.x, chart.y + chart.h + 4.0, 10.0, MUTED, false);
+        let d = date(last);
+        let w = ui.text_size(&d, 10.0, false).x;
+        ui.text(&d, chart.x + chart.w - w, chart.y + chart.h + 4.0, 10.0, MUTED, false);
+    }
+}
+
+/// The pockets where the player is furthest ahead of their league and
+/// furthest behind it, a line each.
+fn ahead_and_behind(ui: &mut Ui, s: &AdvancedStats, x: f32, y: f32, w: f32) {
+    let mut diffs: Vec<(usize, f32)> = (0..POCKETS)
+        .filter_map(|k| Some((k, share(s.mine.pockets[k])? - share(s.league.pockets[k])?)))
+        .collect();
+    if diffs.is_empty() {
+        let (text, size) = ui.fitted(t("No games yet."), 12.0, w, false);
+        ui.text(&text, x, y, size, MUTED, false);
+        return;
+    }
+    diffs.sort_by(|a, b| b.1.total_cmp(&a.1));
+    let mut shown = vec![diffs[0]];
+    if diffs.len() > 1 {
+        shown.push(diffs[diffs.len() - 1]);
+    }
+    for (line, (k, d)) in shown.into_iter().enumerate() {
+        let pocket = t(pocket_name(PocketId::ALL[k]));
+        let points = (d * 100.0).round() as i32;
+        let (text, color) = if points >= 0 {
+            (tw("{pocket}: {n} points above", &[("pocket", &pocket), ("n", &points)]), GOOD)
+        } else {
+            (tw("{pocket}: {n} points below", &[("pocket", &pocket), ("n", &-points)]), BAD)
+        };
+        let (text, size) = ui.fitted(&text, 12.0, w, false);
+        ui.text(&text, x, y + line as f32 * 17.0, size, color, false);
+    }
+}
+
+/// The card over the preview: what the page is, and the way to it.
+fn pitch(ui: &mut Ui, area: Rect) -> bool {
+    let w = 420.0f32.min(area.w - 20.0);
+    let text = t(
+        "See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.",
+    );
+    let lines = ui.wrap(text, w - 40.0, 14.0);
+    let h = 70.0 + lines.len() as f32 * 19.0 + 64.0;
+    let r = Rect::new(area.x + (area.w - w) / 2.0, area.y + (area.h - h) / 2.0, w, h);
+    ui.panel(r);
+    rrect_lines(r, 12.0, 1.5, GOLD);
+    crate::icons::draw(Icon::Crown, vec2(r.x + 30.0, r.y + 30.0), 22.0, GOLD);
+    let (title, size) = ui.fitted(t("Shot analysis"), 18.0, r.w - 70.0, true);
+    ui.text(&title, r.x + 50.0, r.y + 20.0, size, GOLD, true);
+    for (k, line) in lines.iter().enumerate() {
+        ui.text(line, r.x + 20.0, r.y + 56.0 + k as f32 * 19.0, 14.0, CREAM, false);
+    }
+    let b = Rect::new(r.x + (r.w - 200.0) / 2.0, r.y + r.h - 52.0, 200.0, 38.0);
+    ui.primary_button(b, t("Become VIP"))
+}
+
+/// The league's numbers and the weeks behind the preview (made up: never
+/// anyone's).
+fn sample() -> AdvancedStats {
+    let t = |a: u32, m: u32| Tally { attempts: a, made: m };
+    let mine = Sums {
+        pockets: [t(40, 26), t(38, 22), t(20, 9), t(22, 12), t(41, 30), t(36, 21)],
+        cuts: [t(60, 48), t(70, 44), t(40, 18), t(20, 5)],
+        overall: t(197, 120),
+    };
+    let league = Sums {
+        pockets: [t(40, 22), t(40, 22), t(20, 8), t(20, 8), t(40, 22), t(40, 22)],
+        cuts: [t(60, 44), t(70, 40), t(40, 16), t(20, 4)],
+        overall: t(200, 104),
+    };
+    AdvancedStats {
+        vip: false,
+        games: 42,
+        mine,
+        league,
+        league_players: 120,
+        weeks: (0..8)
+            .map(|k| Week { week: 2900 + k, pots: t(40, 20 + (k as u32 * 3) % 9), games: 5 })
+            .collect(),
+        ..Default::default()
+    }
+}
+
+/// A shot analysis to show behind the preview (made up, as [`sample`]).
+fn sample_analysis() -> ShotAnalysis {
+    let s = sample();
+    let t = |a: u32, m: u32| Tally { attempts: a, made: m };
+    let mut a = ShotAnalysis { games: s.games, pockets: s.mine.pockets, ..Default::default() };
+    for (k, kind) in CUT_KINDS.iter().enumerate() {
+        a.kinds[kind.index()] = s.mine.cuts[k];
+    }
+    for (kind, tally) in [
+        (ShotKind::Bank, t(18, 7)),
+        (ShotKind::Kick, t(9, 3)),
+        (ShotKind::Combination, t(6, 2)),
+        (ShotKind::Jump, t(4, 1)),
+        (ShotKind::Masse, t(3, 1)),
+        (ShotKind::Break, t(21, 13)),
+    ] {
+        a.kinds[kind.index()] = tally;
+    }
+    a.distances = [t(80, 62), t(78, 44), t(39, 14)];
+    a.safeties = t(25, 15);
+    // Busier around the pockets and the spots, as real games are.
+    for (k, cell) in a.heat.iter_mut().enumerate() {
+        let (col, row) = ((k % GRID_W) as f32, (k / GRID_W) as f32);
+        let wave = ((col * 0.9).sin() + (row * 1.3).cos() + 2.0) * 3.0;
+        let attempts = wave.round() as u32;
+        *cell = t(attempts, attempts * 3 / 5);
+    }
+    a
 }
 
 /// Where on the screen a point of the table is.

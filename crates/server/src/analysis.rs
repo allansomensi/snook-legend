@@ -1,10 +1,9 @@
-//! The shot analysis on profiles (see [`snook_legend_proto::analysis`]): each
-//! stored game is replayed once when it ends and its shots are added to both
-//! players' sums.
+//! The shot analysis (see [`snook_legend_proto::analysis`]): each stored
+//! game is replayed once when it ends and its shots are added to both
+//! players' sums. VIP members see their own (see [`crate::advanced`]).
 
 use std::sync::Arc;
 
-use snook_legend_proto::ServerMsg;
 use snook_legend_proto::analysis::analyse;
 
 use crate::Server;
@@ -41,20 +40,5 @@ pub async fn after_match(server: &Arc<Server>, record: &MatchRecord) {
         {
             tracing::warn!("shot week of {}: {e}", players[seat]);
         }
-    }
-}
-
-/// Adds the analysis to a profile.
-pub async fn attach(server: &Server, msg: &mut ServerMsg) {
-    let ServerMsg::Profile { profile } = msg else { return };
-    if profile.player.guest {
-        return;
-    }
-    let Ok(Some(user)) = server.store.user_by_name(&profile.player.username).await else {
-        return;
-    };
-    match server.store.shot_analysis(user.id).await {
-        Ok(a) => profile.analysis = Some(Box::new(a)),
-        Err(e) => tracing::warn!("shot analysis of {}: {e}", user.id),
     }
 }

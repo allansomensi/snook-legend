@@ -988,10 +988,8 @@ for the game	untuk game
 for the win	untuk kemenangan
 games counted	game dihitung
 Analysis	Analisis
-The shot analysis isn't available on this server yet.	Analisis pukulan belum tersedia di server ini.
 Only online accounts have a shot analysis.	Hanya akun online yang punya analisis pukulan.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Main online untuk melihat cara kamu memasukkan bola: analisis muncul setelah {n} pukulan lagi ke lubang.
-{name} hasn't played enough online games for an analysis yet.	{name} belum memainkan cukup game online untuk dianalisis.
 1 game	1 game
 {pct}% of {n} shots at a pocket potted · {games}	{pct}% dari {n} pukulan ke lubang masuk · {games}
 {made} of {n} potted ({pct})	{made} dari {n} masuk ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Server berhenti untuk pemeliharaan 
 This auction is not open.	Lelang ini tidak dibuka.
 The credits are for VIP members, now or before.	Kredit untuk anggota VIP, sekarang atau dulu.
 The server stops for maintenance now. Games in progress go on.	Server berhenti untuk pemeliharaan sekarang. Permainan yang berjalan tetap lanjut.
-Play online: your games are added up here as they end.	Main online: permainanmu dijumlahkan di sini setiap kali selesai.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Lihat bagaimana kamu memasukkan bola per lubang dan per sudut potong, bagaimana kamu berkembang minggu demi minggu, dan bagaimana kamu dibanding pemain di liga-mu.
-Advanced statistics	Statistik lanjutan
 Become VIP	Jadi VIP
-By pocket	Per lubang
-By cut angle	Per sudut potong
 The white mark: your league.	Tanda putih: liga-mu.
 Week by week	Minggu demi minggu
 Against your league	Dibanding liga-mu
-{tier}: {n} players	{tier}: {n} pemain
+Shot analysis	Analisis pukulan
+Your league: {pct}% ({tier}, {n} players)	Liga-mu: {pct}% ({tier}, {n} pemain)
 You	Kamu
-League	Liga
 {pocket}: {n} points above	{pocket}: {n} poin di atas
 {pocket}: {n} points below	{pocket}: {n} poin di bawah
 Messages with {name}	Pesan dengan {name}

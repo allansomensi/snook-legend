@@ -988,10 +988,8 @@ for the game	για την παρτίδα
 for the win	για τη νίκη
 games counted	μετρημένες παρτίδες
 Analysis	Ανάλυση
-The shot analysis isn't available on this server yet.	Η ανάλυση χτυπημάτων δεν είναι ακόμα διαθέσιμη σε αυτόν τον διακομιστή.
 Only online accounts have a shot analysis.	Μόνο οι online λογαριασμοί έχουν ανάλυση χτυπημάτων.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Παίξε online για να δεις πώς βάζεις μπάλες: η ανάλυση εμφανίζεται μετά από ακόμα {n} χτυπήματα σε τρύπα.
-{name} hasn't played enough online games for an analysis yet.	Ο/Η {name} δεν έχει παίξει ακόμα αρκετές online παρτίδες για ανάλυση.
 1 game	1 παρτίδα
 {pct}% of {n} shots at a pocket potted · {games}	{pct}% από {n} χτυπήματα σε τρύπα μπήκαν · {games}
 {made} of {n} potted ({pct})	{made} από {n} μπήκαν ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Ο διακομιστής σταμ�
 This auction is not open.	Αυτή η δημοπρασία δεν είναι ανοιχτή.
 The credits are for VIP members, now or before.	Οι τίτλοι είναι για μέλη VIP, τωρινά ή παλαιότερα.
 The server stops for maintenance now. Games in progress go on.	Ο διακομιστής σταματά τώρα για συντήρηση. Τα παιχνίδια σε εξέλιξη συνεχίζουν.
-Play online: your games are added up here as they end.	Παίξτε online: οι παρτίδες σας προστίθενται εδώ μόλις τελειώνουν.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Δείτε πώς βάζετε μπάλες τρύπα με τρύπα και ανά γωνία κοπής, πώς προοδεύετε εβδομάδα με την εβδομάδα και πώς συγκρίνεστε με τους παίκτες της λίγκας σας.
-Advanced statistics	Αναλυτικά στατιστικά
 Become VIP	Γίνετε VIP
-By pocket	Ανά τρύπα
-By cut angle	Ανά γωνία κοπής
 The white mark: your league.	Το λευκό σημάδι: η λίγκα σας.
 Week by week	Εβδομάδα με την εβδομάδα
 Against your league	Σε σχέση με τη λίγκα σας
-{tier}: {n} players	{tier}: {n} παίκτες
+Shot analysis	Ανάλυση χτυπημάτων
+Your league: {pct}% ({tier}, {n} players)	Η λίγκα σας: {pct}% ({tier}, {n} παίκτες)
 You	Εσείς
-League	Λίγκα
 {pocket}: {n} points above	{pocket}: {n} μονάδες πάνω
 {pocket}: {n} points below	{pocket}: {n} μονάδες κάτω
 Messages with {name}	Μηνύματα με {name}

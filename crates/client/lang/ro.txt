@@ -988,10 +988,8 @@ for the game	pentru partidă
 for the win	pentru victorie
 games counted	partide numărate
 Analysis	Analiză
-The shot analysis isn't available on this server yet.	Analiza loviturilor nu e disponibilă încă pe acest server.
 Only online accounts have a shot analysis.	Doar conturile online au analiza loviturilor.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Joacă online ca să vezi cum bagi bilele: analiza apare după alte lovituri spre buzunar (încă {n}).
-{name} hasn't played enough online games for an analysis yet.	{name} nu a jucat încă destule partide online pentru o analiză.
 1 game	1 partidă
 {pct}% of {n} shots at a pocket potted · {games}	Reușită {pct}% (lovituri spre buzunar: {n}) · {games}
 {made} of {n} potted ({pct})	{made} din {n} băgate ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Serverul se oprește pentru mentena
 This auction is not open.	Această licitație nu este deschisă.
 The credits are for VIP members, now or before.	Creditele sunt pentru membrii VIP, actuali sau foști.
 The server stops for maintenance now. Games in progress go on.	Serverul se oprește acum pentru mentenanță. Jocurile în desfășurare continuă.
-Play online: your games are added up here as they end.	Joacă online: partidele tale se adună aici când se termină.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Vezi cum bagi bile buzunar cu buzunar și după unghiul de tăiere, cum progresezi săptămână de săptămână și cum te compari cu jucătorii din liga ta.
-Advanced statistics	Statistici avansate
 Become VIP	Devino VIP
-By pocket	Pe buzunar
-By cut angle	Pe unghi de tăiere
 The white mark: your league.	Semnul alb: liga ta.
 Week by week	Săptămână de săptămână
 Against your league	Față de liga ta
-{tier}: {n} players	{tier}: {n} jucători
+Shot analysis	Analiza loviturilor
+Your league: {pct}% ({tier}, {n} players)	Liga ta: {pct}% ({tier}, {n} jucători)
 You	Tu
-League	Liga
 {pocket}: {n} points above	{pocket}: cu {n} puncte peste
 {pocket}: {n} points below	{pocket}: cu {n} puncte sub
 Messages with {name}	Mesaje cu {name}

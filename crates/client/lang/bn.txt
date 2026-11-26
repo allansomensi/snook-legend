@@ -988,10 +988,8 @@ for the game	গেমের জন্য
 for the win	জয়ের জন্য
 games counted	গণনা করা গেম
 Analysis	বিশ্লেষণ
-The shot analysis isn't available on this server yet.	এই সার্ভারে এখনও শট বিশ্লেষণ উপলব্ধ নয়।
 Only online accounts have a shot analysis.	শুধু অনলাইন অ্যাকাউন্টের শট বিশ্লেষণ থাকে।
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	আপনি কেমন পকেট করেন দেখতে অনলাইনে খেলুন: পকেট লক্ষ্য করে আরও {n}টি শটের পরে বিশ্লেষণ দেখা যাবে।
-{name} hasn't played enough online games for an analysis yet.	বিশ্লেষণের জন্য {name} এখনও যথেষ্ট অনলাইন গেম খেলেননি।
 1 game	1টি গেম
 {pct}% of {n} shots at a pocket potted · {games}	পকেট লক্ষ্য করে {n}টি শটের {pct}% পকেট হয়েছে · {games}
 {made} of {n} potted ({pct})	{n}টির মধ্যে {made}টি পকেট ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	সার্ভার {n} মি �
 This auction is not open.	এই নিলাম খোলা নেই।
 The credits are for VIP members, now or before.	ক্রেডিট বর্তমান বা আগের VIP সদস্যদের জন্য।
 The server stops for maintenance now. Games in progress go on.	সার্ভার এখন রক্ষণাবেক্ষণের জন্য বন্ধ হচ্ছে। চলমান খেলা চলবে।
-Play online: your games are added up here as they end.	অনলাইনে খেলুন: আপনার খেলাগুলো শেষ হলেই এখানে যোগ হয়।
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	দেখুন প্রতিটি পকেটে ও প্রতিটি কাট কোণে আপনি কতটা বল ফেলেন, সপ্তাহে সপ্তাহে কীভাবে উন্নতি করছেন, আর আপনার লিগের খেলোয়াড়দের তুলনায় কোথায় আছেন।
-Advanced statistics	উন্নত পরিসংখ্যান
 Become VIP	VIP হোন
-By pocket	পকেট অনুযায়ী
-By cut angle	কাট কোণ অনুযায়ী
 The white mark: your league.	সাদা দাগ: আপনার লিগ।
 Week by week	সপ্তাহে সপ্তাহে
 Against your league	আপনার লিগের তুলনায়
-{tier}: {n} players	{tier}: {n} জন খেলোয়াড়
+Shot analysis	শট বিশ্লেষণ
+Your league: {pct}% ({tier}, {n} players)	আপনার লিগ: {pct}% ({tier}, {n} জন খেলোয়াড়)
 You	আপনি
-League	লিগ
 {pocket}: {n} points above	{pocket}: {n} পয়েন্ট বেশি
 {pocket}: {n} points below	{pocket}: {n} পয়েন্ট কম
 Messages with {name}	{name}-এর সঙ্গে বার্তা

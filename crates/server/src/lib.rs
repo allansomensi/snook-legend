@@ -1582,8 +1582,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     // dozen queries, and a new connection has a full bucket.)
                     if !server.auth().try_sign_in(&ip_text) {
                         send(ServerMsg::Error { message: "Slow down a little.".into() });
-                    } else if let Some(mut msg) = profile_msg(&server, None, &username).await {
-                        analysis::attach(&server, &mut msg).await;
+                    } else if let Some(msg) = profile_msg(&server, None, &username).await {
                         send(msg);
                     }
                 }
@@ -1615,10 +1614,9 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::Profile { username } => {
                 let viewer = (!guest).then_some(&me);
                 match profile_msg(&server, viewer, &username).await {
-                    Some(mut msg) => {
-                        analysis::attach(&server, &mut msg).await;
-                        send(msg)
-                    }
+                    // (Without the shot analysis: VIP members get their own
+                    // with the advanced statistics, see `advanced`.)
+                    Some(msg) => send(msg),
                     None => send(ServerMsg::Error { message: "No such player.".into() }),
                 }
             }

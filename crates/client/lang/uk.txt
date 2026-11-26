@@ -988,10 +988,8 @@ for the game	за партію
 for the win	за перемогу
 games counted	зараховано партій
 Analysis	Аналіз
-The shot analysis isn't available on this server yet.	Аналіз ударів на цьому сервері поки недоступний.
 Only online accounts have a shot analysis.	Аналіз ударів доступний лише для онлайн-облікових записів.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Грайте онлайн, щоб побачити, як ви забиваєте: аналіз з’явиться після ще кількох ударів по лузі ({n}).
-{name} hasn't played enough online games for an analysis yet.	{name}: поки замало онлайн-партій для аналізу.
 1 game	1 партія
 {pct}% of {n} shots at a pocket potted · {games}	Забито {pct}% ударів по лузі (усього {n}) · {games}
 {made} of {n} potted ({pct})	забито {made} з {n} ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Сервер зупиниться �
 This auction is not open.	Цей аукціон не відкритий.
 The credits are for VIP members, now or before.	Титри — для VIP-учасників, теперішніх або колишніх.
 The server stops for maintenance now. Games in progress go on.	Сервер зупиняється на техроботи. Поточні партії тривають.
-Play online: your games are added up here as they end.	Грайте онлайн: ваші партії підсумовуються тут, щойно закінчуються.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Подивіться, як ви забиваєте в кожну лузу і за кутом різання, як зростаєте тиждень за тижнем і як виглядаєте на тлі гравців своєї ліги.
-Advanced statistics	Докладна статистика
 Become VIP	Стати VIP
-By pocket	За лузами
-By cut angle	За кутом різання
 The white mark: your league.	Біла позначка: ваша ліга.
 Week by week	Тиждень за тижнем
 Against your league	На тлі вашої ліги
-{tier}: {n} players	{tier}: гравців — {n}
+Shot analysis	Аналіз ударів
+Your league: {pct}% ({tier}, {n} players)	Ваша ліга: {pct}% ({tier}, гравців — {n})
 You	Ви
-League	Ліга
 {pocket}: {n} points above	{pocket}: вище на {n} п.
 {pocket}: {n} points below	{pocket}: нижче на {n} п.
 Messages with {name}	Повідомлення з {name}

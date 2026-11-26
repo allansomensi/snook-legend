@@ -988,10 +988,8 @@ for the game	गेम के लिए
 for the win	जीत के लिए
 games counted	गिने गए गेम
 Analysis	विश्लेषण
-The shot analysis isn't available on this server yet.	इस सर्वर पर शॉट विश्लेषण अभी उपलब्ध नहीं है।
 Only online accounts have a shot analysis.	शॉट विश्लेषण सिर्फ़ ऑनलाइन अकाउंट के लिए है।
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	आप कैसे पॉट करते हैं, यह देखने के लिए ऑनलाइन खेलें: पॉकेट पर {n} और शॉट के बाद विश्लेषण दिखेगा।
-{name} hasn't played enough online games for an analysis yet.	{name} ने विश्लेषण के लिए अभी काफ़ी ऑनलाइन गेम नहीं खेले हैं।
 1 game	1 गेम
 {pct}% of {n} shots at a pocket potted · {games}	पॉकेट पर {n} शॉट में से {pct}% पॉट हुए · {games}
 {made} of {n} potted ({pct})	{n} में से {made} पॉट ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	सर्वर {n} मि मे�
 This auction is not open.	यह नीलामी खुली नहीं है।
 The credits are for VIP members, now or before.	क्रेडिट मौजूदा या पूर्व VIP सदस्यों के लिए हैं।
 The server stops for maintenance now. Games in progress go on.	सर्वर अभी रखरखाव के लिए रुक रहा है। चल रहे गेम जारी रहेंगे।
-Play online: your games are added up here as they end.	ऑनलाइन खेलें: आपके खेल खत्म होते ही यहाँ जुड़ते जाते हैं।
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	देखें कि आप हर पॉकेट और हर कट कोण पर कितनी गेंदें डालते हैं, हफ़्ते-दर-हफ़्ते कैसे सुधरते हैं, और अपनी लीग के खिलाड़ियों के मुकाबले कहाँ हैं।
-Advanced statistics	उन्नत आँकड़े
 Become VIP	VIP बनें
-By pocket	पॉकेट के अनुसार
-By cut angle	कट कोण के अनुसार
 The white mark: your league.	सफ़ेद निशान: आपकी लीग।
 Week by week	हफ़्ते-दर-हफ़्ते
 Against your league	आपकी लीग के मुकाबले
-{tier}: {n} players	{tier}: {n} खिलाड़ी
+Shot analysis	शॉट विश्लेषण
+Your league: {pct}% ({tier}, {n} players)	आपकी लीग: {pct}% ({tier}, {n} खिलाड़ी)
 You	आप
-League	लीग
 {pocket}: {n} points above	{pocket}: {n} अंक ऊपर
 {pocket}: {n} points below	{pocket}: {n} अंक नीचे
 Messages with {name}	{name} के साथ संदेश

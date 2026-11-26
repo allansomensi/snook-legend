@@ -988,10 +988,8 @@ for the game	für die Partie
 for the win	für den Sieg
 games counted	gezählte Partien
 Analysis	Analyse
-The shot analysis isn't available on this server yet.	Die Stoßanalyse ist auf diesem Server noch nicht verfügbar.
 Only online accounts have a shot analysis.	Nur Online-Konten haben eine Stoßanalyse.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Spiel online, um zu sehen, wie du versenkst: Die Analyse erscheint nach {n} weiteren Stößen auf eine Tasche.
-{name} hasn't played enough online games for an analysis yet.	{name} hat noch nicht genug Online-Partien für eine Analyse gespielt.
 1 game	1 Partie
 {pct}% of {n} shots at a pocket potted · {games}	{pct} % von {n} Stößen auf eine Tasche versenkt · {games}
 {made} of {n} potted ({pct})	{made} von {n} versenkt ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Der Server geht in {n} Min für ein
 This auction is not open.	Diese Auktion ist nicht offen.
 The credits are for VIP members, now or before.	Die Credits sind für VIP-Mitglieder, aktuelle oder frühere.
 The server stops for maintenance now. Games in progress go on.	Der Server geht jetzt für eine Wartung vom Netz. Laufende Spiele gehen weiter.
-Play online: your games are added up here as they end.	Spiel online: Deine Partien werden hier nach jedem Ende zusammengezählt.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Sieh, wie du Loch für Loch und nach Schnittwinkel lochst, wie du dich Woche für Woche entwickelst und wie du im Vergleich zu den Spielern deiner Liga stehst.
-Advanced statistics	Erweiterte Statistiken
 Become VIP	VIP werden
-By pocket	Nach Loch
-By cut angle	Nach Schnittwinkel
 The white mark: your league.	Der weiße Strich: deine Liga.
 Week by week	Woche für Woche
 Against your league	Im Vergleich zu deiner Liga
-{tier}: {n} players	{tier}: {n} Spieler
+Shot analysis	Stoßanalyse
+Your league: {pct}% ({tier}, {n} players)	Deine Liga: {pct} % ({tier}, {n} Spieler)
 You	Du
-League	Liga
 {pocket}: {n} points above	{pocket}: {n} Punkte darüber
 {pocket}: {n} points below	{pocket}: {n} Punkte darunter
 Messages with {name}	Nachrichten mit {name}

@@ -1,7 +1,7 @@
-//! Advanced statistics, a VIP feature (see
-//! `snook_legend_proto::advanced`): the player's shot analysis pocket by
-//! pocket and by cut angle, their pots week by week, and the same numbers
-//! for the players of their league.
+//! The shot analysis, a VIP feature (see `snook_legend_proto::advanced`):
+//! the player's whole analysis, their pots week by week, and the same
+//! numbers for the players of their league. Only VIP members get it, and
+//! only their own: profiles don't carry it.
 //!
 //! The weeks are added up when a game's analysis is (see
 //! [`crate::analysis::after_match`]); a league's numbers sum many players'
@@ -80,6 +80,7 @@ pub async fn handle(server: &Server, me: &User, rules: Rules, send: &impl Fn(Ser
         let analysis = analysis.unwrap_or_default();
         stats.games = analysis.games;
         stats.mine = Sums::of(&analysis);
+        stats.analysis = Some(Box::new(analysis));
         stats.weeks = weeks
             .unwrap_or_default()
             .into_iter()

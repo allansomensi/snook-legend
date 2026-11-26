@@ -988,10 +988,8 @@ for the game	対戦報酬
 for the win	勝利報酬
 games counted	集計ゲーム数
 Analysis	分析
-The shot analysis isn't available on this server yet.	このサーバーではまだショット分析を利用できません。
 Only online accounts have a shot analysis.	ショット分析はオンラインアカウントのみです。
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	オンラインで対戦すると、ポケットの傾向がわかります：ポケットを狙ったショットがあと{n}回で分析が表示されます。
-{name} hasn't played enough online games for an analysis yet.	{name}はまだ分析に十分なオンライン対戦をしていません。
 1 game	1戦
 {pct}% of {n} shots at a pocket potted · {games}	ポケットを狙った{n}ショット中{pct}%成功 · {games}
 {made} of {n} potted ({pct})	{n}回中{made}回成功（{pct}）
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	サーバーは{n}分後にメン�
 This auction is not open.	このオークションは開いていません。
 The credits are for VIP members, now or before.	クレジットは現在または過去のVIPメンバー向けです。
 The server stops for maintenance now. Games in progress go on.	サーバーはメンテナンスのため停止します。進行中の対局は続きます。
-Play online: your games are added up here as they end.	オンラインで対戦しよう：試合が終わるたびにここに集計されます。
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	ポケットごと・カット角度ごとの成功率、週ごとの成長、同じリーグのプレイヤーとの比較が分かります。
-Advanced statistics	詳細統計
 Become VIP	VIPになる
-By pocket	ポケット別
-By cut angle	カット角度別
 The white mark: your league.	白い印：あなたのリーグ。
 Week by week	週ごと
 Against your league	リーグとの比較
-{tier}: {n} players	{tier}：{n}人
+Shot analysis	ショット分析
+Your league: {pct}% ({tier}, {n} players)	あなたのリーグ：{pct}%（{tier}・{n}人）
 You	あなた
-League	リーグ
 {pocket}: {n} points above	{pocket}：{n}ポイント上
 {pocket}: {n} points below	{pocket}：{n}ポイント下
 Messages with {name}	{name}とのメッセージ

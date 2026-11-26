@@ -988,10 +988,8 @@ for the game	pela partida
 for the win	pela vitória
 games counted	partidas contadas
 Analysis	Análise
-The shot analysis isn't available on this server yet.	A análise das tacadas ainda não está disponível neste servidor.
 Only online accounts have a shot analysis.	Só contas online têm análise das tacadas.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Jogue online para ver como você encaçapa: a análise aparece depois de mais {n} tacadas numa caçapa.
-{name} hasn't played enough online games for an analysis yet.	{name} ainda não jogou partidas online suficientes para uma análise.
 1 game	1 partida
 {pct}% of {n} shots at a pocket potted · {games}	{pct}% de {n} tacadas numa caçapa encaçapadas · {games}
 {made} of {n} potted ({pct})	{made} de {n} encaçapadas ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	O servidor para para manutenção e
 This auction is not open.	Este leilão não está aberto.
 The credits are for VIP members, now or before.	Os créditos são para membros VIP, atuais ou antigos.
 The server stops for maintenance now. Games in progress go on.	O servidor está parando para manutenção agora. As partidas em andamento continuam.
-Play online: your games are added up here as they end.	Jogue online: suas partidas são somadas aqui quando terminam.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Veja como você encaçapa caçapa por caçapa e por ângulo de corte, como evolui semana a semana e como se compara com os jogadores da sua liga.
-Advanced statistics	Estatísticas avançadas
 Become VIP	Seja VIP
-By pocket	Por caçapa
-By cut angle	Por ângulo de corte
 The white mark: your league.	A marca branca: sua liga.
 Week by week	Semana a semana
 Against your league	Contra a sua liga
-{tier}: {n} players	{tier}: {n} jogadores
+Shot analysis	Análise das tacadas
+Your league: {pct}% ({tier}, {n} players)	Sua liga: {pct}% ({tier}, {n} jogadores)
 You	Você
-League	Liga
 {pocket}: {n} points above	{pocket}: {n} pontos acima
 {pocket}: {n} points below	{pocket}: {n} pontos abaixo
 Messages with {name}	Mensagens com {name}

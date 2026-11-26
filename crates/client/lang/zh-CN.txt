@@ -988,10 +988,8 @@ for the game	对局奖励
 for the win	胜利奖励
 games counted	统计局数
 Analysis	分析
-The shot analysis isn't available on this server yet.	此服务器暂不支持击球分析。
 Only online accounts have a shot analysis.	只有在线账号才有击球分析。
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	在线对战即可了解你的进球表现：再进攻{n}杆后即可查看分析。
-{name} hasn't played enough online games for an analysis yet.	{name}的在线对局数还不足以生成分析。
 1 game	1局
 {pct}% of {n} shots at a pocket potted · {games}	{n}次进攻进球率{pct}% · {games}
 {made} of {n} potted ({pct})	{n}次进{made}球（{pct}）
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	服务器将在 {n} 分钟后停机
 This auction is not open.	此拍卖未开放。
 The credits are for VIP members, now or before.	鸣谢名单面向现任或曾经的 VIP 会员。
 The server stops for maintenance now. Games in progress go on.	服务器现在停机维护。进行中的对局继续。
-Play online: your games are added up here as they end.	在线对战：每局结束后都会汇总到这里。
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	看看你在每个袋口、每种切球角度的进球率，每周的进步，以及与同联赛玩家的对比。
-Advanced statistics	高级统计
 Become VIP	成为 VIP
-By pocket	按袋口
-By cut angle	按切球角度
 The white mark: your league.	白色标记：你的联赛。
 Week by week	按周
 Against your league	与联赛对比
-{tier}: {n} players	{tier}：{n} 名玩家
+Shot analysis	击球分析
+Your league: {pct}% ({tier}, {n} players)	你的联赛：{pct}%（{tier}，{n} 名玩家）
 You	你
-League	联赛
 {pocket}: {n} points above	{pocket}：高 {n} 个百分点
 {pocket}: {n} points below	{pocket}：低 {n} 个百分点
 Messages with {name}	与 {name} 的消息

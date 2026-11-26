@@ -33,7 +33,8 @@ enum Pane {
     Numbers,
     /// Tournaments won, the ladder, daily challenges topped.
     Trophies,
-    /// The shot analysis (over the whole width).
+    /// The shot analysis with the advanced statistics (own profile; VIP,
+    /// a preview otherwise; over the whole width).
     Analysis,
     /// Every achievement and every reaction (over the whole width).
     Achievements,
@@ -44,8 +45,6 @@ enum Pane {
     Gifts,
     /// The names and countries the account had (when it changed any).
     Renames,
-    /// The advanced statistics (own profile; VIP, a preview otherwise).
-    Advanced,
 }
 
 #[derive(Default)]
@@ -411,14 +410,11 @@ impl ProfileScreen {
         // The panel fits its content: the header, then the achievements and
         // reactions (the recent games scroll in the same height). Until the
         // profile comes, just room for the wait.
-        let wide = matches!(
-            self.pane,
-            Pane::Analysis | Pane::Achievements | Pane::Journey | Pane::Advanced
-        );
+        let wide = matches!(self.pane, Pane::Analysis | Pane::Achievements | Pane::Journey);
         // Tall enough for what the pane shows (every medal, for one).
         let body_h = TABS_H
             + match self.pane {
-                Pane::Analysis | Pane::Advanced => ANALYSIS_H,
+                Pane::Analysis => ANALYSIS_H,
                 Pane::Achievements => left_height(w - 2.0 * PAD),
                 _ => BODY_H - TABS_H,
             }
@@ -511,13 +507,16 @@ impl ProfileScreen {
         let mut panes = vec![(Pane::Games, t("Games")), (Pane::Rating, t("Rating"))];
         panes.push((Pane::Numbers, t("Numbers")));
         panes.push((Pane::Trophies, t("Trophies")));
-        panes.push((Pane::Analysis, t("Analysis")));
+        // The analysis is one's own (VIP: a preview otherwise).
+        if own {
+            panes.push((Pane::Analysis, t("Analysis")));
+        }
         panes.push((Pane::Achievements, t("Achievements")));
         panes.push((Pane::Journey, t("Leagues and levels")));
         if own {
             panes.push((Pane::Gifts, t("Gifts")));
-            panes.push((Pane::Advanced, t("Advanced")));
-        } else if matches!(self.pane, Pane::Gifts | Pane::Advanced) {
+        } else if matches!(self.pane, Pane::Gifts | Pane::Analysis) && online.me.is_some() {
+            // Someone else's (once it's known who is looking).
             self.pane = Pane::Games;
         }
         if !p.renames.is_empty() {
@@ -532,7 +531,7 @@ impl ProfileScreen {
         if let Some(k) = crate::tabrow::segmented(ui, seg, &labels, selected) {
             self.pane = panes[k].0;
             // (Asked again each time the pane opens: the numbers move.)
-            if self.pane == Pane::Advanced {
+            if self.pane == Pane::Analysis {
                 self.advanced_asked = None;
                 online.advanced = None;
             }
@@ -553,18 +552,11 @@ impl ProfileScreen {
             Pane::Rating => rating_chart(ui, &p, self.rules, content),
             Pane::Numbers => numbers(ui, &p, content),
             Pane::Trophies => self.trophies(ui, &p, content),
-            Pane::Analysis => crate::analysis::draw(
-                ui,
-                p.analysis.as_deref(),
-                p.relation == Relation::Me,
-                p.player.guest,
-                &p.player.username,
-                Rect::new(body.x, content.y, body.w, content.h),
-                &mut self.heat,
-            ),
-            Pane::Gifts => online.draw_gift_history(ui, content, &mut self.gifts_first),
-            Pane::Advanced => {
-                // Asked for the rules shown (again when they change).
+            // (Only one's own: nothing of anyone else's.)
+            Pane::Analysis | Pane::Gifts if !own => {}
+            Pane::Analysis => {
+                // Asked for the rules shown (again when they change: the
+                // league is theirs).
                 let rules = self.rules;
                 if online.advanced.as_ref().is_none_or(|a| a.rules != rules)
                     && self.advanced_asked != Some(rules)
@@ -574,10 +566,11 @@ impl ProfileScreen {
                 }
                 let stats = online.advanced.as_deref().filter(|a| a.rules == rules);
                 let area = Rect::new(body.x, content.y, body.w, content.h);
-                if crate::advanced::draw(ui, stats, area) {
+                if crate::analysis::draw(ui, stats, p.player.guest, area, &mut self.heat) {
                     action = ProfileAction::ShopVip;
                 }
             }
+            Pane::Gifts => online.draw_gift_history(ui, content, &mut self.gifts_first),
             Pane::Achievements => self.achievements(ui, &p, under),
             Pane::Journey => journey(ui, online, &p, self.rules, under),
             Pane::Renames => renames(ui, &p, content),

@@ -93,6 +93,40 @@ async fn main() {
     store.set_vip(ana, t0 + 86_400 * 21, true).await.unwrap();
     store.add_xp(ana, 18_400).await.unwrap();
     store.set_status_message(ana, "Training for the cup 🎱").await.unwrap();
+    // Shot analyses (the profile's Analysis, VIP): Ana's with her weeks,
+    // and everyone's (the leagues' numbers come from them).
+    {
+        use snook_legend_proto::analysis::{ShotAnalysis, ShotKind, Tally};
+        let shots = |seed: u32| {
+            let t = |a: u32, m: u32| Tally { attempts: a, made: m.min(a) };
+            let mut a = ShotAnalysis { games: 30 + seed % 20, ..Default::default() };
+            for (k, p) in a.pockets.iter_mut().enumerate() {
+                let n = 30 + (k as u32 * 7 + seed) % 15;
+                *p = t(n, n * (45 + (k as u32 * 11 + seed * 3) % 35) / 100);
+            }
+            // Straight, cuts, thin, bank, kick, combination, jump, massé, break.
+            let sizes = [60, 70, 40, 20, 18, 9, 6, 4, 3, 21];
+            let rates = [82, 64, 45, 26, 38, 30, 33, 25, 30, 60];
+            for (k, kind) in ShotKind::ALL.iter().enumerate() {
+                let n = sizes[k] + seed % 5;
+                a.kinds[kind.index()] = t(n, n * (rates[k] + seed % 7) / 100);
+            }
+            a.distances = [t(80, 60), t(78, 44), t(39, 14)];
+            a.safeties = t(25, 12 + seed % 8);
+            for (k, cell) in a.heat.iter_mut().enumerate() {
+                let n = (k as u32 * 37 + seed * 11) % 9;
+                *cell = t(n, n * 3 / 5);
+            }
+            a
+        };
+        for (k, &id) in ids.iter().enumerate() {
+            store.add_shot_analysis(id, &shots(k as u32 + 7)).await.unwrap();
+        }
+        let week = snook_legend_proto::advanced::week_of(t0);
+        for k in 0..8 {
+            store.add_shot_week(ana, week - 7 + k, 40, 18 + (k as u32 * 5) % 14).await.unwrap();
+        }
+    }
     // Every other item of the shop.
     for (k, item) in snook_legend_proto::shop::ITEMS.iter().enumerate() {
         if k % 3 == 0 {

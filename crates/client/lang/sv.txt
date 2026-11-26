@@ -988,10 +988,8 @@ for the game	för partiet
 for the win	för vinsten
 games counted	räknade partier
 Analysis	Analys
-The shot analysis isn't available on this server yet.	Stötanalysen är inte tillgänglig på den här servern än.
 Only online accounts have a shot analysis.	Bara onlinekonton har stötanalys.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Spela online för att se hur du sänker: analysen visas efter {n} stötar till mot ett hål.
-{name} hasn't played enough online games for an analysis yet.	{name} har inte spelat tillräckligt många onlinepartier för en analys än.
 1 game	1 parti
 {pct}% of {n} shots at a pocket potted · {games}	{pct}% av {n} stötar mot ett hål sänkta · {games}
 {made} of {n} potted ({pct})	{made} av {n} sänkta ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Servern stannar för underhåll om 
 This auction is not open.	Den här auktionen är inte öppen.
 The credits are for VIP members, now or before.	Eftertexterna är för VIP-medlemmar, nuvarande eller tidigare.
 The server stops for maintenance now. Games in progress go on.	Servern stannar för underhåll nu. Pågående partier fortsätter.
-Play online: your games are added up here as they end.	Spela online: dina partier läggs ihop här när de är slut.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Se hur du sänker hål för hål och efter snittvinkel, hur du utvecklas vecka för vecka och hur du står dig mot spelarna i din liga.
-Advanced statistics	Avancerad statistik
 Become VIP	Bli VIP
-By pocket	Per hål
-By cut angle	Per snittvinkel
 The white mark: your league.	Det vita strecket: din liga.
 Week by week	Vecka för vecka
 Against your league	Mot din liga
-{tier}: {n} players	{tier}: {n} spelare
+Shot analysis	Stötanalys
+Your league: {pct}% ({tier}, {n} players)	Din liga: {pct}% ({tier}, {n} spelare)
 You	Du
-League	Liga
 {pocket}: {n} points above	{pocket}: {n} poäng över
 {pocket}: {n} points below	{pocket}: {n} poäng under
 Messages with {name}	Meddelanden med {name}

@@ -988,10 +988,8 @@ for the game	за партию
 for the win	за победу
 games counted	учтённые партии
 Analysis	Анализ
-The shot analysis isn't available on this server yet.	Анализ ударов пока недоступен на этом сервере.
 Only online accounts have a shot analysis.	Анализ ударов есть только у онлайн-аккаунтов.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Играйте онлайн, чтобы увидеть, как вы забиваете: до анализа осталось ударов по лузе — {n}.
-{name} hasn't played enough online games for an analysis yet.	У игрока {name} пока мало онлайн-партий для анализа.
 1 game	1 партия
 {pct}% of {n} shots at a pocket potted · {games}	Удары по лузе: {n}, забито {pct}% · {games}
 {made} of {n} potted ({pct})	Забито {made} из {n} ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Сервер остановится
 This auction is not open.	Этот аукцион не открыт.
 The credits are for VIP members, now or before.	Титры — для VIP-участников, нынешних или бывших.
 The server stops for maintenance now. Games in progress go on.	Сервер останавливается на техработы. Идущие партии продолжаются.
-Play online: your games are added up here as they end.	Играйте онлайн: ваши партии суммируются здесь по их окончании.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Посмотрите, как вы забиваете по каждой лузе и по углу резки, как растёте неделя за неделей и как выглядите на фоне игроков своей лиги.
-Advanced statistics	Подробная статистика
 Become VIP	Стать VIP
-By pocket	По лузам
-By cut angle	По углу резки
 The white mark: your league.	Белая отметка: ваша лига.
 Week by week	Неделя за неделей
 Against your league	На фоне вашей лиги
-{tier}: {n} players	{tier}: игроков — {n}
+Shot analysis	Анализ ударов
+Your league: {pct}% ({tier}, {n} players)	Ваша лига: {pct}% ({tier}, игроков — {n})
 You	Вы
-League	Лига
 {pocket}: {n} points above	{pocket}: выше на {n} п.
 {pocket}: {n} points below	{pocket}: ниже на {n} п.
 Messages with {name}	Сообщения с {name}

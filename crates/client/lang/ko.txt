@@ -988,10 +988,8 @@ for the game	게임 보상
 for the win	승리 보상
 games counted	집계된 게임
 Analysis	분석
-The shot analysis isn't available on this server yet.	이 서버에서는 아직 샷 분석을 이용할 수 없어요.
 Only online accounts have a shot analysis.	온라인 계정만 샷 분석을 이용할 수 있어요.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	온라인으로 플레이하고 포켓 실력을 확인해 보세요. 포켓을 노린 샷을 {n}번 더 하면 분석이 표시돼요.
-{name} hasn't played enough online games for an analysis yet.	{name} 님은 아직 분석에 필요한 만큼 온라인 게임을 하지 않았어요.
 1 game	1게임
 {pct}% of {n} shots at a pocket potted · {games}	포켓을 노린 샷 {n}회 중 {pct}% 성공 · {games}
 {made} of {n} potted ({pct})	{n}회 중 {made}회 성공 ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	서버가 {n}분 후 점검으로 �
 This auction is not open.	이 경매는 열려 있지 않습니다.
 The credits are for VIP members, now or before.	크레딧은 현재 또는 과거 VIP 회원을 위한 것입니다.
 The server stops for maintenance now. Games in progress go on.	서버가 지금 점검으로 멈춥니다. 진행 중인 게임은 계속됩니다.
-Play online: your games are added up here as they end.	온라인으로 플레이하세요: 경기가 끝날 때마다 여기에 합산됩니다.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	포켓별·커트 각도별로 얼마나 넣는지, 주마다 어떻게 발전하는지, 같은 리그 플레이어들과 비교해 어떤지 확인하세요.
-Advanced statistics	상세 통계
 Become VIP	VIP 되기
-By pocket	포켓별
-By cut angle	커트 각도별
 The white mark: your league.	흰색 표시: 내 리그.
 Week by week	주별
 Against your league	리그와 비교
-{tier}: {n} players	{tier}: 플레이어 {n}명
+Shot analysis	샷 분석
+Your league: {pct}% ({tier}, {n} players)	내 리그: {pct}% ({tier}, 플레이어 {n}명)
 You	나
-League	리그
 {pocket}: {n} points above	{pocket}: {n}점 높음
 {pocket}: {n} points below	{pocket}: {n}점 낮음
 Messages with {name}	{name}님과의 메시지

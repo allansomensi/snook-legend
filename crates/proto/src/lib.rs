@@ -1090,7 +1090,9 @@ pub struct Profile {
     #[serde(default)]
     pub abandon_rate: u32,
     /// How this player pots (pockets, distances, kinds of shot, the table).
-    /// Only sent to games of protocol 13 or later.
+    /// No longer sent (servers of 0.12.1 and older sent it to every game of
+    /// protocol 13 or later): VIP members get their own with the advanced
+    /// statistics ([`advanced::AdvancedStats::analysis`]).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub analysis: Option<Box<analysis::ShotAnalysis>>,
     /// Online games won with each cue (cue code, wins), most wins first.

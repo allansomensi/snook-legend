@@ -988,10 +988,8 @@ for the game	مقابل المباراة
 for the win	مقابل الفوز
 games counted	مباريات محتسبة
 Analysis	التحليل
-The shot analysis isn't available on this server yet.	تحليل الضربات غير متاح على هذا الخادم بعد.
 Only online accounts have a shot analysis.	تحليل الضربات متاح لحسابات الإنترنت فقط.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	العب عبر الإنترنت لترى كيف تدخل الكرات: يظهر التحليل بعد {n} ضربة أخرى نحو الجيوب.
-{name} hasn't played enough online games for an analysis yet.	لم يلعب {name} ما يكفي من المباريات عبر الإنترنت للتحليل بعد.
 1 game	مباراة واحدة
 {pct}% of {n} shots at a pocket potted · {games}	نجحت {pct}% من {n} ضربة نحو الجيوب · {games}
 {made} of {n} potted ({pct})	دخلت {made} من {n} ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	سيتوقف الخادم للصي�
 This auction is not open.	هذا المزاد غير مفتوح.
 The credits are for VIP members, now or before.	قائمة الشكر لأعضاء VIP، الحاليين أو السابقين.
 The server stops for maintenance now. Games in progress go on.	الخادم يتوقف للصيانة الآن. المباريات الجارية تستمر.
-Play online: your games are added up here as they end.	العب عبر الإنترنت: تُجمع مبارياتك هنا عند انتهائها.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	شاهد كيف تُسقط الكرات جيبًا جيبًا وحسب زاوية القطع، وكيف تتقدّم أسبوعًا بعد أسبوع، وكيف تقارن بلاعبي دوريّك.
-Advanced statistics	إحصاءات متقدّمة
 Become VIP	اشترك في VIP
-By pocket	حسب الجيب
-By cut angle	حسب زاوية القطع
 The white mark: your league.	العلامة البيضاء: دوريّك.
 Week by week	أسبوعًا بعد أسبوع
 Against your league	مقارنة بدوريّك
-{tier}: {n} players	{tier}: {n} لاعب
+Shot analysis	تحليل الضربات
+Your league: {pct}% ({tier}, {n} players)	دوريّك: {pct}% ({tier}، {n} لاعب)
 You	أنت
-League	الدوري
 {pocket}: {n} points above	{pocket}: أعلى بـ {n} نقطة
 {pocket}: {n} points below	{pocket}: أدنى بـ {n} نقطة
 Messages with {name}	الرسائل مع {name}

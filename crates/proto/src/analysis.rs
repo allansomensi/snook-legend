@@ -147,7 +147,7 @@ impl ShotKind {
 }
 
 /// A player's shots, summed over games.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ShotAnalysis {
     /// Games counted.
     pub games: u32,

@@ -988,10 +988,8 @@ for the game	per la partita
 for the win	per la vittoria
 games counted	partite considerate
 Analysis	Analisi
-The shot analysis isn't available on this server yet.	L'analisi dei tiri non è ancora disponibile su questo server.
 Only online accounts have a shot analysis.	Solo gli account online hanno l'analisi dei tiri.
 Play online to see how you pot: the analysis appears after {n} more shots at a pocket.	Gioca online per vedere come imbuchi: l'analisi compare dopo altri {n} tiri verso una buca.
-{name} hasn't played enough online games for an analysis yet.	{name} non ha ancora giocato abbastanza partite online per un'analisi.
 1 game	1 partita
 {pct}% of {n} shots at a pocket potted · {games}	{pct}% di imbucate su {n} tiri verso una buca · {games}
 {made} of {n} potted ({pct})	{made} imbucate su {n} ({pct})
@@ -2378,18 +2376,14 @@ The server stops for maintenance in {n} min.	Il server si ferma per manutenzione
 This auction is not open.	Quest'asta non è aperta.
 The credits are for VIP members, now or before.	I crediti sono per i membri VIP, attuali o passati.
 The server stops for maintenance now. Games in progress go on.	Il server si ferma ora per manutenzione. Le partite in corso continuano.
-Play online: your games are added up here as they end.	Gioca online: le tue partite si sommano qui quando finiscono.
 See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.	Scopri come imbuchi buca per buca e per angolo di taglio, come progredisci settimana dopo settimana e come ti confronti con i giocatori della tua lega.
-Advanced statistics	Statistiche avanzate
 Become VIP	Diventa VIP
-By pocket	Per buca
-By cut angle	Per angolo di taglio
 The white mark: your league.	Il segno bianco: la tua lega.
 Week by week	Settimana per settimana
 Against your league	Rispetto alla tua lega
-{tier}: {n} players	{tier}: {n} giocatori
+Shot analysis	Analisi dei tiri
+Your league: {pct}% ({tier}, {n} players)	La tua lega: {pct}% ({tier}, {n} giocatori)
 You	Tu
-League	Lega
 {pocket}: {n} points above	{pocket}: {n} punti sopra
 {pocket}: {n} points below	{pocket}: {n} punti sotto
 Messages with {name}	Messaggi con {name}

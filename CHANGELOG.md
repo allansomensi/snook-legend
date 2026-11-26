@@ -21,6 +21,8 @@ fixes. Same protocol as 0.12.0; migration `0035` (indexes only).
   about rating.
 - Profile → Achievements: a click on a medal or a reaction opens its card
   (what it takes, progress, when it was won, what comes with it).
+- The shop's cloths and ball sets are pictured by the game's own 3D table
+  (rendered once into pictures, cached; a flat stand-in until then).
 - Trophies of the same kind stack (×N, opened on a click); "First of 1
   players" reads as the only player that day.
 - Auctions and supporters moved from the top of the main menu to the

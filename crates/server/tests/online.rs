@@ -13,7 +13,60 @@ use tokio::net::{TcpListener, TcpStream};
 use tokio_tungstenite::tungstenite::Message;
 use tokio_tungstenite::{MaybeTlsStream, WebSocketStream, connect_async};
 
-type Ws = WebSocketStream<MaybeTlsStream<TcpStream>>;
+type Socket = WebSocketStream<MaybeTlsStream<TcpStream>>;
+
+/// How often a test connection pings the server, as the game does: the
+/// server lets go of a connection it hasn't heard from in 75 s, and a test
+/// held up that long (the whole file running at once, games played out on
+/// every side) would otherwise lose a player who was only waiting.
+const KEEPALIVE: Duration = Duration::from_secs(20);
+
+/// A test's connection to the server. What it reads comes in order; what it
+/// sends goes out through a writer of its own, which also pings the server
+/// now and then (a WebSocket ping: never answered with a message, so no
+/// test sees it). Dropping it closes the connection.
+struct Ws {
+    read: futures_util::stream::SplitStream<Socket>,
+    write: tokio::sync::mpsc::UnboundedSender<Message>,
+}
+
+impl Ws {
+    async fn connect(url: &str) -> Ws {
+        let (socket, _) = connect_async(url).await.unwrap();
+        let (mut sink, read) = socket.split();
+        let (write, mut outgoing) = tokio::sync::mpsc::unbounded_channel::<Message>();
+        tokio::spawn(async move {
+            let mut ping = tokio::time::interval(KEEPALIVE);
+            ping.tick().await;
+            loop {
+                let msg = tokio::select! {
+                    msg = outgoing.recv() => match msg {
+                        Some(msg) => msg,
+                        None => {
+                            let _ = sink.send(Message::Close(None)).await;
+                            return;
+                        }
+                    },
+                    _ = ping.tick() => Message::Ping(Vec::new().into()),
+                };
+                if sink.send(msg).await.is_err() {
+                    return;
+                }
+            }
+        });
+        Ws { read, write }
+    }
+
+    /// Sends `msg` (after whatever was sent before it); an error once the
+    /// connection is gone.
+    async fn send(&mut self, msg: Message) -> Result<(), &'static str> {
+        self.write.send(msg).map_err(|_| "the connection is closed")
+    }
+
+    async fn next(&mut self) -> Option<Result<Message, tokio_tungstenite::tungstenite::Error>> {
+        self.read.next().await
+    }
+}
 
 const PASSWORD: &str = "secret123";
 
@@ -63,8 +116,7 @@ impl Client {
 
     /// A game of protocol `version`.
     async fn connect_as(url: &str, version: u32) -> Client {
-        let (ws, _) = connect_async(url).await.unwrap();
-        let mut c = Client { ws };
+        let mut c = Client { ws: Ws::connect(url).await };
         c.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
         c
     }
@@ -677,8 +729,7 @@ async fn login_errors_and_validation() {
     for (version, welcome) in
         [(snook_legend_proto::OLDEST_PROTOCOL_VERSION, true), (13, false), (10, false)]
     {
-        let (ws, _) = connect_async(&url).await.unwrap();
-        let mut old = Client { ws };
+        let mut old = Client { ws: Ws::connect(&url).await };
         old.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
         old.send(ClientMsg::Resume { token: token.clone() }).await;
         let m = old
@@ -732,8 +783,7 @@ async fn login_errors_and_validation() {
     // Too old: update the game. Newer than the server: it's the server
     // that is behind (updating the game wouldn't help).
     for (version, says) in [(0, "out of date"), (PROTOCOL_VERSION + 1, "being updated")] {
-        let (ws, _) = connect_async(&url).await.unwrap();
-        let mut other = Client { ws };
+        let mut other = Client { ws: Ws::connect(&url).await };
         other.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
         let ServerMsg::AuthError { reason } =
             other.expect("version", |m| matches!(m, ServerMsg::AuthError { .. })).await

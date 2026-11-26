@@ -56,6 +56,9 @@ pub(super) struct Doubles {
     pub rematch: [[bool; 2]; 2],
     /// The rating changes of a rated game once over.
     pub deltas: Option<[[i32; 2]; 2]>,
+    /// Who left as their team's resignation waited for the shot being
+    /// played: back in the lounge once it is made.
+    pub leaving: [[bool; 2]; 2],
 }
 
 /// A pair looking for another pair.
@@ -610,6 +613,7 @@ impl Lounge {
             records,
             rematch: [[false; 2]; 2],
             deltas: None,
+            leaving: [[false; 2]; 2],
         };
         let keys = [teams[0][0].clone(), teams[1][0].clone()];
         let host = if self.pair_rating(&teams[0], rules) >= self.pair_rating(&teams[1], rules) {
@@ -919,6 +923,17 @@ impl Lounge {
             self.effect(Effect::RecordDoubles { record: Box::new(record), keys });
         }
         tracing::info!(room = id, "doubles finished: {:?}", over);
+        // Who left as their team resigned (during a shot) is back in the
+        // lounge, as in singles.
+        let leaving = self.rooms.get(&id).and_then(|r| r.doubles.as_ref()).map(|d| d.leaving);
+        for (t, p) in [(0, 0), (0, 1), (1, 0), (1, 1)] {
+            let k = &teams[t][p];
+            if leaving.is_some_and(|l| l[t][p])
+                && self.sessions.get(k).is_some_and(|s| s.room == Some(id))
+            {
+                self.leave_finished(k);
+            }
+        }
     }
 
     /// `k` asks for another doubles game with the same four: once all four
@@ -981,6 +996,7 @@ impl Lounge {
             records: teams.clone().map(|t| t.map(|k| self.doubles_record(&k, rules))),
             rematch: [[false; 2]; 2],
             deltas: None,
+            leaving: [[false; 2]; 2],
             partner_users: [0, 1].map(|t| self.sessions[&d.partners[t]].user.clone()),
             ..d
         };

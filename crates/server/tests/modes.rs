@@ -281,6 +281,34 @@ async fn doubles_take_turns_by_visit() {
     assert!(entries.is_empty(), "doubles don't count for the singles rating");
 }
 
+/// A player who resigns for their team and leaves while the shot is being
+/// played is back in the lounge once it is (as in singles), and the
+/// partner, who didn't leave, is still at the table.
+#[tokio::test]
+async fn leaving_a_doubles_game_during_a_shot_is_not_lost() {
+    let (url, _server) = start(Settings::default()).await;
+    let (mut clients, lineup, game) = doubles_game(&url).await;
+    let team = game.current_player();
+    let holder = lineup.shooter_of(team).username.clone();
+    let partner = lineup.teams[team].iter().find(|p| p.username != holder).unwrap();
+    let partner = partner.username.clone();
+    let shot = Shot::new(game.default_aim(), 8.0);
+    let c = client(&mut clients, &holder);
+    // The shot, the resignation and the leaving, one after the other.
+    c.send(ClientMsg::Shoot { turn: 0, shot, called_pocket: None, cue_ball: None }).await;
+    c.send(ClientMsg::Resign).await;
+    c.send(ClientMsg::LeaveMatch).await;
+    c.expect("ended", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
+    for (name, at_table) in [(holder.as_str(), false), (partner.as_str(), true)] {
+        let c = client(&mut clients, name);
+        c.send(ClientMsg::QueueJoin { rated: false, rules: Rules::Official }).await;
+        let m = c
+            .expect("queued", |m| matches!(m, ServerMsg::Queue { .. } | ServerMsg::Error { .. }))
+            .await;
+        assert_eq!(matches!(m, ServerMsg::Error { .. }), at_table, "{name}: {m:?}");
+    }
+}
+
 /// One player of a team dropping doesn't lose the game (the partner plays
 /// on); both gone past the grace, the team has left it.
 #[tokio::test]

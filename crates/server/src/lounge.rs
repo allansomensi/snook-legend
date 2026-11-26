@@ -3413,6 +3413,11 @@ impl Lounge {
             let seat = room.seat_of(k);
             if room.resigning == Some(seat) {
                 room.leaving[seat] = true;
+                // (In doubles, the player of the team who asked.)
+                let (team, place) = room.place_of(k);
+                if let Some(d) = room.doubles.as_mut() {
+                    d.leaving[team][place] = true;
+                }
                 return;
             }
             return self.error(k, "Resign first to leave a game in progress.");

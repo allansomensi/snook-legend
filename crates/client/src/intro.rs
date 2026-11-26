@@ -5,6 +5,11 @@
 //! A click (or Esc, Space, Enter) skips it; it isn't shown again when the
 //! player comes back to the table after a dropped connection.
 //!
+//! A game against the computer starts the same way: the player and the
+//! computer's character (portrait, what they are known as, their strength
+//! and how they play), with where the game is played (the tour's stage, a
+//! tournament). Nothing about rating: none is at stake.
+//!
 //! Each card is drawn by [`card`] on its own, so what is added to a
 //! player's card later (the glow of a rare item) goes there.
 
@@ -56,6 +61,11 @@ pub struct Intro {
     /// Each seat's `[win, loss]` (rated games).
     pub stakes: Option<[[i32; 2]; 2]>,
     pub rules: Rules,
+    /// A game against the computer: who it is (seat 1).
+    pub computer: Option<crate::opponents::Opponent>,
+    /// What the game is, under the cards, after the rules ("Against the
+    /// computer", "The computer tour · Stage 3 of 15"); empty online.
+    pub context: String,
     /// Seconds it has shown.
     age: f32,
     /// Held once in (screenshots: see [`Intro::sample`]).
@@ -78,9 +88,31 @@ impl Intro {
             rated,
             stakes: stakes.filter(|_| rated),
             rules,
+            computer: None,
+            context: String::new(),
             age: 0.0,
             hold: false,
         }
+    }
+
+    /// A game against the computer: `me` (seat 0) against `opponent`.
+    pub fn vs_computer(
+        me: PlayerInfo,
+        opponent: &crate::opponents::Opponent,
+        rules: Rules,
+        context: String,
+    ) -> Intro {
+        let computer = PlayerInfo { username: opponent.display_name(), ..Default::default() };
+        let mut intro = Intro::new(&[me, computer], 0, false, None, rules, false);
+        intro.computer = Some(opponent.clone());
+        intro.context = context;
+        intro
+    }
+
+    /// Development aid (screenshots): held still once in.
+    pub fn held(mut self) -> Intro {
+        self.hold = true;
+        self
     }
 
     /// Development aid (screenshots, SNOOK_LEGEND_INTRO): a rated game of
@@ -206,7 +238,13 @@ impl Intro {
         let rules = smooth(STAKES_AT + 0.1, STAKES_AT + 0.45, age);
         if rules > 0.0 {
             layer(rules);
-            let kind = if self.rated { t("Rated game") } else { t("Casual game") };
+            let kind = if self.computer.is_some() {
+                self.context.as_str()
+            } else if self.rated {
+                t("Rated game")
+            } else {
+                t("Casual game")
+            };
             let line = format!("{} · {}", crate::i18n::rules_name(self.rules), kind);
             let (line, size) = ui.fitted(&line, 16.0, sw - 64.0, true);
             let ly = y + h + 18.0 + (1.0 - ease_out_cubic(rules)) * 8.0;
@@ -246,6 +284,10 @@ fn hold_at() -> f32 {
 /// rated game what they stand to win and lose (`stakes`: how far those
 /// have come up, 0 to 1).
 pub fn card(ui: &mut Ui, intro: &Intro, seat: usize, r: Rect, stakes: f32) {
+    if let Some(o) = intro.computer.as_ref().filter(|_| seat == 1) {
+        computer_card(ui, o, r, stakes);
+        return;
+    }
     let p = &intro.players[seat];
     let tier = p.tier_in(intro.rules);
     let accent = tier_color(tier);
@@ -267,6 +309,10 @@ pub fn card(ui: &mut Ui, intro: &Intro, seat: usize, r: Rect, stakes: f32) {
     crate::ui::top_light(r, 14.0, 0.06);
     // "You" (this player's card), a small tag clear of the picture.
     let cx = r.x + r.w / 2.0;
+    // Against the computer nothing is at stake under the player: what they
+    // show (picture, name, rating) sits in the card's middle, level with
+    // the computer's fuller card.
+    let top = if intro.computer.is_some() { r.y + ((r.h - 210.0) / 2.0).max(0.0) } else { r.y };
     let who = if seat == intro.seat && !intro.spectating { t("You") } else { "" };
     if !who.is_empty() {
         let tw_ = ui.text_size(who, 11.0, true).x + 16.0;
@@ -275,7 +321,7 @@ pub fn card(ui: &mut Ui, intro: &Intro, seat: usize, r: Rect, stakes: f32) {
         ui.text_centered(who, cx, crate::ranking::text_y(tag.y + 9.0, 11.0), 11.0, CREAM, true);
     }
     // Picture.
-    let c = vec2(cx, r.y + 82.0);
+    let c = vec2(cx, top + 82.0);
     draw_circle(c.x, c.y, 49.0, Color::new(accent.r, accent.g, accent.b, 0.3));
     crate::paint::draw_circle_lines(
         c.x,
@@ -296,13 +342,19 @@ pub fn card(ui: &mut Ui, intro: &Intro, seat: usize, r: Rect, stakes: f32) {
         size -= 1.0;
     }
     let total = (ui.text_size(&p.username, size, true).x + crown(size) + flag(size)).min(max);
-    ui.player_name(p, cx - total / 2.0, r.y + 144.0, size, max);
+    ui.player_name(p, cx - total / 2.0, top + 144.0, size, max);
     // Rating and league.
     let rating = p.rating_in(intro.rules);
-    let line =
-        if p.guest { t("Guest").to_string() } else { format!("{rating} · {}", t(tier.name())) };
+    let line = if p.guest && intro.computer.is_some() {
+        // Playing the computer without an account: no rating to speak of.
+        String::new()
+    } else if p.guest {
+        t("Guest").to_string()
+    } else {
+        format!("{rating} · {}", t(tier.name()))
+    };
     let (line, ls) = ui.fitted(&line, 17.0, max, true);
-    ui.text_centered(&line, cx, r.y + 176.0, ls, accent, true);
+    ui.text_centered(&line, cx, top + 176.0, ls, accent, true);
     // An epic or legendary cue shows: the card glows in its rarity's colour,
     // with a gem and the cue's name.
     if let Some(rarity) = crate::collection::rare_cue(&p.cue) {
@@ -310,7 +362,7 @@ pub fn card(ui: &mut Ui, intro: &Intro, seat: usize, r: Rect, stakes: f32) {
         let tip = crate::collection::rare_cue_tip(&p.cue, rarity);
         let color = crate::collection::rarity_color(rarity);
         let (text, size) = ui.fitted(&tip, 12.0, max, true);
-        ui.text_centered(&text, cx, r.y + 200.0, size, color, true);
+        ui.text_centered(&text, cx, top + 200.0, size, color, true);
         if ui.hovering(gem) {
             ui.tooltip(&tip, gem);
         }
@@ -343,9 +395,97 @@ pub fn card(ui: &mut Ui, intro: &Intro, seat: usize, r: Rect, stakes: f32) {
         let hint = tw("{n} rating points at stake", &[("n", &win.max(-loss))]);
         let (hint, size) = ui.fitted(&hint, 12.0, max, false);
         ui.text_centered(&hint, cx, y - 22.0, size, CREAM, false);
-    } else if !intro.rated {
+    } else if !intro.rated && intro.computer.is_none() {
         let (text, size) = ui.fitted(t("No rating at stake"), 13.0, max, false);
         ui.text_centered(&text, cx, r.y + r.h - 40.0 + rise, size, MUTED, false);
+    }
+    crate::paint::set_opacity(saved);
+}
+
+/// The colour of a computer opponent's strength (1 to 5): green for the
+/// gentle ones, through gold, to red for the strongest.
+fn strength_color(strength: u8) -> Color {
+    match strength {
+        0..=1 => Color::new(0.45, 0.8, 0.5, 1.0),
+        2 => Color::new(0.55, 0.78, 0.95, 1.0),
+        3 => GOLD,
+        4 => Color::new(1.0, 0.6, 0.3, 1.0),
+        _ => Color::new(0.95, 0.38, 0.35, 1.0),
+    }
+}
+
+/// The computer's card: its portrait, name, what it is known as and its
+/// strength, then (once the cards are in, as the stakes would) how it
+/// plays.
+fn computer_card(ui: &mut Ui, o: &crate::opponents::Opponent, r: Rect, more: f32) {
+    let strength = crate::opponents::strength(o);
+    let accent = strength_color(strength);
+    crate::ui::soft_shadow(r, 14.0, 0.8);
+    crate::ui::rrect_gradient(
+        r,
+        14.0,
+        Color::new(0.11, 0.075, 0.05, 0.98),
+        Color::new(0.055, 0.035, 0.025, 0.98),
+    );
+    crate::ui::rrect_gradient(
+        Rect::new(r.x, r.y, r.w, 64.0),
+        14.0,
+        Color::new(accent.r, accent.g, accent.b, 0.16),
+        Color::new(accent.r, accent.g, accent.b, 0.0),
+    );
+    rrect_lines(r, 14.0, 1.5, Color::new(accent.r, accent.g, accent.b, 0.85));
+    crate::ui::top_light(r, 14.0, 0.06);
+    let cx = r.x + r.w / 2.0;
+    let max = r.w - 28.0;
+    // Portrait, in a ring of its strength's colour.
+    let c = vec2(cx, r.y + 82.0);
+    draw_circle(c.x, c.y, 49.0, Color::new(accent.r, accent.g, accent.b, 0.3));
+    crate::paint::draw_circle_lines(
+        c.x,
+        c.y,
+        49.0,
+        2.0,
+        Color::new(accent.r, accent.g, accent.b, 0.9),
+    );
+    crate::opponents::draw_portrait(o, c, 44.0);
+    // Name.
+    let name = o.display_name();
+    let (name, size) = ui.fitted(&name, 22.0, max, true);
+    ui.text_centered(&name, cx, r.y + 144.0, size, CREAM, true);
+    // What they are known as (a personality), and the strength's pips.
+    let personality = o.as_personality();
+    let mut y = r.y + 176.0;
+    if let Some(p) = personality {
+        let (epithet, es) = ui.fitted(t(p.epithet), 15.0, max, true);
+        ui.text_centered(&epithet, cx, y, es, accent, true);
+        y += 26.0;
+    }
+    let pip = 7.0;
+    let pw = crate::opponents::strength_width(pip);
+    let label = crate::opponents::strength_label(strength);
+    let lw = ui.text_size(&label, 12.0, false).x;
+    let total = pw + 10.0 + lw;
+    let x = cx - total / 2.0;
+    crate::opponents::draw_strength(x, y + 7.0, strength, pip);
+    ui.text(&label, x + pw + 10.0, y, 12.0, MUTED, false);
+    // How they play, coming up with the rest.
+    if more <= 0.0 {
+        return;
+    }
+    let Some(p) = personality else { return };
+    let saved = crate::paint::opacity();
+    crate::paint::set_opacity(saved * more);
+    let rise = (1.0 - ease_out_cubic(more)) * 10.0;
+    let top = y + 30.0 + rise;
+    let lines = ui.wrap(t(p.description), max, 12.5);
+    let room = ((r.y + r.h - 14.0 - top) / 17.0).floor().max(0.0) as usize;
+    for (k, line) in lines.iter().take(room).enumerate() {
+        let line = if k + 1 == room && lines.len() > room {
+            ui.ellipsize(&format!("{line}…"), max, 12.5)
+        } else {
+            line.clone()
+        };
+        ui.text_centered(&line, cx, top + k as f32 * 17.0, 12.5, MUTED, false);
     }
     crate::paint::set_opacity(saved);
 }

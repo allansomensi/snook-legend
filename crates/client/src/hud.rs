@@ -492,7 +492,7 @@ impl Hud {
 
         let escape_used = std::mem::take(&mut m.escape_used);
         // The match's introduction plays over everything: its keys skip it.
-        let intro_on = m.online.as_ref().is_some_and(|o| o.intro.is_some());
+        let intro_on = m.intro_on();
         self.intro_on = intro_on;
         if !ui.wants_keyboard && !intro_on {
             if self.report.is_some() || self.rules.is_some() {
@@ -1192,11 +1192,9 @@ impl Hud {
         // The two players face each other as the match starts (skippable).
         if let Some(saved) = intro_input {
             ui.resume_input(saved);
-            if let Some(o) = m.online.as_mut()
-                && let Some(intro) = o.intro.as_mut()
-                && !intro.draw(ui, get_frame_time().min(0.1))
-            {
-                o.intro = None;
+            let slot = m.intro_mut();
+            if slot.as_mut().is_some_and(|intro| !intro.draw(ui, get_frame_time().min(0.1))) {
+                *slot = None;
             }
         }
         if let Some((saved, keyboard)) = modal {

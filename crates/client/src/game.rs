@@ -375,6 +375,12 @@ pub struct Match {
     pub visit_run: (usize, u32),
     /// Point out where to aim, set the power and shoot (a first game).
     pub coach: bool,
+    /// A game against the computer: the introduction while it plays (an
+    /// online game's is its [`OnlineMatch::intro`]); the game waits for it.
+    pub intro: Option<crate::intro::Intro>,
+    /// Its introduction has had its turn (shown, or not for a game picked
+    /// up again).
+    pub intro_seen: bool,
     /// The second of the shot clock last ticked (its last five tick).
     last_tick: Option<i32>,
     /// It was this player's turn at the last frame (online, a chime says
@@ -695,6 +701,8 @@ impl Match {
             last_tick: None,
             my_turn_seen: false,
             coach: false,
+            intro: None,
+            intro_seen: false,
         };
         m.begin_turn();
         m
@@ -911,6 +919,8 @@ impl Match {
             rules: saved.game.rules(),
         };
         let mut m = Match::new(&settings, saved.seed);
+        // Picked up again: no introduction.
+        m.intro_seen = true;
         m.ladder = saved.ladder.clone();
         if let Some(run) = &saved.ladder {
             m.controllers[1] = Controller::Computer(snook_legend_proto::ladder::tour_form(
@@ -939,6 +949,31 @@ impl Match {
             && !self.is_online()
             && !self.is_replay()
             && !self.practice
+    }
+
+    /// A fresh game against the computer that hasn't had its introduction.
+    pub fn wants_intro(&self) -> bool {
+        !self.intro_seen
+            && self.is_against_computer()
+            && self.games_played == 0
+            && self.game.shots_taken() == 0
+            && self.game.game_over().is_none()
+    }
+
+    /// The introduction playing over the table: an online game's (from the
+    /// server) or one against the computer.
+    pub fn intro_mut(&mut self) -> &mut Option<crate::intro::Intro> {
+        match self.online.as_mut() {
+            Some(o) => &mut o.intro,
+            None => &mut self.intro,
+        }
+    }
+
+    pub fn intro_on(&self) -> bool {
+        match &self.online {
+            Some(o) => o.intro.is_some(),
+            None => self.intro.is_some(),
+        }
     }
 
     /// The seed of this match (the computer's choices follow from it).
@@ -1104,6 +1139,8 @@ impl Match {
             last_tick: None,
             my_turn_seen: false,
             coach: false,
+            intro: None,
+            intro_seen: false,
         };
         m.begin_turn();
         if m.game.game_over().is_some() {

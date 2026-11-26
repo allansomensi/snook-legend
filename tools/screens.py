@@ -96,6 +96,9 @@ SCREENS = {
     "match-intro-in": (["--vs", "medium"], {"SNOOK_LEGEND_INTRO": "0.24s"}, False, 90),
     "match-intro-vs": (["--vs", "medium"], {"SNOOK_LEGEND_INTRO": "0.5s"}, False, 90),
     "match-intro-out": (["--vs", "medium"], {"SNOOK_LEGEND_INTRO": "3.2s"}, False, 140),
+    # A game against the computer (a personality, and a classic level).
+    "match-intro-computer": (["--vs", "viktor"], {"SNOOK_LEGEND_INTRO": "computer"}, False, 90),
+    "match-intro-level": (["--vs", "medium"], {"SNOOK_LEGEND_INTRO": "computer"}, False, 90),
     "match-paused": (["--vs", "medium"], {"SNOOK_LEGEND_PAUSED": "1"}, False, 120),
     "match-result": (["--vs", "medium"], {"SNOOK_LEGEND_RESIGN": "1"}, False, 260),
     "match-hotseat": (["--hotseat"], {}, False, 150),
@@ -190,6 +193,10 @@ def shoot(job, slot):
             env["SNOOK_LEGEND_QUIET_INBOX"] = "1"
             if "_rewards" not in env_extra:
                 env["SNOOK_LEGEND_QUIET_REWARDS"] = "1"
+        # A game against the computer opens with its introduction: only the
+        # screens of the introduction show it.
+        if "SNOOK_LEGEND_INTRO" not in env_extra:
+            env["SNOOK_LEGEND_NO_INTRO"] = "1"
         env.update({k: v for k, v in env_extra.items() if not k.startswith("_")})
         cmd = [
             "xvfb-run",

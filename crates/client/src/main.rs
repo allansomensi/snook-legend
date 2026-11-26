@@ -543,7 +543,14 @@ async fn main() {
     let mut cpu = (0.0f64, 0.0f64, 0u32);
     // Development aid (screenshots): SNOOK_LEGEND_INTRO shows a match's
     // introduction (made-up players) over whatever is on screen.
-    let mut dev_intro = crate::dev::flag("SNOOK_LEGEND_INTRO").then(intro::Intro::sample);
+    // ("computer": the introduction of the game against the computer
+    // instead, held once in; SNOOK_LEGEND_NO_INTRO: none against it.)
+    let dev_intro_var = crate::dev::var("SNOOK_LEGEND_INTRO");
+    let mut dev_intro =
+        dev_intro_var.as_deref().filter(|v| *v != "computer").map(|_| intro::Intro::sample());
+    let computer_intro = crate::dev::var("SNOOK_LEGEND_NO_INTRO").is_none()
+        && dev_intro_var.as_deref().is_none_or(|v| v == "computer");
+    let hold_computer_intro = dev_intro_var.as_deref() == Some("computer");
     loop {
         let frame_start = std::time::Instant::now();
         let dt = get_frame_time().min(0.1);
@@ -928,8 +935,45 @@ async fn main() {
                 }
             }
         }
+        // A game against the computer starts as an online one does: the two
+        // players face each other (no rating at stake: none is shown).
+        if let Some(m) = current.as_mut()
+            && m.wants_intro()
+        {
+            m.intro_seen = true;
+            if let Some(o) = m.opponent.clone() {
+                let me = match online.me.as_ref().filter(|_| online.signed_in()) {
+                    Some(me) => me.clone(),
+                    None => snook_legend_proto::PlayerInfo {
+                        username: m.names[0].clone(),
+                        avatar: config.avatar.clone(),
+                        guest: true,
+                        ..Default::default()
+                    },
+                };
+                let context = match (&m.ladder, m.cup) {
+                    (Some(run), _) => format!(
+                        "{} · {}",
+                        i18n::t("The computer tour"),
+                        i18n::tw(
+                            "Stage {n} of {total}",
+                            &[
+                                ("n", &(run.rung + 1)),
+                                ("total", &snook_legend_proto::ladder::RUNGS.len()),
+                            ],
+                        )
+                    ),
+                    (None, true) => i18n::t("Tournament").to_string(),
+                    (None, false) => i18n::t("Against the computer").to_string(),
+                };
+                let intro = intro::Intro::vs_computer(me, &o, m.game.rules(), context);
+                m.intro =
+                    computer_intro.then(|| if hold_computer_intro { intro.held() } else { intro });
+            }
+        }
         if let Some(m) = current.as_mut() {
-            if !hud.paused || m.is_online() {
+            // (A game against the computer waits for its introduction.)
+            if (!hud.paused || m.is_online()) && !(m.online.is_none() && m.intro.is_some()) {
                 m.update(dt);
                 correspondence::drive(m, dt);
             }

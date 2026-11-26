@@ -516,6 +516,11 @@ async fn the_weeks_prizes_are_paid_once() {
     let (board, players) = server.store.time_attack_board(week, 10).await.unwrap();
     assert_eq!(players, 4);
     assert_eq!(board[0].username, "duda");
+    // An earlier run kept the first place and stopped before paying it
+    // (the database's trouble): the next one pays it all the same.
+    let t = snook_legend_server::now();
+    let kept = server.store.time_attack_prize(week, 1, ids[3], time_attack::PRIZES[0], 0, t).await;
+    assert!(kept.unwrap());
     snook_legend_server::time_attack::pay_prizes(&server).await;
     snook_legend_server::time_attack::pay_prizes(&server).await;
     let coins = |id| {

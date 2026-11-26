@@ -159,20 +159,26 @@ pub async fn pay_prizes(server: &Server) {
     };
     for (k, row) in board.into_iter().enumerate() {
         let (place, coins) = (k as u32 + 1, PRIZES[k]);
-        match server.store.time_attack_prize(week, place, row.user_id, coins, row.ms, t).await {
-            Ok(true) => {}
-            Ok(false) => continue,
-            Err(e) => {
-                tracing::error!("against the clock, prize of week {week}: {e}");
-                return;
-            }
+        // The place is kept, then paid, keyed by the week and the place: a
+        // run that kept it and stopped before paying it (the database's
+        // trouble) leaves it to the next one, and the coins and the note
+        // come once.
+        let kept = server.store.time_attack_prize(week, place, row.user_id, coins, row.ms, t).await;
+        if let Err(e) = kept {
+            tracing::error!("against the clock, prize of week {week}: {e}");
+            return;
         }
         let reference = format!("time_attack:{week}:{place}");
         let credit =
             || server.store.credit(row.user_id, coins, "against the clock", Some(&reference), t);
-        if let Err(e) = crate::retrying("paying a prize against the clock", credit).await {
-            tracing::error!("against the clock, prize of {}: {e}", row.username);
-            continue;
+        match crate::retrying("paying a prize against the clock", credit).await {
+            Ok(true) => {}
+            // Paid by an earlier run.
+            Ok(false) => continue,
+            Err(e) => {
+                tracing::error!("against the clock, prize of {}: {e}", row.username);
+                continue;
+            }
         }
         tracing::info!(user = %row.username, week, place, coins, "against the clock: prize");
         let text = format!("{} · {}", week_label(week), time_attack::clock(row.ms));

@@ -616,10 +616,14 @@ impl Match {
                     Some(rung) => snook_legend_proto::ladder::tour_form(&o.player(), rung as usize),
                     None => o.player(),
                 };
-                (
-                    [settings.names[0].clone(), o.display_name()],
-                    [Controller::Human, Controller::Computer(player)],
-                )
+                // Development aid (videos): SNOOK_LEGEND_AUTOPLAY=1 lets the
+                // computer play the person's seat too.
+                let me = if crate::dev::flag("SNOOK_LEGEND_AUTOPLAY") {
+                    Controller::Computer(Difficulty::Hard.player())
+                } else {
+                    Controller::Human
+                };
+                ([settings.names[0].clone(), o.display_name()], [me, Controller::Computer(player)])
             }
             MatchMode::HotSeat => (settings.names.clone(), [Controller::Human, Controller::Human]),
             MatchMode::Demo => (
@@ -945,7 +949,10 @@ impl Match {
 
     /// A game of a person against the computer (not online, not a replay).
     pub fn is_against_computer(&self) -> bool {
-        matches!(self.controllers, [Controller::Human, Controller::Computer(_)])
+        // (Development aid: with SNOOK_LEGEND_AUTOPLAY the computer plays
+        // the person's seat too, see `Match::new`.)
+        let autoplay = crate::dev::flag("SNOOK_LEGEND_AUTOPLAY") && self.opponent.is_some();
+        (matches!(self.controllers, [Controller::Human, Controller::Computer(_)]) || autoplay)
             && !self.is_online()
             && !self.is_replay()
             && !self.practice

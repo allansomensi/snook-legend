@@ -182,6 +182,39 @@ language and size. What was wrong with it, and what changed:
 | Hover states and tooltips depended on where Xvfb left the pointer. | The pointer is parked off the window for screenshots (`SNOOK_LEGEND_POINTER` keeps it). |
 | `settings-advanced` showed the Graphics tab. | The Game tab, scrolled to Advanced. |
 
+## A promotional video
+
+`tools/video.py` makes a short video of the game for social media
+(1920×1080 or 1080×1080, 60 fps, H.264, with the game's own sounds): a
+title card, a game against Viktor from its introduction, the break and a
+run of pots under the broadcast camera, the main menu, and an end card
+with where to get the game.
+
+```sh
+cargo build -p snook-legend
+python3 tools/video.py --out /tmp/promo                  # 1920x1080
+python3 tools/video.py --out /tmp/promo --format square  # 1080x1080
+```
+
+The game records itself. With `SNOOK_LEGEND_RECORD=<file.mp4>` each frame
+moves the game's clock on by exactly 1/60 s, however long it took to draw
+(Mesa's software renderer draws a few a second), and goes to `ffmpeg`
+through a pipe, with no picture per frame on the disk; the sounds the
+game plays are mixed at their frames into `<file>.wav`.
+`SNOOK_LEGEND_RECORD_FRAMES=<n>` frames are recorded (600 by default),
+after `SNOOK_LEGEND_RECORD_FROM=<n>` frames played first, then the game
+quits. The clock is miniquad's (`date::set_fixed`, a hook in
+`vendor/miniquad`), so everything that reads `get_time` or
+`get_frame_time` follows it. `SNOOK_LEGEND_AUTOPLAY=1` lets the computer
+play the person's seat in a game against the computer too (it already did
+online). Like every development switch, release builds ignore them.
+
+The cards are `tools/video/cards.html` (the wordmark, Inter, the store
+art), drawn frame by frame by Playwright's Chromium
+(`tools/video/cards.js`). The cut and its crossfades are a list at the
+top of the script, timed for its default seed: another seed plays another
+game and needs other cut points.
+
 ## Changes
 
 | Where | Before | Now |

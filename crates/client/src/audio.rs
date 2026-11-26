@@ -6,22 +6,29 @@ use macroquad::audio::{PlaySoundParams, Sound, load_sound_from_bytes, play_sound
 
 use crate::game::{ImpactKind, ImpactSound};
 
-const RATE: u32 = 44_100;
+pub const RATE: u32 = 44_100;
 
 /// Variants of each sound, so repeated hits never sound identical.
 const VARIANTS: u32 = 4;
 
 pub struct Sounds {
-    cue: Vec<Sound>,
-    ball: Vec<Sound>,
-    cushion: Vec<Sound>,
-    pocket: Vec<Sound>,
-    tick: Vec<Sound>,
-    chime: Vec<Sound>,
-    click: Vec<Sound>,
+    cue: Vec<Voice>,
+    ball: Vec<Voice>,
+    cushion: Vec<Voice>,
+    pocket: Vec<Voice>,
+    tick: Vec<Voice>,
+    chime: Vec<Voice>,
+    click: Vec<Voice>,
     next: std::cell::Cell<u32>,
     /// The voices started lately: (when, how loud), for the mix's headroom.
     recent: std::cell::RefCell<std::collections::VecDeque<(f64, f32)>>,
+}
+
+/// A sound ready to play, with its samples while a video is recorded (the
+/// recording mixes them itself, see record.rs; empty otherwise).
+struct Voice {
+    sound: Sound,
+    pcm: Vec<f32>,
 }
 
 /// How loud the voices started within [`RECENT`] may add up to: a break
@@ -387,8 +394,10 @@ const HARDNESS: [f32; 3] = [0.15, 0.55, 1.0];
 impl Sounds {
     /// Builds every sound. Missing audio hardware just means silence.
     pub async fn load() -> Self {
-        async fn make(samples: Vec<f32>) -> Option<Sound> {
-            load_sound_from_bytes(&wav(&samples)).await.ok()
+        async fn make(samples: Vec<f32>) -> Option<Voice> {
+            let sound = load_sound_from_bytes(&wav(&samples)).await.ok()?;
+            let pcm = if crate::record::hears() { samples } else { Vec::new() };
+            Some(Voice { sound, pcm })
         }
         let mut sounds = Sounds {
             cue: Vec::new(),
@@ -435,7 +444,7 @@ impl Sounds {
     }
 
     /// One of the versions of a sound for a hit this strong (0 to 1).
-    fn pick<'a>(&self, set: &'a [Sound], strength: f32) -> Option<&'a Sound> {
+    fn pick<'a>(&self, set: &'a [Voice], strength: f32) -> Option<&'a Voice> {
         let k = self.next.get();
         self.next.set(k.wrapping_add(1));
         let levels = HARDNESS.len();
@@ -508,19 +517,23 @@ impl Sounds {
                 }
                 _ => self.pick(set, strength),
             };
-            if let Some(sound) = sound {
+            if let Some(voice) = sound {
                 // Within the headroom left by what is still ringing.
                 let playing: f32 = recent.iter().map(|(_, v)| v).sum();
                 let volume = volume.min((HEADROOM - playing).max(volume * 0.35));
                 recent.push_back((now, volume));
-                play_sound(sound, PlaySoundParams { looped: false, volume });
+                play_sound(&voice.sound, PlaySoundParams { looped: false, volume });
+                crate::record::hear(&voice.pcm, volume);
             }
         }
     }
 }
 
+/// How loud a sample of 1 is in the WAV files (some room for peaks).
+const WAV_GAIN: f32 = 0.9;
+
 /// Encodes mono samples as a 16-bit PCM WAV file.
-fn wav(samples: &[f32]) -> Vec<u8> {
+pub fn wav(samples: &[f32]) -> Vec<u8> {
     let data_len = (samples.len() * 2) as u32;
     let mut out = Vec::with_capacity(44 + data_len as usize);
     out.extend_from_slice(b"RIFF");
@@ -536,7 +549,7 @@ fn wav(samples: &[f32]) -> Vec<u8> {
     out.extend_from_slice(b"data");
     out.extend_from_slice(&data_len.to_le_bytes());
     for s in samples {
-        out.extend_from_slice(&((s * 0.9 * i16::MAX as f32) as i16).to_le_bytes());
+        out.extend_from_slice(&((s * WAV_GAIN * i16::MAX as f32) as i16).to_le_bytes());
     }
     out
 }

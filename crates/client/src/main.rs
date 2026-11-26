@@ -64,6 +64,7 @@ mod play;
 mod profile;
 mod ranking;
 mod reactions;
+mod record;
 mod report;
 mod reveal;
 mod room;
@@ -552,6 +553,12 @@ async fn main() {
     let computer_intro = crate::dev::var("SNOOK_LEGEND_NO_INTRO").is_none()
         && dev_intro_var.as_deref().is_none_or(|v| v == "computer");
     let hold_computer_intro = dev_intro_var.as_deref() == Some("computer");
+    // Development aid: SNOOK_LEGEND_RECORD=<file.mp4> records a video, one
+    // frame per 1/60 s of the game's clock (see record.rs).
+    let mut recorder = record::Recorder::from_env();
+    if recorder.is_some() {
+        ui::park_pointer();
+    }
     loop {
         let frame_start = std::time::Instant::now();
         let dt = get_frame_time().min(0.1);
@@ -2455,6 +2462,11 @@ async fn main() {
                     saved::Kept::Not => {}
                 }
             }
+        }
+        if let Some(r) = recorder.as_mut()
+            && !r.frame()
+        {
+            break;
         }
         if profiling {
             let ms = frame_start.elapsed().as_secs_f64() * 1000.0;

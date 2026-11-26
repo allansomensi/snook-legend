@@ -2434,7 +2434,7 @@ Chat and reactions	聊天与互动表情
 Mute the opponent's chat	屏蔽对手的聊天
 Their messages in online games are not shown (yours still reach them).	在线对局中不显示对手的消息（你的消息仍会发给对方）。
 Game events in the chat	在聊天中显示对局事件
-Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	在线对局的聊天中也显示进球、犯规等。它们始终在上方的对局记录中。
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	在线对局的聊天中也显示进球、犯规等。它们始终在上方的本局记录中。
 The reactions they send at the table are not shown.	不显示对手在球桌上发送的互动表情。
 Players muted from a game: {n}	在对局中屏蔽的玩家：{n}
 Unmute them all	全部取消屏蔽

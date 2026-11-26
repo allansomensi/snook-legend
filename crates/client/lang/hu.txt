@@ -2434,7 +2434,7 @@ Chat and reactions	Chat és reakciók
 Mute the opponent's chat	Az ellenfél chatjének némítása
 Their messages in online games are not shown (yours still reach them).	Az üzenetei az online játszmákban nem jelennek meg (a tieid továbbra is eljutnak hozzá).
 Game events in the chat	A játék eseményei a csevegésben
-Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Elrakott golyók, hibák és a többi az online játszmák csevegésében is. Mindig ott vannak a játék előzményeiben, fent.
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Elrakott golyók, hibák és a többi az online játszmák csevegésében is. Mindig ott vannak a játszma történetében, fent.
 The reactions they send at the table are not shown.	Az asztalnál küldött reakciói nem jelennek meg.
 Players muted from a game: {n}	Játszmában némított játékosok: {n}
 Unmute them all	Mindenki némításának feloldása

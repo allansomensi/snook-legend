@@ -2434,7 +2434,7 @@ Chat and reactions	Trò chuyện và biểu cảm
 Mute the opponent's chat	Tắt tiếng trò chuyện của đối thủ
 Their messages in online games are not shown (yours still reach them).	Tin nhắn của họ trong các ván trực tuyến sẽ không hiện (tin của bạn vẫn đến được họ).
 Game events in the chat	Sự kiện ván đấu trong trò chuyện
-Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Bi vào lỗ, lỗi và những việc khác cũng hiện trong trò chuyện của ván trực tuyến. Chúng luôn có trong lịch sử ván đấu, ở phía trên.
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Bi vào lỗ, lỗi và những việc khác cũng hiện trong trò chuyện của ván trực tuyến. Chúng luôn có trong diễn biến ván, ở phía trên.
 The reactions they send at the table are not shown.	Các biểu cảm họ gửi tại bàn sẽ không hiện.
 Players muted from a game: {n}	Người chơi bị tắt tiếng từ một ván: {n}
 Unmute them all	Bật tiếng lại tất cả

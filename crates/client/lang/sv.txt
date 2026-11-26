@@ -2434,7 +2434,7 @@ Chat and reactions	Chatt och reaktioner
 Mute the opponent's chat	Tysta motståndarens chatt
 Their messages in online games are not shown (yours still reach them).	Hans meddelanden i onlinepartier visas inte (dina når honom fortfarande).
 Game events in the chat	Händelser i partiet i chatten
-Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Sänkta bollar, fel och resten även i chatten i onlinepartier. De finns alltid i partiets historik, högst upp.
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Sänkta bollar, fel och resten även i chatten i onlinepartier. De finns alltid i partihistoriken, högst upp.
 The reactions they send at the table are not shown.	Reaktionerna han skickar vid bordet visas inte.
 Players muted from a game: {n}	Spelare tystade i ett parti: {n}
 Unmute them all	Slå på alla igen

@@ -2434,7 +2434,7 @@ Chat and reactions	চ্যাট ও প্রতিক্রিয়া
 Mute the opponent's chat	প্রতিপক্ষের চ্যাট মিউট করুন
 Their messages in online games are not shown (yours still reach them).	অনলাইন খেলায় তাদের বার্তা দেখানো হয় না (আপনার বার্তা তাদের কাছে পৌঁছায়)।
 Game events in the chat	চ্যাটে খেলার ঘটনা
-Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	পকেট হওয়া বল, ফাউল আর বাকি সব অনলাইন গেমের চ্যাটেও। এগুলো সবসময় ওপরে খেলার ইতিহাসে থাকে।
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	পকেট হওয়া বল, ফাউল আর বাকি সব অনলাইন গেমের চ্যাটেও। এগুলো সবসময় ওপরে গেমের ইতিহাসে থাকে।
 The reactions they send at the table are not shown.	টেবিলে তারা যে প্রতিক্রিয়া পাঠায় তা দেখানো হয় না।
 Players muted from a game: {n}	খেলা থেকে মিউট করা খেলোয়াড়: {n}
 Unmute them all	সবাইকে আনমিউট করুন

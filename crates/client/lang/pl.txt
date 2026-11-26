@@ -2434,7 +2434,7 @@ Chat and reactions	Czat i reakcje
 Mute the opponent's chat	Wycisz czat przeciwnika
 Their messages in online games are not shown (yours still reach them).	Jego wiadomości w partiach online nie są pokazywane (twoje nadal do niego docierają).
 Game events in the chat	Wydarzenia gry na czacie
-Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Wbite bile, faule i reszta także na czacie gier online. Zawsze są w historii gry, na górze.
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Wbite bile, faule i reszta także na czacie gier online. Zawsze są w historii partii, na górze.
 The reactions they send at the table are not shown.	Reakcje, które wysyła przy stole, nie są pokazywane.
 Players muted from a game: {n}	Gracze wyciszeni w partii: {n}
 Unmute them all	Przywróć wszystkich

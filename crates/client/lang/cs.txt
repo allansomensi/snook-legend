@@ -2434,7 +2434,7 @@ Chat and reactions	Chat a reakce
 Mute the opponent's chat	Ztlumit chat soupeře
 Their messages in online games are not shown (yours still reach them).	Jeho zprávy v online partiích se nezobrazují (tvoje k němu dál dorazí).
 Game events in the chat	Události hry v chatu
-Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Potopené koule, fauly a ostatní i v chatu online her. Vždy jsou v historii hry nahoře.
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Potopené koule, fauly a ostatní i v chatu online her. Vždy jsou v průběhu hry, nahoře.
 The reactions they send at the table are not shown.	Reakce, které posílá ke stolu, se nezobrazují.
 Players muted from a game: {n}	Hráči ztlumení v partii: {n}
 Unmute them all	Zrušit ztlumení všech

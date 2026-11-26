@@ -440,7 +440,13 @@ fn copy_missing(from: &std::path::Path, to: &std::path::Path) -> std::io::Result
     for entry in std::fs::read_dir(from)? {
         let entry = entry?;
         let target = to.join(entry.file_name());
-        if entry.file_type()?.is_dir() {
+        let kind = entry.file_type()?;
+        // The game makes no links there: one is not followed (it could name
+        // any file, or a folder holding itself).
+        if kind.is_symlink() {
+            continue;
+        }
+        if kind.is_dir() {
             copy_missing(&entry.path(), &target)?;
         } else if !target.exists() {
             std::fs::copy(entry.path(), &target)?;

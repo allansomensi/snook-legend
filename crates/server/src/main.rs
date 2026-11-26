@@ -120,6 +120,7 @@ async fn main() {
             }
             None => None,
         },
+        ..Config::default()
     };
     match &config.admin_origin {
         Some(origin) => tracing::info!("staff API open to the portal at {origin}"),

@@ -23,6 +23,8 @@ use crate::{Server, now};
 pub const CANT_WRITE: &str = "You can't send messages to this player.";
 /// Only friends write to each other.
 pub const FRIENDS_ONLY: &str = "You can only send messages to your friends.";
+/// Past the connection's limit (see [`bucket`]).
+pub const TOO_QUICKLY: &str = "You're sending messages too quickly.";
 
 pub fn is_msg(msg: &ClientMsg) -> bool {
     matches!(
@@ -81,15 +83,17 @@ pub async fn handle(
             if crate::lounge::phrases_only(&me) && !is_quick_phrase(&text) {
                 return error(PHRASES_ONLY);
             }
+            // Counted before the database is asked anything (who are the
+            // friends, who blocked whom): messages to strangers too.
+            if !bucket.take() {
+                return error(TOO_QUICKLY);
+            }
             let other = match friend(server, &me, &to).await {
                 Ok(other) => other,
                 Err(why) => return error(why),
             };
             if !may_write(server, &me, &other).await {
                 return error(CANT_WRITE);
-            }
-            if !bucket.take() {
-                return error("You're sending messages too quickly.");
             }
             match server.store.dm_send(me.id, other.id, &text, at).await {
                 Ok(row) => {
@@ -180,17 +184,17 @@ pub async fn threads(server: &Server, me: &User) -> ServerMsg {
     for (u, _) in server.store.friends(me.id).await.unwrap_or_default() {
         names.insert(u.id, u.username);
     }
+    // The others (not friends) in one request.
+    let others: Vec<i64> =
+        rows.iter().map(|r| r.other).filter(|id| !names.contains_key(id)).collect();
+    for u in server.store.users_by_ids(&others).await.unwrap_or_default() {
+        if u.deleted_at.is_none() {
+            names.insert(u.id, u.username);
+        }
+    }
     let mut threads = Vec::new();
     for row in rows {
-        if !names.contains_key(&row.other) {
-            match server.store.user_by_id(row.other).await {
-                Ok(Some(u)) if u.deleted_at.is_none() => {
-                    names.insert(u.id, u.username);
-                }
-                _ => continue,
-            }
-        }
-        let with = names[&row.other].clone();
+        let Some(with) = names.get(&row.other).cloned() else { continue };
         threads.push(DmThread { with, last: message(row.last, &names), unread: row.unread });
     }
     ServerMsg::DmThreads { threads }

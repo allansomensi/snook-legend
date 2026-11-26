@@ -215,17 +215,6 @@ pub fn units(text: &str) -> Vec<(usize, usize)> {
     out
 }
 
-/// Removes the last unit of `s` (a character, or a whole emoji).
-pub fn pop(s: &mut String) {
-    if !maybe(s) {
-        s.pop();
-        return;
-    }
-    let mut last = 0;
-    scan(s, |a, _, _| last = a);
-    s.truncate(last);
-}
-
 /// Where a caret may stand in `chars`, as character indices from 0 to the
 /// end, in order: never inside an emoji.
 pub fn stops(chars: &[char]) -> Vec<usize> {
@@ -504,14 +493,6 @@ mod tests {
         assert_eq!(stops(&chars), [0, 1, 3, 4, 6, 8]);
         assert_eq!(stops(&['a', 'b']), [0, 1, 2]);
         assert_eq!(stops(&[]), [0]);
-        let mut s = t.to_string();
-        pop(&mut s);
-        assert_eq!(s, "a🇧🇷b👍🏽");
-        pop(&mut s);
-        assert_eq!(s, "a🇧🇷b");
-        pop(&mut s);
-        pop(&mut s);
-        assert_eq!(s, "a");
         // A prefix cut between units splits into the same units.
         for (_, b) in units(t) {
             let p = &t[..b];

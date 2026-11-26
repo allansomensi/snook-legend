@@ -30,6 +30,56 @@ impl Bucket {
             false
         }
     }
+
+    /// Whether [`Bucket::take`] would succeed now (nothing is taken).
+    pub fn has_token(&self) -> bool {
+        (self.tokens + self.last.elapsed().as_secs_f64() * self.rate).min(self.burst) >= 1.0
+    }
+
+    /// Whether the bucket has filled up again (it is then the same as a
+    /// new one: forgetting it loses nothing).
+    pub fn is_full(&self) -> bool {
+        self.tokens + self.last.elapsed().as_secs_f64() * self.rate >= self.burst
+    }
+}
+
+/// A [`Bucket`] per key (an address), each `burst` at once and `rate` a
+/// second. Buckets that filled up again are forgotten when room is needed,
+/// so the map stays within [`MAX_KEYS`] whoever asks.
+#[derive(Debug)]
+pub struct Buckets<K> {
+    buckets: HashMap<K, Bucket>,
+    burst: f64,
+    rate: f64,
+}
+
+impl<K: std::hash::Hash + Eq> Buckets<K> {
+    pub fn new(burst: f64, rate: f64) -> Self {
+        Buckets { buckets: HashMap::new(), burst, rate }
+    }
+
+    /// Takes one token of `key`'s bucket; false if it is empty.
+    pub fn take(&mut self, key: K) -> bool {
+        if !self.buckets.contains_key(&key) && self.buckets.len() >= MAX_KEYS {
+            self.buckets.retain(|_, b| !b.is_full());
+            if self.buckets.len() >= MAX_KEYS {
+                // Every one of them busy: start over rather than grow (or
+                // turn away addresses that did nothing).
+                self.buckets.clear();
+            }
+        }
+        let (burst, rate) = (self.burst, self.rate);
+        self.buckets.entry(key).or_insert_with(|| Bucket::new(burst, rate)).take()
+    }
+
+    /// Keys kept now.
+    pub fn len(&self) -> usize {
+        self.buckets.len()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.buckets.is_empty()
+    }
 }
 
 /// Counts events per key inside a sliding window.
@@ -236,9 +286,25 @@ mod tests {
     use super::*;
 
     #[test]
+    fn buckets_per_key_are_bounded() {
+        let mut b = Buckets::new(2.0, 0.0);
+        assert!(b.take(1) && b.take(1) && !b.take(1), "per key");
+        assert!(b.take(2), "another key has its own");
+        // Buckets filled up again are forgotten to make room.
+        let mut b = Buckets::new(1.0, 1000.0);
+        for k in 0..MAX_KEYS {
+            b.buckets.insert(k, Bucket::new(1.0, 1000.0));
+        }
+        assert!(b.take(MAX_KEYS));
+        assert_eq!(b.len(), 1);
+    }
+
+    #[test]
     fn bucket_limits_bursts() {
         let mut b = Bucket::new(3.0, 0.0);
+        assert!(b.has_token() && b.has_token(), "looking takes nothing");
         assert!(b.take() && b.take() && b.take());
+        assert!(!b.has_token());
         assert!(!b.take());
     }
 

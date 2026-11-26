@@ -529,6 +529,58 @@ async fn the_public_api_shows_players_and_official_tournaments() {
 }
 
 #[tokio::test]
+async fn a_connection_that_never_finishes_its_request_is_closed() {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let host = listener.local_addr().unwrap().to_string();
+    let header_timeout = Duration::from_secs(2);
+    let config = Config { header_timeout, ..Config::default() };
+    let server = Server::with_store(config, Store::memory()).await;
+    user(&server, "ana", Role::Player).await;
+    tokio::spawn(serve(listener, server));
+    // A game's connection (a WebSocket) outlives it: the timeout is only
+    // for a request's headers.
+    let mut ana = Client::login(&format!("ws://{host}/ws"), "ana").await;
+    for _ in 0..3 {
+        tokio::time::sleep(header_timeout).await;
+        ana.send(ClientMsg::Ping).await;
+        ana.expect("the answer", |m| matches!(m, ServerMsg::Pong)).await;
+    }
+    // Half a request, then nothing (a "slowloris"): closed, not kept for ever.
+    let mut c = TcpStream::connect(&host).await.unwrap();
+    c.write_all(b"GET /health HTTP/1.1\r\nHost: x\r\n").await.unwrap();
+    let mut buf = [0u8; 64];
+    let read = tokio::time::timeout(Duration::from_secs(20), c.read(&mut buf)).await;
+    assert!(matches!(read, Ok(Ok(0)) | Ok(Err(_))), "still open: {read:?}");
+    // Requests sent in one go are answered as before.
+    let (code, _, body) = raw(&host, "GET", "/health", "", "").await;
+    assert_eq!((code, body.as_str()), (200, "ok"));
+}
+
+#[tokio::test]
+async fn the_public_api_slows_down_an_address_that_asks_too_often() {
+    let s = start().await;
+    user(&s.server, "ana", Role::Player).await;
+    // Each page is a dozen database requests: one address gets a burst,
+    // then a few a second.
+    let mut refused = None;
+    for i in 0..80 {
+        let (code, head, _) = raw(&s.host, "GET", "/api/players/ana", "", "").await;
+        if code == 429 {
+            refused = Some((i, head.to_lowercase()));
+            break;
+        }
+        assert_eq!(code, 200);
+    }
+    let (i, head) = refused.expect("turned away at some point");
+    assert!(i >= 30, "not before the burst: {i}");
+    assert!(head.contains("retry-after: 1") && head.contains("access-control-allow-origin: *"));
+    // The game's own ranking (kept a few seconds) is not counted.
+    let (code, _) = request(&s.host, "GET", "/api/leaderboard", "", "").await;
+    assert_eq!(code, 200);
+}
+
+#[tokio::test]
 async fn the_analytics_and_exports_read_the_economy() {
     let s = start().await;
     let boss = token(&s.host, "boss").await;

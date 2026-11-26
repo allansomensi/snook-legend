@@ -1598,16 +1598,14 @@ impl Hud {
             let mut open_chat = false;
             if let Some((line, age)) = &mut o.preview {
                 let who = line.from.as_ref().map(|(n, _)| format!("{n}: ")).unwrap_or_default();
-                let mut text = line.text.clone();
                 let max_w = 300.0;
                 let who_w = ui.text_size(&who, 13.0, true).x;
-                while !text.is_empty() && who_w + ui.text_size(&text, 13.0, false).x > max_w {
-                    crate::emoji::pop(&mut text);
-                    if ui.text_size(&text, 13.0, false).x + who_w <= max_w - 12.0 {
-                        text.push('…');
-                        break;
-                    }
-                }
+                let text = if who_w + ui.text_size(&line.text, 13.0, false).x > max_w {
+                    let room = max_w - who_w;
+                    format!("{}…", ui.start_that_fits(&line.text, 13.0, room, false))
+                } else {
+                    line.text.clone()
+                };
                 let w = who_w + ui.text_size(&text, 13.0, false).x + 20.0;
                 let r = Rect::new(button.x, button.y - 34.0, w, 26.0);
                 let held = ui.hovering(r);

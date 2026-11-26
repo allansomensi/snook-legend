@@ -82,7 +82,7 @@ use snook_legend_proto::{
 use tokio::net::TcpListener;
 use tokio::sync::{Notify, Semaphore, mpsc};
 
-use crate::limits::{AuthLimiter, Bucket};
+use crate::limits::{AuthLimiter, Bucket, Buckets};
 use crate::lounge::{Effect, Lounge, Settings, key, player_info};
 use crate::store::{FriendOutcome, FriendState, NewReport, NewUser, SessionKind, Store, User};
 
@@ -218,6 +218,11 @@ pub struct Config {
     /// portal (`{origin}/admin/`).
     /// `None`: no browser may call the staff API from another origin.
     pub admin_origin: Option<String>,
+    /// The longest an HTTP connection may take to send a request's headers,
+    /// also while it waits between requests (see [`serve`]). Longer than a
+    /// proxy keeps a connection to the server idle (60 s is usual), so the
+    /// server never closes one the proxy is about to use.
+    pub header_timeout: Duration,
 }
 
 impl Default for Config {
@@ -235,12 +240,39 @@ impl Default for Config {
             msstore: None,
             site_url: pages::SITE_URL.into(),
             admin_origin: None,
+            header_timeout: Duration::from_secs(65),
         }
     }
 }
 
 /// A ranking as read from the store, and when.
 type CachedBoard = (Instant, Vec<LeaderboardEntry>);
+
+/// The ranking of `rules` kept in `cache`, or `read` (and kept) when it is
+/// over 15 seconds old.
+async fn cached_board(
+    cache: &Mutex<PerRules<Option<CachedBoard>>>,
+    rules: Rules,
+    what: &str,
+    read: impl std::future::Future<Output = store::StoreResult<Vec<LeaderboardEntry>>>,
+) -> Vec<LeaderboardEntry> {
+    if let Some((at, list)) = cache.lock().unwrap_or_else(|e| e.into_inner()).get(rules).as_ref()
+        && at.elapsed() < Duration::from_secs(15)
+    {
+        return list.clone();
+    }
+    match read.await {
+        Ok(list) => {
+            *cache.lock().unwrap_or_else(|e| e.into_inner()).get_mut(rules) =
+                Some((Instant::now(), list.clone()));
+            list
+        }
+        Err(e) => {
+            tracing::error!("{what} query failed: {e}");
+            Vec::new()
+        }
+    }
+}
 
 pub struct Server {
     pub store: Store,
@@ -260,6 +292,11 @@ pub struct Server {
     hashing: Semaphore,
     /// The world ranking of each of the rules, with when it was read.
     leaderboard: Mutex<PerRules<Option<CachedBoard>>>,
+    /// The doubles ranking of each of the rules, the same way.
+    doubles_leaderboard: Mutex<PerRules<Option<CachedBoard>>>,
+    /// Requests to the public API (`/api/players`…) per address: each one is
+    /// a dozen database requests, and anyone may send them.
+    pub(crate) api_limits: Mutex<Buckets<IpAddr>>,
     connections: Mutex<HashMap<IpAddr, usize>>,
     /// The connection-level limits of accounts whose connection closed a
     /// moment ago, since when: signing in again doesn't fill them up.
@@ -361,6 +398,8 @@ impl Server {
             started: Instant::now(),
             hashing: Semaphore::new(2),
             leaderboard: Mutex::new(PerRules::default()),
+            doubles_leaderboard: Mutex::new(PerRules::default()),
+            api_limits: Mutex::new(Buckets::new(public_api::BURST, public_api::PER_SEC)),
             connections: Mutex::new(HashMap::new()),
             kept_limits: Mutex::new(HashMap::new()),
             corr: correspondence::State::default(),
@@ -449,38 +488,26 @@ impl Server {
     /// The top 100 of the world ranking under `rules` (read again at most
     /// every 15 seconds).
     pub async fn leaderboard(&self, rules: Rules) -> Vec<LeaderboardEntry> {
-        if let Some((at, list)) =
-            self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()).get(rules).as_ref()
-            && at.elapsed() < Duration::from_secs(15)
-        {
-            return list.clone();
-        }
-        match self.store.leaderboard(rules, 100, now()).await {
-            Ok(list) => {
-                *self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()).get_mut(rules) =
-                    Some((Instant::now(), list.clone()));
-                list
-            }
-            Err(e) => {
-                tracing::error!("leaderboard query failed: {e}");
-                Vec::new()
-            }
-        }
+        cached_board(
+            &self.leaderboard,
+            rules,
+            "leaderboard",
+            self.store.leaderboard(rules, 100, now()),
+        )
+        .await
     }
 
-    /// The doubles ranking of `rules` (its first hundred).
+    /// The doubles ranking of `rules` (its first hundred; read again at most
+    /// every 15 seconds, like the singles one: anyone may ask for it, also
+    /// before signing in and through the public API).
     pub async fn doubles_leaderboard(&self, rules: Rules) -> Vec<LeaderboardEntry> {
-        match self.store.doubles_leaderboard(rules, 100, now()).await {
-            Ok(list) => list,
-            Err(e) => {
-                tracing::error!("doubles leaderboard query failed: {e}");
-                Vec::new()
-            }
-        }
+        let read = self.store.doubles_leaderboard(rules, 100, now());
+        cached_board(&self.doubles_leaderboard, rules, "doubles leaderboard", read).await
     }
 
     pub(crate) fn invalidate_leaderboard(&self) {
         *self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()) = PerRules::default();
+        *self.doubles_leaderboard.lock().unwrap_or_else(|e| e.into_inner()) = PerRules::default();
     }
 
     /// None when it could not be done (the server is too busy).
@@ -573,7 +600,7 @@ pub fn router(server: Arc<Server>) -> Router {
         .route("/ws", get(ws_handler))
         .route("/api/status", get(api_status))
         .route("/api/leaderboard", get(api_leaderboard))
-        .merge(public_api::router())
+        .merge(public_api::router(server.clone()))
         .route("/stripe/webhook", axum::routing::post(shop::webhook))
         .route("/shop/thanks", get(shop::thanks))
         .route("/shop/cancelled", get(shop::cancelled))
@@ -652,14 +679,56 @@ async fn api_leaderboard(
 }
 
 /// Runs the server on an already-bound listener until the process stops.
+///
+/// Served like `axum::serve` does (HTTP/1, WebSocket upgrades, each
+/// request told the peer's address), with a timer: a connection that
+/// doesn't send a request's headers within `Config::header_timeout` —
+/// silent, idle, or a byte now and then — is closed (it stayed open for
+/// ever, a socket and a task each).
 pub async fn serve(listener: TcpListener, server: Arc<Server>) -> std::io::Result<()> {
-    use axum::serve::ListenerExt;
+    use hyper_util::rt::{TokioIo, TokioTimer};
+    use tower::ServiceExt;
     spawn_background(server.clone());
-    // No Nagle delay: small game messages go out at once.
-    let listener = listener.tap_io(|tcp| {
+    let header_timeout = server.config.header_timeout;
+    let app = router(server);
+    loop {
+        let (tcp, peer) = match listener.accept().await {
+            Ok(accepted) => accepted,
+            Err(e) => {
+                // Out of file descriptors and the like: wait a moment
+                // rather than spin (a connection reset before it was taken
+                // is nothing).
+                if !matches!(
+                    e.kind(),
+                    std::io::ErrorKind::ConnectionRefused
+                        | std::io::ErrorKind::ConnectionAborted
+                        | std::io::ErrorKind::ConnectionReset
+                ) {
+                    tracing::error!("accepting a connection: {e}");
+                    tokio::time::sleep(Duration::from_millis(500)).await;
+                }
+                continue;
+            }
+        };
+        // No Nagle delay: small game messages go out at once.
         let _ = tcp.set_nodelay(true);
-    });
-    axum::serve(listener, router(server).into_make_service_with_connect_info::<SocketAddr>()).await
+        let service = app.clone().map_request(move |req: axum::http::Request<_>| {
+            let mut req = req.map(axum::body::Body::new);
+            req.extensions_mut().insert(ConnectInfo(peer));
+            req
+        });
+        let service = hyper_util::service::TowerToHyperService::new(service);
+        tokio::spawn(async move {
+            let conn = hyper::server::conn::http1::Builder::new()
+                .timer(TokioTimer::new())
+                .header_read_timeout(header_timeout)
+                .serve_connection(TokioIo::new(tcp), service)
+                .with_upgrades();
+            if let Err(e) = conn.await {
+                tracing::trace!("connection from {peer}: {e}");
+            }
+        });
+    }
 }
 
 /// Stops gracefully: no new games, a notice in the lounge, and up to `secs`
@@ -876,7 +945,7 @@ async fn run_effect(server: &Arc<Server>, effect: Effect) {
             match retrying_long("recording a doubles game", || server.store.record_doubles(&record))
                 .await
             {
-                Ok(true) => {}
+                Ok(true) => server.invalidate_leaderboard(),
                 Ok(false) => {
                     return tracing::warn!("the doubles game {keys:?} was recorded already");
                 }

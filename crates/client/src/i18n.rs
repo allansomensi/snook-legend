@@ -332,10 +332,33 @@ pub fn t(en: &str) -> &str {
 
 /// Translates a text with `{name}` placeholders and fills them in.
 pub fn tw(en: &str, values: &[(&str, &dyn std::fmt::Display)]) -> String {
-    let mut out = t(en).to_string();
-    for (key, value) in values {
-        out = out.replace(&format!("{{{key}}}"), &value.to_string());
+    fill(t(en), values)
+}
+
+/// `template` with its `{key}`s replaced by `values`, in one pass: a value
+/// (a name, a line of chat) that holds a `{key}` itself is left as it is.
+fn fill(template: &str, values: &[(&str, &dyn std::fmt::Display)]) -> String {
+    let mut out = String::with_capacity(template.len());
+    let mut rest = template;
+    while let Some(open) = rest.find('{') {
+        out.push_str(&rest[..open]);
+        let after = &rest[open + 1..];
+        let found = after.find('}').and_then(|close| {
+            let key = &after[..close];
+            values.iter().find(|(k, _)| *k == key).map(|(_, v)| (close, v))
+        });
+        match found {
+            Some((close, value)) => {
+                out.push_str(&value.to_string());
+                rest = &after[close + 1..];
+            }
+            None => {
+                out.push('{');
+                rest = after;
+            }
+        }
     }
+    out.push_str(rest);
     out
 }
 
@@ -748,6 +771,15 @@ pub fn shot_error(e: ShotError) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn values_are_not_read_as_placeholders() {
+        // A player's text that holds a `{key}` of the template stays as it is.
+        let filled = fill("{who}: {text} ({who})", &[("text", &"hi {who}"), ("who", &"Ana")]);
+        assert_eq!(filled, "Ana: hi {who} (Ana)");
+        assert_eq!(fill("{a} {b} {", &[("a", &1)]), "1 {b} {");
+        assert_eq!(fill("no keys", &[("a", &1)]), "no keys");
+    }
 
     #[test]
     fn translates_and_fills_placeholders() {

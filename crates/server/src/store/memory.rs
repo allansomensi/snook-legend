@@ -265,6 +265,11 @@ impl MemoryStore {
         Ok(self.lock().users.get(&id).cloned())
     }
 
+    pub fn users_by_ids(&self, ids: &[i64]) -> StoreResult<Vec<User>> {
+        let s = self.lock();
+        Ok(ids.iter().filter_map(|id| s.users.get(id).cloned()).collect())
+    }
+
     pub fn create_session(
         &self,
         hash: &str,

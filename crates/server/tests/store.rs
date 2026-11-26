@@ -36,6 +36,17 @@ async fn exercise(store: Store) {
     assert!(store.create_user(&new_user("alice")).await.unwrap().is_none(), "case-insensitive");
     let b = store.create_user(&new_user("bob")).await.unwrap().unwrap();
     assert_eq!(store.user_by_name("ALICE").await.unwrap().unwrap().id, a.id);
+    // Many at once (the lists' names): those that exist.
+    let mut many: Vec<String> = store
+        .users_by_ids(&[b.id, a.id, 999_999])
+        .await
+        .unwrap()
+        .into_iter()
+        .map(|u| u.username)
+        .collect();
+    many.sort();
+    assert_eq!(many, ["Alice", "bob"]);
+    assert!(store.users_by_ids(&[]).await.unwrap().is_empty());
 
     // Sessions.
     store.create_session("hash1", a.id, SessionKind::Game, t, t + 100).await.unwrap();

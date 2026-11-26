@@ -54,15 +54,8 @@ fn shorten(ui: &Ui, text: &str, width: f32, size: f32) -> String {
     if ui.text_size(text, size, true).x <= width {
         return text.to_string();
     }
-    let mut cut = text.to_string();
-    while !cut.is_empty() {
-        crate::emoji::pop(&mut cut);
-        let candidate = cut.trim_end().to_string() + "…";
-        if ui.text_size(&candidate, size, true).x <= width {
-            return candidate;
-        }
-    }
-    String::new()
+    let candidate = ui.start_that_fits(text, size, width, true).trim_end().to_string() + "…";
+    if ui.text_size(&candidate, size, true).x <= width { candidate } else { String::new() }
 }
 
 /// A row of tabs in `r` (see [`crate::ui::Ui::tab_with_count`] for one):

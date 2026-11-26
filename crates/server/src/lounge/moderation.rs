@@ -195,6 +195,12 @@ impl Lounge {
             .collect()
     }
 
+    /// Whether `name`'s next chat line would be within the chat's limit
+    /// (nothing is counted): the mentions in it are looked up only then.
+    pub fn may_chat_now(&self, name: &str) -> bool {
+        self.sessions.get(&key(name)).is_some_and(|s| s.chat_bucket.has_token())
+    }
+
     /// The lounge chat with the mentions of offline players looked up
     /// (`known`: the usernames found).
     pub fn chat_with_mentions(&mut self, name: &str, text: &str, known: Vec<String>) {

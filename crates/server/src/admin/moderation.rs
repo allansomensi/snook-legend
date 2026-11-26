@@ -720,13 +720,18 @@ async fn end_live(
         Some(w) => format!("given to {}", ended.names[w % 2]),
         None => "no result".to_string(),
     };
-    for seat in 0..2 {
-        if ended.guests[seat] {
+    // Each player (all four of a doubles game: a partner's seat is their team's).
+    let partners = ended.partners.iter().map(|p| (p.seat, &p.name, p.id, p.guest));
+    let players = (0..2)
+        .map(|seat| (seat, &ended.names[seat], ended.ids[seat], ended.guests[seat]))
+        .chain(partners);
+    for (seat, name, user_id, guest) in players {
+        if guest {
             continue;
         }
-        inbox::send(&server, ended.ids[seat], tell(seat, &ended.names)).await;
+        inbox::send(&server, user_id, tell(seat % 2, &ended.names)).await;
         let details = format!("live game {id}, {result}: {reason}");
-        log(&server, &s, "match-end", &ended.names[seat], &details).await;
+        log(&server, &s, "match-end", name, &details).await;
     }
     Ok(Json(json!({ "ok": true })))
 }

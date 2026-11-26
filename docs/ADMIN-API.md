@@ -602,7 +602,8 @@ watch it. Answer: `{"ok": true, "match": {â€¦as above, "voided_at": 1795291300â€
 `winner`: the seat (0 or 1) given the game: the other resigns it (rating as
 for a resignation; a tournament goes on). Without `winner`: ended without a
 result, nothing recorded, the players are sent back to sign in (refused for
-a tournament's game). Both get `match_ended`. Answer: `{"ok": true}`.
+a tournament's game). Every player gets `match_ended` (in doubles all four,
+the seat being the team). Answer: `{"ok": true}`.
 
 ### Banned words
 

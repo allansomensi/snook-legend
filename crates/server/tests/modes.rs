@@ -309,6 +309,24 @@ async fn leaving_a_doubles_game_during_a_shot_is_not_lost() {
     }
 }
 
+/// A doubles game the staff end without a result sends all four back to
+/// sign in (not only each team's first player: the partners were left at
+/// a table that was gone), and names all four for the staff's notes.
+#[tokio::test]
+async fn a_doubles_game_ended_by_the_staff_lets_all_four_go() {
+    let (url, server) = start(Settings::default()).await;
+    let (mut clients, lineup, _game) = doubles_game(&url).await;
+    let ended = server.with(|l| l.staff_end_match(lineup.match_id, None)).unwrap();
+    let mut named: Vec<String> =
+        ended.names.iter().chain(ended.partners.iter().map(|p| &p.name)).cloned().collect();
+    named.sort();
+    assert_eq!(named, ["ana", "bia", "caio", "duda"]);
+    for (name, c) in clients.iter_mut() {
+        let m = c.expect("sent away", |m| matches!(m, ServerMsg::Kicked { .. })).await;
+        assert!(matches!(m, ServerMsg::Kicked { .. }), "{name}");
+    }
+}
+
 /// One player of a team dropping doesn't lose the game (the partner plays
 /// on); both gone past the grace, the team has left it.
 #[tokio::test]

@@ -2,6 +2,23 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.12.2
+
+### Mga pribadong mensahe
+Sumulat sa kahit sinong manlalaro mula sa inbox o sa profile niya. Sa Settings → Laro mo pipiliin kung sino ang puwedeng sumulat sa iyo; kapag wala pang 18, mga kaibigan lang.
+
+### Mas tahimik na chat
+Sa mga online na laro, ipinapakita lang ng chat ang isinusulat ng mga manlalaro; nasa History ng laro sa itaas ang nangyayari sa mesa. Gusto mo bang magkakasama lahat? Settings → Laro.
+
+### Mas mahirap na achievement
+Ang sunod-sunod na panalo ay 5, 10, 15 at 30 na ngayon, at sumusunod sa medalya ang XP ng bawat achievement: mas mababa ang halaga ng madadali.
+
+### Ang pagsusuri, para sa VIP
+Isang pahina na lang ang pagsusuri ng mga tira mo at ang advanced na estadistika, para sa mga VIP: kung paano ka nagpapasok, linggo-linggo at kumpara sa liga mo.
+
+### Mas maayos na screen
+Pababa nang mag-scroll ang shop at koleksyon, dahan-dahang nawawala ang mga window, bumabalik ang back button ng mouse at naaabot ng keyboard ang bawat button.
+
 ## 0.12.1
 
 ### Mas smooth sa lahat

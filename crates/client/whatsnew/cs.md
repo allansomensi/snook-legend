@@ -3,6 +3,23 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.12.2
+
+### Soukromé zprávy
+Piš libovolnému hráči ze schránky nebo z jeho profilu. V Nastavení → Hra si vybereš, kdo ti smí psát; pod 18 let jen přátelé.
+
+### Klidnější chat
+V online hrách chat ukazuje jen to, co píšou hráči; co se děje u stolu, je nahoře v průběhu hry. Chceš všechno dohromady? Nastavení → Hra.
+
+### Těžší úspěchy
+Série výher jsou teď 5, 10, 15 a 30 a XP každého úspěchu se řídí jeho medailí: snadné mají menší cenu.
+
+### Rozbor pro VIP
+Analýza šťouchů a rozšířené statistiky jsou teď jedna stránka pro členy VIP: jak potápíš, týden po týdnu a proti tvé lize.
+
+### Plynulejší obrazovky
+Obchod a sbírka se posouvají dolů, okna plynule mizí, tlačítko zpět na myši vrací zpět a klávesnice dosáhne na každé tlačítko.
+
 ## 0.12.1
 
 ### Plynulejší všude

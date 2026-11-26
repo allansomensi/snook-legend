@@ -3,6 +3,23 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.2
+
+### Özel mesajlar
+Gelen kutusundan ya da profilinden istediğin oyuncuya yaz. Ayarlar → Oyun'da sana kimin yazabileceğini seçersin; 18 yaş altı yalnızca arkadaşlar.
+
+### Daha sakin bir sohbet
+Çevrim içi oyunlarda sohbet yalnızca oyuncuların yazdıklarını gösterir; masada olanlar yukarıdaki oyun geçmişinde. Hepsi bir arada mı istiyorsun? Ayarlar → Oyun.
+
+### Daha zor başarımlar
+Galibiyet serileri artık 5, 10, 15 ve 30; her başarımın XP'si madalyasına göre: kolay olanlar daha az değerli.
+
+### Analiz, VIP için
+Vuruş analizin ve gelişmiş istatistikler artık VIP üyeler için tek bir sayfa: nasıl cebe soktuğun, haftadan haftaya ve liginle karşılaştırmalı.
+
+### Daha akıcı ekranlar
+Mağaza ve koleksiyon aşağı kayar, pencereler yumuşakça kaybolur, faredeki geri düğmesi geri götürür ve klavye her düğmeye ulaşır.
+
 ## 0.12.1
 
 ### Her yerde daha akıcı

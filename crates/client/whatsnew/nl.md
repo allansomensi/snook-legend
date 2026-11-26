@@ -3,6 +3,23 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.12.2
+
+### Privéberichten
+Schrijf elke speler via de inbox of zijn profiel. In Instellingen → Spel kies je wie je mag schrijven; onder de 18 alleen vrienden.
+
+### Een rustigere chat
+In online partijen toont de chat alleen wat de spelers schrijven; wat er aan tafel gebeurt staat bovenaan in het partijverloop. Toch alles samen? Instellingen → Spel.
+
+### Zwaardere prestaties
+Winstreeksen gaan nu tot 5, 10, 15 en 30, en de XP van elke prestatie volgt zijn medaille: makkelijke zijn minder waard.
+
+### De analyse, voor VIP
+Je stootanalyse en de uitgebreide statistieken zijn één pagina voor VIP-leden: hoe je pot, week na week en tegenover je competitie.
+
+### Soepelere schermen
+De winkel en de collectie scrollen omlaag, vensters vervagen, de terugknop van je muis gaat terug en het toetsenbord bereikt elke knop.
+
 ## 0.12.1
 
 ### Overal soepeler

@@ -3,6 +3,23 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.12.2
+
+### Pesan pribadi
+Kirim pesan ke pemain mana pun dari kotak masuk atau profilnya. Di Pengaturan → Game kamu memilih siapa yang boleh mengirimimu pesan; di bawah 18 tahun, hanya teman.
+
+### Chat yang lebih tenang
+Di permainan online, chat hanya menampilkan tulisan para pemain; kejadian di meja ada di riwayat game, di atas. Mau semuanya bersama? Pengaturan → Game.
+
+### Pencapaian lebih sulit
+Rentetan kemenangan sekarang 5, 10, 15, dan 30, dan XP tiap pencapaian mengikuti medalinya: yang mudah bernilai lebih kecil.
+
+### Analisis, untuk VIP
+Analisis pukulanmu dan statistik lanjutan kini satu halaman untuk anggota VIP: cara kamu memasukkan bola, minggu demi minggu dan dibanding liga-mu.
+
+### Layar lebih mulus
+Toko dan koleksi bergulir ke bawah, jendela memudar perlahan, tombol kembali di mouse kembali dan keyboard menjangkau setiap tombol.
+
 ## 0.12.1
 
 ### Lebih mulus di mana-mana

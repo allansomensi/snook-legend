@@ -3,6 +3,23 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.12.2
+
+### Messaggi privati
+Scrivi a qualsiasi giocatore dalla posta in arrivo o dal suo profilo. In Impostazioni → Gioco scegli chi può scriverti; i minori di 18 anni, solo gli amici.
+
+### Una chat più tranquilla
+Nelle partite online la chat mostra solo ciò che scrivono i giocatori; quello che succede al tavolo è nella cronologia della partita, in alto. Vuoi tutto insieme? Impostazioni → Gioco.
+
+### Obiettivi più difficili
+Le serie di vittorie ora sono da 5, 10, 15 e 30, e gli XP di ogni obiettivo seguono la sua medaglia: quelli facili valgono meno.
+
+### L'analisi, per i VIP
+L'analisi dei tuoi tiri e le statistiche avanzate sono un'unica pagina per i membri VIP: come imbuchi, settimana dopo settimana e rispetto alla tua lega.
+
+### Schermate più fluide
+Il negozio e la collezione scorrono verso il basso, le finestre svaniscono dolcemente, il tasto indietro del mouse torna indietro e la tastiera raggiunge ogni pulsante.
+
 ## 0.12.1
 
 ### Più fluido ovunque

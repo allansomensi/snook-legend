@@ -3,6 +3,23 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.12.2
+
+### Privata meddelanden
+Skriv till vilken spelare som helst från inkorgen eller hens profil. I Inställningar → Spel väljer du vem som får skriva till dig; under 18 bara vänner.
+
+### En lugnare chatt
+I onlinepartier visar chatten bara vad spelarna skriver; det som händer vid bordet finns i partihistoriken, högst upp. Vill du ha allt ihop? Inställningar → Spel.
+
+### Svårare prestationer
+Vinstsviter går nu till 5, 10, 15 och 30, och varje prestations XP följer dess medalj: de enkla är värda mindre.
+
+### Analysen, för VIP
+Din stötanalys och den utökade statistiken är en sida för VIP-medlemmar: hur du sänker, vecka för vecka och mot din liga.
+
+### Smidigare skärmar
+Butiken och samlingen rullar nedåt, fönster tonar ut, musens bakåtknapp går tillbaka och tangentbordet når varje knapp.
+
 ## 0.12.1
 
 ### Mjukare överallt

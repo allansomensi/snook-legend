@@ -2,6 +2,23 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.12.2
+
+### Privát üzenetek
+Írj bármelyik játékosnak a postafiókból vagy a profiljáról. A Beállítások → Játék alatt eldöntheted, ki írhat neked; 18 év alatt csak a barátok.
+
+### Nyugodtabb csevegés
+Az online játszmákban a csevegés csak azt mutatja, amit a játékosok írnak; ami az asztalnál történik, az fent, a játszma történetében van. Mindent együtt szeretnél? Beállítások → Játék.
+
+### Nehezebb teljesítmények
+A győzelmi sorozatok most 5, 10, 15 és 30 hosszúak, és minden teljesítmény XP-je az érméhez igazodik: a könnyűek kevesebbet érnek.
+
+### Elemzés VIP-tagoknak
+A lökéselemzés és a részletes statisztikák most egy oldal a VIP-tagoknak: hogyan rakod el a golyókat, hétről hétre és a ligádhoz képest.
+
+### Gördülékenyebb képernyők
+A bolt és a gyűjtemény lefelé görget, az ablakok finoman eltűnnek, az egér vissza gombja visszalép, a billentyűzet pedig minden gombot elér.
+
 ## 0.12.1
 
 ### Mindenhol simábban

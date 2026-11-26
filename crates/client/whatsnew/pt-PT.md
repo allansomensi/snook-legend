@@ -3,6 +3,23 @@
 # destaque, e as linhas seguintes são o texto dele. Curto e sobre o que os
 # jogadores veem; todas as línguas têm as mesmas versões e o mesmo número de destaques.
 
+## 0.12.2
+
+### Mensagens privadas
+Escreve a qualquer jogador a partir da caixa de entrada ou do perfil dele. Em Definições → Jogo escolhes quem te pode escrever; menores de 18 anos, só amigos.
+
+### Um chat mais calmo
+Nas partidas online o chat mostra só o que os jogadores escrevem; o que acontece na mesa fica no histórico da partida, lá em cima. Queres tudo junto? Definições → Jogo.
+
+### Conquistas mais difíceis
+As sequências de vitórias agora são de 5, 10, 15 e 30, e a XP de cada conquista acompanha a medalha: as fáceis valem menos.
+
+### A análise, para VIP
+A análise das tuas jogadas e as estatísticas avançadas passaram a ser uma página só, para membros VIP: como metes as bolas, semana a semana e face à tua liga.
+
+### Ecrãs mais fluidos
+A loja e a coleção deslizam para baixo, as janelas desaparecem suavemente, o botão de recuar do rato volta atrás e o teclado chega a todos os botões.
+
 ## 0.12.1
 
 ### Tudo mais fluido

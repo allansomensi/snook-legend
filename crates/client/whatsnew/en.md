@@ -3,6 +3,23 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.2
+
+### Private messages
+Write to any player from the inbox or from their profile. Settings → Game decides who can write to you; under 18, friends only.
+
+### A quieter chat
+In online games the chat keeps to what the players say; what happens at the table is in the game's history, at the top. Want it all together? Settings → Game.
+
+### Harder achievements
+Wins in a row now go 5, 10, 15 and 30, and each achievement's XP follows its medal: the easy ones are worth less.
+
+### The analysis, for VIP
+Your shot analysis and the advanced statistics are one page for VIP members: how you pot, week by week and against your league.
+
+### Smoother screens
+The shop and the collection scroll down, windows fade out, the mouse's back button goes back and the keyboard reaches every button.
+
 ## 0.12.1
 
 ### Smoother everywhere

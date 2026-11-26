@@ -3,6 +3,23 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.12.2
+
+### Mensagens privadas
+Escreva para qualquer jogador pela caixa de entrada ou pelo perfil dele. Em Configurações → Jogo você escolhe quem pode escrever para você; menores de 18 anos, só amigos.
+
+### Um chat mais tranquilo
+Nas partidas online o chat mostra só o que os jogadores escrevem; o que acontece na mesa fica no histórico da partida, lá em cima. Quer tudo junto? Configurações → Jogo.
+
+### Conquistas mais difíceis
+As sequências de vitórias agora são de 5, 10, 15 e 30, e o XP de cada conquista acompanha a medalha: as fáceis valem menos.
+
+### A análise, para VIP
+A análise das suas tacadas e as estatísticas avançadas viraram uma página só, para membros VIP: como você encaçapa, semana a semana e contra a sua liga.
+
+### Telas mais fluidas
+A loja e a coleção rolam para baixo, as janelas somem suavemente, o botão de voltar do mouse volta e o teclado chega a todos os botões.
+
 ## 0.12.1
 
 ### Tudo mais fluido

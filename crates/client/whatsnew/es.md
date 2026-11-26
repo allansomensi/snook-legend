@@ -3,6 +3,23 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.12.2
+
+### Mensajes privados
+Escribe a cualquier jugador desde el buzón o desde su perfil. En Ajustes → Juego eliges quién puede escribirte; los menores de 18, solo amigos.
+
+### Un chat más tranquilo
+En las partidas online el chat muestra solo lo que escriben los jugadores; lo que pasa en la mesa está en el historial de la partida, arriba. ¿Lo quieres todo junto? Ajustes → Juego.
+
+### Logros más difíciles
+Las rachas de victorias ahora son de 5, 10, 15 y 30, y la XP de cada logro sigue a su medalla: los fáciles valen menos.
+
+### El análisis, para VIP
+El análisis de tus tiros y las estadísticas avanzadas son una sola página para los miembros VIP: cómo embocas, semana a semana y frente a tu liga.
+
+### Pantallas más fluidas
+La tienda y la colección se desplazan hacia abajo, las ventanas se desvanecen, el botón de retroceso del ratón vuelve atrás y el teclado llega a todos los botones.
+
 ## 0.12.1
 
 ### Más fluido en todas partes

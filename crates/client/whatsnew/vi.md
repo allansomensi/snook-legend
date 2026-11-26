@@ -2,6 +2,23 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.12.2
+
+### Tin nhắn riêng
+Nhắn cho bất kỳ người chơi nào từ hộp thư hoặc từ hồ sơ của họ. Trong Cài đặt → Trò chơi, bạn chọn ai được nhắn cho bạn; dưới 18 tuổi, chỉ bạn bè.
+
+### Trò chuyện yên tĩnh hơn
+Trong ván trực tuyến, trò chuyện chỉ hiện những gì người chơi viết; những gì xảy ra trên bàn nằm trong Diễn biến ván, ở phía trên. Muốn gộp tất cả? Cài đặt → Trò chơi.
+
+### Thành tích khó hơn
+Chuỗi thắng giờ là 5, 10, 15 và 30, và XP của mỗi thành tích theo huy chương của nó: thành tích dễ đáng ít hơn.
+
+### Phân tích, dành cho VIP
+Phân tích cú đánh và thống kê nâng cao giờ là một trang dành cho thành viên VIP: cách bạn đưa bi vào lỗ, theo từng tuần và so với giải đấu của bạn.
+
+### Màn hình mượt hơn
+Cửa hàng và bộ sưu tập cuộn xuống, cửa sổ mờ dần, nút quay lại của chuột quay lại và bàn phím chạm tới mọi nút.
+
 ## 0.12.1
 
 ### Mượt hơn ở mọi nơi

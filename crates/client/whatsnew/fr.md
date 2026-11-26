@@ -4,6 +4,23 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.12.2
+
+### Messages privés
+Écrivez à n'importe quel joueur depuis la boîte de réception ou son profil. Dans Paramètres → Jeu, vous choisissez qui peut vous écrire ; les moins de 18 ans, seulement leurs amis.
+
+### Un chat plus calme
+Dans les parties en ligne, le chat ne montre que ce qu'écrivent les joueurs ; ce qui se passe sur la table est dans l'historique de la partie, en haut. Vous voulez tout ensemble ? Paramètres → Jeu.
+
+### Des succès plus durs
+Les séries de victoires vont désormais à 5, 10, 15 et 30, et l'XP de chaque succès suit sa médaille : les plus faciles valent moins.
+
+### L'analyse, pour les VIP
+L'analyse de vos coups et les statistiques avancées ne forment plus qu'une page, pour les membres VIP : comment vous empochez, semaine après semaine et face à votre ligue.
+
+### Des écrans plus fluides
+La boutique et la collection défilent vers le bas, les fenêtres s'effacent en douceur, le bouton retour de la souris revient en arrière et le clavier atteint chaque bouton.
+
 ## 0.12.1
 
 ### Plus fluide partout

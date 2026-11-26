@@ -3,6 +3,23 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.12.2
+
+### Private Nachrichten
+Schreib jedem Spieler über den Posteingang oder sein Profil. In Einstellungen → Spiel legst du fest, wer dir schreiben darf; unter 18 nur Freunde.
+
+### Ein ruhigerer Chat
+In Online-Partien zeigt der Chat nur, was die Spieler schreiben; was am Tisch passiert, steht oben im Spielverlauf. Lieber alles zusammen? Einstellungen → Spiel.
+
+### Härtere Erfolge
+Siegesserien gehen jetzt bis 5, 10, 15 und 30, und die XP jedes Erfolgs richten sich nach seiner Medaille: leichte sind weniger wert.
+
+### Die Analyse, für VIP
+Deine Stoßanalyse und die erweiterten Statistiken sind jetzt eine Seite für VIP-Mitglieder: wie du versenkst, Woche für Woche und im Vergleich zu deiner Liga.
+
+### Flüssigere Bildschirme
+Shop und Sammlung scrollen nach unten, Fenster blenden sanft aus, die Zurück-Taste der Maus geht zurück und die Tastatur erreicht jeden Knopf.
+
 ## 0.12.1
 
 ### Überall flüssiger

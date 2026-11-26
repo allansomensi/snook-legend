@@ -2,6 +2,23 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.12.2
+
+### Prywatne wiadomości
+Pisz do dowolnego gracza ze skrzynki albo z jego profilu. W Ustawienia → Gra decydujesz, kto może do ciebie pisać; poniżej 18 lat tylko znajomi.
+
+### Spokojniejszy czat
+W grach online czat pokazuje tylko to, co piszą gracze; to, co dzieje się przy stole, jest w historii partii, na górze. Chcesz wszystko razem? Ustawienia → Gra.
+
+### Trudniejsze osiągnięcia
+Serie zwycięstw mają teraz 5, 10, 15 i 30, a XP każdego osiągnięcia zależy od jego medalu: łatwe są warte mniej.
+
+### Analiza dla VIP
+Analiza uderzeń i rozszerzone statystyki to teraz jedna strona dla członków VIP: jak wbijasz, tydzień po tygodniu i na tle twojej ligi.
+
+### Płynniejsze ekrany
+Sklep i kolekcja przewijają się w dół, okna znikają płynnie, przycisk wstecz myszy cofa, a klawiatura dociera do każdego przycisku.
+
 ## 0.12.1
 
 ### Płynniej wszędzie

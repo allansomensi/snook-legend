@@ -2,6 +2,23 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.12.2
+
+### Mesaje private
+Scrie-i oricărui jucător din mesaje sau din profilul lui. În Setări → Joc alegi cine îți poate scrie; sub 18 ani, doar prietenii.
+
+### Un chat mai liniștit
+În partidele online, chatul arată doar ce scriu jucătorii; ce se întâmplă la masă e în istoricul partidei, sus. Vrei totul la un loc? Setări → Joc.
+
+### Realizări mai grele
+Seriile de victorii sunt acum de 5, 10, 15 și 30, iar XP-ul fiecărei realizări urmează medalia ei: cele ușoare valorează mai puțin.
+
+### Analiza, pentru VIP
+Analiza loviturilor tale și statisticile avansate sunt o singură pagină pentru membrii VIP: cum bagi bilele, săptămână de săptămână și față de liga ta.
+
+### Ecrane mai fluide
+Magazinul și colecția derulează în jos, ferestrele dispar lin, butonul înapoi al mouse-ului te duce înapoi, iar tastatura ajunge la fiecare buton.
+
 ## 0.12.1
 
 ### Mai fluid peste tot

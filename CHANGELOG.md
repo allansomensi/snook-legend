@@ -1,5 +1,68 @@
 # Changelog
 
+## 0.12.2 (protocol 25)
+
+Private messages to any player, a match chat that keeps to what the
+players say, harder achievements, the shot analysis for VIP members, a
+smoother interface and the game ready for Flathub. Same protocol as
+0.12.0; migration `0036` (achievements).
+
+### Messages
+- **Private messages** in the inbox: a Messages tab first (with its unread
+  count, also in the menu's and the lounge's inbox counts), the
+  conversations, the one picked with the field to answer and "Profile",
+  and "New message" to write to anyone by name. Another player's profile
+  has a speech bubble that opens their conversation.
+- Who can write: friends to each other, as before; players who aren't
+  friends when both are 18 or older and the one written to keeps Settings →
+  Game → "Messages from anyone" on (kept with the account's settings), 3
+  messages until the other answers and 10 new conversations a day. Minors
+  write to and hear from friends only. A game of 0.12.1 or older gets a
+  stranger's message as a notice; its conversation opens in 0.12.2's inbox.
+
+### At the table
+- Online games: the chat keeps to what the players say; the history's icon
+  in the top bar (there offline already) opens what happened at the table
+  in the chat's place. Settings → Game → "Game events in the chat" (off)
+  mixes them again.
+- The players' cards no longer show the cue: the gem of an epic or
+  legendary cue covered the start of the name.
+
+### Achievements
+- Rated wins in a row: 5 bronze, 10 silver, 15 gold ("Unbeatable"), 30 ruby
+  ("Untouchable"); 3 and 7 are withdrawn (migration `0036`, with their
+  inbox notices). The wolf reaction comes with 15, the Untouchable cue and
+  the ruby frame with 30. Whoever has 15 or 30 gets them on signing in.
+- An achievement's XP follows its medal (25, 50, 100, 150, 250) instead of
+  100 for any.
+- 100 wins and 10 friends a step down; the account's age and events earn
+  silver at most.
+
+### Profile
+- One **Analysis** tab, on one's own profile, for VIP members: the shot
+  analysis and the advanced statistics together (the table and heat map,
+  kinds of shot with the league's mark on the cut angles, safeties and
+  breaks, distances, the weeks, the pockets ahead of the league and
+  behind). Not VIP: the page dimmed, with made-up numbers. Profiles no
+  longer carry anyone's analysis; a VIP member's own still does, for games
+  of 0.12.1 and older.
+
+### Interface
+- The shop's and the collection's cards scroll down in one grid instead
+  of turning pages sideways.
+- Dialogs go out as they came in; hand-drawn cards and rows ease their
+  light under the pointer like the toolkit's widgets.
+- The mouse's back button goes back, like Esc, on the screens.
+- The keyboard: Tab and Shift+Tab go through buttons, tabs, switches, rows
+  and fields; Enter or Space presses; the arrows go along tabs.
+- Small item pictures stay in their tile (the achievement card's rewards).
+
+### Linux
+- Ready for Flathub (`app.snooklegend.SnookLegend`): in a Flatpak the
+  game never updates itself (Flathub does), the window's class matches its
+  launcher, and `flatpak/` has the desktop file and the MetaInfo (its
+  releases written from "What's new" by `tools/gen_metainfo.py`).
+
 ## 0.12.1 (protocol 25)
 
 The interface in motion, games against the computer that open like online

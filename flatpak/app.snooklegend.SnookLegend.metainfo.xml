@@ -197,6 +197,28 @@
   </keywords>
 
   <releases>
+    <release version="0.12.2" date="2026-11-26" type="stable">
+      <description>
+        <ul>
+          <li><em>Private messages.</em> Write to any player from the inbox or from their profile. Settings → Game decides who can write to you; under 18, friends only.</li>
+          <li xml:lang="pt_BR"><em>Mensagens privadas.</em> Escreva para qualquer jogador pela caixa de entrada ou pelo perfil dele. Em Configurações → Jogo você escolhe quem pode escrever para você; menores de 18 anos, só amigos.</li>
+          <li xml:lang="es"><em>Mensajes privados.</em> Escribe a cualquier jugador desde el buzón o desde su perfil. En Ajustes → Juego eliges quién puede escribirte; los menores de 18, solo amigos.</li>
+          <li><em>A quieter chat.</em> In online games the chat keeps to what the players say; what happens at the table is in the game's history, at the top. Want it all together? Settings → Game.</li>
+          <li xml:lang="pt_BR"><em>Um chat mais tranquilo.</em> Nas partidas online o chat mostra só o que os jogadores escrevem; o que acontece na mesa fica no histórico da partida, lá em cima. Quer tudo junto? Configurações → Jogo.</li>
+          <li xml:lang="es"><em>Un chat más tranquilo.</em> En las partidas online el chat muestra solo lo que escriben los jugadores; lo que pasa en la mesa está en el historial de la partida, arriba. ¿Lo quieres todo junto? Ajustes → Juego.</li>
+          <li><em>Harder achievements.</em> Wins in a row now go 5, 10, 15 and 30, and each achievement's XP follows its medal: the easy ones are worth less.</li>
+          <li xml:lang="pt_BR"><em>Conquistas mais difíceis.</em> As sequências de vitórias agora são de 5, 10, 15 e 30, e o XP de cada conquista acompanha a medalha: as fáceis valem menos.</li>
+          <li xml:lang="es"><em>Logros más difíciles.</em> Las rachas de victorias ahora son de 5, 10, 15 y 30, y la XP de cada logro sigue a su medalla: los fáciles valen menos.</li>
+          <li><em>The analysis, for VIP.</em> Your shot analysis and the advanced statistics are one page for VIP members: how you pot, week by week and against your league.</li>
+          <li xml:lang="pt_BR"><em>A análise, para VIP.</em> A análise das suas tacadas e as estatísticas avançadas viraram uma página só, para membros VIP: como você encaçapa, semana a semana e contra a sua liga.</li>
+          <li xml:lang="es"><em>El análisis, para VIP.</em> El análisis de tus tiros y las estadísticas avanzadas son una sola página para los miembros VIP: cómo embocas, semana a semana y frente a tu liga.</li>
+          <li><em>Smoother screens.</em> The shop and the collection scroll down, windows fade out, the mouse's back button goes back and the keyboard reaches every button.</li>
+          <li xml:lang="pt_BR"><em>Telas mais fluidas.</em> A loja e a coleção rolam para baixo, as janelas somem suavemente, o botão de voltar do mouse volta e o teclado chega a todos os botões.</li>
+          <li xml:lang="es"><em>Pantallas más fluidas.</em> La tienda y la colección se desplazan hacia abajo, las ventanas se desvanecen, el botón de retroceso del ratón vuelve atrás y el teclado llega a todos los botones.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.12.2</url>
+    </release>
     <release version="0.12.1" date="2026-11-26" type="stable">
       <description>
         <ul>
@@ -351,22 +373,6 @@
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.0</url>
     </release>
     <release version="0.9.1" date="2026-11-22" type="stable">
-      <description>
-        <ul>
-          <li><em>Chats, redone.</em> The chats at the table and in the lounge have a new look: each player in a colour of their own, an emoji tray, and a field that grows for longer messages. What you send shows at once. At the table the chat stays see-through while nobody uses it, and when closed its button shows how many messages you missed.</li>
-          <li xml:lang="pt_BR"><em>Chats renovados.</em> Os chats da mesa e do salão estão de cara nova: cada jogador com a sua cor, uma bandeja de emojis e um campo que cresce para mensagens longas. O que você envia aparece na hora. Na mesa, o chat fica transparente enquanto ninguém o usa e, fechado, o botão mostra quantas mensagens você perdeu.</li>
-          <li xml:lang="es"><em>Chats renovados.</em> Los chats de la mesa y del salón tienen un nuevo aspecto: cada jugador con su propio color, una bandeja de emojis y un campo que crece con los mensajes largos. Lo que envías aparece al instante. En la mesa, el chat se ve transparente mientras nadie lo usa y, cerrado, su botón muestra cuántos mensajes te perdiste.</li>
-          <li><em>A cleaner table and profile.</em> The top of the table takes less room and shows the rules with how many players are online on them. The profile is tidier: its actions are icons with hints, the rating chart is clearer and the achievement medals are drawn anew.</li>
-          <li xml:lang="pt_BR"><em>Mesa e perfil mais limpos.</em> A parte de cima da mesa ocupa menos espaço e mostra a regra com quantos jogadores estão online nela. O perfil ficou mais organizado: as ações são ícones com dicas, o gráfico de rating está mais claro e as medalhas das conquistas foram redesenhadas.</li>
-          <li xml:lang="es"><em>Mesa y perfil más limpios.</em> La parte superior de la mesa ocupa menos espacio y muestra la regla con cuántos jugadores hay en línea con ella. El perfil está más ordenado: sus acciones son iconos con pistas, el gráfico de rating es más claro y las medallas de los logros se dibujaron de nuevo.</li>
-          <li><em>Watching without hiccups.</em> While watching a game, the shot's chance no longer blinks and reactions can be sent again. The lounge's TV changes the moment a game ends, so it no longer offers the game you just left.</li>
-          <li xml:lang="pt_BR"><em>Assistir sem engasgos.</em> Ao assistir uma partida, a chance da tacada não pisca mais e as reações voltaram a funcionar. A TV do salão muda assim que a partida acaba, e não oferece mais a partida da qual você acabou de sair.</li>
-          <li xml:lang="es"><em>Ver partidas sin tropiezos.</em> Al ver una partida, la probabilidad del tiro ya no parpadea y las reacciones vuelven a funcionar. La TV del salón cambia en cuanto termina una partida, así que ya no ofrece la partida de la que acabas de salir.</li>
-          <li><em>Switching accounts.</em> To sign in with another account, open your profile, click the gear and choose "Sign out".</li>
-          <li xml:lang="pt_BR"><em>Trocar de conta.</em> Para entrar com outra conta, abra o seu perfil, clique na engrenagem e escolha “Sair da conta”.</li>
-          <li xml:lang="es"><em>Cambiar de cuenta.</em> Para entrar con otra cuenta, abre tu perfil, haz clic en el engranaje y elige "Cerrar sesión".</li>
-        </ul>
-      </description>
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.9.1</url>
     </release>
     <release version="0.9.0" date="2026-11-21" type="stable">

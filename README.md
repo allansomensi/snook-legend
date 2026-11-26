@@ -23,8 +23,9 @@ world ranking that keeps everyone coming back.
 ## Download
 
 - **Windows**: get it from the
-  [Microsoft Store](https://apps.microsoft.com/search?query=Snook%20Legend)
+  [Microsoft Store](https://apps.microsoft.com/detail/9NZ15BNMZPTG)
   (free; the Store installs and updates it).
+- **itch.io**: [allansomensi.itch.io/snook-legend](https://allansomensi.itch.io/snook-legend).
 
 Or get the latest version from the
 [Releases page](https://github.com/allansomensi/snook-legend/releases/latest):

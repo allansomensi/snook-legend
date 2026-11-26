@@ -288,7 +288,7 @@ impl Versus {
             let pick = if k < PERSONALITIES.len() { Pick::Personality(k) } else { Pick::Ghost };
             let selected = self.pick == pick;
             let hover = ui.hovering(cell);
-            card_frame(cell, selected, hover);
+            card_frame(ui, cell, selected, hover);
             ui.block(cell);
             let pr = (card_h * 0.3).min(25.0);
             let pc = vec2(
@@ -532,12 +532,12 @@ impl Versus {
                     break;
                 }
                 let chip = Rect::new(cx, y, cw, 22.0);
-                let hover = ui.hovering(chip);
-                rrect(chip, 11.0, Color::new(1.0, 1.0, 1.0, if hover { 0.12 } else { 0.05 }));
-                rrect_lines(chip, 11.0, 1.0, if hover { GOLD } else { BORDER });
+                let lit = ui.hover_anim(chip, ui.hovering(chip));
+                rrect(chip, 11.0, Color::new(1.0, 1.0, 1.0, 0.05 + 0.07 * lit));
+                rrect_lines(chip, 11.0, 1.0, crate::ui::mix(BORDER, GOLD, lit));
                 ui.text(&name, cx + 8.0, text_y(y + 11.0, 12.0), 12.0, CREAM, true);
                 ui.block(chip);
-                if hover && ui.clicked(chip) {
+                if ui.clicked(chip) {
                     self.ghost_name = name.clone();
                     online.request_ghost(&name);
                 }
@@ -670,7 +670,7 @@ impl Versus {
             let is_next = rung == progress.next() && !progress.complete();
             let is_sel = rung == selected;
             let hover = unlocked && ui.hovering(row);
-            card_frame(row, is_sel, hover);
+            card_frame(ui, row, is_sel, hover);
             ui.block(row);
             let mid = row.y + row_h / 2.0;
             let fade = if unlocked { 1.0 } else { 0.45 };
@@ -1279,7 +1279,7 @@ impl Versus {
                 cw,
                 ch,
             );
-            card_frame(cell, k == 0, false);
+            card_frame(ui, cell, k == 0, false);
             let pr = (ch * 0.26).min(24.0);
             let c = vec2(cell.x + cell.w / 2.0, cell.y + ch * 0.38);
             let name = if k == 0 {
@@ -1353,7 +1353,7 @@ impl Versus {
                 row_h - row_gap,
             );
             let hover = ui.hovering(cell);
-            card_frame(cell, self.drill == k, hover);
+            card_frame(ui, cell, self.drill == k, hover);
             ui.block(cell);
             if ui.clicked(cell) {
                 self.drill = k;
@@ -1669,16 +1669,20 @@ fn drill_sketch(ui: &Ui, d: &snook_legend_proto::drills::Drill, area: Rect) {
 }
 
 /// A card's background: picked, under the pointer, or plain.
-fn card_frame(r: Rect, selected: bool, hover: bool) {
+fn card_frame(ui: &Ui, r: Rect, selected: bool, hover: bool) {
+    // (The light under the pointer eases in and out.)
+    let lit = ui.hover_anim(r, hover && !selected);
     if selected {
         rrect(r, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.13));
         rrect_lines(r, 8.0, 1.5, GOLD);
-    } else if hover {
-        rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.07));
-        rrect_lines(r, 8.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.6));
     } else {
-        rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.03));
-        rrect_lines(r, 8.0, 1.0, Color::new(1.0, 1.0, 1.0, 0.07));
+        rrect(r, 8.0, Color::new(1.0, 1.0, 1.0, 0.03 + 0.04 * lit));
+        let edge = crate::ui::mix(
+            Color::new(1.0, 1.0, 1.0, 0.07),
+            Color::new(GOLD.r, GOLD.g, GOLD.b, 0.6),
+            lit,
+        );
+        rrect_lines(r, 8.0, 1.0, edge);
     }
 }
 

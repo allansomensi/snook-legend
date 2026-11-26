@@ -129,8 +129,9 @@ pub fn draw_picker(ui: &mut Ui, current: Lang) -> Option<Lang> {
             if selected {
                 rrect(row, 6.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.14));
             }
-            if hover || (k == p.sel && p.keyed) {
-                rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, 0.07));
+            let lit = ui.hover_anim(row, hover || (k == p.sel && p.keyed));
+            if lit > 0.01 {
+                rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, 0.07 * lit));
             }
             let mid = row.y + row.h / 2.0;
             let color = if selected { GOLD } else { CREAM };

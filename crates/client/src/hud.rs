@@ -1961,8 +1961,9 @@ impl Hud {
         for (k, p) in phrases.iter().enumerate() {
             let row = Rect::new(r.x + 4.0, r.y + 28.0 + k as f32 * row_h, r.w - 8.0, row_h - 2.0);
             let hover = ui.hovering(row);
-            if hover {
-                crate::ui::rrect(row, 5.0, Color::new(1.0, 1.0, 1.0, 0.08));
+            let lit = ui.hover_anim(row, hover);
+            if lit > 0.01 {
+                crate::ui::rrect(row, 5.0, Color::new(1.0, 1.0, 1.0, 0.08 * lit));
             }
             let (text, size) = ui.fitted(t(p), 13.0, row.w - 16.0, false);
             ui.text(

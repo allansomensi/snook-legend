@@ -240,9 +240,9 @@ pub fn medal_art(c: Vec2, size: f32, level: u8, locked: bool) {
 
 /// An achievement's cell: a soft glow of its metal behind the medal (none
 /// while locked, then a small lock), lit gold under the pointer.
-fn medal_cell(c: Rect, level: u8, unlocked: bool, hover: bool) {
+fn medal_cell(c: Rect, level: u8, unlocked: bool, lit: f32) {
     let metal = medal_color(level);
-    rrect(c, 9.0, Color::new(1.0, 1.0, 1.0, if hover { 0.07 } else { 0.035 }));
+    rrect(c, 9.0, Color::new(1.0, 1.0, 1.0, 0.035 + 0.035 * lit));
     let centre = vec2(c.x + c.w / 2.0, c.y + c.h / 2.0);
     if unlocked {
         draw_circle(
@@ -262,8 +262,8 @@ fn medal_cell(c: Rect, level: u8, unlocked: bool, hover: bool) {
             Color::new(MUTED.r, MUTED.g, MUTED.b, 0.9),
         );
     }
-    if hover {
-        rrect_lines(c, 9.0, 1.5, GOLD);
+    if lit > 0.01 {
+        rrect_lines(c, 9.0, 1.5, Color { a: lit, ..GOLD });
     }
 }
 
@@ -622,16 +622,14 @@ impl ProfileScreen {
         let standing = p.player.standing(rules);
         let a = crate::rulesui::accent(rules);
         let hover = ui.hovering(c);
+        let lit = ui.hover_anim(c, hover && !shown);
         // Both cards alike; the one shown is lit in its rules' colour.
-        rrect(c, 9.0, Color::new(1.0, 1.0, 1.0, if hover && !shown { 0.06 } else { 0.04 }));
+        rrect(c, 9.0, Color::new(1.0, 1.0, 1.0, 0.04 + 0.02 * lit));
         if shown {
             rrect(c, 9.0, Color::new(a.r, a.g, a.b, 0.08));
         }
-        let edge = if shown {
-            a
-        } else {
-            Color::new(BORDER.r, BORDER.g, BORDER.b, if hover { 0.9 } else { 0.5 })
-        };
+        let edge =
+            if shown { a } else { Color::new(BORDER.r, BORDER.g, BORDER.b, 0.5 + 0.4 * lit) };
         rrect_lines(c, 9.0, if shown { 1.6 } else { 1.0 }, edge);
         let x = c.x + 16.0;
         // The rules.
@@ -734,18 +732,21 @@ impl ProfileScreen {
         if own {
             let hit = Rect::new(pic.x - pic_r, pic.y - pic_r, 2.0 * pic_r, 2.0 * pic_r);
             let hover = ui.hovering(hit);
+            let lit = ui.hover_anim(hit, hover);
             // A pencil badge says it can be changed.
             let b = pic + vec2(pic_r * 0.72, pic_r * 0.72);
             draw_circle(
                 b.x,
                 b.y,
                 10.0,
-                if hover { GOLD } else { Color::new(0.2, 0.14, 0.09, 1.0) },
+                crate::ui::mix(Color::new(0.2, 0.14, 0.09, 1.0), GOLD, lit),
             );
             draw_circle_lines(b.x, b.y, 10.0, 1.2, GOLD);
-            crate::icons::draw(Icon::Pencil, b, 11.0, if hover { BLACK } else { GOLD });
+            crate::icons::draw(Icon::Pencil, b, 11.0, crate::ui::mix(GOLD, BLACK, lit));
+            if lit > 0.01 {
+                draw_circle_lines(pic.x, pic.y, pic_r + 1.5, 2.0, Color { a: lit, ..GOLD });
+            }
             if hover {
-                draw_circle_lines(pic.x, pic.y, pic_r + 1.5, 2.0, GOLD);
                 ui.tooltip(t("Change your picture"), hit);
                 if ui.clicked(hit) {
                     crate::avatars::open();
@@ -899,14 +900,15 @@ impl ProfileScreen {
                 Look::Primary | Look::Armed => {
                     ui.block(b);
                     let hover = ui.hovering(b);
+                    let lit = ui.hover_anim(b, hover);
                     let (fill, edge) = if look == Look::Primary {
                         (
-                            Color::new(0.16, 0.42, 0.24, if hover { 1.0 } else { 0.92 }),
-                            Color::new(0.45, 0.85, 0.55, if hover { 1.0 } else { 0.7 }),
+                            Color::new(0.16, 0.42, 0.24, 0.92 + 0.08 * lit),
+                            Color::new(0.45, 0.85, 0.55, 0.7 + 0.3 * lit),
                         )
                     } else {
                         (
-                            Color::new(0.5, 0.14, 0.1, if hover { 1.0 } else { 0.9 }),
+                            Color::new(0.5, 0.14, 0.1, 0.9 + 0.1 * lit),
                             Color::new(ALERT.r, ALERT.g, ALERT.b, 1.0),
                         )
                     };
@@ -916,7 +918,7 @@ impl ProfileScreen {
                     if hover {
                         ui.tooltip(tip, b);
                     }
-                    hover && ui.released_in(b)
+                    ui.clicked(b)
                 }
             }
         };
@@ -1072,16 +1074,16 @@ impl ProfileScreen {
             let label = t("Add a status message");
             let lw = ui.text_size(label, 14.0, false).x;
             let b = Rect::new(x - 8.0, mid - 14.0, (lw + 40.0).min(width), 28.0);
-            let hover = ui.hovering(b);
+            let lit = ui.hover_anim(b, ui.hovering(b));
             ui.block(b);
-            if hover {
-                rrect(b, 7.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08));
+            if lit > 0.01 {
+                rrect(b, 7.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08 * lit));
             }
-            let color = if hover { GOLD } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.75) };
+            let color = crate::ui::mix(Color::new(MUTED.r, MUTED.g, MUTED.b, 0.75), GOLD, lit);
             crate::icons::draw(Icon::Pencil, vec2(b.x + 16.0, mid), 13.0, color);
             let label = ui.ellipsize(label, b.w - 36.0, 14.0);
             ui.text(&label, b.x + 30.0, text_y(mid, 14.0), 14.0, color, false);
-            if hover && ui.clicked(b) {
+            if ui.clicked(b) {
                 self.status_edit = Some(String::new());
                 ui.focus = Some(FIELD);
             }
@@ -1138,8 +1140,9 @@ impl ProfileScreen {
             let card = Rect::new(area.x, y, area.w, card_h);
             rrect(card, 8.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.07));
             let hover = ui.hovering(card);
-            if hover {
-                rrect_lines(card, 8.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.6));
+            let lit = ui.hover_anim(card, hover);
+            if lit > 0.01 {
+                rrect_lines(card, 8.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.6 * lit));
             }
             let level = tw("Level {n}", &[("n", &player.level.max(1))]);
             ui.text(&level, card.x + 14.0, card.y + 10.0, 20.0, GOLD, true);
@@ -1222,7 +1225,7 @@ impl ProfileScreen {
         }
         for (k, (a, _)) in won.iter().take(fit).enumerate() {
             let c = Rect::new(area.x + k as f32 * (MEDAL + MEDAL_GAP), y + 26.0, MEDAL, MEDAL);
-            medal_cell(c, a.level, true, ui.hovering(c));
+            medal_cell(c, a.level, true, ui.hover_anim(c, ui.hovering(c)));
             if ui.hovering(c) {
                 let tip =
                     format!("{} ({}): {}", t(a.title), medal_tier(a.level), achievement_text(a));
@@ -1297,7 +1300,7 @@ impl ProfileScreen {
                 .or(crate::dev::flag("SNOOK_LEGEND_ALL_MEDALS").then_some(0));
             let hover = ui.hovering(c);
             // Still to win: greyed, with a small lock.
-            medal_cell(c, a.level, unlocked.is_some(), hover);
+            medal_cell(c, a.level, unlocked.is_some(), ui.hover_anim(c, hover));
             ui.block(c);
             if hover {
                 tip = Some((a, unlocked, c));
@@ -1368,8 +1371,9 @@ impl ProfileScreen {
             );
             let centre = vec2(c.x + c.w / 2.0, c.y + c.h / 2.0);
             let hover = ui.hovering(c);
-            if hover {
-                rrect(c, 6.0, Color::new(1.0, 1.0, 1.0, 0.08));
+            let lit = ui.hover_anim(c, hover);
+            if lit > 0.01 {
+                rrect(c, 6.0, Color::new(1.0, 1.0, 1.0, 0.08 * lit));
             }
             let have = r.available(&codes, &p.reactions, vip);
             if have {
@@ -1412,7 +1416,8 @@ impl ProfileScreen {
             let h = &p.history[k];
             let w = list.w - if scrolls { 12.0 } else { 0.0 };
             let r = Rect::new(list.x, view.y(k), w, row_h - 6.0);
-            rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, 0.035));
+            let lit = ui.hover_anim(r, ui.hovering(r));
+            rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, 0.035 + 0.035 * lit));
             let mid = r.y + r.h / 2.0;
             let (mark, color) = if h.won { (t("W"), WIN) } else { (t("L"), ALERT) };
             let badge = Rect::new(r.x + 8.0, mid - 12.0, 24.0, 24.0);
@@ -1580,7 +1585,8 @@ impl ProfileScreen {
                     let r = Rect::new(list.x, y, w, row_h - 6.0);
                     let open = self.trophies_open.as_ref() == Some(sk);
                     let hover = count > 1 && ui.hovering(r);
-                    let fill = if hover || open { 0.06 } else { 0.035 };
+                    let lit = ui.hover_anim(r, hover || open);
+                    let fill = 0.035 + 0.025 * lit;
                     rrect(r, 6.0, Color::new(1.0, 1.0, 1.0, fill));
                     if open {
                         rrect_lines(r, 6.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.35));
@@ -1641,7 +1647,7 @@ impl ProfileScreen {
                     if count > 1 {
                         // A chevron: down when closed, up when open.
                         let c = vec2(rx - 5.0, mid);
-                        let col = if hover || open { GOLD } else { MUTED };
+                        let col = crate::ui::mix(MUTED, GOLD, lit);
                         let (a, b) = if open { (-3.0, 3.0) } else { (3.0, -3.0) };
                         draw_line(c.x - 5.0, c.y - a, c.x, c.y - b, 1.6, col);
                         draw_line(c.x, c.y - b, c.x + 5.0, c.y - a, 1.6, col);
@@ -1937,14 +1943,14 @@ impl ProfileScreen {
         let size = 14.0;
         let lw = 10.0 + 18.0 + 7.0 + ui.text_size(label, size, true).x + 12.0;
         let link = Rect::new(row.x + row.w - lw, row.y, lw, row.h);
-        let hover = ui.hovering(link);
-        if hover {
-            rrect(link, 8.0, Color::new(1.0, 1.0, 1.0, 0.05));
+        let lit = ui.hover_anim(link, ui.hovering(link));
+        if lit > 0.01 {
+            rrect(link, 8.0, Color::new(1.0, 1.0, 1.0, 0.05 * lit));
         }
-        let color = if hover { CREAM } else { MUTED };
+        let color = crate::ui::mix(MUTED, CREAM, lit);
         crate::icons::draw(Icon::SignOut, vec2(link.x + 10.0 + 9.0, link.y + 20.0), 17.0, color);
         ui.text(label, link.x + 10.0 + 18.0 + 7.0, text_y(link.y + 20.0, size), size, color, true);
-        if hover && ui.clicked(link) {
+        if ui.clicked(link) {
             self.sign_out = true;
             self.account = None;
             ui.focus = None;
@@ -1989,13 +1995,14 @@ fn ghost_width(ui: &Ui, own: bool) -> f32 {
 fn country_flag(ui: &mut Ui, r: Rect, drawn: bool, country: &str) {
     let hit = Rect::new(r.x - 4.0, r.y - 4.0, r.w + 8.0, r.h + 8.0);
     let hover = ui.hovering(hit);
+    let lit = ui.hover_anim(hit, hover);
     ui.block(hit);
     if !drawn {
-        rrect(r, 4.0, Color::new(1.0, 1.0, 1.0, if hover { 0.08 } else { 0.04 }));
-        let edge = if hover { GOLD } else { BORDER };
+        rrect(r, 4.0, Color::new(1.0, 1.0, 1.0, 0.04 + 0.04 * lit));
+        let edge = crate::ui::mix(BORDER, GOLD, lit);
         rrect_lines(r, 4.0, 1.0, edge);
         let icon = if hover { Icon::Pencil } else { Icon::Globe };
-        let color = if hover { GOLD } else { MUTED };
+        let color = crate::ui::mix(MUTED, GOLD, lit);
         crate::icons::draw(icon, vec2(r.x + r.w / 2.0, r.y + r.h / 2.0), 14.0, color);
     } else if hover {
         draw_rectangle(r.x, r.y, r.w, r.h, Color::new(0.0, 0.0, 0.0, 0.55));

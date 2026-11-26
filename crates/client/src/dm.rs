@@ -272,8 +272,9 @@ pub fn phrase_picker(ui: &mut Ui, field: Rect, open: &mut bool) -> Option<&'stat
     for (k, p) in QUICK_CHAT.iter().enumerate() {
         let row =
             Rect::new(list.x + 4.0, list.y + 6.0 + k as f32 * row_h, list.w - 8.0, row_h - 2.0);
-        if ui.hovering(row) {
-            rrect(row, 5.0, Color::new(1.0, 1.0, 1.0, 0.08));
+        let lit = ui.hover_anim(row, ui.hovering(row));
+        if lit > 0.01 {
+            rrect(row, 5.0, Color::new(1.0, 1.0, 1.0, 0.08 * lit));
         }
         let (text, size) = ui.fitted(t(p), 13.0, row.w - 16.0, false);
         ui.text(

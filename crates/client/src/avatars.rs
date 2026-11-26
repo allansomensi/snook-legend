@@ -213,15 +213,18 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
         for (col, &code) in codes.iter().enumerate() {
             let cr = Rect::new(r.x + PAD + col as f32 * (cell + GAP), y, cell, cell);
             let hover = ui.hovering(cr);
+            let lit = ui.hover_anim(cr, hover);
             let selected = code == mine;
-            if hover || selected {
-                rrect(cr, 10.0, Color::new(1.0, 1.0, 1.0, if hover { 0.08 } else { 0.04 }));
+            let fill = if selected { 0.04 } else { 0.0 }
+                + (0.08 - if selected { 0.04 } else { 0.0 }) * lit;
+            if fill > 0.001 {
+                rrect(cr, 10.0, Color::new(1.0, 1.0, 1.0, fill));
             }
             draw(code, vec2(cr.x + cell / 2.0, cr.y + cell / 2.0), cell / 2.0 - 4.0);
             if selected {
                 rrect_lines(cr, 10.0, 2.0, GOLD);
-            } else if hover {
-                rrect_lines(cr, 10.0, 1.0, BORDER);
+            } else if lit > 0.01 {
+                rrect_lines(cr, 10.0, 1.0, Color { a: BORDER.a * lit, ..BORDER });
             }
             if code.is_empty() && hover {
                 ui.tooltip(t("No picture"), cr);

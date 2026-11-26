@@ -292,7 +292,10 @@ fn held(e: Entry, online: &Online) -> (String, i64) {
 pub fn rarity_card(ui: &Ui, c: Rect, rarity: Rarity, selected: bool, time: f32) {
     let rc = rarity_color(rarity);
     let tint = |a: f32| Color::new(rc.r, rc.g, rc.b, a);
-    rrect(c, 10.0, Color::new(1.0, 1.0, 1.0, if selected { 0.07 } else { 0.035 }));
+    // Lit a little under the pointer, easing in and out.
+    let lit = ui.hover_anim(c, ui.hovering(c));
+    let fill = if selected { 0.07 } else { 0.035 } + 0.03 * lit;
+    rrect(c, 10.0, Color::new(1.0, 1.0, 1.0, fill));
     if rarity > Rarity::Common {
         rrect_gradient(c, 10.0, tint(0.16), tint(0.01));
     }
@@ -305,8 +308,8 @@ pub fn rarity_card(ui: &Ui, c: Rect, rarity: Rarity, selected: bool, time: f32) 
         }
     }
     let edge = match rarity {
-        Rarity::Common => BORDER,
-        _ => tint(0.8),
+        Rarity::Common => crate::ui::mix(BORDER, Color { a: 0.55, ..GOLD }, lit),
+        _ => tint(0.8 + 0.2 * lit),
     };
     rrect_lines(c, 10.0, if rarity >= Rarity::Epic { 1.6 } else { 1.0 }, edge);
     if rarity == Rarity::Legendary {
@@ -526,18 +529,13 @@ impl CollectionScreen {
                 let r = Rect::new(x, fy, w, 30.0);
                 ui.block(r);
                 let hover = ui.hovering(r);
-                let fill = if on {
-                    0.14
-                } else if hover {
-                    0.08
-                } else {
-                    0.04
-                };
+                let lit = ui.hover_anim(r, hover && !on);
+                let fill = if on { 0.14 } else { 0.04 + 0.04 * lit };
                 rrect(r, 15.0, Color::new(1.0, 1.0, 1.0, fill));
                 let edge = match (on, color) {
                     (true, Some(c)) => c,
                     (true, None) => GOLD,
-                    _ => BORDER,
+                    _ => crate::ui::mix(BORDER, Color { a: 0.7, ..GOLD }, lit),
                 };
                 rrect_lines(r, 15.0, if on { 1.5 } else { 1.0 }, edge);
                 let mut tx = r.x + 10.0;
@@ -553,7 +551,7 @@ impl CollectionScreen {
                     if on { CREAM } else { MUTED },
                     true,
                 );
-                (w, hover && ui.clicked(r))
+                (w, ui.clicked(r))
             };
         let (w, hit) = chip(ui, x, t("All"), None, self.rarity.is_none());
         if hit && !modal {

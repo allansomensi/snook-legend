@@ -1250,11 +1250,12 @@ impl Rows {
                 Color::new(BORDER.r, BORDER.g, BORDER.b, 0.35),
             );
         }
-        if clickable && enabled && ui.hovering(row) {
+        let lit = ui.hover_anim(row, clickable && enabled && ui.hovering(row));
+        if lit > 0.01 {
             rrect(
                 Rect::new(row.x + 3.0, row.y + 3.0, row.w - 6.0, row.h - 6.0),
                 6.0,
-                Color::new(1.0, 0.9, 0.7, 0.05),
+                Color::new(1.0, 0.9, 0.7, 0.05 * lit),
             );
         }
         let fade = |c: Color| if enabled { c } else { Color::new(c.r, c.g, c.b, c.a * 0.5) };

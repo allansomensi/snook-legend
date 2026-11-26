@@ -461,11 +461,12 @@ pub(crate) fn button(
         Kind::Disabled => (ui.button(r, "", false), DIM),
         Kind::Short => {
             ui.block(r);
+            let lit = ui.hover_anim(r, hover);
             rrect(r, 6.0, Color::new(0.11, 0.08, 0.06, 0.9));
-            let edge = if hover { GOLD } else { BORDER };
-            let alpha = if hover { 0.7 } else { 0.45 };
+            let edge = crate::ui::mix(BORDER, GOLD, lit);
+            let alpha = 0.45 + 0.25 * lit;
             rrect_lines(r, 6.0, 1.0, Color::new(edge.r, edge.g, edge.b, alpha));
-            (hover && ui.clicked(r), if hover { MUTED } else { DIM })
+            (ui.clicked(r), crate::ui::mix(DIM, MUTED, lit))
         }
     };
     icon_label(ui, r, icon, label, size, color);
@@ -863,8 +864,9 @@ impl ShopScreen {
                     let c = Rect::new(right - (tw + 52.0), r.y + 20.0, tw + 52.0, 36.0);
                     ui.block(c);
                     let hover = ui.hovering(c);
-                    rrect(c, 18.0, Color::new(0.0, 0.0, 0.0, if hover { 0.4 } else { 0.25 }));
-                    rrect_lines(c, 18.0, 1.0, if hover { GOLD } else { BORDER });
+                    let lit = ui.hover_anim(c, hover);
+                    rrect(c, 18.0, Color::new(0.0, 0.0, 0.0, 0.25 + 0.15 * lit));
+                    rrect_lines(c, 18.0, 1.0, crate::ui::mix(BORDER, GOLD, lit));
                     crate::icons::draw(icon, vec2(c.x + 25.0, c.y + 18.0), 20.0, GOLD);
                     ui.text(text, c.x + 40.0, text_y(c.y + 18.0, 17.0), 17.0, color, true);
                     if hover {
@@ -1584,9 +1586,10 @@ impl ShopScreen {
             // A friend who is VIP already can't be given VIP.
             let taken = vip && f.player.vip;
             let hover = !taken && ui.hovering(row);
-            rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, if hover { 0.09 } else { 0.035 }));
-            if hover {
-                rrect_lines(row, 6.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.5));
+            let lit = ui.hover_anim(row, hover);
+            rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, 0.035 + 0.055 * lit));
+            if lit > 0.01 {
+                rrect_lines(row, 6.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.5 * lit));
             }
             let mid = row.y + row.h / 2.0;
             let note = if taken { t("already VIP") } else { "" };
@@ -1594,8 +1597,9 @@ impl ShopScreen {
             ui.player_name(&f.player, row.x + 12.0, text_y(mid, 15.0), 15.0, row.w - 24.0 - nw);
             if taken {
                 ui.text(note, row.x + row.w - nw + 4.0, text_y(mid, 13.0), 13.0, MUTED, false);
-            } else if hover {
-                crate::icons::draw(Icon::Gift, vec2(row.x + row.w - 22.0, mid), 16.0, GOLD);
+            } else if lit > 0.01 {
+                let gold = Color { a: lit, ..GOLD };
+                crate::icons::draw(Icon::Gift, vec2(row.x + row.w - 22.0, mid), 16.0, gold);
             }
             ui.block(row);
             if hover && ui.clicked(row) {

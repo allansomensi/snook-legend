@@ -221,8 +221,8 @@ impl LanScreen {
                 list.w - if scrolls { 20.0 } else { 12.0 },
                 ROW_H - 4.0,
             );
-            let hover = ui.hovering(row);
-            rrect(row, 6.0, Color::new(1.0, 0.9, 0.7, if hover { 0.08 } else { 0.04 }));
+            let lit = ui.hover_anim(row, ui.hovering(row));
+            rrect(row, 6.0, Color::new(1.0, 0.9, 0.7, 0.04 + 0.04 * lit));
             crate::icons::draw(Icon::Table, vec2(row.x + 22.0, row.y + row.h / 2.0), 20.0, CREAM);
             let button = Rect::new(row.x + row.w - 96.0, row.y + (row.h - 32.0) / 2.0, 88.0, 32.0);
             let name = ui.ellipsize(

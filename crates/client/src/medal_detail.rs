@@ -275,8 +275,9 @@ fn draw_achievement(
         for reaction in &reactions {
             let tr = Rect::new(tx, y, tile, tile);
             let hover = ui.hovering(tr);
-            rrect(tr, 10.0, Color::new(1.0, 1.0, 1.0, if hover { 0.09 } else { 0.05 }));
-            rrect_lines(tr, 10.0, 1.0, if hover { GOLD } else { BORDER });
+            let lit = ui.hover_anim(tr, hover);
+            rrect(tr, 10.0, Color::new(1.0, 1.0, 1.0, 0.05 + 0.04 * lit));
+            rrect_lines(tr, 10.0, 1.0, crate::ui::mix(BORDER, GOLD, lit));
             let c = vec2(tr.x + tile / 2.0, tr.y + tile / 2.0);
             if reaction.available(&codes, &p.reactions, p.player.vip) {
                 crate::reactions::draw(reaction.code, c, tile * 0.5, crate::paint::alpha());
@@ -422,9 +423,10 @@ fn draw_reaction(ui: &mut Ui, p: &Profile, r: &Reaction, card: Rect, inner: f32)
         y += 18.0;
         let b = Rect::new(x, y, inner, 56.0);
         let hover = ui.hovering(b);
+        let lit = ui.hover_anim(b, hover);
         let metal = medal_color(a.level);
-        rrect(b, 10.0, Color::new(metal.r, metal.g, metal.b, if hover { 0.12 } else { 0.06 }));
-        rrect_lines(b, 10.0, 1.0, if hover { metal } else { BORDER });
+        rrect(b, 10.0, Color::new(metal.r, metal.g, metal.b, 0.06 + 0.06 * lit));
+        rrect_lines(b, 10.0, 1.0, crate::ui::mix(BORDER, metal, lit));
         let won = unlocked_at(p, a).is_some();
         crate::profile::medal_art(vec2(b.x + 30.0, b.y + 28.0), 44.0, a.level, !won);
         let tx = b.x + 60.0;

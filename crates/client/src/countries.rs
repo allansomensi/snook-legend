@@ -206,8 +206,9 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
                 rrect(row, 6.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.14));
             }
             // The row Enter would pick, once there is a search or a key press.
-            if hover || (k == p.sel && (!q.is_empty() || p.keyed)) {
-                rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, 0.07));
+            let lit = ui.hover_anim(row, hover || (k == p.sel && (!q.is_empty() || p.keyed)));
+            if lit > 0.01 {
+                rrect(row, 6.0, Color::new(1.0, 1.0, 1.0, 0.07 * lit));
             }
             let mid = row.y + row.h / 2.0;
             crate::flags::draw(code, row.x + 10.0, mid - 7.5, 15.0);

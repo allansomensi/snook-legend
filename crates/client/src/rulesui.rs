@@ -130,11 +130,11 @@ pub fn pill(
     let swap_w = if swap { size + 10.0 } else { 0.0 };
     let w = 10.0 + h * 0.62 + 8.0 + ui.text_size(label, size, true).x + swap_w + 12.0;
     let r = Rect::new(x, y, w, h);
-    let hover = swap && ui.hovering(r);
+    let lit = ui.hover_anim(r, swap && ui.hovering(r));
     let a = accent(rules);
-    let fill = if hover { 0.26 } else { 0.16 };
+    let fill = 0.16 + 0.1 * lit;
     rrect(r, h / 2.0, Color::new(a.r * 0.4, a.g * 0.4, a.b * 0.4, fill + 0.55));
-    rrect_lines(r, h / 2.0, 1.2, Color::new(a.r, a.g, a.b, if hover { 0.95 } else { 0.6 }));
+    rrect_lines(r, h / 2.0, 1.2, Color::new(a.r, a.g, a.b, 0.6 + 0.35 * lit));
     let cy = y + h / 2.0;
     mark(rules, vec2(x + 10.0 + h * 0.31, cy), h * 0.62);
     let tx = x + 10.0 + h * 0.62 + 8.0;
@@ -155,10 +155,10 @@ pub fn pill(
 pub fn badge(ui: &mut Ui, x: f32, y: f32, h: f32, rules: Rules, online: Option<usize>) -> Rect {
     let w = badge_w(ui, h, rules, online);
     let r = Rect::new(x, y, w, h);
-    let hover = ui.hovering(r);
+    let lit = ui.hover_anim(r, ui.hovering(r));
     let a = accent(rules);
-    rrect(r, h / 2.0, Color::new(a.r * 0.4, a.g * 0.4, a.b * 0.4, if hover { 0.85 } else { 0.7 }));
-    rrect_lines(r, h / 2.0, 1.2, Color::new(a.r, a.g, a.b, if hover { 0.95 } else { 0.55 }));
+    rrect(r, h / 2.0, Color::new(a.r * 0.4, a.g * 0.4, a.b * 0.4, 0.7 + 0.15 * lit));
+    rrect_lines(r, h / 2.0, 1.2, Color::new(a.r, a.g, a.b, 0.55 + 0.4 * lit));
     let cy = y + h / 2.0;
     let size = 12.5;
     mark(rules, vec2(x + 9.0 + h * 0.28, cy), h * 0.56);
@@ -324,8 +324,8 @@ pub fn ask(ui: &mut Ui, counts: Option<PerRules<usize>>) -> Asked {
     crate::icons::draw(Icon::Book, vec2(x + 10.0, y + 9.0), 18.0, MUTED);
     ui.text(q, x + 24.0, y, 15.0, MUTED, false);
     let lr = Rect::new(x + 24.0 + qw + 8.0, y - 4.0, lw, 26.0);
-    let hover = ui.hovering(lr);
-    ui.text(link, lr.x, y, 15.0, if hover { CREAM } else { GOLD }, true);
+    let lit = ui.hover_anim(lr, ui.hovering(lr));
+    ui.text(link, lr.x, y, 15.0, crate::ui::mix(GOLD, CREAM, lit), true);
     crate::paint::draw_line(lr.x, y + 19.0, lr.x + lw, y + 19.0, 1.0, GOLD);
     if ui.clicked(lr) {
         out = Asked::Read;
@@ -337,14 +337,9 @@ pub fn ask(ui: &mut Ui, counts: Option<PerRules<usize>>) -> Asked {
 /// button that chooses them; whether it was chosen.
 fn rules_card(ui: &mut Ui, c: Rect, rules: Rules, playing: Option<usize>) -> bool {
     let a = accent(rules);
-    let hover = ui.hovering(c);
+    let lit = ui.hover_anim(c, ui.hovering(c));
     rrect(c, 10.0, Color::new(a.r * 0.08, a.g * 0.08, a.b * 0.1, 0.95));
-    rrect_lines(
-        c,
-        10.0,
-        if hover { 2.0 } else { 1.2 },
-        Color::new(a.r, a.g, a.b, if hover { 1.0 } else { 0.55 }),
-    );
+    rrect_lines(c, 10.0, 1.2 + 0.8 * lit, Color::new(a.r, a.g, a.b, 0.55 + 0.45 * lit));
     let x = c.x + 24.0;
     let mut y = c.y + 24.0;
     mark(rules, vec2(x + 26.0, y + 24.0), 52.0);
@@ -388,7 +383,7 @@ fn rules_card(ui: &mut Ui, c: Rect, rules: Rules, playing: Option<usize>) -> boo
     } else {
         ui.button(b, t("Choose"), true)
     };
-    chose || (hover && ui.clicked(c) && !ui.hovering(b))
+    chose || (ui.clicked(c) && !ui.hovering(b))
 }
 
 #[cfg(test)]

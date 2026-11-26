@@ -414,7 +414,14 @@ async fn the_shot_analysis_adds_up_new_games() {
     let breaks = both.kinds[ShotKind::Break.index()].attempts;
     assert_eq!(breaks, 1, "{both:?}");
     assert!(both.attempts().attempts + both.safeties.attempts >= 1, "{both:?}");
-    assert_eq!(ana.profile("ana").await.analysis, None);
+    assert_eq!(ana.profile("ana").await.analysis, None, "not VIP");
+    // A VIP member's own profile carries it (for games of 0.12.1 and
+    // older); nobody else's does.
+    let ana_id = s.server.store.user_by_name("ana").await.unwrap().unwrap().id;
+    let until = snook_legend_server::now() + 3600;
+    s.server.store.set_vip(ana_id, until, true).await.unwrap();
+    assert_eq!(ana.profile("ana").await.analysis.as_deref(), Some(&analysis));
+    assert_eq!(bia.profile("ana").await.analysis, None);
 }
 
 #[tokio::test]

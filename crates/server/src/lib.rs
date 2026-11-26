@@ -1615,8 +1615,14 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 let viewer = (!guest).then_some(&me);
                 match profile_msg(&server, viewer, &username).await {
                     // (Without the shot analysis: VIP members get their own
-                    // with the advanced statistics, see `advanced`.)
-                    Some(msg) => send(msg),
+                    // with the advanced statistics, see `advanced`; their
+                    // own profile carries it for older games.)
+                    Some(mut msg) => {
+                        if !guest {
+                            analysis::attach_own(&server, &me, &mut msg).await;
+                        }
+                        send(msg)
+                    }
                     None => send(ServerMsg::Error { message: "No such player.".into() }),
                 }
             }

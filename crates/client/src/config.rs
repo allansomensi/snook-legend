@@ -413,7 +413,13 @@ fn move_old_folder(old: &std::path::Path, new: &std::path::Path) {
         for entry in std::fs::read_dir(from)? {
             let entry = entry?;
             let target = to.join(entry.file_name());
-            if entry.file_type()?.is_dir() {
+            let kind = entry.file_type()?;
+            // The game makes no links there: one is not followed (it could
+            // name any file, or a folder holding itself).
+            if kind.is_symlink() {
+                continue;
+            }
+            if kind.is_dir() {
                 copy(&entry.path(), &target)?;
             } else {
                 std::fs::copy(entry.path(), &target)?;

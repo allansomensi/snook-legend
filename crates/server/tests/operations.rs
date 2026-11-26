@@ -535,7 +535,17 @@ async fn a_connection_that_never_finishes_its_request_is_closed() {
     let host = listener.local_addr().unwrap().to_string();
     let header_timeout = Duration::from_secs(2);
     let config = Config { header_timeout, ..Config::default() };
-    tokio::spawn(serve(listener, Server::with_store(config, Store::memory()).await));
+    let server = Server::with_store(config, Store::memory()).await;
+    user(&server, "ana", Role::Player).await;
+    tokio::spawn(serve(listener, server));
+    // A game's connection (a WebSocket) outlives it: the timeout is only
+    // for a request's headers.
+    let mut ana = Client::login(&format!("ws://{host}/ws"), "ana").await;
+    for _ in 0..3 {
+        tokio::time::sleep(header_timeout).await;
+        ana.send(ClientMsg::Ping).await;
+        ana.expect("the answer", |m| matches!(m, ServerMsg::Pong)).await;
+    }
     // Half a request, then nothing (a "slowloris"): closed, not kept for ever.
     let mut c = TcpStream::connect(&host).await.unwrap();
     c.write_all(b"GET /health HTTP/1.1\r\nHost: x\r\n").await.unwrap();

@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	Додайте друзів, що
 Chat and reactions	Чат і реакції
 Mute the opponent's chat	Вимкнути чат суперника
 Their messages in online games are not shown (yours still reach them).	Його повідомлення в онлайн-партіях не показуються (ваші й далі до нього доходять).
+Game events in the chat	Події партії в чаті
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Забиті кулі, фоли та інше також у чаті онлайн-партій. Вони завжди є в історії партії, угорі.
 The reactions they send at the table are not shown.	Реакції, які він надсилає за столом, не показуються.
 Players muted from a game: {n}	Гравців вимкнено в партіях: {n}
 Unmute them all	Увімкнути всіх знову

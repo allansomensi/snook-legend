@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	Voeg vrienden toe om te zien waar
 Chat and reactions	Chat en reacties
 Mute the opponent's chat	Chat van de tegenstander dempen
 Their messages in online games are not shown (yours still reach them).	Zijn berichten in online partijen worden niet getoond (die van jou komen nog aan).
+Game events in the chat	Spelgebeurtenissen in de chat
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Gepotte ballen, fouten en de rest ook in de chat van online partijen. Ze staan altijd in de spelgeschiedenis, bovenaan.
 The reactions they send at the table are not shown.	De reacties die hij aan tafel stuurt worden niet getoond.
 Players muted from a game: {n}	Spelers gedempt in een partij: {n}
 Unmute them all	Iedereen weer toelaten

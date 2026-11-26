@@ -39,6 +39,7 @@ pub const PORTABLE: &[&str] = &[
     "rules",
     "mute_chat",
     "hide_reactions",
+    "game_events_in_chat",
     "muted_chat",
     "muted_reactions",
 ];

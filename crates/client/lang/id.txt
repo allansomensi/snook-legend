@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	Tambahkan teman untuk melihat pos
 Chat and reactions	Obrolan dan reaksi
 Mute the opponent's chat	Bisukan obrolan lawan
 Their messages in online games are not shown (yours still reach them).	Pesannya di permainan online tidak ditampilkan (pesanmu tetap sampai kepadanya).
+Game events in the chat	Kejadian permainan di chat
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Bola masuk, pelanggaran, dan lainnya juga di chat permainan online. Semuanya selalu ada di riwayat permainan, di atas.
 The reactions they send at the table are not shown.	Reaksi yang dia kirim di meja tidak ditampilkan.
 Players muted from a game: {n}	Pemain yang dibisukan dari permainan: {n}
 Unmute them all	Aktifkan suara semuanya

@@ -1019,6 +1019,7 @@ async fn main() {
             hud.observer.camera = None;
         }
         hud.tv_default = config.tv_camera;
+        hud.events_in_chat = config.game_events_in_chat;
         if let Some(tv) = hud.observer.broadcast().filter(|_| watching) {
             rig.tv = tv;
         }

@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	Adaugă prieteni ca să vezi unde
 Chat and reactions	Chat și reacții
 Mute the opponent's chat	Dezactivează chatul adversarului
 Their messages in online games are not shown (yours still reach them).	Mesajele lui în partidele online nu apar (ale tale ajung în continuare la el).
+Game events in the chat	Evenimentele jocului în chat
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Bile băgate, faulturi și restul și în chatul partidelor online. Sunt mereu în istoricul jocului, sus.
 The reactions they send at the table are not shown.	Reacțiile pe care le trimite la masă nu apar.
 Players muted from a game: {n}	Jucători dezactivați într-o partidă: {n}
 Unmute them all	Reactivează-i pe toți

@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	Magdagdag ng kaibigan para makita
 Chat and reactions	Chat at mga reaksyon
 Mute the opponent's chat	I-mute ang chat ng kalaban
 Their messages in online games are not shown (yours still reach them).	Hindi ipinapakita ang mga mensahe niya sa mga online na laro (nakakarating pa rin sa kanya ang sa iyo).
+Game events in the chat	Mga pangyayari sa laro sa chat
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Mga bolang naipasok, foul at iba pa sa chat din ng mga online na laro. Laging nasa kasaysayan ng laro ang mga ito, sa itaas.
 The reactions they send at the table are not shown.	Hindi ipinapakita ang mga reaksyong ipinapadala niya sa mesa.
 Players muted from a game: {n}	Mga manlalarong na-mute mula sa laro: {n}
 Unmute them all	I-unmute silang lahat

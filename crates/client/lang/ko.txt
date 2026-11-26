@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	친구를 추가하면 그 안에
 Chat and reactions	채팅과 리액션
 Mute the opponent's chat	상대의 채팅 음소거
 Their messages in online games are not shown (yours still reach them).	온라인 경기에서 상대의 메시지를 표시하지 않습니다 (내 메시지는 계속 전달됩니다).
+Game events in the chat	채팅에 게임 이벤트 표시
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	온라인 게임 채팅에도 넣은 공, 파울 등을 표시해요. 게임 기록(위쪽)에는 항상 있어요.
 The reactions they send at the table are not shown.	상대가 테이블에서 보내는 리액션을 표시하지 않습니다.
 Players muted from a game: {n}	경기 중 음소거한 플레이어: {n}명
 Unmute them all	모두 음소거 해제

@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	Ajoutez des amis pour voir votre 
 Chat and reactions	Chat et réactions
 Mute the opponent's chat	Couper le chat de l'adversaire
 Their messages in online games are not shown (yours still reach them).	Ses messages dans les parties en ligne ne s'affichent pas (les vôtres lui parviennent toujours).
+Game events in the chat	Événements de la partie dans le chat
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Billes empochées, fautes et le reste aussi dans le chat des parties en ligne. Ils sont toujours dans l'historique de la partie, en haut.
 The reactions they send at the table are not shown.	Les réactions qu'il envoie à la table ne s'affichent pas.
 Players muted from a game: {n}	Joueurs mis en sourdine pendant une partie : {n}
 Unmute them all	Les réactiver tous

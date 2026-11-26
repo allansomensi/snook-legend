@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	أضف أصدقاء لترى تر
 Chat and reactions	الدردشة وردود الفعل
 Mute the opponent's chat	كتم دردشة الخصم
 Their messages in online games are not shown (yours still reach them).	لا تظهر رسائله في المباريات عبر الإنترنت (رسائلك تصله كالمعتاد).
+Game events in the chat	أحداث المباراة في الدردشة
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	الكرات المُدخلة والأخطاء وغيرها في دردشة المباريات عبر الإنترنت أيضًا. إنها دائمًا في سجل المباراة في الأعلى.
 The reactions they send at the table are not shown.	لا تظهر ردود الفعل التي يرسلها على الطاولة.
 Players muted from a game: {n}	لاعبون مكتومون من مباراة: {n}
 Unmute them all	إلغاء الكتم عن الجميع

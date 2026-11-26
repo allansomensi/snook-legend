@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	เพิ่มเพื่อน
 Chat and reactions	แชตและรีแอ็กชัน
 Mute the opponent's chat	ปิดเสียงแชตของคู่แข่ง
 Their messages in online games are not shown (yours still reach them).	ข้อความของเขาในเกมออนไลน์จะไม่แสดง (ข้อความของคุณยังส่งถึงเขา)
+Game events in the chat	เหตุการณ์​ใน​เกม​ใน​แชท
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	ลูก​ที่​ลง ฟาวล์ และ​อื่น ๆ ใน​แชท​ของ​เกม​ออนไลน์​ด้วย ทั้งหมด​อยู่​ใน​ประวัติ​เกม​ด้านบน​เสมอ
 The reactions they send at the table are not shown.	รีแอ็กชันที่เขาส่งที่โต๊ะจะไม่แสดง
 Players muted from a game: {n}	ผู้เล่นที่ปิดเสียงจากเกม: {n}
 Unmute them all	เปิดเสียงทั้งหมด

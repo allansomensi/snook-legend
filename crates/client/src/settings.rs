@@ -561,6 +561,16 @@ impl SettingsScreen {
                     t("Their messages in online games are not shown (yours still reach them)."),
                     &mut config.mute_chat,
                 );
+                switch_row(
+                    rows,
+                    ui,
+                    t("Game events in the chat"),
+                    t(
+                        "Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.",
+                    ),
+                    &mut config.game_events_in_chat,
+                );
+
                 // Whose reactions are shown at the table: one choice for
                 // the two settings (everyone's, all but the opponent's, none).
                 let sel = match (config.show_reactions, config.hide_reactions) {

@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	フレンドを追加すると、
 Chat and reactions	チャットとリアクション
 Mute the opponent's chat	相手のチャットをミュート
 Their messages in online games are not shown (yours still reach them).	オンライン対戦で相手のメッセージを表示しません（あなたのメッセージは届きます）。
+Game events in the chat	チャットに試合の出来事を表示
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	オンライン対戦のチャットにも、入ったボールやファウルなどを表示します。試合の履歴（上部）には常に表示されます。
 The reactions they send at the table are not shown.	相手がテーブルで送るリアクションを表示しません。
 Players muted from a game: {n}	試合中にミュートしたプレイヤー：{n}人
 Unmute them all	全員のミュートを解除

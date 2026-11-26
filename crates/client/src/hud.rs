@@ -124,6 +124,9 @@ pub struct Hud {
     pub observer: crate::observer::Observer,
     /// Set by the caller: watching uses the broadcast camera by default.
     pub tv_default: bool,
+    /// What happens at the table also in an online game's chat (Settings →
+    /// Game); always in the history, from the top bar.
+    pub events_in_chat: bool,
     /// The match's introduction is playing (the table's keys wait).
     intro_on: bool,
 }
@@ -222,6 +225,7 @@ impl Default for Hud {
             phrases_open: false,
             observer: Default::default(),
             tv_default: false,
+            events_in_chat: false,
             intro_on: false,
         }
     }
@@ -720,15 +724,15 @@ impl Hud {
                     m.start_replay();
                 }
             }
-            // Offline: the game's history, out of the way up here.
-            if !m.is_online() || crate::correspondence::is_corr(m) {
-                x += 36.0;
-                let tip = if self.history_open { t("Hide the history") } else { t("Game history") };
-                let r = Rect::new(x, 12.0, 30.0, 30.0);
-                self.history_toggle = r;
-                if ui.icon_button_ex(r, Icon::List, tip, true, self.history_open) {
-                    self.history_open = !self.history_open;
-                }
+            // The game's history, out of the way up here (online it takes
+            // the chat's place while it is open).
+            x += 36.0;
+            let tip = if self.history_open { t("Hide the history") } else { t("Game history") };
+            let r = Rect::new(x, 12.0, 30.0, 30.0);
+            self.history_toggle = r;
+            if ui.icon_button_ex(r, Icon::List, tip, true, self.history_open) {
+                self.history_open = !self.history_open;
+                self.chat_scroll = 0;
             }
             if let Some((rules, online, _)) = badge {
                 x += 36.0 + 6.0;
@@ -768,9 +772,9 @@ impl Hud {
             // they are sent it), read only.
             // A correspondence game has no one to chat with: its history.
             let corr = crate::correspondence::is_corr(m);
-            if m.is_online() && !corr {
+            if m.is_online() && !corr && !self.history_open {
                 self.draw_chat(ui, m);
-            } else if !m.is_online() || corr {
+            } else {
                 self.draw_history(ui, m);
             }
         }
@@ -1768,7 +1772,23 @@ impl Hud {
         let log = Rect::new(r.x + 2.0, r.y + 32.0, r.w - 4.0, r.h - 32.0 - input_h);
         let me = o.me.clone().unwrap_or_else(|| m.names[o.seat].clone());
         let me = (!watching).then_some(me.as_str());
-        let lines = if spectators { &o.spectator_chat } else { &o.feed };
+        // The players' chat without what happens at the table (it is in the
+        // history), unless the player wants it all together. (Watching, the
+        // game's tab is the game itself.)
+        let chat_only: Vec<FeedLine>;
+        let lines = if spectators {
+            &o.spectator_chat
+        } else if watching || self.events_in_chat {
+            &o.feed
+        } else {
+            chat_only = o
+                .feed
+                .iter()
+                .filter(|l| !matches!(l.kind, FeedKind::Event | FeedKind::Alert))
+                .cloned()
+                .collect();
+            &chat_only
+        };
         if spectators && lines.is_empty() {
             let text = t("Say something to the others watching (the players don't see it).");
             let lines = ui.wrap(text, log.w - 24.0, 13.0);
@@ -1986,8 +2006,9 @@ impl Hud {
         }
     }
 
-    /// Offline, what happened in the game so far, in the chat's place (no
-    /// one to write to).
+    /// What happened in the game so far, opened from its icon in the top
+    /// bar: offline in the chat's place (no one to write to), online over
+    /// it while it is open (the chat keeps to what the players say).
     fn draw_history(&mut self, ui: &mut Ui, m: &mut Match) {
         // Above the replay's controls when they would be in the way.
         let bar = video_bar_rect(m);

@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	दोस्त जोड़े�
 Chat and reactions	चैट और प्रतिक्रियाएँ
 Mute the opponent's chat	विरोधी की चैट म्यूट करें
 Their messages in online games are not shown (yours still reach them).	ऑनलाइन खेलों में उनके संदेश नहीं दिखते (आपके संदेश उन तक पहुँचते रहते हैं)।
+Game events in the chat	चैट में खेल की घटनाएँ
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	पॉट हुई गेंदें, फ़ाउल और बाकी सब ऑनलाइन गेम की चैट में भी। ये हमेशा ऊपर खेल के इतिहास में रहते हैं।
 The reactions they send at the table are not shown.	टेबल पर भेजी गई उनकी प्रतिक्रियाएँ नहीं दिखतीं।
 Players muted from a game: {n}	किसी खेल से म्यूट किए गए खिलाड़ी: {n}
 Unmute them all	सबको अनम्यूट करें

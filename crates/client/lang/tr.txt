@@ -2434,6 +2434,8 @@ Add friends to see where you stand among them.	Aralarındaki yerini görmek içi
 Chat and reactions	Sohbet ve tepkiler
 Mute the opponent's chat	Rakibin sohbetini sessize al
 Their messages in online games are not shown (yours still reach them).	Çevrimiçi oyunlardaki mesajları gösterilmez (seninkiler ona ulaşmaya devam eder).
+Game events in the chat	Sohbette oyun olayları
+Balls made, fouls and the rest in the chat of online games too. They are always in the game's history, at the top.	Cebe giren toplar, fauller ve diğerleri çevrim içi oyunların sohbetinde de. Hepsi her zaman yukarıdaki oyun geçmişinde.
 The reactions they send at the table are not shown.	Masada gönderdiği tepkiler gösterilmez.
 Players muted from a game: {n}	Bir oyunda sessize alınan oyuncular: {n}
 Unmute them all	Hepsinin sesini aç

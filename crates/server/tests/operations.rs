@@ -573,6 +573,16 @@ async fn the_analytics_and_exports_read_the_economy() {
     let (code, v) = request(&s.host, "GET", "/admin/api/calendar", &moderator, "").await;
     assert_eq!(code, 200, "{v}");
     assert!(s.server.store.audit_log(5).await.unwrap().iter().any(|a| a.action == "export"));
+    // Any number in the query is refused or answered, never a sum that
+    // overflows.
+    for query in [format!("?from={}", i64::MAX), format!("?from={}&to=0", i64::MIN)] {
+        let path = format!("/admin/api/calendar{query}");
+        let (code, v) = request(&s.host, "GET", &path, &moderator, "").await;
+        assert_eq!(code, 400, "{query}: {v}");
+    }
+    let path = format!("/admin/api/export/ledger.csv?to={}", i64::MIN);
+    let (code, _, csv) = raw(&s.host, "GET", &path, &boss, "").await;
+    assert_eq!(code, 400, "{csv}");
 }
 
 #[tokio::test]

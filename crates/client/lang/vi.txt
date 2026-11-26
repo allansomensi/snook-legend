@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	Không thể cài đặt 
 Downloading… {p}%	Đang tải xuống… {p}%
 Updating…	Đang cập nhật…
 The Microsoft Store keeps the game up to date.	Microsoft Store giữ cho game luôn được cập nhật.
+Flathub keeps the game up to date.	Flathub giữ cho game luôn được cập nhật.
 Development build: no automatic updates.	Bản phát triển: không tự động cập nhật.
 Looking for a new version…	Đang tìm phiên bản mới…
 This is the latest version.	Đây là phiên bản mới nhất.
@@ -1227,6 +1228,7 @@ See VIP	Xem VIP
 See the missions	Xem nhiệm vụ
 A new version of the game is out: update to play online.	Đã có phiên bản game mới: hãy cập nhật để chơi trực tuyến.
 Update in the Microsoft Store	Cập nhật trên Microsoft Store
+Update from Flathub	Cập nhật từ Flathub
 Update now	Cập nhật ngay
 Download the new version	Tải phiên bản mới
 New version out	Đã có phiên bản mới

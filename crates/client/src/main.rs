@@ -248,6 +248,10 @@ fn window_conf() -> macroquad::conf::Conf {
             // Vertical sync: no tearing, and no burning the GPU/battery for
             // frames the screen can't show.
             swap_interval: Some(1),
+            // The window's class on X11 (miniquad's own otherwise): the
+            // desktop's dock and task switcher find the game's launcher
+            // and icon by it (the Flatpak's desktop file has this name).
+            linux_wm_class: crate::channel::APP_ID,
             ..Default::default()
         },
     };

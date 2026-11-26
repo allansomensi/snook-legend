@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	새 버전을 설치할 �
 Downloading… {p}%	다운로드 중… {p}%
 Updating…	업데이트 중…
 The Microsoft Store keeps the game up to date.	Microsoft Store에서 게임을 최신 상태로 유지해요.
+Flathub keeps the game up to date.	Flathub에서 게임을 최신 상태로 유지해요.
 Development build: no automatic updates.	개발 빌드: 자동 업데이트 없음.
 Looking for a new version…	새 버전을 확인하는 중…
 This is the latest version.	최신 버전이에요.
@@ -1227,6 +1228,7 @@ See VIP	VIP 보기
 See the missions	미션 보기
 A new version of the game is out: update to play online.	게임의 새 버전이 나왔어요. 온라인으로 플레이하려면 업데이트하세요.
 Update in the Microsoft Store	Microsoft Store에서 업데이트
+Update from Flathub	Flathub에서 업데이트
 Update now	지금 업데이트
 Download the new version	새 버전 다운로드
 New version out	새 버전 출시

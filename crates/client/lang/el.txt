@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	Η νέα έκδοση δ
 Downloading… {p}%	Λήψη… {p}%
 Updating…	Ενημέρωση…
 The Microsoft Store keeps the game up to date.	Το Microsoft Store κρατά το παιχνίδι ενημερωμένο.
+Flathub keeps the game up to date.	Το Flathub κρατά το παιχνίδι ενημερωμένο.
 Development build: no automatic updates.	Έκδοση ανάπτυξης: χωρίς αυτόματες ενημερώσεις.
 Looking for a new version…	Αναζήτηση νέας έκδοσης…
 This is the latest version.	Αυτή είναι η πιο πρόσφατη έκδοση.
@@ -1227,6 +1228,7 @@ See VIP	Δες το VIP
 See the missions	Δες τις αποστολές
 A new version of the game is out: update to play online.	Κυκλοφόρησε νέα έκδοση του παιχνιδιού: ενημέρωσε για να παίξεις online.
 Update in the Microsoft Store	Ενημέρωση στο Microsoft Store
+Update from Flathub	Ενημέρωση από το Flathub
 Update now	Ενημέρωση τώρα
 Download the new version	Λήψη της νέας έκδοσης
 New version out	Νέα έκδοση διαθέσιμη

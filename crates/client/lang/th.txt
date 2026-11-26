@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	ติดตั้ง​�
 Downloading… {p}%	กำลังดาวน์โหลด… {p}%
 Updating…	กำลังอัปเดต…
 The Microsoft Store keeps the game up to date.	Microsoft Store จะ​อัปเดต​เกม​ให้​เป็น​เวอร์ชัน​ล่าสุด​เสมอ
+Flathub keeps the game up to date.	Flathub จะ​อัปเดต​เกม​ให้​เป็น​เวอร์ชัน​ล่าสุด​เสมอ
 Development build: no automatic updates.	บิลด์​สำหรับ​พัฒนา: ไม่​มี​การ​อัปเดต​อัตโนมัติ
 Looking for a new version…	กำลัง​หา​เวอร์ชัน​ใหม่…
 This is the latest version.	นี่​คือ​เวอร์ชัน​ล่าสุด
@@ -1227,6 +1228,7 @@ See VIP	ดู VIP
 See the missions	ดูภารกิจ
 A new version of the game is out: update to play online.	เกม​เวอร์ชัน​ใหม่​ออก​แล้ว: อัปเดต​เพื่อ​เล่น​ออนไลน์
 Update in the Microsoft Store	อัปเดตใน Microsoft Store
+Update from Flathub	อัปเดตจาก Flathub
 Update now	อัปเดตเลย
 Download the new version	ดาวน์โหลด​เวอร์ชัน​ใหม่
 New version out	มี​เวอร์ชัน​ใหม่

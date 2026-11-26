@@ -914,7 +914,7 @@ impl SettingsScreen {
     /// what the updater is doing, and "What's new".
     fn updates_rows(&mut self, ui: &mut Ui, config: &mut Config, in_match: bool, rows: &mut Rows) {
         rows.heading(ui, t("Updates"), None);
-        if !crate::channel::STORE {
+        if !update::managed() {
             switch_row(
                 rows,
                 ui,

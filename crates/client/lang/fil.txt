@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	Hindi ma-install ang bago
 Downloading… {p}%	Nagda-download… {p}%
 Updating…	Nag-a-update…
 The Microsoft Store keeps the game up to date.	Ang Microsoft Store ang nagpapanatiling updated sa laro.
+Flathub keeps the game up to date.	Ang Flathub ang nagpapanatiling updated sa laro.
 Development build: no automatic updates.	Development build: walang awtomatikong update.
 Looking for a new version…	Naghahanap ng bagong bersiyon…
 This is the latest version.	Ito na ang pinakabagong bersiyon.
@@ -1227,6 +1228,7 @@ See VIP	Tingnan ang VIP
 See the missions	Tingnan ang mga misyon
 A new version of the game is out: update to play online.	May bagong bersiyon ng laro: mag-update para makapaglaro online.
 Update in the Microsoft Store	I-update sa Microsoft Store
+Update from Flathub	I-update mula sa Flathub
 Update now	I-update ngayon
 Download the new version	I-download ang bagong bersiyon
 New version out	May bagong bersiyon

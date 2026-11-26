@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	Impossibile installare la
 Downloading… {p}%	Download in corso… {p}%
 Updating…	Aggiornamento…
 The Microsoft Store keeps the game up to date.	Il Microsoft Store mantiene il gioco aggiornato.
+Flathub keeps the game up to date.	Flathub mantiene il gioco aggiornato.
 Development build: no automatic updates.	Versione di sviluppo: nessun aggiornamento automatico.
 Looking for a new version…	Ricerca di una nuova versione…
 This is the latest version.	Questa è la versione più recente.
@@ -1227,6 +1228,7 @@ See VIP	Scopri il VIP
 See the missions	Vedi le missioni
 A new version of the game is out: update to play online.	È uscita una nuova versione del gioco: aggiorna per giocare online.
 Update in the Microsoft Store	Aggiorna nel Microsoft Store
+Update from Flathub	Aggiorna da Flathub
 Update now	Aggiorna ora
 Download the new version	Scarica la nuova versione
 New version out	Nuova versione disponibile

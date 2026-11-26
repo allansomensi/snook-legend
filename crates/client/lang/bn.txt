@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	নতুন সংস্
 Downloading… {p}%	ডাউনলোড হচ্ছে… {p}%
 Updating…	আপডেট হচ্ছে…
 The Microsoft Store keeps the game up to date.	Microsoft Store গেমটি হালনাগাদ রাখে।
+Flathub keeps the game up to date.	Flathub গেমটি হালনাগাদ রাখে।
 Development build: no automatic updates.	ডেভেলপমেন্ট বিল্ড: স্বয়ংক্রিয় আপডেট নেই।
 Looking for a new version…	নতুন সংস্করণ খোঁজা হচ্ছে…
 This is the latest version.	এটিই সর্বশেষ সংস্করণ।
@@ -1227,6 +1228,7 @@ See VIP	VIP দেখুন
 See the missions	মিশন দেখুন
 A new version of the game is out: update to play online.	গেমের নতুন সংস্করণ বেরিয়েছে: অনলাইনে খেলতে আপডেট করুন।
 Update in the Microsoft Store	Microsoft Store-এ আপডেট করুন
+Update from Flathub	Flathub থেকে আপডেট করুন
 Update now	এখনই আপডেট করুন
 Download the new version	নতুন সংস্করণ ডাউনলোড করুন
 New version out	নতুন সংস্করণ বেরিয়েছে

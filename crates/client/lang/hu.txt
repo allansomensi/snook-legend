@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	Az új verziót nem siker
 Downloading… {p}%	Letöltés… {p}%
 Updating…	Frissítés…
 The Microsoft Store keeps the game up to date.	A játékot a Microsoft Store tartja naprakészen.
+Flathub keeps the game up to date.	A játékot a Flathub tartja naprakészen.
 Development build: no automatic updates.	Fejlesztői változat: nincs automatikus frissítés.
 Looking for a new version…	Új verzió keresése…
 This is the latest version.	Ez a legújabb verzió.
@@ -1227,6 +1228,7 @@ See VIP	VIP megtekintése
 See the missions	Küldetések megtekintése
 A new version of the game is out: update to play online.	Megjelent a játék új verziója: frissíts az online játékhoz.
 Update in the Microsoft Store	Frissítés a Microsoft Store-ban
+Update from Flathub	Frissítés a Flathubról
 Update now	Frissítés most
 Download the new version	Új verzió letöltése
 New version out	Új verzió érhető el

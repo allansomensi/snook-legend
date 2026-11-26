@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Snook Legend's page in software centers and on Flathub. The releases
+     are written by tools/gen_metainfo.py from the game's "What's new"
+     (crates/client/whatsnew); a test checks they are all here. -->
+<component type="desktop-application">
+  <id>app.snooklegend.SnookLegend</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT AND OFL-1.1 AND Bitstream-Vera AND CC-BY-4.0 AND LGPL-2.1-or-later</project_license>
+
+  <name>Snook Legend</name>
+  <summary>3D eight-ball pool with online play</summary>
+  <summary xml:lang="pt_BR">Sinuca bola 8 em 3D com jogo online</summary>
+  <summary xml:lang="es">Billar de bola 8 en 3D con juego en línea</summary>
+
+  <developer id="app.snooklegend">
+    <name>Allan Somensi</name>
+  </developer>
+
+  <description>
+    <p>
+      Snook Legend is a lightweight 3D eight-ball pool game built around what
+      made the old online pool rooms special: a cue that does what a real one
+      does, a lounge where you meet people and chat, and a world ranking that
+      keeps everyone coming back.
+    </p>
+    <p xml:lang="pt_BR">
+      Snook Legend é um jogo leve de sinuca bola 8 em 3D, feito em torno do que
+      tornava especiais as antigas salas de sinuca online: um taco que faz o que
+      um taco de verdade faz, um salão para conhecer gente e conversar, e um
+      ranking mundial que faz todo mundo voltar.
+    </p>
+    <p xml:lang="es">
+      Snook Legend es un juego ligero de billar de bola 8 en 3D, hecho en torno a
+      lo que hacía especiales las antiguas salas de billar en línea: un taco que
+      hace lo que hace uno de verdad, un salón para conocer gente y charlar, y un
+      ranking mundial que hace que todos vuelvan.
+    </p>
+    <p>
+      It plays eight-ball under two rules, chosen in the game: the Brazilian
+      rule of bars and pool halls, with penalty balls, and the official rules
+      of the World Pool-Billiard Association (WPA), each with its own rating
+      and ranking.
+    </p>
+    <p xml:lang="pt_BR">
+      Joga-se bola 8 em duas regras, escolhidas no jogo: a regra brasileira, a
+      dos bares e salões, com bolas de penalidade, e a regra oficial da World
+      Pool-Billiard Association (WPA), cada uma com o seu rating e o seu ranking.
+    </p>
+    <p xml:lang="es">
+      Se juega a la bola 8 con dos reglas, elegidas en el juego: la regla
+      brasileña de los bares y salones, con bolas de penalización, y la regla
+      oficial de la World Pool-Billiard Association (WPA), cada una con su
+      propio rating y ranking.
+    </p>
+    <ul>
+      <li>Real ball physics: spin, draw and follow, squirt and throw, jump and massé shots</li>
+      <li xml:lang="pt_BR">Física de verdade: efeito, puxada e seguida, desvio e arrasto, saltos e massé</li>
+      <li xml:lang="es">Física real: efecto, retroceso y seguimiento, desvío y arrastre, saltos y massé</li>
+      <li>Full cue control: aim, power, where the tip strikes the cue ball and the cue's elevation</li>
+      <li xml:lang="pt_BR">Controle total do taco: mira, força, o ponto onde a ponta bate na bola branca e a elevação do taco</li>
+      <li xml:lang="es">Control total del taco: puntería, fuerza, el punto donde la suela golpea la bola blanca y la elevación del taco</li>
+      <li>An online lounge with chat, Play now, invitations, open tables, tournaments, doubles and friends</li>
+      <li xml:lang="pt_BR">Um salão online com chat, Jogar agora, convites, mesas abertas, torneios, duplas e amigos</li>
+      <li xml:lang="es">Un salón en línea con chat, Jugar ahora, invitaciones, mesas abiertas, torneos, dobles y amigos</li>
+      <li>Fifteen computer opponents with styles of their own, a tour through all of them, tournaments and ghosts of real players</li>
+      <li xml:lang="pt_BR">Quinze adversários do computador, cada um com seu estilo, um circuito contra todos eles, torneios e fantasmas de jogadores de verdade</li>
+      <li xml:lang="es">Quince rivales de la computadora con estilo propio, un circuito contra todos ellos, torneos y fantasmas de jugadores reales</li>
+      <li>A daily challenge, 24 drills and daily games with up to 72 hours a turn</li>
+      <li xml:lang="pt_BR">Um desafio do dia, 24 treinos e partidas diárias com até 72 horas por jogada</li>
+      <li xml:lang="es">Un desafío del día, 24 ejercicios y partidas diarias con hasta 72 horas por turno</li>
+      <li>Profiles with ratings, 50 achievements, an analysis of how you pot and the world top 100</li>
+      <li xml:lang="pt_BR">Perfis com rating, 50 conquistas, uma análise de como você encaçapa e o top 100 mundial</li>
+      <li xml:lang="es">Perfiles con rating, 50 logros, un análisis de cómo embocas y el top 100 mundial</li>
+      <li>Cues, cloths, ball sets and themed tables and halls, each seen up close in a showroom</li>
+      <li xml:lang="pt_BR">Tacos, panos, jogos de bolas e mesas e salões temáticos, cada um visto de perto num showroom</li>
+      <li xml:lang="es">Tacos, paños, juegos de bolas y mesas y salones temáticos, cada uno visto de cerca en una sala de exhibición</li>
+      <li>Games on the local network, with no server needed</li>
+      <li xml:lang="pt_BR">Partidas na rede local, sem precisar de servidor</li>
+      <li xml:lang="es">Partidas en la red local, sin necesidad de servidor</li>
+      <li>Graphics presets from old laptops to gaming PCs, and the interface in 27 languages</li>
+      <li xml:lang="pt_BR">Predefinições gráficas de notebooks antigos a PCs gamer, e a interface em 27 idiomas</li>
+      <li xml:lang="es">Ajustes gráficos desde portátiles antiguos hasta PCs gamer, y la interfaz en 27 idiomas</li>
+    </ul>
+    <p>
+      Playing online needs a free account on the game's server. The chat with
+      other players starts off and is turned on with an age check. Coins and a
+      monthly VIP membership can be bought with real money; every item is sold
+      at a price shown before buying, and there are no loot boxes.
+    </p>
+    <p xml:lang="pt_BR">
+      Para jogar online é preciso uma conta gratuita no servidor do jogo. O chat
+      com outros jogadores começa desligado e é ligado com uma verificação de
+      idade. Moedas e uma assinatura VIP mensal podem ser compradas com dinheiro
+      de verdade; todo item é vendido por um preço mostrado antes da compra, e
+      não há caixas de recompensa aleatória.
+    </p>
+    <p xml:lang="es">
+      Para jugar en línea se necesita una cuenta gratuita en el servidor del
+      juego. El chat con otros jugadores empieza desactivado y se activa con una
+      verificación de edad. Las monedas y una suscripción VIP mensual pueden
+      comprarse con dinero real; cada artículo se vende a un precio mostrado
+      antes de comprar, y no hay cajas de botín.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">app.snooklegend.SnookLegend.desktop</launchable>
+  <provides>
+    <binary>snook-legend</binary>
+  </provides>
+
+  <url type="homepage">https://snooklegend.app/</url>
+  <url type="bugtracker">https://github.com/allansomensi/snook-legend/issues</url>
+  <url type="vcs-browser">https://github.com/allansomensi/snook-legend</url>
+  <url type="faq">https://snooklegend.app/#faq</url>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>A game at the table in 3D, with the cue's spin, elevation and fine aim</caption>
+      <caption xml:lang="pt_BR">Uma partida na mesa em 3D, com efeito, elevação e mira fina do taco</caption>
+      <caption xml:lang="es">Una partida en la mesa en 3D, con el efecto, la elevación y la puntería fina del taco</caption>
+      <image>https://raw.githubusercontent.com/allansomensi/snook-legend/v0.12.1/docs/screenshots/3d-view.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Aiming down the cue in one of the themed pool halls</caption>
+      <caption xml:lang="pt_BR">Mirando pelo taco num dos salões temáticos</caption>
+      <caption xml:lang="es">Apuntando a lo largo del taco en uno de los salones temáticos</caption>
+      <image>https://raw.githubusercontent.com/allansomensi/snook-legend/v0.12.1/docs/screenshots/aiming.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The online lounge: players, tables, tournaments, friends and the chat</caption>
+      <caption xml:lang="pt_BR">O salão online: jogadores, mesas, torneios, amigos e o chat</caption>
+      <caption xml:lang="es">El salón en línea: jugadores, mesas, torneos, amigos y el chat</caption>
+      <image>https://raw.githubusercontent.com/allansomensi/snook-legend/v0.12.1/docs/screenshots/lounge.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>A player's profile: a rating for each rules, numbers and the games played</caption>
+      <caption xml:lang="pt_BR">O perfil de um jogador: um rating para cada regra, números e as partidas jogadas</caption>
+      <caption xml:lang="es">El perfil de un jugador: un rating para cada regla, estadísticas y las partidas jugadas</caption>
+      <image>https://raw.githubusercontent.com/allansomensi/snook-legend/v0.12.1/docs/screenshots/profile.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The end of an online game, with the rating change and each player's numbers</caption>
+      <caption xml:lang="pt_BR">O fim de uma partida online, com a mudança de rating e os números de cada jogador</caption>
+      <caption xml:lang="es">El final de una partida en línea, con el cambio de rating y las estadísticas de cada jugador</caption>
+      <image>https://raw.githubusercontent.com/allansomensi/snook-legend/v0.12.1/docs/screenshots/online-result.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The main menu</caption>
+      <caption xml:lang="pt_BR">O menu principal</caption>
+      <caption xml:lang="es">El menú principal</caption>
+      <image>https://raw.githubusercontent.com/allansomensi/snook-legend/v0.12.1/docs/screenshots/menu.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>The table seen from above</caption>
+      <caption xml:lang="pt_BR">A mesa vista de cima</caption>
+      <caption xml:lang="es">La mesa vista desde arriba</caption>
+      <image>https://raw.githubusercontent.com/allansomensi/snook-legend/v0.12.1/docs/screenshots/top-view.png</image>
+    </screenshot>
+  </screenshots>
+
+  <branding>
+    <color type="primary" scheme_preference="light">#e8d6b0</color>
+    <color type="primary" scheme_preference="dark">#2b1b10</color>
+  </branding>
+
+  <content_rating type="oars-1.1">
+    <!-- Bottles on the bars' shelves in some of the pool halls. -->
+    <content_attribute id="drugs-alcohol">mild</content_attribute>
+    <!-- Players chat in the lounge, at the table and in messages: a word
+         filter, reports, blocks and the staff's mutes; off until an age
+         check, quick phrases only for minors. -->
+    <content_attribute id="social-chat">moderate</content_attribute>
+    <!-- Coin packs and VIP, paid through Stripe's hosted page. -->
+    <content_attribute id="money-purchasing">intense</content_attribute>
+  </content_rating>
+
+  <recommends>
+    <control>pointing</control>
+  </recommends>
+  <supports>
+    <control>keyboard</control>
+  </supports>
+
+  <categories>
+    <category>Game</category>
+    <category>SportsGame</category>
+  </categories>
+  <keywords>
+    <keyword>pool</keyword>
+    <keyword>billiards</keyword>
+    <keyword>eight-ball</keyword>
+    <keyword>8-ball</keyword>
+    <keyword>snooker</keyword>
+    <keyword xml:lang="pt_BR">sinuca</keyword>
+    <keyword xml:lang="pt_BR">bilhar</keyword>
+    <keyword xml:lang="es">billar</keyword>
+  </keywords>
+
+  <releases>
+    <release version="0.12.1" date="2026-11-26" type="stable">
+      <description>
+        <ul>
+          <li><em>Smoother everywhere.</em> Lists scroll smoothly (drag them, too), screens and windows glide in and tabs slide. Prefer things still? Settings → Game → Reduce motion.</li>
+          <li xml:lang="pt_BR"><em>Tudo mais fluido.</em> As listas rolam suavemente (dá para arrastar), telas e janelas entram deslizando e as abas também. Prefere sem animação? Configurações → Jogo → Reduzir movimento.</li>
+          <li xml:lang="es"><em>Más fluido en todas partes.</em> Las listas se desplazan con suavidad (también al arrastrarlas), las pantallas y ventanas se deslizan y las pestañas se mueven. ¿Prefieres que todo quede quieto? Ajustes → Juego → Reducir movimiento.</li>
+          <li><em>Face to face with the computer.</em> Games against the computer open like online ones: you and your rival, their style and strength, and where the game is played.</li>
+          <li xml:lang="pt_BR"><em>Frente a frente com o computador.</em> As partidas contra o computador começam como as online: você e o rival, o estilo e a força dele e onde a partida é jogada.</li>
+          <li xml:lang="es"><em>Cara a cara con el ordenador.</em> Las partidas contra el ordenador empiezan como las online: tú y tu rival, su estilo y su nivel, y dónde se juega la partida.</li>
+          <li><em>Achievements up close.</em> Click a medal or a reaction in your profile to see it large: what it takes, how far along you are, when you won it and what comes with it.</li>
+          <li xml:lang="pt_BR"><em>Conquistas de perto.</em> Clique numa medalha ou reação do seu perfil para vê-la grande: o que é preciso, quanto falta, quando você ganhou e o que vem junto.</li>
+          <li xml:lang="es"><em>Los logros de cerca.</em> Haz clic en una medalla o una reacción de tu perfil para verla en grande: qué hace falta, cuánto llevas, cuándo la ganaste y qué incluye.</li>
+          <li><em>Shop and profile.</em> Auctions and supporters are now in the shop, the collection shows what you have first, and trophies of the same kind stack with how many.</li>
+          <li xml:lang="pt_BR"><em>Loja e perfil.</em> Leilões e apoiadores agora ficam na loja, a coleção mostra primeiro o que você tem e troféus repetidos se agrupam mostrando quantos são.</li>
+          <li xml:lang="es"><em>Tienda y perfil.</em> Las subastas y los mecenas ya están en la tienda, la colección muestra primero lo que tienes y los trofeos del mismo tipo se apilan con su cantidad.</li>
+          <li><em>Fixes.</em> Faster screens and server, safer connections, and many fixes in doubles, ratings and weekly prizes.</li>
+          <li xml:lang="pt_BR"><em>Correções.</em> Telas e servidor mais rápidos, conexões mais seguras e várias correções nas duplas, no rating e nos prêmios da semana.</li>
+          <li xml:lang="es"><em>Correcciones.</em> Pantallas y servidor más rápidos, conexiones más seguras y muchas correcciones en los dobles, el rating y los premios semanales.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.12.1</url>
+    </release>
+    <release version="0.12.0" date="2026-11-25" type="stable">
+      <description>
+        <ul>
+          <li><em>Doubles and against the clock.</em> Play 2 against 2 with a friend (partners take turns at the table), with a doubles ranking for each rules. Or clear the table against the clock and climb the week's ranking.</li>
+          <li xml:lang="pt_BR"><em>Duplas e contra o relógio.</em> Jogue 2 contra 2 com um amigo (os parceiros se revezam na mesa), com ranking de duplas para cada regra. Ou limpe a mesa contra o relógio e suba no ranking da semana.</li>
+          <li xml:lang="es"><em>Dobles y contrarreloj.</em> Juega 2 contra 2 con un amigo (los compañeros se turnan en la mesa), con un ranking de dobles para cada regla. O limpia la mesa contrarreloj y sube en el ranking de la semana.</li>
+          <li><em>Official rules: call the 8.</em> The group's balls still count in any pocket, but the 8 must be called: click the pocket before the shot. The 8 in another pocket loses.</li>
+          <li xml:lang="pt_BR"><em>Regra oficial: cante a 8.</em> As bolas do grupo continuam valendo em qualquer caçapa, mas a 8 precisa ser cantada: clique na caçapa antes de tacar. A 8 em outra caçapa perde.</li>
+          <li xml:lang="es"><em>Regla oficial: canta la 8.</em> Las bolas de tu grupo siguen valiendo en cualquier tronera, pero la 8 hay que cantarla: haz clic en la tronera antes del tiro. La 8 en otra tronera pierde.</li>
+          <li><em>Your collection.</em> Every item you have, with its rarity and how and when you got it. Dozens of new cues, tables, ball sets, cloths, frames, effects and 49 new reactions, some animated, some only won in events and tournaments.</li>
+          <li xml:lang="pt_BR"><em>Sua coleção.</em> Todos os seus itens, com a raridade e como e quando você ganhou cada um. Dezenas de tacos, mesas, bolas, panos, molduras e efeitos novos, e 49 reações novas, algumas animadas, algumas só de eventos e torneios.</li>
+          <li xml:lang="es"><em>Tu colección.</em> Todos tus objetos, con su rareza y cómo y cuándo los conseguiste. Decenas de tacos, mesas, juegos de bolas, paños, marcos y efectos nuevos y 49 reacciones nuevas, algunas animadas, otras solo se ganan en eventos y torneos.</li>
+          <li><em>Inbox.</em> Messages from the staff, prizes, tournaments and achievements stay in your inbox until you read them, with a button to act on each one.</li>
+          <li xml:lang="pt_BR"><em>Caixa de entrada.</em> Mensagens da equipe, prêmios, torneios e conquistas ficam na sua caixa de entrada até você ler, com um botão para agir em cada uma.</li>
+          <li xml:lang="es"><em>Buzón.</em> Los mensajes del equipo, premios, torneos y logros se quedan en tu buzón hasta que los leas, con un botón para actuar en cada uno.</li>
+          <li><em>Friends.</em> Messages between friends, what each friend is doing (with a button to watch), a friends' ranking and your settings on every computer.</li>
+          <li xml:lang="pt_BR"><em>Amigos.</em> Mensagens entre amigos, o que cada amigo está fazendo (com botão para assistir), um ranking de amigos e suas configurações em qualquer computador.</li>
+          <li xml:lang="es"><em>Amigos.</em> Mensajes entre amigos, qué está haciendo cada amigo (con un botón para mirar), un ranking de amigos y tus ajustes en cada ordenador.</li>
+          <li><em>At the table.</em> An intro with what is at stake in rated games, a clear rated badge, a big countdown when the opponent drops, a chat for spectators and an observer mode. Mute the chat or reactions of one opponent, and it is remembered.</li>
+          <li xml:lang="pt_BR"><em>Na mesa.</em> Uma abertura com o que está em jogo nas partidas ranqueadas, um selo claro de ranqueada, uma contagem grande quando o adversário cai, um chat para espectadores e um modo observador. Silencie o chat ou as reações de um adversário, e isso fica lembrado.</li>
+          <li xml:lang="es"><em>En la mesa.</em> Una introducción con lo que se juega en las partidas puntuables, una insignia clara de partida puntuable, una cuenta atrás grande cuando el rival se desconecta, un chat para espectadores y un modo observador. Silencia el chat o las reacciones de un rival y se recuerda.</li>
+          <li><em>Tournaments, auctions and sales.</em> Official tournaments with a live prize pool, a weekly auction of rare items, sales in the shop and a bonus for playing on days in a row.</li>
+          <li xml:lang="pt_BR"><em>Torneios, leilões e promoções.</em> Torneios oficiais com prêmio ao vivo, um leilão semanal de itens raros, promoções na loja e um bônus por jogar dias seguidos.</li>
+          <li xml:lang="es"><em>Torneos, subastas y ofertas.</em> Torneos oficiales con un bote de premios en vivo, una subasta semanal de objetos raros, ofertas en la tienda y una bonificación por jugar días seguidos.</li>
+          <li><em>For VIP.</em> An item of the month to keep for good, an aim colour, a victory animation of its own and advanced statistics.</li>
+          <li xml:lang="pt_BR"><em>Para VIP.</em> Um item do mês para guardar para sempre, cor da mira, uma animação de vitória exclusiva e estatísticas avançadas.</li>
+          <li xml:lang="es"><em>Para VIP.</em> Un objeto del mes para quedártelo para siempre, un color de mira, una animación de victoria propia y estadísticas avanzadas.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.12.0</url>
+    </release>
+    <release version="0.11.2" date="2026-11-24" type="stable">
+      <description>
+        <ul>
+          <li><em>Official rules: any pocket counts.</em> Nothing is called any more: a ball of your group in any pocket keeps the table, and the 8 wins in any pocket. Games played before keep the rules they were played with.</li>
+          <li xml:lang="pt_BR"><em>Regra oficial: vale qualquer caçapa.</em> Não se canta mais nada: uma bola do seu grupo em qualquer caçapa mantém a vez, e a 8 vale em qualquer caçapa. As partidas jogadas antes continuam com a regra com que foram jogadas.</li>
+          <li xml:lang="es"><em>Regla oficial: vale cualquier tronera.</em> Ya no se canta nada: una bola de tu grupo en cualquier tronera mantiene el turno, y la 8 vale en cualquier tronera. Las partidas jugadas antes siguen con la regla con la que se jugaron.</li>
+          <li><em>Put the result away.</em> At the end of an online game, hide the result panel to see the table and use the chat; a bar at the top keeps the rematch and the way back to the lounge.</li>
+          <li xml:lang="pt_BR"><em>Esconda o resultado.</em> No fim de uma partida online, esconda o painel do resultado para ver a mesa e usar o chat; uma barra no topo mantém a revanche e a volta ao salão.</li>
+          <li xml:lang="es"><em>Oculta el resultado.</em> Al final de una partida online, oculta el panel del resultado para ver la mesa y usar el chat; una barra arriba mantiene la revancha y la vuelta al salón.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.11.2</url>
+    </release>
+    <release version="0.11.1" date="2026-11-24" type="stable">
+      <description>
+        <ul>
+          <li><em>Free as soon as the game ends.</em> When a game is over, both players show as free in the lounge at once, and can be invited while still looking at the result. Leaving as the last shot rolls no longer leaves you at the table.</li>
+          <li xml:lang="pt_BR"><em>Livre assim que a partida acaba.</em> Quando a partida termina, os dois jogadores aparecem livres no salão na hora, e podem ser convidados mesmo olhando o resultado. Sair enquanto a última tacada rola não deixa mais você preso à mesa.</li>
+          <li xml:lang="es"><em>Libre en cuanto acaba la partida.</em> Cuando la partida termina, los dos jugadores aparecen libres en el salón al instante, y se les puede invitar aunque sigan viendo el resultado. Salir mientras rueda el último tiro ya no te deja atrapado en la mesa.</li>
+          <li><em>A chat you can size.</em> Drag the top edge of the chat in a game to make it taller or shorter; it keeps that size. Every chat has a scroll bar you can drag.</li>
+          <li xml:lang="pt_BR"><em>Um chat do tamanho que você quiser.</em> Arraste a borda de cima do chat da partida para deixá-lo mais alto ou mais baixo; ele guarda o tamanho. Todos os chats têm uma barra de rolagem que dá para arrastar.</li>
+          <li xml:lang="es"><em>Un chat del tamaño que quieras.</em> Arrastra el borde superior del chat de la partida para hacerlo más alto o más bajo; guarda ese tamaño. Todos los chats tienen una barra de desplazamiento que se puede arrastrar.</li>
+          <li><em>Every language in the chat.</em> Many more Chinese characters (traditional ones too) and Japanese kanji show in the chat, and so do the scripts of India, Sri Lanka, Myanmar, Cambodia and Ethiopia.</li>
+          <li xml:lang="pt_BR"><em>Todas as línguas no chat.</em> Muito mais caracteres chineses (também os tradicionais) e kanji japoneses aparecem no chat, assim como as escritas da Índia, do Sri Lanka, de Mianmar, do Camboja e da Etiópia.</li>
+          <li xml:lang="es"><em>Todos los idiomas en el chat.</em> Muchos más caracteres chinos (también los tradicionales) y kanji japoneses se ven en el chat, igual que las escrituras de la India, Sri Lanka, Myanmar, Camboya y Etiopía.</li>
+          <li><em>Smaller fixes.</em> In a small window, opening the quick phrases no longer sends one. Reactions you have show how you got them. Under the official rules, the pocket your aim points at is no longer lit.</li>
+          <li xml:lang="pt_BR"><em>Correções menores.</em> Numa janela pequena, abrir as frases rápidas não envia mais uma delas. As reações que você tem mostram como você as ganhou. Na regra oficial, a caçapa para onde a mira aponta não fica mais acesa.</li>
+          <li xml:lang="es"><em>Correcciones menores.</em> En una ventana pequeña, abrir las frases rápidas ya no envía una. Las reacciones que tienes muestran cómo las conseguiste. En la regla oficial, la tronera a la que apunta tu mira ya no se ilumina.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.11.1</url>
+    </release>
+    <release version="0.11.0" date="2026-11-23" type="stable">
+      <description>
+        <ul>
+          <li><em>Ruby medals and 26 new reactions.</em> The hardest achievements now give a ruby medal. 14 new reactions come with achievements, and 12 more are in the shop, in the new Reactions category.</li>
+          <li xml:lang="pt_BR"><em>Medalhas de rubi e 26 reações novas.</em> As conquistas mais difíceis agora dão uma medalha de rubi. 14 reações novas vêm com conquistas, e mais 12 estão na loja, na nova categoria Reações.</li>
+          <li xml:lang="es"><em>Medallas de rubí y 26 reacciones nuevas.</em> Los logros más difíciles ahora dan una medalla de rubí. 14 reacciones nuevas llegan con logros, y otras 12 están en la tienda, en la nueva categoría Reacciones.</li>
+          <li><em>A clearer profile.</em> Click your flag to change your country, click an opponent's name to open their profile, and see your level as a lit step on the ladder of levels.</li>
+          <li xml:lang="pt_BR"><em>Um perfil mais claro.</em> Clique na sua bandeira para trocar de país, no nome de um adversário para abrir o perfil dele, e veja o seu nível como um degrau aceso na escada de níveis.</li>
+          <li xml:lang="es"><em>Un perfil más claro.</em> Haz clic en tu bandera para cambiar de país, en el nombre de un rival para abrir su perfil, y ve tu nivel como un peldaño encendido en la escalera de niveles.</li>
+          <li><em>Daily challenge and daily games.</em> On the daily challenge, a tie in balls goes to the quickest attempt, and the table shows each player's time. Challenging someone to a daily game lets you choose the rules first.</li>
+          <li xml:lang="pt_BR"><em>Desafio do dia e partidas diárias.</em> No desafio do dia, o empate em bolas fica com a tentativa mais rápida, e a classificação mostra o tempo de cada jogador. Ao desafiar alguém para uma partida diária, você escolhe a regra antes.</li>
+          <li xml:lang="es"><em>Desafío del día y partidas diarias.</em> En el desafío del día, el empate en bolas es para el intento más rápido, y la clasificación muestra el tiempo de cada jugador. Al retar a alguien a una partida diaria, eliges antes las reglas.</li>
+          <li><em>Quieter, clearer menu.</em> Settings → Sound can turn off the interface's clicks. The quit button is now an open door with its name.</li>
+          <li xml:lang="pt_BR"><em>Menu mais silencioso e claro.</em> Em Configurações → Som dá para desligar os cliques da interface. O botão de sair agora é uma porta aberta, com o nome.</li>
+          <li xml:lang="es"><em>Un menú más silencioso y claro.</em> En Ajustes → Sonido puedes apagar los clics de la interfaz. El botón de salir ahora es una puerta abierta, con su nombre.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.11.0</url>
+    </release>
+    <release version="0.10.3" date="2026-11-23" type="stable">
+      <description>
+        <ul>
+          <li><em>Your tour is really back.</em> In 0.10.2 the tour didn't come back for everyone, though they had its cue. Now, signed in with the account that won the tour, it is complete again, every opponent unlocked.</li>
+          <li xml:lang="pt_BR"><em>O circuito vencido volta de verdade.</em> Na 0.10.2 o circuito não voltava para todo mundo, mesmo com o taco. Agora, entrando com a conta que venceu o circuito, ele volta completo, com todos os adversários liberados.</li>
+          <li xml:lang="es"><em>El circuito ganado vuelve de verdad.</em> En la 0.10.2 el circuito no volvía para todos, aunque tuvieran su taco. Ahora, al entrar con la cuenta que ganó el circuito, vuelve completo, con todos los rivales desbloqueados.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.3</url>
+    </release>
+    <release version="0.10.2" date="2026-11-22" type="stable">
+      <description>
+        <ul>
+          <li><em>A tour won stays won.</em> Reinstalling the game, moving to another computer or installing it from the Store could start the tour over, every opponent locked, though you had won its cue. Signed in with the account that has the cue, the tour is complete again.</li>
+          <li xml:lang="pt_BR"><em>Circuito vencido continua vencido.</em> Reinstalar o jogo, trocar de computador ou instalar pela Store podia reiniciar o circuito com todos os adversários bloqueados, mesmo com o taco já conquistado. Entrando com a conta que tem o taco, o circuito volta completo.</li>
+          <li xml:lang="es"><em>El circuito ganado sigue ganado.</em> Reinstalar el juego, cambiar de computadora o instalarlo desde la Store podía reiniciar el circuito con todos los rivales bloqueados, aunque ya tuvieras su taco. Al entrar con la cuenta que tiene el taco, el circuito vuelve completo.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.2</url>
+    </release>
+    <release version="0.10.1" date="2026-11-22" type="stable">
+      <description>
+        <ul>
+          <li><em>Screens bright again.</em> In 0.10.0, opening the lounge could leave the whole interface dimmed, even back in the menu. Fixed.</li>
+          <li xml:lang="pt_BR"><em>Telas claras de novo.</em> Na 0.10.0, abrir o salão podia deixar a interface inteira escurecida, mesmo de volta ao menu. Corrigido.</li>
+          <li xml:lang="es"><em>Pantallas claras otra vez.</em> En la 0.10.0, abrir el salón podía dejar toda la interfaz oscurecida, incluso de vuelta en el menú. Corregido.</li>
+          <li><em>Signed in stays signed in.</em> The game keeps you signed in until you choose "Sign out", even after the connection drops or the server restarts: the menu shows you offline, and a click connects again. An account is still in one place at a time: signing in elsewhere disconnects the other.</li>
+          <li xml:lang="pt_BR"><em>Conectado continua conectado.</em> O jogo mantém você na conta até você escolher “Sair da conta”, mesmo se a conexão cair ou o servidor reiniciar: o menu mostra você offline, e um clique conecta de novo. Uma conta continua em um lugar só: entrar em outro lugar desconecta o anterior.</li>
+          <li xml:lang="es"><em>La sesión sigue abierta.</em> El juego mantiene tu sesión hasta que elijas "Cerrar sesión", aunque se caiga la conexión o el servidor se reinicie: el menú te muestra sin conexión y un clic vuelve a conectar. Una cuenta sigue en un solo lugar: entrar en otro desconecta el anterior.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.1</url>
+    </release>
+    <release version="0.10.0" date="2026-11-22" type="stable">
+      <description>
+        <ul>
+          <li><em>A new look.</em> The whole interface was redone: a typeface made for screens, one family of sharp icons, smooth edges at any size, a new menu with the game's logo, and buttons that light up and click softly. Screens fade in as they open.</li>
+          <li xml:lang="pt_BR"><em>Um visual novo.</em> Toda a interface foi refeita: uma fonte feita para telas, uma família única de ícones nítidos, bordas lisas em qualquer tamanho, um menu novo com o logotipo do jogo e botões que acendem e fazem um clique suave. As telas aparecem com um fade.</li>
+          <li xml:lang="es"><em>Un aspecto nuevo.</em> Toda la interfaz se rehízo: una tipografía pensada para pantallas, una sola familia de iconos nítidos, bordes suaves a cualquier tamaño, un menú nuevo con el logotipo del juego y botones que se iluminan y hacen un clic suave. Las pantallas aparecen con un fundido.</li>
+          <li><em>Profile pictures from the game.</em> The faces gave way to things of the game: 32 new pictures, from the numbered balls and the nine-ball rack to a cue on fire. If you had a face, it became one of them; change it in your profile.</li>
+          <li xml:lang="pt_BR"><em>Fotos do perfil do jogo.</em> Os rostos deram lugar a coisas do jogo: 32 fotos novas, das bolas numeradas e do rack do 9-ball a um taco em chamas. Se você usava um rosto, ele virou uma delas; troque no seu perfil.</li>
+          <li xml:lang="es"><em>Fotos de perfil del juego.</em> Las caras dejaron su lugar a cosas del juego: 32 fotos nuevas, desde las bolas numeradas y el rack del 9-ball hasta un taco en llamas. Si tenías una cara, ahora es una de ellas; cámbiala en tu perfil.</li>
+          <li><em>The shop, as on the table.</em> Cloths show in their own texture under the lamp, and ball sets racked on the cloth. Signed out, the shop says once what signing in is for. When the server can't be reached, a clear message and a "Try again" button.</li>
+          <li xml:lang="pt_BR"><em>A loja, como na mesa.</em> Os panos aparecem com a própria textura sob a luminária, e os jogos de bolas no triângulo, sobre o pano. Sem entrar na conta, a loja diz uma vez para que serve entrar. Sem conexão com o servidor, uma mensagem clara e o botão “Tentar de novo”.</li>
+          <li xml:lang="es"><em>La tienda, como en la mesa.</em> Los paños se ven con su propia textura bajo la lámpara, y los juegos de bolas en el triángulo, sobre el paño. Sin iniciar sesión, la tienda dice una vez para qué sirve entrar. Sin conexión con el servidor, un mensaje claro y el botón "Reintentar".</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.0</url>
+    </release>
+    <release version="0.9.1" date="2026-11-22" type="stable">
+      <description>
+        <ul>
+          <li><em>Chats, redone.</em> The chats at the table and in the lounge have a new look: each player in a colour of their own, an emoji tray, and a field that grows for longer messages. What you send shows at once. At the table the chat stays see-through while nobody uses it, and when closed its button shows how many messages you missed.</li>
+          <li xml:lang="pt_BR"><em>Chats renovados.</em> Os chats da mesa e do salão estão de cara nova: cada jogador com a sua cor, uma bandeja de emojis e um campo que cresce para mensagens longas. O que você envia aparece na hora. Na mesa, o chat fica transparente enquanto ninguém o usa e, fechado, o botão mostra quantas mensagens você perdeu.</li>
+          <li xml:lang="es"><em>Chats renovados.</em> Los chats de la mesa y del salón tienen un nuevo aspecto: cada jugador con su propio color, una bandeja de emojis y un campo que crece con los mensajes largos. Lo que envías aparece al instante. En la mesa, el chat se ve transparente mientras nadie lo usa y, cerrado, su botón muestra cuántos mensajes te perdiste.</li>
+          <li><em>A cleaner table and profile.</em> The top of the table takes less room and shows the rules with how many players are online on them. The profile is tidier: its actions are icons with hints, the rating chart is clearer and the achievement medals are drawn anew.</li>
+          <li xml:lang="pt_BR"><em>Mesa e perfil mais limpos.</em> A parte de cima da mesa ocupa menos espaço e mostra a regra com quantos jogadores estão online nela. O perfil ficou mais organizado: as ações são ícones com dicas, o gráfico de rating está mais claro e as medalhas das conquistas foram redesenhadas.</li>
+          <li xml:lang="es"><em>Mesa y perfil más limpios.</em> La parte superior de la mesa ocupa menos espacio y muestra la regla con cuántos jugadores hay en línea con ella. El perfil está más ordenado: sus acciones son iconos con pistas, el gráfico de rating es más claro y las medallas de los logros se dibujaron de nuevo.</li>
+          <li><em>Watching without hiccups.</em> While watching a game, the shot's chance no longer blinks and reactions can be sent again. The lounge's TV changes the moment a game ends, so it no longer offers the game you just left.</li>
+          <li xml:lang="pt_BR"><em>Assistir sem engasgos.</em> Ao assistir uma partida, a chance da tacada não pisca mais e as reações voltaram a funcionar. A TV do salão muda assim que a partida acaba, e não oferece mais a partida da qual você acabou de sair.</li>
+          <li xml:lang="es"><em>Ver partidas sin tropiezos.</em> Al ver una partida, la probabilidad del tiro ya no parpadea y las reacciones vuelven a funcionar. La TV del salón cambia en cuanto termina una partida, así que ya no ofrece la partida de la que acabas de salir.</li>
+          <li><em>Switching accounts.</em> To sign in with another account, open your profile, click the gear and choose "Sign out".</li>
+          <li xml:lang="pt_BR"><em>Trocar de conta.</em> Para entrar com outra conta, abra o seu perfil, clique na engrenagem e escolha “Sair da conta”.</li>
+          <li xml:lang="es"><em>Cambiar de cuenta.</em> Para entrar con otra cuenta, abre tu perfil, haz clic en el engranaje y elige "Cerrar sesión".</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.9.1</url>
+    </release>
+    <release version="0.9.0" date="2026-11-21" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.9.0</url>
+    </release>
+    <release version="0.8.3" date="2026-11-21" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.3</url>
+    </release>
+    <release version="0.8.2" date="2026-11-21" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.2</url>
+    </release>
+    <release version="0.8.1" date="2026-11-20" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.1</url>
+    </release>
+    <release version="0.8.0" date="2026-11-19" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.0</url>
+    </release>
+    <release version="0.7.4" date="2026-11-19" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.4</url>
+    </release>
+    <release version="0.7.3" date="2026-11-19" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.3</url>
+    </release>
+    <release version="0.7.2" date="2026-11-18" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.2</url>
+    </release>
+    <release version="0.7.1" date="2026-11-18" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.1</url>
+    </release>
+    <release version="0.7.0" date="2026-11-18" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.0</url>
+    </release>
+    <release version="0.6.2" date="2026-11-18" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.6.2</url>
+    </release>
+    <release version="0.6.1" date="2026-11-18" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.6.1</url>
+    </release>
+    <release version="0.6.0" date="2026-11-17" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.6.0</url>
+    </release>
+    <release version="0.5.1" date="2026-11-17" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.5.1</url>
+    </release>
+    <release version="0.5.0" date="2026-11-17" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.5.0</url>
+    </release>
+    <release version="0.4.0" date="2026-11-17" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.4.0</url>
+    </release>
+    <release version="0.3.0" date="2026-11-16" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.3.0</url>
+    </release>
+    <release version="0.2.0" date="2026-11-16" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.2.0</url>
+    </release>
+    <release version="0.1.4" date="2026-11-13" type="stable">
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.1.4</url>
+    </release>
+  </releases>
+</component>

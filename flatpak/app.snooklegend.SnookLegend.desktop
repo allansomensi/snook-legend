@@ -1,0 +1,22 @@
+[Desktop Entry]
+Type=Application
+Name=Snook Legend
+GenericName=Pool Game
+GenericName[pt_BR]=Jogo de sinuca
+GenericName[pt]=Jogo de bilhar
+GenericName[es]=Juego de billar
+Comment=Play eight-ball pool in 3D, online or against the computer
+Comment[pt_BR]=Jogue sinuca de bola 8 em 3D, online ou contra o computador
+Comment[pt]=Jogue bilhar de bola 8 em 3D, online ou contra o computador
+Comment[es]=Juega al billar de bola 8 en 3D, en línea o contra la computadora
+Icon=app.snooklegend.SnookLegend
+Exec=snook-legend
+Terminal=false
+Categories=Game;SportsGame;
+Keywords=pool;billiards;8-ball;eight-ball;snooker;cue;multiplayer;
+Keywords[pt_BR]=sinuca;bilhar;bola 8;taco;multijogador;
+Keywords[pt]=bilhar;snooker;bola 8;taco;multijogador;
+Keywords[es]=billar;pool;bola 8;taco;multijugador;
+StartupWMClass=app.snooklegend.SnookLegend
+StartupNotify=false
+SingleMainWindow=true

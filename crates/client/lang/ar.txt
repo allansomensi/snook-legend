@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	تعذر تثبيت ال�
 Downloading… {p}%	يجري التنزيل… {p}%
 Updating…	يجري التحديث…
 The Microsoft Store keeps the game up to date.	يتولى Microsoft Store تحديث اللعبة.
+Flathub keeps the game up to date.	يتولى Flathub تحديث اللعبة.
 Development build: no automatic updates.	إصدار تطويري: بلا تحديثات تلقائية.
 Looking for a new version…	يجري البحث عن إصدار جديد…
 This is the latest version.	هذا هو أحدث إصدار.
@@ -1227,6 +1228,7 @@ See VIP	عرض VIP
 See the missions	عرض المهام
 A new version of the game is out: update to play online.	صدر إصدار جديد من اللعبة: حدثها للعب عبر الإنترنت.
 Update in the Microsoft Store	التحديث من Microsoft Store
+Update from Flathub	التحديث من Flathub
 Update now	التحديث الآن
 Download the new version	تنزيل الإصدار الجديد
 New version out	صدر إصدار جديد

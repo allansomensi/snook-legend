@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	Yeni sürüm kurulamadı.
 Downloading… {p}%	İndiriliyor… %{p}
 Updating…	Güncelleniyor…
 The Microsoft Store keeps the game up to date.	Oyunu Microsoft Store güncel tutar.
+Flathub keeps the game up to date.	Oyunu Flathub güncel tutar.
 Development build: no automatic updates.	Geliştirme sürümü: otomatik güncelleme yok.
 Looking for a new version…	Yeni sürüm aranıyor…
 This is the latest version.	Bu en son sürüm.
@@ -1227,6 +1228,7 @@ See VIP	VIP'yi gör
 See the missions	Görevleri gör
 A new version of the game is out: update to play online.	Oyunun yeni bir sürümü çıktı: çevrim içi oynamak için güncelle.
 Update in the Microsoft Store	Microsoft Store'da güncelle
+Update from Flathub	Flathub'dan güncelle
 Update now	Şimdi güncelle
 Download the new version	Yeni sürümü indir
 New version out	Yeni sürüm çıktı

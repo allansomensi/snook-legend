@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	Versi baru tidak bisa dip
 Downloading… {p}%	Mengunduh… {p}%
 Updating…	Memperbarui…
 The Microsoft Store keeps the game up to date.	Microsoft Store menjaga game tetap terbaru.
+Flathub keeps the game up to date.	Flathub menjaga game tetap terbaru.
 Development build: no automatic updates.	Versi pengembangan: tanpa pembaruan otomatis.
 Looking for a new version…	Mencari versi baru…
 This is the latest version.	Ini versi terbaru.
@@ -1227,6 +1228,7 @@ See VIP	Lihat VIP
 See the missions	Lihat misi
 A new version of the game is out: update to play online.	Versi baru game sudah rilis: perbarui untuk main online.
 Update in the Microsoft Store	Perbarui di Microsoft Store
+Update from Flathub	Perbarui dari Flathub
 Update now	Perbarui sekarang
 Download the new version	Unduh versi baru
 New version out	Versi baru tersedia

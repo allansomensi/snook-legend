@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	Den nya versionen kunde i
 Downloading… {p}%	Laddar ner… {p}%
 Updating…	Uppdaterar…
 The Microsoft Store keeps the game up to date.	Microsoft Store håller spelet uppdaterat.
+Flathub keeps the game up to date.	Flathub håller spelet uppdaterat.
 Development build: no automatic updates.	Utvecklingsversion: inga automatiska uppdateringar.
 Looking for a new version…	Söker efter en ny version…
 This is the latest version.	Det här är den senaste versionen.
@@ -1227,6 +1228,7 @@ See VIP	Visa VIP
 See the missions	Visa uppdragen
 A new version of the game is out: update to play online.	En ny version av spelet har släppts: uppdatera för att spela online.
 Update in the Microsoft Store	Uppdatera i Microsoft Store
+Update from Flathub	Uppdatera via Flathub
 Update now	Uppdatera nu
 Download the new version	Ladda ner den nya versionen
 New version out	Ny version ute

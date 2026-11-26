@@ -429,6 +429,34 @@ mod tests {
         }
     }
 
+    /// The Flatpak's MetaInfo lists every version, newest first, with the
+    /// latest one's highlights (`python3 tools/gen_metainfo.py` writes them).
+    #[test]
+    fn the_flatpak_metainfo_has_every_version() {
+        let metainfo = include_str!("../../../flatpak/app.snooklegend.SnookLegend.metainfo.xml");
+        let listed: Vec<&str> = metainfo
+            .split("<release version=\"")
+            .skip(1)
+            .filter_map(|s| s.split('"').next())
+            .collect();
+        let en = notes(Lang::English);
+        let versions: Vec<&str> = en.iter().map(|n| n.version.as_str()).collect();
+        assert_eq!(listed, versions, "run python3 tools/gen_metainfo.py");
+        let xml = |s: &str| s.replace('&', "&amp;").replace('<', "&lt;").replace('>', "&gt;");
+        for item in &en[0].items {
+            assert!(
+                metainfo.contains(&format!("{}</em> {}</li>", xml(&item.title), xml(&item.text)))
+                    || metainfo.contains(&format!(
+                        "{}.</em> {}</li>",
+                        xml(&item.title),
+                        xml(&item.text)
+                    )),
+                "{VERSION}'s \"{}\" as in whatsnew/en.md: run python3 tools/gen_metainfo.py",
+                item.title
+            );
+        }
+    }
+
     #[test]
     fn every_language_has_the_same_rules() {
         for book in Rules::ALL {

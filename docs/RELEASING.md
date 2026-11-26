@@ -30,12 +30,15 @@ powershell -ExecutionPolicy Bypass -c "irm https://github.com/allansomensi/snook
 ```
 
 The Microsoft Store gets its own package (MSIX) from the same tag; see
-[MSSTORE.md](MSSTORE.md).
+[MSSTORE.md](MSSTORE.md). The Flatpak's desktop file and MetaInfo (for
+Flathub) are in `flatpak/`; see [flatpak/README.md](../flatpak/README.md).
 
 ## Publishing a version
 
 1. Set the version in `Cargo.toml` (`[workspace.package] version`) and add a
-   `## <version>` section to `CHANGELOG.md`.
+   `## <version>` section to `CHANGELOG.md` and to "What's new"
+   (`crates/client/whatsnew/*.md`), then write the Flatpak's releases from
+   it (`python3 tools/gen_metainfo.py`; a test checks it was done).
 2. Optional: the repository variable `SNOOK_LEGEND_SERVER` (Settings → Secrets and
    variables → Actions → Variables) is the game server baked into the
    release; without it the game uses the public server.
@@ -51,7 +54,9 @@ The Microsoft Store gets its own package (MSIX) from the same tag; see
 
 The **Release** workflow builds every platform, makes the installers and
 publishes the GitHub Release; the **Server image** workflow publishes
-`ghcr.io/<owner>/snook-legend-server:<tag>`. A version with a suffix (`v0.2.0-beta.1`)
+`ghcr.io/<owner>/snook-legend-server:<tag>`. Flathub's copy is updated
+by hand in its own repository (the tag, and `cargo-sources.json` when
+`Cargo.lock` changed; see [flatpak/README.md](../flatpak/README.md)). A version with a suffix (`v0.2.0-beta.1`)
 is published as a pre-release. Pull requests run `dist plan` only, which
 checks the configuration.
 

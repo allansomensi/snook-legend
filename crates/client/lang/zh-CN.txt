@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	新版本安装失败，�
 Downloading… {p}%	正在下载…{p}%
 Updating…	正在更新…
 The Microsoft Store keeps the game up to date.	Microsoft Store会自动更新本游戏。
+Flathub keeps the game up to date.	Flathub会自动更新本游戏。
 Development build: no automatic updates.	开发版本：不自动更新。
 Looking for a new version…	正在检查新版本…
 This is the latest version.	已是最新版本。
@@ -1227,6 +1228,7 @@ See VIP	查看VIP
 See the missions	查看任务
 A new version of the game is out: update to play online.	游戏有新版本：更新后才能在线对战。
 Update in the Microsoft Store	在Microsoft Store中更新
+Update from Flathub	通过Flathub更新
 Update now	立即更新
 Download the new version	下载新版本
 New version out	新版本已发布

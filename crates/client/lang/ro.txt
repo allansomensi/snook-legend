@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	Versiunea nouă nu a putu
 Downloading… {p}%	Se descarcă… {p}%
 Updating…	Se actualizează…
 The Microsoft Store keeps the game up to date.	Microsoft Store ține jocul la zi.
+Flathub keeps the game up to date.	Flathub ține jocul la zi.
 Development build: no automatic updates.	Versiune de dezvoltare: fără actualizări automate.
 Looking for a new version…	Se caută o versiune nouă…
 This is the latest version.	Aceasta e cea mai recentă versiune.
@@ -1227,6 +1228,7 @@ See VIP	Vezi VIP
 See the missions	Vezi misiunile
 A new version of the game is out: update to play online.	A apărut o versiune nouă a jocului: actualizează ca să joci online.
 Update in the Microsoft Store	Actualizează în Microsoft Store
+Update from Flathub	Actualizează din Flathub
 Update now	Actualizează acum
 Download the new version	Descarcă versiunea nouă
 New version out	Versiune nouă disponibilă

@@ -28,6 +28,28 @@ pub const fn store_sales() -> bool {
     STORE && STORE_PURCHASES
 }
 
+/// The game's application ID: the Flatpak's name on Flathub, its desktop
+/// file and its MetaInfo (`flatpak/` in the repository).
+pub const APP_ID: &str = "app.snooklegend.SnookLegend";
+
+/// The game's page on Flathub.
+pub const FLATHUB_PAGE: &str = "https://flathub.org/apps/app.snooklegend.SnookLegend";
+
+/// This copy runs as a Flatpak (installed from Flathub): the system's
+/// software center, or `flatpak update`, brings new versions; the game
+/// never replaces itself (its folder, `/app`, is read-only there anyway).
+/// Flatpak puts `/.flatpak-info` in every sandbox and sets `FLATPAK_ID`;
+/// the same executable outside one updates itself as before. Worked out
+/// once.
+pub fn flatpak() -> bool {
+    static FLATPAK: std::sync::OnceLock<bool> = std::sync::OnceLock::new();
+    *FLATPAK.get_or_init(|| {
+        cfg!(target_os = "linux")
+            && (std::path::Path::new("/.flatpak-info").is_file()
+                || std::env::var_os("FLATPAK_ID").is_some_and(|id| !id.is_empty()))
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use snook_legend_proto::{LAN_DISCOVERY_PORT, LAN_GAME_PORT};
@@ -74,5 +96,29 @@ mod tests {
         {
             assert!(m.contains(&format!("{{{{{key}}}}}")), "{key} is filled in by make-msix.ps1");
         }
+    }
+
+    /// The desktop file and the MetaInfo (`flatpak/`, see flatpak/README.md)
+    /// stay in step with the game: its ID, the executable's name and the
+    /// window's class (the desktop finds the launcher and the icon by it).
+    #[test]
+    fn flatpak_files_match_the_game() {
+        use super::{APP_ID, FLATHUB_PAGE};
+        let exe = env!("CARGO_PKG_NAME");
+        let desktop = include_str!("../../../flatpak/app.snooklegend.SnookLegend.desktop");
+        for line in
+            [format!("Exec={exe}"), format!("Icon={APP_ID}"), format!("StartupWMClass={APP_ID}")]
+        {
+            assert!(desktop.lines().any(|l| l == line), "{line} in the desktop file");
+        }
+        let metainfo = include_str!("../../../flatpak/app.snooklegend.SnookLegend.metainfo.xml");
+        for tag in [
+            format!("<id>{APP_ID}</id>"),
+            format!("<launchable type=\"desktop-id\">{APP_ID}.desktop</launchable>"),
+            format!("<binary>{exe}</binary>"),
+        ] {
+            assert!(metainfo.contains(&tag), "{tag} in the MetaInfo");
+        }
+        assert!(FLATHUB_PAGE.ends_with(&format!("/apps/{APP_ID}")));
     }
 }

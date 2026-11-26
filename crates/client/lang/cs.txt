@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	Novou verzi se nepodařil
 Downloading… {p}%	Stahuji… {p} %
 Updating…	Aktualizuji…
 The Microsoft Store keeps the game up to date.	O aktualizace hry se stará Microsoft Store.
+Flathub keeps the game up to date.	O aktualizace hry se stará Flathub.
 Development build: no automatic updates.	Vývojové sestavení: bez automatických aktualizací.
 Looking for a new version…	Hledám novou verzi…
 This is the latest version.	Tohle je nejnovější verze.
@@ -1227,6 +1228,7 @@ See VIP	Zobrazit VIP
 See the missions	Zobrazit mise
 A new version of the game is out: update to play online.	Vyšla nová verze hry: pro hraní online aktualizuj.
 Update in the Microsoft Store	Aktualizovat v Microsoft Store
+Update from Flathub	Aktualizovat z Flathubu
 Update now	Aktualizovat
 Download the new version	Stáhnout novou verzi
 New version out	Vyšla nová verze

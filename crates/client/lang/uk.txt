@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	Не вдалося вс�
 Downloading… {p}%	Завантаження… {p}%
 Updating…	Оновлення…
 The Microsoft Store keeps the game up to date.	Microsoft Store оновлює гру автоматично.
+Flathub keeps the game up to date.	Flathub оновлює гру автоматично.
 Development build: no automatic updates.	Версія для розробки: без автоматичних оновлень.
 Looking for a new version…	Пошук нової версії…
 This is the latest version.	Це найновіша версія.
@@ -1227,6 +1228,7 @@ See VIP	Переглянути VIP
 See the missions	Переглянути місії
 A new version of the game is out: update to play online.	Вийшла нова версія гри: оновіть її, щоб грати онлайн.
 Update in the Microsoft Store	Оновити в Microsoft Store
+Update from Flathub	Оновити через Flathub
 Update now	Оновити зараз
 Download the new version	Завантажити нову версію
 New version out	Вийшла нова версія

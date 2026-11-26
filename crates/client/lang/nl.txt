@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	De nieuwe versie kon niet
 Downloading… {p}%	Downloaden… {p}%
 Updating…	Bijwerken…
 The Microsoft Store keeps the game up to date.	De Microsoft Store houdt het spel up-to-date.
+Flathub keeps the game up to date.	Flathub houdt het spel up-to-date.
 Development build: no automatic updates.	Ontwikkelversie: geen automatische updates.
 Looking for a new version…	Zoeken naar een nieuwe versie…
 This is the latest version.	Dit is de nieuwste versie.
@@ -1227,6 +1228,7 @@ See VIP	Bekijk VIP
 See the missions	Bekijk de missies
 A new version of the game is out: update to play online.	Er is een nieuwe versie van het spel: werk bij om online te spelen.
 Update in the Microsoft Store	Bijwerken in de Microsoft Store
+Update from Flathub	Bijwerken via Flathub
 Update now	Nu bijwerken
 Download the new version	Download de nieuwe versie
 New version out	Nieuwe versie uit

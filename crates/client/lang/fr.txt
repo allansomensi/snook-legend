@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	La nouvelle version n'a p
 Downloading… {p}%	Téléchargement… {p} %
 Updating…	Mise à jour…
 The Microsoft Store keeps the game up to date.	Le Microsoft Store maintient le jeu à jour.
+Flathub keeps the game up to date.	Flathub maintient le jeu à jour.
 Development build: no automatic updates.	Version de développement : pas de mises à jour automatiques.
 Looking for a new version…	Recherche d'une nouvelle version…
 This is the latest version.	Vous avez la dernière version.
@@ -1227,6 +1228,7 @@ See VIP	Voir le VIP
 See the missions	Voir les missions
 A new version of the game is out: update to play online.	Une nouvelle version du jeu est sortie : mettez à jour pour jouer en ligne.
 Update in the Microsoft Store	Mettre à jour dans le Microsoft Store
+Update from Flathub	Mettre à jour depuis Flathub
 Update now	Mettre à jour maintenant
 Download the new version	Télécharger la nouvelle version
 New version out	Nouvelle version disponible

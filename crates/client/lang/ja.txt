@@ -689,6 +689,7 @@ The new version couldn't be installed. This one stays.	新しいバージョン�
 Downloading… {p}%	ダウンロード中… {p}%
 Updating…	アップデート中…
 The Microsoft Store keeps the game up to date.	ゲームはMicrosoft Storeで最新の状態に保たれます。
+Flathub keeps the game up to date.	ゲームはFlathubで最新の状態に保たれます。
 Development build: no automatic updates.	開発版：自動アップデートはありません。
 Looking for a new version…	新しいバージョンを確認中…
 This is the latest version.	最新バージョンです。
@@ -1227,6 +1228,7 @@ See VIP	VIPを見る
 See the missions	ミッションを見る
 A new version of the game is out: update to play online.	ゲームの新しいバージョンが公開されました：オンラインで対戦するにはアップデートしてください。
 Update in the Microsoft Store	Microsoft Storeでアップデート
+Update from Flathub	Flathubでアップデート
 Update now	今すぐアップデート
 Download the new version	新しいバージョンをダウンロード
 New version out	新バージョン公開

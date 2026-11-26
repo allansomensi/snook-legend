@@ -20,6 +20,8 @@
 //!   page instead.
 //!
 //! The Microsoft Store build never updates itself (the Store does it), nor
+//! does the Flatpak (Flathub's: the software center or `flatpak update`
+//! does it, see `channel::flatpak`), even when updates are forced. Neither
 //! do development builds, unless `SNOOK_LEGEND_UPDATE_FORCE` is set or
 //! `SNOOK_LEGEND_UPDATE_API` points at a test release (a URL that answers like
 //! GitHub's `releases/latest`, e.g. a file served by `python3 -m http.server`).
@@ -68,6 +70,9 @@ const MAX_DOWNLOAD: u64 = 300 << 20;
 pub enum How {
     /// The Microsoft Store updates the game.
     Store,
+    /// A Flatpak: the software center (or `flatpak update`) brings new
+    /// versions from Flathub.
+    Flatpak,
     /// Installed with the .msi: download the new one and run it.
     Installer,
     /// A portable copy (or the one-line installers): replace the executable.
@@ -84,6 +89,9 @@ pub fn how() -> How {
 fn find_how() -> How {
     if crate::channel::STORE {
         return How::Store;
+    }
+    if crate::channel::flatpak() {
+        return How::Flatpak;
     }
     if cfg!(windows) && installed_with_msi() {
         return How::Installer;
@@ -145,11 +153,18 @@ fn cargo_target_dir(dir: &Path) -> bool {
     })
 }
 
+/// Something else keeps this copy up to date (the Microsoft Store, or
+/// Flathub through the software center): no "Update automatically", no
+/// checks of its own.
+pub fn managed() -> bool {
+    matches!(how(), How::Store | How::Flatpak)
+}
+
 /// This copy may look for updates on its own (worked out once).
 pub fn allowed() -> bool {
     static ALLOWED: OnceLock<bool> = OnceLock::new();
     *ALLOWED.get_or_init(|| {
-        !crate::channel::STORE
+        !managed()
             && !in_cargo_target()
             && (!development_build()
                 || crate::dev::flag("SNOOK_LEGEND_UPDATE_FORCE")
@@ -245,7 +260,7 @@ fn set_status(s: Status) {
 
 /// Once a frame: starts a check when one is due and updates are on.
 pub fn tick(automatic: bool) {
-    if !automatic || !allowed() || matches!(how(), How::Store) {
+    if !automatic || !allowed() {
         return;
     }
     let mut s = state();
@@ -318,6 +333,10 @@ pub fn start() -> bool {
             crate::util::open_store_updates();
             false
         }
+        How::Flatpak => {
+            crate::util::open_url(crate::channel::FLATHUB_PAGE);
+            false
+        }
         _ if state().pending.is_some() => restart(),
         How::Installer | How::Replace if allowed() => {
             if !busy() {
@@ -343,6 +362,7 @@ pub fn start() -> bool {
 pub fn button_label() -> String {
     match (how(), status()) {
         (How::Store, _) => t("Update in the Microsoft Store").into(),
+        (How::Flatpak, _) => t("Update from Flathub").into(),
         (_, Status::Ready { .. }) => t("Restart now").into(),
         (_, Status::Downloading { done, total, .. }) => {
             tw("Downloading… {p}%", &[("p", &percent(done, total))])
@@ -367,6 +387,7 @@ pub fn describe(status: &Status) -> (String, bool) {
         _ if crate::channel::STORE => {
             (t("The Microsoft Store keeps the game up to date.").into(), false)
         }
+        _ if how() == How::Flatpak => (t("Flathub keeps the game up to date.").into(), false),
         _ if !allowed() => (t("Development build: no automatic updates.").into(), false),
         Status::Idle => (String::new(), false),
         Status::Checking => (t("Looking for a new version…").into(), false),
@@ -539,7 +560,7 @@ fn run(
         How::Replace => {
             format!("snook-legend-{TARGET}.{}", if cfg!(windows) { "zip" } else { "tar.xz" })
         }
-        How::Store | How::Page => return Ok(Outcome::Available(version)),
+        How::Store | How::Flatpak | How::Page => return Ok(Outcome::Available(version)),
     };
     let Some(asset) = release.assets.iter().find(|a| a.name == wanted) else {
         return Ok(Outcome::Available(version));
@@ -970,8 +991,9 @@ mod tests {
         assert_eq!(listed, ours, "RELEASED_TARGETS must follow dist-workspace.toml");
         assert!(!TARGET.is_empty());
         if RELEASED_TARGETS.contains(&TARGET) && !crate::channel::STORE {
-            assert_eq!(how(), How::Replace);
+            assert_eq!(how(), if crate::channel::flatpak() { How::Flatpak } else { How::Replace });
         }
+        assert_eq!(managed(), crate::channel::STORE || crate::channel::flatpak());
         // Debug builds never update themselves; release ones (`cargo test
         // --release`, as in CI) are kept safe by where they run from: the
         // test runs from Cargo's target folder, never replaced.

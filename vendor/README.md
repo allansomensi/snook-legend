@@ -1,6 +1,6 @@
 # Vendored crates
 
-`miniquad/` is miniquad 0.4.11 with five small fixes, marked "Snook Legend patch" in the
+`miniquad/` is miniquad 0.4.11 with five small fixes and a hook, marked "Snook Legend patch" in the
 source (used through `[patch.crates-io]` in the workspace `Cargo.toml`):
 
 - `src/graphics/gl.rs`: stream buffers are re-specified ("orphaned") on every
@@ -19,3 +19,8 @@ source (used through `[patch.crates-io]` in the workspace `Cargo.toml`):
 - `src/native/windows.rs`: the window opens on the monitor the pointer is on
   (where the game was started from), in the middle of it, not always on the
   primary monitor.
+- `src/lib.rs`: the clock (`date::now`, behind macroquad's `get_time` and
+  `get_frame_time`) can be held at a time and stepped by hand
+  (`date::set_fixed`). Only the game's development recorder uses it
+  (`crates/client/src/record.rs`): each frame of a video is exactly 1/60 s
+  of the game, however long it took to draw.

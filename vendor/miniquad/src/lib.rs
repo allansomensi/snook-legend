@@ -69,8 +69,27 @@ impl<T> IndexMut<usize> for ResourceManager<T> {
 }
 
 pub mod date {
-    #[cfg(not(target_arch = "wasm32"))]
+    // Snook Legend patch: a clock that can be set by hand, so a recording
+    // (the game's development recorder) advances exactly one frame's time
+    // per frame however long each frame takes to draw. 0 = the real clock.
+    static FIXED: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+
+    /// Holds the clock at `t` (seconds, as [`now`] counts them); `None`
+    /// lets it run again.
+    pub fn set_fixed(t: Option<f64>) {
+        let bits = t.map_or(0, f64::to_bits);
+        FIXED.store(bits, std::sync::atomic::Ordering::Relaxed);
+    }
+
     pub fn now() -> f64 {
+        match FIXED.load(std::sync::atomic::Ordering::Relaxed) {
+            0 => real_now(),
+            bits => f64::from_bits(bits),
+        }
+    }
+
+    #[cfg(not(target_arch = "wasm32"))]
+    fn real_now() -> f64 {
         use std::time::SystemTime;
 
         let time = SystemTime::now()
@@ -80,7 +99,7 @@ pub mod date {
     }
 
     #[cfg(target_arch = "wasm32")]
-    pub fn now() -> f64 {
+    fn real_now() -> f64 {
         use crate::native;
 
         unsafe { native::wasm::now() }

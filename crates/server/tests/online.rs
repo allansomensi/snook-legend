@@ -863,6 +863,53 @@ async fn disconnect_reconnect_and_abandon() {
     alice.expect("no invitations", |m| matches!(m, ServerMsg::InviteFailed { .. })).await;
 }
 
+/// Leaving a rated game costs more than losing it, but, as any loss (and as
+/// in doubles), never takes a rating below the floor.
+#[tokio::test]
+async fn leaving_a_game_keeps_the_rating_floor() {
+    let store = snook_legend_server::store::Store::memory();
+    let floor = snook_legend_core::rating::EloConfig::default().floor;
+    let settings = Settings { reconnect_grace: Duration::from_secs(1), ..Settings::default() };
+    let (url, server) = start_on_with(store, settings).await;
+    for name in ["alice", "bob"] {
+        let hash = server.hash_password(PASSWORD).await.unwrap();
+        let user = snook_legend_server::store::NewUser {
+            username: name,
+            password_hash: &hash,
+            country: "BR",
+            rating: floor,
+            role: snook_legend_proto::Role::Player,
+            ip: "127.0.0.1",
+            minor: Some(false),
+        };
+        server.store.create_user(&user).await.unwrap().expect("a new account");
+    }
+    let mut alice = Client::login(&url, "alice", PASSWORD).await;
+    let mut bob = Client::login(&url, "bob", PASSWORD).await;
+    let (_, sa, _) = start_match(&mut alice, &mut bob, "bob", "alice", true).await;
+    drop(alice);
+    let ServerMsg::MatchEnded { result } =
+        bob.expect("abandon", |m| matches!(m, ServerMsg::MatchEnded { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!(result.reason, snook_legend_core::GameOverReason::Abandoned);
+    assert_eq!(result.winner, 1 - sa);
+    assert_eq!((result.rating_delta[sa], result.new_ratings[sa]), (0, floor), "{result:?}");
+    // As the account has it.
+    let deadline = tokio::time::Instant::now() + Duration::from_secs(10);
+    loop {
+        let alice = server.store.user_by_name("alice").await.unwrap().unwrap();
+        let record = alice.records.get(Rules::Brazilian);
+        if record.games == 1 {
+            assert_eq!(record.rating, floor);
+            break;
+        }
+        assert!(tokio::time::Instant::now() < deadline, "the game was never recorded");
+        tokio::time::sleep(Duration::from_millis(50)).await;
+    }
+}
+
 #[tokio::test]
 async fn the_shot_clock_is_a_foul() {
     let settings = Settings { shot_clock: Duration::from_secs(1), ..Settings::default() };
@@ -1513,9 +1560,17 @@ async fn lounge_actions_are_rate_limited() {
 
 /// A server on its own port over `store`; returns its address and handle.
 async fn start_on(store: snook_legend_server::store::Store) -> (String, std::sync::Arc<Server>) {
+    start_on_with(store, Settings::default()).await
+}
+
+/// [`start_on`] with `settings`.
+async fn start_on_with(
+    store: snook_legend_server::store::Store,
+    settings: Settings,
+) -> (String, std::sync::Arc<Server>) {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();
-    let settings = Settings { max_connections_per_ip: 100, ..Settings::default() };
+    let settings = Settings { max_connections_per_ip: 100, ..settings };
     let config = Config { bind: addr, settings, ..Config::default() };
     let server = Server::with_store(config, store).await;
     tokio::spawn(serve(listener, server.clone()));

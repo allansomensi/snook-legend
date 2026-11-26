@@ -3223,8 +3223,12 @@ impl Lounge {
         // rating (rated games), and a while without online games.
         if over.reason == GameOverReason::Abandoned {
             if rated {
-                delta[loser] -= ABANDON_RATING;
-                new_ratings[loser] = rating(loser) + delta[loser];
+                // Down to the floor at most, as any loss (and as in
+                // doubles): it never lifts a rating already below it.
+                let floor = EloConfig::default().floor.min(rating(loser));
+                let after = (rating(loser) + delta[loser] - ABANDON_RATING).max(floor);
+                delta[loser] = after - rating(loser);
+                new_ratings[loser] = after;
             }
             let key = keys[loser].clone();
             self.record_abandon(&key);

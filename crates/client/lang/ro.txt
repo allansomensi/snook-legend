@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Reacțiile tuturor sunt afișate 
 with {name}	cu {name}
 {n} trophies	{n} trofee
 The only player that day	Singurul jucător în acea zi
+How to win it	Cum o obții
+Progress	Progres
+Comes with it	Ce primești cu ea
+See the achievement	Vezi realizarea
+Animated	Animată
+Previous	Anterior

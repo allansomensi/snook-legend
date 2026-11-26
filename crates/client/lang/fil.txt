@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Ipinapakita ang reaksiyon ng laha
 with {name}	kasama si {name}
 {n} trophies	{n} tropeo
 The only player that day	Nag-iisang manlalaro noong araw na iyon
+How to win it	Paano ito makukuha
+Progress	Progreso
+Comes with it	Kasama nito
+See the achievement	Tingnan ang achievement
+Animated	Animated
+Previous	Nakaraan

@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Mérkőzés közben mindenki reak
 with {name}	{name} társaként
 {n} trophies	{n} trófea
 The only player that day	Aznap az egyetlen játékos
+How to win it	Hogyan szerezheted meg
+Progress	Haladás
+Comes with it	Ezzel jár
+See the achievement	Teljesítmény megtekintése
+Animated	Animált
+Previous	Előző

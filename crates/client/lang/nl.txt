@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Ieders reacties worden tijdens po
 with {name}	met {name}
 {n} trophies	{n} trofeeën
 The only player that day	Enige speler die dag
+How to win it	Zo win je hem
+Progress	Voortgang
+Comes with it	Dit hoort erbij
+See the achievement	Prestatie bekijken
+Animated	Geanimeerd
+Previous	Vorige

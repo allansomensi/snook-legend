@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	تظهر تفاعلات الجم�
 with {name}	مع {name}
 {n} trophies	{n} كؤوس
 The only player that day	اللاعب الوحيد في ذلك اليوم
+How to win it	كيف تفوز بها
+Progress	التقدم
+Comes with it	تأتي معها
+See the achievement	عرض الإنجاز
+Animated	متحركة
+Previous	السابق

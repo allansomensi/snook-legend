@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	경기 중 모두의 리액션이
 with {name}	{name}와 함께
 {n} trophies	트로피 {n}개
 The only player that day	그날의 유일한 참가자
+How to win it	획득 방법
+Progress	진행도
+Comes with it	함께 받는 보상
+See the achievement	업적 보기
+Animated	애니메이션
+Previous	이전

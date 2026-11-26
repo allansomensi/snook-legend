@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	対戦中は全員のリアクシ
 with {name}	{name}と
 {n} trophies	トロフィー {n} 個
 The only player that day	その日の唯一の参加者
+How to win it	獲得方法
+Progress	進捗
+Comes with it	一緒にもらえるもの
+See the achievement	実績を見る
+Animated	アニメーション
+Previous	前へ

@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Allas reaktioner visas under matc
 with {name}	med {name}
 {n} trophies	{n} troféer
 The only player that day	Enda spelaren den dagen
+How to win it	Så vinner du den
+Progress	Framsteg
+Comes with it	Det här ingår
+See the achievement	Visa prestationen
+Animated	Animerad
+Previous	Föregående

@@ -75,6 +75,25 @@ SCREENS = {
     "profile-numbers": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "numbers"}, True, 200),
     "profile-analysis": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "analysis"}, True, 200),
     "profile-achievements": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "achievements"}, True, 200),
+    # A medal and a reaction close up (a click on them in Achievements).
+    "profile-medal": (
+        ["--screen", "profile:Ana"],
+        {"SNOOK_LEGEND_PROFILE_PANE": "achievements", "SNOOK_LEGEND_DETAIL": "achievement:games_100"},
+        True,
+        200,
+    ),
+    "profile-medal-won": (
+        ["--screen", "profile:Ana"],
+        {"SNOOK_LEGEND_PROFILE_PANE": "achievements", "SNOOK_LEGEND_DETAIL": "achievement:rating_1500"},
+        True,
+        200,
+    ),
+    "profile-reaction": (
+        ["--screen", "profile:Ana"],
+        {"SNOOK_LEGEND_PROFILE_PANE": "achievements", "SNOOK_LEGEND_DETAIL": "reaction:thinking"},
+        True,
+        200,
+    ),
     "profile-journey": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "journey"}, True, 200),
     "profile-other": (["--screen", "profile:Kenji"], {}, True, 200),
     "shop": (["--screen", "shop"], {}, True, 200),

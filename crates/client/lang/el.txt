@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Οι αντιδράσεις όλ�
 with {name}	με {name}
 {n} trophies	{n} τρόπαια
 The only player that day	Ο μόνος παίκτης εκείνη τη μέρα
+How to win it	Πώς κερδίζεται
+Progress	Πρόοδος
+Comes with it	Μαζί του παίρνεις
+See the achievement	Δες το επίτευγμα
+Animated	Κινούμενη
+Previous	Προηγούμενο

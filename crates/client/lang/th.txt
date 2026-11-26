@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	แสดงรีแอคชั
 with {name}	กับ {name}
 {n} trophies	{n} ถ้วยรางวัล
 The only player that day	ผู้เล่นคนเดียวในวันนั้น
+How to win it	วิธีปลดล็อก
+Progress	ความคืบหน้า
+Comes with it	สิ่งที่ได้รับ
+See the achievement	ดูความสำเร็จ
+Animated	เคลื่อนไหว
+Previous	ก่อนหน้า

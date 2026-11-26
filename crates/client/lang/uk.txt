@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Під час матчів вид
 with {name}	з {name}
 {n} trophies	Трофеїв: {n}
 The only player that day	Єдиний гравець того дня
+How to win it	Як здобути
+Progress	Прогрес
+Comes with it	Що дає
+See the achievement	Переглянути досягнення
+Animated	Анімована
+Previous	Назад

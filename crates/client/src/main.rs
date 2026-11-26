@@ -48,6 +48,7 @@ mod lan;
 mod languages;
 mod legal;
 mod medal_art;
+mod medal_detail;
 mod medals;
 mod menu;
 mod more_halls;

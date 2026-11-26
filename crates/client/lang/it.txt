@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Le reazioni di tutti sono mostrat
 with {name}	con {name}
 {n} trophies	{n} trofei
 The only player that day	Unico giocatore quel giorno
+How to win it	Come ottenerlo
+Progress	Progressi
+Comes with it	Insieme ottieni
+See the achievement	Vedi l’obiettivo
+Animated	Animata
+Previous	Precedente

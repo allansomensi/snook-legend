@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Podczas meczów widać reakcje ws
 with {name}	z {name}
 {n} trophies	Trofea: {n}
 The only player that day	Jedyny gracz tego dnia
+How to win it	Jak je zdobyć
+Progress	Postęp
+Comes with it	Co za nie dostajesz
+See the achievement	Zobacz osiągnięcie
+Animated	Animowana
+Previous	Poprzednie

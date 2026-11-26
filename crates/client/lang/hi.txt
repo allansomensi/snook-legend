@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	मैच के दौरान 
 with {name}	{name} के साथ
 {n} trophies	{n} ट्रॉफ़ियाँ
 The only player that day	उस दिन के इकलौते खिलाड़ी
+How to win it	इसे कैसे जीतें
+Progress	प्रगति
+Comes with it	इसके साथ मिलता है
+See the achievement	उपलब्धि देखें
+Animated	एनिमेटेड
+Previous	पिछला

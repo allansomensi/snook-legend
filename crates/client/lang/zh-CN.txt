@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	比赛中显示所有人的表情
 with {name}	与 {name}
 {n} trophies	{n} 座奖杯
 The only player that day	当天唯一的参与者
+How to win it	如何获得
+Progress	进度
+Comes with it	附带奖励
+See the achievement	查看成就
+Animated	动态
+Previous	上一个

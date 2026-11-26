@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	ম্যাচ চলাকা�
 with {name}	{name}-এর সাথে
 {n} trophies	{n}টি ট্রফি
 The only player that day	সেদিনের একমাত্র খেলোয়াড়
+How to win it	কীভাবে জিতবেন
+Progress	অগ্রগতি
+Comes with it	এর সাথে যা পাবেন
+See the achievement	অর্জনটি দেখুন
+Animated	অ্যানিমেটেড
+Previous	আগেরটি

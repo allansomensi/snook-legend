@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Во время матчей ви
 with {name}	с {name}
 {n} trophies	Трофеев: {n}
 The only player that day	Единственный игрок в тот день
+How to win it	Как получить
+Progress	Прогресс
+Comes with it	Что даёт
+See the achievement	Открыть достижение
+Animated	Анимированная
+Previous	Назад

@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Maçlarda herkesin tepkileri gös
 with {name}	{name} ile
 {n} trophies	{n} kupa
 The only player that day	O günün tek oyuncusu
+How to win it	Nasıl kazanılır
+Progress	İlerleme
+Comes with it	Bununla gelenler
+See the achievement	Başarımı gör
+Animated	Hareketli
+Previous	Önceki

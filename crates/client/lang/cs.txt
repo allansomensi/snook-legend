@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Během zápasů se zobrazují rea
 with {name}	s {name}
 {n} trophies	Trofeje: {n}
 The only player that day	Jediný hráč toho dne
+How to win it	Jak ho získat
+Progress	Postup
+Comes with it	Co k němu patří
+See the achievement	Zobrazit úspěch
+Animated	Animovaná
+Previous	Předchozí

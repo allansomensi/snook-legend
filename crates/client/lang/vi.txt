@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Biểu cảm của mọi người
 with {name}	cùng {name}
 {n} trophies	{n} cúp
 The only player that day	Người chơi duy nhất hôm đó
+How to win it	Cách đạt được
+Progress	Tiến độ
+Comes with it	Đi kèm
+See the achievement	Xem thành tựu
+Animated	Động
+Previous	Trước

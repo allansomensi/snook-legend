@@ -70,6 +70,10 @@ pub struct ProfileScreen {
     trophies_first: usize,
     /// The trophy group opened to show each one (kind, tournament's name).
     trophies_open: Option<(snook_legend_proto::TrophyKind, String)>,
+    /// The achievement or reaction looked at closely (a card over the
+    /// page), and whether it opened this frame.
+    detail: Option<crate::medal_detail::Detail>,
+    detail_fresh: bool,
     /// The rules whose rating, rank, league and chart are shown (a rating
     /// card each, in the header).
     rules: Rules,
@@ -351,6 +355,21 @@ impl ProfileScreen {
         self.gifts_first = 0;
         self.trophies_first = 0;
         self.trophies_open = None;
+        // Development aid (screenshots): SNOOK_LEGEND_DETAIL=achievement:<code>
+        // or reaction:<code> opens that card.
+        self.detail = crate::dev::var("SNOOK_LEGEND_DETAIL").and_then(|v| {
+            use crate::medal_detail::Detail;
+            let (kind, code) = v.split_once(':')?;
+            match kind {
+                "achievement" => {
+                    ACHIEVEMENTS.iter().position(|a| a.code == code).map(Detail::Achievement)
+                }
+                _ => snook_legend_proto::REACTIONS
+                    .iter()
+                    .position(|r| r.code == code)
+                    .map(Detail::Reaction),
+            }
+        });
         self.asked_signed_in = online.signed_in();
         online.request_profile(name);
         // Presents put off with "Later": they are shown again here.
@@ -411,6 +430,7 @@ impl ProfileScreen {
         let mut action = ProfileAction::None;
         // A dialog over the page (account, report, country): Esc is its own.
         let dialog = self.account.is_some()
+            || self.detail.is_some()
             || self.report.is_some()
             || online.invite_dialog.is_some()
             || crate::countries::is_open()
@@ -572,6 +592,7 @@ impl ProfileScreen {
         }
         self.report_dialog(ui, online);
         self.account_dialog(ui, online);
+        crate::medal_detail::draw(ui, &mut self.detail, &p, std::mem::take(&mut self.detail_fresh));
         if let Some(name) = self.follow.take()
             && matches!(action, ProfileAction::None)
         {
@@ -1233,7 +1254,7 @@ impl ProfileScreen {
         go
     }
 
-    fn achievements(&self, ui: &mut Ui, p: &Profile, area: Rect) {
+    fn achievements(&mut self, ui: &mut Ui, p: &Profile, area: Rect) {
         let got =
             ACHIEVEMENTS.iter().filter(|a| p.achievements.iter().any(|(c, _)| c == a.code)).count();
         heading(
@@ -1270,6 +1291,11 @@ impl ProfileScreen {
             ui.block(c);
             if hover {
                 tip = Some((a, unlocked, c));
+                // A click: the medal close up.
+                if ui.clicked(c) {
+                    self.detail = Some(crate::medal_detail::Detail::Achievement(k));
+                    self.detail_fresh = true;
+                }
             }
         }
         if let Some((a, at, c)) = tip {
@@ -1347,9 +1373,13 @@ impl ProfileScreen {
                     Color::new(MUTED.r, MUTED.g, MUTED.b, 0.8),
                 );
             }
-            // Had or not, it says how it is won.
+            // Had or not, it says how it is won; a click shows it close up.
             if hover {
                 tip = Some((crate::reactions::how(r, have), c));
+                if ui.clicked(c) {
+                    self.detail = Some(crate::medal_detail::Detail::Reaction(k));
+                    self.detail_fresh = true;
+                }
             }
             ui.block(c);
         }

@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Reaksi semua orang ditampilkan se
 with {name}	bersama {name}
 {n} trophies	{n} trofi
 The only player that day	Satu-satunya pemain hari itu
+How to win it	Cara mendapatkannya
+Progress	Progres
+Comes with it	Hadiahnya
+See the achievement	Lihat pencapaian
+Animated	Animasi
+Previous	Sebelumnya

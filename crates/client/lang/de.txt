@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Die Reaktionen aller werden in Pa
 with {name}	mit {name}
 {n} trophies	{n} Trophäen
 The only player that day	Einziger Spieler an dem Tag
+How to win it	So gewinnst du es
+Progress	Fortschritt
+Comes with it	Das gibt es dazu
+See the achievement	Erfolg ansehen
+Animated	Animiert
+Previous	Zurück

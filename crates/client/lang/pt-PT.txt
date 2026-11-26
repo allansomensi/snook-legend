@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	As reações de todos aparecem du
 with {name}	com {name}
 {n} trophies	{n} troféus
 The only player that day	Único jogador do dia
+How to win it	Como conquistar
+Progress	Progresso
+Comes with it	Vem com
+See the achievement	Ver a conquista
+Animated	Animada
+Previous	Anterior

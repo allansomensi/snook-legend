@@ -2518,3 +2518,9 @@ Everyone's reactions are shown during matches.	Les réactions de tous sont affic
 with {name}	avec {name}
 {n} trophies	{n} trophées
 The only player that day	Seul joueur ce jour-là
+How to win it	Comment l’obtenir
+Progress	Progression
+Comes with it	Ce qui vient avec
+See the achievement	Voir le succès
+Animated	Animée
+Previous	Précédent

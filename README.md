@@ -133,14 +133,18 @@ which every desktop installation has. How releases are made is described in
   server announces it; the server's result is authoritative.
 - **Profiles and progress**: a rating card for each rules (rating, tier and
   how far the next one is, peak, world rank, rating chart), numbers, match
-  history with the rules and rating changes, **50 achievements**, an **analysis** of how you pot (by pocket, distance and kind of shot, with a heat map), the
-  reactions collected and the **world top 100**. Ratings move slowly (Elo,
+  history with the rules and rating changes, **68 achievements** (the medal
+  says what each takes: bronze to ruby), the reactions collected and the
+  **world top 100**; for VIP members, an **analysis** of how they pot (by
+  pocket, kind of shot and distance, with a heat map, week by week and
+  against their league). Ratings move slowly (Elo,
   K 24 for the first 10 games, then 14, 8 from 1900).
 - **End-of-game numbers**: potting success, balls made, best run, fouls and
   how often each player had ball in hand.
-- **Social**: recent opponents, a status message on the profile, a
-  "looking for a game" board in the lounge, and gifts that arrive with a
-  message and a thank-you.
+- **Social**: **private messages** in the inbox (to friends, and between
+  adults to anyone who takes them, a few until the other answers), recent
+  opponents, a status message on the profile, a "looking for a game" board
+  in the lounge, and gifts that arrive with a message and a thank-you.
 - **The shop**: cloth colours, cues, chalk and ball sets, shown on the table
   (opponents see your cue and chalk), each one first looked at closely in a
   **showroom**: alone on a dark stage, turning until you take the camera

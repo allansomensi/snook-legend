@@ -330,6 +330,17 @@ For scripts: `SNOOK_LEGEND_INPUT` also presses keys (`key tab`,
 `key shift+tab`, `key enter`, `key space`, `key escape`, the arrows) and the
 mouse's back button (`back`).
 
+## Messages, the history, the analysis, the cards
+
+| Where | Before | Now |
+|---|---|---|
+| Inbox | Notifications only; private messages between friends, from the friends list in the lounge. | A "Messages" tab first, with the unread count: the conversations on the left (name, the newest line, "You: …" for one's own, the date, a count), the one picked on the right (its name, "Profile", the messages and the field); "New message" in the header (a name, "Write"). Narrow: the list, or the conversation (Esc goes back to the list). It opens on the messages when some are unread. The menu's and the lounge's inbox counts include them. |
+| Another player's profile | Report, block, friend, daily game. | The same, and a speech bubble that opens the conversation in the inbox (with the unread count on it). |
+| Who can write | Friends only. | Friends; and adults to adults who keep "Messages from anyone" on (Settings → Game), three messages until the other answers, ten new conversations a day. Minors: friends only, both ways. The server's refusals are toasts. |
+| Online game chat | The players' lines and everything that happened at the table, mixed. | The players' lines only; the history's icon in the top bar (as offline) opens the game's events in the chat's place. Settings → Game → "Game events in the chat" (off) mixes them again. |
+| Profile, analysis | "Analysis" (anyone's profile) and "Advanced" (one's own, VIP) showing the same pockets and cut angles twice. | One "Analysis" tab on one's own profile, VIP: the table and heat map, kinds of shot with the league's mark on the cut angles, safeties and breaks, distances, the weeks and the pockets furthest ahead of the league and behind it, the league's rate on top. Not VIP: the page dimmed with made-up numbers under the way to VIP. |
+| Players' cards (the score panel, the match intro) | A gem and a glow for an epic or legendary cue, the gem on the start of the name. | No cue on the cards. |
+
 ## Still to do
 
 - Arabic is shaped and ordered right, but laid out left to right (labels

@@ -913,13 +913,16 @@ impl Ui {
         let r = Rect::new(x, y, 20.0 + self.text_size(label, 15.0, false).x + 10.0, 20.0);
         self.block(r);
         let hover = r.contains(self.mouse);
+        let lit = self.hover_anim(r, hover);
         let b = Rect::new(x, y, 18.0, 18.0);
         rrect(b, 5.0, Color::new(0.06, 0.04, 0.03, 1.0));
-        rrect_lines(b, 5.0, 1.2, if hover { GOLD } else { HAIRLINE });
-        if *value {
-            // A check mark.
-            draw_line(x + 4.0, y + 9.5, x + 7.5, y + 13.0, 2.2, GOLD);
-            draw_line(x + 7.5, y + 13.0, x + 14.0, y + 5.0, 2.2, GOLD);
+        rrect_lines(b, 5.0, 1.2, mix(HAIRLINE, GOLD, lit));
+        // The check mark fades in and out.
+        let on = self.anim(motion::rect_key(motion::id("check"), r), *value as u8 as f32, 24.0);
+        if on > 0.01 {
+            let c = Color { a: on, ..GOLD };
+            draw_line(x + 4.0, y + 9.5, x + 7.5, y + 13.0, 2.2, c);
+            draw_line(x + 7.5, y + 13.0, x + 14.0, y + 5.0, 2.2, c);
         }
         self.text(label, x + 26.0, y + 1.0, 15.0, CREAM, false);
         if hover && self.released_in(r) {
@@ -933,10 +936,13 @@ impl Ui {
         let r = Rect::new(x, y, 24.0 + self.text_size(label, 15.0, false).x, 20.0);
         self.block(r);
         let hover = r.contains(self.mouse);
+        let lit = self.hover_anim(r, hover);
         draw_circle(x + 9.0, y + 9.0, 8.0, Color::new(0.06, 0.04, 0.03, 1.0));
-        draw_circle_lines(x + 9.0, y + 9.0, 8.0, 1.5, if hover { GOLD } else { HAIRLINE });
-        if selected {
-            draw_circle(x + 9.0, y + 9.0, 4.5, GOLD);
+        draw_circle_lines(x + 9.0, y + 9.0, 8.0, 1.5, mix(HAIRLINE, GOLD, lit));
+        // The dot grows in and out.
+        let on = self.glide(motion::rect_key(motion::id("radio"), r), selected as u8 as f32, 24.0);
+        if on > 0.01 {
+            draw_circle(x + 9.0, y + 9.0, 4.5 * on, GOLD);
         }
         self.text(label, x + 24.0, y + 1.0, 15.0, CREAM, false);
         hover && self.released_in(r)

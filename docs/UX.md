@@ -224,6 +224,7 @@ screen was gone through for it; the fixes are in the toolkit
 | Buttons, rows | Only some lit up eased; pressing moved the label a pixel. | Light eases in and out everywhere in the toolkit (buttons, icon buttons, tabs, toggles, rows of the lounge, ranking, inbox, the shop's categories); pressed, a button sinks (a little smaller and darker), eased; a press that began elsewhere doesn't press it. |
 | Toasts | Popped in; the stack jumped. | Rise in and fade in; those above glide up. |
 | Pointer | Always the arrow. | A hand over what can be clicked, the text cursor over fields. |
+| Back | A profile opened from the ranking (or the inbox), the shop opened from the inbox, went back to the main menu: the place in the list was lost. | Back (and Esc) goes back there, the list scrolled where it was. |
 
 Settings → Game → **Reduce motion** (follows the account): what slides,
 grows or glides is there at once, scrolling included; colours still ease.

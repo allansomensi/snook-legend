@@ -1041,7 +1041,7 @@ The top level: this cue has every mark.	O nível máximo: este taco tem todas as
 Your cue {cue} reached level {n}!	Seu taco {cue} chegou ao nível {n}!
 Most wins: {cue} (level {n})	Mais vitórias: {cue} (nível {n})
 {games} games · {rate}% won · {balls} balls made	{games} partidas · {rate}% de vitórias · {balls} bolas encaçapadas
-vs	x
+vs	vs
 {from} gave you {item}!	{from} te deu {item}!
 You received a gift!	Você ganhou um presente!
 From	De

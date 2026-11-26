@@ -1,6 +1,6 @@
 # Vendored crates
 
-`miniquad/` is miniquad 0.4.11 with six small fixes and a hook, marked "Snook Legend patch" in the
+`miniquad/` is miniquad 0.4.11 with seven small fixes and two hooks, marked "Snook Legend patch" in the
 source (used through `[patch.crates-io]` in the workspace `Cargo.toml`):
 
 - `src/graphics/gl.rs`: stream buffers are re-specified ("orphaned") on every
@@ -33,3 +33,11 @@ source (used through `[patch.crates-io]` in the workspace `Cargo.toml`):
   dropped them (and took every other button on macOS for the middle one).
   The game's screens take Back as Esc (`crates/client/src/ui.rs`,
   `esc_pressed`), not at the table during a match.
+- `src/graphics/gl.rs`: deleting a texture forgets it in the texture cache.
+  OpenGL unbinds a texture it deletes and gives its name to the next one
+  made; the cache still thought it bound, so a texture made later under the
+  same name could be drawn without being bound (the bold font's atlas came
+  out black after an extra flush in a frame).
+- `src/native/gl.rs`: `glCopyTexSubImage2D` is loaded with the other
+  OpenGL functions. The game copies each open dialog from the screen with
+  it, so a dialog that closes can fade out (`crates/client/src/ui/ghost.rs`).

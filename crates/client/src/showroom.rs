@@ -753,7 +753,7 @@ impl Showroom {
             let rate = 2.2f32.powf(dt);
             self.zoom_by(if zoom_in { 1.0 / rate } else { rate }, None);
         }
-        if is_key_pressed(KeyCode::Space) {
+        if is_key_pressed(KeyCode::Space) && !ui.keys_taken() {
             self.toggle_spin();
         }
         if is_key_pressed(KeyCode::R) {
@@ -1106,7 +1106,7 @@ impl Showroom {
                     if n == 0 { t("Cue ball").to_string() } else { tw("Ball {n}", &[("n", &n)]) };
                 ui.tooltip(&name, hit);
             }
-            if hover && ui.clicked(hit) {
+            if ui.activated(hit, hover) {
                 self.look_at_ball(n as usize);
             }
             x += d + gap;
@@ -1230,7 +1230,7 @@ fn chip(ui: &mut Ui, r: Rect, label: &str, picked: bool) -> bool {
     }
     let color = if picked || hover { GOLD } else { CREAM };
     ui.text_centered(label, r.x + r.w / 2.0, r.y + r.h / 2.0 - 7.0, 13.0, color, true);
-    hover && ui.clicked(r)
+    ui.activated(r, hover)
 }
 
 /// A ball of a set seen from the front, flat: its colour (a band on

@@ -100,7 +100,7 @@ impl EmojiTray {
             false,
         );
         crate::paint::set_opacity(opacity);
-        let clicked = hover && ui.released_in(button);
+        let clicked = ui.activated(button, hover);
         if clicked {
             self.open = !self.open;
             if self.open {
@@ -150,7 +150,7 @@ impl EmojiTray {
             }
             let size = if hover { 20.0 } else { 17.0 };
             ui.text_centered(e, c.x + c.w / 2.0, c.y + (c.h - size) / 2.0, size, CREAM, false);
-            if hover && ui.released_in(c) {
+            if ui.activated(c, hover) {
                 chosen = Some(e);
             }
         };

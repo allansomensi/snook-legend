@@ -995,7 +995,7 @@ fn key_cap(ui: &mut Ui, r: Rect, label: &str, waiting: bool, enabled: bool) -> b
     };
     let (text, size) = ui.fitted(label, size, r.w - 12.0, bold);
     ui.text_centered(&text, r.x + r.w / 2.0, r.y + (r.h - size) / 2.0 - 1.0, size, color, bold);
-    hover && ui.clicked(r)
+    enabled && ui.activated(r, hover)
 }
 
 /// Everything back to how it was on the first run, except who is playing
@@ -1177,7 +1177,7 @@ impl Rows {
                     if !open && !note.is_empty() {
                         ui.pill(note, hit.x + hit.w + 6.0, self.y - 0.5, MUTED);
                     }
-                    clicked = hover && ui.clicked(hit);
+                    clicked = ui.activated(hit, hover);
                 }
             }
         }
@@ -1291,7 +1291,7 @@ fn switch_row(rows: &mut Rows, ui: &mut Ui, label: &str, hint: &str, value: &mut
 fn toggle_on_click(ui: &mut Ui, row: Rect, place: Rect, value: &mut bool, enabled: bool) -> bool {
     ui.block(row);
     let hover = enabled && ui.hovering(row);
-    if hover && ui.clicked(row) {
+    if enabled && ui.activated(row, hover) {
         *value = !*value;
         switch(ui, place, *value, enabled, hover);
         return true;

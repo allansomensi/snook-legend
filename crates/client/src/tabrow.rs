@@ -127,7 +127,9 @@ fn tab(
     let centre = (r.x + r.w / 2.0).min(r.x + r.w - reserve - 6.0 - width / 2.0);
     let color = mix(CREAM, GOLD, sel);
     ui.text_centered(&label, centre, r.y + (r.h - size) / 2.0, size, color, true);
-    let clicked = !selected && hover && ui.released_in(r);
+    let run = ui.tab_run_key().unwrap_or_else(|| motion::rect_key(motion::id("tab"), r));
+    let hit = ui.in_group(run, false, selected, |ui| ui.activated(r, hover));
+    let clicked = !selected && hit;
     if clicked {
         ui.note_click();
     }
@@ -178,7 +180,9 @@ pub fn segmented(ui: &mut Ui, r: Rect, options: &[&str], selected: usize) -> Opt
             color,
             true,
         );
-        if i != selected && hover && ui.released_in(cell) {
+        let group = motion::rect_key(motion::id("segmented"), r);
+        let hit = ui.in_group(group, false, i == selected, |ui| ui.activated(cell, hover));
+        if i != selected && hit {
             clicked = Some(i);
             ui.note_click();
         }

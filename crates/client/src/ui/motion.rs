@@ -287,10 +287,15 @@ pub struct Scope {
     idle: bool,
     xf: Xf,
     opacity: f32,
+    /// A dialog's (see [`super::ghost`]).
+    dialog: bool,
 }
 
 impl Drop for Scope {
     fn drop(&mut self) {
+        if self.dialog {
+            super::ghost::dialog_end();
+        }
         if !self.idle {
             XF.with(|x| x.set(self.xf));
             pop_model();
@@ -466,6 +471,8 @@ impl Ui {
     /// holds the pointer, so nothing under it reacts.
     pub fn backdrop(&mut self, key: u64, alpha: f32) {
         let a = alpha * ease_out(self.appear(mix(key, 0xbac0), 0.15));
+        // (It lifts when the dialog closes: see `ghost`.)
+        super::ghost::note_dim(key, a);
         self.unmoved(|ui| {
             let (w, h) = (super::vw(), super::vh());
             crate::paint::draw_rectangle(0.0, 0.0, w, h, Color::new(0.0, 0.0, 0.0, a));
@@ -476,7 +483,7 @@ impl Ui {
     /// A dialog coming in (`key`: which one): it fades in and grows the
     /// last bit to its size, rising a little. Draw it, then
     /// [`Ui::pop_fx`].
-    pub fn dialog_in(&mut self, key: u64) -> Fx {
+    fn dialog_in(&mut self, key: u64) -> Fx {
         let t = self.appear(key, DIALOG_SECS);
         let e = ease_out(t);
         let pivot = vec2(super::vw() / 2.0, super::vh() / 2.0);
@@ -490,8 +497,21 @@ impl Ui {
     /// is (off by a few units for the first frames only).
     pub fn modal_scope(&mut self, key: u64, dim: f32) -> Scope {
         self.backdrop(key, dim);
+        self.dialog_scope(key)
+    }
+
+    /// A dialog (`key`) drawn by the rest of the function, over a dimming
+    /// of its own ([`Ui::backdrop`]) or one it shares with others: it comes
+    /// in as [`Ui::dialog_in`] has it, and once it is no longer drawn its
+    /// last look goes out (see [`super::ghost`]).
+    pub fn dialog_scope(&mut self, key: u64) -> Scope {
+        // What is under it takes no keyboard focus.
+        self.focus_layer();
         let fx = self.dialog_in(key);
-        self.scope_of(fx)
+        super::ghost::dialog_begin(key);
+        let mut scope = self.scope_of(fx);
+        scope.dialog = true;
+        scope
     }
 
     /// [`Ui::switch_in`] for content drawn by the rest of the function
@@ -513,7 +533,7 @@ impl Ui {
     fn scope_of(&mut self, fx: Fx) -> Scope {
         self.mouse = fx.mouse;
         self.press_at = fx.press_at;
-        Scope { idle: fx.idle, xf: fx.xf, opacity: fx.opacity }
+        Scope { idle: fx.idle, xf: fx.xf, opacity: fx.opacity, dialog: false }
     }
 
     /// A popover opening from `anchor` (a menu under its button, a tray):
@@ -522,6 +542,12 @@ impl Ui {
         let t = self.appear(key, POPOVER_SECS);
         let e = ease_out(t);
         self.push_fx(Vec2::ZERO, 0.94 + 0.06 * e, anchor, ease_out((t * 1.4).min(1.0)))
+    }
+
+    /// The run of tabs drawn last (see [`Ui::selection_glide`]): the key of
+    /// the row the next tab is in, for the keyboard's arrows.
+    pub fn tab_run_key(&self) -> Option<u64> {
+        self.tab_run.map(|(_, _, key)| key)
     }
 
     /// Where the selection of a run of tabs is this frame: tabs drawn one

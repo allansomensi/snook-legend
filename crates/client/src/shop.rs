@@ -574,7 +574,14 @@ pub(crate) enum SideNote<'a> {
 
 /// A row of the list of categories: the label on the left, a count or an
 /// icon on the right, a gold bar by the one selected. True when clicked.
-pub(crate) fn side_tab(ui: &mut Ui, r: Rect, label: &str, note: SideNote, selected: bool) -> bool {
+pub(crate) fn side_tab(
+    ui: &mut Ui,
+    r: Rect,
+    label: &str,
+    note: SideNote,
+    selected: bool,
+    tab: bool,
+) -> bool {
     ui.block(r);
     let hover = ui.hovering(r);
     let lit = ui.hover_anim(r, hover && !selected);
@@ -623,7 +630,13 @@ pub(crate) fn side_tab(ui: &mut Ui, r: Rect, label: &str, note: SideNote, select
     };
     let color = crate::ui::mix(CREAM, GOLD, sel);
     ui.text(&label, x, text_y(mid, size), size, color, true);
-    hover && ui.clicked(r) && !selected
+    // The categories are a row of tabs (the arrows go along it); the links
+    // under them are not.
+    let hit = match ui.tab_run_key().filter(|_| tab) {
+        Some(run) => ui.in_group(run, true, selected, |ui| ui.activated(r, hover)),
+        None => ui.activated(r, hover),
+    };
+    hit && !selected
 }
 
 /// Items the shop lists: the welcome pack's only where it is sold (or
@@ -822,7 +835,7 @@ impl ShopScreen {
             } else {
                 "shop-confirm"
             };
-            let fx = ui.dialog_in(motion::id(which));
+            let scope = ui.dialog_scope(motion::id(which));
             if self.done.is_some() {
                 self.done_dialog(ui);
             } else if self.gift_pick.is_some() {
@@ -832,7 +845,7 @@ impl ShopScreen {
             {
                 action = a;
             }
-            ui.pop_fx(fx);
+            drop(scope);
         }
         action
     }
@@ -872,7 +885,7 @@ impl ShopScreen {
                     if hover {
                         ui.tooltip(tip, c);
                     }
-                    (c.x, hover && ui.clicked(c))
+                    (c.x, ui.activated(c, hover))
                 };
             let coins = wallet.coins.to_string();
             let color = if wallet.coins < 0 { ALERT } else { CREAM };
@@ -922,7 +935,7 @@ impl ShopScreen {
             let total = ITEMS.iter().filter(|i| i.category == c && listed(i, online)).count();
             let tr = Rect::new(side.x, y, side.w, row_h);
             let count = if signed_in { format!("{owned}/{total}") } else { total.to_string() };
-            if side_tab(ui, tr, category_name(c), SideNote::Count(&count), self.tab == tab) {
+            if side_tab(ui, tr, category_name(c), SideNote::Count(&count), self.tab == tab, true) {
                 self.tab = tab;
                 self.grid.reset();
             }
@@ -942,7 +955,7 @@ impl ShopScreen {
                 continue;
             }
             let tr = Rect::new(side.x, y, side.w, row_h);
-            if side_tab(ui, tr, label, SideNote::Icon(icon), self.tab == tab) {
+            if side_tab(ui, tr, label, SideNote::Icon(icon), self.tab == tab, true) {
                 self.tab = tab;
                 self.grid.reset();
             }
@@ -958,12 +971,14 @@ impl ShopScreen {
                 t("Auctions").to_string()
             };
             let tr = Rect::new(side.x, y, side.w, row_h);
-            if side_tab(ui, tr, &auctions, SideNote::Icon(Icon::Hourglass), false) && !modal {
+            if side_tab(ui, tr, &auctions, SideNote::Icon(Icon::Hourglass), false, false) && !modal
+            {
                 online.open_auctions();
             }
             y += pitch;
             let tr = Rect::new(side.x, y, side.w, row_h);
-            if side_tab(ui, tr, t("Supporters"), SideNote::Icon(Icon::Star), false) && !modal {
+            if side_tab(ui, tr, t("Supporters"), SideNote::Icon(Icon::Star), false, false) && !modal
+            {
                 online.open_supporters();
             }
         }
@@ -1602,7 +1617,7 @@ impl ShopScreen {
                 crate::icons::draw(Icon::Gift, vec2(row.x + row.w - 22.0, mid), 16.0, gold);
             }
             ui.block(row);
-            if hover && ui.clicked(row) {
+            if !taken && ui.activated(row, hover) {
                 self.gift_pick = None;
                 online.shop_error = None;
                 if vip {
@@ -2104,6 +2119,7 @@ const GIFT_MESSAGE: u64 = 64;
 fn key_for_shop(ui: &Ui, key: KeyCode) -> bool {
     let pressed = match key {
         KeyCode::Escape => crate::ui::esc_pressed(),
+        KeyCode::Enter => ui.enter(),
         _ => is_key_pressed(key),
     };
     pressed && ui.focus.is_none_or(|f| f == GIFT_MESSAGE)

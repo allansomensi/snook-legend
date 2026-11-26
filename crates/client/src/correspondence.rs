@@ -685,7 +685,7 @@ pub fn draw_bar(ui: &mut Ui, m: &mut Match, bar: Rect) -> BarAction {
         let (title, size) = fit_text(ui, &title, 16.0, room, true);
         ui.text(&title, bar.x + 52.0, cy - 17.0, size, CREAM, true);
         ui.text(&ui.ellipsize(&sub, room, 12.0), bar.x + 52.0, cy + 4.0, 12.0, MUTED, false);
-        let enter = is_key_pressed(KeyCode::Enter) && !ui.wants_keyboard;
+        let enter = ui.enter() && !ui.wants_keyboard;
         if ui.button(Rect::new(sw - w - 14.0, cy - 18.0, w, 36.0), skip, true) || enter {
             skip_replay(m);
         }
@@ -720,7 +720,7 @@ pub fn draw_bar(ui: &mut Ui, m: &mut Match, bar: Rect) -> BarAction {
     ui.text(&title, bar.x + 52.0, cy - 17.0, size, CREAM, true);
     let (sub, sub_size) = fit_text(ui, &sub, 12.0, room, false);
     ui.text(&sub, bar.x + 52.0, cy + 4.0, sub_size, MUTED, false);
-    let enter = is_key_pressed(KeyCode::Enter) && !ui.wants_keyboard;
+    let enter = ui.enter() && !ui.wants_keyboard;
     if ui.primary_button(Rect::new(sw - w - 14.0, cy - 18.0, w, 36.0), back) || enter {
         return BarAction::Back;
     }
@@ -972,7 +972,7 @@ pub fn draw_tab(o: &mut Online, ui: &mut Ui, area: Rect) -> Option<OnlineAction>
                 } else if ui.button(b, label, true) {
                     open = Some(g.id);
                 }
-                if hover && ui.clicked(r) && !b.contains(ui.mouse()) {
+                if ui.activated(r, hover) && !b.contains(ui.mouse()) {
                     open = Some(g.id);
                 }
             }

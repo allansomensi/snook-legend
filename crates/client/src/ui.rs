@@ -4,6 +4,8 @@ use macroquad::prelude::*;
 
 use crate::emoji::{self, Piece};
 
+mod focus;
+mod ghost;
 pub mod motion;
 pub mod scroll;
 
@@ -371,6 +373,8 @@ pub struct Ui {
     last_scroll_views: u32,
     /// A button was pressed this frame (the interface's click is played).
     click: std::cell::Cell<bool>,
+    /// The keyboard's focus on buttons and controls (see [`focus`]).
+    kb: focus::Nav,
 }
 
 impl Ui {
@@ -414,6 +418,7 @@ impl Ui {
             scroll_views: 0,
             last_scroll_views: 0,
             click: std::cell::Cell::new(false),
+            kb: Default::default(),
         }
     }
 
@@ -421,6 +426,7 @@ impl Ui {
     pub fn begin(&mut self) {
         // Widgets not drawn lately are gone: their motion with them.
         self.sweep_anims();
+        ghost::begin_frame();
         self.frame += 1;
         self.wheel = scroll::wheel_this_frame();
         self.wheel_taken = false;
@@ -464,7 +470,10 @@ impl Ui {
             self.focus = None;
             self.anchor = None;
         }
-        // Tab: the next (or previous) field of last frame, in drawing order.
+        // The keyboard's focus: Tab through buttons and fields, Enter…
+        self.focus_begin();
+        // (Off: Tab in a field goes to the next field of last frame, in
+        // drawing order.)
         if let Some(step) = self.tab_move.take()
             && let Some(f) = self.focus
             && let Some(i) = self.prev_fields.iter().position(|&x| x == f)
@@ -815,6 +824,7 @@ impl Ui {
 
     pub fn panel(&mut self, r: Rect) {
         self.panels.get_mut().push(r);
+        ghost::note_panel(motion::xf().rect(r));
         self.block(r);
         // Soft drop shadow, body, a sheen that fades out down the top and a
         // thin gold-brown edge.
@@ -862,6 +872,7 @@ impl Ui {
     /// not hide the game while nobody uses it.
     pub fn glass_panel(&mut self, r: Rect, clear: f32) {
         self.panels.get_mut().push(r);
+        ghost::note_panel(motion::xf().rect(r));
         self.block(r);
         let clear = clear.clamp(0.0, 1.0);
         soft_shadow(r, PANEL_RADIUS, 1.8 * (1.0 - 0.6 * clear));
@@ -896,7 +907,7 @@ impl Ui {
         let color = if enabled { CREAM } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.6) };
         let y = r.y + (r.h - size) / 2.0 + p;
         self.text_centered(&label, r.x + r.w / 2.0, y, size, color, true);
-        let clicked = enabled && hover && self.released_in(r);
+        let clicked = enabled && self.activated(r, hover);
         if clicked {
             self.note_click();
         }
@@ -927,7 +938,7 @@ impl Ui {
         let (label, size) = self.fitted(label, (r.h * 0.45).clamp(13.0, 24.0), r.w - 12.0, true);
         let y = r.y + (r.h - size) / 2.0 + p;
         self.text_centered(&label, r.x + r.w / 2.0, y, size, WHITE, true);
-        let clicked = hover && self.released_in(r);
+        let clicked = self.activated(r, hover);
         if clicked {
             self.note_click();
         }
@@ -950,7 +961,7 @@ impl Ui {
             draw_line(x + 7.5, y + 13.0, x + 14.0, y + 5.0, 2.2, c);
         }
         self.text(label, x + 26.0, y + 1.0, 15.0, CREAM, false);
-        if hover && self.released_in(r) {
+        if self.activated(r, hover) {
             *value = !*value;
             return true;
         }
@@ -970,7 +981,7 @@ impl Ui {
             draw_circle(x + 9.0, y + 9.0, 4.5 * on, GOLD);
         }
         self.text(label, x + 24.0, y + 1.0, 15.0, CREAM, false);
-        hover && self.released_in(r)
+        self.activated(r, hover)
     }
 
     /// Horizontal slider for `value` in `[min, max]`.
@@ -1018,6 +1029,8 @@ impl Ui {
     /// back to [`Ui::resume_input`].
     pub fn suspend_input(&mut self) -> (Vec2, bool, bool, bool) {
         let saved = (self.mouse, self.pressed, self.released, self.down);
+        // (Nor does it take the keyboard's focus.)
+        self.kb.inert.set(self.kb.inert.get() + 1);
         self.mouse = vec2(-1.0e6, -1.0e6);
         self.pressed = false;
         self.released = false;
@@ -1027,6 +1040,7 @@ impl Ui {
 
     pub fn resume_input(&mut self, saved: (Vec2, bool, bool, bool)) {
         (self.mouse, self.pressed, self.released, self.down) = saved;
+        self.kb.inert.set(self.kb.inert.get().saturating_sub(1));
     }
 
     pub fn mouse(&self) -> Vec2 {
@@ -1058,6 +1072,7 @@ impl Ui {
     pub fn text_area(&mut self, id: u64, r: Rect, value: &mut String, max_len: usize) -> bool {
         self.block(r);
         self.fields.push(id);
+        self.focus_item(r, Some(id));
         self.text_cursor(r);
         if self.focus == Some(id) && self.cursor_owner != Some(id) {
             self.cursor_owner = Some(id);
@@ -1324,6 +1339,7 @@ impl Ui {
     ) -> bool {
         self.block(r);
         self.fields.push(id);
+        self.focus_item(r, Some(id));
         self.text_cursor(r);
         let mut submitted = false;
         let size = (r.h * 0.5).clamp(12.0, 18.0);
@@ -1573,8 +1589,8 @@ impl Ui {
             submitted = true;
             self.anchor = None;
         }
-        if is_key_pressed(KeyCode::Tab) {
-            self.tab_move = Some(if shift { -1 } else { 1 });
+        if key_pressed(KeyCode::Tab) {
+            self.tab_move = Some(if shift || motion::scripted_shift() { -1 } else { 1 });
         }
         if is_key_pressed(KeyCode::Escape) {
             self.focus = None;
@@ -1607,7 +1623,7 @@ impl Ui {
         );
         let edge = mix(mix(HAIRLINE, Color { a: 0.7, ..GOLD }, a), GOLD, sel);
         raised(press_rect(r, p), BUTTON_RADIUS, bg, edge, 1.0 + 0.6 * sel);
-        let clicked = hover && self.released_in(r);
+        let clicked = self.activated(r, hover);
         if clicked {
             self.note_click();
         }
@@ -1688,7 +1704,10 @@ impl Ui {
             color,
             true,
         );
-        let clicked = !selected && hover && self.released_in(r);
+        // One of a row: the arrows go along it.
+        let run = self.tab_run_key().unwrap_or_else(|| motion::rect_key(motion::id("tab"), r));
+        let hit = self.in_group(run, false, selected, |ui| ui.activated(r, hover));
+        let clicked = !selected && hit;
         if clicked {
             self.note_click();
         }
@@ -2215,10 +2234,10 @@ impl Ui {
         let size = r.h * 0.52 * (1.0 - 0.06 * p);
         crate::icons::draw(icon, vec2(r.x + r.w / 2.0, r.y + r.h / 2.0 + p * 0.5), size, color);
         // Also when it can't be used now: what it is, all the same.
-        if r.contains(self.mouse) && !tip.is_empty() {
+        if (r.contains(self.mouse) || self.focused(r)) && !tip.is_empty() {
             self.tooltip(tip, r);
         }
-        let clicked = enabled && hover && self.released_in(r);
+        let clicked = enabled && self.activated(r, hover);
         if clicked {
             self.note_click();
         }
@@ -2291,6 +2310,10 @@ impl Ui {
         // nor moved with what was drawn last.
         motion::reset_xf();
         motion::apply_cursor();
+        // Dialogs closed go out (over everything but the hints); the
+        // keyboard's focus is ringed.
+        ghost::end_frame();
+        self.focus_ring();
         self.panels.borrow_mut().clear();
         let list = std::mem::take(&mut *self.overlays.borrow_mut());
         let before = crate::paint::opacity();
@@ -2390,13 +2413,26 @@ impl Ui {
     /// The button was let go this frame after being pressed inside `r`:
     /// a press that started elsewhere (dragging the power, the spin, the
     /// aim) and ends over a button is not a click on it.
+    /// Pressed with the keyboard's focus too (Enter or Space).
     pub fn released_in(&self, r: Rect) -> bool {
+        let by_key = self.focus_item(r, None);
         self.clickable(r);
-        self.released && r.contains(self.press_at)
+        by_key || (self.released && r.contains(self.press_at))
     }
 
+    /// Clicked: pressed and let go on `r` (or pressed with the keyboard's
+    /// focus).
     pub fn clicked(&self, r: Rect) -> bool {
-        self.released_in(r) && r.contains(self.mouse)
+        self.activated(r, r.contains(self.mouse))
+    }
+
+    /// Clicked, `hover` saying whether the pointer is on it (a widget that
+    /// is lit only in some states passes its own), or pressed with the
+    /// keyboard's focus. It takes the focus either way.
+    pub fn activated(&self, r: Rect, hover: bool) -> bool {
+        let by_key = self.focus_item(r, None);
+        self.clickable(r);
+        by_key || (hover && self.released && r.contains(self.press_at))
     }
 
     /// Over a text field, the pointer is the text cursor.
@@ -2480,7 +2516,9 @@ impl Ui {
                 color,
                 true,
             );
-            if i != selected && hover && self.released_in(cell) {
+            let group = motion::rect_key(motion::id("segmented"), r);
+            let hit = self.in_group(group, false, i == selected, |ui| ui.activated(cell, hover));
+            if i != selected && hit {
                 clicked = Some(i);
                 self.note_click();
             }

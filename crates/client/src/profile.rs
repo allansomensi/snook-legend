@@ -1660,7 +1660,7 @@ impl ProfileScreen {
                     ui.text(&title, x, mid - 17.0, size, CREAM, true);
                     let sub = ui.ellipsize(&sub, room, 12.0);
                     ui.text(&sub, x, mid + 3.0, 12.0, MUTED, false);
-                    if hover && ui.clicked(r) {
+                    if count > 1 && ui.activated(r, hover) {
                         toggle = Some(sk.clone());
                     }
                 }

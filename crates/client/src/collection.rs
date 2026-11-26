@@ -491,6 +491,7 @@ impl CollectionScreen {
                 crate::shop::category_name(c),
                 SideNote::Count(&count),
                 self.category == c,
+                true,
             ) {
                 self.category = c;
                 self.grid.reset();

@@ -139,12 +139,12 @@ pub fn draw_picker(ui: &mut Ui, current: Lang) -> Option<Lang> {
             if selected {
                 crate::icons::draw(Icon::Check, vec2(row.x + row.w - 16.0, mid), 14.0, GOLD);
             }
-            if armed && hover && ui.clicked(row) {
+            if armed && ui.activated(row, hover) {
                 chosen = Some(*lang);
             }
         }
         ui.scroll_end(view, &mut p.first);
-        if is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter) {
+        if ui.enter() {
             chosen = Some(Lang::ALL[p.sel]);
         }
         rrect_lines(frame, 6.0, 1.0, BORDER);

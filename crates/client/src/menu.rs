@@ -456,7 +456,7 @@ impl Menu {
                     action = MenuAction::ContinueGame;
                 }
             }
-            if hover && ui.clicked(r) && !on_resume {
+            if ui.activated(r, hover) && !on_resume {
                 ui.note_click();
                 action = match k {
                     0 => MenuAction::Online,
@@ -847,7 +847,7 @@ impl Menu {
             draw_line(c.x - 3.0, c.y - 6.0, c.x + 3.0, c.y, 2.0, col);
             draw_line(c.x + 3.0, c.y, c.x - 3.0, c.y + 6.0, 2.0, col);
         }
-        if hover && ui.clicked(r) {
+        if ui.activated(r, hover) {
             *action = if online.me.is_some() {
                 MenuAction::Profile
             } else if online.outdated {

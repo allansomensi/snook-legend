@@ -1561,7 +1561,7 @@ impl Hud {
                 ink,
                 true,
             );
-            if hover && ui.released_in(button) {
+            if ui.activated(button, hover) {
                 self.chat_open = true;
                 if over.is_some() {
                     self.result_hidden = over;
@@ -2061,7 +2061,7 @@ impl Hud {
         if hover && !self.reactions_open {
             ui.tooltip(t("Reactions"), b);
         }
-        let clicked_button = hover && ui.released_in(b);
+        let clicked_button = ui.activated(b, hover);
         // Open from another button (or opened from none yet): this one
         // claims it only when clicked; the other draws the list.
         let mine = self.reactions_from.is_none_or(|from| from == b);
@@ -2136,7 +2136,7 @@ impl Hud {
                     if hover { 32.0 } else { 28.0 },
                     crate::paint::alpha(),
                 );
-                if hover && ui.released_in(c) {
+                if ui.activated(c, hover) {
                     chosen = Some(r.code);
                 }
             } else {
@@ -3541,7 +3541,7 @@ fn shoot_button(ui: &mut Ui, r: Rect, enabled: bool) -> bool {
         Color::new(1.0, 1.0, 1.0, 0.85 * a),
     );
     // Pressed on the button too: a power drag let go over it is no shot.
-    let clicked = enabled && hover && ui.released_in(r);
+    let clicked = enabled && ui.activated(r, hover);
     if hover {
         ui.overlay(move |ui| {
             let label = t("Shoot!");

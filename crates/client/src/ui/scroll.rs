@@ -154,6 +154,8 @@ pub struct ScrollView {
     /// view.
     saved: Option<(Vec2, bool, bool)>,
     clipped: bool,
+    /// Where its rows start in the list of what takes the keyboard's focus.
+    focus_from: usize,
 }
 
 impl ScrollView {
@@ -350,6 +352,7 @@ impl Ui {
             saved
         });
         let track = Rect::new(area.x + area.w - 5.0, area.y + 2.0, 5.0, area.h - 4.0);
+        let focus_from = self.focus_scroll_begin(offset);
         ScrollView {
             area,
             offset,
@@ -363,6 +366,7 @@ impl Ui {
             id,
             saved,
             clipped,
+            focus_from,
         }
     }
 
@@ -377,6 +381,11 @@ impl Ui {
         }
         if view.clipped {
             motion::pop_clip();
+        }
+        // Tab went to one of its rows: scrolled to it.
+        if let Some((top, bottom)) = self.focus_scroll_end(view.offset, view.focus_from, view.top())
+        {
+            s.reveal(top - 8.0, bottom + 8.0);
         }
         let area = view.area;
         if view.fades && view.scrolls() {
@@ -411,7 +420,7 @@ impl Ui {
     /// view), Home and End: for the view under the pointer, or the only
     /// one on screen.
     fn scroll_keys(&mut self, view: &ScrollView, s: &mut Scroll, over: bool) {
-        if s.no_keys || self.focus.is_some() || self.mouse.x < -1.0e5 {
+        if s.no_keys || self.focus.is_some() || self.mouse.x < -1.0e5 || self.arrows_taken() {
             return;
         }
         if !over && self.last_scroll_views != 1 {
@@ -513,6 +522,7 @@ mod tests {
             id: 0,
             saved: None,
             clipped: true,
+            focus_from: 0,
         };
         // Rows 0 (cut at the top), 1, 2 (cut at the bottom).
         assert_eq!(v.rows(), 0..4);

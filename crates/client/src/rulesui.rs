@@ -106,7 +106,9 @@ pub fn switch(
             crate::icons::draw(Icon::Person, vec2(x + s / 2.0, cy), s, c);
             ui.text(&n, x + s + 4.0, crate::ranking::text_y(cy, s), s, c, true);
         }
-        if hover && !on && ui.released_in(cell) {
+        let group = crate::ui::motion::rect_key(crate::ui::motion::id("rules-switch"), r);
+        let hit = ui.in_group(group, false, on, |ui| ui.activated(cell, hover));
+        if !on && hit {
             clicked = Some(rules);
         }
     }

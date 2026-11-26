@@ -281,7 +281,7 @@ impl Online {
             }
             let (sub, size) = fit_text(ui, &sub, 12.0, room, false);
             ui.text(&sub, x, r.y + 24.0, size, MUTED, false);
-            if hover && ui.clicked(r) && !button.contains(ui.mouse()) && !rel.contains(ui.mouse()) {
+            if ui.activated(r, hover) && !button.contains(ui.mouse()) && !rel.contains(ui.mouse()) {
                 action = Some(OnlineAction::Profile(p.username.clone()));
             }
             // Friends already, asked, asked by them, or not yet.

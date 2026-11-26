@@ -581,6 +581,8 @@ async fn main() {
         paint::set_opacity(1.0);
         // The mouse's back button is Back on the screens, not in a match.
         ui::back_button(current.is_none());
+        // Tab, Enter and the arrows are the game's at the table.
+        ui.keyboard_nav(current.is_none());
         ui.begin();
         // The chat's dialog (drawn near the end, over any screen or game)
         // holds the keyboard too: no Esc, Space or arrow reaches the game,

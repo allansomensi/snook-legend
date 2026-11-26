@@ -919,6 +919,18 @@ impl RenderingBackend for GlContext {
         match &t.raw {
             TextureOrRenderbuffer::Texture(raw) => unsafe {
                 glDeleteTextures(1, raw as *const _);
+                // Snook Legend patch: OpenGL unbinds a texture it deletes
+                // (and gives its name to the next one made): the cache must
+                // not think it still bound, or a new texture with the same
+                // name is never bound and draws black.
+                for cached in self.cache.textures.iter_mut() {
+                    if cached.texture == *raw {
+                        cached.texture = 0;
+                    }
+                }
+                if self.cache.stored_texture == *raw {
+                    self.cache.stored_texture = 0;
+                }
             },
             TextureOrRenderbuffer::Renderbuffer(raw) => unsafe {
                 glDeleteRenderbuffers(1, raw as *const _);

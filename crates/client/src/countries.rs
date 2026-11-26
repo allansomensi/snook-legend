@@ -217,12 +217,12 @@ pub fn draw_picker(ui: &mut Ui) -> Option<String> {
             if current {
                 crate::icons::draw(Icon::Check, vec2(row.x + row.w - 16.0, mid), 14.0, GOLD);
             }
-            if armed && hover && ui.clicked(row) {
+            if armed && ui.activated(row, hover) {
                 chosen = Some(code.to_string());
             }
         }
         ui.scroll_end(view, &mut p.first);
-        if (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
+        if ui.enter()
             && let Some((code, _, _)) = list.get(p.sel)
         {
             chosen = Some(code.to_string());

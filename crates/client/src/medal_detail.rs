@@ -285,7 +285,7 @@ fn draw_achievement(
                 crate::reactions::draw_locked(reaction.code, c, tile * 0.46);
             }
             caption(ui, t("Reaction"), tr, gap);
-            if hover && ui.clicked(tr) {
+            if ui.activated(tr, hover) {
                 picked =
                     REACTIONS.iter().position(|r| r.code == reaction.code).map(Detail::Reaction);
             }
@@ -437,7 +437,7 @@ fn draw_reaction(ui: &mut Ui, p: &Profile, r: &Reaction, card: Rect, inner: f32)
         ui.text(&sub, tx, b.y + 31.0, ss, if hover { GOLD } else { MUTED }, false);
         crate::icons::draw(Icon::ChevronRight, vec2(b.x + b.w - 20.0, b.y + 28.0), 14.0, MUTED);
         ui.block(b);
-        if hover && ui.clicked(b) {
+        if ui.activated(b, hover) {
             picked = Some(Detail::Achievement(k));
         }
     }

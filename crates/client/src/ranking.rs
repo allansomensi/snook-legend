@@ -464,7 +464,7 @@ impl Ranking {
                 let x = if ra { cx + cw - tw } else { cx };
                 ui.text(&text, x, text_y(mid, size), size, *c, *bold);
             }
-            if hover && ui.clicked(row) {
+            if ui.activated(row, hover) {
                 action = RankingAction::Profile(e.username.clone());
             }
         }

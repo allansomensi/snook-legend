@@ -430,8 +430,7 @@ impl Online {
         };
         let bw = super::button_w(ui, &label, 40.0).max(160.0).min(inner);
         let b = Rect::new(sw / 2.0 - bw / 2.0, r.y + r.h - pad - 40.0, bw, 40.0);
-        let enter = (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
-            && now - shown > 1.5;
+        let enter = ui.enter() && now - shown > 1.5;
         if ui.primary_button(b, &label) || enter {
             self.inbox_read(vec![n.id]);
             self.inbox.shown = None;
@@ -482,7 +481,7 @@ pub fn inbox_button(ui: &mut Ui, r: Rect, unread: u32) -> bool {
         };
         ui.tooltip(&tip, r);
     }
-    let clicked = hover && ui.clicked(r);
+    let clicked = ui.activated(r, hover);
     if clicked {
         ui.note_click();
     }

@@ -86,8 +86,7 @@ impl Setup {
         };
         // Enter starts the game, from a name field or anywhere else (not
         // from a dialog over the screen: its Enter is its own).
-        let mut enter = (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
-            && ui.focus.is_none();
+        let mut enter = ui.enter() && ui.focus.is_none();
 
         // Names.
         let half = (inner - 12.0) / 2.0;

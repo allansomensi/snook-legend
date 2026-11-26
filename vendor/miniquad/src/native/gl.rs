@@ -516,6 +516,18 @@ gl_loader!(
         height: GLsizei,
         border: GLint
     ) -> (),
+    // Snook Legend patch: copies a part of the screen into a texture (the
+    // last look of a dialog, faded out once it is closed).
+    fn glCopyTexSubImage2D(
+        target: GLenum,
+        level: GLint,
+        xoffset: GLint,
+        yoffset: GLint,
+        x: GLint,
+        y: GLint,
+        width: GLsizei,
+        height: GLsizei
+    ) -> (),
     fn glClearDepthf(d: GLfloat) -> (),
     fn glClearDepth(depth: GLclampd) -> (),
     fn glFramebufferTexture2D(

@@ -2576,8 +2576,7 @@ impl Online {
             if more > 0 { tw("Next ({n} more)", &[("n", &more)]) } else { t("OK").to_string() };
         let bw = button_w(ui, &label, 40.0).max(140.0).min(inner);
         let b = Rect::new(sw / 2.0 - bw / 2.0, r.y + r.h - pad - 40.0, bw, 40.0);
-        let enter = (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
-            && now - shown > 1.0;
+        let enter = ui.enter() && now - shown > 1.0;
         if ui.primary_button(b, &label) || enter {
             self.staff_warnings.remove(0);
             // The next one gets its own moment.
@@ -2967,7 +2966,7 @@ impl Online {
         let cancel = Rect::new(x, by, cw, 44.0);
         let send = Rect::new(x + cw + 16.0, by, inner - cw - 16.0, 44.0);
         ui.block(Rect::new(0.0, 0.0, sw, sh));
-        let enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
+        let enter = ui.enter();
         if ui.button(cancel, t("Cancel"), true) || crate::ui::esc_pressed() || ui.dismissed(r) {
             self.invite_dialog = None;
             return;
@@ -3047,8 +3046,7 @@ impl Online {
             self.conn = None;
             return OnlineAction::Leave;
         }
-        let enter = (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
-            && ui.focus.is_none();
+        let enter = ui.enter() && ui.focus.is_none();
         if ui.primary_button(again, t("Try again")) || enter {
             self.error = None;
             self.auto_resume = true;
@@ -4385,7 +4383,7 @@ impl Online {
             let (sub, size) = fit_text(ui, &sub, 12.0, card.w - 40.0 - bw - 24.0, false);
             ui.text(&sub, card.x + 42.0, card.y + 29.0, size, MUTED, false);
             let b = Rect::new(card.x + card.w - bw - 11.0, card.y + 11.0, bw, 30.0);
-            if ui.button(b, see, true) || (hover && ui.clicked(card)) {
+            if ui.button(b, see, true) || (ui.activated(card, hover)) {
                 self.tab = Tab::Tournaments;
                 self.selected_tournament = Some(tour.id);
             }
@@ -5179,7 +5177,7 @@ impl Online {
             }
             let (sub, size) = fit_text(ui, &sub, 12.0, text_w, false);
             ui.text(&sub, r.x + 44.0, r.y + 29.0, size, MUTED, false);
-            if hover && ui.clicked(r) {
+            if ui.activated(r, hover) {
                 open = Some(tour.id);
             }
         }
@@ -5625,7 +5623,7 @@ fn dm_button(ui: &mut Ui, r: Rect, unread: u32) -> bool {
     if hover {
         ui.tooltip(t("Messages"), r);
     }
-    hover && ui.released_in(r)
+    ui.activated(r, hover)
 }
 
 /// "seen 5 min ago", "seen yesterday"… (friends only).

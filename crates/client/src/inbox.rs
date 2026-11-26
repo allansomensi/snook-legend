@@ -281,7 +281,7 @@ impl InboxScreen {
             let sub = if !body.is_empty() { body } else { n.text.clone() };
             let sub = ui.ellipsize(&sub.replace('\n', " "), r.w - 26.0, 13.0);
             ui.text(&sub, x, r.y + 32.0, 13.0, MUTED, false);
-            if hover && ui.clicked(r) {
+            if ui.activated(r, hover) {
                 ui.note_click();
                 picked = Some(n.id);
             }

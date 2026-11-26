@@ -172,7 +172,7 @@ impl Online {
         // (As for a present: a key or a press meant for what was there
         // before isn't taken for OK.)
         let settled = now - since > 1.0;
-        let enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
+        let enter = ui.enter();
         let away = ui.dismissed(r);
         if ok || seen || (settled && (enter || crate::ui::esc_pressed() || away)) {
             self.gifts.rewards.remove(0);
@@ -354,7 +354,7 @@ impl Online {
         // Enter, Esc or a press around it only after a moment: one meant
         // for what was there before (the chat's line) isn't taken for OK.
         let settled = now - since > 1.0;
-        let enter = is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter);
+        let enter = ui.enter();
         // A press on the dimmed screen around it is OK, as Esc is.
         let away = ui.dismissed(r);
         if ok || seen || (settled && (enter || crate::ui::esc_pressed() || away)) {

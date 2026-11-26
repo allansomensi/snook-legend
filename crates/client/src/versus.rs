@@ -344,7 +344,7 @@ impl Versus {
                     ui.text(&note, tx + 16.0, text_y(pip_y, 11.0), 11.0, MUTED, false);
                 }
             }
-            if hover && ui.clicked(cell) && !selected {
+            if ui.activated(cell, hover) && !selected {
                 self.pick = pick;
                 ui.focus = None;
                 if let Pick::Personality(i) = pick {
@@ -416,8 +416,7 @@ impl Versus {
         let label = |ui: &Ui, text: &str, y: f32| ui.text(text, area.x, y, 13.0, MUTED, true);
         // Enter from a field of this form, or with no field (nor a dialog
         // over the screen) holding the keyboard.
-        let mut enter = (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
-            && ui.focus.is_none();
+        let mut enter = ui.enter() && ui.focus.is_none();
         let mut y = area.y;
         label(ui, t("Your name"), y);
         let field = Rect::new(area.x, y + LABEL_H, area.w, CONTROL_H);
@@ -746,7 +745,7 @@ impl Versus {
                 let ep = ui.ellipsize(t(p.epithet), room - name_w - 8.0, 12.0);
                 ui.text(&ep, tx + name_w + 8.0, text_y(mid, 12.0), 12.0, col(MUTED), false);
             }
-            if hover && ui.clicked(row) {
+            if unlocked && ui.activated(row, hover) {
                 self.rung = Some(rung);
             }
             if !unlocked && ui.hovering(row) {
@@ -784,8 +783,7 @@ impl Versus {
             Rect::new(area.x, area.y + 20.0, area.w, area.h - 20.0),
         );
         let label = tw("Challenge {name}", &[("name", &p.name)]);
-        let enter = (is_key_pressed(KeyCode::Enter) || is_key_pressed(KeyCode::KpEnter))
-            && ui.focus.is_none();
+        let enter = ui.enter() && ui.focus.is_none();
         if ui.primary_button(play_r, &label) || enter {
             action = VersusAction::Start(settings(config, o, Some(selected)));
         }
@@ -1229,9 +1227,7 @@ impl Versus {
                             tw("Play {name}", &[("name", &p.name)])
                         };
                         let (label, _) = ui.fitted(&label, 18.0, w - 16.0, true);
-                        let enter = (is_key_pressed(KeyCode::Enter)
-                            || is_key_pressed(KeyCode::KpEnter))
-                            && ui.focus.is_none();
+                        let enter = ui.enter() && ui.focus.is_none();
                         if ui.primary_button(play_r, &label) || enter {
                             action = if resume {
                                 VersusAction::ResumeCup

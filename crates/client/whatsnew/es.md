@@ -3,6 +3,23 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.12.1
+
+### Más fluido en todas partes
+Las listas se desplazan con suavidad (también al arrastrarlas), las pantallas y ventanas se deslizan y las pestañas se mueven. ¿Prefieres que todo quede quieto? Ajustes → Juego → Reducir movimiento.
+
+### Cara a cara con el ordenador
+Las partidas contra el ordenador empiezan como las online: tú y tu rival, su estilo y su nivel, y dónde se juega la partida.
+
+### Los logros de cerca
+Haz clic en una medalla o una reacción de tu perfil para verla en grande: qué hace falta, cuánto llevas, cuándo la ganaste y qué incluye.
+
+### Tienda y perfil
+Las subastas y los mecenas ya están en la tienda, la colección muestra primero lo que tienes y los trofeos del mismo tipo se apilan con su cantidad.
+
+### Correcciones
+Pantallas y servidor más rápidos, conexiones más seguras y muchas correcciones en los dobles, el rating y los premios semanales.
+
 ## 0.12.0
 
 ### Dobles y contrarreloj

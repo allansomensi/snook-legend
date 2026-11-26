@@ -3,6 +3,23 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.1
+
+### Her yerde daha akıcı
+Listeler akıcı kayar (sürükleyebilirsin de), ekranlar ve pencereler kayarak gelir, sekmeler kayar. Her şey sabit mi kalsın? Ayarlar → Oyun → Hareketi azalt.
+
+### Bilgisayarla karşı karşıya
+Bilgisayara karşı oyunlar çevrimiçi oyunlar gibi açılır: sen ve rakibin, onun tarzı ve gücü, bir de oyunun nerede oynandığı.
+
+### Başarımlar yakından
+Profilindeki bir madalyaya ya da tepkiye tıkla, büyük gör: ne gerekiyor, ne kadar ilerledin, ne zaman kazandın ve yanında ne geliyor.
+
+### Mağaza ve profil
+Açık artırmalar ve destekçiler artık mağazada, koleksiyon önce sahip olduklarını gösteriyor ve aynı türdeki kupalar sayısıyla birlikte üst üste yığılıyor.
+
+### Düzeltmeler
+Daha hızlı ekranlar ve sunucu, daha güvenli bağlantılar ve çiftlerde, puanlarda ve haftalık ödüllerde birçok düzeltme.
+
 ## 0.12.0
 
 ### Çiftler ve zamana karşı

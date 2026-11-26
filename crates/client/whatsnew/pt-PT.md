@@ -3,6 +3,23 @@
 # destaque, e as linhas seguintes são o texto dele. Curto e sobre o que os
 # jogadores veem; todas as línguas têm as mesmas versões e o mesmo número de destaques.
 
+## 0.12.1
+
+### Tudo mais fluido
+As listas deslizam com suavidade (também ao arrastar), os ecrãs e as janelas entram a deslizar e os separadores também. Prefere sem animações? Definições → Jogo → Reduzir movimento.
+
+### Frente a frente com o computador
+Os jogos contra o computador começam como os online: você e o rival, o estilo e a força dele e onde o jogo é disputado.
+
+### Conquistas de perto
+Clique numa medalha ou reação do seu perfil para a ver em grande: o que é preciso, quanto falta, quando a ganhou e o que vem com ela.
+
+### Loja e perfil
+Os leilões e os apoiantes passam a estar na loja, a coleção mostra primeiro o que tem e os troféus do mesmo tipo agrupam-se com a quantidade.
+
+### Correções
+Ecrãs e servidor mais rápidos, ligações mais seguras e várias correções nas duplas, no rating e nos prémios da semana.
+
 ## 0.12.0
 
 ### Pares e contra o relógio

@@ -3,6 +3,23 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.12.1
+
+### Mjukare överallt
+Listor rullar mjukt (dra i dem också), skärmar och fönster glider in och flikar glider. Föredrar du stillhet? Inställningar → Spel → Minska rörelse.
+
+### Ansikte mot ansikte med datorn
+Matcher mot datorn öppnas som onlinematcher: du och din motståndare, hans eller hennes stil och styrka, och var matchen spelas.
+
+### Prestationer på nära håll
+Klicka på en medalj eller reaktion i din profil för att se den stor: vad som krävs, hur långt du har kommit, när du vann den och vad som följer med.
+
+### Butik och profil
+Auktioner och supportrar finns nu i butiken, samlingen visar först det du har, och troféer av samma slag staplas med antal.
+
+### Rättningar
+Snabbare skärmar och server, säkrare anslutningar och många rättningar i dubbel, rating och veckans priser.
+
 ## 0.12.0
 
 ### Dubbel och mot klockan

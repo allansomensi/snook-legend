@@ -3,6 +3,23 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.1
+
+### Smoother everywhere
+Lists scroll smoothly (drag them, too), screens and windows glide in and tabs slide. Prefer things still? Settings → Game → Reduce motion.
+
+### Face to face with the computer
+Games against the computer open like online ones: you and your rival, their style and strength, and where the game is played.
+
+### Achievements up close
+Click a medal or a reaction in your profile to see it large: what it takes, how far along you are, when you won it and what comes with it.
+
+### Shop and profile
+Auctions and supporters are now in the shop, the collection shows what you have first, and trophies of the same kind stack with how many.
+
+### Fixes
+Faster screens and server, safer connections, and many fixes in doubles, ratings and weekly prizes.
+
 ## 0.12.0
 
 ### Doubles and against the clock

@@ -3,6 +3,23 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.12.1
+
+### Plynulejší všude
+Seznamy se plynule posouvají (můžete je i táhnout), obrazovky a okna se přisouvají a karty klouzají. Chcete klid? Nastavení → Hra → Omezit pohyb.
+
+### Tváří v tvář počítači
+Hry proti počítači začínají jako ty online: vy a soupeř, jeho styl a síla a kde se hra hraje.
+
+### Úspěchy zblízka
+Klikněte na medaili nebo reakci ve svém profilu a uvidíte ji velkou: co je k ní potřeba, jak daleko jste, kdy jste ji získali a co k ní patří.
+
+### Obchod a profil
+Aukce a podporovatelé jsou nově v obchodu, sbírka ukazuje nejdřív to, co máte, a trofeje stejného druhu se skládají s počtem kusů.
+
+### Opravy
+Rychlejší obrazovky a server, bezpečnější připojení a spousta oprav ve čtyřhře, ratingu a týdenních cenách.
+
 ## 0.12.0
 
 ### Čtyřhra a na čas

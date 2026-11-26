@@ -3,6 +3,23 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.12.1
+
+### Più fluido ovunque
+Le liste scorrono con fluidità (anche trascinandole), schermate e finestre scivolano dentro e le schede scorrono. Preferisci tutto fermo? Impostazioni → Gioco → Riduci il movimento.
+
+### Faccia a faccia con il computer
+Le partite contro il computer si aprono come quelle online: tu e il tuo avversario, il suo stile e la sua forza, e dove si gioca la partita.
+
+### Gli obiettivi da vicino
+Clicca su una medaglia o una reazione nel tuo profilo per vederla grande: cosa serve, a che punto sei, quando l'hai vinta e cosa comporta.
+
+### Negozio e profilo
+Aste e sostenitori ora sono nel negozio, la collezione mostra prima ciò che hai e i trofei dello stesso tipo si impilano con il loro numero.
+
+### Correzioni
+Schermate e server più veloci, connessioni più sicure e molte correzioni su doppi, punteggi e premi settimanali.
+
 ## 0.12.0
 
 ### Doppio e contro il tempo

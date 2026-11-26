@@ -2,6 +2,23 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.12.1
+
+### Mai fluid peste tot
+Listele derulează lin (și le poți trage), ecranele și ferestrele alunecă, iar filele glisează. Preferi totul nemișcat? Setări → Joc → Reduce mișcarea.
+
+### Față în față cu calculatorul
+Partidele împotriva calculatorului se deschid ca cele online: tu și rivalul, stilul și forța lui și unde se joacă partida.
+
+### Realizările de aproape
+Dă clic pe o medalie sau o reacție din profilul tău ca s-o vezi mare: ce trebuie făcut, cât ai avansat, când ai câștigat-o și ce vine odată cu ea.
+
+### Magazin și profil
+Licitațiile și susținătorii sunt acum în magazin, colecția arată mai întâi ce ai, iar trofeele de același fel se strâng la un loc cu numărul lor.
+
+### Remedieri
+Ecrane și server mai rapide, conexiuni mai sigure și multe remedieri la dublu, rating și premiile săptămânii.
+
 ## 0.12.0
 
 ### Dublu și contra cronometru

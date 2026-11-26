@@ -2,6 +2,23 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.12.1
+
+### Mindenhol simábban
+A listák simán görgethetők (húzással is), a képernyők és ablakok becsúsznak, a fülek pedig csúsznak. Inkább mozdulatlanul? Beállítások → Játék → Mozgás csökkentése.
+
+### Szemtől szemben a számítógéppel
+A számítógép elleni játszmák úgy nyílnak meg, mint az online játszmák: te és az ellenfeled, a stílusa és az ereje, és hogy hol játsszák a játszmát.
+
+### Teljesítmények közelről
+Kattints egy érmére vagy reakcióra a profilodban, és nagyban láthatod: mi kell hozzá, meddig jutottál, mikor nyerted és mi jár mellé.
+
+### Bolt és profil
+Az árverések és a támogatók mostantól a boltban vannak, a gyűjtemény először azt mutatja, amid van, az azonos fajta trófeák pedig a darabszámukkal együtt halmozódnak.
+
+### Javítások
+Gyorsabb képernyők és szerver, biztonságosabb kapcsolatok, és sok javítás a párosban, az értékszámokban és a heti díjakban.
+
 ## 0.12.0
 
 ### Páros és idő ellen

@@ -2,6 +2,23 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.12.1
+
+### Mas smooth sa lahat
+Smooth ang scroll ng mga listahan (pati ang pag-drag), dumudulas ang mga screen at window, at lumilipat ang mga tab. Mas gusto mong walang galaw? Settings → Laro → Bawasan ang galaw.
+
+### Harapan sa computer
+Ang mga laro laban sa computer ay nagsisimula tulad ng online: ikaw at ang kalaban mo, ang istilo at lakas niya, at kung saan nilalaro ang laro.
+
+### Mga achievement nang malapitan
+I-click ang medalya o reaksyon sa profile mo para makita ito nang malaki: ano ang kailangan, gaano ka na kalayo, kailan mo ito napanalunan at ano ang kasama nito.
+
+### Shop at profile
+Nasa shop na ang mga subasta at tagasuporta, unang ipinapakita ng koleksyon ang mayroon ka, at nagsasama-sama ang mga tropeo ng parehong uri kasama ang bilang.
+
+### Mga ayos
+Mas mabilis na mga screen at server, mas ligtas na koneksyon, at maraming ayos sa doubles, rating at lingguhang premyo.
+
 ## 0.12.0
 
 ### Doubles at kontra-oras

@@ -4,6 +4,23 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.12.1
+
+### Plus fluide partout
+Les listes défilent en douceur (et se font glisser aussi), les écrans et les fenêtres glissent et les onglets coulissent. Vous préférez que tout reste fixe ? Paramètres → Jeu → Réduire les animations.
+
+### Face à face avec l'ordinateur
+Les parties contre l'ordinateur s'ouvrent comme les parties en ligne : vous et votre rival, son style et sa force, et où la partie se joue.
+
+### Les succès de près
+Cliquez sur une médaille ou une réaction dans votre profil pour la voir en grand : ce qu'il faut faire, où vous en êtes, quand vous l'avez gagnée et ce qui l'accompagne.
+
+### Boutique et profil
+Les enchères et les soutiens sont maintenant dans la boutique, la collection montre d'abord ce que vous avez, et les trophées du même type s'empilent avec leur nombre.
+
+### Corrections
+Écrans et serveur plus rapides, connexions plus sûres et de nombreuses corrections sur les doubles, le classement et les récompenses de la semaine.
+
 ## 0.12.0
 
 ### Doubles et contre la montre

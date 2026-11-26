@@ -2,6 +2,23 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.12.1
+
+### Płynniej wszędzie
+Listy przewijają się płynnie (można je też przeciągać), ekrany i okna wsuwają się, a karty przesuwają. Wolisz bez ruchu? Ustawienia → Gra → Ogranicz ruch.
+
+### Twarzą w twarz z komputerem
+Gry z komputerem otwierają się jak te online: ty i rywal, jego styl i siła oraz miejsce rozgrywki.
+
+### Osiągnięcia z bliska
+Kliknij medal lub reakcję w swoim profilu, żeby zobaczyć ją w dużym rozmiarze: co jest potrzebne, jak daleko jesteś, kiedy ją zdobyłeś i co się z nią wiąże.
+
+### Sklep i profil
+Aukcje i wspierający są teraz w sklepie, kolekcja pokazuje najpierw to, co masz, a trofea tego samego rodzaju układają się w stos z liczbą sztuk.
+
+### Poprawki
+Szybsze ekrany i serwer, bezpieczniejsze połączenia oraz wiele poprawek w deblu, rankingu i nagrodach tygodnia.
+
 ## 0.12.0
 
 ### Debel i na czas

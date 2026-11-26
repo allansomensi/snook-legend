@@ -2,6 +2,23 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.12.1
+
+### Mượt hơn ở mọi nơi
+Danh sách cuộn mượt (kéo cũng được), màn hình và cửa sổ trượt vào, các thẻ cũng trượt theo. Thích mọi thứ đứng yên? Cài đặt → Trò chơi → Giảm chuyển động.
+
+### Đối đầu với máy
+Ván đấu với máy mở ra như ván online: bạn và đối thủ, phong cách và sức mạnh của họ, và nơi ván đấu diễn ra.
+
+### Thành tích nhìn gần
+Bấm vào một huy chương hoặc biểu cảm trong hồ sơ để xem bản lớn: cần làm gì, bạn đã đến đâu, bạn giành được khi nào và đi kèm những gì.
+
+### Cửa hàng và hồ sơ
+Đấu giá và người ủng hộ nay nằm trong cửa hàng, bộ sưu tập hiện thứ bạn có trước, và các cúp cùng loại xếp chồng kèm số lượng.
+
+### Sửa lỗi
+Màn hình và máy chủ nhanh hơn, kết nối an toàn hơn, và nhiều lỗi được sửa ở đánh đôi, điểm và giải thưởng tuần.
+
 ## 0.12.0
 
 ### Đánh đôi và đua với thời gian

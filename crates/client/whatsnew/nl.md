@@ -3,6 +3,23 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.12.1
+
+### Overal soepeler
+Lijsten scrollen soepel (ook met slepen), schermen en vensters glijden binnen en tabbladen schuiven. Liever alles stil? Instellingen → Spel → Beweging beperken.
+
+### Oog in oog met de computer
+Spellen tegen de computer openen zoals online spellen: jij en je tegenstander, zijn stijl en sterkte, en waar het spel wordt gespeeld.
+
+### Prestaties van dichtbij
+Klik in je profiel op een medaille of reactie om hem groot te zien: wat ervoor nodig is, hoe ver je bent, wanneer je hem won en wat erbij hoort.
+
+### Winkel en profiel
+Veilingen en supporters staan nu in de winkel, de collectie toont eerst wat je hebt, en trofeeën van hetzelfde soort stapelen met hun aantal.
+
+### Reparaties
+Snellere schermen en server, veiligere verbindingen en veel reparaties bij dubbel, rating en weekprijzen.
+
 ## 0.12.0
 
 ### Dubbelspel en tegen de klok

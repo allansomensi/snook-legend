@@ -3,6 +3,23 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.12.1
+
+### Lebih mulus di mana-mana
+Daftar bergulir mulus (diseret pun bisa), layar dan jendela meluncur masuk, dan tab bergeser. Lebih suka diam? Pengaturan → Game → Kurangi gerakan.
+
+### Berhadapan dengan komputer
+Game melawan komputer dibuka seperti game online: kamu dan lawanmu, gaya dan kekuatannya, serta tempat game dimainkan.
+
+### Pencapaian dari dekat
+Klik medali atau reaksi di profilmu untuk melihatnya besar: apa syaratnya, sudah sejauh mana, kapan kamu mendapatkannya, dan apa yang menyertainya.
+
+### Toko dan profil
+Lelang dan pendukung kini ada di toko, koleksi menampilkan yang kamu punya lebih dulu, dan trofi sejenis ditumpuk beserta jumlahnya.
+
+### Perbaikan
+Layar dan server lebih cepat, koneksi lebih aman, dan banyak perbaikan pada ganda, rating, dan hadiah mingguan.
+
 ## 0.12.0
 
 ### Ganda dan lawan waktu

@@ -3,6 +3,23 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.12.1
+
+### Überall flüssiger
+Listen scrollen flüssig (auch zum Ziehen), Bildschirme und Fenster gleiten herein und Tabs rutschen. Lieber ruhig? Einstellungen → Spiel → Bewegung reduzieren.
+
+### Auge in Auge mit dem Computer
+Partien gegen den Computer beginnen wie Online-Partien: du und dein Gegner, sein Stil und seine Stärke und wo gespielt wird.
+
+### Erfolge ganz nah
+Klick in deinem Profil auf eine Medaille oder eine Reaktion, um sie groß zu sehen: was dafür nötig ist, wie weit du bist, wann du sie gewonnen hast und was dazugehört.
+
+### Shop und Profil
+Auktionen und Unterstützer sind jetzt im Shop, die Sammlung zeigt zuerst, was du hast, und Trophäen derselben Art werden mit ihrer Anzahl gestapelt.
+
+### Korrekturen
+Schnellere Bildschirme und Server, sicherere Verbindungen und viele Korrekturen bei Doppeln, Wertungen und Wochenpreisen.
+
 ## 0.12.0
 
 ### Doppel und gegen die Uhr

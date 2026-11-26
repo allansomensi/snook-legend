@@ -1,5 +1,15 @@
 # Changelog
 
+## Not released yet
+
+The next version's changes, until it is numbered (see docs/RELEASING.md).
+
+### Interface
+- The main menu's row: five places, each with its name (Ranking, Profile,
+  Inbox, Shop, Settings) and Quit apart. The collection is in the shop's
+  header; the rules are in Settings → Game → About (with the terms, the
+  privacy policy and the credits) and by the rules switch's "i".
+
 ## 0.12.2 (protocol 25)
 
 Private messages to any player, a match chat that keeps to what the
@@ -48,10 +58,6 @@ smoother interface and the game ready for Flathub. Same protocol as
   of 0.12.1 and older.
 
 ### Interface
-- The main menu's row: five places, each with its name (Ranking, Profile,
-  Inbox, Shop, Settings) and Quit apart. The collection is in the shop's
-  header; the rules are in Settings → Game → About (with the terms, the
-  privacy policy and the credits) and by the rules switch's "i".
 - The shop's and the collection's cards scroll down in one grid instead
   of turning pages sideways.
 - Dialogs go out as they came in; hand-drawn cards and rows ease their

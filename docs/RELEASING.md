@@ -35,8 +35,9 @@ Flathub) are in `flatpak/`; see [flatpak/README.md](../flatpak/README.md).
 
 ## Publishing a version
 
-1. Set the version in `Cargo.toml` (`[workspace.package] version`) and add a
-   `## <version>` section to `CHANGELOG.md` and to "What's new"
+1. Set the version in `Cargo.toml` (`[workspace.package] version`), turn
+   `CHANGELOG.md`'s "Not released yet" into a `## <version>` section (and
+   start a new one empty after the release), and add one to "What's new"
    (`crates/client/whatsnew/*.md`), then write the Flatpak's releases from
    it (`python3 tools/gen_metainfo.py`; a test checks it was done).
 2. Optional: the repository variable `SNOOK_LEGEND_SERVER` (Settings → Secrets and

@@ -75,6 +75,7 @@ mod settings;
 mod setup;
 mod shop;
 mod showroom;
+mod studio;
 mod swatch;
 mod sync;
 mod table_social;
@@ -1227,6 +1228,9 @@ async fn main() {
             image.export_png(path);
             break;
         }
+
+        // The shop's pictures of the cloths asked for last frame.
+        studio::render(&mut scene);
 
         // From here on: the 2D interface, in interface units.
         ui::begin_ui_camera();

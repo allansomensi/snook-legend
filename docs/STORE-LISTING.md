@@ -58,20 +58,16 @@ Em 27 idiomas, entre eles português, inglês, espanhol, francês, alemão, ital
 
 ### Novidades desta versão
 
-Versão 0.12.0: duplas, contra o relógio e a 8 cantada na regra oficial.
-• Duplas e contra o relógio: jogue 2 contra 2 com um amigo (os parceiros se revezam na mesa), com ranking de duplas para cada regra. Ou limpe a mesa contra o relógio e suba no ranking da semana.
-• Regra oficial: cante a 8. As bolas do grupo continuam valendo em qualquer caçapa, mas a 8 precisa ser cantada: clique na caçapa antes de tacar. A 8 em outra caçapa perde.
-• Sua coleção: todos os seus itens, com a raridade e como e quando você ganhou cada um. Dezenas de itens novos e 49 reações novas.
-• Caixa de entrada: mensagens da equipe, prêmios, torneios e conquistas ficam lá até você ler.
-• Amigos: mensagens entre amigos, o que cada amigo está fazendo, um ranking de amigos e suas configurações em qualquer computador.
-• Na mesa: uma abertura com o que está em jogo, um chat para espectadores e um modo observador.
-• Torneios oficiais com prêmio ao vivo, um leilão semanal de itens raros e promoções na loja. Para VIP: um item do mês, cor da mira e estatísticas avançadas.
+Versão 0.12.2: mensagens privadas, um chat mais tranquilo e conquistas mais difíceis.
+• Mensagens privadas: escreva para qualquer jogador pela caixa de entrada ou pelo perfil dele. Em Configurações → Jogo você escolhe quem pode escrever para você; menores de 18 anos, só amigos.
+• Um chat mais tranquilo: nas partidas online o chat mostra só o que os jogadores escrevem; o que acontece na mesa fica no histórico da partida, no alto. Quer tudo junto? Configurações → Jogo.
+• Conquistas mais difíceis: as sequências de vitórias agora são de 5, 10, 15 e 30, e o XP de cada conquista acompanha a medalha.
+• Análise para VIP: a análise das tacadas e as estatísticas avançadas viraram uma página só, para membros VIP.
+• Telas mais fluidas: a loja e a coleção rolam para baixo, as janelas somem suavemente, o botão de voltar do mouse volta e o teclado chega a todos os botões.
 
-Da versão 0.11.1: livre assim que a partida acaba, e um chat melhor.
+Da versão 0.12.1: tudo mais fluido, partidas contra o computador que começam como as online e conquistas vistas de perto.
 
-Da versão 0.11.0: medalhas de rubi, 26 reações novas e um perfil mais claro.
-
-Da versão 0.9.0: o jogo em 27 idiomas, com as regras, as novidades e os nomes dos países traduzidos.
+Da versão 0.12.0: duplas, contra o relógio, a 8 cantada na regra oficial, a coleção e a caixa de entrada.
 
 ### Recursos do produto
 
@@ -140,20 +136,16 @@ In 27 languages, including English, Portuguese, Spanish, French, German, Italian
 
 ### What's new in this version
 
-Version 0.12.0: doubles, against the clock and the 8 called under the official rules.
-• Doubles and against the clock: play 2 against 2 with a friend (partners take turns at the table), with a doubles ranking for each rules. Or clear the table against the clock and climb the week's ranking.
-• Official rules: call the 8. The group's balls still count in any pocket, but the 8 must be called: click the pocket before the shot. The 8 in another pocket loses.
-• Your collection: every item you have, with its rarity and how and when you got it. Dozens of new items and 49 new reactions.
-• Inbox: messages from the staff, prizes, tournaments and achievements stay there until you read them.
-• Friends: messages between friends, what each friend is doing, a friends' ranking and your settings on every computer.
-• At the table: an intro with what is at stake, a chat for spectators and an observer mode.
-• Official tournaments with a live prize pool, a weekly auction of rare items and sales in the shop. For VIP: an item of the month, an aim colour and advanced statistics.
+Version 0.12.2: private messages, a quieter chat and harder achievements.
+• Private messages: write to any player from the inbox or from their profile. Settings → Game decides who can write to you; under 18, friends only.
+• A quieter chat: in online games the chat keeps to what the players say; what happens at the table is in the game's history, at the top. Want it all together? Settings → Game.
+• Harder achievements: wins in a row now go 5, 10, 15 and 30, and each achievement's XP follows its medal.
+• The analysis for VIP: the shot analysis and the advanced statistics are now one page, for VIP members.
+• Smoother screens: the shop and the collection scroll down, windows fade out, the mouse's back button goes back and the keyboard reaches every button.
 
-From version 0.11.1: free as soon as the game ends, and a better chat.
+From version 0.12.1: smoother everywhere, games against the computer that open like online ones, and achievements up close.
 
-From version 0.11.0: ruby medals, 26 new reactions and a clearer profile.
-
-From version 0.9.0: the game in 27 languages, with the rules, what's new and the countries' names translated.
+From version 0.12.0: doubles, against the clock, the 8 called under the official rules, the collection and the inbox.
 
 ### Product features
 
@@ -222,20 +214,16 @@ En 27 idiomas, entre ellos español, inglés, portugués, francés, alemán, ita
 
 ### Novedades de esta versión
 
-Versión 0.12.0: dobles, contrarreloj y la 8 cantada en la regla oficial.
-• Dobles y contrarreloj: juega 2 contra 2 con un amigo (los compañeros se turnan en la mesa), con un ranking de dobles para cada regla. O limpia la mesa contrarreloj y sube en el ranking de la semana.
-• Regla oficial: canta la 8. Las bolas de tu grupo siguen valiendo en cualquier tronera, pero la 8 hay que cantarla: haz clic en la tronera antes del tiro. La 8 en otra tronera pierde.
-• Tu colección: todos tus objetos, con su rareza y cómo y cuándo los conseguiste. Decenas de objetos nuevos y 49 reacciones nuevas.
-• Buzón: los mensajes del equipo, premios, torneos y logros se quedan ahí hasta que los leas.
-• Amigos: mensajes entre amigos, qué está haciendo cada amigo, un ranking de amigos y tus ajustes en cada ordenador.
-• En la mesa: una introducción con lo que se juega, un chat para espectadores y un modo observador.
-• Torneos oficiales con un bote de premios en vivo, una subasta semanal de objetos raros y ofertas en la tienda. Para VIP: un objeto del mes, un color de mira y estadísticas avanzadas.
+Versión 0.12.2: mensajes privados, un chat más tranquilo y logros más difíciles.
+• Mensajes privados: escribe a cualquier jugador desde el buzón o desde su perfil. En Ajustes → Juego eliges quién puede escribirte; los menores de 18, solo amigos.
+• Un chat más tranquilo: en las partidas online el chat muestra solo lo que escriben los jugadores; lo que pasa en la mesa está en el historial de la partida, arriba. ¿Lo quieres todo junto? Ajustes → Juego.
+• Logros más difíciles: las rachas de victorias ahora son de 5, 10, 15 y 30, y la XP de cada logro sigue a su medalla.
+• El análisis para VIP: el análisis de los tiros y las estadísticas avanzadas son ahora una sola página, para los miembros VIP.
+• Pantallas más fluidas: la tienda y la colección se desplazan hacia abajo, las ventanas se desvanecen, el botón de retroceso del ratón vuelve atrás y el teclado llega a todos los botones.
 
-De la versión 0.11.1: libre en cuanto acaba la partida, y un chat mejor.
+De la versión 0.12.1: más fluido en todas partes, partidas contra el ordenador que empiezan como las online y los logros de cerca.
 
-De la versión 0.11.0: medallas de rubí, 26 reacciones nuevas y un perfil más claro.
-
-De la versión 0.9.0: el juego en 27 idiomas, con las reglas, las novedades y los nombres de los países traducidos.
+De la versión 0.12.0: dobles, contrarreloj, la 8 cantada en la regla oficial, la colección y el buzón.
 
 ### Características del producto
 

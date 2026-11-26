@@ -1247,7 +1247,6 @@ Speed	速度
 Shot {n} of {total}	第{n}/{total}杆
 For VIP members	VIP会员专享
 {n} reactions of your own to send during games	{n}个专属表情，可在对局中发送
-Items {a}–{b} of {n}	第{a}–{b}件，共{n}件
 (message deleted by its author)	（消息已被发送者删除）
 (message deleted by an administrator)	（消息已被管理员删除）
 Delete (it shows as deleted)	删除（显示为已删除）
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	登录以查看你的收藏。
 Missing too	也显示缺少的
 Nothing of this rarity here.	这里没有这种稀有度的物品。
 None yet: they are waiting to be won.	还没有：它们等着被赢取。
-Page {a} of {b}	第{a}页，共{b}页
 In the shop	去商店
 Everything you have	你拥有的一切
 Off: no reactions are shown during matches, from anyone.	关闭：对局中不显示任何人的表情。

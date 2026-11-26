@@ -1247,7 +1247,6 @@ Speed	Sebesség
 Shot {n} of {total}	{n}. lökés / {total}
 For VIP members	VIP-tagoknak
 {n} reactions of your own to send during games	{n} saját reakció, amelyet játszma közben küldhetsz
-Items {a}–{b} of {n}	Tárgyak: {a}–{b} / {n}
 (message deleted by its author)	(az üzenetet a szerzője törölte)
 (message deleted by an administrator)	(az üzenetet egy adminisztrátor törölte)
 Delete (it shows as deleted)	Törlés (töröltként jelenik meg)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Jelentkezz be, hogy lásd a gyűjteményed.
 Missing too	A hiányzók is
 Nothing of this rarity here.	Ilyen ritkaságú nincs itt.
 None yet: they are waiting to be won.	Még egy sincs: arra várnak, hogy megnyerd őket.
-Page {a} of {b}	{a}. oldal / {b}
 In the shop	A boltban
 Everything you have	Minden, amid van
 Off: no reactions are shown during matches, from anyone.	Ki: a játszmák alatt senki reakciója nem jelenik meg.

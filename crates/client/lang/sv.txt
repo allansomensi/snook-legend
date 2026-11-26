@@ -1247,7 +1247,6 @@ Speed	Hastighet
 Shot {n} of {total}	Stöt {n} av {total}
 For VIP members	För VIP-medlemmar
 {n} reactions of your own to send during games	{n} egna reaktioner att skicka under partier
-Items {a}–{b} of {n}	Föremål {a}–{b} av {n}
 (message deleted by its author)	(meddelandet raderat av skribenten)
 (message deleted by an administrator)	(meddelandet raderat av en administratör)
 Delete (it shows as deleted)	Radera (visas som raderat)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Logga in för att se din samling.
 Missing too	Även det som saknas
 Nothing of this rarity here.	Inget av den här sällsyntheten här.
 None yet: they are waiting to be won.	Inga än: de väntar på att vinnas.
-Page {a} of {b}	Sida {a} av {b}
 In the shop	I butiken
 Everything you have	Allt du har
 Off: no reactions are shown during matches, from anyone.	Av: inga reaktioner visas under partier, från någon.

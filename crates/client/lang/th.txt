@@ -1247,7 +1247,6 @@ Speed	ความเร็ว
 Shot {n} of {total}	ช็อต​ที่ {n} จาก {total}
 For VIP members	สำหรับสมาชิก VIP
 {n} reactions of your own to send during games	รีแอ็กชัน​เฉพาะตัว {n} แบบ​ไว้​ส่ง​ระหว่าง​เกม
-Items {a}–{b} of {n}	ไอเท็ม {a}–{b} จาก {n}
 (message deleted by its author)	(ข้อความ​ถูก​ลบ​โดย​ผู้เขียน)
 (message deleted by an administrator)	(ข้อความ​ถูก​ลบ​โดย​ผู้ดูแล​ระบบ)
 Delete (it shows as deleted)	ลบ (แสดงว่า​ถูก​ลบ)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	ลงชื่อ​เข้า​ใช้​
 Missing too	รวม​ที่​ยัง​ขาด
 Nothing of this rarity here.	ไม่​มี​ระดับ​ความ​หายาก​นี้​ที่​นี่
 None yet: they are waiting to be won.	ยัง​ไม่​มี: กำลัง​รอ​ให้​คุณ​ชนะ
-Page {a} of {b}	หน้า {a} จาก {b}
 In the shop	ใน​ร้านค้า
 Everything you have	ทุก​อย่าง​ที่​คุณ​มี
 Off: no reactions are shown during matches, from anyone.	ปิด: ไม่​แสดง​รีแอคชัน​ของ​ใคร​ระหว่าง​แมตช์

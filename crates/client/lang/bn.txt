@@ -1247,7 +1247,6 @@ Speed	গতি
 Shot {n} of {total}	শট {n} / {total}
 For VIP members	VIP সদস্যদের জন্য
 {n} reactions of your own to send during games	গেমের সময় পাঠানোর জন্য আপনার নিজস্ব {n}টি রিঅ্যাকশন
-Items {a}–{b} of {n}	আইটেম {a}–{b} / {n}
 (message deleted by its author)	(লেখক মেসেজটি মুছে দিয়েছেন)
 (message deleted by an administrator)	(একজন অ্যাডমিনিস্ট্রেটর মেসেজটি মুছে দিয়েছেন)
 Delete (it shows as deleted)	মুছুন (মুছে ফেলা হিসেবে দেখাবে)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	আপনার সংগ্রহ দেখত�
 Missing too	যেগুলো নেই সেগুলোও
 Nothing of this rarity here.	এখানে এই বিরলতার কিছু নেই।
 None yet: they are waiting to be won.	এখনও নেই: জেতার অপেক্ষায় আছে।
-Page {a} of {b}	পৃষ্ঠা {a} / {b}
 In the shop	শপে
 Everything you have	আপনার যা কিছু আছে
 Off: no reactions are shown during matches, from anyone.	বন্ধ: ম্যাচ চলাকালীন কারও রিঅ্যাকশন দেখানো হয় না।

@@ -1247,7 +1247,6 @@ Speed	Viteză
 Shot {n} of {total}	Lovitura {n} din {total}
 For VIP members	Pentru membrii VIP
 {n} reactions of your own to send during games	{n} reacții proprii de trimis în timpul partidelor
-Items {a}–{b} of {n}	Obiectele {a}–{b} din {n}
 (message deleted by its author)	(mesaj șters de autor)
 (message deleted by an administrator)	(mesaj șters de un administrator)
 Delete (it shows as deleted)	Șterge (apare ca șters)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Conectează-te pentru a-ți vedea colecția.
 Missing too	Și cele lipsă
 Nothing of this rarity here.	Nimic de această raritate aici.
 None yet: they are waiting to be won.	Niciunul încă: așteaptă să fie câștigate.
-Page {a} of {b}	Pagina {a} din {b}
 In the shop	În magazin
 Everything you have	Tot ce ai
 Off: no reactions are shown during matches, from anyone.	Oprit: în timpul partidelor nu se arată nicio reacție, de la nimeni.

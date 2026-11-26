@@ -25,8 +25,6 @@ pub const SCREEN_SECS: f32 = 0.2;
 pub const DIALOG_SECS: f32 = 0.18;
 /// How long a pane or a page takes to slide in.
 pub const SWITCH_SECS: f32 = 0.2;
-/// How long a page of cards takes to slide by.
-pub const PAGE_SECS: f32 = 0.26;
 /// How long a popover (a menu, a tray) takes to open.
 pub const POPOVER_SECS: f32 = 0.13;
 /// How quickly what follows a target catches up (per second): a hover's
@@ -63,12 +61,6 @@ pub fn dt() -> f32 {
 pub fn ease_out(t: f32) -> f32 {
     let t = t.clamp(0.0, 1.0);
     1.0 - (1.0 - t).powi(3)
-}
-
-/// Eased in and out (cubic): for what travels across (a page sliding by).
-pub fn ease_in_out(t: f32) -> f32 {
-    let t = t.clamp(0.0, 1.0);
-    if t < 0.5 { 4.0 * t * t * t } else { 1.0 - (-2.0 * t + 2.0).powi(3) / 2.0 }
 }
 
 /// `v` moved toward `target` at `rate` (per second; exponential, so it
@@ -620,70 +612,6 @@ impl Ui {
         }
         let e = ease_out(t);
         self.push_fx(toward * dir * (1.0 - e), 1.0, Vec2::ZERO, ease_out((t * 1.3).min(1.0)))
-    }
-
-    /// A page turned (`page` changed for `key`): the page that was shown
-    /// slides out to one side while the new one comes in from the other,
-    /// `width` apart. Returns the page going out with its offset, while it
-    /// is still in sight, and the new page's offset (0 once there).
-    pub fn carousel(&self, key: u64, page: usize, width: f32) -> (Option<(usize, f32)>, f32) {
-        let reduce = reduced();
-        let dt = dt();
-        self.with_slot(key, [1.0, 0.0, 1.0, 0.0], |s| {
-            if s.aux == i64::MIN {
-                s.aux = page as i64;
-            } else if s.aux != page as i64 {
-                s.v[1] = s.aux as f32;
-                s.v[2] = if page as i64 > s.aux { 1.0 } else { -1.0 };
-                s.aux = page as i64;
-                s.v[0] = if reduce { 1.0 } else { 0.0 };
-            }
-            let t = s.v[0];
-            s.v[0] = (t + dt / PAGE_SECS).min(1.0);
-            if t >= 1.0 {
-                return (None, 0.0);
-            }
-            let e = ease_in_out(t);
-            let dir = s.v[2];
-            (Some((s.v[1] as usize, -dir * width * e)), dir * width * (1.0 - e))
-        })
-    }
-
-    /// The wheel over `r` as whole steps (pages turned): a notch is a step,
-    /// a touchpad's small moves add up to one; a step at most every quarter
-    /// of a second. Positive: down (the next page).
-    pub fn wheel_steps(&mut self, key: u64, r: Rect) -> i32 {
-        let units = if r.contains(self.mouse) && !self.wheel_taken {
-            super::scroll::wheel_units(self.wheel)
-        } else {
-            0.0
-        };
-        if units != 0.0 {
-            self.wheel_taken = true;
-        }
-        let dt = dt();
-        self.with_slot(key, [0.0, 1.0, 0.0, 0.0], |s| {
-            s.v[1] += dt;
-            if units == 0.0 {
-                // A pause forgets half a move.
-                if s.v[1] > 0.6 {
-                    s.v[0] = 0.0;
-                }
-                return 0;
-            }
-            if s.v[0].signum() != units.signum() {
-                s.v[0] = 0.0;
-            }
-            s.v[0] += units;
-            if s.v[0].abs() >= 40.0 && s.v[1] >= 0.25 {
-                let step = s.v[0].signum() as i32;
-                s.v[0] = 0.0;
-                s.v[1] = 0.0;
-                step
-            } else {
-                0
-            }
-        })
     }
 
     /// How far the switch of `key` to `index` has come (0..1) and from

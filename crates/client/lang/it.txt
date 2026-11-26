@@ -1247,7 +1247,6 @@ Speed	Velocità
 Shot {n} of {total}	Tiro {n} di {total}
 For VIP members	Per i membri VIP
 {n} reactions of your own to send during games	{n} reazioni esclusive da inviare durante le partite
-Items {a}–{b} of {n}	Oggetti {a}–{b} di {n}
 (message deleted by its author)	(messaggio eliminato dall'autore)
 (message deleted by an administrator)	(messaggio eliminato da un amministratore)
 Delete (it shows as deleted)	Elimina (resta visibile come eliminato)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Accedi per vedere la tua collezione.
 Missing too	Anche quelli mancanti
 Nothing of this rarity here.	Niente di questa rarità qui.
 None yet: they are waiting to be won.	Ancora nessuno: aspettano di essere vinti.
-Page {a} of {b}	Pagina {a} di {b}
 In the shop	Nel negozio
 Everything you have	Tutto ciò che hai
 Off: no reactions are shown during matches, from anyone.	Disattivato: durante le partite non viene mostrata nessuna reazione, di nessuno.

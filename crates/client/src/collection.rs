@@ -24,7 +24,7 @@ use crate::i18n::{t, tw};
 use crate::icons::Icon;
 use crate::online::Online;
 use crate::ranking::{empty_state, text_y};
-use crate::shop::{Kind, SideNote, button, chevron, has_3d_preview, side_tab};
+use crate::shop::{CardLayout, Kind, SideNote, button, has_3d_preview, side_tab};
 use crate::ui::{BORDER, CREAM, GOLD, MUTED, Ui, motion, rrect, rrect_gradient, rrect_lines};
 
 /// What the collection asks of the screen around it.
@@ -409,11 +409,9 @@ pub fn rare_cue_tip(code: &str, rarity: Rarity) -> String {
 }
 
 const SIDE_W: f32 = 216.0;
-const GAP: f32 = 12.0;
 const CARD_MIN_W: f32 = 176.0;
 const CARD_MIN_H: f32 = 178.0;
 const CARD_MAX_H: f32 = 262.0;
-const FOOTER: f32 = 48.0;
 const FILTERS: f32 = 44.0;
 
 pub struct CollectionScreen {
@@ -423,7 +421,8 @@ pub struct CollectionScreen {
     /// Shows what is still missing too (greyed, with how it is had): off
     /// at first, the collection shows what the player has.
     missing: bool,
-    page: usize,
+    /// Where the grid of cards is scrolled to.
+    grid: crate::ui::Scroll,
     /// An item to bring into view (back from the showroom).
     focus: Option<String>,
 }
@@ -435,7 +434,7 @@ impl Default for CollectionScreen {
             rarity: None,
             sort: Sort::Rarity,
             missing: false,
-            page: 0,
+            grid: Default::default(),
             focus: None,
         }
     }
@@ -454,6 +453,7 @@ impl CollectionScreen {
     pub fn show_item(&mut self, code: &str) {
         if let Some(item) = shop::item(code) {
             self.category = item.category;
+            self.grid.reset();
             self.focus = Some(code.to_string());
         }
     }
@@ -490,7 +490,7 @@ impl CollectionScreen {
                 self.category == c,
             ) {
                 self.category = c;
-                self.page = 0;
+                self.grid.reset();
             }
             y += pitch;
         }
@@ -558,7 +558,7 @@ impl CollectionScreen {
         let (w, hit) = chip(ui, x, t("All"), None, self.rarity.is_none());
         if hit && !modal {
             self.rarity = None;
-            self.page = 0;
+            self.grid.reset();
         }
         x += w + 6.0;
         for r in Rarity::ALL {
@@ -566,7 +566,7 @@ impl CollectionScreen {
                 chip(ui, x, rarity_name(r), Some(rarity_color(r)), self.rarity == Some(r));
             if hit && !modal {
                 self.rarity = if self.rarity == Some(r) { None } else { Some(r) };
-                self.page = 0;
+                self.grid.reset();
             }
             x += w + 6.0;
         }
@@ -576,7 +576,7 @@ impl CollectionScreen {
         let sort_r = Rect::new(body.x + body.w - sw, fy, sw, 30.0);
         if ui.button(sort_r, "", true) && !modal {
             self.sort = self.sort.next();
-            self.page = 0;
+            self.grid.reset();
         }
         crate::icons::draw(Icon::List, vec2(sort_r.x + 14.0, sort_r.y + 15.0), 14.0, MUTED);
         ui.text(sort_label, sort_r.x + 26.0, text_y(sort_r.y + 15.0, 12.5), 12.5, CREAM, true);
@@ -586,7 +586,7 @@ impl CollectionScreen {
             let (_, hit) = chip(ui, sort_r.x - mw - 8.0, miss_label, None, self.missing);
             if hit && !modal {
                 self.missing = !self.missing;
-                self.page = 0;
+                self.grid.reset();
             }
         }
 
@@ -623,215 +623,138 @@ impl CollectionScreen {
             empty_state(ui, area, Icon::Chest, text);
             return action;
         }
-        let cols = ((area.w + GAP) / (CARD_MIN_W + GAP)).floor().max(1.0) as usize;
-        let cw = (area.w - (cols - 1) as f32 * GAP) / cols as f32;
-        let grid = Rect::new(area.x, area.y, area.w, area.h - FOOTER);
-        let rows = ((grid.h + GAP) / (CARD_MIN_H + GAP)).floor().max(1.0) as usize;
-        let ch = ((grid.h + GAP) / rows as f32 - GAP).min(CARD_MAX_H);
-        let per_page = rows * cols;
-        let pages = list.len().div_ceil(per_page).max(1);
+        // Everything of the category (as filtered) in one grid that scrolls
+        // down; another category rises in (from below for one further down).
+        let layout = CardLayout::new(area, list.len(), CARD_MIN_W, CARD_MIN_H, CARD_MAX_H);
         if let Some(code) = self.focus.take()
             && let Some(i) = list.iter().position(|(e, _)| e.code() == code)
         {
-            self.page = i / per_page;
-        }
-        self.page = self.page.min(pages - 1);
-        if pages > 1 {
-            let mut turn = 0i32;
-            let count = tw("Page {a} of {b}", &[("a", &(self.page + 1)), ("b", &pages)]);
-            let cx = area.x + area.w / 2.0;
-            let mid = area.y + area.h - 18.0;
-            let half = ui.text_size(&count, 14.0, false).x / 2.0;
-            ui.text_centered(&count, cx, text_y(mid, 14.0), 14.0, MUTED, false);
-            for (b, left) in [
-                (Rect::new(cx - half - 56.0, mid - 17.0, 40.0, 34.0), true),
-                (Rect::new(cx + half + 16.0, mid - 17.0, 40.0, 34.0), false),
-            ] {
-                let enabled = if left { self.page > 0 } else { self.page + 1 < pages };
-                if ui.button(b, "", enabled) && !modal {
-                    turn = if left { -1 } else { 1 };
-                }
-                let color = if !enabled {
-                    MUTED
-                } else if ui.hovering(b) {
-                    GOLD
-                } else {
-                    CREAM
-                };
-                chevron(vec2(b.x + b.w / 2.0, b.y + b.h / 2.0), 16.0, left, color);
-            }
-            let wheel = ui.wheel_steps(motion::id("collection-wheel"), grid);
-            if wheel != 0 {
-                turn = wheel;
-            }
-            if !modal && ui.focus.is_none() {
-                if is_key_pressed(KeyCode::Right) || is_key_pressed(KeyCode::PageDown) {
-                    turn = 1;
-                } else if is_key_pressed(KeyCode::Left) || is_key_pressed(KeyCode::PageUp) {
-                    turn = -1;
-                }
-            }
-            self.page = (self.page as i32 + turn).clamp(0, pages as i32 - 1) as usize;
+            layout.show(&mut self.grid, i);
         }
         let wallet = online.wallet.clone().unwrap_or_default();
         let time = get_time() as f32;
         let mut tip = None;
-        // Another category rises in (from below for one further down);
-        // a page turned slides by, the one going out taking no pointer.
         let index = Category::ALL.iter().position(|c| *c == self.category).unwrap_or(0);
         let fx = ui.switch_down(motion::id("collection-tab"), index as i64, 14.0);
-        // (Per category and filters: those change the cards, they turn no page.)
-        let filters = self.rarity.map_or(0, |r| r as u64 + 1)
-            | (self.missing as u64) << 8
-            | (self.sort as u64) << 16;
-        let key =
-            motion::mix(motion::mix(motion::id("collection-page"), self.category as u64), filters);
-        let (going, coming) = ui.carousel(key, self.page, area.w + GAP);
-        if going.is_some() {
-            motion::push_clip(Rect::new(grid.x - 2.0, grid.y - 8.0, grid.w + 4.0, grid.h + 16.0));
-        }
-        let pages_drawn =
-            going.map(|(p, dx)| (p, dx, false)).into_iter().chain([(self.page, coming, true)]);
-        for (page, dx, live) in pages_drawn {
-            let saved = (!live).then(|| ui.suspend_input());
-            for (k, (e, had)) in list.iter().enumerate().skip(page * per_page).take(per_page) {
-                let (e, had) = (*e, *had);
-                let k = k - page * per_page;
-                let c = Rect::new(
-                    area.x + dx + (k % cols) as f32 * (cw + GAP),
-                    area.y + (k / cols) as f32 * (ch + GAP),
-                    cw,
-                    ch,
-                );
-                let item = match e {
-                    Entry::Item(i) => Some(i),
-                    Entry::Reaction(r) => r.item(),
-                };
-                let equipped = signed_in
-                    && had
-                    && item.is_some_and(|i| {
-                        i.category != Category::Reaction
-                            && online.effective(&wallet, i.category) == i.code
-                    });
-                let rarity = e.rarity();
-                rarity_card(ui, c, rarity, equipped, time);
-                let inner = c.w - 24.0;
-                let pic = Rect::new(c.x + 12.0, c.y + 30.0, inner, (c.h - 136.0).max(36.0));
-                match e {
-                    Entry::Item(i) => crate::shop::preview(ui, i, pic),
-                    Entry::Reaction(r) => {
-                        rrect(pic, 8.0, Color::new(0.0, 0.0, 0.0, 0.25));
-                        let s = pic.w.min(pic.h) * 0.62;
-                        let center = vec2(pic.x + pic.w / 2.0, pic.y + pic.h / 2.0);
-                        draw_circle(center.x, center.y, s * 0.62, Color::new(1.0, 0.85, 0.5, 0.06));
-                        if had {
-                            crate::reactions::draw(r.code, center, s, crate::paint::alpha());
-                        } else {
-                            crate::reactions::draw_locked(r.code, center, s);
-                        }
-                    }
-                }
-                if !had {
-                    // Still to get: dimmed, with a lock.
-                    rrect(pic, 8.0, Color::new(0.04, 0.03, 0.02, 0.55));
-                    crate::icons::draw(
-                        Icon::Lock,
-                        vec2(pic.x + pic.w / 2.0, pic.y + pic.h / 2.0),
-                        22.0,
-                        MUTED,
-                    );
-                }
-                // The name, and how (and when) it was got.
-                let name_y = pic.y + pic.h + 10.0;
-                let secret = match e {
-                    Entry::Item(Item { price: Price::Achievement(a), .. }) => {
-                        !had && snook_legend_proto::ACHIEVEMENTS
-                            .iter()
-                            .any(|x| x.code == *a && x.secret)
-                    }
-                    Entry::Reaction(r) => !had && r.achievement().is_some_and(|a| a.secret),
-                    _ => false,
-                };
-                let name = if secret { "???" } else { e.name() };
-                let (name, size) = ui.fitted(name, 15.0, inner, true);
-                ui.text(&name, c.x + 12.0, name_y, size, if had { CREAM } else { MUTED }, true);
-                let (line, at) = if had { held(e, online) } else { (how_to_get(e, online), 0) };
-                // As many lines as there is room for above the buttons (the
-                // rest under the pointer), the date after them.
-                let lines = ui.wrap(&line, inner, 12.0);
-                let mut ly = name_y + 22.0;
-                let room = ((c.y + c.h - 50.0 - ly) / 15.0).floor().max(1.0) as usize;
-                let dated = at > 0 && room > lines.len().min(2);
-                let shown = room.min(2).min(lines.len());
-                for (k, l) in lines.iter().take(shown).enumerate() {
-                    let cut = k + 1 == shown && lines.len() > shown;
-                    let l = if cut {
-                        ui.fitted(&format!("{l}…"), 12.0, inner, false).0
+        let grid = layout.begin(ui, &mut self.grid);
+        for (k, c) in grid.cards() {
+            let (e, had) = list[k];
+            let item = match e {
+                Entry::Item(i) => Some(i),
+                Entry::Reaction(r) => r.item(),
+            };
+            let equipped = signed_in
+                && had
+                && item.is_some_and(|i| {
+                    i.category != Category::Reaction
+                        && online.effective(&wallet, i.category) == i.code
+                });
+            let rarity = e.rarity();
+            rarity_card(ui, c, rarity, equipped, time);
+            let inner = c.w - 24.0;
+            let pic = Rect::new(c.x + 12.0, c.y + 30.0, inner, (c.h - 136.0).max(36.0));
+            match e {
+                Entry::Item(i) => crate::shop::preview(ui, i, pic),
+                Entry::Reaction(r) => {
+                    rrect(pic, 8.0, Color::new(0.0, 0.0, 0.0, 0.25));
+                    let s = pic.w.min(pic.h) * 0.62;
+                    let center = vec2(pic.x + pic.w / 2.0, pic.y + pic.h / 2.0);
+                    draw_circle(center.x, center.y, s * 0.62, Color::new(1.0, 0.85, 0.5, 0.06));
+                    if had {
+                        crate::reactions::draw(r.code, center, s, crate::paint::alpha());
                     } else {
-                        l.clone()
-                    };
-                    ui.text(&l, c.x + 12.0, ly, 12.0, if had { GOLD } else { MUTED }, false);
-                    ly += 15.0;
-                }
-                if dated {
-                    ui.text(&crate::profile::date(at), c.x + 12.0, ly, 11.5, MUTED, false);
-                }
-                let info = Rect::new(c.x, name_y, c.w, 54.0);
-                if ui.hovering(info) && (lines.len() > shown || (at > 0 && !dated)) {
-                    tip = Some((line.clone(), info));
-                }
-                // The actions along the bottom.
-                let b = Rect::new(c.x + 12.0, c.y + c.h - 46.0, inner, 34.0);
-                let mut right = b.x + b.w;
-                if let Some(i) = item.filter(|i| has_3d_preview(i)) {
-                    right -= 34.0;
-                    let eye = Rect::new(right, b.y, 34.0, 34.0);
-                    if ui.icon_button(eye, Icon::Eye, t("Look at it closely"), true) && !modal {
-                        action = CollectionAction::Preview(i.code);
+                        crate::reactions::draw_locked(r.code, center, s);
                     }
-                    right -= 4.0;
                 }
-                let b = Rect::new(b.x, b.y, right - b.x, b.h);
-                if equipped {
-                    button(ui, b, Kind::Disabled, Some(Icon::Check), t("In use"), 14.0);
-                } else if had && e.category() == Category::Reaction {
-                    button(ui, b, Kind::Disabled, Some(Icon::Check), t("In your reactions"), 13.0);
-                } else if had {
-                    if button(ui, b, Kind::Normal, None, t("Use"), 14.0)
-                        && !modal
-                        && let Some(i) = item
-                    {
-                        online.send(ClientMsg::Equip { code: i.code.to_string() });
-                    }
+            }
+            if !had {
+                // Still to get: dimmed, with a lock.
+                rrect(pic, 8.0, Color::new(0.04, 0.03, 0.02, 0.55));
+                crate::icons::draw(
+                    Icon::Lock,
+                    vec2(pic.x + pic.w / 2.0, pic.y + pic.h / 2.0),
+                    22.0,
+                    MUTED,
+                );
+            }
+            // The name, and how (and when) it was got.
+            let name_y = pic.y + pic.h + 10.0;
+            let secret = match e {
+                Entry::Item(Item { price: Price::Achievement(a), .. }) => {
+                    !had && snook_legend_proto::ACHIEVEMENTS
+                        .iter()
+                        .any(|x| x.code == *a && x.secret)
+                }
+                Entry::Reaction(r) => !had && r.achievement().is_some_and(|a| a.secret),
+                _ => false,
+            };
+            let name = if secret { "???" } else { e.name() };
+            let (name, size) = ui.fitted(name, 15.0, inner, true);
+            ui.text(&name, c.x + 12.0, name_y, size, if had { CREAM } else { MUTED }, true);
+            let (line, at) = if had { held(e, online) } else { (how_to_get(e, online), 0) };
+            // As many lines as there is room for above the buttons (the
+            // rest under the pointer), the date after them.
+            let lines = ui.wrap(&line, inner, 12.0);
+            let mut ly = name_y + 22.0;
+            let room = ((c.y + c.h - 50.0 - ly) / 15.0).floor().max(1.0) as usize;
+            let dated = at > 0 && room > lines.len().min(2);
+            let shown = room.min(2).min(lines.len());
+            for (k, l) in lines.iter().take(shown).enumerate() {
+                let cut = k + 1 == shown && lines.len() > shown;
+                let l = if cut {
+                    ui.fitted(&format!("{l}…"), 12.0, inner, false).0
                 } else {
-                    match item.map(|i| i.price) {
-                        Some(Price::Coins(_) | Price::Vip | Price::Pack) => {
-                            if button(ui, b, Kind::Normal, Some(Icon::Shop), t("In the shop"), 13.0)
-                                && !modal
-                            {
-                                action = CollectionAction::Shop(item.map(|i| i.code));
-                            }
+                    l.clone()
+                };
+                ui.text(&l, c.x + 12.0, ly, 12.0, if had { GOLD } else { MUTED }, false);
+                ly += 15.0;
+            }
+            if dated {
+                ui.text(&crate::profile::date(at), c.x + 12.0, ly, 11.5, MUTED, false);
+            }
+            let info = Rect::new(c.x, name_y, c.w, 54.0);
+            if ui.hovering(info) && (lines.len() > shown || (at > 0 && !dated)) {
+                tip = Some((line.clone(), info));
+            }
+            // The actions along the bottom.
+            let b = Rect::new(c.x + 12.0, c.y + c.h - 46.0, inner, 34.0);
+            let mut right = b.x + b.w;
+            if let Some(i) = item.filter(|i| has_3d_preview(i)) {
+                right -= 34.0;
+                let eye = Rect::new(right, b.y, 34.0, 34.0);
+                if ui.icon_button(eye, Icon::Eye, t("Look at it closely"), true) && !modal {
+                    action = CollectionAction::Preview(i.code);
+                }
+                right -= 4.0;
+            }
+            let b = Rect::new(b.x, b.y, right - b.x, b.h);
+            if equipped {
+                button(ui, b, Kind::Disabled, Some(Icon::Check), t("In use"), 14.0);
+            } else if had && e.category() == Category::Reaction {
+                button(ui, b, Kind::Disabled, Some(Icon::Check), t("In your reactions"), 13.0);
+            } else if had {
+                if button(ui, b, Kind::Normal, None, t("Use"), 14.0)
+                    && !modal
+                    && let Some(i) = item
+                {
+                    online.send(ClientMsg::Equip { code: i.code.to_string() });
+                }
+            } else {
+                match item.map(|i| i.price) {
+                    Some(Price::Coins(_) | Price::Vip | Price::Pack) => {
+                        if button(ui, b, Kind::Normal, Some(Icon::Shop), t("In the shop"), 13.0)
+                            && !modal
+                        {
+                            action = CollectionAction::Shop(item.map(|i| i.code));
                         }
-                        _ => {
-                            button(
-                                ui,
-                                b,
-                                Kind::Disabled,
-                                Some(Icon::Lock),
-                                t("Not yet yours"),
-                                13.0,
-                            );
-                        }
+                    }
+                    _ => {
+                        button(ui, b, Kind::Disabled, Some(Icon::Lock), t("Not yet yours"), 13.0);
                     }
                 }
             }
-            if let Some(saved) = saved {
-                ui.resume_input(saved);
-            }
         }
-        if going.is_some() {
-            motion::pop_clip();
-        }
+        grid.end(ui, &mut self.grid);
         ui.pop_fx(fx);
         if let Some((text, r)) = tip {
             ui.tooltip(&text, r);

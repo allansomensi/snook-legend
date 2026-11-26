@@ -1247,7 +1247,6 @@ Speed	Rychlost
 Shot {n} of {total}	Šťouch {n} z {total}
 For VIP members	Pro členy VIP
 {n} reactions of your own to send during games	Vlastní reakce do her: {n}
-Items {a}–{b} of {n}	Předměty {a}–{b} z {n}
 (message deleted by its author)	(zprávu smazal autor)
 (message deleted by an administrator)	(zprávu smazal administrátor)
 Delete (it shows as deleted)	Smazat (zobrazí se jako smazaná)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Přihlas se, abys viděl svou sbírku.
 Missing too	I chybějící
 Nothing of this rarity here.	Nic této vzácnosti tu není.
 None yet: they are waiting to be won.	Zatím žádné: čekají, až je vyhraješ.
-Page {a} of {b}	Strana {a} z {b}
 In the shop	V obchodě
 Everything you have	Vše, co máš
 Off: no reactions are shown during matches, from anyone.	Vypnuto: během her se nezobrazují žádné reakce, od nikoho.

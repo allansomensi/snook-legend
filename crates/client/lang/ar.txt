@@ -1247,7 +1247,6 @@ Speed	السرعة
 Shot {n} of {total}	الضربة {n} من {total}
 For VIP members	لأعضاء VIP
 {n} reactions of your own to send during games	{n} من التفاعلات الخاصة بك لإرسالها أثناء المباريات
-Items {a}–{b} of {n}	العناصر {a}–{b} من {n}
 (message deleted by its author)	(رسالة حذفها كاتبها)
 (message deleted by an administrator)	(رسالة حذفها أحد المسؤولين)
 Delete (it shows as deleted)	حذف (تظهر كمحذوفة)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	سجّل الدخول لترى مجموعتك.
 Missing too	والناقصة أيضًا
 Nothing of this rarity here.	لا شيء بهذه الندرة هنا.
 None yet: they are waiting to be won.	لا شيء بعد: إنها تنتظر من يربحها.
-Page {a} of {b}	الصفحة {a} من {b}
 In the shop	في المتجر
 Everything you have	كل ما لديك
 Off: no reactions are shown during matches, from anyone.	إيقاف: لا تظهر أي تفاعلات أثناء المباريات، من أي أحد.

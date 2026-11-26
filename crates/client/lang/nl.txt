@@ -1247,7 +1247,6 @@ Speed	Snelheid
 Shot {n} of {total}	Stoot {n} van {total}
 For VIP members	Voor VIP-leden
 {n} reactions of your own to send during games	{n} eigen reacties om tijdens partijen te sturen
-Items {a}–{b} of {n}	Items {a}–{b} van {n}
 (message deleted by its author)	(bericht verwijderd door de afzender)
 (message deleted by an administrator)	(bericht verwijderd door een beheerder)
 Delete (it shows as deleted)	Verwijderen (blijft zichtbaar als verwijderd)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Log in om je collectie te zien.
 Missing too	Ook wat ontbreekt
 Nothing of this rarity here.	Niets van deze zeldzaamheid hier.
 None yet: they are waiting to be won.	Nog geen: ze wachten erop gewonnen te worden.
-Page {a} of {b}	Pagina {a} van {b}
 In the shop	In de winkel
 Everything you have	Alles wat je hebt
 Off: no reactions are shown during matches, from anyone.	Uit: tijdens partijen worden geen reacties getoond, van niemand.

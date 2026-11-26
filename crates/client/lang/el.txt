@@ -1247,7 +1247,6 @@ Speed	Ταχύτητα
 Shot {n} of {total}	Χτύπημα {n} από {total}
 For VIP members	Για μέλη VIP
 {n} reactions of your own to send during games	{n} δικές σου αντιδράσεις για να στέλνεις στις παρτίδες
-Items {a}–{b} of {n}	Αντικείμενα {a}–{b} από {n}
 (message deleted by its author)	(το μήνυμα διαγράφηκε από τον συντάκτη του)
 (message deleted by an administrator)	(το μήνυμα διαγράφηκε από διαχειριστή)
 Delete (it shows as deleted)	Διαγραφή (φαίνεται ως διαγραμμένο)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Συνδέσου για να δεις τη συ�
 Missing too	Και όσα λείπουν
 Nothing of this rarity here.	Τίποτα αυτής της σπανιότητας εδώ.
 None yet: they are waiting to be won.	Τίποτα ακόμα: περιμένουν να τα κερδίσεις.
-Page {a} of {b}	Σελίδα {a} από {b}
 In the shop	Στο κατάστημα
 Everything you have	Όλα όσα έχεις
 Off: no reactions are shown during matches, from anyone.	Ανενεργό: δεν εμφανίζονται αντιδράσεις κανενός στις παρτίδες.

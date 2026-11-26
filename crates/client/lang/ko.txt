@@ -1247,7 +1247,6 @@ Speed	속도
 Shot {n} of {total}	샷 {n}/{total}
 For VIP members	VIP 회원 전용
 {n} reactions of your own to send during games	게임 중에 보낼 수 있는 전용 리액션 {n}개
-Items {a}–{b} of {n}	아이템 {n}개 중 {a}–{b}
 (message deleted by its author)	(작성자가 삭제한 메시지)
 (message deleted by an administrator)	(관리자가 삭제한 메시지)
 Delete (it shows as deleted)	삭제 (삭제됨으로 표시)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	로그인하고 컬렉션을 확인하세요.
 Missing too	없는 것도 보기
 Nothing of this rarity here.	이 희귀도의 아이템이 없습니다.
 None yet: they are waiting to be won.	아직 없음: 획득되기를 기다리고 있습니다.
-Page {a} of {b}	{a} / {b} 페이지
 In the shop	상점에서
 Everything you have	가진 모든 것
 Off: no reactions are shown during matches, from anyone.	끄기: 경기 중 누구의 리액션도 표시되지 않습니다.

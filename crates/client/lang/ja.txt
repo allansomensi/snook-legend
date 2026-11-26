@@ -1247,7 +1247,6 @@ Speed	速度
 Shot {n} of {total}	ショット{n}/{total}
 For VIP members	VIPメンバー向け
 {n} reactions of your own to send during games	ゲーム中に送れる専用リアクション{n}種
-Items {a}–{b} of {n}	アイテム{a}〜{b}（全{n}）
 (message deleted by its author)	（投稿者がメッセージを削除しました）
 (message deleted by an administrator)	（管理者がメッセージを削除しました）
 Delete (it shows as deleted)	削除（削除済みと表示）
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	ログインしてコレクションを見よう
 Missing too	未入手も表示
 Nothing of this rarity here.	このレアリティのものはありません。
 None yet: they are waiting to be won.	まだありません：獲得されるのを待っています。
-Page {a} of {b}	{a} / {b} ページ
 In the shop	ショップへ
 Everything you have	持っているすべて
 Off: no reactions are shown during matches, from anyone.	オフ：試合中は誰のリアクションも表示されません。

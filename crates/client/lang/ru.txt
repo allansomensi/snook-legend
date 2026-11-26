@@ -1247,7 +1247,6 @@ Speed	Скорость
 Shot {n} of {total}	Удар {n} из {total}
 For VIP members	Для VIP
 {n} reactions of your own to send during games	Собственные реакции для партий: {n}
-Items {a}–{b} of {n}	Предметы {a}–{b} из {n}
 (message deleted by its author)	(сообщение удалено автором)
 (message deleted by an administrator)	(сообщение удалено администратором)
 Delete (it shows as deleted)	Удалить (останется пометка)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Войдите, чтобы увидеть сво
 Missing too	И недостающие
 Nothing of this rarity here.	Здесь нет ничего такой редкости.
 None yet: they are waiting to be won.	Пока ничего: они ждут, когда их выиграют.
-Page {a} of {b}	Страница {a} из {b}
 In the shop	В магазине
 Everything you have	Всё, что у вас есть
 Off: no reactions are shown during matches, from anyone.	Выкл.: во время партий не показываются ничьи реакции.

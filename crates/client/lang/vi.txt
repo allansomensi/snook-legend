@@ -1247,7 +1247,6 @@ Speed	Tốc độ
 Shot {n} of {total}	Cú đánh {n}/{total}
 For VIP members	Dành cho thành viên VIP
 {n} reactions of your own to send during games	{n} biểu cảm riêng để gửi trong ván đấu
-Items {a}–{b} of {n}	Vật phẩm {a}–{b} / {n}
 (message deleted by its author)	(tin nhắn đã bị người gửi xóa)
 (message deleted by an administrator)	(tin nhắn đã bị quản trị viên xóa)
 Delete (it shows as deleted)	Xóa (hiện là đã xóa)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Đăng nhập để xem bộ sưu tập của b�
 Missing too	Cả những món còn thiếu
 Nothing of this rarity here.	Không có gì thuộc độ hiếm này ở đây.
 None yet: they are waiting to be won.	Chưa có: chúng đang chờ được giành lấy.
-Page {a} of {b}	Trang {a} / {b}
 In the shop	Trong cửa hàng
 Everything you have	Mọi thứ bạn có
 Off: no reactions are shown during matches, from anyone.	Tắt: không hiện biểu cảm của ai trong các ván đấu.

@@ -1247,7 +1247,6 @@ Speed	Kecepatan
 Shot {n} of {total}	Pukulan {n} dari {total}
 For VIP members	Untuk anggota VIP
 {n} reactions of your own to send during games	{n} reaksi eksklusif untuk dikirim saat bermain
-Items {a}–{b} of {n}	Item {a}–{b} dari {n}
 (message deleted by its author)	(pesan dihapus oleh pengirimnya)
 (message deleted by an administrator)	(pesan dihapus oleh administrator)
 Delete (it shows as deleted)	Hapus (tampil sebagai dihapus)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Masuk untuk melihat koleksimu.
 Missing too	Yang belum juga
 Nothing of this rarity here.	Tidak ada yang selangka ini di sini.
 None yet: they are waiting to be won.	Belum ada: semuanya menunggu untuk dimenangkan.
-Page {a} of {b}	Halaman {a} dari {b}
 In the shop	Di toko
 Everything you have	Semua yang kamu punya
 Off: no reactions are shown during matches, from anyone.	Mati: tidak ada reaksi dari siapa pun yang ditampilkan saat pertandingan.

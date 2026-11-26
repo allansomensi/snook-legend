@@ -1247,7 +1247,6 @@ Speed	Hız
 Shot {n} of {total}	Vuruş {n}/{total}
 For VIP members	VIP üyeler için
 {n} reactions of your own to send during games	Oyunlarda gönderebileceğin {n} özel tepki
-Items {a}–{b} of {n}	Eşyalar {a}–{b} / {n}
 (message deleted by its author)	(mesaj, yazarı tarafından silindi)
 (message deleted by an administrator)	(mesaj bir yönetici tarafından silindi)
 Delete (it shows as deleted)	Sil (silindi olarak görünür)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Koleksiyonunu görmek için giriş yap.
 Missing too	Eksikler de
 Nothing of this rarity here.	Burada bu nadirlikte bir şey yok.
 None yet: they are waiting to be won.	Henüz yok: kazanılmayı bekliyorlar.
-Page {a} of {b}	Sayfa {a} / {b}
 In the shop	Mağazada
 Everything you have	Sahip olduğun her şey
 Off: no reactions are shown during matches, from anyone.	Kapalı: maçlarda kimsenin tepkisi gösterilmez.

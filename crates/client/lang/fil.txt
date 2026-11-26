@@ -1247,7 +1247,6 @@ Speed	Bilis
 Shot {n} of {total}	Tira {n} sa {total}
 For VIP members	Para sa mga VIP member
 {n} reactions of your own to send during games	{n} sariling reaksyon na maipapadala habang naglalaro
-Items {a}–{b} of {n}	Mga item {a}–{b} sa {n}
 (message deleted by its author)	(binura ng sumulat ang mensahe)
 (message deleted by an administrator)	(binura ng isang administrator ang mensahe)
 Delete (it shows as deleted)	Burahin (lalabas na binura)
@@ -2186,7 +2185,6 @@ Sign in to see your collection.	Mag-sign in para makita ang koleksyon mo.
 Missing too	Pati ang kulang
 Nothing of this rarity here.	Walang ganitong kabihira rito.
 None yet: they are waiting to be won.	Wala pa: hinihintay silang mapanalunan.
-Page {a} of {b}	Pahina {a} ng {b}
 In the shop	Nasa shop
 Everything you have	Lahat ng mayroon ka
 Off: no reactions are shown during matches, from anyone.	Naka-off: walang reaksyong ipinapakita sa mga laro, mula kahit kanino.

@@ -1635,6 +1635,8 @@ Not with the top view only.	Không dùng được khi chỉ nhìn từ trên.
 Wheel	Con lăn chuột
 Rules	Luật
 Rules of the game	Luật chơi
+Shop and collection	Cửa hàng và bộ sưu tập
+The Brazilian rule and the official rules, a tab for each.	Luật Brazil và luật chính thức, mỗi luật một thẻ.
 Level	Phẳng
 Drag the cue: jump & massé	Kéo cơ: nhảy bi & massé
 Drag to raise or lower the cue	Kéo để nâng hoặc hạ cơ

@@ -1635,6 +1635,8 @@ Not with the top view only.	トップビューのみの設定では使えませ�
 Wheel	ホイール
 Rules	ルール
 Rules of the game	ゲームのルール
+Shop and collection	ショップとコレクション
+The Brazilian rule and the official rules, a tab for each.	ブラジルルールと公式ルール、それぞれのタブで。
 Level	水平
 Drag the cue: jump & massé	キューをドラッグ：ジャンプとマッセ
 Drag to raise or lower the cue	ドラッグでキューを立てる・寝かせる

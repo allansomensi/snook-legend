@@ -1635,6 +1635,8 @@ Not with the top view only.	Nu cu vederea de sus fixă.
 Wheel	Rotița mouse-ului
 Rules	Reguli
 Rules of the game	Regulile jocului
+Shop and collection	Magazin și colecție
+The Brazilian rule and the official rules, a tab for each.	Regulile braziliene și cele oficiale, fiecare în fila ei.
 Level	Nivelează
 Drag the cue: jump & massé	Trage tacul: salt și massé
 Drag to raise or lower the cue	Trage ca să ridici sau să cobori tacul

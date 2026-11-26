@@ -1635,6 +1635,8 @@ Not with the top view only.	Nicht mit „Nur Draufsicht“.
 Wheel	Mausrad
 Rules	Regeln
 Rules of the game	Spielregeln
+Shop and collection	Shop und Sammlung
+The Brazilian rule and the official rules, a tab for each.	Die brasilianischen und die offiziellen Regeln, jede in einem eigenen Tab.
 Level	Flach
 Drag the cue: jump & massé	Queue ziehen: Sprung & Massé
 Drag to raise or lower the cue	Ziehen, um das Queue anzuheben oder abzusenken

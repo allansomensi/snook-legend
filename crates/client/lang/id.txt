@@ -1635,6 +1635,8 @@ Not with the top view only.	Tidak tersedia dengan mode hanya tampak atas.
 Wheel	Roda mouse
 Rules	Aturan
 Rules of the game	Aturan permainan
+Shop and collection	Toko dan koleksi
+The Brazilian rule and the official rules, a tab for each.	Aturan Brasil dan aturan resmi, masing-masing di tab sendiri.
 Level	Datar
 Drag the cue: jump & massé	Seret stik: jump & massé
 Drag to raise or lower the cue	Seret untuk menaikkan atau menurunkan stik

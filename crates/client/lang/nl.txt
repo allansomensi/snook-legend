@@ -1635,6 +1635,8 @@ Not with the top view only.	Niet met alleen bovenaanzicht.
 Wheel	Scrollwiel
 Rules	Regels
 Rules of the game	Spelregels
+Shop and collection	Winkel en collectie
+The Brazilian rule and the official rules, a tab for each.	De Braziliaanse en de officiële regels, elk op een eigen tabblad.
 Level	Vlak
 Drag the cue: jump & massé	Sleep de keu: springen en massé
 Drag to raise or lower the cue	Sleep om de keu te heffen of te laten zakken

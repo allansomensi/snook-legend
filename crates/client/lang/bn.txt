@@ -1635,6 +1635,8 @@ Not with the top view only.	শুধু ওপর থেকে দৃশ্য 
 Wheel	মাউস হুইল
 Rules	নিয়ম
 Rules of the game	খেলার নিয়ম
+Shop and collection	শপ ও সংগ্রহ
+The Brazilian rule and the official rules, a tab for each.	ব্রাজিলীয় নিয়ম আর অফিসিয়াল নিয়ম, প্রতিটির জন্য একটি ট্যাব।
 Level	সমতল করুন
 Drag the cue: jump & massé	কিউ টানুন: জাম্প ও মাসে
 Drag to raise or lower the cue	কিউ ওঠাতে বা নামাতে টানুন

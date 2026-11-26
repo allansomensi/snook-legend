@@ -1635,6 +1635,8 @@ Not with the top view only.	Niedostępne przy samym widoku z góry.
 Wheel	Kółko myszy
 Rules	Zasady
 Rules of the game	Zasady gry
+Shop and collection	Sklep i kolekcja
+The Brazilian rule and the official rules, a tab for each.	Zasady brazylijskie i oficjalne, każde na osobnej karcie.
 Level	Poziomo
 Drag the cue: jump & massé	Przeciągnij kij: skok i massé
 Drag to raise or lower the cue	Przeciągnij, aby unieść lub opuścić kij

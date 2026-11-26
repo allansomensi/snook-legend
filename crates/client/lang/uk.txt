@@ -1635,6 +1635,8 @@ Not with the top view only.	Недоступно, коли ввімкнено л
 Wheel	Коліщатко
 Rules	Правила
 Rules of the game	Правила гри
+Shop and collection	Крамниця й колекція
+The Brazilian rule and the official rules, a tab for each.	Бразильські й офіційні правила, кожні на своїй вкладці.
 Level	Рівень
 Drag the cue: jump & massé	Тягніть кий: стрибок і массе
 Drag to raise or lower the cue	Тягніть, щоб підняти або опустити кий

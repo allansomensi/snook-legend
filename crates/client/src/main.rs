@@ -1699,11 +1699,6 @@ async fn main() {
                                     back_to_lounge = false;
                                     next = Some(Screen::Shop);
                                 }
-                                MenuAction::Collection => {
-                                    shop.open_collection(&mut online);
-                                    back_to_lounge = false;
-                                    next = Some(Screen::Shop);
-                                }
                                 MenuAction::Update => {
                                     online.quit_for_update = update::start();
                                 }

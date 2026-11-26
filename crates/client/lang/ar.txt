@@ -1635,6 +1635,8 @@ Not with the top view only.	غير متاح مع المنظر العلوي فق�
 Wheel	عجلة الفأرة
 Rules	القواعد
 Rules of the game	قواعد اللعبة
+Shop and collection	المتجر والمجموعة
+The Brazilian rule and the official rules, a tab for each.	القواعد البرازيلية والقواعد الرسمية، لكل منها تبويب.
 Level	تسوية
 Drag the cue: jump & massé	اسحب العصا: القفز والماسيه
 Drag to raise or lower the cue	اسحب لرفع العصا أو خفضها

@@ -1635,6 +1635,8 @@ Not with the top view only.	सिर्फ़-ऊपर-से व्यू क
 Wheel	माउस व्हील
 Rules	नियम
 Rules of the game	गेम के नियम
+Shop and collection	शॉप और संग्रह
+The Brazilian rule and the official rules, a tab for each.	ब्राज़ीलियाई नियम और आधिकारिक नियम, हर एक का अपना टैब।
 Level	सीधा करें
 Drag the cue: jump & massé	क्यू खींचें: जंप और मासे
 Drag to raise or lower the cue	क्यू ऊपर या नीचे करने के लिए खींचें

@@ -745,6 +745,19 @@ impl SettingsScreen {
 
                 // The terms, the privacy policy and who made what.
                 rows.heading(ui, t("About"), None);
+                // The rules of both, a tab each (also by the menu's rules
+                // switch and the badge at the table).
+                if let Some((_, c)) = rows.row(
+                    ui,
+                    t("Rules of the game"),
+                    t("The Brazilian rule and the official rules, a tab for each."),
+                    Control::Wide(32.0),
+                ) {
+                    let b = Rect::new(c.x + c.w - c.w.min(150.0), c.y, c.w.min(150.0), 32.0);
+                    if ui.button(b, t("Open"), true) {
+                        self.whats_new = Some(WhatsNew::rules(config.rules()));
+                    }
+                }
                 for (page, hint) in [
                     (
                         crate::legal::Page::Terms,

@@ -1635,6 +1635,8 @@ Not with the top view only.	ใช้ไม่ได้​เมื่อ​เ�
 Wheel	ล้อเมาส์
 Rules	กติกา
 Rules of the game	กติกา​ของ​เกม
+Shop and collection	ร้านค้า​และ​คอลเลกชัน
+The Brazilian rule and the official rules, a tab for each.	กติกา​บราซิล​และ​กติกา​สากล แยก​แท็บ​ละ​กติกา
 Level	เลเวล
 Drag the cue: jump & massé	ลาก​ไม้คิว: ลูกกระโดด​และ​มาสเซ่
 Drag to raise or lower the cue	ลาก​เพื่อ​ยก​หรือ​ลด​ไม้คิว

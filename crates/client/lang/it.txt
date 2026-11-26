@@ -1635,6 +1635,8 @@ Not with the top view only.	Non con la sola vista dall'alto.
 Wheel	Rotella
 Rules	Regole
 Rules of the game	Regole del gioco
+Shop and collection	Negozio e collezione
+The Brazilian rule and the official rules, a tab for each.	Le regole brasiliane e quelle ufficiali, una scheda per ciascuna.
 Level	Livella
 Drag the cue: jump & massé	Trascina la stecca: salto e massé
 Drag to raise or lower the cue	Trascina per alzare o abbassare la stecca

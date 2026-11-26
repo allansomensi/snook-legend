@@ -1635,6 +1635,8 @@ Not with the top view only.	Csak felülnézetben nem.
 Wheel	Görgő
 Rules	Szabályok
 Rules of the game	A játék szabályai
+Shop and collection	Bolt és gyűjtemény
+The Brazilian rule and the official rules, a tab for each.	A brazil és a hivatalos szabályok, mindegyik a saját lapján.
 Level	Vízszintbe
 Drag the cue: jump & massé	Húzd a dákót: ugratás és massé
 Drag to raise or lower the cue	Húzd a dákó emeléséhez vagy leengedéséhez

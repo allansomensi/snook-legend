@@ -66,8 +66,8 @@ which every desktop installation has. How releases are made is described in
   invitations, tables, "Play now", tournaments, daily games and replays, and
   at the table a badge that opens them), and each rules has its **own rating,
   tier, peak and world ranking**; the level, coins and achievements are
-  shared. The rules are in the game (Menu → Rules), a tab for each, in three
-  languages. Every rule has its own test, and random games of both are
+  shared. The rules are in the game (Settings → Game → About, or the "i"
+  by the main menu's rules switch), a tab for each, in 27 languages. Every rule has its own test, and random games of both are
   checked after every shot.
 - **The Brazilian rule** (the rule of bars and pool halls, with penalty
   balls): a foul passes the turn and gives the opponent balls

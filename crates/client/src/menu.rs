@@ -38,8 +38,6 @@ pub enum MenuAction {
     Ranking,
     Profile,
     Shop,
-    /// Everything the player has (see `collection`).
-    Collection,
     Settings,
     Quit,
     /// The inbox (signed in; else the sign-in first).
@@ -51,7 +49,7 @@ pub struct Menu {
     /// Hover animation of each item (0..1).
     hover: [f32; 4],
     /// And of each place along the bottom.
-    dock_hover: [f32; 8],
+    dock_hover: [f32; 5],
     shade: Option<Texture2D>,
     /// Where the menu's column (cards and the row of places) ends on the
     /// right, as last drawn: notices go to the right of it.
@@ -469,42 +467,61 @@ impl Menu {
         }
 
         // Along the bottom, lined up with the cards: where else to go, each
-        // with its name; quitting apart, at the end.
+        // with its name; quitting apart, at the end. Few, so the names fit:
+        // the collection is in the shop (its header), the rules by the
+        // switch above (the "i") and in Settings → Game → About.
         let dock = [
             (Icon::Trophy, t("Ranking"), Some(t("World ranking")), MenuAction::Ranking),
             (Icon::Person, t("Profile"), None, MenuAction::Profile),
             // (Drawn as an envelope: see below.)
             (Icon::List, t("Inbox"), None, MenuAction::Inbox),
-            (Icon::Shop, t("Shop"), None, MenuAction::Shop),
-            (Icon::Chest, t("Collection"), None, MenuAction::Collection),
-            (Icon::Book, t("Rules"), Some(t("Rules of the game")), MenuAction::Rules(rules)),
+            (Icon::Shop, t("Shop"), Some(t("Shop and collection")), MenuAction::Shop),
             (Icon::Gear, t("Settings"), None, MenuAction::Settings),
         ];
         let by = y - m.gap + 22.0;
         let dh = m.icon;
         let gap = 8.0;
-        // Quitting says so too (an icon alone read as "turn off").
-        let quit_w = (ui.text_size(t("Quit"), 12.0, true).x + 22.0).max(dh * 0.8).round();
-        let room = w - quit_w - 14.0 - gap * (dock.len() - 1) as f32;
-        // Each as wide as its name (at least square); the names smaller if
-        // they don't fit, and left out if even that isn't enough.
-        let natural = |size: f32| -> Vec<f32> {
-            dock.iter().map(|d| (ui.text_size(d.1, size, true).x + 22.0).max(dh)).collect()
+        // Quitting says so too (an icon alone read as "turn off"), unless
+        // the others' names need its room.
+        let quit_named = (ui.text_size(t("Quit"), 12.0, true).x + 22.0).max(dh * 0.8).round();
+        let quit_icon = (dh * 0.8).round();
+        let room_for = |quit_w: f32| w - quit_w - 14.0 - gap * (dock.len() - 1) as f32;
+        // Each as wide as its name (at least square). The names are what
+        // makes the row clear, so they go last: first smaller, then with
+        // less room around them, then "Quit" an icon alone; left out only
+        // if even that isn't enough.
+        let natural = |size: f32, pad: f32| -> Vec<f32> {
+            dock.iter().map(|d| (ui.text_size(d.1, size, true).x + pad).max(dh)).collect()
         };
-        let mut label = 12.0;
-        let mut widths = natural(label);
-        while widths.iter().sum::<f32>() > room && label > 9.6 {
-            label -= 0.5;
-            widths = natural(label);
+        let mut fit = None;
+        'search: for (quit_w, pad, smallest) in
+            [(quit_named, 22.0, 10.0), (quit_named, 12.0, 10.0), (quit_icon, 12.0, 9.0)]
+        {
+            let room = room_for(quit_w);
+            let mut size = 12.0f32;
+            while size >= smallest {
+                let widths = natural(size, pad);
+                if widths.iter().sum::<f32>() <= room + 0.5 {
+                    fit = Some((quit_w, room, size, widths));
+                    break 'search;
+                }
+                size -= 0.5;
+            }
         }
-        let show_labels = widths.iter().sum::<f32>() <= room + 0.5;
-        if show_labels {
-            // The room left shared out: the row ends where the cards do.
-            let extra = (room - widths.iter().sum::<f32>()) / widths.len() as f32;
-            widths.iter_mut().for_each(|w| *w += extra);
-        } else {
-            widths = vec![(room / dock.len() as f32).min(dh); dock.len()];
-        }
+        let show_labels = fit.is_some();
+        let (quit_w, label, widths) = match fit {
+            Some((quit_w, room, size, mut widths)) => {
+                // The room left shared out: the row ends where the cards do.
+                let extra = (room - widths.iter().sum::<f32>()) / widths.len() as f32;
+                widths.iter_mut().for_each(|w| *w += extra);
+                (quit_w, size, widths)
+            }
+            None => {
+                let room = room_for(quit_icon);
+                (quit_icon, 12.0, vec![(room / dock.len() as f32).min(dh); dock.len()])
+            }
+        };
+        let quit_label = show_labels && quit_w == quit_named;
         let mut x = left;
         for (k, ((icon, name, tip, act), iw)) in dock.into_iter().zip(widths).enumerate() {
             let r = Rect::new(x, by, iw, dh);
@@ -566,7 +583,7 @@ impl Menu {
         }
         rrect_lines(q, 10.0, 1.0, Color::new(1.0, 1.0, 1.0, if hover { 0.14 } else { 0.07 }));
         let quit_color = if hover { Color::new(0.95, 0.55, 0.45, 1.0) } else { MUTED };
-        if show_labels {
+        if quit_label {
             crate::icons::draw(
                 Icon::DoorOpen,
                 vec2(q.x + q.w / 2.0, q.y + dh * 0.38),
@@ -583,7 +600,7 @@ impl Menu {
             );
         }
         if hover {
-            if !show_labels {
+            if !quit_label {
                 ui.tooltip(t("Quit"), q);
             }
             if ui.clicked(q) {

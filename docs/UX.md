@@ -340,6 +340,7 @@ mouse's back button (`back`).
 | Online game chat | The players' lines and everything that happened at the table, mixed. | The players' lines only; the history's icon in the top bar (as offline) opens the game's events in the chat's place. Settings → Game → "Game events in the chat" (off) mixes them again. |
 | Profile, analysis | "Analysis" (anyone's profile) and "Advanced" (one's own, VIP) showing the same pockets and cut angles twice. | One "Analysis" tab on one's own profile, VIP: the table and heat map, kinds of shot with the league's mark on the cut angles, safeties and breaks, distances, the weeks and the pockets furthest ahead of the league and behind it, the league's rate on top. Not VIP: the page dimmed with made-up numbers under the way to VIP. |
 | Players' cards (the score panel, the match intro) | A gem and a glow for an epic or legendary cue, the gem on the start of the name. | No cue on the cards. |
+| Main menu, the row at the bottom | Seven icons and Quit; with that many the names didn't fit and were left out, icons alone. | Five, each with its name: Ranking, Profile, Inbox, Shop (the collection is in its header; "Shop and collection" on hover), Settings, and Quit apart. The rules moved to Settings → Game → About (with the terms, the privacy policy and the credits); the "i" by the rules switch still opens them. In a narrow window the names get smaller and closer, then Quit loses its word, before the names go. |
 
 ## Still to do
 

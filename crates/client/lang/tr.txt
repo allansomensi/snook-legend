@@ -1635,6 +1635,8 @@ Not with the top view only.	Yalnızca üstten görünümde olmaz.
 Wheel	Fare tekerleği
 Rules	Kurallar
 Rules of the game	Oyunun kuralları
+Shop and collection	Mağaza ve koleksiyon
+The Brazilian rule and the official rules, a tab for each.	Brezilya kuralları ve resmî kurallar, her biri ayrı bir sekmede.
 Level	Düzle
 Drag the cue: jump & massé	İstekayı sürükle: zıplatma ve masse
 Drag to raise or lower the cue	İstekayı kaldırmak veya indirmek için sürükle

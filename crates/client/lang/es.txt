@@ -1635,6 +1635,8 @@ Not with the top view only.	No con la vista cenital fija.
 Wheel	Rueda del ratón
 Rules	Reglas
 Rules of the game	Reglas del juego
+Shop and collection	Tienda y colección
+The Brazilian rule and the official rules, a tab for each.	La regla brasileña y la regla oficial, una pestaña para cada una.
 Level	Nivelar
 Drag the cue: jump & massé	Arrastra el taco: salto y massé
 Drag to raise or lower the cue	Arrastra para subir o bajar el taco

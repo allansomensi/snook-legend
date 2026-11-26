@@ -1635,6 +1635,8 @@ Not with the top view only.	Hindi kapag view mula sa itaas lang.
 Wheel	Scroll wheel
 Rules	Patakaran
 Rules of the game	Mga patakaran ng laro
+Shop and collection	Shop at koleksyon
+The Brazilian rule and the official rules, a tab for each.	Ang Patakarang Brazilian at ang Patakarang Opisyal, may sariling tab ang bawat isa.
 Level	Ipantay
 Drag the cue: jump & massé	I-drag ang cue: jump at massé
 Drag to raise or lower the cue	I-drag para itaas o ibaba ang cue

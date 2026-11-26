@@ -1635,6 +1635,8 @@ Not with the top view only.	Ne s pevným pohledem shora.
 Wheel	Kolečko myši
 Rules	Pravidla
 Rules of the game	Pravidla hry
+Shop and collection	Obchod a sbírka
+The Brazilian rule and the official rules, a tab for each.	Brazilská a oficiální pravidla, každá na vlastní kartě.
 Level	Vodorovně
 Drag the cue: jump & massé	Táhni tágo: skok a massé
 Drag to raise or lower the cue	Tažením zvedneš nebo sklopíš tágo

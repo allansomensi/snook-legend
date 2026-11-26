@@ -1635,6 +1635,8 @@ Not with the top view only.	Недоступно в режиме «Только 
 Wheel	Колесо мыши
 Rules	Правила
 Rules of the game	Правила игры
+Shop and collection	Магазин и коллекция
+The Brazilian rule and the official rules, a tab for each.	Бразильские и официальные правила, у каждых своя вкладка.
 Level	Выровнять
 Drag the cue: jump & massé	Тяните кий: прыжок и массе
 Drag to raise or lower the cue	Тяните, чтобы поднять или опустить кий

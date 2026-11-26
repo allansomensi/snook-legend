@@ -1635,6 +1635,8 @@ Not with the top view only.	Pas avec la vue de dessus uniquement.
 Wheel	Molette
 Rules	Règles
 Rules of the game	Règles du jeu
+Shop and collection	Boutique et collection
+The Brazilian rule and the official rules, a tab for each.	Les règles brésiliennes et les règles officielles, un onglet pour chacune.
 Level	À plat
 Drag the cue: jump & massé	Faites glisser la queue : sauté et massé
 Drag to raise or lower the cue	Faites glisser pour lever ou baisser la queue

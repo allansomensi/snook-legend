@@ -1635,6 +1635,8 @@ Not with the top view only.	Inte med bara vy ovanifrån.
 Wheel	Mushjul
 Rules	Regler
 Rules of the game	Spelets regler
+Shop and collection	Butik och samling
+The Brazilian rule and the official rules, a tab for each.	De brasilianska och de officiella reglerna, var och en på en egen flik.
 Level	Plant
 Drag the cue: jump & massé	Dra kön: hopp och massé
 Drag to raise or lower the cue	Dra för att höja eller sänka kön

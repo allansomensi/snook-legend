@@ -1635,6 +1635,8 @@ Not with the top view only.	仅俯视视角下不可用。
 Wheel	滚轮
 Rules	规则
 Rules of the game	游戏规则
+Shop and collection	商店和收藏
+The Brazilian rule and the official rules, a tab for each.	巴西规则和官方规则，各有一个标签页。
 Level	放平
 Drag the cue: jump & massé	拖动球杆：跳球和扎杆
 Drag to raise or lower the cue	拖动以抬高或放低球杆

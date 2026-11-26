@@ -1635,6 +1635,8 @@ Not with the top view only.	Όχι με τη σταθερή κάτοψη.
 Wheel	Ροδέλα ποντικιού
 Rules	Κανόνες
 Rules of the game	Κανόνες του παιχνιδιού
+Shop and collection	Κατάστημα και συλλογή
+The Brazilian rule and the official rules, a tab for each.	Οι βραζιλιάνικοι και οι επίσημοι κανόνες, ο καθένας σε δική του καρτέλα.
 Level	Οριζόντια
 Drag the cue: jump & massé	Σύρε τη στέκα: άλμα και massé
 Drag to raise or lower the cue	Σύρε για να σηκώσεις ή να χαμηλώσεις τη στέκα

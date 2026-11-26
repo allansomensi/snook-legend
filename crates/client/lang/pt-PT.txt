@@ -1635,6 +1635,8 @@ Not with the top view only.	Não com a vista só de cima.
 Wheel	Roda do rato
 Rules	Regras
 Rules of the game	Regras do jogo
+Shop and collection	Loja e coleção
+The Brazilian rule and the official rules, a tab for each.	As regras brasileiras e as regras oficiais, um separador para cada.
 Level	Nivelar
 Drag the cue: jump & massé	Arrasta o taco: salto e massé
 Drag to raise or lower the cue	Arrasta para levantar ou baixar o taco

@@ -1,5 +1,59 @@
 # Changelog
 
+## 0.12.1 (protocol 25)
+
+The interface in motion, games against the computer that open like online
+ones, achievements up close, a performance and security pass and many
+fixes. Same protocol as 0.12.0; migration `0035` (indexes only).
+
+### Interface
+- **Smooth scrolling** in every list, the settings, what's new and the
+  chats: by the pixel, eased, drag with a flick, a scroll bar that can be
+  grabbed, keys (arrows, Page Up/Down, Home, End); rows fade at the edges.
+- **Motion**: screens and dialogs come in, popovers grow from their
+  button, tab content slides, selections glide (tabs, segmented controls,
+  switches, the rules switch), buttons ease on hover and press, the
+  pointer becomes a hand over what can be clicked. **Settings → Game →
+  Reduce motion** turns it off (saved with the account).
+- Games against the computer open with the match introduction: the
+  player and the computer's character (portrait, epithet, strength, how it
+  plays) and where the game is (the tour's stage, a tournament); nothing
+  about rating.
+- Profile → Achievements: a click on a medal or a reaction opens its card
+  (what it takes, progress, when it was won, what comes with it).
+- Trophies of the same kind stack (×N, opened on a click); "First of 1
+  players" reads as the only player that day.
+- Auctions and supporters moved from the top of the main menu to the
+  shop's side tabs; the collection's icon is a chest and it shows what the
+  player has first; "VS" (not "X") in Brazilian Portuguese.
+- The UI/UX audit: the match intro's VS held in its badge in every
+  language, the achievement card waiting for dialogs, a brilliant-cut
+  diamond medal, segmented controls sized to their labels, empty states,
+  the rating chart's labels, a real chalk cube, a winning game over in
+  gold. Back from a profile returns to the ranking or the inbox.
+- Windows (MSI/zip): the Microsoft Store build's files are taken over once.
+
+### Performance and security
+- Indexes for the conversations list (69 ms → 0.7 ms on 3M messages) and
+  other lookups (migration `0035`); names read in one query; the doubles
+  ranking cached.
+- Text cut with "…" by halving (a 1000-character staff message cost
+  ~37 ms a frame).
+- The public API limited per address; HTTP connections that never finish
+  a request are closed (header timeout, 65 s); direct messages and @mentions
+  count against their limits before the database is asked; per-account
+  limits no longer reset for everyone; placeholders filled in one pass;
+  old settings folders copied without following links.
+
+### Fixes
+- Leaving a rated game never takes a rating below the floor.
+- Doubles: a player who resigns and leaves during a shot is back in the
+  lounge; a doubles game ended by the staff without a result lets all four
+  go; a new username keeps the doubles rating.
+- Staff API: rating adjustments and the calendar, exports and promotions
+  refuse out-of-range numbers instead of overflowing.
+- The supporters' credits scroll.
+
 ## 0.12.0 (protocol 25)
 
 Doubles and against the clock, the official 8 called by hand, the

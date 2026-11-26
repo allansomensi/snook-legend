@@ -622,7 +622,7 @@ impl CollectionScreen {
             } else {
                 t("None yet: they are waiting to be won.")
             };
-            empty_state(ui, area, Icon::Star, text);
+            empty_state(ui, area, Icon::Chest, text);
             return action;
         }
         let cols = ((area.w + GAP) / (CARD_MIN_W + GAP)).floor().max(1.0) as usize;

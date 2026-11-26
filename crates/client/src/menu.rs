@@ -476,7 +476,7 @@ impl Menu {
             // (Drawn as an envelope: see below.)
             (Icon::List, t("Inbox"), None, MenuAction::Inbox),
             (Icon::Shop, t("Shop"), None, MenuAction::Shop),
-            (Icon::Star, t("Collection"), Some(t("Everything you have")), MenuAction::Collection),
+            (Icon::Chest, t("Collection"), None, MenuAction::Collection),
             (Icon::Book, t("Rules"), Some(t("Rules of the game")), MenuAction::Rules(rules)),
             (Icon::Gear, t("Settings"), None, MenuAction::Settings),
         ];

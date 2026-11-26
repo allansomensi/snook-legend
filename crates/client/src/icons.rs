@@ -80,6 +80,8 @@ pub enum Icon {
     /// An open door: quit the game (said at a glance, where a power sign
     /// read as "turn off").
     DoorOpen,
+    /// A treasure chest: the collection (everything the player has).
+    Chest,
 }
 
 thread_local! {
@@ -154,7 +156,7 @@ mod tests {
     #[test]
     fn every_icon_is_in_the_font() {
         let face = rustybuzz::Face::from_slice(super::FONT_BYTES, 0).unwrap();
-        for k in 0..=super::Icon::DoorOpen as u32 {
+        for k in 0..=super::Icon::Chest as u32 {
             for base in [0xE000, 0xE100] {
                 let c = char::from_u32(base + k).unwrap();
                 assert!(face.glyph_index(c).is_some(), "icon {k} (U+{:04X})", base + k);

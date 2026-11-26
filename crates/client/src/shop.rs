@@ -803,7 +803,7 @@ impl ShopScreen {
         if signed_in {
             let right = r.x + r.w - PAD - self.chips_w;
             let b = Rect::new(right - SWITCH_W - 10.0, r.y + 20.0, SWITCH_W, 36.0);
-            if button(ui, b, Kind::Normal, Some(Icon::Star), t("Collection"), 14.0) && !modal {
+            if button(ui, b, Kind::Normal, Some(Icon::Chest), t("Collection"), 14.0) && !modal {
                 let mut c = crate::collection::CollectionScreen::default();
                 c.open(online);
                 self.collection = Some((c, true));
@@ -915,7 +915,7 @@ impl ShopScreen {
         let back = crate::ranking::screen_header_until(
             ui,
             r,
-            Icon::Star,
+            Icon::Chest,
             t("Collection"),
             Some(subtitle),
             right,

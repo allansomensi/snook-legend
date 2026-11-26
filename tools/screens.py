@@ -11,6 +11,14 @@ full of made-up players (crates/server/examples/ux_seed.rs), and writes
     python3 tools/screens.py --out /tmp/shots                # everything
     python3 tools/screens.py --only menu,settings --langs en --sizes 1280x720
 
+What moves (scrolling, a screen or a dialog coming in) is seen frame by
+frame: --input plays the pointer from a script (interface units; frames
+counted from the start) and --shots saves those frames too, as
+`<screen>-<frame>.png`, at a fixed 60 frames a second whatever the renderer:
+
+    python3 tools/screens.py --only ranking --langs en --sizes 1280x720 \
+        --input "180:move 640 450;182:wheel -1" --shots 181,184,187,190,195
+
 Needs Xvfb (`xvfb-run`). The binaries are looked for in $CARGO_TARGET_DIR
 (or ./target)/debug. Release builds ignore the development switches used
 here, so it must be a debug build.
@@ -168,6 +176,7 @@ def shoot(job, slot):
     name, lang, size, out = job
     port, token = slot
     args, env_extra, online, frames = SCREENS[name]
+    frames = int(os.environ.get("SCREENS_FRAMES") or frames)
     w, h = size.split("x")
     dest = pathlib.Path(out) / size / lang / f"{name}.png"
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -221,7 +230,19 @@ def main():
     p.add_argument("--sizes", default=",".join(SIZES))
     p.add_argument("--jobs", type=int, default=3)
     p.add_argument("--port", type=int, default=PORT, help="the first server's port (two runs at once need different ones)")
+    p.add_argument("--input", default="", help="the pointer's script: '40:move 600 300;42:down;43:up;50:wheel -1'")
+    p.add_argument("--shots", default="", help="more frames to save on the way: '181,184,190'")
+    p.add_argument("--frames", type=int, default=0, help="the last frame (the screenshot), instead of the screen's own")
     a = p.parse_args()
+    if a.frames:
+        os.environ["SCREENS_FRAMES"] = str(a.frames)
+    if a.input or a.shots:
+        # Frame by frame: time runs at 60 frames a second, however slow.
+        os.environ["SNOOK_LEGEND_DT"] = "0.016667"
+        if a.input:
+            os.environ["SNOOK_LEGEND_INPUT"] = a.input
+        if a.shots:
+            os.environ["SNOOK_LEGEND_SHOTS"] = a.shots
     names = [n for n in a.only.split(",") if n] or list(SCREENS)
     for n in names:
         if n not in SCREENS:

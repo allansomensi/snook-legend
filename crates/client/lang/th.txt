@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	ผู้เยี่ยม�
 Guests can't play rated tournaments.	ผู้เยี่ยมชม​เล่น​ทัวร์นาเมนต์​จัดอันดับ​ไม่​ได้
 Guests don't have this.	ผู้เยี่ยมชม​ไม่​มีส่วน​นี้
 Harassment	คุกคาม
-Hat trick	แฮตทริก
 Have 10 friends.	มี​เพื่อน 10 คน
 Have an account for 30 days.	มี​บัญชี​ครบ 30 วัน
 Have an account for a year.	มี​บัญชี​ครบ​หนึ่ง​ปี
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	เมื่อ​หมดเวลา จ
 Whitewash	ถล่มยับ
 Win 10 rated games on the 8-ball.	ชนะ​เกม​จัดอันดับ 10 เกม​ด้วย​ลูก 8
 Win 10 rated games in a row.	ชนะ​เกม​จัดอันดับ​ติดต่อกัน 10 เกม
+Unbeatable	ไม่​แพ้​ใคร
+Win 15 rated games in a row.	ชนะ​เกม​จัดอันดับ​ติดต่อกัน 15 เกม
+Win 30 rated games in a row.	ชนะ​เกม​จัดอันดับ​ติดต่อกัน 30 เกม
 Win 10 rated games.	ชนะ​เกม​จัดอันดับ 10 เกม
 Win 10 rated shutouts.	ชนะ​เกม​จัดอันดับ​แบบ​คลีนชีต 10 ครั้ง
 Win 100 rated games on the 8-ball.	ชนะ​เกม​จัดอันดับ 100 เกม​ด้วย​ลูก 8
 Win 100 rated games.	ชนะ​เกม​จัดอันดับ 100 เกม
 Win 250 rated games on the 8-ball.	ชนะ​เกม​จัดอันดับ 250 เกม​ด้วย​ลูก 8
-Win 3 rated games in a row.	ชนะ​เกม​จัดอันดับ​ติดต่อกัน 3 เกม
 Win 5 rated games in a row.	ชนะ​เกม​จัดอันดับ​ติดต่อกัน 5 เกม
 Win 5 tournaments.	ชนะ​ทัวร์นาเมนต์ 5 รายการ
 Win 50 rated games on the 8-ball.	ชนะ​เกม​จัดอันดับ 50 เกม​ด้วย​ลูก 8
@@ -2305,8 +2306,6 @@ Living legend	ตำนาน​ที่​มี​ชีวิต
 Win 1,000 rated games.	ชนะ​เกม​จัดอันดับ 1,000 เกม
 The last word	คำ​สุดท้าย
 Win 500 rated games on the 8-ball.	ชนะ​เกม​จัดอันดับ​ด้วย​ลูก 8 จำนวน 500 เกม
-Seventh heaven	สวรรค์​ชั้น​เจ็ด
-Win 7 rated games in a row.	ชนะ​เกม​จัดอันดับ 7 เกม​ติดต่อกัน
 Clinical	แม่นยำ​ดั่ง​ศัลยแพทย์
 Break and run 5 times.	เบรก​เก็บ​เรียบ 5 ครั้ง
 Iron curtain	ม่าน​เหล็ก

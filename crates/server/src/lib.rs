@@ -551,7 +551,7 @@ impl Server {
             Ok(new) => {
                 let all = self.store.achievements(user.id).await.unwrap_or_default();
                 let codes: Vec<String> = all.into_iter().map(|(code, _)| code).collect();
-                let xp = new.len() as u32 * snook_legend_proto::xp::ACHIEVEMENT;
+                let xp = new.iter().map(|c| snook_legend_proto::xp::for_achievement(c)).sum();
                 inbox::achievements(self, user.id, &new).await;
                 self.with(|l| {
                     for code in new {
@@ -579,7 +579,7 @@ impl Server {
             Ok(new) => {
                 let all = self.store.achievements(user.id).await.unwrap_or_default();
                 let codes: Vec<String> = all.into_iter().map(|(code, _)| code).collect();
-                let xp = new.len() as u32 * snook_legend_proto::xp::ACHIEVEMENT;
+                let xp = new.iter().map(|c| snook_legend_proto::xp::for_achievement(c)).sum();
                 inbox::achievements(self, user.id, &new).await;
                 self.with(|l| {
                     for code in new {

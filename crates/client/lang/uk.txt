@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Гості можуть пр�
 Guests can't play rated tournaments.	Гості не можуть грати в рейтингових турнірах.
 Guests don't have this.	Гостям це недоступно.
 Harassment	Цькування
-Hat trick	Хет-трик
 Have 10 friends.	Знайдіть 10 друзів.
 Have an account for 30 days.	Будьте з нами 30 днів.
 Have an account for a year.	Будьте з нами рік.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Коли час спливає, хід пе
 Whitewash	Розгром
 Win 10 rated games on the 8-ball.	Виграйте 10 рейтингових партій, забивши вісімку.
 Win 10 rated games in a row.	Виграйте 10 рейтингових партій поспіль.
+Unbeatable	Непереможний
+Win 15 rated games in a row.	Виграйте 15 рейтингових партій поспіль.
+Win 30 rated games in a row.	Виграйте 30 рейтингових партій поспіль.
 Win 10 rated games.	Виграйте 10 рейтингових партій.
 Win 10 rated shutouts.	Здобудьте 10 сухих перемог у рейтингових партіях.
 Win 100 rated games on the 8-ball.	Виграйте 100 рейтингових партій, забивши вісімку.
 Win 100 rated games.	Виграйте 100 рейтингових партій.
 Win 250 rated games on the 8-ball.	Виграйте 250 рейтингових партій, забивши вісімку.
-Win 3 rated games in a row.	Виграйте 3 рейтингові партії поспіль.
 Win 5 rated games in a row.	Виграйте 5 рейтингових партій поспіль.
 Win 5 tournaments.	Виграйте 5 турнірів.
 Win 50 rated games on the 8-ball.	Виграйте 50 рейтингових партій, забивши вісімку.
@@ -2305,8 +2306,6 @@ Living legend	Жива легенда
 Win 1,000 rated games.	Виграйте 1000 рейтингових партій.
 The last word	Останнє слово
 Win 500 rated games on the 8-ball.	Виграйте 500 рейтингових партій, забивши вісімку.
-Seventh heaven	Сьоме небо
-Win 7 rated games in a row.	Виграйте 7 рейтингових партій поспіль.
 Clinical	Хірургічна точність
 Break and run 5 times.	Виграйте партію з кия 5 разів.
 Iron curtain	Залізна завіса

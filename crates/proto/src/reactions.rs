@@ -65,7 +65,7 @@ pub const REACTIONS: &[Reaction] = &[
     r("lion", "1f981", Some("wins_1000")),
     r("unicorn", "1f984", Some("games_2500")),
     r("bear", "1f43b", Some("eight_500")),
-    r("wolf", "1f43a", Some("streak_7")),
+    r("wolf", "1f43a", Some("streak_15")),
     r("tiger", "1f405", Some("runout_5")),
     r("skull_crossbones", "2620", Some("shutout_25")),
     r("sports_medal", "1f3c5", Some("tournament_win_10")),

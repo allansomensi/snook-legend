@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Гости могут игр�
 Guests can't play rated tournaments.	Гости не могут играть в рейтинговых турнирах.
 Guests don't have this.	Гостям это недоступно.
 Harassment	Оскорбления
-Hat trick	Хет-трик
 Have 10 friends.	Заведите 10 друзей.
 Have an account for 30 days.	Будьте с нами 30 дней.
 Have an account for a year.	Будьте с нами год.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Когда время истекает, х�
 Whitewash	Разгром
 Win 10 rated games on the 8-ball.	Выиграйте 10 рейтинговых партий, забив восьмёрку.
 Win 10 rated games in a row.	Выиграйте 10 рейтинговых партий подряд.
+Unbeatable	Непобедимый
+Win 15 rated games in a row.	Выиграйте 15 рейтинговых партий подряд.
+Win 30 rated games in a row.	Выиграйте 30 рейтинговых партий подряд.
 Win 10 rated games.	Выиграйте 10 рейтинговых партий.
 Win 10 rated shutouts.	Одержите 10 сухих побед в рейтинговых партиях.
 Win 100 rated games on the 8-ball.	Выиграйте 100 рейтинговых партий, забив восьмёрку.
 Win 100 rated games.	Выиграйте 100 рейтинговых партий.
 Win 250 rated games on the 8-ball.	Выиграйте 250 рейтинговых партий, забив восьмёрку.
-Win 3 rated games in a row.	Выиграйте 3 рейтинговые партии подряд.
 Win 5 rated games in a row.	Выиграйте 5 рейтинговых партий подряд.
 Win 5 tournaments.	Выиграйте 5 турниров.
 Win 50 rated games on the 8-ball.	Выиграйте 50 рейтинговых партий, забив восьмёрку.
@@ -2305,8 +2306,6 @@ Living legend	Живая легенда
 Win 1,000 rated games.	Выиграйте 1000 рейтинговых партий.
 The last word	Последнее слово
 Win 500 rated games on the 8-ball.	Выиграйте 500 рейтинговых партий, забив восьмёрку.
-Seventh heaven	Седьмое небо
-Win 7 rated games in a row.	Выиграйте 7 рейтинговых партий подряд.
 Clinical	Хирургическая точность
 Break and run 5 times.	Выиграйте партию с кия 5 раз.
 Iron curtain	Железный занавес

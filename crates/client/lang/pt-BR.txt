@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Convidados só podem jogar na
 Guests can't play rated tournaments.	Convidados não podem jogar torneios valendo rating.
 Guests don't have this.	Convidados não têm isso.
 Harassment	Assédio
-Hat trick	Trinca
 Have 10 friends.	Tenha 10 amigos.
 Have an account for 30 days.	Tenha uma conta há 30 dias.
 Have an account for a year.	Tenha uma conta há um ano.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Quando o tempo acaba, a vez passa.
 Whitewash	Atropelo
 Win 10 rated games on the 8-ball.	Vença 10 partidas valendo rating na bola 8.
 Win 10 rated games in a row.	Vença 10 partidas valendo rating seguidas.
+Unbeatable	Imbatível
+Win 15 rated games in a row.	Vença 15 partidas valendo rating seguidas.
+Win 30 rated games in a row.	Vença 30 partidas valendo rating seguidas.
 Win 10 rated games.	Vença 10 partidas valendo rating.
 Win 10 rated shutouts.	Vença 10 partidas valendo rating sem o adversário encaçapar nenhuma bola.
 Win 100 rated games on the 8-ball.	Vença 100 partidas valendo rating na bola 8.
 Win 100 rated games.	Vença 100 partidas valendo rating.
 Win 250 rated games on the 8-ball.	Vença 250 partidas valendo rating na bola 8.
-Win 3 rated games in a row.	Vença 3 partidas valendo rating seguidas.
 Win 5 rated games in a row.	Vença 5 partidas valendo rating seguidas.
 Win 5 tournaments.	Vença 5 torneios.
 Win 50 rated games on the 8-ball.	Vença 50 partidas valendo rating na bola 8.
@@ -2305,8 +2306,6 @@ Living legend	Lenda viva
 Win 1,000 rated games.	Vença 1.000 partidas valendo rating.
 The last word	A última palavra
 Win 500 rated games on the 8-ball.	Vença 500 partidas valendo rating na bola 8.
-Seventh heaven	Sétimo céu
-Win 7 rated games in a row.	Vença 7 partidas valendo rating seguidas.
 Clinical	Clínico
 Break and run 5 times.	Faça 5 vezes a saída e limpe a mesa.
 Iron curtain	Cortina de ferro

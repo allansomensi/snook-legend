@@ -983,7 +983,7 @@ pub const ITEMS: &[Item] = &[
     cue_carbon(
         "cue_untouchable",
         "Untouchable",
-        Price::Achievement("streak_10"),
+        Price::Achievement("streak_30"),
         [8, 8, 10],
         [255, 206, 70],
         [255, 244, 200],
@@ -1672,7 +1672,7 @@ pub const ITEMS: &[Item] = &[
     frame(
         "frame_ruby",
         "Ruby",
-        Price::Achievement("streak_10"),
+        Price::Achievement("streak_30"),
         [255, 120, 140],
         [150, 0, 30],
         true,

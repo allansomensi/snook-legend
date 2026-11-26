@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	يمكن للضيوف الا�
 Guests can't play rated tournaments.	لا يمكن للضيوف لعب البطولات المصنفة.
 Guests don't have this.	هذه الميزة غير متاحة للضيوف.
 Harassment	مضايقة
-Hat trick	هاتريك
 Have 10 friends.	اجمع 10 أصدقاء.
 Have an account for 30 days.	احتفظ بحسابك لمدة 30 يوما.
 Have an account for a year.	احتفظ بحسابك لمدة عام.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	عند انتهاء الوقت، ينتقل
 Whitewash	اكتساح
 Win 10 rated games on the 8-ball.	فز في 10 مباريات مصنفة بإدخال الكرة 8.
 Win 10 rated games in a row.	فز في 10 مباريات مصنفة متتالية.
+Unbeatable	لا يُهزم
+Win 15 rated games in a row.	فز في 15 مباريات مصنفة متتالية.
+Win 30 rated games in a row.	فز في 30 مباريات مصنفة متتالية.
 Win 10 rated games.	فز في 10 مباريات مصنفة.
 Win 10 rated shutouts.	حقق 10 انتصارات نظيفة في مباريات مصنفة.
 Win 100 rated games on the 8-ball.	فز في 100 مباراة مصنفة بإدخال الكرة 8.
 Win 100 rated games.	فز في 100 مباراة مصنفة.
 Win 250 rated games on the 8-ball.	فز في 250 مباراة مصنفة بإدخال الكرة 8.
-Win 3 rated games in a row.	فز في 3 مباريات مصنفة متتالية.
 Win 5 rated games in a row.	فز في 5 مباريات مصنفة متتالية.
 Win 5 tournaments.	فز في 5 بطولات.
 Win 50 rated games on the 8-ball.	فز في 50 مباراة مصنفة بإدخال الكرة 8.
@@ -2305,8 +2306,6 @@ Living legend	أسطورة حية
 Win 1,000 rated games.	فز في 1000 مباراة مصنفة.
 The last word	الكلمة الأخيرة
 Win 500 rated games on the 8-ball.	فز في 500 مباراة مصنفة بإدخال الكرة 8.
-Seventh heaven	السماء السابعة
-Win 7 rated games in a row.	فز في 7 مباريات مصنفة متتالية.
 Clinical	دقة جراح
 Break and run 5 times.	نظف الطاولة من الافتتاحية 5 مرات.
 Iron curtain	الستار الحديدي

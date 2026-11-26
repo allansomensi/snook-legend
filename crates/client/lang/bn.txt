@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	অতিথিরা শু�
 Guests can't play rated tournaments.	অতিথিরা রেটেড টুর্নামেন্ট খেলতে পারেন না।
 Guests don't have this.	অতিথিদের জন্য এটি নেই।
 Harassment	হয়রানি
-Hat trick	হ্যাটট্রিক
 Have 10 friends.	10 জন বন্ধু বানান।
 Have an account for 30 days.	30 দিন ধরে অ্যাকাউন্ট রাখুন।
 Have an account for a year.	এক বছর ধরে অ্যাকাউন্ট রাখুন।
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	সময় শেষ হলে পাল�
 Whitewash	হোয়াইটওয়াশ
 Win 10 rated games on the 8-ball.	8 নম্বর বল পকেট করে 10টি রেটেড গেম জিতুন।
 Win 10 rated games in a row.	টানা 10টি রেটেড গেম জিতুন।
+Unbeatable	অপরাজেয়
+Win 15 rated games in a row.	টানা 15টি রেটেড গেম জিতুন।
+Win 30 rated games in a row.	টানা 30টি রেটেড গেম জিতুন।
 Win 10 rated games.	10টি রেটেড গেম জিতুন।
 Win 10 rated shutouts.	10টি রেটেড গেম একতরফাভাবে জিতুন।
 Win 100 rated games on the 8-ball.	8 নম্বর বল পকেট করে 100টি রেটেড গেম জিতুন।
 Win 100 rated games.	100টি রেটেড গেম জিতুন।
 Win 250 rated games on the 8-ball.	8 নম্বর বল পকেট করে 250টি রেটেড গেম জিতুন।
-Win 3 rated games in a row.	টানা 3টি রেটেড গেম জিতুন।
 Win 5 rated games in a row.	টানা 5টি রেটেড গেম জিতুন।
 Win 5 tournaments.	5টি টুর্নামেন্ট জিতুন।
 Win 50 rated games on the 8-ball.	8 নম্বর বল পকেট করে 50টি রেটেড গেম জিতুন।
@@ -2305,8 +2306,6 @@ Living legend	জীবন্ত কিংবদন্তি
 Win 1,000 rated games.	1,000টি রেটেড গেম জিতুন।
 The last word	শেষ কথা
 Win 500 rated games on the 8-ball.	8-বলে 500টি রেটেড গেম জিতুন।
-Seventh heaven	সপ্তম স্বর্গ
-Win 7 rated games in a row.	টানা 7টি রেটেড গেম জিতুন।
 Clinical	নিখুঁত
 Break and run 5 times.	5 বার ব্রেক অ্যান্ড রান করুন।
 Iron curtain	লৌহ যবনিকা

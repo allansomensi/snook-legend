@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Gäster kan bara gå med i LA
 Guests can't play rated tournaments.	Gäster kan inte spela rankade turneringar.
 Guests don't have this.	Gäster har inte det här.
 Harassment	Trakasserier
-Hat trick	Hattrick
 Have 10 friends.	Ha 10 vänner.
 Have an account for 30 days.	Ha haft ett konto i 30 dagar.
 Have an account for a year.	Ha haft ett konto i ett år.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	När tiden tar slut går turen över.
 Whitewash	Utklassning
 Win 10 rated games on the 8-ball.	Vinn 10 rankade partier på 8-bollen.
 Win 10 rated games in a row.	Vinn 10 rankade partier i rad.
+Unbeatable	Oslagbar
+Win 15 rated games in a row.	Vinn 15 rankade partier i rad.
+Win 30 rated games in a row.	Vinn 30 rankade partier i rad.
 Win 10 rated games.	Vinn 10 rankade partier.
 Win 10 rated shutouts.	Vinn 10 rankade partier med nolla.
 Win 100 rated games on the 8-ball.	Vinn 100 rankade partier på 8-bollen.
 Win 100 rated games.	Vinn 100 rankade partier.
 Win 250 rated games on the 8-ball.	Vinn 250 rankade partier på 8-bollen.
-Win 3 rated games in a row.	Vinn 3 rankade partier i rad.
 Win 5 rated games in a row.	Vinn 5 rankade partier i rad.
 Win 5 tournaments.	Vinn 5 turneringar.
 Win 50 rated games on the 8-ball.	Vinn 50 rankade partier på 8-bollen.
@@ -2305,8 +2306,6 @@ Living legend	Levande legend
 Win 1,000 rated games.	Vinn 1 000 rankade partier.
 The last word	Sista ordet
 Win 500 rated games on the 8-ball.	Vinn 500 rankade partier på 8-bollen.
-Seventh heaven	Sjunde himlen
-Win 7 rated games in a row.	Vinn 7 rankade partier i rad.
 Clinical	Klinisk
 Break and run 5 times.	Slå ut och rensa bordet 5 gånger.
 Iron curtain	Järnridå

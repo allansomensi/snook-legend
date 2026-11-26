@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Misafirler yalnızca LAN oyun
 Guests can't play rated tournaments.	Misafirler puanlı turnuvalarda oynayamaz.
 Guests don't have this.	Misafirlerde bu özellik yok.
 Harassment	Taciz
-Hat trick	Hat-trick
 Have 10 friends.	10 arkadaşın olsun.
 Have an account for 30 days.	30 gündür hesabın olsun.
 Have an account for a year.	Bir yıldır hesabın olsun.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Süre dolunca sıra rakibe geçer.
 Whitewash	Silindir
 Win 10 rated games on the 8-ball.	8 numaralı topu sokarak 10 puanlı oyun kazan.
 Win 10 rated games in a row.	Üst üste 10 puanlı oyun kazan.
+Unbeatable	Yenilmez
+Win 15 rated games in a row.	Üst üste 15 puanlı oyun kazan.
+Win 30 rated games in a row.	Üst üste 30 puanlı oyun kazan.
 Win 10 rated games.	10 puanlı oyun kazan.
 Win 10 rated shutouts.	Rakibine kendi grubundan top sokturmadan 10 puanlı oyun kazan.
 Win 100 rated games on the 8-ball.	8 numaralı topu sokarak 100 puanlı oyun kazan.
 Win 100 rated games.	100 puanlı oyun kazan.
 Win 250 rated games on the 8-ball.	8 numaralı topu sokarak 250 puanlı oyun kazan.
-Win 3 rated games in a row.	Üst üste 3 puanlı oyun kazan.
 Win 5 rated games in a row.	Üst üste 5 puanlı oyun kazan.
 Win 5 tournaments.	5 turnuva kazan.
 Win 50 rated games on the 8-ball.	8 numaralı topu sokarak 50 puanlı oyun kazan.
@@ -2305,8 +2306,6 @@ Living legend	Yaşayan efsane
 Win 1,000 rated games.	1.000 puanlı oyun kazan.
 The last word	Son söz
 Win 500 rated games on the 8-ball.	8 numaralı topu sokarak 500 puanlı oyun kazan.
-Seventh heaven	Yedinci kat
-Win 7 rated games in a row.	Üst üste 7 puanlı oyun kazan.
 Clinical	Cerrah gibi
 Break and run 5 times.	Açılışta başlayıp masayı 5 kez bitir.
 Iron curtain	Demir perde

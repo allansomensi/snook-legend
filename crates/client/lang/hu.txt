@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Vendégek csak LAN-játszmák
 Guests can't play rated tournaments.	Vendégek nem játszhatnak értékelt versenyeken.
 Guests don't have this.	Vendégeknek ez nem elérhető.
 Harassment	Zaklatás
-Hat trick	Mesterhármas
 Have 10 friends.	Legyen 10 barátod.
 Have an account for 30 days.	Legyen 30 napos fiókod.
 Have an account for a year.	Legyen egyéves fiókod.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Ha lejár az idő, a kör átszáll az elle
 Whitewash	Lehengerlés
 Win 10 rated games on the 8-ball.	Nyerj 10 értékelt játszmát a 8-as golyóval.
 Win 10 rated games in a row.	Nyerj 10 értékelt játszmát egymás után.
+Unbeatable	Legyőzhetetlen
+Win 15 rated games in a row.	Nyerj 15 értékelt játszmát egymás után.
+Win 30 rated games in a row.	Nyerj 30 értékelt játszmát egymás után.
 Win 10 rated games.	Nyerj 10 értékelt játszmát.
 Win 10 rated shutouts.	Nyerj 10 értékelt játszmát kiütéssel.
 Win 100 rated games on the 8-ball.	Nyerj 100 értékelt játszmát a 8-as golyóval.
 Win 100 rated games.	Nyerj 100 értékelt játszmát.
 Win 250 rated games on the 8-ball.	Nyerj 250 értékelt játszmát a 8-as golyóval.
-Win 3 rated games in a row.	Nyerj 3 értékelt játszmát egymás után.
 Win 5 rated games in a row.	Nyerj 5 értékelt játszmát egymás után.
 Win 5 tournaments.	Nyerj 5 versenyt.
 Win 50 rated games on the 8-ball.	Nyerj 50 értékelt játszmát a 8-as golyóval.
@@ -2305,8 +2306,6 @@ Living legend	Élő legenda
 Win 1,000 rated games.	Nyerj 1000 értékelt játszmát.
 The last word	Az utolsó szó
 Win 500 rated games on the 8-ball.	Nyerj 500 értékelt játszmát a 8-as golyóval.
-Seventh heaven	Hetedik mennyország
-Win 7 rated games in a row.	Nyerj 7 értékelt játszmát egymás után.
 Clinical	Klinikai pontosság
 Break and run 5 times.	Kezdőlökés után pucold ki az asztalt 5-ször.
 Iron curtain	Vasfüggöny

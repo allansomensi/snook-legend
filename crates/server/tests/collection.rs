@@ -101,14 +101,14 @@ async fn the_collection_lists_items_and_achievements() {
     let origin = Origin::Event { name: "Christmas 2026".into() };
     assert!(collection::give(&server, me.id, "cue_christmas", origin.clone()).await);
     assert!(!collection::give(&server, me.id, "cue_christmas", Origin::Unknown).await);
-    server.store.add_achievements(me.id, &["streak_10"], t).await.unwrap();
+    server.store.add_achievements(me.id, &["streak_30"], t).await.unwrap();
     let items = collection::items_of(&server, me.id).await;
     let find = |code: &str| items.iter().find(|i| i.code == code);
     assert_eq!(find("cue_christmas").map(|i| &i.origin), Some(&origin));
-    // The ruby medal's cue, frame and reaction, from the day it was won.
-    for code in ["cue_untouchable", "frame_ruby", "reaction_fire"] {
+    // The ruby medal's cue and frame, from the day it was won.
+    for code in ["cue_untouchable", "frame_ruby"] {
         let item = find(code).unwrap_or_else(|| panic!("{code}"));
-        assert_eq!(item.origin, Origin::Achievement { code: "streak_10".into() });
+        assert_eq!(item.origin, Origin::Achievement { code: "streak_30".into() });
         assert_eq!(item.acquired_at, t);
     }
     // Asked for by the game.
@@ -117,7 +117,7 @@ async fn the_collection_lists_items_and_achievements() {
     collection::handle(&server, &me, ClientMsg::Collection, &move |m| out.lock().unwrap().push(m))
         .await;
     let sent = sent.lock().unwrap();
-    assert!(matches!(&sent[..], [ServerMsg::Collection { items }] if items.len() == 4));
+    assert!(matches!(&sent[..], [ServerMsg::Collection { items }] if items.len() == 3));
 }
 
 /// What stays with whoever won it can't be given to a friend.

@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Tamu hanya bisa ikut game LAN
 Guests can't play rated tournaments.	Tamu tidak bisa main turnamen ranked.
 Guests don't have this.	Tamu tidak punya fitur ini.
 Harassment	Pelecehan
-Hat trick	Hat-trick
 Have 10 friends.	Punya 10 teman.
 Have an account for 30 days.	Punya akun selama 30 hari.
 Have an account for a year.	Punya akun selama setahun.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Saat waktu habis, giliran berpindah.
 Whitewash	Sapu bersih
 Win 10 rated games on the 8-ball.	Menangkan 10 game ranked di bola 8.
 Win 10 rated games in a row.	Menangkan 10 game ranked berturut-turut.
+Unbeatable	Tak terkalahkan
+Win 15 rated games in a row.	Menangkan 15 game ranked berturut-turut.
+Win 30 rated games in a row.	Menangkan 30 game ranked berturut-turut.
 Win 10 rated games.	Menangkan 10 game ranked.
 Win 10 rated shutouts.	Menangkan 10 game ranked tanpa balas.
 Win 100 rated games on the 8-ball.	Menangkan 100 game ranked di bola 8.
 Win 100 rated games.	Menangkan 100 game ranked.
 Win 250 rated games on the 8-ball.	Menangkan 250 game ranked di bola 8.
-Win 3 rated games in a row.	Menangkan 3 game ranked berturut-turut.
 Win 5 rated games in a row.	Menangkan 5 game ranked berturut-turut.
 Win 5 tournaments.	Menangkan 5 turnamen.
 Win 50 rated games on the 8-ball.	Menangkan 50 game ranked di bola 8.
@@ -2305,8 +2306,6 @@ Living legend	Legenda hidup
 Win 1,000 rated games.	Menangkan 1.000 game ranked.
 The last word	Kata terakhir
 Win 500 rated games on the 8-ball.	Menangkan 500 game ranked dengan bola 8.
-Seventh heaven	Langit ketujuh
-Win 7 rated games in a row.	Menangkan 7 game ranked berturut-turut.
 Clinical	Klinis
 Break and run 5 times.	Break lalu habiskan meja 5 kali.
 Iron curtain	Tirai besi

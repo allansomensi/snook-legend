@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Los invitados solo pueden uni
 Guests can't play rated tournaments.	Los invitados no pueden jugar torneos con rating.
 Guests don't have this.	Los invitados no tienen esto.
 Harassment	Acoso
-Hat trick	Triplete
 Have 10 friends.	Ten 10 amigos.
 Have an account for 30 days.	Ten una cuenta desde hace 30 días.
 Have an account for a year.	Ten una cuenta desde hace un año.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Cuando se acaba el tiempo, pasa el turno.
 Whitewash	Paliza
 Win 10 rated games on the 8-ball.	Gana 10 partidas con rating metiendo la 8.
 Win 10 rated games in a row.	Gana 10 partidas con rating seguidas.
+Unbeatable	Invencible
+Win 15 rated games in a row.	Gana 15 partidas con rating seguidas.
+Win 30 rated games in a row.	Gana 30 partidas con rating seguidas.
 Win 10 rated games.	Gana 10 partidas con rating.
 Win 10 rated shutouts.	Gana 10 capotes con rating.
 Win 100 rated games on the 8-ball.	Gana 100 partidas con rating metiendo la 8.
 Win 100 rated games.	Gana 100 partidas con rating.
 Win 250 rated games on the 8-ball.	Gana 250 partidas con rating metiendo la 8.
-Win 3 rated games in a row.	Gana 3 partidas con rating seguidas.
 Win 5 rated games in a row.	Gana 5 partidas con rating seguidas.
 Win 5 tournaments.	Gana 5 torneos.
 Win 50 rated games on the 8-ball.	Gana 50 partidas con rating metiendo la 8.
@@ -2305,8 +2306,6 @@ Living legend	Leyenda viva
 Win 1,000 rated games.	Gana 1.000 partidas con rating.
 The last word	La última palabra
 Win 500 rated games on the 8-ball.	Gana 500 partidas con rating con la bola 8.
-Seventh heaven	Séptimo cielo
-Win 7 rated games in a row.	Gana 7 partidas con rating seguidas.
 Clinical	Clínico
 Break and run 5 times.	Saca y limpia la mesa 5 veces.
 Iron curtain	Telón de acero

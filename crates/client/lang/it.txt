@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Gli ospiti possono unirsi sol
 Guests can't play rated tournaments.	Gli ospiti non possono giocare tornei classificati.
 Guests don't have this.	Gli ospiti non hanno questa funzione.
 Harassment	Molestie
-Hat trick	Tripletta
 Have 10 friends.	Arriva a 10 amici.
 Have an account for 30 days.	Possiedi un account da 30 giorni.
 Have an account for a year.	Possiedi un account da un anno.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Quando il tempo scade, il turno passa.
 Whitewash	Batosta
 Win 10 rated games on the 8-ball.	Vinci 10 partite classificate imbucando la 8.
 Win 10 rated games in a row.	Vinci 10 partite classificate di fila.
+Unbeatable	Imbattibile
+Win 15 rated games in a row.	Vinci 15 partite classificate di fila.
+Win 30 rated games in a row.	Vinci 30 partite classificate di fila.
 Win 10 rated games.	Vinci 10 partite classificate.
 Win 10 rated shutouts.	Fai 10 cappotti in partite classificate.
 Win 100 rated games on the 8-ball.	Vinci 100 partite classificate imbucando la 8.
 Win 100 rated games.	Vinci 100 partite classificate.
 Win 250 rated games on the 8-ball.	Vinci 250 partite classificate imbucando la 8.
-Win 3 rated games in a row.	Vinci 3 partite classificate di fila.
 Win 5 rated games in a row.	Vinci 5 partite classificate di fila.
 Win 5 tournaments.	Vinci 5 tornei.
 Win 50 rated games on the 8-ball.	Vinci 50 partite classificate imbucando la 8.
@@ -2305,8 +2306,6 @@ Living legend	Leggenda vivente
 Win 1,000 rated games.	Vinci 1.000 partite classificate.
 The last word	L'ultima parola
 Win 500 rated games on the 8-ball.	Vinci 500 partite classificate imbucando la 8.
-Seventh heaven	Settimo cielo
-Win 7 rated games in a row.	Vinci 7 partite classificate di fila.
 Clinical	Chirurgico
 Break and run 5 times.	Spacca e chiudi la partita 5 volte.
 Iron curtain	Cortina di ferro

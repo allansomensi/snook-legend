@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Invitații pot intra doar în
 Guests can't play rated tournaments.	Invitații nu pot juca turnee cu rating.
 Guests don't have this.	Invitații nu au acces la asta.
 Harassment	Hărțuire
-Hat trick	Hat-trick
 Have 10 friends.	Ai 10 prieteni.
 Have an account for 30 days.	Ai contul de 30 de zile.
 Have an account for a year.	Ai contul de un an.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Când expiră timpul, tura trece la adversa
 Whitewash	Fără milă
 Win 10 rated games on the 8-ball.	Câștigă 10 partide cu rating băgând bila 8.
 Win 10 rated games in a row.	Câștigă 10 partide cu rating la rând.
+Unbeatable	Imbatabil
+Win 15 rated games in a row.	Câștigă 15 partide cu rating la rând.
+Win 30 rated games in a row.	Câștigă 30 partide cu rating la rând.
 Win 10 rated games.	Câștigă 10 partide cu rating.
 Win 10 rated shutouts.	Câștigă la zero 10 partide cu rating.
 Win 100 rated games on the 8-ball.	Câștigă 100 de partide cu rating băgând bila 8.
 Win 100 rated games.	Câștigă 100 de partide cu rating.
 Win 250 rated games on the 8-ball.	Câștigă 250 de partide cu rating băgând bila 8.
-Win 3 rated games in a row.	Câștigă 3 partide cu rating la rând.
 Win 5 rated games in a row.	Câștigă 5 partide cu rating la rând.
 Win 5 tournaments.	Câștigă 5 turnee.
 Win 50 rated games on the 8-ball.	Câștigă 50 de partide cu rating băgând bila 8.
@@ -2305,8 +2306,6 @@ Living legend	Legendă vie
 Win 1,000 rated games.	Câștigă 1.000 de partide cu rating.
 The last word	Ultimul cuvânt
 Win 500 rated games on the 8-ball.	Câștigă 500 de partide cu rating băgând bila 8.
-Seventh heaven	În al nouălea cer
-Win 7 rated games in a row.	Câștigă 7 partide cu rating la rând.
 Clinical	Clinic
 Break and run 5 times.	Câștigă direct din spargere de 5 ori.
 Iron curtain	Cortina de fier

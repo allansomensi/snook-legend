@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	ゲストはLANゲームに�
 Guests can't play rated tournaments.	ゲストはレート戦のトーナメントに参加できません。
 Guests don't have this.	ゲストは利用できません。
 Harassment	嫌がらせ
-Hat trick	ハットトリック
 Have 10 friends.	フレンドを10人つくる。
 Have an account for 30 days.	アカウント作成から30日が経つ。
 Have an account for a year.	アカウント作成から1年が経つ。
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	時間切れになると、相手の番に�
 Whitewash	完封王
 Win 10 rated games on the 8-ball.	8番ボールを入れてレート戦に10勝する。
 Win 10 rated games in a row.	レート戦で10連勝する。
+Unbeatable	負け知らず
+Win 15 rated games in a row.	レート戦で15連勝する。
+Win 30 rated games in a row.	レート戦で30連勝する。
 Win 10 rated games.	レート戦で10勝する。
 Win 10 rated shutouts.	レート戦で10回完封勝ちする。
 Win 100 rated games on the 8-ball.	8番ボールを入れてレート戦に100勝する。
 Win 100 rated games.	レート戦で100勝する。
 Win 250 rated games on the 8-ball.	8番ボールを入れてレート戦に250勝する。
-Win 3 rated games in a row.	レート戦で3連勝する。
 Win 5 rated games in a row.	レート戦で5連勝する。
 Win 5 tournaments.	トーナメントで5回優勝する。
 Win 50 rated games on the 8-ball.	8番ボールを入れてレート戦に50勝する。
@@ -2305,8 +2306,6 @@ Living legend	生ける伝説
 Win 1,000 rated games.	レート戦で1,000勝する。
 The last word	最後の一言
 Win 500 rated games on the 8-ball.	8番ボールでレート戦に500勝する。
-Seventh heaven	有頂天
-Win 7 rated games in a row.	レート戦で7連勝する。
 Clinical	精密機械
 Break and run 5 times.	マスワリを5回達成する。
 Iron curtain	鉄のカーテン

@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	游客只能加入LAN对局�
 Guests can't play rated tournaments.	游客无法参加积分锦标赛。
 Guests don't have this.	游客无法使用此功能。
 Harassment	骚扰
-Hat trick	帽子戏法
 Have 10 friends.	拥有10位好友。
 Have an account for 30 days.	注册账号满30天。
 Have an account for a year.	注册账号满一年。
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	时间用完后，球权交给对手。
 Whitewash	横扫
 Win 10 rated games on the 8-ball.	通过打进8号球赢得10局积分赛。
 Win 10 rated games in a row.	连续赢得10局积分赛。
+Unbeatable	不可战胜
+Win 15 rated games in a row.	连续赢得15局积分赛。
+Win 30 rated games in a row.	连续赢得30局积分赛。
 Win 10 rated games.	赢得10局积分赛。
 Win 10 rated shutouts.	在积分赛中完封对手10次。
 Win 100 rated games on the 8-ball.	通过打进8号球赢得100局积分赛。
 Win 100 rated games.	赢得100局积分赛。
 Win 250 rated games on the 8-ball.	通过打进8号球赢得250局积分赛。
-Win 3 rated games in a row.	连续赢得3局积分赛。
 Win 5 rated games in a row.	连续赢得5局积分赛。
 Win 5 tournaments.	赢得5次锦标赛。
 Win 50 rated games on the 8-ball.	通过打进8号球赢得50局积分赛。
@@ -2305,8 +2306,6 @@ Living legend	活着的传奇
 Win 1,000 rated games.	赢得1000局积分赛。
 The last word	最后一句
 Win 500 rated games on the 8-ball.	打进8号球赢得500局积分赛。
-Seventh heaven	七重天
-Win 7 rated games in a row.	连续赢得7局积分赛。
 Clinical	精准如手术
 Break and run 5 times.	炸清5次。
 Iron curtain	铁幕

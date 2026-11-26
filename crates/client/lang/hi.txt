@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	गेस्ट सिर्�
 Guests can't play rated tournaments.	गेस्ट रेटेड टूर्नामेंट नहीं खेल सकते।
 Guests don't have this.	गेस्ट के लिए यह उपलब्ध नहीं है।
 Harassment	उत्पीड़न
-Hat trick	हैट्रिक
 Have 10 friends.	10 दोस्त बनाएँ।
 Have an account for 30 days.	अकाउंट के 30 दिन पूरे करें।
 Have an account for a year.	अकाउंट का एक साल पूरा करें।
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	समय ख़त्म होने प�
 Whitewash	व्हाइटवॉश
 Win 10 rated games on the 8-ball.	8 बॉल पॉट करके 10 रेटेड गेम जीतें।
 Win 10 rated games in a row.	लगातार 10 रेटेड गेम जीतें।
+Unbeatable	अपराजेय
+Win 15 rated games in a row.	लगातार 15 रेटेड गेम जीतें।
+Win 30 rated games in a row.	लगातार 30 रेटेड गेम जीतें।
 Win 10 rated games.	10 रेटेड गेम जीतें।
 Win 10 rated shutouts.	10 रेटेड गेम एकतरफ़ा जीतें।
 Win 100 rated games on the 8-ball.	8 बॉल पॉट करके 100 रेटेड गेम जीतें।
 Win 100 rated games.	100 रेटेड गेम जीतें।
 Win 250 rated games on the 8-ball.	8 बॉल पॉट करके 250 रेटेड गेम जीतें।
-Win 3 rated games in a row.	लगातार 3 रेटेड गेम जीतें।
 Win 5 rated games in a row.	लगातार 5 रेटेड गेम जीतें।
 Win 5 tournaments.	5 टूर्नामेंट जीतें।
 Win 50 rated games on the 8-ball.	8 बॉल पॉट करके 50 रेटेड गेम जीतें।
@@ -2305,8 +2306,6 @@ Living legend	जीवित किंवदंती
 Win 1,000 rated games.	1,000 रेटेड गेम जीतें।
 The last word	आख़िरी शब्द
 Win 500 rated games on the 8-ball.	8-बॉल पर 500 रेटेड गेम जीतें।
-Seventh heaven	सातवाँ आसमान
-Win 7 rated games in a row.	लगातार 7 रेटेड गेम जीतें।
 Clinical	सर्जिकल
 Break and run 5 times.	5 बार ब्रेक एंड रन करें।
 Iron curtain	लौह पर्दा

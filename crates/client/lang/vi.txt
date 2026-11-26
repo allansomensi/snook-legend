@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Khách chỉ có thể tham g
 Guests can't play rated tournaments.	Khách không thể chơi giải đấu xếp hạng.
 Guests don't have this.	Khách không có mục này.
 Harassment	Quấy rối
-Hat trick	Hat-trick
 Have 10 friends.	Có 10 bạn bè.
 Have an account for 30 days.	Có tài khoản được 30 ngày.
 Have an account for a year.	Có tài khoản được một năm.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Khi hết giờ, lượt sẽ chuyển sang
 Whitewash	Quét sạch
 Win 10 rated games on the 8-ball.	Thắng 10 ván xếp hạng bằng bi số 8.
 Win 10 rated games in a row.	Thắng 10 ván xếp hạng liên tiếp.
+Unbeatable	Bất bại
+Win 15 rated games in a row.	Thắng 15 ván xếp hạng liên tiếp.
+Win 30 rated games in a row.	Thắng 30 ván xếp hạng liên tiếp.
 Win 10 rated games.	Thắng 10 ván xếp hạng.
 Win 10 rated shutouts.	Thắng trắng 10 ván xếp hạng.
 Win 100 rated games on the 8-ball.	Thắng 100 ván xếp hạng bằng bi số 8.
 Win 100 rated games.	Thắng 100 ván xếp hạng.
 Win 250 rated games on the 8-ball.	Thắng 250 ván xếp hạng bằng bi số 8.
-Win 3 rated games in a row.	Thắng 3 ván xếp hạng liên tiếp.
 Win 5 rated games in a row.	Thắng 5 ván xếp hạng liên tiếp.
 Win 5 tournaments.	Vô địch 5 giải đấu.
 Win 50 rated games on the 8-ball.	Thắng 50 ván xếp hạng bằng bi số 8.
@@ -2305,8 +2306,6 @@ Living legend	Huyền thoại sống
 Win 1,000 rated games.	Thắng 1.000 ván xếp hạng.
 The last word	Lời cuối cùng
 Win 500 rated games on the 8-ball.	Thắng 500 ván xếp hạng bằng bi số 8.
-Seventh heaven	Chín tầng mây
-Win 7 rated games in a row.	Thắng liên tiếp 7 ván xếp hạng.
 Clinical	Chuẩn xác
 Break and run 5 times.	Phá bi dọn bàn 5 lần.
 Iron curtain	Bức màn sắt

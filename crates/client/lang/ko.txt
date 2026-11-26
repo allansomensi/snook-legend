@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	게스트는 LAN 게임에만
 Guests can't play rated tournaments.	게스트는 레이팅 토너먼트에 참가할 수 없어요.
 Guests don't have this.	게스트는 이용할 수 없어요.
 Harassment	괴롭힘
-Hat trick	해트트릭
 Have 10 friends.	친구 10명을 사귀세요.
 Have an account for 30 days.	계정을 30일 동안 유지하세요.
 Have an account for a year.	계정을 1년 동안 유지하세요.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	시간이 다 되면 차례가 넘어가요
 Whitewash	싹쓸이
 Win 10 rated games on the 8-ball.	레이팅 게임에서 8번 공으로 10승을 거두세요.
 Win 10 rated games in a row.	레이팅 게임에서 10연승을 거두세요.
+Unbeatable	불패
+Win 15 rated games in a row.	레이팅 게임에서 15연승을 거두세요.
+Win 30 rated games in a row.	레이팅 게임에서 30연승을 거두세요.
 Win 10 rated games.	레이팅 게임에서 10승을 거두세요.
 Win 10 rated shutouts.	레이팅 게임에서 완봉승을 10번 거두세요.
 Win 100 rated games on the 8-ball.	레이팅 게임에서 8번 공으로 100승을 거두세요.
 Win 100 rated games.	레이팅 게임에서 100승을 거두세요.
 Win 250 rated games on the 8-ball.	레이팅 게임에서 8번 공으로 250승을 거두세요.
-Win 3 rated games in a row.	레이팅 게임에서 3연승을 거두세요.
 Win 5 rated games in a row.	레이팅 게임에서 5연승을 거두세요.
 Win 5 tournaments.	토너먼트에서 5번 우승하세요.
 Win 50 rated games on the 8-ball.	레이팅 게임에서 8번 공으로 50승을 거두세요.
@@ -2305,8 +2306,6 @@ Living legend	살아 있는 전설
 Win 1,000 rated games.	레이팅 게임에서 1,000승을 거두세요.
 The last word	마지막 한마디
 Win 500 rated games on the 8-ball.	8번 공으로 레이팅 게임 500승을 거두세요.
-Seventh heaven	일곱 번째 하늘
-Win 7 rated games in a row.	레이팅 게임에서 7연승을 거두세요.
 Clinical	정밀함
 Break and run 5 times.	브레이크 앤 런을 5번 달성하세요.
 Iron curtain	철의 장막

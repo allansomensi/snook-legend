@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Hosté se můžou připojit j
 Guests can't play rated tournaments.	Hosté nemůžou hrát hodnocené turnaje.
 Guests don't have this.	Hosté tohle nemají.
 Harassment	Obtěžování
-Hat trick	Hattrick
 Have 10 friends.	Měj 10 přátel.
 Have an account for 30 days.	Měj účet 30 dní.
 Have an account for a year.	Měj účet rok.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Když dojde čas, tah přechází na soupe�
 Whitewash	Debakl
 Win 10 rated games on the 8-ball.	Vyhraj 10 hodnocených her potopením osmičky.
 Win 10 rated games in a row.	Vyhraj 10 hodnocených her v řadě.
+Unbeatable	Neporazitelný
+Win 15 rated games in a row.	Vyhraj 15 hodnocených her v řadě.
+Win 30 rated games in a row.	Vyhraj 30 hodnocených her v řadě.
 Win 10 rated games.	Vyhraj 10 hodnocených her.
 Win 10 rated shutouts.	Vyhraj 10 hodnocených her s čistým kontem.
 Win 100 rated games on the 8-ball.	Vyhraj 100 hodnocených her potopením osmičky.
 Win 100 rated games.	Vyhraj 100 hodnocených her.
 Win 250 rated games on the 8-ball.	Vyhraj 250 hodnocených her potopením osmičky.
-Win 3 rated games in a row.	Vyhraj 3 hodnocené hry v řadě.
 Win 5 rated games in a row.	Vyhraj 5 hodnocených her v řadě.
 Win 5 tournaments.	Vyhraj 5 turnajů.
 Win 50 rated games on the 8-ball.	Vyhraj 50 hodnocených her potopením osmičky.
@@ -2305,8 +2306,6 @@ Living legend	Živoucí legenda
 Win 1,000 rated games.	Vyhraj 1 000 hodnocených her.
 The last word	Poslední slovo
 Win 500 rated games on the 8-ball.	Vyhraj 500 hodnocených her potopením osmičky.
-Seventh heaven	Sedmé nebe
-Win 7 rated games in a row.	Vyhraj 7 hodnocených her v řadě.
 Clinical	Chirurg
 Break and run 5 times.	Pětkrát vyčisti stůl hned z rozstřelu.
 Iron curtain	Železná opona

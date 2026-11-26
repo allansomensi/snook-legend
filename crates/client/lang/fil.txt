@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Sa mga LAN game lang puwedeng
 Guests can't play rated tournaments.	Hindi puwedeng maglaro ng rated na torneo ang mga guest.
 Guests don't have this.	Wala nito ang mga guest.
 Harassment	Panliligalig
-Hat trick	Hat trick
 Have 10 friends.	Magkaroon ng 10 kaibigan.
 Have an account for 30 days.	Magkaroon ng account nang 30 araw.
 Have an account for a year.	Magkaroon ng account nang isang taon.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Kapag naubos ang oras, lilipat ang turn.
 Whitewash	Lampaso
 Win 10 rated games on the 8-ball.	Manalo ng 10 rated na laro sa pagpasok ng 8-ball.
 Win 10 rated games in a row.	Manalo ng 10 sunod-sunod na rated na laro.
+Unbeatable	Di-matalo
+Win 15 rated games in a row.	Manalo ng 15 sunod-sunod na rated na laro.
+Win 30 rated games in a row.	Manalo ng 30 sunod-sunod na rated na laro.
 Win 10 rated games.	Manalo ng 10 rated na laro.
 Win 10 rated shutouts.	Manalo ng 10 rated na laro nang bokya ang kalaban.
 Win 100 rated games on the 8-ball.	Manalo ng 100 rated na laro sa pagpasok ng 8-ball.
 Win 100 rated games.	Manalo ng 100 rated na laro.
 Win 250 rated games on the 8-ball.	Manalo ng 250 rated na laro sa pagpasok ng 8-ball.
-Win 3 rated games in a row.	Manalo ng 3 sunod-sunod na rated na laro.
 Win 5 rated games in a row.	Manalo ng 5 sunod-sunod na rated na laro.
 Win 5 tournaments.	Manalo ng 5 torneo.
 Win 50 rated games on the 8-ball.	Manalo ng 50 rated na laro sa pagpasok ng 8-ball.
@@ -2305,8 +2306,6 @@ Living legend	Buhay na alamat
 Win 1,000 rated games.	Manalo ng 1,000 rated na laro.
 The last word	Huling salita
 Win 500 rated games on the 8-ball.	Manalo ng 500 rated na laro sa 8-ball.
-Seventh heaven	Ikapitong langit
-Win 7 rated games in a row.	Manalo ng 7 rated na laro nang sunod-sunod.
 Clinical	Klinikal
 Break and run 5 times.	Gawin ang break and run nang 5 beses.
 Iron curtain	Kurtinang bakal

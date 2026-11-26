@@ -15,8 +15,17 @@ pub const DAILY_ATTEMPT: u32 = 10;
 pub const DAILY_PER_BALL: u32 = 5;
 /// Each new star in a drill.
 pub const DRILL_STAR: u32 = 40;
-/// An achievement unlocked.
-pub const ACHIEVEMENT: u32 = 100;
+/// An achievement unlocked, by its medal (bronze to ruby): the easy ones
+/// are worth little, the hard ones a good deal.
+pub const ACHIEVEMENT: [u32; 5] = [25, 50, 100, 150, 250];
+
+/// The XP an achievement brings (none for a code it doesn't know).
+pub fn for_achievement(code: &str) -> u32 {
+    crate::ACHIEVEMENTS
+        .iter()
+        .find(|a| a.code == code)
+        .map_or(0, |a| ACHIEVEMENT[(a.level as usize).min(ACHIEVEMENT.len() - 1)])
+}
 /// The highest level.
 pub const MAX_LEVEL: u32 = 100;
 

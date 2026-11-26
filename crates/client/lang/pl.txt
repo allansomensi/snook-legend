@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Goście mogą dołączać tyl
 Guests can't play rated tournaments.	Goście nie mogą grać w turniejach rankingowych.
 Guests don't have this.	Niedostępne dla gości.
 Harassment	Nękanie
-Hat trick	Hat-trick
 Have 10 friends.	Miej 10 znajomych.
 Have an account for 30 days.	Miej konto od 30 dni.
 Have an account for a year.	Miej konto od roku.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Gdy skończy się czas, kolej przechodzi na
 Whitewash	Pogrom
 Win 10 rated games on the 8-ball.	Wygraj 10 partii rankingowych wbiciem ósemki.
 Win 10 rated games in a row.	Wygraj 10 partii rankingowych z rzędu.
+Unbeatable	Niepokonany
+Win 15 rated games in a row.	Wygraj 15 partii rankingowych z rzędu.
+Win 30 rated games in a row.	Wygraj 30 partii rankingowych z rzędu.
 Win 10 rated games.	Wygraj 10 partii rankingowych.
 Win 10 rated shutouts.	Wygraj do zera 10 partii rankingowych.
 Win 100 rated games on the 8-ball.	Wygraj 100 partii rankingowych wbiciem ósemki.
 Win 100 rated games.	Wygraj 100 partii rankingowych.
 Win 250 rated games on the 8-ball.	Wygraj 250 partii rankingowych wbiciem ósemki.
-Win 3 rated games in a row.	Wygraj 3 partie rankingowe z rzędu.
 Win 5 rated games in a row.	Wygraj 5 partii rankingowych z rzędu.
 Win 5 tournaments.	Wygraj 5 turniejów.
 Win 50 rated games on the 8-ball.	Wygraj 50 partii rankingowych wbiciem ósemki.
@@ -2305,8 +2306,6 @@ Living legend	Żywa legenda
 Win 1,000 rated games.	Wygraj 1000 partii rankingowych.
 The last word	Ostatnie słowo
 Win 500 rated games on the 8-ball.	Wygraj 500 partii rankingowych wbiciem ósemki.
-Seventh heaven	Siódme niebo
-Win 7 rated games in a row.	Wygraj 7 partii rankingowych z rzędu.
 Clinical	Chirurgiczna precyzja
 Break and run 5 times.	Wyczyść stół od rozbicia 5 razy.
 Iron curtain	Żelazna kurtyna

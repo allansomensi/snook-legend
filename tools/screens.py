@@ -86,7 +86,7 @@ SCREENS = {
     # A medal and a reaction close up (a click on them in Achievements).
     "profile-medal": (
         ["--screen", "profile:Ana"],
-        {"SNOOK_LEGEND_PROFILE_PANE": "achievements", "SNOOK_LEGEND_DETAIL": "achievement:streak_10"},
+        {"SNOOK_LEGEND_PROFILE_PANE": "achievements", "SNOOK_LEGEND_DETAIL": "achievement:streak_30"},
         True,
         200,
     ),

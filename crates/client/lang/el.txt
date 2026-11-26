@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Οι επισκέπτες μ�
 Guests can't play rated tournaments.	Οι επισκέπτες δεν μπορούν να παίξουν βαθμολογημένα τουρνουά.
 Guests don't have this.	Οι επισκέπτες δεν το έχουν αυτό.
 Harassment	Παρενόχληση
-Hat trick	Χατ τρικ
 Have 10 friends.	Κάνε 10 φίλους.
 Have an account for 30 days.	Έχε λογαριασμό για 30 ημέρες.
 Have an account for a year.	Έχε λογαριασμό για έναν χρόνο.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Όταν τελειώσει ο χρόνος
 Whitewash	Σαρωτική νίκη
 Win 10 rated games on the 8-ball.	Κέρδισε 10 βαθμολογημένες παρτίδες βάζοντας την 8.
 Win 10 rated games in a row.	Κέρδισε 10 βαθμολογημένες παρτίδες στη σειρά.
+Unbeatable	Αήττητος
+Win 15 rated games in a row.	Κέρδισε 15 βαθμολογημένες παρτίδες στη σειρά.
+Win 30 rated games in a row.	Κέρδισε 30 βαθμολογημένες παρτίδες στη σειρά.
 Win 10 rated games.	Κέρδισε 10 βαθμολογημένες παρτίδες.
 Win 10 rated shutouts.	Κέρδισε 10 βαθμολογημένες παρτίδες με λευκό σκορ.
 Win 100 rated games on the 8-ball.	Κέρδισε 100 βαθμολογημένες παρτίδες βάζοντας την 8.
 Win 100 rated games.	Κέρδισε 100 βαθμολογημένες παρτίδες.
 Win 250 rated games on the 8-ball.	Κέρδισε 250 βαθμολογημένες παρτίδες βάζοντας την 8.
-Win 3 rated games in a row.	Κέρδισε 3 βαθμολογημένες παρτίδες στη σειρά.
 Win 5 rated games in a row.	Κέρδισε 5 βαθμολογημένες παρτίδες στη σειρά.
 Win 5 tournaments.	Κέρδισε 5 τουρνουά.
 Win 50 rated games on the 8-ball.	Κέρδισε 50 βαθμολογημένες παρτίδες βάζοντας την 8.
@@ -2305,8 +2306,6 @@ Living legend	Ζωντανός θρύλος
 Win 1,000 rated games.	Κέρδισε 1.000 βαθμολογημένες παρτίδες.
 The last word	Η τελευταία λέξη
 Win 500 rated games on the 8-ball.	Κέρδισε 500 βαθμολογημένες παρτίδες βάζοντας την 8.
-Seventh heaven	Στον έβδομο ουρανό
-Win 7 rated games in a row.	Κέρδισε 7 βαθμολογημένες παρτίδες στη σειρά.
 Clinical	Χειρουργική ακρίβεια
 Break and run 5 times.	Σπάσε και καθάρισε το τραπέζι 5 φορές.
 Iron curtain	Σιδηρούν παραπέτασμα

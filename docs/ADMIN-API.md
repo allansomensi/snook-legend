@@ -27,7 +27,7 @@ while VIP are not listed. Read only (nothing is written to the audit log).
      "origin": {"how": "bought", "price": 1000}, "acquired_at": 1797000000},
     {"code": "reaction_fire", "name": null, "category": "reaction",
      "rarity": null, "bound": false,
-     "origin": {"how": "achievement", "code": "streak_10"}, "acquired_at": 1796000000}
+     "origin": {"how": "achievement", "code": "streak_30"}, "acquired_at": 1796000000}
   ]
 }
 ```

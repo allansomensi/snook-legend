@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Gäste können nur LAN-Partie
 Guests can't play rated tournaments.	Gäste können keine gewerteten Turniere spielen.
 Guests don't have this.	Für Gäste nicht verfügbar.
 Harassment	Belästigung
-Hat trick	Hattrick
 Have 10 friends.	Habe 10 Freunde.
 Have an account for 30 days.	Habe seit 30 Tagen ein Konto.
 Have an account for a year.	Habe seit einem Jahr ein Konto.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Wenn die Zeit abläuft, ist der Gegner am Z
 Whitewash	Weiße Weste
 Win 10 rated games on the 8-ball.	Gewinne 10 gewertete Partien mit der 8.
 Win 10 rated games in a row.	Gewinne 10 gewertete Partien in Folge.
+Unbeatable	Unschlagbar
+Win 15 rated games in a row.	Gewinne 15 gewertete Partien in Folge.
+Win 30 rated games in a row.	Gewinne 30 gewertete Partien in Folge.
 Win 10 rated games.	Gewinne 10 gewertete Partien.
 Win 10 rated shutouts.	Gewinne 10 gewertete Partien zu null.
 Win 100 rated games on the 8-ball.	Gewinne 100 gewertete Partien mit der 8.
 Win 100 rated games.	Gewinne 100 gewertete Partien.
 Win 250 rated games on the 8-ball.	Gewinne 250 gewertete Partien mit der 8.
-Win 3 rated games in a row.	Gewinne 3 gewertete Partien in Folge.
 Win 5 rated games in a row.	Gewinne 5 gewertete Partien in Folge.
 Win 5 tournaments.	Gewinne 5 Turniere.
 Win 50 rated games on the 8-ball.	Gewinne 50 gewertete Partien mit der 8.
@@ -2305,8 +2306,6 @@ Living legend	Lebende Legende
 Win 1,000 rated games.	Gewinne 1.000 gewertete Partien.
 The last word	Das letzte Wort
 Win 500 rated games on the 8-ball.	Gewinne 500 gewertete Partien mit der 8.
-Seventh heaven	Siebter Himmel
-Win 7 rated games in a row.	Gewinne 7 gewertete Partien in Folge.
 Clinical	Klinisch
 Break and run 5 times.	Schaffe 5-mal ein Break & Run.
 Iron curtain	Eiserner Vorhang

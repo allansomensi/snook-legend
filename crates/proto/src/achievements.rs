@@ -101,7 +101,13 @@ pub struct Achievement {
     pub stat: Stat,
     pub goal: i64,
     /// 0 bronze, 1 silver, 2 gold, 3 diamond, 4 ruby (the near impossible:
-    /// a handful of players ever, see [`RUBY`]).
+    /// a handful of players ever, see [`RUBY`]). The medal says what it
+    /// takes: bronze some tens of rated games or a modest feat, silver a
+    /// couple of hundred or a feat a good player manages now and then,
+    /// gold some five hundred or a strong player's feat, diamond a
+    /// thousand and more or a feat few manage. Waiting (the account's age)
+    /// and being there (events) never earn more than silver. The XP it
+    /// brings follows the medal (see [`crate::xp::for_achievement`]).
     pub level: u8,
     /// A secret: the game shows "???" until it is won (the server sees
     /// the feat in the game's replay, see [`crate::feats`]).
@@ -154,7 +160,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
     a("wins_1", "First blood", "Win a rated game.", Stat::Wins, 1, 0),
     a("wins_10", "On a roll", "Win 10 rated games.", Stat::Wins, 10, 0),
     a("wins_50", "Shark", "Win 50 rated games.", Stat::Wins, 50, 1),
-    a("wins_100", "Centurion", "Win 100 rated games.", Stat::Wins, 100, 2),
+    a("wins_100", "Centurion", "Win 100 rated games.", Stat::Wins, 100, 1),
     a("wins_500", "Unstoppable", "Win 500 rated games.", Stat::Wins, 500, 3),
     a("wins_1000", "Living legend", "Win 1,000 rated games.", Stat::Wins, 1000, 3),
     a("eight_10", "Eight is enough", "Win 10 rated games on the 8-ball.", Stat::EightWins, 10, 0),
@@ -167,10 +173,10 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
     a("rating_1700", "Master", "Reach a rating of 1700.", Stat::PeakRating, 1700, 2),
     a("rating_1900", "Grandmaster", "Reach a rating of 1900.", Stat::PeakRating, 1900, 3),
     a("rating_2100", "Legend", "Reach a rating of 2100.", Stat::PeakRating, 2100, RUBY),
-    a("streak_3", "Hat trick", "Win 3 rated games in a row.", Stat::BestStreak, 3, 0),
-    a("streak_5", "Hot hand", "Win 5 rated games in a row.", Stat::BestStreak, 5, 1),
-    a("streak_7", "Seventh heaven", "Win 7 rated games in a row.", Stat::BestStreak, 7, 2),
-    a("streak_10", "On fire", "Win 10 rated games in a row.", Stat::BestStreak, 10, RUBY),
+    a("streak_5", "Hot hand", "Win 5 rated games in a row.", Stat::BestStreak, 5, 0),
+    a("streak_10", "On fire", "Win 10 rated games in a row.", Stat::BestStreak, 10, 1),
+    a("streak_15", "Unbeatable", "Win 15 rated games in a row.", Stat::BestStreak, 15, 2),
+    a("streak_30", "Untouchable", "Win 30 rated games in a row.", Stat::BestStreak, 30, RUBY),
     a(
         "runout_1",
         "Break and run",
@@ -193,7 +199,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
     a("shutout_25", "Iron curtain", "Win 25 rated shutouts.", Stat::Shutouts, 25, 3),
     a("casual_25", "Just for fun", "Play 25 casual games.", Stat::CasualGames, 25, 0),
     a("friend_1", "Good company", "Make a friend.", Stat::Friends, 1, 0),
-    a("friend_10", "Popular", "Have 10 friends.", Stat::Friends, 10, 1),
+    a("friend_10", "Popular", "Have 10 friends.", Stat::Friends, 10, 0),
     a("tournament_play", "Competitor", "Play in a tournament.", Stat::TournamentsPlayed, 1, 0),
     a("tournament_win", "Champion", "Win a tournament.", Stat::TournamentsWon, 1, 2),
     a("tournament_win_5", "Dynasty", "Win 5 tournaments.", Stat::TournamentsWon, 5, 3),
@@ -207,15 +213,15 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         RUBY,
     ),
     a("veteran_30", "Familiar face", "Have an account for 30 days.", Stat::AccountDays, 30, 0),
-    a("veteran_180", "Half a year", "Have an account for six months.", Stat::AccountDays, 180, 1),
-    a("veteran_365", "First anniversary", "Have an account for a year.", Stat::AccountDays, 365, 2),
+    a("veteran_180", "Half a year", "Have an account for six months.", Stat::AccountDays, 180, 0),
+    a("veteran_365", "First anniversary", "Have an account for a year.", Stat::AccountDays, 365, 1),
     a(
         "veteran_730",
         "Second anniversary",
         "Have an account for two years.",
         Stat::AccountDays,
         730,
-        2,
+        1,
     ),
     a(
         "veteran_1095",
@@ -223,7 +229,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         "Have an account for three years.",
         Stat::AccountDays,
         1095,
-        3,
+        1,
     ),
     a(
         "veteran_1825",
@@ -231,7 +237,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         "Have an account for five years.",
         Stat::AccountDays,
         1825,
-        3,
+        1,
     ),
     // The account level's milestones: each brings an item (see `xp`).
     a("level_5", "Level 5", "Reach level 5.", Stat::Awarded, 1, 0),
@@ -256,7 +262,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         "Win a rated game during Halloween (Oct 24 – Nov 2).",
         Stat::Season(1024, 1102),
         1,
-        1,
+        0,
     ),
     a(
         "event_winter",
@@ -264,7 +270,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         "Win a rated game over the holidays (Dec 15 – Jan 6).",
         Stat::Season(1215, 106),
         1,
-        1,
+        0,
     ),
     a(
         "event_new_year",
@@ -272,7 +278,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         "Win a rated game at the turn of the year (Dec 31 – Jan 1).",
         Stat::Season(1231, 101),
         1,
-        2,
+        1,
     ),
     a(
         "event_carnival",
@@ -280,7 +286,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         "Win a rated game in Carnival season (Feb 1 – Mar 10).",
         Stat::Season(201, 310),
         1,
-        1,
+        0,
     ),
     a(
         "event_festa_junina",
@@ -288,7 +294,7 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
         "Win a rated game during the June festivals (Jun 1 – Jun 30).",
         Stat::Season(601, 630),
         1,
-        1,
+        0,
     ),
     // Secrets: feats seen in a rated game (see `feats`), "???" until won.
     secret(
@@ -405,6 +411,39 @@ mod tests {
         assert_eq!(golden.rules(), Some(snook_legend_core::Rules::Brazilian));
         assert_eq!(golden.level, RUBY);
         assert_eq!(ACHIEVEMENTS.iter().filter(|a| a.rules().is_some()).count(), 1);
+    }
+
+    /// Rated wins in a row: 5 bronze, 10 silver, 15 gold, 30 ruby.
+    #[test]
+    fn the_streaks_climb_to_thirty() {
+        let streaks: Vec<(i64, u8)> = ACHIEVEMENTS
+            .iter()
+            .filter(|a| a.stat == Stat::BestStreak)
+            .map(|a| (a.goal, a.level))
+            .collect();
+        assert_eq!(streaks, [(5, 0), (10, 1), (15, 2), (30, RUBY)]);
+        let s = Stats { best_streak: 14, ..Stats::default() };
+        let earned: Vec<_> = s.earned().filter(|c| c.starts_with("streak_")).collect();
+        assert_eq!(earned, ["streak_5", "streak_10"]);
+    }
+
+    /// Medals aren't given away: waiting (the account's age) and being
+    /// there (events) earn silver at most, and the easy ones are worth
+    /// little XP.
+    #[test]
+    fn waiting_and_events_earn_silver_at_most() {
+        for a in ACHIEVEMENTS.iter().filter(|a| a.stat == Stat::AccountDays || a.stat.is_event()) {
+            assert!(a.level <= 1, "{}", a.code);
+        }
+        for (code, xp) in
+            [("games_1", 25), ("wins_100", 50), ("streak_15", 100), ("streak_30", 250)]
+        {
+            assert_eq!(crate::xp::for_achievement(code), xp, "{code}");
+        }
+        assert_eq!(crate::xp::for_achievement("streak_7"), 0);
+        // Everything together is worth less than the 100 XP each brought.
+        let all: u32 = ACHIEVEMENTS.iter().map(|a| crate::xp::for_achievement(a.code)).sum();
+        assert!(all < 100 * ACHIEVEMENTS.len() as u32, "{all}");
     }
 
     #[test]

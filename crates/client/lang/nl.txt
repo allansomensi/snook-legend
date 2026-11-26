@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Gasten kunnen alleen aan LAN-
 Guests can't play rated tournaments.	Gasten kunnen geen ratingtoernooien spelen.
 Guests don't have this.	Niet beschikbaar voor gasten.
 Harassment	Intimidatie
-Hat trick	Hattrick
 Have 10 friends.	Heb 10 vrienden.
 Have an account for 30 days.	Heb 30 dagen een account.
 Have an account for a year.	Heb een jaar een account.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Als de tijd op is, gaat de beurt over.
 Whitewash	Ingemaakt
 Win 10 rated games on the 8-ball.	Win 10 ratingpartijen op de 8-bal.
 Win 10 rated games in a row.	Win 10 ratingpartijen op rij.
+Unbeatable	Onverslaanbaar
+Win 15 rated games in a row.	Win 15 ratingpartijen op rij.
+Win 30 rated games in a row.	Win 30 ratingpartijen op rij.
 Win 10 rated games.	Win 10 ratingpartijen.
 Win 10 rated shutouts.	Houd in 10 gewonnen ratingpartijen de nul.
 Win 100 rated games on the 8-ball.	Win 100 ratingpartijen op de 8-bal.
 Win 100 rated games.	Win 100 ratingpartijen.
 Win 250 rated games on the 8-ball.	Win 250 ratingpartijen op de 8-bal.
-Win 3 rated games in a row.	Win 3 ratingpartijen op rij.
 Win 5 rated games in a row.	Win 5 ratingpartijen op rij.
 Win 5 tournaments.	Win 5 toernooien.
 Win 50 rated games on the 8-ball.	Win 50 ratingpartijen op de 8-bal.
@@ -2305,8 +2306,6 @@ Living legend	Levende legende
 Win 1,000 rated games.	Win 1.000 ratingpartijen.
 The last word	Het laatste woord
 Win 500 rated games on the 8-ball.	Win 500 ratingpartijen op de 8-bal.
-Seventh heaven	Zevende hemel
-Win 7 rated games in a row.	Win 7 ratingpartijen op rij.
 Clinical	Klinisch
 Break and run 5 times.	Speel 5 keer de tafel uit vanaf je afstoot.
 Iron curtain	IJzeren gordijn

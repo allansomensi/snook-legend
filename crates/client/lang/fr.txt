@@ -268,7 +268,6 @@ Guests can only join LAN games. Create an account.	Les invités ne peuvent rejoi
 Guests can't play rated tournaments.	Les invités ne peuvent pas jouer de tournois classés.
 Guests don't have this.	Les invités n'y ont pas accès.
 Harassment	Harcèlement
-Hat trick	Coup du chapeau
 Have 10 friends.	Ayez 10 amis.
 Have an account for 30 days.	Ayez un compte depuis 30 jours.
 Have an account for a year.	Ayez un compte depuis un an.
@@ -412,12 +411,14 @@ When time runs out, the turn passes.	Quand le temps est écoulé, le tour passe.
 Whitewash	Rouleau compresseur
 Win 10 rated games on the 8-ball.	Gagnez 10 parties classées en empochant la 8.
 Win 10 rated games in a row.	Gagnez 10 parties classées d'affilée.
+Unbeatable	Imbattable
+Win 15 rated games in a row.	Gagnez 15 parties classées d'affilée.
+Win 30 rated games in a row.	Gagnez 30 parties classées d'affilée.
 Win 10 rated games.	Gagnez 10 parties classées.
 Win 10 rated shutouts.	Mettez 10 fannys en parties classées.
 Win 100 rated games on the 8-ball.	Gagnez 100 parties classées en empochant la 8.
 Win 100 rated games.	Gagnez 100 parties classées.
 Win 250 rated games on the 8-ball.	Gagnez 250 parties classées en empochant la 8.
-Win 3 rated games in a row.	Gagnez 3 parties classées d'affilée.
 Win 5 rated games in a row.	Gagnez 5 parties classées d'affilée.
 Win 5 tournaments.	Gagnez 5 tournois.
 Win 50 rated games on the 8-ball.	Gagnez 50 parties classées en empochant la 8.
@@ -2305,8 +2306,6 @@ Living legend	Légende vivante
 Win 1,000 rated games.	Gagnez 1000 parties classées.
 The last word	Le dernier mot
 Win 500 rated games on the 8-ball.	Gagnez 500 parties classées en empochant la 8.
-Seventh heaven	Septième ciel
-Win 7 rated games in a row.	Gagnez 7 parties classées d'affilée.
 Clinical	Clinique
 Break and run 5 times.	Cassez et nettoyez la table 5 fois.
 Iron curtain	Rideau de fer

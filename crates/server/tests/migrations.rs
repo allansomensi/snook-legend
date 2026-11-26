@@ -60,6 +60,7 @@ const APPLIED: &[(&str, &str)] = &[
     ),
     ("0034_modes_staff.sql", "ee842c63ece905a74b487d1cfd8eb18c9744663cbcad45ab58c1d38e6daf100a"),
     ("0035_lookup_indexes.sql", "4f1ae8c26eb71bf06a506dc078b0c7fc25d622235ea6c6121b4e3dab86eb6aad"),
+    ("0036_streaks.sql", "da4395c4787c68d5b77129eb0a484c78b647086de74d2cd512b549abb4d7cf77"),
 ];
 
 #[test]

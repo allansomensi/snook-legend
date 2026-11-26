@@ -263,7 +263,7 @@ screen was gone through for it; the fixes are in the toolkit
 | Popovers (emoji, phrases and reactions at the table, spin and elevation) | Appeared in one frame. | Grow out of their button (0.13 s). |
 | Tabs | The selection and its underline jumped. | The underline glides to the tab chosen; colours cross-fade; the content slides in 16–18 units from the tab's side (lounge, profile, settings, inbox, ranking, against the computer). The shop's and the collection's categories: the plate glides down the list, the page rises in. |
 | Segmented controls, the rules' switch, switches | The selection and the knob jumped. | The selection's plate and the knob slide; colours follow (the rules' switch turns from brown to blue on the way). |
-| Shop and collection pages | The next page replaced the last in one frame; a touchpad's stream of small turns turned pages at random. | The page slides by (out one side, in the other, 0.26 s, eased in and out; the one going out takes no clicks); a notch or a touchpad gesture turns one page. |
+| Shop and collection pages | The next page replaced the last in one frame; a touchpad's stream of small turns turned pages at random. | One grid that scrolls down (see below). |
 | Panels that change size (profile panes, settings tabs) | Jumped to the new height. | Grow or shrink to it. |
 | Buttons, rows | Only some lit up eased; pressing moved the label a pixel. | Light eases in and out everywhere in the toolkit (buttons, icon buttons, tabs, toggles, rows of the lounge, ranking, inbox, the shop's categories); pressed, a button sinks (a little smaller and darker), eased; a press that began elsewhere doesn't press it. |
 | Toasts | Popped in; the stack jumped. | Rise in and fade in; those above glide up. |
@@ -277,8 +277,7 @@ For code: `Ui::anim`, `glide`, `glide_rect`, `appear` (a small store keyed
 by a hash, forgotten three frames after the widget was last drawn);
 `Scroll` with `list_begin`/`scroll_begin`/`scroll_end`; `push_fx`/`pop_fx`
 and the scoped `modal_scope`, `switch_scope`, `popover_scope`;
-`switch_in`, `switch_down`, `come_in`, `carousel`, `wheel_steps`,
-`take_wheel`, `selection_glide`; `motion::push_clip`/`pop_clip` (scissor,
+`switch_in`, `switch_down`, `come_in`, `take_wheel`, `selection_glide`; `motion::push_clip`/`pop_clip` (scissor,
 nested, following what moves); `motion::want_cursor`.
 
 `tools/screens.py --input "<script>" --shots <frames> [--frames <last>]`
@@ -293,15 +292,50 @@ frame let the bundled miniquad's texture cache (its `delete_texture`
 leaves the cache as it was) draw the bold font's atlas black at some
 sizes.
 
+## Down, not sideways; going out; the keyboard
+
+"Instead of going sideways I want it to go down": the shop's and the
+collection's cards turned pages sideways (‹ ›, "Items 1–8 of 23"). Every
+screen was looked at for paging: those two were the only lists or grids
+that paged; the medal and reaction close-up (previous and next of a single
+card) and the showroom's settings stay sideways, as carousels of one thing.
+
+| Where | Before | Now |
+|---|---|---|
+| Shop and collection | Pages of cards, turned with ‹ ›, the wheel or ← →; "Items 1–8 of 23" under them. | All of a category (as filtered) in one grid that scrolls down with the lists' smooth scrolling (wheel, touchpad, drag and flick, the bar, the keys); the rows at the edges clipped and faded; a quarter of the next row shows when there is more. Back at the top when the category or a filter changes; on the item when coming back from the 3D preview. The counter is gone (the category list counts the items). |
+| Dialogs closing | Gone in one frame, the dimming too. | The last look of the dialog fades out shrinking a little (0.14 s, speeding up) while the dimming lifts (0.15 s). Every dialog drawn through `modal_scope`/`dialog_scope` (about twenty five) has it. What is under it works at once. |
+| Hand-drawn cards and rows (shop and collection cards, filter chips, history rows, medals, reactions, gift picker, pickers, LAN games, ladder and drills cards, rules badges and cards…) | Lit at once under the pointer. | Ease in and out like the toolkit's widgets. |
+| The mouse's back button | Dropped by the bundled miniquad. | Back, like Esc, on every screen and dialog; not at the table during a match. |
+| Keyboard | Tab moved between text fields only. | Tab and Shift+Tab go through the buttons, tabs, switches, rows and fields of the screen (or of the dialog on top) in the order they are drawn; Enter or Space presses the one focused; a row of tabs or a segmented control is one stop (its chosen tab) and the arrows go along it, choosing; a focused row of a list is scrolled into view; an icon button focused shows its hint. A gold ring shows the focus, gliding from one to the next, only while the keyboard is used (the pointer hides it). Off at the table during a match (Tab, Space and the arrows are the game's). |
+
+How a dialog goes out in immediate mode: a closed dialog's code is not run
+any more (often its state is gone the same frame), so each open dialog's
+panel is copied from the screen at the end of every frame into a texture
+of its own (`glCopyTexSubImage2D`, a few hundred pixels, on the graphics
+card; `ui/ghost.rs`); the frame a dialog is no longer drawn, that picture
+goes out where it was. Where the dialog is: the panels it draws. The extra
+flush this takes is safe now that the bundled miniquad forgets a deleted
+texture in its cache (vendor/README.md). Reduce motion: closed at once.
+
+How the focus works in immediate mode (`ui/focus.rs`): what can be pressed
+is noted as it is drawn (`released_in`, `clicked`, `activated`, which every
+widget uses; text fields too), keyed by where it is (in a scrolled list,
+where it is in the list, so it keeps the focus as the list scrolls); the
+keys of a frame act on the last frame's list. A dialog starts a new list;
+what is drawn with the input suspended (a page under a dialog) takes no
+focus. Enter pressed on a focused button is not the screen's Enter too
+(`Ui::enter`).
+
+For scripts: `SNOOK_LEGEND_INPUT` also presses keys (`key tab`,
+`key shift+tab`, `key enter`, `key space`, `key escape`, the arrows) and the
+mouse's back button (`back`).
+
 ## Still to do
 
 - Arabic is shaped and ordered right, but laid out left to right (labels
   on the left, controls on the right, chevrons pointing right): a mirrored
   layout for right-to-left languages is a larger piece of work.
-- Dialogs come in but go out at once (a dialog closed is no longer drawn:
-  going out needs its last frame kept).
-- The mouse's back button: the bundled miniquad drops X11's buttons 8 and 9
-  and Windows' XBUTTON messages.
-- Tab moves between text fields only; buttons have no keyboard focus.
-- Some hand-drawn rows (cards in the shop, history rows) still light up at
-  once rather than easing.
+- Sliders take no keyboard focus (they are dragged); the arrows move the
+  focus only along rows of tabs, not up and down a list.
+- A dialog going out on macOS with the Metal renderer (not the one the game
+  uses) would close at once.

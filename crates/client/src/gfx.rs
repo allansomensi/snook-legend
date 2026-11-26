@@ -687,6 +687,9 @@ pub struct Materials {
     blending: std::cell::Cell<Blending>,
     /// What is drawn now is the room (see [`Materials::set_room`]).
     room: std::cell::Cell<bool>,
+    /// The picture drawn into instead of the window (see
+    /// [`Materials::set_target`]): its pass and the size drawn on.
+    target: std::cell::Cell<Option<(mq::RenderPass, i32, i32)>>,
 }
 
 impl Materials {
@@ -760,7 +763,14 @@ impl Materials {
             state: Default::default(),
             blending: std::cell::Cell::new(Blending::Off),
             room: std::cell::Cell::new(false),
+            target: std::cell::Cell::new(None),
         }
+    }
+
+    /// Draws the meshes on the GPU into `cam`'s picture from now on (none:
+    /// the window), as macroquad does the rest once the camera is set.
+    pub fn set_target(&self, cam: Option<&TargetCamera>) {
+        self.target.set(cam.map(|c| (c.pass.raw_miniquad_id(), c.size.0 as i32, c.size.1 as i32)));
     }
 
     /// Sets a uniform on both materials and in the state of GPU meshes.
@@ -934,8 +944,16 @@ impl Materials {
         let ctx = gl.quad_context;
         let mut u = self.state.borrow_mut();
         u.model = transform.unwrap_or(Mat4::IDENTITY).to_cols_array();
-        let (w, h) = mq::window::screen_size();
-        ctx.begin_default_pass(mq::PassAction::Nothing);
+        let (w, h) = match self.target.get() {
+            Some((pass, w, h)) => {
+                ctx.begin_pass(Some(pass), mq::PassAction::Nothing);
+                (w as f32, h as f32)
+            }
+            None => {
+                ctx.begin_default_pass(mq::PassAction::Nothing);
+                mq::window::screen_size()
+            }
+        };
         ctx.apply_pipeline(match self.blending.get() {
             Blending::Off => &raw.lit,
             Blending::On => &raw.blended,
@@ -1690,6 +1708,33 @@ impl Camera for SceneCamera {
     }
     fn viewport(&self) -> Option<(i32, i32, i32, i32)> {
         None
+    }
+}
+
+/// A [`SceneCamera`] that draws into a picture (a render target with a
+/// depth buffer), on its `size` from the corner (see
+/// [`Materials::set_target`]).
+pub struct TargetCamera {
+    pub view: SceneCamera,
+    pub pass: macroquad::texture::RenderPass,
+    pub size: (u32, u32),
+}
+
+impl Camera for TargetCamera {
+    fn matrix(&self) -> Mat4 {
+        let v = &self.view;
+        let aspect = self.size.0 as f32 / self.size.1.max(1) as f32;
+        let (near, far) = v.depth_range();
+        Mat4::perspective_rh_gl(v.fovy, aspect, near, far) * Mat4::look_at_rh(v.eye, v.target, v.up)
+    }
+    fn depth_enabled(&self) -> bool {
+        true
+    }
+    fn render_pass(&self) -> Option<macroquad::texture::RenderPass> {
+        Some(self.pass.clone())
+    }
+    fn viewport(&self) -> Option<(i32, i32, i32, i32)> {
+        Some((0, 0, self.size.0 as i32, self.size.1 as i32))
     }
 }
 

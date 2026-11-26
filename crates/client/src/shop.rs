@@ -321,7 +321,7 @@ pub fn chalk_cube(c: Vec2, s: f32, col: Color) {
 pub fn preview(ui: &Ui, item: &Item, r: Rect) {
     let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
     match item.look {
-        // A corner of a table in this cloth, under the lamp.
+        // A corner of the table in this cloth, under the lamps.
         Look::Cloth(col) => crate::swatch::cloth(r, col),
         Look::Cue { .. } => {
             // The cue, drawn once into a picture (crisp patterns, a
@@ -356,30 +356,9 @@ pub fn preview(ui: &Ui, item: &Item, r: Rect) {
             }
         }
         Look::Chalk(col) => chalk_cube(c, r.h.min(r.w) * 0.36, rgb(col)),
+        // The set racked on the tournament cloth, the cue ball before it.
         Look::Balls { colors, eight, ivory, .. } => {
-            // A rack of fifteen on the classic cloth, apex up: solids,
-            // stripes and the 8 in the middle of the third row.
-            let felt = crate::swatch::table_corner(r, [24, 96, 48]);
-            let c = vec2(felt.x + felt.w / 2.0, felt.y + felt.h / 2.0);
-            const RACK: [&[usize]; 5] =
-                [&[1], &[9, 2], &[10, 8, 3], &[11, 4, 12, 5], &[13, 6, 14, 7, 15]];
-            let rad = (felt.w / 11.5).min(felt.h / 10.4);
-            let (dx, dy) = (rad * 2.04, rad * 1.77);
-            let ivory = rgb(ivory);
-            for (i, row) in RACK.iter().enumerate() {
-                for (j, &n) in row.iter().enumerate() {
-                    let at = vec2(
-                        c.x + (j as f32 - (row.len() - 1) as f32 / 2.0) * dx,
-                        c.y + (i as f32 - 2.0) * dy,
-                    );
-                    let (base, stripe) = match n {
-                        8 => (rgb(eight), None),
-                        1..=7 => (rgb(colors[n - 1]), None),
-                        _ => (ivory, Some(rgb(colors[n - 9]))),
-                    };
-                    crate::swatch::ball(at, rad, base, stripe, ivory, true);
-                }
-            }
+            crate::swatch::ball_set(r, item.code, colors, eight, ivory)
         }
         Look::Frame { a, b, shine } => {
             // A name card inside the frame.

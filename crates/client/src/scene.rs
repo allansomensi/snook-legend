@@ -60,8 +60,9 @@ pub struct Scene {
     /// The cloth and balls on the table now, and those being made.
     looks: Looks,
     wanted: Looks,
-    /// Parts drawn with the cloth texture.
+    /// Parts drawn with the cloth texture, and the texture.
     felt_parts: Vec<usize>,
+    felt: Texture2D,
     ball_tex_size: u16,
     felt_size: u16,
     /// New textures being made on another thread.
@@ -92,6 +93,9 @@ pub struct Scene {
     /// shown on it (by code).
     stage_floor: Option<(f32, f32, gfx::Model)>,
     chalks: HashMap<String, Vec<gfx::Model>>,
+    /// What the shop's pictures of the cloths put on the table (see
+    /// [`crate::studio`]): kept here, as it lives on the GPU.
+    pub props: crate::studio::Props,
 }
 
 fn rgb(r: u8, g: u8, b: u8) -> Color {
@@ -313,6 +317,7 @@ impl Scene {
             looks: looks.clone(),
             wanted: looks.clone(),
             felt_parts,
+            felt,
             ball_tex_size: ball_tex,
             felt_size,
             making: None,
@@ -330,6 +335,7 @@ impl Scene {
             cue_key: None,
             stage_floor: None,
             chalks: HashMap::new(),
+            props: Default::default(),
         }
     }
 
@@ -410,6 +416,7 @@ impl Scene {
             for &i in &self.felt_parts {
                 self.parts[i].mesh.set_texture(&tex);
             }
+            self.felt = tex;
             budget -= 1;
         }
         if let Some(balls) = made.balls.as_mut() {
@@ -494,7 +501,7 @@ impl Scene {
             self.materials.set_view(flipped.matrix());
             self.materials.set_camera_pos(light_eye * vec3(1.0, -1.0, 1.0));
             self.materials.set_mirror(mirror);
-            self.draw_table(true, hall);
+            self.draw_table(&self.table_parts, true, hall);
             // What starts higher than the reflection's fade lets through
             // (under 5%) is left out of it: the ceiling, the beams, shelves.
             let cutoff = 3.0 / mirror;
@@ -526,7 +533,7 @@ impl Scene {
             }
             self.materials.set_room(false);
         }
-        self.draw_table(false, hall);
+        self.draw_table(&self.table_parts, false, hall);
         if hall {
             self.materials.set_room(true);
             draw_layer(&self.room, gfx::Layer::Solid, &self.materials);
@@ -673,7 +680,7 @@ impl Scene {
             self.materials.draw(floor, None);
         }
         if show.table {
-            self.draw_table(false, false);
+            self.draw_table(&self.table_parts, false, false);
             self.materials.use_blended(Surface::UNLIT);
             self.materials.draw(&self.floor_shadow.mesh, None);
             draw_layer(&self.table_parts, gfx::Layer::Inside, &self.materials);
@@ -763,9 +770,10 @@ impl Scene {
         set_default_camera();
     }
 
-    /// The cloth, cushions and the table's body (`mirrored`: in the floor's
-    /// reflection, where the inside of the pockets cannot be seen).
-    fn draw_table(&self, mirrored: bool, hall: bool) {
+    /// The cloth, cushions and the table's body (`table_parts`: its theme;
+    /// `mirrored`: in the floor's reflection, where the inside of the
+    /// pockets cannot be seen).
+    fn draw_table(&self, table_parts: &[gfx::Built], mirrored: bool, hall: bool) {
         let skip: Option<usize> =
             crate::dev::var("SNOOK_LEGEND_SKIP_PART").and_then(|v| v.parse().ok());
         for (k, part) in self.parts.iter().enumerate() {
@@ -775,11 +783,69 @@ impl Scene {
             self.materials.use_lit(part.surface);
             self.materials.draw(&part.mesh, None);
         }
-        draw_layer(&self.table_parts, gfx::Layer::Solid, &self.materials);
+        draw_layer(table_parts, gfx::Layer::Solid, &self.materials);
         if mirrored && hall {
-            draw_layer(&self.table_parts, gfx::Layer::Inside, &self.materials);
-            draw_layer(&self.table_parts, gfx::Layer::Detail, &self.materials);
+            draw_layer(table_parts, gfx::Layer::Inside, &self.materials);
+            draw_layer(table_parts, gfx::Layer::Detail, &self.materials);
         }
+    }
+
+    /// Lays `felt` on the cloth and the cushions.
+    fn dress(&mut self, felt: &Texture2D) {
+        for &i in &self.felt_parts {
+            self.parts[i].mesh.set_texture(felt);
+        }
+    }
+
+    /// The table's theme now, and the quality it is built at.
+    pub fn table_style(&self) -> (TableStyle, Quality) {
+        (self.table_style, self.quality)
+    }
+
+    /// A plain white texture (for meshes coloured by their vertices).
+    pub fn white(&self) -> &Texture2D {
+        &self.white
+    }
+
+    /// A picture for the shop (see [`crate::studio`]): the table dressed in
+    /// `shot.felt`, in the theme `shot.table` (none: this one's own), with
+    /// `shot.balls` on it, under its lamps on the dark stage, drawn into
+    /// `cam`'s picture. The table is then dressed as before.
+    pub fn draw_shot(&mut self, cam: &gfx::TargetCamera, shot: &Shot) {
+        let view = &cam.view;
+        // A neutral, dark studio seen in what is glossy.
+        let tint = vec3(0.075, 0.065, 0.06);
+        self.materials.set_frame(view.eye, self.lamps, 1.55, 3, 1.0, tint);
+        let r = self.ball_radius();
+        let mut casters = [Vec4::ZERO; 16];
+        for (slot, (_, model)) in casters.iter_mut().zip(shot.balls) {
+            let p = model.transform_point3(Vec3::ZERO);
+            *slot = vec4(p.x, p.y, p.z, r);
+        }
+        self.materials.set_shadows(true, true, &casters, None);
+        self.materials.set_pockets(&self.holes, &self.throats);
+        let glint = gfx::glint_angle(view.fovy, cam.size.1 as f32, r);
+        self.materials.set_table(half_table(&self.table), glint);
+        self.materials.set_clear(None);
+        set_camera(cam);
+        self.materials.set_target(Some(cam));
+        self.materials.set_view(cam.matrix());
+        let own = self.felt.clone();
+        self.dress(shot.felt);
+        let parts = shot.table.unwrap_or(&self.table_parts);
+        self.draw_table(parts, false, false);
+        self.materials.use_blended(Surface::UNLIT);
+        self.materials.draw(&self.floor_shadow.mesh, None);
+        draw_layer(parts, gfx::Layer::Inside, &self.materials);
+        draw_layer(parts, gfx::Layer::Detail, &self.materials);
+        self.materials.use_lit(ball_surface(shot.finish));
+        for (model, at) in shot.balls {
+            self.materials.draw(model, Some(*at));
+        }
+        self.dress(&own);
+        self.materials.set_target(None);
+        gl_use_default_material();
+        set_default_camera();
     }
 
     /// Soft halos round the lights of the hall, facing the camera: the glow
@@ -1358,6 +1424,14 @@ pub struct Showcase {
     pub cue: Option<ShowCue>,
     /// A cube of chalk (its code) and its transform (the middle of its base).
     pub chalk: Option<(String, Mat4)>,
+}
+
+/// A picture of the table for the shop (see [`Scene::draw_shot`]).
+pub struct Shot<'a> {
+    pub felt: &'a Texture2D,
+    pub table: Option<&'a [gfx::Built]>,
+    pub balls: &'a [(&'a gfx::Model, Mat4)],
+    pub finish: BallFinish,
 }
 
 /// A cue on the showroom's stage.

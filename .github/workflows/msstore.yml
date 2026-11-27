@@ -11,7 +11,10 @@
 # - By hand (Actions → Microsoft Store → Run workflow): builds and packs;
 #   run on a tag with "Send to the Store" ticked, it sends it too. With
 #   "Only check the connection" ticked (any branch), it only signs in to
-#   Partner Center and reads the game: nothing is built or sent.
+#   Partner Center and reads the game: nothing is built or sent. With
+#   "Update the Store page" ticked, it sends the Store page alone (texts
+#   from store-listing/, screenshots and logos from store-art/, every
+#   language), keeping the package in the Store.
 #
 # Secrets for sending (Settings → Secrets and variables → Actions → Secrets,
 # or the `microsoft-store` environment's): MSSTORE_TENANT_ID,
@@ -38,6 +41,8 @@ on:
   pull_request:
     paths:
       - "crates/client/msix/**"
+      - "crates/client/whatsnew/**"
+      - "store-listing/**"
       - "tools/msix/**"
       - "tools/msstore_submit.py"
       - ".github/workflows/msstore.yml"
@@ -45,6 +50,10 @@ on:
     inputs:
       check:
         description: Only check the connection with Partner Center (builds and sends nothing)
+        type: boolean
+        default: false
+      listing:
+        description: Update the Store page (texts, screenshots and logos of every language) from the repository, keeping the package
         type: boolean
         default: false
       submit:
@@ -64,11 +73,13 @@ env:
 
 jobs:
   changes:
-    # Branch pushes only build when the packaging changed.
+    # Branch pushes only build when the packaging changed, and check the
+    # Store's texts when they changed.
     name: What changed
     runs-on: ubuntu-24.04
     outputs:
       run: ${{ steps.check.outputs.run }}
+      texts: ${{ steps.check.outputs.texts }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -79,18 +90,23 @@ jobs:
           BEFORE: ${{ github.event.before }}
         run: |
           if [[ "$GITHUB_EVENT_NAME" != "push" || "$GITHUB_REF" == refs/tags/* ]]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"; exit 0
+            echo "run=true" >> "$GITHUB_OUTPUT"; echo "texts=true" >> "$GITHUB_OUTPUT"; exit 0
           fi
           # Everything the push brought (a new branch: compared with main).
           base="$BEFORE"
           if [[ -z "$base" || "$base" =~ ^0+$ ]] || ! git cat-file -e "$base" 2>/dev/null; then
             base=$(git merge-base HEAD origin/main 2>/dev/null || echo HEAD~1)
           fi
-          if git diff --name-only "$base" HEAD \
-              | grep -qE '^(crates/client/msix/|tools/msix/|tools/msstore_submit\.py|\.github/workflows/msstore\.yml)'; then
+          changed=$(git diff --name-only "$base" HEAD)
+          if grep -qE '^(crates/client/msix/|tools/msix/|tools/msstore_submit\.py|\.github/workflows/msstore\.yml)' <<< "$changed"; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+          if grep -qE '^(crates/client/whatsnew/|store-listing/|tools/msstore_submit\.py)' <<< "$changed"; then
+            echo "texts=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "texts=false" >> "$GITHUB_OUTPUT"
           fi
 
   msix:
@@ -98,7 +114,7 @@ jobs:
     needs: changes
     # Tags: final versions only (v0.1.1, not v0.1.1-beta.1).
     if: >-
-      needs.changes.outputs.run == 'true' && !inputs.check &&
+      needs.changes.outputs.run == 'true' && !inputs.check && !inputs.listing &&
       !(startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, '-'))
     runs-on: windows-2022
     steps:
@@ -152,18 +168,23 @@ jobs:
           path: target/msix/*.msix
 
   notes:
-    # Every language's "What's new in this version" as it would be sent, so
-    # a mistake in the notes shows up before release day.
-    name: The Store's release notes
+    # Every language's listing checked against Partner Center's limits and
+    # "What's new in this version" as it would be sent, so a mistake shows
+    # up before release day.
+    name: The Store's texts
     needs: changes
-    if: needs.changes.outputs.run == 'true' && !inputs.check
+    if: >-
+      (needs.changes.outputs.run == 'true' || needs.changes.outputs.texts == 'true') &&
+      !inputs.check && !inputs.listing
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
-      - name: Write them for the newest version
+      - name: The listings (store-listing/)
+        run: python3 -B tools/msstore_submit.py listings
+      - name: The notes of the newest version
         run: |
           version=$(sed -n 's/^## //p' crates/client/whatsnew/en.md | head -n1)
-          python3 tools/msstore_submit.py notes "$version"
+          python3 -B tools/msstore_submit.py notes "$version"
 
   check:
     # By hand: the secrets, the application's role in Partner Center and
@@ -184,7 +205,33 @@ jobs:
           if [[ -z "$APP_ID" ]]; then
             echo "Set the repository variable MSSTORE_APP_ID (the Store ID, 9NZ…)"; exit 1
           fi
-          python3 tools/msstore_submit.py check --app-id "$APP_ID"
+          python3 -B tools/msstore_submit.py check --app-id "$APP_ID"
+
+  listing:
+    # By hand: the Store page from the repository, without a new package.
+    name: Update the Store page
+    if: github.event_name == 'workflow_dispatch' && inputs.listing && !inputs.check
+    runs-on: ubuntu-24.04
+    environment: microsoft-store
+    concurrency:
+      group: msstore-submission
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+      - name: New submission with every language's texts, screenshots and logos
+        env:
+          MSSTORE_TENANT_ID: ${{ secrets.MSSTORE_TENANT_ID }}
+          MSSTORE_CLIENT_ID: ${{ secrets.MSSTORE_CLIENT_ID }}
+          MSSTORE_CLIENT_SECRET: ${{ secrets.MSSTORE_CLIENT_SECRET }}
+          APP_ID: ${{ vars.MSSTORE_APP_ID }}
+          REPLACE: ${{ inputs.replace_pending }}
+        run: |
+          if [[ -z "$APP_ID" ]]; then
+            echo "Set the repository variable MSSTORE_APP_ID (the Store ID, 9NZ…)"; exit 1
+          fi
+          args=(listing --app-id "$APP_ID")
+          if [[ "$REPLACE" == "true" ]]; then args+=(--replace-pending); fi
+          python3 -B tools/msstore_submit.py "${args[@]}"
 
   submit:
     name: Send to the Store
@@ -225,4 +272,4 @@ jobs:
           fi
           args=(submit --app-id "$APP_ID" --version "${TAG#v}" --package "${packages[0]}")
           if [[ "$REPLACE" == "true" ]]; then args+=(--replace-pending); fi
-          python3 tools/msstore_submit.py "${args[@]}"
+          python3 -B tools/msstore_submit.py "${args[@]}"

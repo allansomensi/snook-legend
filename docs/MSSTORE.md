@@ -108,7 +108,7 @@ página da loja, a classificação etária e o preço:
      15.211/2025, o ECA Digital; veja a seção 4 dos termos de uso).
    - **Packages:** envie o `.msix` baixado.
    - **Store listings** (português, inglês e espanhol): os textos de
-     [STORE-LISTING.md](STORE-LISTING.md), as capturas de tela de
+     `store-listing/` (veja [STORE-LISTING.md](STORE-LISTING.md)), as capturas de tela de
      `store-art/screenshots/<idioma>/` (1920×1080, na ordem dos nomes) e o
      link de suporte.
 3. Envie para certificação (até três dias úteis).
@@ -410,14 +410,19 @@ Betas (`v0.2.0-beta.1`) não vão para a Store.
   no Partner Center **Start update**, troque o pacote em **Packages**,
   escreva as novidades em **Store listings** e **Submit to the Store**.
 
-### Novos idiomas na listagem
+### A página da loja nas 27 línguas
 
-O envio só escreve as novidades nos idiomas que **já têm listagem** no
-Partner Center. Hoje o pacote declara três (`<Resources>` em
-`crates/client/msix/AppxManifest.xml`: pt-BR, en-US e es-ES). Para um
-idioma novo: em **Store listings → Manage additional languages**, acrescente-o
-com a descrição e as capturas de tela; dali em diante o envio preenche as
-novidades dele sozinho.
+A página de cada língua (textos, capturas e logos) vem do repositório:
+`store-listing/<idioma>.md`, `store-art/screenshots/<idioma>/` e
+`store-art/` (veja [STORE-LISTING.md](STORE-LISTING.md)). Cada envio de
+versão reescreve os textos de todas as línguas e **cria as listagens que o
+Partner Center ainda não tem**, com as capturas (as em inglês, enquanto a
+língua não tiver as suas) e os logos.
+
+Para mandar só a página, sem versão nova (textos ou capturas mudaram):
+**Actions → Microsoft Store → Run workflow**, na `main`, com **Update the
+Store page** marcado. Ela vai para certificação como uma submissão normal,
+com o mesmo pacote.
 
 ## Testar o pacote no seu computador
 

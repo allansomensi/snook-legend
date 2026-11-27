@@ -28,11 +28,38 @@
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
   </Dependencies>
 
-  <!-- The game's languages (it picks one from the system's). -->
+  <!-- The game's languages (it picks one from the system's): the Store
+       shows them as the languages it supports. Each has its Store listing
+       in store-listing/ (the same regions as LISTING_LANGUAGE in
+       tools/msstore_submit.py). -->
   <Resources>
     <Resource Language="pt-BR" />
     <Resource Language="en-US" />
     <Resource Language="es-ES" />
+    <Resource Language="pt-PT" />
+    <Resource Language="fr-FR" />
+    <Resource Language="de-DE" />
+    <Resource Language="it-IT" />
+    <Resource Language="nl-NL" />
+    <Resource Language="sv-SE" />
+    <Resource Language="pl-PL" />
+    <Resource Language="cs-CZ" />
+    <Resource Language="hu-HU" />
+    <Resource Language="ro-RO" />
+    <Resource Language="el-GR" />
+    <Resource Language="ru-RU" />
+    <Resource Language="uk-UA" />
+    <Resource Language="tr-TR" />
+    <Resource Language="id-ID" />
+    <Resource Language="fil-PH" />
+    <Resource Language="vi-VN" />
+    <Resource Language="th-TH" />
+    <Resource Language="hi-IN" />
+    <Resource Language="bn-BD" />
+    <Resource Language="ar-SA" />
+    <Resource Language="zh-CN" />
+    <Resource Language="ja-JP" />
+    <Resource Language="ko-KR" />
   </Resources>
 
   <Applications>

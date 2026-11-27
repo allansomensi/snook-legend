@@ -154,7 +154,7 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snook Legend";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 25;
+pub const PROTOCOL_VERSION: u32 = 26;
 
 /// The oldest version the server still lets in: version 24 changed the
 /// rules a replay is played back with (on a Brazilian break handed over
@@ -162,6 +162,12 @@ pub const PROTOCOL_VERSION: u32 = 25;
 /// loses; it used to win): an older game would show other tables than the
 /// server's, so it is asked to update.
 pub const OLDEST_PROTOCOL_VERSION: u32 = 24;
+
+/// The first version whose games read the private messages' receipts
+/// (delivered, read) and "typing…" ([`ServerMsg::DmStatus`],
+/// [`ServerMsg::DmTyping`]): 0.13.0. Older games would drop them as
+/// malformed, so they are never sent them.
+pub const DM_RECEIPTS_PROTOCOL: u32 = 26;
 
 /// The first version whose games call the 8 under the official rules
 /// (0.12.0): an older game (0.11.x, version 24) plays the 8 in any pocket,
@@ -1782,6 +1788,11 @@ pub enum ClientMsg {
     },
     /// The list of conversations.
     DmThreads,
+    /// This player is typing a message to `to` (sent at most every
+    /// [`dm::TYPING_EVERY`] seconds while they type; protocol 26).
+    DmTyping {
+        to: String,
+    },
     /// A spectator's line in the spectators' chat (never shown to the
     /// players).
     SpectatorChat {
@@ -2476,11 +2487,30 @@ pub enum ServerMsg {
         message: dm::DirectMessage,
     },
     /// Messages of a conversation, oldest first; `more`: older ones exist.
+    /// `online`: the other player is online now; `last_seen`: when they last
+    /// were (Unix seconds; friends only, 0 otherwise).
     DmHistory {
         with: String,
         messages: Vec<dm::DirectMessage>,
         #[serde(default)]
         more: bool,
+        #[serde(default)]
+        online: bool,
+        #[serde(default)]
+        last_seen: i64,
+    },
+    /// The messages this player sent to `with`, up to the one numbered
+    /// `up_to`, reached their game (`read` false) or were read by them
+    /// (`read` true). Protocol 26.
+    DmStatus {
+        with: String,
+        up_to: i64,
+        read: bool,
+    },
+    /// `from` is typing a message to this player (see [`dm::TYPING_SHOWN`]).
+    /// Protocol 26.
+    DmTyping {
+        from: String,
     },
     /// The conversations, newest first (after signing in, and when asked).
     DmThreads {

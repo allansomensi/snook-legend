@@ -30,6 +30,13 @@ pub const MAX_DM_LEN: usize = crate::MAX_CHAT_LEN;
 /// ones are asked for page by page).
 pub const HISTORY_PAGE: usize = 50;
 
+/// While a player types to someone, their game says so at most this often
+/// (seconds; [`crate::ClientMsg::DmTyping`]).
+pub const TYPING_EVERY: f64 = 3.0;
+/// "Typing…" shows this long after the latest notice (seconds): a little
+/// longer than [`TYPING_EVERY`], so it doesn't flicker while they type.
+pub const TYPING_SHOWN: f64 = 4.5;
+
 /// One message between two players.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct DirectMessage {
@@ -43,10 +50,14 @@ pub struct DirectMessage {
     /// The receiver has read it.
     #[serde(default)]
     pub read: bool,
+    /// The receiver's game has it: they were online when it was sent, or
+    /// signed in since (false from servers before protocol 26).
+    #[serde(default)]
+    pub delivered: bool,
 }
 
 /// A conversation, as the list of conversations shows it.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct DmThread {
     /// The player on the other side.
     pub with: String,
@@ -54,6 +65,13 @@ pub struct DmThread {
     pub last: DirectMessage,
     /// Messages from them not read yet.
     pub unread: u32,
+    /// The other player as they are now (picture, flag, rating, VIP): None
+    /// from servers before protocol 26.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub player: Option<crate::PlayerInfo>,
+    /// They are online now.
+    #[serde(default)]
+    pub online: bool,
 }
 
 /// Cleans a direct message (see [`crate::clean_text`]).

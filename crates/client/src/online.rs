@@ -1311,6 +1311,8 @@ impl Online {
                     | ServerMsg::Dm { .. }
                     | ServerMsg::DmHistory { .. }
                     | ServerMsg::DmThreads { .. }
+                    | ServerMsg::DmStatus { .. }
+                    | ServerMsg::DmTyping { .. }
                     | ServerMsg::AdvancedStats { .. }
             )
         {
@@ -2201,7 +2203,9 @@ impl Online {
             ServerMsg::SettingsSaved { updated_at } => save |= self.sync.saved(config, updated_at),
             msg @ (ServerMsg::Dm { .. }
             | ServerMsg::DmHistory { .. }
-            | ServerMsg::DmThreads { .. }) => self.dm_message(msg, current.is_some()),
+            | ServerMsg::DmThreads { .. }
+            | ServerMsg::DmStatus { .. }
+            | ServerMsg::DmTyping { .. }) => self.dm_message(msg, current.is_some()),
             ServerMsg::FriendActivity { username, activity } => {
                 if let Some(f) =
                     self.friends.friends.iter_mut().find(|f| f.player.username == username)
@@ -2321,7 +2325,7 @@ impl Online {
                     self.send(ClientMsg::DmRead { with });
                 }
             }
-            ServerMsg::DmHistory { with, messages, more } => {
+            ServerMsg::DmHistory { with, messages, more, .. } => {
                 self.dms.history(&with, messages, more)
             }
             ServerMsg::DmThreads { threads } => self.dms.set_threads(threads),

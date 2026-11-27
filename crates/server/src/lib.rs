@@ -2212,6 +2212,7 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DmHistory { .. }
             | ClientMsg::DmRead { .. }
             | ClientMsg::DmThreads
+            | ClientMsg::DmTyping { .. }
             | ClientMsg::AdvancedStats { .. }
             | ClientMsg::DoublesLeaderboard { .. }
             | ClientMsg::TimeAttack
@@ -2301,6 +2302,7 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DmHistory { .. }
             | ClientMsg::DmRead { .. }
             | ClientMsg::DmThreads
+            | ClientMsg::DmTyping { .. }
             | ClientMsg::AdvancedStats { .. }
             | ClientMsg::TimeAttack
             | ClientMsg::TimeAttackStart

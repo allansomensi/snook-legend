@@ -209,7 +209,7 @@ async fn friends_send_each_other_messages() {
     assert_eq!((threads[0].with.as_str(), threads[0].unread), ("ana", 2));
     assert_eq!(threads[0].last.text, "are you there?");
     bob.send(ClientMsg::DmHistory { with: "ana".into(), before: None }).await;
-    let ServerMsg::DmHistory { with, messages, more } =
+    let ServerMsg::DmHistory { with, messages, more, .. } =
         bob.expect("history", |m| matches!(m, ServerMsg::DmHistory { .. })).await
     else {
         unreachable!()

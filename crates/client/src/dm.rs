@@ -101,7 +101,10 @@ impl Dms {
         } else {
             unread + 1
         };
-        self.threads.insert(0, DmThread { with: with.clone(), last: message, unread });
+        self.threads.insert(
+            0,
+            DmThread { with: with.clone(), last: message, unread, player: None, online: false },
+        );
         (!mine && !open).then_some(with)
     }
 
@@ -386,6 +389,7 @@ mod tests {
             text: format!("m{id}"),
             at: id,
             read: false,
+            delivered: false,
         }
     }
 

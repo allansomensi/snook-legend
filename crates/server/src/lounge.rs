@@ -1730,6 +1730,7 @@ impl Lounge {
             | ClientMsg::DmHistory { .. }
             | ClientMsg::DmRead { .. }
             | ClientMsg::DmThreads
+            | ClientMsg::DmTyping { .. }
             | ClientMsg::AdvancedStats { .. }
             | ClientMsg::DoublesLeaderboard { .. }
             | ClientMsg::TimeAttack

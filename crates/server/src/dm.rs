@@ -45,6 +45,7 @@ pub fn is_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DmHistory { .. }
             | ClientMsg::DmRead { .. }
             | ClientMsg::DmThreads
+            | ClientMsg::DmTyping { .. }
     )
 }
 
@@ -63,6 +64,7 @@ fn message(row: DmRow, names: &HashMap<i64, String>) -> DirectMessage {
         text: row.text,
         at: row.at,
         read: row.read_at.is_some(),
+        delivered: row.read_at.is_some(),
     }
 }
 
@@ -149,7 +151,13 @@ pub async fn handle(
                         (other.id, other.username.clone()),
                     ]);
                     let messages = rows.into_iter().map(|r| message(r, &names)).collect();
-                    send(ServerMsg::DmHistory { with: other.username, messages, more });
+                    send(ServerMsg::DmHistory {
+                        with: other.username,
+                        messages,
+                        more,
+                        online: false,
+                        last_seen: 0,
+                    });
                 }
                 Err(e) => tracing::warn!("conversation of {}: {e}", me.username),
             }
@@ -263,7 +271,13 @@ pub async fn threads(server: &Server, me: &User) -> ServerMsg {
     let mut threads = Vec::new();
     for row in rows {
         let Some(with) = names.get(&row.other).cloned() else { continue };
-        threads.push(DmThread { with, last: message(row.last, &names), unread: row.unread });
+        threads.push(DmThread {
+            with,
+            last: message(row.last, &names),
+            unread: row.unread,
+            player: None,
+            online: false,
+        });
     }
     ServerMsg::DmThreads { threads }
 }

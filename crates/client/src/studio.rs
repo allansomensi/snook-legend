@@ -468,7 +468,7 @@ impl Studio {
             // doesn't, it comes out black).
             self.checked = true;
             let image = target.texture.get_texture_data();
-            let lit = image.bytes.chunks_exact(4).any(|p| p[0].max(p[1]).max(p[2]) > 40);
+            let lit = image.bytes.as_chunks::<4>().0.iter().any(|p| p[0].max(p[1]).max(p[2]) > 40);
             if !lit {
                 eprintln!("shop pictures: drawn pictures (render targets) don't work here");
                 self.broken = true;
@@ -702,7 +702,7 @@ pub fn on_table(p: Vec2, height: f32) -> Vec3 {
 fn felt(cloth: [u8; 3]) -> Pixels {
     let mut p = textures::felt_sized(cloth, FELT_SIZE);
     let n = p.width as i32;
-    for (i, px) in p.rgba.chunks_exact_mut(4).enumerate() {
+    for (i, px) in p.rgba.as_chunks_mut::<4>().0.iter_mut().enumerate() {
         let (x, y) = (i as i32 % n, i as i32 / n);
         let speck = textures::hash(x, y, 7) - 0.5;
         let fibre = textures::noise(x as f32 / 2.0, y as f32 / 8.0, 64, 31) - 0.5;

@@ -1547,6 +1547,12 @@ impl Match {
         }
         if let Some((total, left)) = &mut self.clock {
             *left = *total;
+            // Development aid (screenshots): SNOOK_LEGEND_CLOCK_LEFT=<s>
+            // starts each turn with only that much of the shot clock.
+            if let Some(s) = crate::dev::var("SNOOK_LEGEND_CLOCK_LEFT").and_then(|v| v.parse().ok())
+            {
+                *left = (*total).min(s);
+            }
         }
         self.aim = Aim { yaw: self.game.default_aim(), ..Aim::default() };
         // The Brazilian rules: a pocket called for the 8 in an earlier visit
@@ -3149,6 +3155,7 @@ impl FeedLine {
             deleted: line.deleted,
             pending: false,
             mentions: line.mentions.clone(),
+            at: line.at,
         }
     }
 

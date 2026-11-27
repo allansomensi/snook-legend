@@ -562,6 +562,10 @@ impl Hud {
         let now = get_time();
         self.made.update(m, now);
         crate::scoreboard::draw(ui, m, &self.made, &board, now);
+        // The shot clock, where it reads at a glance; the last seconds of
+        // this player's turn over the table.
+        crate::scoreboard::clock_tag(ui, m, &board);
+        crate::scoreboard::clock_warning(ui, m, &board);
         // Doubles: the four players, and who holds the cue.
         crate::online::doubles::draw_lineup(ui, m, TOP_BAR);
         let (x0, total) = (board.all.x, board.all.w);

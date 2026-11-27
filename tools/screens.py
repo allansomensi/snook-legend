@@ -106,6 +106,8 @@ SCREENS = {
         True,
         200,
     ),
+    "account": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_ACCOUNT": "1"}, True, 200),
+    "account-delete": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_ACCOUNT": "delete"}, True, 200),
     "profile-journey": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "journey"}, True, 200),
     "profile-other": (["--screen", "profile:Kenji"], {}, True, 200),
     "shop": (["--screen", "shop"], {}, True, 200),
@@ -130,6 +132,14 @@ SCREENS = {
     # A game against the computer (a personality, and a classic level).
     "match-intro-computer": (["--vs", "viktor"], {"SNOOK_LEGEND_INTRO": "computer"}, False, 90),
     "match-intro-level": (["--vs", "medium"], {"SNOOK_LEGEND_INTRO": "computer"}, False, 90),
+    # The shot clock running, and its last seconds.
+    "match-clock": (["--vs", "medium"], {"_ini": "shot_clock=30"}, False, 150),
+    "match-clock-low": (
+        ["--vs", "medium"],
+        {"_ini": "shot_clock=30", "SNOOK_LEGEND_CLOCK_LEFT": "19.6"},
+        False,
+        150,
+    ),
     "match-paused": (["--vs", "medium"], {"SNOOK_LEGEND_PAUSED": "1"}, False, 120),
     "match-result": (["--vs", "medium"], {"SNOOK_LEGEND_RESIGN": "1"}, False, 260),
     "match-hotseat": (["--hotseat"], {}, False, 150),

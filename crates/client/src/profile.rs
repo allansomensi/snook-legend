@@ -108,11 +108,510 @@ struct AccountForm {
     old_password: String,
     new_password: String,
     delete_password: String,
-    confirm_delete: bool,
+    /// The deletion's own dialog is open: what it asks for.
+    deleting: Option<Deleting>,
+    /// The account's details were asked for.
+    asked: bool,
     /// How far the dialog is scrolled up (when it is taller than the window).
     scroll: f32,
     /// The field last scrolled into view (only a new one is).
     shown_field: Option<u64>,
+}
+
+/// Deleting the account, step by step: the username typed again, the
+/// password, "I understand", and a button held down for a moment.
+#[derive(Default)]
+struct Deleting {
+    name: String,
+    understood: bool,
+    /// Since when the button has been held ([`get_time`]).
+    held_since: Option<f64>,
+}
+
+/// How long the button that deletes the account is held (seconds).
+const DELETE_HOLD: f64 = 2.5;
+
+/// What the account page asks for.
+enum AccountExit {
+    Stay,
+    Close,
+    SignOut,
+}
+
+/// A section of the account page: a card with an icon and a title (in
+/// red for the danger zone). Returns where its content starts.
+fn account_card(ui: &Ui, r: Rect, icon: Icon, title: &str, danger: bool) -> f32 {
+    let tint = if danger { ALERT } else { GOLD };
+    let bg = if danger {
+        Color::new(ALERT.r, ALERT.g, ALERT.b, 0.05)
+    } else {
+        Color::new(1.0, 1.0, 1.0, 0.03)
+    };
+    rrect(r, 10.0, bg);
+    let edge = if danger { Color::new(ALERT.r, ALERT.g, ALERT.b, 0.45) } else { HAIRLINE_CARD };
+    rrect_lines(r, 10.0, 1.0, edge);
+    let mid = r.y + CARD_PAD + 11.0;
+    crate::icons::draw(icon, vec2(r.x + CARD_PAD + 9.0, mid), 18.0, tint);
+    ui.text(title, r.x + CARD_PAD + 28.0, text_y(mid, 15.0), 15.0, tint, true);
+    r.y + CARD_PAD + 22.0 + 12.0
+}
+
+const CARD_PAD: f32 = 16.0;
+/// A card's header (icon and title) and the room under it.
+const CARD_HEAD: f32 = CARD_PAD + 22.0 + 12.0;
+const HAIRLINE_CARD: Color = Color::new(1.0, 0.86, 0.6, 0.12);
+
+/// The account page: username, recovery e-mail, password and the danger
+/// zone, each a card; Sign out and Close under them.
+fn account_page(ui: &mut Ui, online: &mut Online, form: &mut AccountForm) -> AccountExit {
+    let sw = crate::ui::vw();
+    let sh = crate::ui::vh();
+    let _modal = ui.modal_scope(crate::ui::motion::id("account"), 0.55);
+    let w = 540.0f32.min(sw - 20.0);
+    let outer = 24.0;
+    let fw = w - 2.0 * outer - 2.0 * CARD_PAD;
+    let wrap = |ui: &Ui, text: &str| ui.wrap(text, fw, 13.0);
+    let email_note =
+        wrap(ui, t("If you forget your password, we confirm it's you by this e-mail."));
+    let delete_note = wrap(
+        ui,
+        t(
+            "Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).",
+        ),
+    );
+    // A recovery e-mail that waits for the link sent to it: a line under
+    // it says so, with "Send again" beside it.
+    let unconfirmed = online
+        .account
+        .as_ref()
+        .is_some_and(|a| a.recovery_email_unconfirmed && a.recovery_email.is_some());
+    let again = t("Send again");
+    let again_w = crate::online::button_w(ui, again, 28.0);
+    let unconfirmed_note = if unconfirmed {
+        let text = t("Not confirmed yet: open the link we sent to it.");
+        ui.wrap(text, fw - again_w - 12.0, 13.0)
+    } else {
+        Vec::new()
+    };
+    let unconfirmed_h =
+        if unconfirmed { (unconfirmed_note.len() as f32 * 17.0).max(28.0) + 6.0 } else { 0.0 };
+    // A supporter (VIP now or before) chooses to be in the credits.
+    let supporter = online.account.as_ref().is_some_and(|a| a.supporter);
+    let credits_h = if supporter { 34.0 } else { 0.0 };
+    // The cards' heights (the text wraps differently per language).
+    let name_h = CARD_HEAD + 17.0 + 6.0 + 34.0 + credits_h + CARD_PAD;
+    let email_h =
+        CARD_HEAD + email_note.len() as f32 * 17.0 + 6.0 + 38.0 + unconfirmed_h + 34.0 + CARD_PAD;
+    let password_h = CARD_HEAD + 38.0 + 38.0 + 6.0 + 34.0 + CARD_PAD;
+    let danger_h = CARD_HEAD + delete_note.len() as f32 * 17.0 + 12.0 + 38.0 + CARD_PAD;
+    let gap = 12.0;
+    let head_h = 74.0;
+    let foot_h = 16.0 + 40.0 + 22.0;
+    let h = head_h + name_h + email_h + password_h + danger_h + 3.0 * gap + foot_h;
+    // Taller than the window (a large interface size): the dialog scrolls
+    // with the wheel, so every control stays in reach.
+    let room = sh - 20.0;
+    let max_scroll = (h - room).max(0.0);
+    form.scroll += ui.take_wheel(None);
+    form.scroll = form.scroll.clamp(0.0, max_scroll);
+    // (Eased toward where the wheel or a field sends it.)
+    let shown = ui.glide(motion::id("account-scroll"), form.scroll, 16.0);
+    let top = if max_scroll > 0.0 { 10.0 - shown } else { (sh - h) / 2.0 };
+    let r = Rect::new((sw - w) / 2.0, top, w, h);
+    ui.panel(r);
+    ui.block(Rect::new(0.0, 0.0, sw, sh));
+    if max_scroll > 0.0 {
+        // A scroll bar at the window's edge: there is more.
+        let track = Rect::new(r.x + r.w + 4.0, 10.0, 5.0, room);
+        let track = if track.x + track.w > sw { Rect { x: sw - 7.0, ..track } } else { track };
+        rrect(track, 2.5, Color::new(1.0, 1.0, 1.0, 0.08));
+        let bar_h = (room * room / h).max(24.0);
+        let bar_y = track.y + (room - bar_h) * shown.clamp(0.0, max_scroll) / max_scroll;
+        rrect(Rect::new(track.x, bar_y, 5.0, bar_h), 2.5, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7));
+    }
+    // A field getting the keyboard (Tab moves it) is scrolled into view.
+    let mut focused: Option<(u64, f32)> = None;
+    let note_focus = |ui: &Ui, id: u64, y: f32, focused: &mut Option<(u64, f32)>| {
+        if ui.focus == Some(id) {
+            *focused = Some((id, y));
+        }
+    };
+    // The title, and Close at the top right.
+    let mid = r.y + 38.0;
+    crate::icons::draw(Icon::Person, vec2(r.x + outer + 12.0, mid), 24.0, GOLD);
+    ui.text(t("Your account"), r.x + outer + 34.0, text_y(mid, 22.0), 22.0, GOLD, true);
+    let close = Rect::new(r.x + r.w - outer - 34.0, mid - 17.0, 34.0, 34.0);
+    let mut exit = AccountExit::Stay;
+    if ui.icon_button_ex(close, Icon::Close, t("Close"), true, true) {
+        exit = AccountExit::Close;
+    }
+    let card_x = r.x + outer;
+    let card_w = w - 2.0 * outer;
+    let x = card_x + CARD_PAD;
+    let mut y = r.y + head_h;
+
+    // Username: a few changes in all.
+    let card = Rect::new(card_x, y, card_w, name_h);
+    let mut cy = account_card(ui, card, Icon::Person, t("Username"), false);
+    let left = online.account.as_ref().map(|a| a.name_changes_left);
+    // Once the free changes are used, another costs coins (if the server
+    // sells them).
+    let price = online.account.as_ref().map_or(0, |a| a.name_change_price);
+    let can_change = left.is_some_and(|n| n > 0 || price > 0);
+    let note = match left {
+        Some(0) if price > 0 => tw(
+            "Your free changes are used: another costs {n} coins.",
+            &[("n", &crate::online::ops::thousands(price as i64))],
+        ),
+        Some(0) => t("You can't change your username again.").to_string(),
+        Some(n) => tw(
+            "{n} of {total} name changes left",
+            &[("n", &n), ("total", &snook_legend_proto::MAX_NAME_CHANGES)],
+        ),
+        None => String::new(),
+    };
+    ui.text(&note, x, cy, 13.0, MUTED, false);
+    cy += 17.0 + 6.0;
+    let current = online.me.as_ref().map(|me| me.username.clone()).unwrap_or_default();
+    let wanted = form.new_name.trim().to_string();
+    if form.confirm_rename.as_ref().is_some_and(|c| *c != wanted) {
+        form.confirm_rename = None;
+    }
+    let label =
+        if form.confirm_rename.is_some() { t("Click again to confirm") } else { t("Change") };
+    // Wide enough for both labels: the field beside it doesn't jump.
+    let both = [t("Change"), t("Click again to confirm")];
+    let bw = both.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max) + 32.0;
+    let field = Rect::new(x, cy, fw - bw - 10.0, 34.0);
+    if can_change {
+        note_focus(ui, 75, cy, &mut focused);
+        ui.text_input(75, field, &mut form.new_name, 16);
+        if form.new_name.is_empty() && ui.focus != Some(75) {
+            ui.text(t("New username"), x + 10.0, text_y(cy + 17.0, 14.0), 14.0, MUTED, false);
+        }
+    }
+    let ok = can_change && snook_legend_proto::valid_username(&wanted) && wanted != current;
+    if ui.button(Rect::new(x + fw - bw, cy, bw, 34.0), label, ok) {
+        if form.confirm_rename.is_some() {
+            online.send(ClientMsg::ChangeUsername { username: wanted.clone() });
+            // The session comes back under the new name: the same account.
+            online.renaming_to = Some(wanted.clone());
+            form.confirm_rename = None;
+            form.renaming = Some(wanted);
+        } else {
+            form.confirm_rename = Some(wanted);
+        }
+    }
+    cy += 34.0 + 12.0;
+    if supporter {
+        let mut show = online.account.as_ref().is_some_and(|a| a.in_credits);
+        if ui.checkbox(x, cy - 4.0, t("Show my name in the supporters' credits"), &mut show) {
+            online.send(ClientMsg::SetCredits { show });
+            if let Some(a) = online.account.as_mut() {
+                a.in_credits = show;
+            }
+        }
+    }
+    y += name_h + gap;
+
+    // Recovery e-mail.
+    let card = Rect::new(card_x, y, card_w, email_h);
+    let mut cy = account_card(ui, card, Icon::Envelope, t("Recovery e-mail"), false);
+    for line in &email_note {
+        ui.text(line, x, cy, 13.0, MUTED, false);
+        cy += 17.0;
+    }
+    cy += 6.0;
+    let saved = online.account.as_ref().and_then(|a| a.recovery_email.clone());
+    note_focus(ui, 71, cy, &mut focused);
+    ui.text_input(71, Rect::new(x, cy, fw, 34.0), &mut form.email, 120);
+    cy += 38.0;
+    if unconfirmed {
+        // The text and the button share the row's middle.
+        let row_h = unconfirmed_h - 6.0;
+        let mid = cy + row_h / 2.0;
+        let mut line_mid = mid - (unconfirmed_note.len() as f32 - 1.0) * 17.0 / 2.0;
+        for line in &unconfirmed_note {
+            ui.text(line, x, text_y(line_mid, 13.0), 13.0, ALERT, false);
+            line_mid += 17.0;
+        }
+        let b = Rect::new(x + fw - again_w, mid - 14.0, again_w, 28.0);
+        let ready = form.resent_at.is_none_or(|at| get_time() - at > 20.0);
+        if ui.button(b, again, ready) {
+            let lang = crate::i18n::lang().code().to_string();
+            online.send(ClientMsg::ConfirmEmailAgain { lang });
+            form.resent_at = Some(get_time());
+        }
+        cy += unconfirmed_h;
+    }
+    // The password, in every case (even for the e-mail of a payment:
+    // whoever pays types that e-mail, and it may be someone else's).
+    note_focus(ui, 76, cy, &mut focused);
+    ui.password_input(76, Rect::new(x, cy, fw - 120.0, 34.0), &mut form.email_password, 72);
+    if form.email_password.is_empty() && ui.focus != Some(76) {
+        ui.text(t("Password"), x + 10.0, text_y(cy + 17.0, 14.0), 14.0, MUTED, false);
+    }
+    let ok = saved.as_deref() != Some(form.email.trim()) && !form.email_password.is_empty();
+    if ui.button(Rect::new(x + fw - 110.0, cy, 110.0, 34.0), t("Save"), ok) {
+        online.send(ClientMsg::SetRecoveryEmail {
+            email: form.email.trim().to_string(),
+            password: std::mem::take(&mut form.email_password),
+            // The confirmation e-mail's language.
+            lang: crate::i18n::lang().code().to_string(),
+        });
+    }
+    y += email_h + gap;
+
+    // Password.
+    let card = Rect::new(card_x, y, card_w, password_h);
+    let mut cy = account_card(ui, card, Icon::Lock, t("Change password"), false);
+    let label_w = 120.0;
+    ui.text(t("Current"), x, text_y(cy + 17.0, 13.0), 13.0, MUTED, true);
+    note_focus(ui, 72, cy, &mut focused);
+    ui.password_input(
+        72,
+        Rect::new(x + label_w, cy, fw - label_w, 34.0),
+        &mut form.old_password,
+        72,
+    );
+    cy += 38.0;
+    ui.text(t("New"), x, text_y(cy + 17.0, 13.0), 13.0, MUTED, true);
+    note_focus(ui, 73, cy, &mut focused);
+    ui.password_input(
+        73,
+        Rect::new(x + label_w, cy, fw - label_w, 34.0),
+        &mut form.new_password,
+        72,
+    );
+    cy += 38.0 + 6.0;
+    let ok =
+        snook_legend_proto::valid_password(&form.new_password) && !form.old_password.is_empty();
+    let bw = ui.text_size(t("Change password"), 15.0, true).x + 32.0;
+    if ui.button(Rect::new(x + fw - bw, cy, bw, 34.0), t("Change password"), ok) {
+        online.send(ClientMsg::ChangePassword {
+            old: std::mem::take(&mut form.old_password),
+            new: std::mem::take(&mut form.new_password),
+        });
+    }
+    y += password_h + gap;
+
+    // The danger zone: deleting the account opens a dialog of its own.
+    let card = Rect::new(card_x, y, card_w, danger_h);
+    let mut cy = account_card(ui, card, Icon::ShieldWarning, t("Danger zone"), true);
+    for line in &delete_note {
+        ui.text(line, x, cy, 13.0, MUTED, false);
+        cy += 17.0;
+    }
+    cy += 12.0;
+    let label = t("Delete my account…");
+    let bw = ui.text_size(label, 14.0, true).x + 34.0;
+    let b = Rect::new(x, cy, bw, 38.0);
+    if danger_button(ui, b, label, true) {
+        form.deleting = Some(Deleting::default());
+        form.delete_password.clear();
+        ui.focus = Some(77);
+    }
+    y += danger_h;
+
+    if focused.map(|(id, _)| id) != form.shown_field {
+        form.shown_field = focused.map(|(id, _)| id);
+        if let Some((_, fy)) = focused {
+            if fy + 34.0 > sh - 10.0 {
+                form.scroll += fy + 34.0 - (sh - 10.0);
+            } else if fy < 10.0 {
+                form.scroll -= 10.0 - fy;
+            }
+        }
+    }
+    // A press on the dimmed screen around it closes it too, while nothing
+    // has been typed (it would be lost).
+    let typed = [&form.new_name, &form.email_password, &form.old_password, &form.new_password]
+        .iter()
+        .any(|f| !f.is_empty());
+    // Signing out (to sign in to another account) is seldom wanted: a
+    // quiet link across from Close, not a button.
+    let row = Rect::new(card_x, y + 16.0, card_w, 40.0);
+    let label = t("Sign out");
+    let size = 14.0;
+    let lw = 10.0 + 18.0 + 7.0 + ui.text_size(label, size, true).x + 12.0;
+    let link = Rect::new(row.x + row.w - lw, row.y, lw, row.h);
+    let lit = ui.hover_anim(link, ui.hovering(link));
+    if lit > 0.01 {
+        rrect(link, 8.0, Color::new(1.0, 1.0, 1.0, 0.05 * lit));
+    }
+    let color = crate::ui::mix(MUTED, CREAM, lit);
+    crate::icons::draw(Icon::SignOut, vec2(link.x + 10.0 + 9.0, link.y + 20.0), 17.0, color);
+    ui.text(label, link.x + 10.0 + 18.0 + 7.0, text_y(link.y + 20.0, size), size, color, true);
+    if ui.clicked(link) {
+        return AccountExit::SignOut;
+    }
+    if ui.button(Rect::new(row.x, row.y, 140.0, 40.0), t("Close"), true)
+        || ui.escape()
+        || (!typed && ui.dismissed(r))
+    {
+        exit = AccountExit::Close;
+    }
+    exit
+}
+
+/// A button for what can't be undone: red outline and text, filled red
+/// under the pointer.
+fn danger_button(ui: &mut Ui, r: Rect, label: &str, enabled: bool) -> bool {
+    ui.block(r);
+    let hover = enabled && ui.hovering(r);
+    let lit = ui.hover_anim(r, hover);
+    let alpha = if enabled { 1.0 } else { 0.4 };
+    rrect(
+        r,
+        crate::ui::BUTTON_RADIUS,
+        Color::new(ALERT.r, ALERT.g, ALERT.b, (0.08 + 0.16 * lit) * alpha),
+    );
+    rrect_lines(
+        r,
+        crate::ui::BUTTON_RADIUS,
+        1.2,
+        Color::new(ALERT.r, ALERT.g, ALERT.b, 0.75 * alpha),
+    );
+    let color = Color::new(ALERT.r, ALERT.g, ALERT.b, alpha);
+    let (label, size) = ui.fitted(label, 14.0, r.w - 16.0, true);
+    ui.text_centered(&label, r.x + r.w / 2.0, text_y(r.y + r.h / 2.0, size), size, color, true);
+    enabled && ui.activated(r, hover)
+}
+
+/// Deleting the account, over the account page: what goes for good, the
+/// username typed again, the password, "I understand", and a button held
+/// down until it fills. True when it closes.
+fn delete_dialog(ui: &mut Ui, online: &mut Online, form: &mut AccountForm) -> bool {
+    let Some(del) = form.deleting.as_mut() else { return true };
+    let sw = crate::ui::vw();
+    let sh = crate::ui::vh();
+    let _modal = ui.modal_scope(crate::ui::motion::id("delete-account"), 0.6);
+    let w = 480.0f32.min(sw - 24.0);
+    let pad = 24.0;
+    let fw = w - 2.0 * pad;
+    let username = online.me.as_ref().map(|m| m.username.clone()).unwrap_or_default();
+    let losses = [
+        t("Your username, e-mail and friends"),
+        t("Your coins, items and VIP"),
+        t("Your ratings, achievements and history"),
+    ];
+    let lead = ui.wrap(t("This can't be undone. These go for good:"), fw, 14.0);
+    let ask = tw("Type {name} to confirm", &[("name", &username)]);
+    let ask = ui.wrap(&ask, fw, 13.0);
+    let understand = t("I understand that my account can't be recovered.");
+    let h = pad
+        + 40.0
+        + 14.0
+        + lead.len() as f32 * 19.0
+        + 8.0
+        + losses.len() as f32 * 24.0
+        + 16.0
+        + ask.len() as f32 * 17.0
+        + 6.0
+        + 38.0
+        + 10.0
+        + 38.0
+        + 14.0
+        + 26.0
+        + 20.0
+        + 42.0
+        + pad;
+    let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
+    ui.panel(r);
+    rrect_lines(r, crate::ui::PANEL_RADIUS, 1.5, Color::new(ALERT.r, ALERT.g, ALERT.b, 0.6));
+    ui.block(Rect::new(0.0, 0.0, sw, sh));
+    let x = r.x + pad;
+    let mut y = r.y + pad;
+    let mid = y + 18.0;
+    draw_circle(x + 18.0, mid, 18.0, Color::new(ALERT.r, ALERT.g, ALERT.b, 0.16));
+    crate::icons::draw(Icon::Warning, vec2(x + 18.0, mid), 20.0, ALERT);
+    let (title, size) = ui.fitted(t("Delete your account?"), 21.0, fw - 50.0, true);
+    ui.text(&title, x + 48.0, text_y(mid, size), size, CREAM, true);
+    y += 40.0 + 14.0;
+    for line in &lead {
+        ui.text(line, x, y, 14.0, CREAM, false);
+        y += 19.0;
+    }
+    y += 8.0;
+    for loss in losses {
+        draw_circle(x + 6.0, y + 8.0, 3.0, ALERT);
+        let line = ui.ellipsize(loss, fw - 20.0, 14.0);
+        ui.text(&line, x + 18.0, y, 14.0, CREAM, false);
+        y += 24.0;
+    }
+    y += 16.0;
+    for line in &ask {
+        ui.text(line, x, y, 13.0, MUTED, false);
+        y += 17.0;
+    }
+    y += 6.0;
+    ui.text_input(77, Rect::new(x, y, fw, 34.0), &mut del.name, 32);
+    if del.name.is_empty() && ui.focus != Some(77) {
+        ui.text(
+            &username,
+            x + 10.0,
+            text_y(y + 17.0, 14.0),
+            14.0,
+            Color::new(MUTED.r, MUTED.g, MUTED.b, 0.5),
+            false,
+        );
+    }
+    y += 38.0 + 10.0;
+    ui.password_input(74, Rect::new(x, y, fw, 34.0), &mut form.delete_password, 72);
+    if form.delete_password.is_empty() && ui.focus != Some(74) {
+        ui.text(t("Password"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
+    }
+    y += 38.0 + 14.0;
+    ui.checkbox(x, y, understand, &mut del.understood);
+    y += 26.0 + 20.0;
+    // Cancel, and the button held down to delete (only once all is done).
+    let ready = del.name.trim().eq_ignore_ascii_case(&username)
+        && !username.is_empty()
+        && !form.delete_password.is_empty()
+        && del.understood;
+    let cancel_w = ui.text_size(t("Cancel"), 15.0, true).x + 36.0;
+    let cancel = Rect::new(x, y, cancel_w, 42.0);
+    let mut close = ui.button(cancel, t("Cancel"), true) || ui.escape();
+    let hold = Rect::new(x + cancel_w + 10.0, y, fw - cancel_w - 10.0, 42.0);
+    ui.block(hold);
+    let holding = ready
+        && (ui.held(hold)
+            || (ui.focused(hold) && (is_key_down(KeyCode::Enter) || is_key_down(KeyCode::Space))));
+    // Noted for the keyboard's focus (Tab reaches it).
+    let _ = ui.clicked(hold);
+    let now = get_time();
+    if holding {
+        del.held_since.get_or_insert(now);
+    } else {
+        del.held_since = None;
+    }
+    let progress =
+        del.held_since.map_or(0.0, |at| ((now - at) / DELETE_HOLD).clamp(0.0, 1.0) as f32);
+    let alpha = if ready { 1.0 } else { 0.4 };
+    rrect(hold, crate::ui::BUTTON_RADIUS, Color::new(ALERT.r, ALERT.g, ALERT.b, 0.10 * alpha));
+    if progress > 0.0 {
+        let fill = Rect::new(hold.x, hold.y, hold.w * progress, hold.h);
+        rrect(fill, crate::ui::BUTTON_RADIUS, Color::new(0.78, 0.22, 0.16, 0.95));
+    }
+    rrect_lines(
+        hold,
+        crate::ui::BUTTON_RADIUS,
+        1.2,
+        Color::new(ALERT.r, ALERT.g, ALERT.b, 0.8 * alpha),
+    );
+    let label = if progress > 0.0 { t("Keep holding…") } else { t("Hold to delete the account") };
+    let (label, size) = ui.fitted(label, 14.5, hold.w - 20.0, true);
+    let color = if progress > 0.5 { CREAM } else { Color::new(ALERT.r, ALERT.g, ALERT.b, alpha) };
+    ui.text_centered(&label, hold.x + hold.w / 2.0, text_y(hold.y + 21.0, size), size, color, true);
+    if ready && ui.hovering(hold) && progress == 0.0 {
+        ui.tooltip(t("Press and hold"), hold);
+    }
+    if progress >= 1.0 {
+        online
+            .send(ClientMsg::DeleteAccount { password: std::mem::take(&mut form.delete_password) });
+        close = true;
+    }
+    close
 }
 
 /// Where the content starts under the header (from the panel's top).
@@ -367,6 +866,12 @@ impl ProfileScreen {
             _ => Pane::Games,
         };
         self.status_edit = None;
+        // Development aid (screenshots): SNOOK_LEGEND_ACCOUNT=1 opens the
+        // account page, =delete with the deletion's dialog over it.
+        if let Some(v) = crate::dev::var("SNOOK_LEGEND_ACCOUNT") {
+            let deleting = (v == "delete").then(Deleting::default);
+            self.account = Some(AccountForm { deleting, ..AccountForm::default() });
+        }
         self.gifts_first.reset();
         self.trophies_first.reset();
         self.trophies_open = None;
@@ -950,7 +1455,7 @@ impl ProfileScreen {
                     ACCOUNT_W,
                 );
                 if ui.icon_button(b, Icon::Gear, t("Account"), true) {
-                    self.account = Some(AccountForm::default());
+                    self.account = Some(AccountForm { asked: true, ..AccountForm::default() });
                     online.send(ClientMsg::Account);
                 }
             }
@@ -1721,308 +2226,45 @@ impl ProfileScreen {
     /// Username, recovery e-mail, password and deleting the account.
     fn account_dialog(&mut self, ui: &mut Ui, online: &mut Online) {
         let Some(form) = self.account.as_mut() else { return };
+        if !form.asked && online.signed_in() {
+            form.asked = true;
+            online.send(ClientMsg::Account);
+        }
         if !form.email_loaded
             && let Some(a) = &online.account
         {
             form.email = a.recovery_email.clone().or(a.payment_email.clone()).unwrap_or_default();
             form.email_loaded = true;
         }
-        let sw = crate::ui::vw();
-        let sh = crate::ui::vh();
-        let _modal = ui.modal_scope(crate::ui::motion::id("account"), 0.55);
-        let w = 500.0f32.min(sw - 20.0);
-        let fw = w - 2.0 * PAD;
-        let wrap = |ui: &Ui, text: &str| ui.wrap(text, fw, 13.0);
-        let email_note =
-            wrap(ui, t("If you forget your password, we confirm it's you by this e-mail."));
-        let delete_note = wrap(
-            ui,
-            t(
-                "Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).",
-            ),
-        );
-        // A recovery e-mail that waits for the link sent to it: a line under
-        // it says so, with "Send again" beside it.
-        let unconfirmed = online
-            .account
-            .as_ref()
-            .is_some_and(|a| a.recovery_email_unconfirmed && a.recovery_email.is_some());
-        let again = t("Send again");
-        let again_w = crate::online::button_w(ui, again, 28.0);
-        let unconfirmed_note = if unconfirmed {
-            let text = t("Not confirmed yet: open the link we sent to it.");
-            ui.wrap(text, fw - again_w - 12.0, 13.0)
-        } else {
-            Vec::new()
-        };
-        let unconfirmed_h =
-            if unconfirmed { (unconfirmed_note.len() as f32 * 17.0).max(28.0) + 6.0 } else { 0.0 };
-        // The height follows the text (it wraps differently per language):
-        // the title, the four sections as laid out below, and Close.
-        let lines = (email_note.len() + delete_note.len()) as f32 * 17.0;
-        // A supporter (VIP now or before) chooses to be in the credits.
-        let supporter = online.account.as_ref().is_some_and(|a| a.supporter);
-        let credits_h = if supporter { 34.0 } else { 0.0 };
-        let h = 70.0 + 144.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines + credits_h + unconfirmed_h;
-        // Taller than the window (a large interface size): the dialog
-        // scrolls with the wheel, so every control stays in reach.
-        let room = sh - 20.0;
-        let max_scroll = (h - room).max(0.0);
-        form.scroll += ui.take_wheel(None);
-        form.scroll = form.scroll.clamp(0.0, max_scroll);
-        // (Eased toward where the wheel or a field sends it.)
-        let shown = ui.glide(motion::id("account-scroll"), form.scroll, 16.0);
-        let top = if max_scroll > 0.0 { 10.0 - shown } else { (sh - h) / 2.0 };
-        let r = Rect::new((sw - w) / 2.0, top, w, h);
-        ui.panel(r);
-        ui.block(Rect::new(0.0, 0.0, sw, sh));
-        if max_scroll > 0.0 {
-            // A scroll bar at the window's edge: there is more.
-            let track = Rect::new(r.x + r.w + 4.0, 10.0, 5.0, room);
-            let track = if track.x + track.w > sw { Rect { x: sw - 7.0, ..track } } else { track };
-            rrect(track, 2.5, Color::new(1.0, 1.0, 1.0, 0.08));
-            let bar_h = (room * room / h).max(24.0);
-            let bar_y = track.y + (room - bar_h) * shown.clamp(0.0, max_scroll) / max_scroll;
-            rrect(
-                Rect::new(track.x, bar_y, 5.0, bar_h),
-                2.5,
-                Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7),
-            );
+        // Deleting the account is a dialog of its own, over this one: this
+        // one takes nothing meanwhile.
+        let deleting = form.deleting.is_some();
+        let saved = deleting.then(|| ui.suspend_input());
+        let closed = account_page(ui, online, form);
+        if let Some(saved) = saved {
+            ui.resume_input(saved);
         }
-        // A field getting the keyboard (Tab moves it) is scrolled into view.
-        let mut focused: Option<(u64, f32)> = None;
-        let x = r.x + PAD;
-        crate::icons::draw(Icon::Person, vec2(x + 12.0, r.y + 24.0 + 13.0), 24.0, GOLD);
-        ui.text(t("Your account"), x + 34.0, text_y(r.y + 24.0 + 13.0, 22.0), 22.0, GOLD, true);
-        let mut y = r.y + 24.0 + 26.0 + 20.0;
-        // Username: a few changes in all.
-        ui.text(t("Username"), x, y, 15.0, GOLD, true);
-        y += 24.0;
-        let left = online.account.as_ref().map(|a| a.name_changes_left);
-        // Once the free changes are used, another costs coins (if the
-        // server sells them).
-        let price = online.account.as_ref().map_or(0, |a| a.name_change_price);
-        let can_change = left.is_some_and(|n| n > 0 || price > 0);
-        let note = match left {
-            Some(0) if price > 0 => tw(
-                "Your free changes are used: another costs {n} coins.",
-                &[("n", &crate::online::ops::thousands(price as i64))],
-            ),
-            Some(0) => t("You can't change your username again.").to_string(),
-            Some(n) => tw(
-                "{n} of {total} name changes left",
-                &[("n", &n), ("total", &snook_legend_proto::MAX_NAME_CHANGES)],
-            ),
-            None => String::new(),
-        };
-        ui.text(&note, x, y, 13.0, MUTED, false);
-        y += 17.0 + 6.0;
-        let current = online.me.as_ref().map(|me| me.username.clone()).unwrap_or_default();
-        let wanted = form.new_name.trim().to_string();
-        if form.confirm_rename.as_ref().is_some_and(|c| *c != wanted) {
-            form.confirm_rename = None;
-        }
-        let label =
-            if form.confirm_rename.is_some() { t("Click again to confirm") } else { t("Change") };
-        // Wide enough for both labels: the field beside it doesn't jump.
-        let both = [t("Change"), t("Click again to confirm")];
-        let bw = both.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max) + 32.0;
-        let field = Rect::new(x, y, fw - bw - 10.0, 34.0);
-        if can_change {
-            if ui.focus == Some(75) {
-                focused = Some((75, y));
+        match closed {
+            AccountExit::Stay => {}
+            AccountExit::Close => {
+                self.account = None;
+                ui.focus = None;
+                return;
             }
-            ui.text_input(75, field, &mut form.new_name, 16);
-            if form.new_name.is_empty() && ui.focus != Some(75) {
-                ui.text(t("New username"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
+            AccountExit::SignOut => {
+                self.sign_out = true;
+                self.account = None;
+                ui.focus = None;
+                return;
             }
         }
-        let ok = can_change && snook_legend_proto::valid_username(&wanted) && wanted != current;
-        if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), label, ok) {
-            if form.confirm_rename.is_some() {
-                online.send(ClientMsg::ChangeUsername { username: wanted.clone() });
-                // The session comes back under the new name: the same account.
-                online.renaming_to = Some(wanted.clone());
-                form.confirm_rename = None;
-                form.renaming = Some(wanted);
-            } else {
-                form.confirm_rename = Some(wanted);
+        let Some(form) = self.account.as_mut() else { return };
+        if form.deleting.is_some() && delete_dialog(ui, online, form) {
+            form.deleting = None;
+            form.delete_password.clear();
+            if ui.focus.is_some_and(|f| f == 74 || f == 77) {
+                ui.focus = None;
             }
-        }
-        y += 34.0 + 12.0;
-        if supporter {
-            let mut show = online.account.as_ref().is_some_and(|a| a.in_credits);
-            if ui.checkbox(x, y, t("Show my name in the supporters' credits"), &mut show) {
-                online.send(ClientMsg::SetCredits { show });
-                if let Some(a) = online.account.as_mut() {
-                    a.in_credits = show;
-                }
-            }
-            y += credits_h;
-        }
-        draw_line(x, y, x + fw, y, 1.0, BORDER);
-        y += 13.0;
-        // Recovery e-mail.
-        ui.text(t("Recovery e-mail"), x, y, 15.0, GOLD, true);
-        y += 24.0;
-        for line in &email_note {
-            ui.text(line, x, y, 13.0, MUTED, false);
-            y += 17.0;
-        }
-        y += 6.0;
-        let saved = online.account.as_ref().and_then(|a| a.recovery_email.clone());
-        if ui.focus == Some(71) {
-            focused = Some((71, y));
-        }
-        ui.text_input(71, Rect::new(x, y, fw, 34.0), &mut form.email, 120);
-        y += 38.0;
-        if unconfirmed {
-            // The text and the button share the row's middle.
-            let row_h = unconfirmed_h - 6.0;
-            let mid = y + row_h / 2.0;
-            let mut line_mid = mid - (unconfirmed_note.len() as f32 - 1.0) * 17.0 / 2.0;
-            for line in &unconfirmed_note {
-                ui.text(line, x, text_y(line_mid, 13.0), 13.0, ALERT, false);
-                line_mid += 17.0;
-            }
-            let b = Rect::new(x + fw - again_w, mid - 14.0, again_w, 28.0);
-            let ready = form.resent_at.is_none_or(|at| get_time() - at > 20.0);
-            if ui.button(b, again, ready) {
-                let lang = crate::i18n::lang().code().to_string();
-                online.send(ClientMsg::ConfirmEmailAgain { lang });
-                form.resent_at = Some(get_time());
-            }
-            y += unconfirmed_h;
-        }
-        // The password, in every case (even for the e-mail of a payment:
-        // whoever pays types that e-mail, and it may be someone else's).
-        if ui.focus == Some(76) {
-            focused = Some((76, y));
-        }
-        ui.password_input(76, Rect::new(x, y, fw - 120.0, 34.0), &mut form.email_password, 72);
-        if form.email_password.is_empty() && ui.focus != Some(76) {
-            ui.text(t("Password"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
-        }
-        let ok = saved.as_deref() != Some(form.email.trim()) && !form.email_password.is_empty();
-        if ui.button(Rect::new(x + fw - 110.0, y, 110.0, 34.0), t("Save"), ok) {
-            online.send(ClientMsg::SetRecoveryEmail {
-                email: form.email.trim().to_string(),
-                password: std::mem::take(&mut form.email_password),
-                // The confirmation e-mail's language.
-                lang: crate::i18n::lang().code().to_string(),
-            });
-        }
-        y += 34.0 + 12.0;
-        draw_line(x, y, x + fw, y, 1.0, BORDER);
-        y += 13.0;
-        // Password.
-        ui.text(t("Change password"), x, y, 15.0, GOLD, true);
-        y += 24.0 + 6.0;
-        let label_w = 120.0;
-        ui.text(t("Current"), x, text_y(y + 17.0, 13.0), 13.0, MUTED, true);
-        let field = Rect::new(x + label_w, y, fw - label_w, 34.0);
-        if ui.focus == Some(72) {
-            focused = Some((72, y));
-        }
-        ui.password_input(72, field, &mut form.old_password, 72);
-        y += 38.0;
-        ui.text(t("New"), x, text_y(y + 17.0, 13.0), 13.0, MUTED, true);
-        let field = Rect::new(x + label_w, y, fw - label_w, 34.0);
-        if ui.focus == Some(73) {
-            focused = Some((73, y));
-        }
-        ui.password_input(73, field, &mut form.new_password, 72);
-        y += 38.0 + 6.0;
-        let ok =
-            snook_legend_proto::valid_password(&form.new_password) && !form.old_password.is_empty();
-        let bw = ui.text_size(t("Change password"), 15.0, true).x + 32.0;
-        if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), t("Change password"), ok) {
-            online.send(ClientMsg::ChangePassword {
-                old: std::mem::take(&mut form.old_password),
-                new: std::mem::take(&mut form.new_password),
-            });
-        }
-        y += 34.0 + 12.0;
-        draw_line(x, y, x + fw, y, 1.0, BORDER);
-        y += 13.0;
-        // Deleting the account.
-        ui.text(t("Delete account"), x, y, 15.0, ALERT, true);
-        y += 24.0;
-        for line in &delete_note {
-            ui.text(line, x, y, 13.0, MUTED, false);
-            y += 17.0;
-        }
-        y += 6.0;
-        let label =
-            if form.confirm_delete { t("Click again to delete") } else { t("Delete account") };
-        // Wide enough for both labels: the field beside it doesn't jump.
-        let both = [t("Delete account"), t("Click again to delete")];
-        let bw = both.iter().map(|l| ui.text_size(l, 15.0, true).x).fold(0.0, f32::max) + 32.0;
-        let field = Rect::new(x, y, fw - bw - 10.0, 34.0);
-        if ui.focus == Some(74) {
-            focused = Some((74, y));
-        }
-        ui.password_input(74, field, &mut form.delete_password, 72);
-        if form.delete_password.is_empty() && ui.focus != Some(74) {
-            ui.text(t("Password"), x + 10.0, text_y(y + 17.0, 14.0), 14.0, MUTED, false);
-        }
-        if ui.button(Rect::new(x + fw - bw, y, bw, 34.0), label, !form.delete_password.is_empty()) {
-            if form.confirm_delete {
-                online.send(ClientMsg::DeleteAccount {
-                    password: std::mem::take(&mut form.delete_password),
-                });
-                form.confirm_delete = false;
-            } else {
-                form.confirm_delete = true;
-            }
-        }
-        if focused.map(|(id, _)| id) != form.shown_field {
-            form.shown_field = focused.map(|(id, _)| id);
-            if let Some((_, fy)) = focused {
-                if fy + 34.0 > sh - 10.0 {
-                    form.scroll += fy + 34.0 - (sh - 10.0);
-                } else if fy < 10.0 {
-                    form.scroll -= 10.0 - fy;
-                }
-            }
-        }
-        // A press on the dimmed screen around it closes it too, while
-        // nothing has been typed (it would be lost).
-        let typed = [
-            &form.new_name,
-            &form.email_password,
-            &form.old_password,
-            &form.new_password,
-            &form.delete_password,
-        ]
-        .iter()
-        .any(|f| !f.is_empty());
-        // Signing out (to sign in to another account) is seldom wanted: a
-        // quiet link across from Close, not a button.
-        let row = Rect::new(x, y + 34.0 + 24.0, fw, 40.0);
-        let label = t("Sign out");
-        let size = 14.0;
-        let lw = 10.0 + 18.0 + 7.0 + ui.text_size(label, size, true).x + 12.0;
-        let link = Rect::new(row.x + row.w - lw, row.y, lw, row.h);
-        let lit = ui.hover_anim(link, ui.hovering(link));
-        if lit > 0.01 {
-            rrect(link, 8.0, Color::new(1.0, 1.0, 1.0, 0.05 * lit));
-        }
-        let color = crate::ui::mix(MUTED, CREAM, lit);
-        crate::icons::draw(Icon::SignOut, vec2(link.x + 10.0 + 9.0, link.y + 20.0), 17.0, color);
-        ui.text(label, link.x + 10.0 + 18.0 + 7.0, text_y(link.y + 20.0, size), size, color, true);
-        if ui.clicked(link) {
-            self.sign_out = true;
-            self.account = None;
-            ui.focus = None;
-            return;
-        }
-        if ui.button(Rect::new(x, row.y, 140.0, 40.0), t("Close"), true)
-            || ui.escape()
-            || (!typed && ui.dismissed(r))
-        {
-            self.account = None;
-            ui.focus = None;
         }
     }
 

@@ -37,6 +37,18 @@ struct LogRow {
     index: usize,
     centred: bool,
     gap: bool,
+    /// The day the lines below it were written (a small pill).
+    day: bool,
+}
+
+/// Where a chat log shows when its lines were written.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ChatTimes {
+    /// In a quiet column at the right of each author's first line, with
+    /// the days between them (the lounge).
+    Column,
+    /// Only on the line under the pointer (a small chat over the table).
+    Hover,
 }
 
 /// An author's colour in the chat: one of a few soft, readable hues on the
@@ -79,6 +91,9 @@ pub struct FeedLine {
     /// The players it mentions with `@name` (real usernames, from the
     /// server): lit, and a click opens their profile.
     pub mentions: Vec<String>,
+    /// When it was written (Unix seconds; 0: not known, the game's own
+    /// notices).
+    pub at: i64,
 }
 
 /// What the reader did with a line of [`Ui::chat_log`].
@@ -1798,11 +1813,11 @@ impl Ui {
         admin: bool,
         scroll: usize,
     ) -> (usize, Option<ChatAction>) {
-        self.chat_log_ex(id, r, lines, me, admin, false, scroll)
+        self.chat_log_with(id, r, lines, me, admin, false, ChatTimes::Hover, scroll)
     }
 
     /// [`Ui::chat_log`], where the reader may also pin lines (`pin`: the
-    /// staff, in the lounge).
+    /// staff, in the lounge), with the times in a column.
     #[allow(clippy::too_many_arguments)]
     pub fn chat_log_ex(
         &mut self,
@@ -1814,6 +1829,21 @@ impl Ui {
         pin: bool,
         scroll: usize,
     ) -> (usize, Option<ChatAction>) {
+        self.chat_log_with(id, r, lines, me, admin, pin, ChatTimes::Column, scroll)
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn chat_log_with(
+        &mut self,
+        id: u64,
+        r: Rect,
+        lines: &[FeedLine],
+        me: Option<&str>,
+        admin: bool,
+        pin: bool,
+        times: ChatTimes,
+        scroll: usize,
+    ) -> (usize, Option<ChatAction>) {
         self.block(r);
         const SIZE: f32 = 14.0;
         const NOTE: f32 = 12.0;
@@ -1821,7 +1851,15 @@ impl Ui {
         const GAP: f32 = 6.0;
         // The scroll bar's room on the right.
         const BAR: f32 = 14.0;
-        let inner = Rect::new(r.x + 8.0, r.y + 4.0, r.w - 8.0 - BAR, r.h - 8.0);
+        // The times' size, and their column (as wide as the widest time).
+        const TIME: f32 = 10.5;
+        let time_w = match times {
+            ChatTimes::Column => {
+                self.text_size(&crate::localtime::clock(12, 59), TIME, false).x + 12.0
+            }
+            ChatTimes::Hover => 0.0,
+        };
+        let inner = Rect::new(r.x + 8.0, r.y + 4.0, r.w - 8.0 - BAR - time_w, r.h - 8.0);
         // Wrap only the newest messages that can be shown (measuring text is
         // the expensive part with a long history); all of them while the
         // scroll bar is dragged, which can reach the oldest at once.
@@ -1831,9 +1869,21 @@ impl Ui {
         let mut rows: Vec<LogRow> = Vec::new();
         // The messages wrapped so far (from the newest).
         let mut wrapped = 0;
+        let now = crate::game::unix_now();
+        let today = crate::localtime::day_of(now);
         for (index, l) in lines.iter().enumerate().rev() {
             wrapped += 1;
             let older = index.checked_sub(1).map(|i| &lines[i]);
+            // A new day begins with this line (the lounge's times): its
+            // name over it. Lines of today alone need none.
+            let day = (times == ChatTimes::Column && l.at > 0).then(|| {
+                let d = crate::localtime::day_of(l.at);
+                let before = older.filter(|o| o.at > 0).map(|o| crate::localtime::day_of(o.at));
+                match before {
+                    Some(b) => (b != d).then_some(d),
+                    None => (d != today).then_some(d),
+                }
+            });
             let player = l.kind == FeedKind::Player;
             let author = l.from.as_ref().map(|(n, _)| n.as_str());
             // A line under the one before it: same author, nothing between.
@@ -1855,6 +1905,7 @@ impl Ui {
             let mut block: Vec<LogRow> = Vec::new();
             match (l.kind, &l.from) {
                 (FeedKind::Player, Some((name, _))) => {
+                    let follows = follows && day.flatten().is_none();
                     let mine = me.is_some_and(|m| m.eq_ignore_ascii_case(name));
                     let color = if l.admin {
                         ADMIN_RED
@@ -1874,6 +1925,7 @@ impl Ui {
                             index,
                             centred: false,
                             gap: k == 0 && !follows,
+                            day: false,
                         });
                     }
                 }
@@ -1889,9 +1941,25 @@ impl Ui {
                             index,
                             centred: true,
                             gap: k == 0,
+                            day: false,
                         });
                     }
                 }
+            }
+            if let Some(Some(_)) = day {
+                let label = crate::localtime::day_label(l.at, now);
+                block.insert(
+                    0,
+                    LogRow {
+                        name: None,
+                        text: label,
+                        indent: 0.0,
+                        index,
+                        centred: true,
+                        gap: true,
+                        day: true,
+                    },
+                );
             }
             block.append(&mut rows);
             rows = block;
@@ -2032,22 +2100,21 @@ impl Ui {
             motion::push_clip(view);
         }
         // The message under the pointer, if it may be deleted by this reader.
-        let hovered = placed
+        let under = placed
             .iter()
-            .find(|(_, y)| {
-                view.contains(self.mouse) && self.mouse.y >= *y && self.mouse.y < y + LINE
+            .find(|(i, y)| {
+                !rows[*i].day
+                    && view.contains(self.mouse)
+                    && self.mouse.y >= *y
+                    && self.mouse.y < y + LINE
             })
-            .map(|(i, _)| rows[*i].index)
-            .filter(|&i| {
-                let l = &lines[i];
-                let mine = me.is_some_and(|m| {
-                    l.from.as_ref().is_some_and(|(n, _)| n.eq_ignore_ascii_case(m))
-                });
-                l.id > 0
-                    && l.deleted.is_none()
-                    && l.kind == FeedKind::Player
-                    && (mine || admin || pin)
-            });
+            .map(|(i, _)| rows[*i].index);
+        let hovered = under.filter(|&i| {
+            let l = &lines[i];
+            let mine =
+                me.is_some_and(|m| l.from.as_ref().is_some_and(|(n, _)| n.eq_ignore_ascii_case(m)));
+            l.id > 0 && l.deleted.is_none() && l.kind == FeedKind::Player && (mine || admin || pin)
+        });
         let mut action = None;
         let mut buttons_drawn = false;
         for &(i, y) in &placed {
@@ -2077,6 +2144,42 @@ impl Ui {
                     LINE,
                     Color::new(GOLD.r, GOLD.g, GOLD.b, 0.08),
                 );
+            }
+            if row.day {
+                let w = self.text_size(&row.text, 10.5, true).x + 16.0;
+                let pill = Rect::new(inner.x + (inner.w + time_w - w) / 2.0, y + 1.0, w, 17.0);
+                rrect(pill, 8.5, Color::new(0.13, 0.10, 0.075, 0.96));
+                rrect_lines(pill, 8.5, 1.0, HAIRLINE);
+                self.text(&row.text, pill.x + 8.0, pill.y + 3.0, 10.5, MUTED, true);
+                continue;
+            }
+            // When it was written: in the column on an author's first line
+            // (a clock while it waits for the server), or on the line under
+            // the pointer; the buttons of a hovered line take its place.
+            let first_row = row.name.is_some();
+            let shows_time = match times {
+                ChatTimes::Column => first_row && hovered != Some(row.index),
+                ChatTimes::Hover => under == Some(row.index) && first_row,
+            };
+            if shows_time && line.kind == FeedKind::Player && !deleted {
+                let right = r.x + r.w - BAR - 4.0;
+                if pending {
+                    let at = vec2(right - 13.0, y + 3.0);
+                    crate::dm::draw_tick(crate::dm::Tick::Sending, at);
+                } else if line.at > 0 {
+                    let time = crate::localtime::time_of_day(line.at);
+                    let tw = self.text_size(&time, TIME, false).x;
+                    let tr = Rect::new(right - tw, y + 2.0, tw, LINE - 2.0);
+                    if times == ChatTimes::Hover {
+                        let bg = Rect::new(tr.x - 6.0, y - 1.0, tw + 10.0, LINE);
+                        rrect(bg, 4.0, Color::new(0.08, 0.055, 0.04, 0.92));
+                    }
+                    let c = Color::new(MUTED.r, MUTED.g, MUTED.b, 0.7);
+                    self.text(&time, tr.x, y + (SIZE - TIME) * 0.5 + 1.0, TIME, c, false);
+                    if times == ChatTimes::Column && self.hovering(tr) {
+                        self.tooltip(&crate::localtime::when_full(line.at, now), tr);
+                    }
+                }
             }
             if row.centred {
                 let color = match line.kind {

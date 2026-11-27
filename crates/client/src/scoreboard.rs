@@ -311,40 +311,146 @@ fn rail(ui: &mut Ui, m: &Match, made: &Made, seat: usize, r: Rect, active: bool,
     }
 }
 
-/// The shot clock of the player at the table: a ring around their picture
-/// that empties as the time goes (gold, then red for the last ten seconds,
-/// beating for the last five, with the seconds by it).
-fn clock_ring(ui: &Ui, m: &Match, face: Vec2) {
-    let Some((left, total)) = m.shot_clock() else { return };
-    if !matches!(m.phase, Phase::Turn { .. }) || m.replay.is_some() {
-        return;
+/// The shot clock of the player at the table, now (seconds left, of how
+/// many), while it runs.
+fn running_clock(m: &Match) -> Option<(f32, f32)> {
+    let (left, total) = m.shot_clock()?;
+    (matches!(m.phase, Phase::Turn { .. }) && m.replay.is_none()).then_some((left, total))
+}
+
+/// The clock's colour: gold, amber in the second half, red for the last
+/// ten seconds.
+fn clock_color(left: f32, total: f32) -> Color {
+    if left < 10.0 {
+        crate::ui::ALERT
+    } else if left < total * 0.5 {
+        Color::new(1.0, 0.70, 0.30, 1.0)
+    } else {
+        GOLD
     }
+}
+
+/// The shot clock of the player at the table: a ring around their picture
+/// that empties as the time goes (gold, amber past half, then red for the
+/// last ten seconds, beating for the last five).
+fn clock_ring(ui: &Ui, m: &Match, face: Vec2) {
+    let _ = ui;
+    let Some((left, total)) = running_clock(m) else { return };
     let frac = (left / total.max(1.0)).clamp(0.0, 1.0);
-    let urgent = left < 10.0;
-    let mut color = if urgent { crate::ui::ALERT } else { GOLD };
+    let mut color = clock_color(left, total);
     if left < 5.0 {
         let beat = (left.fract() * std::f32::consts::PI).sin().abs();
         color.a *= 0.55 + 0.45 * beat;
     }
-    let radius = 17.0;
-    crate::paint::draw_circle_lines(face.x, face.y, radius, 2.0, Color::new(1.0, 1.0, 1.0, 0.08));
+    let radius = 17.5;
+    crate::paint::draw_circle_lines(face.x, face.y, radius, 2.6, Color::new(1.0, 1.0, 1.0, 0.10));
     // From the top, clockwise, what is left.
-    let steps = 48;
+    let steps = 56;
     let start = -std::f32::consts::FRAC_PI_2;
     let sweep = std::f32::consts::TAU * frac;
     let mut prev = face + vec2(start.cos(), start.sin()) * radius;
     for k in 1..=steps {
         let a = start + sweep * k as f32 / steps as f32;
         let p = face + vec2(a.cos(), a.sin()) * radius;
-        crate::paint::draw_line(prev.x, prev.y, p.x, p.y, 2.2, color);
+        crate::paint::draw_line(prev.x, prev.y, p.x, p.y, 3.0, color);
         prev = p;
     }
-    if urgent {
-        let n = format!("{:.0}", left.ceil());
-        let w = ui.text_size(&n, 10.0, true).x + 8.0;
-        let chip = Rect::new(face.x + radius - w * 0.4, face.y + radius - 11.0, w.max(15.0), 13.0);
-        rrect(chip, 6.5, Color::new(0.55, 0.12, 0.08, 0.95));
-        ui.text_centered(&n, chip.x + chip.w / 2.0, chip.y + 1.5, 10.0, CREAM, true);
+}
+
+/// The shot clock where it reads at a glance: a bar that empties along the
+/// bottom of the player's box, and the seconds left in a tag hanging under
+/// it (red and larger for the last ten).
+pub fn clock_tag(ui: &Ui, m: &Match, board: &Board) {
+    let Some((left, total)) = running_clock(m) else { return };
+    if matches!(m.phase, Phase::GameOver) {
+        return;
+    }
+    let seat = m.game.current_player().min(1);
+    let r = board.avatars[seat];
+    let frac = (left / total.max(1.0)).clamp(0.0, 1.0);
+    let color = clock_color(left, total);
+    // The bar, inside the box's bottom edge.
+    let bar = Rect::new(r.x + 6.0, r.y + r.h - 5.0, r.w - 12.0, 3.0);
+    rrect(bar, 1.5, Color::new(1.0, 1.0, 1.0, 0.10));
+    rrect(Rect::new(bar.x, bar.y, bar.w * frac, bar.h), 1.5, color);
+    // The tag: a clock and the seconds, under the box.
+    let urgent = left < 10.0;
+    let secs = left.ceil().max(0.0) as i32;
+    let text =
+        if secs >= 60 { format!("{}:{:02}", secs / 60, secs % 60) } else { format!("{secs}s") };
+    let size = if urgent { 14.0 } else { 12.5 };
+    let tw_ = ui.text_size(&text, size, true).x;
+    let h = if urgent { 22.0 } else { 20.0 };
+    let w = tw_ + 30.0;
+    let tag = Rect::new(r.x + (r.w - w) / 2.0, r.y + r.h + 3.0, w, h);
+    let pulse = if left < 5.0 {
+        0.5 + 0.5 * (left.fract() * std::f32::consts::PI).sin().abs()
+    } else {
+        1.0
+    };
+    let bg = if urgent {
+        Color::new(0.48 + 0.18 * pulse, 0.10, 0.07, 0.96)
+    } else {
+        Color::new(0.08, 0.06, 0.04, 0.94)
+    };
+    rrect(tag, h / 2.0, bg);
+    rrect_lines(tag, h / 2.0, 1.0, Color::new(color.r, color.g, color.b, 0.85));
+    let tc = if urgent { CREAM } else { color };
+    crate::icons::draw(Icon::Clock, vec2(tag.x + 13.0, tag.y + h / 2.0), size, tc);
+    ui.text(&text, tag.x + 23.0, crate::ranking::text_y(tag.y + h / 2.0, size), size, tc, true);
+}
+
+/// The last ten seconds of this player's own turn: the seconds large and
+/// faint in the middle of the screen, over the table (the balls show
+/// through), each coming in a little larger; and (the last five) a red glow
+/// beating at the edges of the screen. Nothing for a turn watched.
+pub fn clock_warning(ui: &Ui, m: &Match, board: &Board) {
+    let _ = board;
+    let Some((left, _)) = running_clock(m) else { return };
+    if !(m.is_human_turn() && !m.is_spectating()) || left > 10.0 || left <= 0.0 {
+        return;
+    }
+    let secs = left.ceil() as i32;
+    let k = left.fract();
+    // Each second lands: larger and brighter as it comes, then settling.
+    let fresh = ((k - 0.7).max(0.0) / 0.3).min(1.0);
+    let size = 150.0 * (1.0 + 0.15 * fresh);
+    // Pale over the cloth (red on green would read muddy), red and
+    // stronger for the last five.
+    let last = left <= 5.0;
+    let alpha = if last { 0.42 + 0.2 * fresh } else { 0.24 + 0.14 * fresh };
+    let n = secs.to_string();
+    let w = ui.text_size(&n, size, true).x;
+    let c = vec2(crate::ui::vw() / 2.0, crate::ui::vh() / 2.0);
+    let red = crate::ui::ALERT;
+    let tint =
+        if last { Color::new(1.0, 0.45, 0.36, alpha) } else { Color::new(1.0, 0.93, 0.85, alpha) };
+    ui.text(&n, c.x - w / 2.0, crate::ranking::caps_y(c.y, size), size, tint, true);
+    if last {
+        let beat = (k * std::f32::consts::PI).sin().abs();
+        edge_glow(Color::new(red.r, red.g, red.b, 0.16 * beat));
+    }
+}
+
+/// A glow along the edges of the screen, fading inward.
+fn edge_glow(color: Color) {
+    let (sw, sh) = (crate::ui::vw(), crate::ui::vh());
+    let steps = 14;
+    let depth = 4.0;
+    for i in 0..steps {
+        let a = color.a * (1.0 - i as f32 / steps as f32).powi(2);
+        let c = Color::new(color.r, color.g, color.b, a);
+        let d = i as f32 * depth;
+        crate::paint::draw_rectangle(d, d, sw - 2.0 * d, depth, c);
+        crate::paint::draw_rectangle(d, sh - d - depth, sw - 2.0 * d, depth, c);
+        crate::paint::draw_rectangle(d, d + depth, depth, sh - 2.0 * d - 2.0 * depth, c);
+        crate::paint::draw_rectangle(
+            sw - d - depth,
+            d + depth,
+            depth,
+            sh - 2.0 * d - 2.0 * depth,
+            c,
+        );
     }
 }
 

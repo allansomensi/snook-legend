@@ -3987,7 +3987,7 @@ impl Online {
             let hint = if self.chat_off() {
                 t("Write to turn the chat on…")
             } else {
-                t("Say hello… (Enter to send)")
+                t("Write a message…")
             };
             placeholder(ui, 30, input, &self.chat_input, hint);
         }
@@ -3998,7 +3998,7 @@ impl Online {
             input_h,
         );
         let can_send = !self.chat_input.trim().is_empty();
-        if (ui.icon_button(send_r, Icon::Play, t("Send"), can_send) || sent) && can_send {
+        if (crate::dm::send_button(ui, send_r, can_send) || sent) && can_send {
             let text = snook_legend_proto::clean_chat(&self.chat_input);
             // With the chat off, it waits for the dialog (and comes back to
             // the field if the player doesn't turn the chat on).
@@ -4016,6 +4016,7 @@ impl Online {
                 };
                 let mut feed = FeedLine::chat(&line);
                 feed.pending = true;
+                feed.at = crate::game::unix_now();
                 self.echoes.push(text);
                 self.chat.push(feed);
             }

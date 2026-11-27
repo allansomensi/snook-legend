@@ -12,6 +12,12 @@
   repository variable `MSSTORE_APP_ID` and the secrets of a Microsoft
   Entra application with the Manager role in Partner Center are set
   (docs/MSSTORE.md, "Lançar uma versão").
+- **The Store page in the game's 27 languages**: each language's listing
+  (descriptions, features, search terms) lives in `store-listing/`, checked
+  against Partner Center's limits; a release writes every listing's texts
+  and makes the listings the Store lacks, with their screenshots and logos,
+  and **Update the Store page** (the workflow, by hand) sends the page
+  alone. The package declares the 27 languages, so the Store lists them.
 
 ## 0.12.3 (protocol 25)
 

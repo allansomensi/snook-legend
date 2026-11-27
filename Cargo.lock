@@ -2205,6 +2205,7 @@ version = "0.12.2"
 dependencies = [
  "argon2",
  "axum",
+ "data-encoding",
  "futures-util",
  "glam 0.33.12",
  "hmac",
@@ -2215,6 +2216,7 @@ dependencies = [
  "rustls",
  "serde",
  "serde_json",
+ "sha1 0.10.7",
  "sha2 0.10.9",
  "snook_legend_core",
  "snook_legend_proto",

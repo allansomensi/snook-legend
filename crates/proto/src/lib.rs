@@ -169,6 +169,17 @@ pub const OLDEST_PROTOCOL_VERSION: u32 = 24;
 /// into (see `EightBallGame::call_the_eight_where_it_went`).
 pub const EIGHT_CALL_PROTOCOL: u32 = 25;
 
+/// The reason of the [`ServerMsg::AuthError`] that asks a staff member for
+/// the code of their authenticator app (two-step verification, 0.12.3):
+/// the game shows a field for it and signs in again with
+/// [`ClientMsg::LoginWithCode`]. An older game shows the words and can't
+/// go further (staff update the game).
+pub const AUTH_CODE_REQUIRED: &str = "Enter the 6-digit code from your authenticator app.";
+
+/// The reason of the [`ServerMsg::AuthError`] for a wrong (or already
+/// used) code: the code's field stays.
+pub const AUTH_CODE_WRONG: &str = "Wrong code. Try the app's newest one.";
+
 /// Username rules: 3–16 characters, letters, digits and underscores.
 pub fn valid_username(name: &str) -> bool {
     (3..=16).contains(&name.chars().count())
@@ -1284,6 +1295,14 @@ pub enum ClientMsg {
         username: String,
         password: String,
     },
+    /// [`ClientMsg::Login`] with the code of the authenticator app, after
+    /// the server asked for it ([`AUTH_CODE_REQUIRED`]): six digits, or one
+    /// of the staff member's recovery codes.
+    LoginWithCode {
+        username: String,
+        password: String,
+        code: String,
+    },
     /// Log in again with a token from an earlier `AuthOk`.
     Resume {
         token: String,
@@ -1503,6 +1522,14 @@ pub enum ClientMsg {
         /// change where the account is recovered from.
         #[serde(default)]
         password: String,
+        /// The game's language (`pt-BR`, `es`…): the confirmation e-mail's.
+        #[serde(default, skip_serializing_if = "String::is_empty")]
+        lang: String,
+    },
+    /// Sends the link that confirms the recovery e-mail again.
+    ConfirmEmailAgain {
+        #[serde(default)]
+        lang: String,
     },
     /// Changes the player's username (at most [`MAX_NAME_CHANGES`] times).
     /// Refused during a game, at a table, in the queue or in a tournament.
@@ -2170,6 +2197,11 @@ pub enum ServerMsg {
         /// Chose to appear in the supporters' credits.
         #[serde(default)]
         in_credits: bool,
+        /// The recovery e-mail waits for the link sent to it to be opened
+        /// (until then no new-password link goes there). Always false on a
+        /// server that sends no e-mail.
+        #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+        recovery_email_unconfirmed: bool,
     },
     /// The account was deleted: forget the saved session.
     AccountDeleted,

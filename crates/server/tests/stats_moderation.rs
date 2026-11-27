@@ -3,6 +3,8 @@
 //! `SNOOK_LEGEND_TEST_DATABASE_URL` points at a database that may be wiped)
 //! and the server end to end.
 
+mod common;
+
 use std::sync::Arc;
 use std::time::Duration;
 
@@ -362,10 +364,7 @@ async fn request(host: &str, method: &str, path: &str, token: &str, body: &str) 
 }
 
 async fn staff_token(host: &str) -> String {
-    let body = format!(r#"{{"username":"boss","password":"{PASSWORD}"}}"#);
-    let (code, v) = request(host, "POST", "/admin/api/login", "", &body).await;
-    assert_eq!(code, 200, "{v}");
-    v["token"].as_str().unwrap().to_string()
+    common::staff_token(host, "boss", PASSWORD).await
 }
 
 /// Polls `f` until it returns something (the server works in the background).

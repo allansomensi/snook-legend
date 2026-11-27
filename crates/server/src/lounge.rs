@@ -1651,6 +1651,7 @@ impl Lounge {
             ClientMsg::Hello { .. }
             | ClientMsg::Register { .. }
             | ClientMsg::Login { .. }
+            | ClientMsg::LoginWithCode { .. }
             | ClientMsg::Resume { .. }
             | ClientMsg::Guest { .. }
             | ClientMsg::Logout
@@ -1679,6 +1680,7 @@ impl Lounge {
             | ClientMsg::Account
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
+            | ClientMsg::ConfirmEmailAgain { .. }
             | ClientMsg::DeleteAccount { .. }
             | ClientMsg::ChangeUsername { .. }
             | ClientMsg::SetAge { .. }

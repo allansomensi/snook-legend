@@ -1,5 +1,7 @@
 //! End-to-end tests: real WebSocket clients against a server on a random port.
 
+mod common;
+
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
@@ -1165,13 +1167,6 @@ async fn request(host: &str, method: &str, path: &str, token: &str, body: &str) 
     (code, body)
 }
 
-/// The JSON object in a response body (possibly chunked).
-fn json_of(body: &str) -> serde_json::Value {
-    let start = body.find('{').unwrap();
-    let end = body.rfind('}').unwrap();
-    serde_json::from_str(&body[start..=end]).unwrap()
-}
-
 /// An administrator's name belongs to the account that has it: it can't be
 /// registered (the account comes first), and its owner can't rename it
 /// away for someone else to take. Reserved words are refused dressed up too.
@@ -1205,16 +1200,7 @@ async fn administrators_names_stay_theirs() {
     // A moderator made in the panel keeps their name too, and is signed
     // out at once (their connection had the powers of the old role).
     let (mut eve, _) = Client::register(&url, "eve").await;
-    let (code, body) = request(
-        &host,
-        "POST",
-        "/admin/api/login",
-        "",
-        &format!(r#"{{"username":"boss","password":"{PASSWORD}"}}"#),
-    )
-    .await;
-    assert_eq!(code, 200, "{body}");
-    let token = json_of(&body)["token"].as_str().unwrap().to_string();
+    let token = common::staff_token(&host, "boss", PASSWORD).await;
     let (code, body) =
         request(&host, "POST", "/admin/api/users/eve/role", &token, r#"{"role":"moderator"}"#)
             .await;
@@ -1336,24 +1322,7 @@ async fn admin_panel_requires_staff() {
     )
     .await;
     assert_eq!(code, 403, "players can't sign in to the panel");
-    let (code, body) = request(
-        &host,
-        "POST",
-        "/admin/api/login",
-        "",
-        &format!(r#"{{"username":"boss","password":"{PASSWORD}"}}"#),
-    )
-    .await;
-    assert_eq!(code, 200, "{body}");
-    let v: serde_json::Value =
-        serde_json::from_str(body.trim_end_matches(|c: char| c.is_control() || c == '0'))
-            .unwrap_or_else(|_| {
-                // Chunked encoding: take the JSON object between the first '{' and the last '}'.
-                let start = body.find('{').unwrap();
-                let end = body.rfind('}').unwrap();
-                serde_json::from_str(&body[start..=end]).unwrap()
-            });
-    let token = v["token"].as_str().unwrap().to_string();
+    let token = common::staff_token(&host, "boss", PASSWORD).await;
     let (code, _) = request(&host, "GET", "/admin/api/overview", &token, "").await;
     assert_eq!(code, 200);
     let (code, _) = request(
@@ -1685,6 +1654,7 @@ async fn account_password_recovery_email_and_deletion() {
         .send(ClientMsg::SetRecoveryEmail {
             email: "thief@example.com".into(),
             password: "guessing".into(),
+            lang: String::new(),
         })
         .await;
     assert_eq!(again.error_text().await, "The current password is wrong.");
@@ -1692,6 +1662,7 @@ async fn account_password_recovery_email_and_deletion() {
         .send(ClientMsg::SetRecoveryEmail {
             email: "not an email".into(),
             password: "another1".into(),
+            lang: String::new(),
         })
         .await;
     again.expect("bad e-mail", |m| matches!(m, ServerMsg::Error { .. })).await;
@@ -1699,6 +1670,7 @@ async fn account_password_recovery_email_and_deletion() {
         .send(ClientMsg::SetRecoveryEmail {
             email: " Carol@Example.com ".into(),
             password: "another1".into(),
+            lang: String::new(),
         })
         .await;
     let ServerMsg::Account { recovery_email, .. } =
@@ -1744,13 +1716,18 @@ async fn the_payment_email_needs_the_password_too() {
     // Someone at an unlocked computer can't point the account's recovery
     // at an address they read on the screen: the password is asked always.
     for email in ["someone@example.com", " erin@example.com", ""] {
-        erin.send(ClientMsg::SetRecoveryEmail { email: email.into(), password: String::new() })
-            .await;
+        erin.send(ClientMsg::SetRecoveryEmail {
+            email: email.into(),
+            password: String::new(),
+            lang: String::new(),
+        })
+        .await;
         assert_eq!(erin.error_text().await, "The current password is wrong.", "{email:?}");
     }
     erin.send(ClientMsg::SetRecoveryEmail {
         email: " erin@example.com".into(),
         password: PASSWORD.into(),
+        lang: String::new(),
     })
     .await;
     let ServerMsg::Account { recovery_email, .. } =

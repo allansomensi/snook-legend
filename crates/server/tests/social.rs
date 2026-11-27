@@ -2,6 +2,8 @@
 //! the stores (memory always; PostgreSQL when `SNOOK_LEGEND_TEST_DATABASE_URL`
 //! points at a database that may be wiped) and the server end to end.
 
+mod common;
+
 use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
@@ -633,16 +635,7 @@ fn json_of(body: &str) -> serde_json::Value {
 
 /// Signs `name` in to the staff panel (they must be in the server's admins).
 async fn panel_token(host: &str, name: &str) -> String {
-    let (code, body) = request(
-        host,
-        "POST",
-        "/admin/api/login",
-        "",
-        &format!(r#"{{"username":"{name}","password":"{PASSWORD}"}}"#),
-    )
-    .await;
-    assert_eq!(code, 200, "{body}");
-    json_of(&body)["token"].as_str().unwrap().to_string()
+    common::staff_token(host, name, PASSWORD).await
 }
 
 async fn befriend(a: &mut Client, b: &mut Client, a_name: &str, b_name: &str) {
@@ -757,16 +750,7 @@ async fn the_staff_panel_clears_statuses_and_notes_and_mutes_posting() {
     let (url, host) = start_with(Settings::default(), vec!["boss".into()]).await;
     let mut eve = Client::register(&url, "eve").await;
     let mut bia = Client::register(&url, "bia").await;
-    let (code, body) = request(
-        &host,
-        "POST",
-        "/admin/api/login",
-        "",
-        &format!(r#"{{"username":"boss","password":"{PASSWORD}"}}"#),
-    )
-    .await;
-    assert_eq!(code, 200, "{body}");
-    let token = json_of(&body)["token"].as_str().unwrap().to_string();
+    let token = common::staff_token(&host, "boss", PASSWORD).await;
 
     eve.send(ClientMsg::SetStatusMessage { text: "spam spam".into() }).await;
     eve.send(ClientMsg::PostSeek { text: "spam".into(), rated: false, rules: Rules::Brazilian })

@@ -14,6 +14,7 @@ mod moderation;
 mod modes;
 mod msstore;
 mod ops;
+mod security;
 
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
@@ -283,7 +284,14 @@ impl PgStore {
     }
 
     pub async fn delete_user_sessions(&self, user_id: i64) -> StoreResult<()> {
-        query("DELETE FROM sessions WHERE user_id = $1").bind(user_id).execute(&self.pool).await?;
+        let mut tx = self.pool.begin().await?;
+        query("DELETE FROM sessions WHERE user_id = $1").bind(user_id).execute(&mut *tx).await?;
+        // The devices kept signed in to the staff portal too.
+        query("DELETE FROM staff_devices WHERE user_id = $1")
+            .bind(user_id)
+            .execute(&mut *tx)
+            .await?;
+        tx.commit().await?;
         Ok(())
     }
 
@@ -292,7 +300,15 @@ impl PgStore {
             .bind(now)
             .execute(&self.pool)
             .await?;
-        Ok(r.rows_affected())
+        let mut n = r.rows_affected();
+        // Expired e-mailed links and devices kept signed in.
+        for sql in [
+            "DELETE FROM account_tokens WHERE expires_at <= $1",
+            "DELETE FROM staff_devices WHERE expires_at <= $1",
+        ] {
+            n += query(sql).bind(now).execute(&self.pool).await?.rows_affected();
+        }
+        Ok(n)
     }
 
     pub async fn set_country(&self, user_id: i64, country: &str) -> StoreResult<()> {
@@ -1082,6 +1098,12 @@ impl PgStore {
         .await?;
         for sql in [
             "DELETE FROM sessions WHERE user_id = $1",
+            // Their confirmed e-mail, links, two-step verification and
+            // devices kept signed in.
+            "DELETE FROM account_security WHERE user_id = $1",
+            "DELETE FROM account_tokens WHERE user_id = $1",
+            "DELETE FROM recovery_codes WHERE user_id = $1",
+            "DELETE FROM staff_devices WHERE user_id = $1",
             "DELETE FROM friendships WHERE user_id = $1 OR friend_id = $1",
             "DELETE FROM blocks WHERE user_id = $1 OR blocked_id = $1",
             "DELETE FROM achievements WHERE user_id = $1",

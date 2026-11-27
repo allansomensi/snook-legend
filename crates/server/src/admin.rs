@@ -5,9 +5,11 @@
 //!
 //! Staff are ordinary accounts with the moderator or administrator role
 //! (the first administrators come from `SNOOK_LEGEND_ADMINS`). They sign in with
-//! their game password and get a separate, short-lived admin session sent
-//! as a bearer token (never a cookie, so there is no CSRF surface). Every
-//! action is written to the audit log.
+//! their game password and a code from an authenticator app (two-step
+//! verification, required: see [`security`]) and get a separate,
+//! short-lived admin session sent as a bearer token (never a cookie, so
+//! there is no CSRF surface); a device can be kept signed in. Every action
+//! is written to the audit log.
 
 use std::net::SocketAddr;
 use std::sync::Arc;
@@ -26,12 +28,13 @@ use snook_legend_proto::{
 };
 
 use crate::store::{SessionKind, User};
-use crate::{Server, new_token, now, token_hash};
+use crate::{Server, now, token_hash};
 
 mod collection;
 mod moderation;
 mod modes;
 mod ops;
+pub(crate) mod security;
 
 const ADMIN_SESSION: i64 = 8 * 60 * 60;
 pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
@@ -73,6 +76,7 @@ pub fn router(server: Arc<Server>) -> Router<Arc<Server>> {
         .merge(moderation::routes())
         .merge(modes::routes())
         .merge(ops::router())
+        .merge(security::routes())
         // The panel sends small JSON bodies (the longest a note on the
         // board); anyone can post to the sign-in.
         .layer(DefaultBodyLimit::max(MAX_BODY))
@@ -415,6 +419,9 @@ async fn live_view(
 struct LoginBody {
     username: String,
     password: String,
+    /// Keep this device signed in (see [`security`]).
+    #[serde(default)]
+    remember: bool,
 }
 
 async fn login(
@@ -462,15 +469,8 @@ async fn login(
         return Err(err(StatusCode::FORBIDDEN, "This account has no access to the panel."));
     }
     server.auth().succeeded(&ip, username);
-    let token = new_token();
-    let t = now();
-    server
-        .store
-        .create_session(&token_hash(&token), user.id, SessionKind::Admin, t, t + ADMIN_SESSION)
-        .await?;
-    let s = Staff { user };
-    log(&server, &s, "login", &s.user.username, &ip).await;
-    Ok(Json(json!({ "token": token, "user": user_json(&s.user, false) })))
+    // The code of the app comes next (the session with it).
+    security::after_password(&server, &user, body.remember, &headers, &ip).await
 }
 
 async fn logout(State(server): State<Arc<Server>>, headers: HeaderMap) -> ApiResult {
@@ -613,6 +613,9 @@ async fn user_detail(
     let doubles = server.store.doubles_records(u.id).await?;
     let notes = server.store.staff_notes(u.id, 100).await?;
     let computer = computer_record(&server, u.id).await?;
+    let two_step_at = server.store.totp(u.id).await?.map(|t| t.enabled_at);
+    let email_confirmed =
+        crate::recovery::email_confirmed(&u, server.store.confirmed_email(u.id).await?.as_deref());
     let search =
         crate::store::AuditSearch { target: Some(u.username.clone()), ..Default::default() };
     let moderation = server.store.audit_search(&search, 100).await?;
@@ -676,6 +679,8 @@ async fn user_detail(
         "rating_adjustments": adjustments?,
         "doubles_ratings": modes::records_json(&doubles),
         "private_hidden": !admin,
+        "two_step_at": two_step_at,
+        "recovery_email_confirmed": email_confirmed,
     })))
 }
 

@@ -57,6 +57,12 @@ async fn main() {
     let addr = format!("127.0.0.1:{port}").parse().unwrap();
     let mut config = Config { bind: addr, ..Config::default() };
     config.settings.max_connections_per_ip = 200;
+    // The staff portal against these players (`npm run dev` in the
+    // website's repository): its origin, and who signs in to it.
+    config.admin_origin = std::env::var("SNOOK_LEGEND_ADMIN_ORIGIN").ok();
+    config.admins = std::env::var("SNOOK_LEGEND_ADMINS")
+        .map(|v| v.split(',').map(|n| n.trim().to_string()).filter(|n| !n.is_empty()).collect())
+        .unwrap_or_default();
     let server = Server::new(config).await.unwrap();
     let store = &server.store;
     let t0 = now();

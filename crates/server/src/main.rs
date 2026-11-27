@@ -22,6 +22,8 @@
 //! | `SNOOK_LEGEND_PUBLIC_URL` | — | the server's public address (payment return pages) |
 //! | `SNOOK_LEGEND_SITE_URL` | `https://snooklegend.app` | the game's website, with the terms of use and the privacy policy: the server's old addresses for them (`/termos`, `/privacy`…) and `/` lead there |
 //! | `SNOOK_LEGEND_ADMIN_ORIGIN` | — | the website's origin, where the staff portal is (`https://snooklegend.app`, pages `/admin`): the only one allowed to call `/admin/api` from a browser; `/admin` here leads there |
+//! | `SNOOK_LEGEND_RESEND_API_KEY` | — | [Resend](https://resend.com) API key (sending access): e-mails with password-reset and confirmation links (see `mail.rs`) |
+//! | `SNOOK_LEGEND_MAIL_FROM` | — | who e-mails come from, an address of the domain verified in Resend (`Snook Legend <support@snooklegend.app>`); replies go there |
 //! | `SNOOK_LEGEND_DRAIN_SECS` | `240` | on SIGTERM: how long games in progress may go on before they are handed to the next server |
 //! | `SNOOK_LEGEND_CUP` | — | the weekly cup's first settings, e.g. `sat 20:00` (options: `60m`, `fee=100`, `utc-3`, `official` for the official rules); the portal's settings change it live |
 //! | `RUST_LOG` | `info` | log filter |
@@ -120,8 +122,31 @@ async fn main() {
             }
             None => None,
         },
+        mail: match (env("SNOOK_LEGEND_RESEND_API_KEY"), env("SNOOK_LEGEND_MAIL_FROM")) {
+            (Some(api_key), Some(from)) => snook_legend_server::mail::MailSetup::Resend(
+                snook_legend_server::mail::ResendConfig { api_key, from },
+            ),
+            (Some(_), None) => {
+                eprintln!("warning: SNOOK_LEGEND_RESEND_API_KEY without SNOOK_LEGEND_MAIL_FROM: no e-mail");
+                snook_legend_server::mail::MailSetup::Off
+            }
+            // Development: e-mails go to the log (with their links).
+            _ if in_memory => snook_legend_server::mail::MailSetup::Outbox,
+            _ => snook_legend_server::mail::MailSetup::Off,
+        },
         ..Config::default()
     };
+    match &config.mail {
+        snook_legend_server::mail::MailSetup::Resend(r) => {
+            tracing::info!("e-mail on (Resend, from {})", r.from)
+        }
+        snook_legend_server::mail::MailSetup::Outbox => {
+            tracing::info!("e-mail written to the log, not sent (in memory)")
+        }
+        snook_legend_server::mail::MailSetup::Off => tracing::warn!(
+            "e-mail off (SNOOK_LEGEND_RESEND_API_KEY, SNOOK_LEGEND_MAIL_FROM not set): no password resets"
+        ),
+    }
     match &config.admin_origin {
         Some(origin) => tracing::info!("staff API open to the portal at {origin}"),
         None => tracing::info!("staff API: no portal origin (SNOOK_LEGEND_ADMIN_ORIGIN not set)"),

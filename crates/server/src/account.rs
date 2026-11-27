@@ -22,6 +22,13 @@ pub const DAILY_BONUS: i64 = 5;
 /// A game this short (in shots) earns nothing: it was arranged or abandoned.
 pub const MIN_SHOTS_FOR_COINS: u32 = 8;
 
+/// What the player is told when the link that confirms their recovery
+/// e-mail is on its way.
+pub const CONFIRM_SENT: &str = "Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).";
+
+/// The link was sent again.
+pub const CONFIRM_RESENT: &str = "We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).";
+
 /// A plausible e-mail address (one `@`, a dot in the domain, no spaces).
 pub fn valid_email(e: &str) -> bool {
     let Some((user, domain)) = e.split_once('@') else { return false };
@@ -42,6 +49,7 @@ pub(crate) async fn account_msg(
     let (wallet, in_credits) =
         tokio::join!(server.store.wallet(user.id), server.store.in_credits(user.id));
     let price = server.ops.settings.int(crate::settings::NAME_CHANGE_PRICE).max(0);
+    let unconfirmed = crate::recovery::needs_confirmation(server, user).await;
     ServerMsg::Account {
         recovery_email: user.recovery_email.clone(),
         payment_email,
@@ -50,6 +58,7 @@ pub(crate) async fn account_msg(
         name_change_price: if user.role.is_staff() { 0 } else { price as u32 },
         supporter: wallet.is_ok_and(|w| w.vip_until > 0),
         in_credits: in_credits.unwrap_or(false),
+        recovery_email_unconfirmed: unconfirmed,
     }
 }
 
@@ -142,9 +151,15 @@ pub async fn handle(
                     .await;
             }
             tracing::info!(user = me.id, "password changed");
+            // The recovery e-mail is told (whoever changed it).
+            crate::recovery::notify_password_changed(
+                server,
+                &fresh,
+                crate::mail::Lang::of_country(&fresh.country),
+            );
             send(ServerMsg::Notice { text: "Password changed.".into() });
         }
-        ClientMsg::SetRecoveryEmail { email, password } => {
+        ClientMsg::SetRecoveryEmail { email, password, lang } => {
             let email = email.trim().to_lowercase();
             // The password, not the session alone: a stolen session must
             // not set (or remove) where the account is recovered from. Not
@@ -164,14 +179,59 @@ pub async fn handle(
             }
             let mut fresh = fresh;
             fresh.recovery_email = email.clone();
+            // A new address is confirmed by the link sent to it (an
+            // address confirmed before needs nothing).
+            let to_confirm = match &email {
+                Some(e) if server.mail.enabled() => {
+                    let confirmed = server.store.confirmed_email(me.id).await.ok().flatten();
+                    !confirmed.is_some_and(|c| c.eq_ignore_ascii_case(e))
+                }
+                _ => false,
+            };
+            let sent = match (&email, to_confirm) {
+                (Some(e), true) => Some(
+                    crate::recovery::send_confirmation(
+                        server,
+                        &fresh,
+                        e,
+                        crate::mail::Lang::parse(&lang),
+                    )
+                    .await,
+                ),
+                _ => None,
+            };
             send(account_msg(server, &fresh, payment).await);
             send(ServerMsg::Notice {
-                text: if email.is_some() {
-                    "Recovery e-mail saved.".into()
-                } else {
-                    "Recovery e-mail removed.".into()
+                text: match (&email, &sent) {
+                    (None, _) => "Recovery e-mail removed.".into(),
+                    (Some(_), Some(Ok(()))) => CONFIRM_SENT.into(),
+                    _ => "Recovery e-mail saved.".into(),
                 },
             });
+            if let Some(Err(why)) = sent {
+                error(why);
+            }
+        }
+        ClientMsg::ConfirmEmailAgain { lang } => {
+            let Some(email) = fresh.recovery_email.clone() else {
+                error("Set a recovery e-mail first.");
+                return false;
+            };
+            if !crate::recovery::needs_confirmation(server, &fresh).await {
+                send(ServerMsg::Notice { text: "Your recovery e-mail is confirmed.".into() });
+                return false;
+            }
+            match crate::recovery::send_confirmation(
+                server,
+                &fresh,
+                &email,
+                crate::mail::Lang::parse(&lang),
+            )
+            .await
+            {
+                Ok(()) => send(ServerMsg::Notice { text: CONFIRM_RESENT.into() }),
+                Err(why) => error(why),
+            }
         }
         ClientMsg::DeleteAccount { password } => {
             if !password_ok(server, &fresh, &password, ip, &error).await {

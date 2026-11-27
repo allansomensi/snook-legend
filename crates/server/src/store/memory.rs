@@ -14,6 +14,7 @@ mod moderation;
 mod modes;
 mod msstore;
 mod ops;
+mod security;
 
 use super::{
     AimRow, AuditRow, BoardNote, BuyOutcome, FriendOutcome, FriendState, GiftRow, HistoryRow,
@@ -51,6 +52,14 @@ struct Inner {
     next_user: i64,
     /// token hash -> (user, kind, created, expires)
     sessions: HashMap<String, (i64, SessionKind, i64, i64)>,
+    /// Account security (see `store/security.rs`): confirmed recovery
+    /// e-mails, one-time links by their hash, two-step verification,
+    /// recovery codes' hashes, devices kept signed in by their hash.
+    confirmed_emails: HashMap<i64, String>,
+    account_tokens: HashMap<String, security::TokenRow>,
+    totp: HashMap<i64, super::Totp>,
+    recovery_codes: HashMap<i64, HashSet<String>>,
+    devices: HashMap<String, super::Device>,
     matches: Vec<MatchRecord>,
     achievements: HashMap<i64, Vec<(String, i64)>>,
     /// (from, to) -> accepted
@@ -301,7 +310,9 @@ impl MemoryStore {
     }
 
     pub fn delete_user_sessions(&self, user_id: i64) -> StoreResult<()> {
-        self.lock().sessions.retain(|_, (id, ..)| *id != user_id);
+        let mut s = self.lock();
+        s.sessions.retain(|_, (id, ..)| *id != user_id);
+        Self::forget_security(&mut s, user_id, false);
         Ok(())
     }
 
@@ -385,7 +396,8 @@ impl MemoryStore {
         let mut s = self.lock();
         let before = s.sessions.len();
         s.sessions.retain(|_, (.., exp)| *exp > now);
-        Ok((before - s.sessions.len()) as u64)
+        let others = Self::purge_security(&mut s, now);
+        Ok((before - s.sessions.len() + others) as u64)
     }
 
     pub fn set_country(&self, user_id: i64, country: &str) -> StoreResult<()> {
@@ -907,6 +919,7 @@ impl MemoryStore {
         s.dms.retain(|m| m.from != user_id && m.to != user_id);
         s.shot_weeks.retain(|(u, _), _| *u != user_id);
         s.sessions.retain(|_, v| v.0 != user_id);
+        Self::forget_security(&mut s, user_id, true);
         s.friendships.retain(|(a, b), _| *a != user_id && *b != user_id);
         s.blocks.retain(|(a, b)| *a != user_id && *b != user_id);
         s.achievements.remove(&user_id);

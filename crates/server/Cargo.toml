@@ -15,15 +15,18 @@ dist = false
 [[bin]]
 name = "snook-legend-server"
 path = "src/main.rs"
-required-features = ["postgres", "payments"]
+required-features = ["postgres", "payments", "mail"]
 
 [features]
-default = ["postgres", "payments"]
+default = ["postgres", "payments", "mail"]
 # PostgreSQL storage (production). Without it the server keeps everything in
 # memory, which is what the game uses to host LAN games.
 postgres = ["dep:sqlx"]
 # Real-money payments through Stripe (the game's built-in LAN server has none).
 payments = ["dep:reqwest", "dep:rustls"]
+# E-mail through Resend's API (password resets, confirmations); the game's
+# built-in LAN server sends none.
+mail = ["dep:reqwest", "dep:rustls"]
 
 [dependencies]
 snook_legend_core = { path = "../core" }
@@ -42,6 +45,10 @@ tower = { version = "0.5", features = ["util"] }
 argon2 = "0.5"
 sha2 = "0.10"
 hmac = "0.12"
+# Two-step verification for the staff (TOTP is HMAC-SHA1, RFC 6238) and its
+# secrets in base32.
+sha1 = "0.10"
+data-encoding = "2"
 # Payments (Stripe's API): rustls with the ring provider, like the database.
 reqwest = { version = "0.13", optional = true, default-features = false, features = ["rustls-no-provider", "form", "json"] }
 rustls = { version = "0.23", optional = true, default-features = false, features = ["ring", "std", "tls12"] }

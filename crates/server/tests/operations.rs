@@ -3,6 +3,8 @@
 //! paid username changes, maintenance announced, the supporters' credits,
 //! official tournaments kept, the analytics and the public API.
 
+mod common;
+
 use std::sync::Arc;
 use std::time::Duration;
 
@@ -131,10 +133,7 @@ async fn request(host: &str, method: &str, path: &str, token: &str, body: &str) 
 }
 
 async fn token(host: &str, name: &str) -> String {
-    let body = format!(r#"{{"username":"{name}","password":"{PASSWORD}"}}"#);
-    let (code, v) = request(host, "POST", "/admin/api/login", "", &body).await;
-    assert_eq!(code, 200, "{v}");
-    v["token"].as_str().unwrap().to_string()
+    common::staff_token(host, name, PASSWORD).await
 }
 
 #[tokio::test]

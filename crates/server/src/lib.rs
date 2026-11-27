@@ -31,6 +31,7 @@ pub mod inbox;
 pub mod lan;
 pub mod limits;
 pub mod lounge;
+pub mod mail;
 pub mod maintenance;
 pub mod metrics;
 pub mod missions;
@@ -43,6 +44,7 @@ pub mod payments;
 pub mod prefs;
 pub mod promotions;
 pub mod public_api;
+pub mod recovery;
 pub mod replay_view;
 pub mod reports;
 pub mod settings;
@@ -50,6 +52,7 @@ pub mod shop;
 pub mod social;
 pub mod store;
 pub mod time_attack;
+pub mod totp;
 pub mod tournament;
 pub mod wordfilter;
 
@@ -223,6 +226,8 @@ pub struct Config {
     /// proxy keeps a connection to the server idle (60 s is usual), so the
     /// server never closes one the proxy is about to use.
     pub header_timeout: Duration,
+    /// How e-mail is sent (password resets, confirmations; see [`mail`]).
+    pub mail: mail::MailSetup,
 }
 
 impl Default for Config {
@@ -241,6 +246,7 @@ impl Default for Config {
             site_url: pages::SITE_URL.into(),
             admin_origin: None,
             header_timeout: Duration::from_secs(65),
+            mail: mail::MailSetup::Off,
         }
     }
 }
@@ -314,6 +320,11 @@ pub struct Server {
     pub ops: ops::Ops,
     /// The leagues' numbers for the advanced statistics (see [`advanced`]).
     pub(crate) leagues: advanced::LeagueCache,
+    /// E-mail to players (see [`mail`]).
+    pub mail: mail::Mailer,
+    /// Staff signing in to the portal between their password and their
+    /// code (see `admin::security`).
+    pub(crate) staff_logins: admin::security::PendingLogins,
 }
 
 /// Drops connections that send nothing (clients ping every ~15 s).
@@ -378,6 +389,7 @@ impl Server {
         let (shots_tx, shots_rx) = mpsc::unbounded_channel();
         let stripe = config.stripe.clone().map(payments::Stripe::new);
         let msstore = config.msstore.clone().map(msstore::MsStore::new);
+        let mail = mail::Mailer::new(config.mail.clone());
         let mut lounge = Lounge::new(config.settings.clone(), tx);
         lounge.simulate_on(shots_tx);
         let effects_pending = lounge.pending_effects();
@@ -407,6 +419,8 @@ impl Server {
             events: events::Events::default(),
             ops,
             leagues: advanced::LeagueCache::default(),
+            mail,
+            staff_logins: Default::default(),
         });
         // What the staff set in the portal is in force from the start.
         ops::init(&server).await;
@@ -601,6 +615,7 @@ pub fn router(server: Arc<Server>) -> Router {
         .route("/api/status", get(api_status))
         .route("/api/leaderboard", get(api_leaderboard))
         .merge(public_api::router(server.clone()))
+        .merge(recovery::router(server.clone()))
         .route("/stripe/webhook", axum::routing::post(shop::webhook))
         .route("/shop/thanks", get(shop::thanks))
         .route("/shop/cancelled", get(shop::cancelled))
@@ -1149,6 +1164,13 @@ pub(crate) const DUMMY_HASH: &str =
 
 async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
     let fail = |s: &str| Auth::Failed(s.to_string());
+    // A staff member's second try comes with the code of their app.
+    let (msg, code) = match msg {
+        ClientMsg::LoginWithCode { username, password, code } => {
+            (ClientMsg::Login { username, password }, Some(code))
+        }
+        msg => (msg, None),
+    };
     match msg {
         ClientMsg::Register { username, password, country, minor } => {
             if server.config.settings.lan {
@@ -1257,6 +1279,14 @@ async fn authenticate(server: &Arc<Server>, msg: ClientMsg, ip: &str) -> Auth {
                         return fail(TOO_MANY_SIGN_INS);
                     }
                     let user = promote_if_admin(server, user).await;
+                    // Moderators and administrators with two-step
+                    // verification on: the code of their app too.
+                    if user.role.is_staff()
+                        && let Err(why) =
+                            admin::security::game_sign_in(server, &user, code.as_deref()).await
+                    {
+                        return Auth::Failed(why);
+                    }
                     match new_session(server, &user).await {
                         Some(token) => Auth::Ok { user: Box::new(user), token, guest: false },
                         None => fail("The server is busy. Try again in a moment."),
@@ -1477,6 +1507,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             match msg {
                 msg @ (ClientMsg::Register { .. }
                 | ClientMsg::Login { .. }
+                | ClientMsg::LoginWithCode { .. }
                 | ClientMsg::Resume { .. }
                 | ClientMsg::Guest { .. }) => match authenticate(&server, msg, &ip_text).await {
                     Auth::Ok { user: row, token, guest } => {
@@ -1648,6 +1679,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             msg @ (ClientMsg::Account
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
+            | ClientMsg::ConfirmEmailAgain { .. }
             | ClientMsg::DeleteAccount { .. }) => {
                 let deleting = matches!(msg, ClientMsg::DeleteAccount { .. });
                 if account::handle(&server, &me, token_in_use.as_deref(), &ip_text, msg, &send)
@@ -2136,6 +2168,7 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::Account
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
+            | ClientMsg::ConfirmEmailAgain { .. }
             | ClientMsg::DeleteAccount { .. }
             | ClientMsg::ChangeUsername { .. }
             | ClientMsg::SetAge { .. }
@@ -2241,6 +2274,7 @@ fn is_account_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::Account
             | ClientMsg::ChangePassword { .. }
             | ClientMsg::SetRecoveryEmail { .. }
+            | ClientMsg::ConfirmEmailAgain { .. }
             | ClientMsg::DeleteAccount { .. }
             | ClientMsg::ChangeUsername { .. }
             | ClientMsg::SetAge { .. }

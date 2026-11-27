@@ -672,6 +672,7 @@ async fn memory_store() {
     audit_fixes(&Store::memory()).await;
     match_social(&Store::memory()).await;
     ops_and_modes(&Store::memory()).await;
+    account_security(&Store::memory()).await;
 }
 
 #[tokio::test]
@@ -698,6 +699,201 @@ async fn postgres_store() {
     audit_fixes(&Store::postgres(&url, 3).await.unwrap()).await;
     match_social(&Store::postgres(&url, 3).await.unwrap()).await;
     ops_and_modes(&Store::postgres(&url, 3).await.unwrap()).await;
+    account_security(&Store::postgres(&url, 3).await.unwrap()).await;
+}
+
+/// Confirmed recovery e-mails, one-time links, two-step verification with
+/// its recovery codes, and devices kept signed in (0.12.3, migration 0037).
+async fn account_security(store: &Store) {
+    use snook_legend_server::store::{Device, TokenPurpose};
+    let t = 1_800_000_000;
+    let a = store.create_user(&new_user("sec_ana")).await.unwrap().unwrap();
+    let b = store.create_user(&new_user("sec_bia")).await.unwrap().unwrap();
+    let c = store.create_user(&new_user("sec_cid")).await.unwrap().unwrap();
+
+    // An address counts as confirmed while it is the account's.
+    assert_eq!(store.confirmed_email(a.id).await.unwrap(), None);
+    store.set_recovery_email(a.id, Some("ana@example.com")).await.unwrap();
+    store.set_recovery_email(b.id, Some("ana@example.com")).await.unwrap();
+    store.set_recovery_email(c.id, Some("cid@example.com")).await.unwrap();
+    assert!(store.users_by_confirmed_email("ana@example.com", 5).await.unwrap().is_empty());
+    store.confirm_email(a.id, "Ana@Example.com").await.unwrap();
+    store.confirm_email(b.id, "ana@example.com").await.unwrap();
+    assert_eq!(store.confirmed_email(a.id).await.unwrap().as_deref(), Some("ana@example.com"));
+    let mut names: Vec<String> = store
+        .users_by_confirmed_email("ANA@example.com", 5)
+        .await
+        .unwrap()
+        .into_iter()
+        .map(|u| u.username)
+        .collect();
+    names.sort();
+    assert_eq!(names, ["sec_ana", "sec_bia"]);
+    assert_eq!(store.users_by_confirmed_email("ana@example.com", 1).await.unwrap().len(), 1);
+    // Changed to another address: no longer found by the confirmed one.
+    store.set_recovery_email(b.id, Some("bia@example.com")).await.unwrap();
+    let found = store.users_by_confirmed_email("ana@example.com", 5).await.unwrap();
+    assert_eq!(found.iter().map(|u| u.id).collect::<Vec<_>>(), [a.id]);
+
+    // One-time links: the latest of each kind works, once, until it expires.
+    store
+        .replace_account_token(
+            "tok1",
+            a.id,
+            TokenPurpose::PasswordReset,
+            "ana@example.com",
+            t,
+            t + 60,
+        )
+        .await
+        .unwrap();
+    store
+        .replace_account_token(
+            "tok2",
+            a.id,
+            TokenPurpose::PasswordReset,
+            "ana@example.com",
+            t,
+            t + 60,
+        )
+        .await
+        .unwrap();
+    store
+        .replace_account_token(
+            "tok3",
+            a.id,
+            TokenPurpose::ConfirmEmail,
+            "Ana@example.com",
+            t,
+            t + 60,
+        )
+        .await
+        .unwrap();
+    assert_eq!(
+        store.take_account_token("tok1", TokenPurpose::PasswordReset, t).await.unwrap(),
+        None
+    );
+    assert_eq!(
+        store.take_account_token("tok3", TokenPurpose::PasswordReset, t).await.unwrap(),
+        None
+    );
+    assert_eq!(
+        store.take_account_token("tok2", TokenPurpose::PasswordReset, t).await.unwrap(),
+        Some((a.id, "ana@example.com".to_string()))
+    );
+    assert_eq!(
+        store.take_account_token("tok2", TokenPurpose::PasswordReset, t).await.unwrap(),
+        None
+    );
+    assert_eq!(
+        store.take_account_token("tok3", TokenPurpose::ConfirmEmail, t + 61).await.unwrap(),
+        None,
+        "expired"
+    );
+    store
+        .replace_account_token(
+            "tok4",
+            c.id,
+            TokenPurpose::ConfirmEmail,
+            "cid@example.com",
+            t,
+            t + 60,
+        )
+        .await
+        .unwrap();
+    assert!(store.purge_sessions(t + 61).await.unwrap() >= 1, "the expired link");
+    assert_eq!(
+        store.take_account_token("tok4", TokenPurpose::ConfirmEmail, t).await.unwrap(),
+        None
+    );
+
+    // Two-step verification: each step once, recovery codes once each.
+    assert_eq!(store.totp(a.id).await.unwrap(), None);
+    let hashes = vec!["h1".to_string(), "h2".to_string()];
+    store.enable_totp(a.id, "SECRET", 100, t, &hashes).await.unwrap();
+    let totp = store.totp(a.id).await.unwrap().unwrap();
+    assert_eq!((totp.secret.as_str(), totp.enabled_at, totp.last_step), ("SECRET", t, 100));
+    assert!(!store.use_totp_step(a.id, 100).await.unwrap());
+    assert!(!store.use_totp_step(a.id, 99).await.unwrap());
+    assert!(store.use_totp_step(a.id, 101).await.unwrap());
+    assert!(!store.use_totp_step(b.id, 5).await.unwrap(), "not turned on");
+    assert_eq!(store.recovery_codes_left(a.id).await.unwrap(), 2);
+    assert!(store.use_recovery_code(a.id, "h1").await.unwrap());
+    assert!(!store.use_recovery_code(a.id, "h1").await.unwrap());
+    assert!(!store.use_recovery_code(b.id, "h2").await.unwrap());
+    assert_eq!(store.recovery_codes_left(a.id).await.unwrap(), 1);
+    store.set_recovery_codes(a.id, &["n1".into(), "n2".into(), "n3".into()]).await.unwrap();
+    assert!(!store.use_recovery_code(a.id, "h2").await.unwrap());
+    assert_eq!(store.recovery_codes_left(a.id).await.unwrap(), 3);
+    // Its confirmed e-mail stays when it is turned off.
+    store.disable_totp(a.id).await.unwrap();
+    assert_eq!(store.totp(a.id).await.unwrap(), None);
+    assert_eq!(store.recovery_codes_left(a.id).await.unwrap(), 0);
+    assert_eq!(store.confirmed_email(a.id).await.unwrap().as_deref(), Some("ana@example.com"));
+    // The confirmed e-mail stays when it is turned on again, too.
+    store.enable_totp(a.id, "SECRET2", 7, t, &[]).await.unwrap();
+    assert_eq!(store.confirmed_email(a.id).await.unwrap().as_deref(), Some("ana@example.com"));
+
+    // Devices kept signed in.
+    let device = |hash: &str, user: i64, used: i64| Device {
+        token_hash: hash.into(),
+        user_id: user,
+        label: "Chrome · Android".into(),
+        created_at: t,
+        last_used_at: used,
+        expires_at: used + 1000,
+    };
+    store.create_device(&device("dev1", a.id, t)).await.unwrap();
+    store.create_device(&device("dev2", a.id, t + 5)).await.unwrap();
+    store.create_device(&device("dev3", b.id, t)).await.unwrap();
+    let (u, d) = store.device_user("dev1", t).await.unwrap().unwrap();
+    assert_eq!((u.id, d.label.as_str()), (a.id, "Chrome · Android"));
+    assert!(store.device_user("dev1", t + 1000).await.unwrap().is_none(), "expired");
+    store.touch_device("dev1", t + 10, t + 5000).await.unwrap();
+    assert!(store.device_user("dev1", t + 1000).await.unwrap().is_some(), "moved on");
+    let mine: Vec<String> =
+        store.devices(a.id, t).await.unwrap().into_iter().map(|d| d.token_hash).collect();
+    assert_eq!(mine, ["dev1", "dev2"], "the latest used first");
+    assert!(!store.delete_device(a.id, "dev3").await.unwrap(), "someone else's");
+    assert!(store.delete_device(a.id, "dev2").await.unwrap());
+    // Signing out of the portal everywhere keeps the game's sessions.
+    store.create_session("sec_game", a.id, SessionKind::Game, t, t + 100).await.unwrap();
+    store.create_session("sec_admin", a.id, SessionKind::Admin, t, t + 100).await.unwrap();
+    store.delete_staff_sessions(a.id).await.unwrap();
+    assert!(store.devices(a.id, t).await.unwrap().is_empty());
+    assert!(store.session_user("sec_admin", SessionKind::Admin, t).await.unwrap().is_none());
+    assert!(store.session_user("sec_game", SessionKind::Game, t).await.unwrap().is_some());
+    // A new password signs out everywhere, devices too.
+    store.create_device(&device("dev4", a.id, t)).await.unwrap();
+    store.delete_user_sessions(a.id).await.unwrap();
+    assert!(store.device_user("dev4", t).await.unwrap().is_none());
+    assert!(store.session_user("sec_game", SessionKind::Game, t).await.unwrap().is_none());
+    assert!(store.device_user("dev3", t).await.unwrap().is_some(), "someone else's stays");
+
+    // A deleted account takes all of it with it.
+    store.create_device(&device("dev5", b.id, t)).await.unwrap();
+    store.enable_totp(b.id, "S", 1, t, &["x".into()]).await.unwrap();
+    store
+        .replace_account_token(
+            "tok5",
+            b.id,
+            TokenPurpose::PasswordReset,
+            "bia@example.com",
+            t,
+            t + 60,
+        )
+        .await
+        .unwrap();
+    store.delete_account(b.id, t).await.unwrap();
+    assert_eq!(store.confirmed_email(b.id).await.unwrap(), None);
+    assert_eq!(store.totp(b.id).await.unwrap(), None);
+    assert_eq!(store.recovery_codes_left(b.id).await.unwrap(), 0);
+    assert!(store.device_user("dev5", t).await.unwrap().is_none());
+    assert!(store.device_user("dev3", t).await.unwrap().is_none());
+    assert_eq!(
+        store.take_account_token("tok5", TokenPurpose::PasswordReset, t).await.unwrap(),
+        None
+    );
 }
 
 /// Settings kept with the account, direct messages (a conversation keeps

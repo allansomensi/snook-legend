@@ -1028,6 +1028,8 @@ macro_rules! dispatch {
 // (After the macro: it dispatches these too.)
 mod match_social;
 pub use match_social::{DM_KEPT, DM_THREADS, DmRow, DmThreadRow, WeekRow};
+mod security;
+pub use security::{Device, TokenPurpose, Totp};
 mod modes;
 pub use modes::{
     AttemptFinish, AttemptRow, BestRow, DOUBLES_START, DoublesGame, DoublesRecord, TimeAttempt,

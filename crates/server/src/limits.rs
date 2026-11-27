@@ -176,6 +176,17 @@ pub struct AuthLimiter {
     registrations: Window,
     sign_ins_ip: Window,
     sign_ins_user: Window,
+    /// Asks for an e-mailed link (a forgotten password), per address and
+    /// per name or e-mail typed.
+    mail_requests_ip: Window,
+    mail_requests_login: Window,
+    /// E-mails sent to an account (links and confirmations): an inbox is
+    /// never flooded, whoever asks.
+    mails_user: Window,
+    /// Links tried (a new password, a confirmation), per address.
+    tokens_ip: Window,
+    /// Wrong codes of the authenticator app, per account.
+    codes_user: Window,
 }
 
 pub const AUTH_WINDOW: Duration = Duration::from_secs(15 * 60);
@@ -197,6 +208,14 @@ const SIGN_IN_WINDOW: Duration = Duration::from_secs(60);
 // and many players can share one address (carrier-grade NAT, a LAN party).
 const MAX_SIGN_INS_PER_IP: usize = 120;
 const MAX_SIGN_INS_PER_USER: usize = 12;
+const MAIL_WINDOW: Duration = Duration::from_secs(60 * 60);
+const MAX_MAIL_REQUESTS_PER_IP: usize = 10;
+const MAX_MAIL_REQUESTS_PER_LOGIN: usize = 5;
+const MAX_MAILS_PER_ACCOUNT: usize = 5;
+const MAX_TOKENS_PER_IP: usize = 30;
+/// Wrong codes for an account in [`AUTH_WINDOW`]: six digits are a million
+/// guesses, and a code changes every 30 seconds.
+const MAX_CODE_FAILURES: usize = 10;
 
 impl AuthLimiter {
     /// Whether another password may be tried for `username` from `ip`. If
@@ -271,7 +290,66 @@ impl AuthLimiter {
         true
     }
 
+    /// Whether `ip` may ask for another e-mailed link for `login` (a name
+    /// or an address, lower case). Counted straight away.
+    pub fn try_mail_request(&mut self, ip: &str, login: &str) -> bool {
+        if self.mail_requests_ip.count(ip, MAIL_WINDOW) >= MAX_MAIL_REQUESTS_PER_IP
+            || self.mail_requests_login.count(login, MAIL_WINDOW) >= MAX_MAIL_REQUESTS_PER_LOGIN
+        {
+            return false;
+        }
+        self.mail_requests_ip.add(ip);
+        self.mail_requests_login.add(login);
+        true
+    }
+
+    /// Whether another e-mail may go to account `id` (counted straight away).
+    pub fn try_mail_to(&mut self, id: i64) -> bool {
+        let key = id.to_string();
+        if self.mails_user.count(&key, MAIL_WINDOW) >= MAX_MAILS_PER_ACCOUNT {
+            return false;
+        }
+        self.mails_user.add(&key);
+        true
+    }
+
+    /// Whether `ip` may try another e-mailed link (counted straight away).
+    pub fn try_token(&mut self, ip: &str) -> bool {
+        if self.tokens_ip.count(ip, AUTH_WINDOW) >= MAX_TOKENS_PER_IP {
+            return false;
+        }
+        self.tokens_ip.add(ip);
+        true
+    }
+
+    /// Whether another code may be tried for account `id`. Counted as a
+    /// failure straight away; [`AuthLimiter::code_ok`] forgets them.
+    pub fn try_code(&mut self, id: i64) -> bool {
+        let key = id.to_string();
+        if self.codes_user.count(&key, AUTH_WINDOW) >= MAX_CODE_FAILURES {
+            return false;
+        }
+        self.codes_user.add(&key);
+        true
+    }
+
+    /// The code was right: the account's wrong ones are forgotten.
+    pub fn code_ok(&mut self, id: i64) {
+        self.codes_user.clear(&id.to_string());
+    }
+
+    /// The account's owner chose a new password by e-mail: the wrong
+    /// passwords tried for it are forgotten (from every address).
+    pub fn forget_failures(&mut self, username: &str) {
+        self.failures_user.clear(&username.to_ascii_lowercase());
+    }
+
     pub fn sweep(&mut self) {
+        self.mail_requests_ip.sweep(MAIL_WINDOW);
+        self.mail_requests_login.sweep(MAIL_WINDOW);
+        self.mails_user.sweep(MAIL_WINDOW);
+        self.tokens_ip.sweep(AUTH_WINDOW);
+        self.codes_user.sweep(AUTH_WINDOW);
         self.failures_ip.sweep(AUTH_WINDOW);
         self.failures_pair.sweep(AUTH_WINDOW);
         self.failures_user.sweep(AUTH_WINDOW);

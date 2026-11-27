@@ -37,10 +37,22 @@ struct Client {
 
 impl Client {
     async fn connect(url: &str) -> Client {
+        Client::connect_as(url, PROTOCOL_VERSION).await
+    }
+
+    /// A game that speaks protocol `version` (an older one).
+    async fn connect_as(url: &str, version: u32) -> Client {
         let (ws, _) = connect_async(url).await.unwrap();
         let mut c = Client { ws };
-        c.send(ClientMsg::Hello { version: PROTOCOL_VERSION, rules: Rules::Brazilian }).await;
+        c.send(ClientMsg::Hello { version, rules: Rules::Brazilian }).await;
         c
+    }
+
+    /// Everything the server has sent so far (the answer to a ping comes
+    /// after it, and after whatever this game asked before).
+    async fn so_far(&mut self) -> Vec<ServerMsg> {
+        self.send(ClientMsg::Ping).await;
+        self.until("pong", |m| matches!(m, ServerMsg::Pong)).await.0
     }
 
     async fn send(&mut self, msg: ClientMsg) {
@@ -100,11 +112,21 @@ impl Client {
     }
 
     async fn resume(url: &str, token: &str) -> Client {
-        let mut c = Client::connect(url).await;
+        Client::resume_as(url, token, PROTOCOL_VERSION).await
+    }
+
+    /// Signs in again with a game of protocol `version`.
+    async fn resume_as(url: &str, token: &str, version: u32) -> Client {
+        let mut c = Client::connect_as(url, version).await;
         c.send(ClientMsg::Resume { token: token.into() }).await;
         c.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
         c
     }
+}
+
+/// Whether `m` tells how messages fare (a receipt, "typing…").
+fn is_receipt(m: &ServerMsg) -> bool {
+    matches!(m, ServerMsg::DmStatus { .. } | ServerMsg::DmTyping { .. })
 }
 
 /// `a` and `b` become friends.
@@ -315,7 +337,11 @@ async fn old_games_are_not_sent_messages() {
     old.send(ClientMsg::Resume { token: bob_token }).await;
     old.expect("auth", |m| matches!(m, ServerMsg::AuthOk { .. })).await;
     ana.send(ClientMsg::DmSend { to: "bob".into(), text: "there?".into() }).await;
-    ana.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await;
+    let ServerMsg::Dm { message } = ana.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(!message.delivered, "his game has no messages to show it");
     tokio::time::sleep(Duration::from_millis(300)).await;
     old.send(ClientMsg::Ping).await;
     let (before, _) = old.until("pong", |m| matches!(m, ServerMsg::Pong)).await;
@@ -324,6 +350,210 @@ async fn old_games_are_not_sent_messages() {
         .filter(|m| matches!(m, ServerMsg::Dm { .. } | ServerMsg::DmThreads { .. }))
         .count();
     assert_eq!(dms, 0, "{before:?}");
+    // Nor did what waited reach it as it signed in.
+    let heard = ana.so_far().await;
+    assert!(!heard.iter().any(is_receipt), "{heard:?}");
+}
+
+/// A message says when it reached the other player's game (at once, or as
+/// they sign in) and when they read it, and the one who wrote it is told
+/// as it happens; the conversation and the list say whether the other is
+/// online (and a friend's, when they were last).
+#[tokio::test]
+async fn messages_say_when_they_are_delivered_and_read() {
+    let (url, _) = start().await;
+    let (mut ana, _) = Client::register(&url, "ana").await;
+    let (mut bob, bob_token) = Client::register(&url, "bob").await;
+    befriend(&mut ana, &mut bob, "ana", "bob").await;
+    // Bob is online: it reaches him at once.
+    ana.send(ClientMsg::DmSend { to: "bob".into(), text: "hi".into() }).await;
+    let ServerMsg::Dm { message: hi } =
+        ana.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(hi.delivered && !hi.read);
+    bob.expect("got", |m| matches!(m, ServerMsg::Dm { message } if message.delivered)).await;
+    // Offline, it waits until he signs in: then Ana is told.
+    drop(bob);
+    tokio::time::sleep(Duration::from_millis(200)).await;
+    ana.send(ClientMsg::DmSend { to: "bob".into(), text: "are you there?".into() }).await;
+    let ServerMsg::Dm { message: there } =
+        ana.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(!there.delivered);
+    let mut bob = Client::resume(&url, &bob_token).await;
+    let m = ana.expect("delivered", |m| matches!(m, ServerMsg::DmStatus { .. })).await;
+    assert_eq!(m, ServerMsg::DmStatus { with: "bob".into(), up_to: there.id, read: false });
+    // His list: Ana as she is now, online.
+    let ServerMsg::DmThreads { threads } =
+        bob.expect("threads", |m| matches!(m, ServerMsg::DmThreads { .. })).await
+    else {
+        unreachable!()
+    };
+    let t = &threads[0];
+    assert_eq!((t.with.as_str(), t.unread, t.online), ("ana", 2, true));
+    assert!(t.last.delivered && !t.last.read);
+    let player = t.player.as_ref().expect("the other player");
+    assert_eq!((player.username.as_str(), player.country.as_str()), ("ana", "BR"));
+    bob.send(ClientMsg::DmHistory { with: "ana".into(), before: None }).await;
+    let ServerMsg::DmHistory { messages, online, last_seen, .. } =
+        bob.expect("history", |m| matches!(m, ServerMsg::DmHistory { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(online && last_seen > 0, "a friend's");
+    assert!(messages.iter().all(|m| m.delivered && !m.read), "{messages:?}");
+    // He reads them: she is told, up to the newest.
+    bob.send(ClientMsg::DmRead { with: "ana".into() }).await;
+    let m = ana.expect("read", |m| matches!(m, ServerMsg::DmStatus { read: true, .. })).await;
+    assert_eq!(m, ServerMsg::DmStatus { with: "bob".into(), up_to: there.id, read: true });
+    ana.send(ClientMsg::DmHistory { with: "bob".into(), before: None }).await;
+    let ServerMsg::DmHistory { messages, .. } =
+        ana.expect("history", |m| matches!(m, ServerMsg::DmHistory { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(messages.iter().all(|m| m.delivered && m.read), "{messages:?}");
+    // Nothing more to read: nothing more said.
+    bob.send(ClientMsg::DmRead { with: "ana".into() }).await;
+    bob.so_far().await;
+    let heard = ana.so_far().await;
+    assert!(!heard.iter().any(is_receipt), "{heard:?}");
+    // Ana goes: the list and the conversation say so.
+    drop(ana);
+    tokio::time::sleep(Duration::from_millis(200)).await;
+    bob.send(ClientMsg::DmThreads).await;
+    let ServerMsg::DmThreads { threads } =
+        bob.expect("threads", |m| matches!(m, ServerMsg::DmThreads { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(!threads[0].online);
+    assert_eq!(threads[0].player.as_ref().map(|p| p.username.as_str()), Some("ana"));
+    bob.send(ClientMsg::DmHistory { with: "ana".into(), before: None }).await;
+    let ServerMsg::DmHistory { online, last_seen, .. } =
+        bob.expect("history", |m| matches!(m, ServerMsg::DmHistory { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(!online && last_seen > 0);
+}
+
+/// "Typing…" goes to friends and to players with a conversation already,
+/// a couple at a time, never past a block, and is never answered.
+#[tokio::test]
+async fn typing_shows_to_friends_and_conversations_only() {
+    let (url, _) = start().await;
+    let (mut ana, _) = Client::register(&url, "ana").await;
+    let (mut bob, _) = Client::register(&url, "bob").await;
+    let (mut cid, _) = Client::register(&url, "cid").await;
+    befriend(&mut ana, &mut bob, "ana", "bob").await;
+    // A friend sees it.
+    ana.send(ClientMsg::DmTyping { to: "Bob".into() }).await;
+    let m = bob.expect("typing", |m| matches!(m, ServerMsg::DmTyping { .. })).await;
+    assert_eq!(m, ServerMsg::DmTyping { from: "ana".into() });
+    // Someone who never wrote to her: she doesn't, and he hears nothing.
+    cid.send(ClientMsg::DmTyping { to: "ana".into() }).await;
+    let said = cid.so_far().await;
+    assert!(!said.iter().any(|m| matches!(m, ServerMsg::Error { .. })), "{said:?}");
+    let heard = ana.so_far().await;
+    assert!(!heard.iter().any(is_receipt), "{heard:?}");
+    // Once they have a conversation, she does.
+    cid.send(ClientMsg::DmSend { to: "ana".into(), text: "hello".into() }).await;
+    ana.expect("got", |m| matches!(m, ServerMsg::Dm { .. })).await;
+    cid.send(ClientMsg::DmTyping { to: "ana".into() }).await;
+    let m = ana.expect("typing", |m| matches!(m, ServerMsg::DmTyping { .. })).await;
+    assert_eq!(m, ServerMsg::DmTyping { from: "cid".into() });
+    // (Online, but when he was last here is for friends to know.)
+    ana.send(ClientMsg::DmHistory { with: "cid".into(), before: None }).await;
+    let ServerMsg::DmHistory { online, last_seen, .. } =
+        ana.expect("history", |m| matches!(m, ServerMsg::DmHistory { .. })).await
+    else {
+        unreachable!()
+    };
+    assert_eq!((online, last_seen), (true, 0));
+    // A block stops it both ways, and what is read isn't told either.
+    ana.send(ClientMsg::DmSend { to: "bob".into(), text: "hi".into() }).await;
+    bob.expect("got", |m| matches!(m, ServerMsg::Dm { .. })).await;
+    bob.send(ClientMsg::Block { username: "ana".into() }).await;
+    bob.expect("friends", |m| matches!(m, ServerMsg::Friends { .. })).await;
+    bob.send(ClientMsg::DmRead { with: "ana".into() }).await;
+    bob.send(ClientMsg::DmTyping { to: "ana".into() }).await;
+    let said = bob.so_far().await;
+    assert!(!said.iter().any(|m| matches!(m, ServerMsg::Error { .. })), "{said:?}");
+    ana.send(ClientMsg::DmTyping { to: "bob".into() }).await;
+    let said = ana.so_far().await;
+    assert!(!said.iter().any(|m| is_receipt(m) || matches!(m, ServerMsg::Error { .. })));
+    let heard = bob.so_far().await;
+    assert!(!heard.iter().any(is_receipt), "{heard:?}");
+    // A game that says it far too often: a couple get through, the rest
+    // are dropped without a word.
+    let (mut dan, _) = Client::register(&url, "dan").await;
+    let (mut eve, _) = Client::register(&url, "eve").await;
+    befriend(&mut dan, &mut eve, "dan", "eve").await;
+    for _ in 0..6 {
+        dan.send(ClientMsg::DmTyping { to: "eve".into() }).await;
+    }
+    let said = dan.so_far().await;
+    assert!(!said.iter().any(|m| matches!(m, ServerMsg::Error { .. })), "{said:?}");
+    let heard = eve.so_far().await;
+    let typing = heard.iter().filter(|m| matches!(m, ServerMsg::DmTyping { .. })).count();
+    assert_eq!(typing, 2, "{heard:?}");
+}
+
+/// A 0.12 game (protocol 25) has private messages, not their receipts nor
+/// "typing…": it is sent neither (it would drop them as malformed), while
+/// the newer game on the other side is still told what the older one did.
+#[tokio::test]
+async fn games_before_receipts_are_not_sent_them() {
+    let (url, _) = start().await;
+    let (mut ana, _) = Client::register(&url, "ana").await;
+    let (mut bob, bob_token) = Client::register(&url, "bob").await;
+    befriend(&mut ana, &mut bob, "ana", "bob").await;
+    drop(bob);
+    tokio::time::sleep(Duration::from_millis(200)).await;
+    let mut old = Client::resume_as(&url, &bob_token, 25).await;
+    // It has messages: hers reach it.
+    ana.send(ClientMsg::DmSend { to: "bob".into(), text: "hi".into() }).await;
+    let ServerMsg::Dm { message: hi } =
+        ana.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(hi.delivered);
+    old.expect("got", |m| matches!(m, ServerMsg::Dm { .. })).await;
+    // She types, and reads his answer: he isn't told.
+    ana.send(ClientMsg::DmTyping { to: "bob".into() }).await;
+    old.send(ClientMsg::DmSend { to: "ana".into(), text: "hey".into() }).await;
+    old.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await;
+    ana.expect("got", |m| matches!(m, ServerMsg::Dm { .. })).await;
+    ana.send(ClientMsg::DmRead { with: "bob".into() }).await;
+    ana.so_far().await;
+    // He reads hers: she is.
+    old.send(ClientMsg::DmRead { with: "ana".into() }).await;
+    let m = ana.expect("read", |m| matches!(m, ServerMsg::DmStatus { .. })).await;
+    assert_eq!(m, ServerMsg::DmStatus { with: "bob".into(), up_to: hi.id, read: true });
+    let got = old.so_far().await;
+    assert!(!got.iter().any(is_receipt), "{got:?}");
+    // What waited for him reaches it as it signs in: she is told.
+    drop(old);
+    tokio::time::sleep(Duration::from_millis(200)).await;
+    ana.send(ClientMsg::DmSend { to: "bob".into(), text: "later?".into() }).await;
+    let ServerMsg::Dm { message: later } =
+        ana.expect("kept", |m| matches!(m, ServerMsg::Dm { .. })).await
+    else {
+        unreachable!()
+    };
+    assert!(!later.delivered);
+    let mut old = Client::resume_as(&url, &bob_token, 25).await;
+    let m = ana.expect("delivered", |m| matches!(m, ServerMsg::DmStatus { .. })).await;
+    assert_eq!(m, ServerMsg::DmStatus { with: "bob".into(), up_to: later.id, read: false });
+    old.expect("threads", |m| matches!(m, ServerMsg::DmThreads { .. })).await;
+    let got = old.so_far().await;
+    assert!(!got.iter().any(is_receipt), "{got:?}");
 }
 
 #[tokio::test]

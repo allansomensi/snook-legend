@@ -1,13 +1,14 @@
 //! The lounge's part of 0.12's match and social features: what friends see
 //! each other doing, the rating at stake in a rated game, the spectators'
-//! own chat and the chat kept to the quick phrases.
+//! own chat, the chat kept to the quick phrases, and who may be told how
+//! private messages fare (see `crate::dm`).
 
 use std::collections::HashSet;
 
 use snook_legend_core::Rules;
 use snook_legend_core::rating::{self, EloConfig};
 use snook_legend_proto::activity::{Activity, Pastime};
-use snook_legend_proto::{ChatKind, ChatLine, ServerMsg};
+use snook_legend_proto::{ChatKind, ChatLine, DM_RECEIPTS_PROTOCOL, ServerMsg};
 
 use super::{Lounge, MATCH_CHAT_KEEP, key};
 use crate::now;
@@ -123,6 +124,36 @@ impl Lounge {
         if let Some(s) = self.sessions.get_mut(&key(name)) {
             s.user.chat_phrases_only = on;
         }
+    }
+
+    /// Whether `to` may be told, as it happens, what `from` does with their
+    /// conversation (`to`'s messages reached `from`'s game, `from` read
+    /// them, `from` is typing): both are online, the game of `to`
+    /// understands it ([`DM_RECEIPTS_PROTOCOL`]), and neither blocked the
+    /// other (a block isn't given away by a receipt, nor gone round by one).
+    pub fn takes_receipts(&self, to: &str, from: &str) -> bool {
+        let (t, f) = (key(to), key(from));
+        t != f
+            && self.sessions.get(&t).is_some_and(|s| s.protocol >= DM_RECEIPTS_PROTOCOL)
+            && self.sessions.contains_key(&f)
+            && !self.blocks(&t, &f)
+            && !self.blocks(&f, &t)
+    }
+
+    /// Whether `from`'s "typing…" may reach `to`: when `to` [takes
+    /// receipts](Self::takes_receipts) from `from` and their chat is on,
+    /// their account's id, and whether the two are friends (each in the
+    /// other's list).
+    pub fn typing_to(&self, from: &str, to: &str) -> Option<(i64, bool)> {
+        if !self.takes_receipts(to, from) {
+            return None;
+        }
+        let (f, t) = (key(from), key(to));
+        let (sf, st) = (self.sessions.get(&f)?, self.sessions.get(&t)?);
+        if self.chat_off(st) {
+            return None;
+        }
+        Some((st.user.id, sf.friends.contains(&t) && st.friends.contains(&f)))
     }
 
     /// The game `k` is watching (the friend may have dropped for a moment:

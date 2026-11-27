@@ -897,8 +897,9 @@ async fn account_security(store: &Store) {
 }
 
 /// Settings kept with the account, direct messages (a conversation keeps
-/// its newest), the chat kept to the quick phrases, weeks of pots and a
-/// league's sums (0.12, migration 0030).
+/// its newest; each says when it was delivered and read), the chat kept to
+/// the quick phrases, weeks of pots and a league's sums (0.12, migrations
+/// 0030 and 0038).
 async fn match_social(store: &Store) {
     use snook_legend_proto::analysis::{ShotAnalysis, Tally};
     use snook_legend_server::store::DM_KEPT;
@@ -916,7 +917,7 @@ async fn match_social(store: &Store) {
         store.dm_send(a, b, &format!("m{k}"), 100 + k as i64).await.unwrap();
     }
     let from_c = store.dm_send(c, a, "from c", 5000).await.unwrap();
-    assert_eq!((from_c.from, from_c.to, from_c.read_at), (c, a, None));
+    assert_eq!((from_c.from, from_c.to, from_c.read_at, from_c.delivered_at), (c, a, None, None));
     let ab = store.dm_history(b, a, None, 10).await.unwrap();
     assert_eq!(ab.len(), 10);
     assert_eq!(ab[0].text, format!("m{}", DM_KEPT + 2), "newest first");
@@ -926,15 +927,28 @@ async fn match_social(store: &Store) {
     let threads = store.dm_threads(a).await.unwrap();
     assert_eq!(threads.iter().map(|t| (t.other, t.unread)).collect::<Vec<_>>(), [(c, 1), (b, 0)]);
     assert_eq!(threads[0].last.text, "from c");
-    assert_eq!(store.dm_read(a, c, 6000).await.unwrap(), 1);
-    assert_eq!(store.dm_read(a, c, 6001).await.unwrap(), 0);
+    // Delivered: one as it was sent (its receiver was online), once; and
+    // everything that waited for b as b signs in, up to the newest.
+    assert!(store.dm_delivered(from_c.id, 5001).await.unwrap());
+    assert!(!store.dm_delivered(from_c.id, 5002).await.unwrap(), "once");
+    assert_eq!(store.dm_history(a, c, None, 1).await.unwrap()[0].delivered_at, Some(5001));
+    assert_eq!(store.dm_delivered_to(b, 5500).await.unwrap(), [(a, ab[0].id)]);
+    assert!(store.dm_delivered_to(b, 5600).await.unwrap().is_empty(), "nothing waits now");
+    let ab_all = store.dm_history(a, b, None, 1000).await.unwrap();
+    assert!(ab_all.iter().all(|m| m.delivered_at == Some(5500) && m.read_at.is_none()));
+    assert!(store.dm_delivered_to(c, 5500).await.unwrap().is_empty(), "nothing for c");
+    // Read: up to the newest, once (it stays delivered when it was).
+    assert_eq!(store.dm_read(a, c, 6000).await.unwrap(), Some(from_c.id));
+    assert_eq!(store.dm_read(a, c, 6001).await.unwrap(), None);
+    let read = &store.dm_history(a, c, None, 1).await.unwrap()[0];
+    assert_eq!((read.read_at, read.delivered_at), (Some(6000), Some(5001)));
     assert_eq!(store.dm_threads(a).await.unwrap()[0].unread, 0);
     assert_eq!(store.dm_threads(b).await.unwrap()[0].unread, DM_KEPT as u32);
     // Messages not answered yet, and the conversations started lately.
     let d = make("ms_d").await.unwrap().unwrap().id;
     assert_eq!(store.dm_waiting(a, b).await.unwrap(), DM_KEPT as u32, "b never answered");
     assert_eq!(store.dm_waiting(b, a).await.unwrap(), 0);
-    store.dm_send(b, a, "at last", 7000).await.unwrap();
+    let at_last = store.dm_send(b, a, "at last", 7000).await.unwrap();
     assert_eq!(store.dm_waiting(a, b).await.unwrap(), 0);
     store.dm_send(a, b, "!", 7001).await.unwrap();
     assert_eq!(store.dm_waiting(a, b).await.unwrap(), 1);
@@ -944,9 +958,22 @@ async fn match_social(store: &Store) {
     assert_eq!(store.dm_started(a, 7000).await.unwrap(), 0);
     assert_eq!(store.dm_started(c, 0).await.unwrap(), 1);
     store.dm_send(a, d, "hello", 8000).await.unwrap();
-    store.dm_send(d, a, "hi", 8001).await.unwrap();
+    let hi = store.dm_send(d, a, "hi", 8001).await.unwrap();
     assert_eq!(store.dm_started(a, 7500).await.unwrap(), 1);
     assert_eq!(store.dm_started(d, 0).await.unwrap(), 0);
+    // a signs in: what b and d wrote waits no more (each is told so).
+    let mut waited = store.dm_delivered_to(a, 8500).await.unwrap();
+    waited.sort();
+    assert_eq!(waited, [(b, at_last.id), (d, hi.id)]);
+    // Read before it was delivered (a game reading at once): delivered too.
+    let e = make("ms_e").await.unwrap().unwrap().id;
+    store.dm_send(e, c, "one", 8600).await.unwrap();
+    let two = store.dm_send(e, c, "two", 8601).await.unwrap();
+    assert_eq!(store.dm_read(c, e, 8700).await.unwrap(), Some(two.id));
+    let rows = store.dm_history(c, e, None, 10).await.unwrap();
+    assert_eq!(rows.len(), 2);
+    assert!(rows.iter().all(|m| (m.read_at, m.delivered_at) == (Some(8700), Some(8700))));
+    assert!(store.dm_delivered_to(c, 8800).await.unwrap().is_empty());
     // The quick phrases only.
     store.set_phrases_only(c, true).await.unwrap();
     assert!(store.user_by_id(c).await.unwrap().unwrap().chat_phrases_only);

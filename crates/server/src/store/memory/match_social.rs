@@ -25,7 +25,15 @@ impl MemoryStore {
     pub fn dm_send(&self, from: i64, to: i64, text: &str, at: i64) -> StoreResult<DmRow> {
         let mut s = self.lock();
         s.next_dm += 1;
-        let row = DmRow { id: s.next_dm, from, to, text: text.to_string(), at, read_at: None };
+        let row = DmRow {
+            id: s.next_dm,
+            from,
+            to,
+            text: text.to_string(),
+            at,
+            read_at: None,
+            delivered_at: None,
+        };
         s.dms.push(row.clone());
         let count = s.dms.iter().filter(|m| between(m, from, to)).count();
         if count > DM_KEPT {
@@ -59,14 +67,37 @@ impl MemoryStore {
             .collect())
     }
 
-    pub fn dm_read(&self, me: i64, with: i64, at: i64) -> StoreResult<u64> {
+    pub fn dm_delivered(&self, id: i64, at: i64) -> StoreResult<bool> {
         let mut s = self.lock();
-        let mut n = 0;
+        let Some(m) = s.dms.iter_mut().find(|m| m.id == id && m.delivered_at.is_none()) else {
+            return Ok(false);
+        };
+        m.delivered_at = Some(at);
+        Ok(true)
+    }
+
+    pub fn dm_delivered_to(&self, to: i64, at: i64) -> StoreResult<Vec<(i64, i64)>> {
+        let mut s = self.lock();
+        let mut newest: Vec<(i64, i64)> = Vec::new();
+        for m in s.dms.iter_mut().filter(|m| m.to == to && m.delivered_at.is_none()) {
+            m.delivered_at = Some(at);
+            match newest.iter_mut().find(|(from, _)| *from == m.from) {
+                Some((_, up_to)) => *up_to = (*up_to).max(m.id),
+                None => newest.push((m.from, m.id)),
+            }
+        }
+        Ok(newest)
+    }
+
+    pub fn dm_read(&self, me: i64, with: i64, at: i64) -> StoreResult<Option<i64>> {
+        let mut s = self.lock();
+        let mut newest = None;
         for m in s.dms.iter_mut().filter(|m| m.from == with && m.to == me && m.read_at.is_none()) {
             m.read_at = Some(at);
-            n += 1;
+            m.delivered_at.get_or_insert(at);
+            newest = newest.max(Some(m.id));
         }
-        Ok(n)
+        Ok(newest)
     }
 
     pub fn dm_threads(&self, me: i64) -> StoreResult<Vec<DmThreadRow>> {

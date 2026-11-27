@@ -1,6 +1,7 @@
 //! What 0.12's match and social features keep (migration 0030): the
 //! settings an account carries from computer to computer, direct messages
-//! between friends, the quick-phrases-only chat a parent or guardian may
+//! between friends (and, since migration 0038, when each reached the other
+//! player's game), the quick-phrases-only chat a parent or guardian may
 //! choose, and the week-by-week pot attempts of the advanced statistics.
 
 use snook_legend_proto::Rules;
@@ -18,6 +19,9 @@ pub struct DmRow {
     pub at: i64,
     /// When the receiver read it.
     pub read_at: Option<i64>,
+    /// When it reached the receiver's game: as it was sent, if they were
+    /// online, else when they next signed in (reading it delivers it too).
+    pub delivered_at: Option<i64>,
 }
 
 /// A conversation in the list: the other player, the newest message and how
@@ -73,8 +77,21 @@ impl Store {
     ) -> StoreResult<Vec<DmRow>> {
         dispatch!(self, s => s.dm_history(a, b, before, limit))
     }
-    /// `me` read what `with` sent them; how many messages that was.
-    pub async fn dm_read(&self, me: i64, with: i64, at: i64) -> StoreResult<u64> {
+    /// The message numbered `id` reached its receiver's game at `at` (they
+    /// were online as it was sent); false when it already had.
+    pub async fn dm_delivered(&self, id: i64, at: i64) -> StoreResult<bool> {
+        dispatch!(self, s => s.dm_delivered(id, at))
+    }
+    /// Everything that waited for `to` reached their game at `at` (they
+    /// signed in): for each player whose messages those were, the number of
+    /// the newest, `(from, up_to)`, so that they can be told.
+    pub async fn dm_delivered_to(&self, to: i64, at: i64) -> StoreResult<Vec<(i64, i64)>> {
+        dispatch!(self, s => s.dm_delivered_to(to, at))
+    }
+    /// `me` read what `with` sent them (delivered with it, if it hadn't
+    /// been); the number of the newest message that was, None when nothing
+    /// was unread.
+    pub async fn dm_read(&self, me: i64, with: i64, at: i64) -> StoreResult<Option<i64>> {
         dispatch!(self, s => s.dm_read(me, with, at))
     }
     /// `me`'s conversations, newest first (at most [`DM_THREADS`]).

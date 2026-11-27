@@ -1438,7 +1438,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
         store: mut store_bucket,
         query: mut query_bucket,
         status: mut status_bucket,
-        dm: mut dm_bucket,
+        dm: mut dm_limits,
         settings: mut settings_bucket,
     } = ConnLimits::fresh();
     loop {
@@ -1585,7 +1585,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                                 store: store_bucket,
                                 query: query_bucket,
                                 status: status_bucket,
-                                dm: dm_bucket,
+                                dm: dm_limits,
                                 settings: settings_bucket,
                             } = kept;
                         }
@@ -1673,6 +1673,8 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     send(ServerMsg::Error { message: "You can only watch your friends.".into() });
                 }
             }
+            // ("Typing…" is never answered, not even to say no.)
+            ClientMsg::DmTyping { .. } if guest => {}
             msg if guest && is_account_msg(&msg) => {
                 send(ServerMsg::Error { message: "Guests don't have this.".into() })
             }
@@ -1787,7 +1789,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             ClientMsg::Chat { text } => moderation::chat(&server, &me, text).await,
             msg if collection::is_msg(&msg) => collection::handle(&server, &me, msg, &send).await,
             msg if ops::is_msg(&msg) => ops::handle(&server, &me, msg, &send).await,
-            msg if dm::is_msg(&msg) => dm::handle(&server, &me, msg, &send, &mut dm_bucket).await,
+            msg if dm::is_msg(&msg) => dm::handle(&server, &me, msg, &send, &mut dm_limits).await,
             msg if prefs::is_msg(&msg) => {
                 if settings_bucket.take() {
                     prefs::handle(&server, &me, msg, &send).await
@@ -2085,7 +2087,7 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
             store: store_bucket,
             query: query_bucket,
             status: status_bucket,
-            dm: dm_bucket,
+            dm: dm_limits,
             settings: settings_bucket,
         };
         server.keep_limits(u.id, limits);
@@ -2115,8 +2117,8 @@ struct ConnLimits {
     query: Bucket,
     /// Status messages (everyone in the lounge sees each change).
     status: Bucket,
-    /// Direct messages (see [`dm::bucket`]).
-    dm: Bucket,
+    /// Direct messages and "typing…" (see [`dm::Limits`]).
+    dm: dm::Limits,
     /// The account's settings (the game sends them a moment after a change).
     settings: Bucket,
 }
@@ -2128,7 +2130,7 @@ impl ConnLimits {
             store: Bucket::new(12.0, 0.2),
             query: Bucket::new(30.0, 2.0),
             status: Bucket::new(4.0, 1.0 / 15.0),
-            dm: dm::bucket(),
+            dm: dm::Limits::fresh(),
             settings: Bucket::new(6.0, 0.1),
         }
     }
@@ -2150,7 +2152,9 @@ impl Server {
     }
 }
 
-/// Messages answered from the database.
+/// Messages answered from the database. ("Typing…" has a limit of its
+/// own, see [`dm::Limits`], and is never answered, not even to say slow
+/// down.)
 fn is_query_msg(msg: &ClientMsg) -> bool {
     matches!(
         msg,
@@ -2212,7 +2216,6 @@ fn is_query_msg(msg: &ClientMsg) -> bool {
             | ClientMsg::DmHistory { .. }
             | ClientMsg::DmRead { .. }
             | ClientMsg::DmThreads
-            | ClientMsg::DmTyping { .. }
             | ClientMsg::AdvancedStats { .. }
             | ClientMsg::DoublesLeaderboard { .. }
             | ClientMsg::TimeAttack

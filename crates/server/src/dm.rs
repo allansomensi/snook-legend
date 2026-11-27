@@ -9,16 +9,25 @@
 //! anyone, a few messages until they answer and a few new conversations a
 //! day. A message to someone offline waits for them (the list of
 //! conversations after signing in says how many are unread).
+//!
+//! The one who wrote is told how their messages fare: when they reach the
+//! other player's game (at once if they are online, else as they sign in)
+//! and when they are read ([`ServerMsg::DmStatus`]); and either sees the
+//! other typing to them ([`ServerMsg::DmTyping`]), between friends or
+//! players who already have a conversation. Games before
+//! [`snook_legend_proto::DM_RECEIPTS_PROTOCOL`] are told none of it (they
+//! would drop it as malformed), and a block keeps all of it back, both
+//! ways.
 
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use snook_legend_proto::dm::{
     DirectMessage, DmThread, HISTORY_PAGE, MESSAGES_FROM_ANYONE, NEW_A_DAY, UNANSWERED, clean_dm,
 };
-use snook_legend_proto::{ClientMsg, ServerMsg, is_quick_phrase};
+use snook_legend_proto::{ClientMsg, PlayerStatus, Rules, ServerMsg, is_quick_phrase};
 
 use crate::limits::Bucket;
-use crate::lounge::{PHRASES_ONLY, chat_off_reason};
+use crate::lounge::{PHRASES_ONLY, chat_off_reason, phrases_only, player_info};
 use crate::store::{DmRow, FriendState, User};
 use crate::{Server, now};
 
@@ -37,6 +46,9 @@ pub const TOO_MANY_NEW: &str = "You've started enough new conversations today. T
 pub const NO_SUCH_PLAYER: &str = "No such player.";
 /// Past the connection's limit (see [`bucket`]).
 pub const TOO_QUICKLY: &str = "You're sending messages too quickly.";
+/// The players a connection remembers having a conversation with (see
+/// [`Limits`]): past this many, it starts over.
+const TALKED_KEPT: usize = 256;
 
 pub fn is_msg(msg: &ClientMsg) -> bool {
     matches!(
@@ -55,6 +67,35 @@ pub fn bucket() -> Bucket {
     Bucket::new(5.0, 0.5)
 }
 
+/// A fresh bucket for a connection's "typing…" notices: the game sends one
+/// every [`snook_legend_proto::dm::TYPING_EVERY`] seconds at most while its
+/// player types, and a second one at once when they turn to another
+/// conversation.
+pub fn typing_bucket() -> Bucket {
+    Bucket::new(2.0, 0.5)
+}
+
+/// A connection's limits for private messages (kept with the account's
+/// other limits a while after it closes), and the players it was found to
+/// have a conversation with: saying "typing…" to them every few seconds
+/// doesn't ask the database each time (a conversation, once there, stays).
+#[derive(Debug, Clone)]
+pub struct Limits {
+    /// Messages sent (see [`bucket`]).
+    messages: Bucket,
+    /// "Typing…" notices (see [`typing_bucket`]): past it, they are dropped
+    /// without a word.
+    typing: Bucket,
+    /// Players (ids) this account has a conversation with.
+    talked: HashSet<i64>,
+}
+
+impl Limits {
+    pub fn fresh() -> Limits {
+        Limits { messages: bucket(), typing: typing_bucket(), talked: HashSet::new() }
+    }
+}
+
 fn message(row: DmRow, names: &HashMap<i64, String>) -> DirectMessage {
     let name = |id: i64| names.get(&id).cloned().unwrap_or_default();
     DirectMessage {
@@ -64,7 +105,8 @@ fn message(row: DmRow, names: &HashMap<i64, String>) -> DirectMessage {
         text: row.text,
         at: row.at,
         read: row.read_at.is_some(),
-        delivered: row.read_at.is_some(),
+        // (A message read has been delivered, whatever the row says.)
+        delivered: row.delivered_at.is_some() || row.read_at.is_some(),
     }
 }
 
@@ -73,7 +115,7 @@ pub async fn handle(
     me: &User,
     msg: ClientMsg,
     send: &impl Fn(ServerMsg),
-    bucket: &mut Bucket,
+    limits: &mut Limits,
 ) {
     // The account as the lounge has it now (a mute or the chat a parent
     // turned off since this connection signed in).
@@ -94,12 +136,12 @@ pub async fn handle(
             if me.chat_restricted() {
                 return error(chat_off_reason(&me));
             }
-            if crate::lounge::phrases_only(&me) && !is_quick_phrase(&text) {
+            if phrases_only(&me) && !is_quick_phrase(&text) {
                 return error(PHRASES_ONLY);
             }
             // Counted before the database is asked anything (who are the
             // friends, who blocked whom): messages to strangers too.
-            if !bucket.take() {
+            if !limits.messages.take() {
                 return error(TOO_QUICKLY);
             }
             let other = match server.store.user_by_name(to.trim()).await {
@@ -119,7 +161,15 @@ pub async fn handle(
                 return error(why);
             }
             match server.store.dm_send(me.id, other.id, &text, at).await {
-                Ok(row) => {
+                Ok(mut row) => {
+                    // Online, with a game that shows it: it reaches them
+                    // now, and the one who wrote sees it did.
+                    if has_messages(server, &other.username) {
+                        match server.store.dm_delivered(row.id, at).await {
+                            Ok(_) => row.delivered_at = Some(at),
+                            Err(e) => tracing::warn!("direct message from {}: {e}", me.username),
+                        }
+                    }
                     let names = HashMap::from([
                         (me.id, me.username.clone()),
                         (other.id, other.username.clone()),
@@ -141,7 +191,11 @@ pub async fn handle(
                 return error(NO_SUCH_PLAYER);
             };
             let page = HISTORY_PAGE as u32;
-            match server.store.dm_history(me.id, other.id, before, page + 1).await {
+            let (rows, friends) = tokio::join!(
+                server.store.dm_history(me.id, other.id, before, page + 1),
+                are_friends(server, &me, &other),
+            );
+            match rows {
                 Ok(mut rows) => {
                     let more = rows.len() > HISTORY_PAGE;
                     rows.truncate(HISTORY_PAGE);
@@ -151,27 +205,61 @@ pub async fn handle(
                         (other.id, other.username.clone()),
                     ]);
                     let messages = rows.into_iter().map(|r| message(r, &names)).collect();
+                    let online = server.with(|l| l.is_online(&other.username));
                     send(ServerMsg::DmHistory {
                         with: other.username,
                         messages,
                         more,
-                        online: false,
-                        last_seen: 0,
+                        online,
+                        // When they were last here: friends only (as their
+                        // profile says it).
+                        last_seen: if friends { other.last_seen } else { 0 },
                     });
                 }
                 Err(e) => tracing::warn!("conversation of {}: {e}", me.username),
             }
         }
         ClientMsg::DmRead { with } => {
-            if let Ok(Some(other)) = server.store.user_by_name(with.trim()).await
-                && let Err(e) = server.store.dm_read(me.id, other.id, now()).await
-            {
-                tracing::warn!("conversation of {}: {e}", me.username);
+            let Ok(Some(other)) = server.store.user_by_name(with.trim()).await else { return };
+            match server.store.dm_read(me.id, other.id, now()).await {
+                // The one who wrote sees they were read.
+                Ok(Some(up_to)) => {
+                    let msg = ServerMsg::DmStatus { with: me.username.clone(), up_to, read: true };
+                    tell(server, &other.username, &me.username, msg);
+                }
+                Ok(None) => {}
+                Err(e) => tracing::warn!("conversation of {}: {e}", me.username),
             }
         }
         ClientMsg::DmThreads => send(threads(server, &me).await),
+        ClientMsg::DmTyping { to } => typing(server, &me, to.trim(), limits).await,
         _ => {}
     }
+}
+
+/// `me` is typing to `to`, who is told so if they may be (see
+/// [`crate::lounge::Lounge::typing_to`]) when `me` may write (not muted,
+/// the chat on, not kept to the quick phrases, which aren't typed) and the
+/// two are friends or have a conversation already. Never answered: past
+/// the connection's limit, or for any other reason, the notice just goes.
+async fn typing(server: &Server, me: &User, to: &str, limits: &mut Limits) {
+    if !limits.typing.take() || me.is_muted(now()) || me.chat_restricted() || phrases_only(me) {
+        return;
+    }
+    let Some((other, friends)) = server.with(|l| l.typing_to(&me.username, to)) else { return };
+    if !friends && !limits.talked.contains(&other) {
+        match server.store.dm_history(me.id, other, None, 1).await {
+            Ok(rows) if !rows.is_empty() => {
+                if limits.talked.len() >= TALKED_KEPT {
+                    limits.talked.clear();
+                }
+                limits.talked.insert(other);
+            }
+            Ok(_) => return,
+            Err(e) => return tracing::warn!("typing of {}: {e}", me.username),
+        }
+    }
+    tell(server, to, &me.username, ServerMsg::DmTyping { from: me.username.clone() });
 }
 
 /// Whether `me` and `other` are friends.
@@ -247,7 +335,9 @@ async fn may_write(server: &Server, me: &User, other: &User) -> bool {
     }
 }
 
-/// `me`'s conversations, newest first.
+/// `me`'s conversations, newest first, each with the other player as they
+/// are now: as the lounge shows them when they are online, else as the
+/// friends list does.
 pub async fn threads(server: &Server, me: &User) -> ServerMsg {
     let rows = match server.store.dm_threads(me.id).await {
         Ok(rows) => rows,
@@ -256,38 +346,75 @@ pub async fn threads(server: &Server, me: &User) -> ServerMsg {
             Vec::new()
         }
     };
-    let mut names: HashMap<i64, String> = HashMap::from([(me.id, me.username.clone())]);
-    for (u, _) in server.store.friends(me.id).await.unwrap_or_default() {
-        names.insert(u.id, u.username);
-    }
-    // The others (not friends) in one request.
-    let others: Vec<i64> =
-        rows.iter().map(|r| r.other).filter(|id| !names.contains_key(id)).collect();
-    for u in server.store.users_by_ids(&others).await.unwrap_or_default() {
-        if u.deleted_at.is_none() {
-            names.insert(u.id, u.username);
-        }
-    }
-    let mut threads = Vec::new();
-    for row in rows {
-        let Some(with) = names.get(&row.other).cloned() else { continue };
-        threads.push(DmThread {
-            with,
-            last: message(row.last, &names),
-            unread: row.unread,
-            player: None,
-            online: false,
-        });
-    }
+    // The others in one request.
+    let others: Vec<i64> = rows.iter().map(|r| r.other).collect();
+    let users: HashMap<i64, User> = server
+        .store
+        .users_by_ids(&others)
+        .await
+        .unwrap_or_default()
+        .into_iter()
+        .filter(|u| u.deleted_at.is_none())
+        .map(|u| (u.id, u))
+        .collect();
+    let mut names: HashMap<i64, String> =
+        users.values().map(|u| (u.id, u.username.clone())).collect();
+    names.insert(me.id, me.username.clone());
+    let threads = server.with(|l| {
+        rows.into_iter()
+            .filter_map(|row| {
+                let user = users.get(&row.other)?;
+                let online = l.player(&user.username);
+                Some(DmThread {
+                    with: user.username.clone(),
+                    last: message(row.last, &names),
+                    unread: row.unread,
+                    online: online.is_some(),
+                    player: Some(online.unwrap_or_else(|| {
+                        player_info(user, false, PlayerStatus::Available, Rules::default())
+                    })),
+                })
+            })
+            .collect()
+    });
     ServerMsg::DmThreads { threads }
 }
 
-/// After signing in: the conversations, when there are some (the unread
-/// count shows at once).
+/// After signing in: what waited for the player reaches their game (unless
+/// it is a 0.11 game, which can't show it: it waits on), and those who
+/// wrote it are told so; then the conversations, when there are some (the
+/// unread count shows at once).
 pub async fn signed_in(server: &Server, user: &User) {
+    if has_messages(server, &user.username) {
+        delivered(server, user).await;
+    }
     let msg = threads(server, user).await;
     if matches!(&msg, ServerMsg::DmThreads { threads } if !threads.is_empty()) {
         notify(server, &user.username, msg);
+    }
+}
+
+/// Everything that waited for `user` reached their game: each player who
+/// wrote some of it is told so, up to their newest message.
+async fn delivered(server: &Server, user: &User) {
+    let newest = match server.store.dm_delivered_to(user.id, now()).await {
+        Ok(newest) if !newest.is_empty() => newest,
+        Ok(_) => return,
+        Err(e) => return tracing::warn!("messages waiting for {}: {e}", user.username),
+    };
+    let senders: Vec<i64> = newest.iter().map(|&(from, _)| from).collect();
+    let names: HashMap<i64, String> = server
+        .store
+        .users_by_ids(&senders)
+        .await
+        .unwrap_or_default()
+        .into_iter()
+        .map(|u| (u.id, u.username))
+        .collect();
+    for (from, up_to) in newest {
+        let Some(name) = names.get(&from) else { continue };
+        let msg = ServerMsg::DmStatus { with: user.username.clone(), up_to, read: false };
+        tell(server, name, &user.username, msg);
     }
 }
 
@@ -297,11 +424,26 @@ pub async fn signed_in(server: &Server, user: &User) {
 /// when the player updates).
 pub const DM_PROTOCOL: u32 = 25;
 
+/// Whether `name` is online with a game that has direct messages.
+fn has_messages(server: &Server, name: &str) -> bool {
+    server.with(|l| l.protocol_of(name)).is_some_and(|p| p >= DM_PROTOCOL)
+}
+
 /// Sends `msg` to `name` if their game has direct messages.
 fn notify(server: &Server, name: &str, msg: ServerMsg) {
     server.with(|l| {
         if l.protocol_of(name).is_some_and(|p| p >= DM_PROTOCOL) {
             l.notify(name, msg)
+        }
+    });
+}
+
+/// Tells `to` how the conversation with `from` fares (a receipt, "typing…")
+/// if they may be told (see [`crate::lounge::Lounge::takes_receipts`]).
+fn tell(server: &Server, to: &str, from: &str, msg: ServerMsg) {
+    server.with(|l| {
+        if l.takes_receipts(to, from) {
+            l.notify(to, msg)
         }
     });
 }

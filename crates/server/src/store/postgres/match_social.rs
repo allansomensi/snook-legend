@@ -1,5 +1,5 @@
 //! Settings, direct messages, phrases-only chat and weekly pot attempts in
-//! PostgreSQL (migration 0030; see `store/match_social.rs`).
+//! PostgreSQL (migrations 0030 and 0038; see `store/match_social.rs`).
 
 use snook_legend_proto::Rules;
 use snook_legend_proto::analysis::ShotAnalysis;
@@ -9,7 +9,7 @@ use sqlx::{Row, query};
 use super::super::{DM_KEPT, DM_THREADS, DmRow, DmThreadRow, StoreResult, WeekRow};
 use super::PgStore;
 
-const DM_COLUMNS: &str = "id, from_id, to_id, text, at, read_at";
+const DM_COLUMNS: &str = "id, from_id, to_id, text, at, read_at, delivered_at";
 
 fn dm(r: &PgRow) -> DmRow {
     DmRow {
@@ -19,6 +19,7 @@ fn dm(r: &PgRow) -> DmRow {
         text: r.get("text"),
         at: r.get("at"),
         read_at: r.get("read_at"),
+        delivered_at: r.get("delivered_at"),
     }
 }
 
@@ -106,17 +107,48 @@ impl PgStore {
         Ok(rows.iter().map(dm).collect())
     }
 
-    pub async fn dm_read(&self, me: i64, with: i64, at: i64) -> StoreResult<u64> {
+    pub async fn dm_delivered(&self, id: i64, at: i64) -> StoreResult<bool> {
         let done = query(
-            "UPDATE direct_messages SET read_at = $3
-             WHERE to_id = $1 AND from_id = $2 AND read_at IS NULL",
+            "UPDATE direct_messages SET delivered_at = $2 WHERE id = $1 AND delivered_at IS NULL",
+        )
+        .bind(id)
+        .bind(at)
+        .execute(&self.pool)
+        .await?;
+        Ok(done.rows_affected() > 0)
+    }
+
+    pub async fn dm_delivered_to(&self, to: i64, at: i64) -> StoreResult<Vec<(i64, i64)>> {
+        let rows = query(
+            "WITH done AS (
+                UPDATE direct_messages SET delivered_at = $2
+                WHERE to_id = $1 AND delivered_at IS NULL
+                RETURNING from_id, id
+             )
+             SELECT from_id, MAX(id) AS up_to FROM done GROUP BY from_id",
+        )
+        .bind(to)
+        .bind(at)
+        .fetch_all(&self.pool)
+        .await?;
+        Ok(rows.iter().map(|r| (r.get("from_id"), r.get("up_to"))).collect())
+    }
+
+    pub async fn dm_read(&self, me: i64, with: i64, at: i64) -> StoreResult<Option<i64>> {
+        let row = query(
+            "WITH done AS (
+                UPDATE direct_messages SET read_at = $3, delivered_at = COALESCE(delivered_at, $3)
+                WHERE to_id = $1 AND from_id = $2 AND read_at IS NULL
+                RETURNING id
+             )
+             SELECT MAX(id) FROM done",
         )
         .bind(me)
         .bind(with)
         .bind(at)
-        .execute(&self.pool)
+        .fetch_one(&self.pool)
         .await?;
-        Ok(done.rows_affected())
+        Ok(row.get(0))
     }
 
     pub async fn dm_threads(&self, me: i64) -> StoreResult<Vec<DmThreadRow>> {

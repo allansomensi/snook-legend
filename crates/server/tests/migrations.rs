@@ -65,6 +65,7 @@ const APPLIED: &[(&str, &str)] = &[
         "0037_account_security.sql",
         "ddd950755946a8a3d986c81d625250c311676b13d85a71776692375563ad8da1",
     ),
+    ("0038_dm_delivered.sql", "b7f3d67bcfaa3f2b1170da8b390dc1779fdff2dc216dc5d11f58fd9249044aa0"),
 ];
 
 #[test]

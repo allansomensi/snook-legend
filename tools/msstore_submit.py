@@ -11,6 +11,12 @@ The release notes, as they will be sent (nothing is sent):
     python3 tools/msstore_submit.py notes 0.12.3
     python3 tools/msstore_submit.py notes 0.12.3 --lang pt-BR
 
+The connection with Partner Center, changing nothing (the workflow, run by
+hand with "Only check the connection" ticked):
+
+    MSSTORE_TENANT_ID=… MSSTORE_CLIENT_ID=… MSSTORE_CLIENT_SECRET=… \\
+    python3 tools/msstore_submit.py check --app-id 9NZ15BNMZPTG
+
 The submission (what the Microsoft Store workflow runs on a release tag):
 
     MSSTORE_TENANT_ID=… MSSTORE_CLIENT_ID=… MSSTORE_CLIENT_SECRET=… \\
@@ -206,11 +212,59 @@ def upload(sas_url, data):
     )
 
 
-def submit(args, api=API, token_url=TOKEN_URL, poll_every=30):
+def credentials():
     env = {k: os.environ.get(f"MSSTORE_{k}", "") for k in ("TENANT_ID", "CLIENT_ID", "CLIENT_SECRET")}
     missing = [f"MSSTORE_{k}" for k, v in env.items() if not v]
     if missing:
         sys.exit(f"Missing {', '.join(missing)} (the repository's secrets, see docs/MSSTORE.md)")
+    return env
+
+
+def check(args, api=API, token_url=TOKEN_URL):
+    """Signs in and reads the game in Partner Center, changing nothing:
+    the secrets, the application's role and the Store ID, checked before
+    release day."""
+    env = credentials()
+    try:
+        token = access_token(env["TENANT_ID"], env["CLIENT_ID"], env["CLIENT_SECRET"], token_url, api)
+    except ApiError as e:
+        sys.exit(
+            f"Signing in failed: {e}\nCheck MSSTORE_TENANT_ID, MSSTORE_CLIENT_ID and "
+            "MSSTORE_CLIENT_SECRET (the secret's Value, not its ID, and not expired)."
+        )
+    print("Signed in to Microsoft Entra")
+    app_url = f"{api}/v1.0/my/applications/{args.app_id}"
+    try:
+        app = request("GET", app_url, token=token)
+    except ApiError as e:
+        sys.exit(
+            f"Reading the game in Partner Center failed: {e}\nIs the application added in "
+            "Partner Center (Account settings → User management → Microsoft Entra "
+            "applications) with the Manager role, and is MSSTORE_APP_ID the Store ID?"
+        )
+    print(f"Partner Center: {app.get('primaryName', args.app_id)} ({args.app_id})")
+    published = app.get("lastPublishedApplicationSubmission")
+    if published:
+        sub = request("GET", f"{app_url}/submissions/{published['id']}", token=token)
+        listings = sorted(sub.get("listings", {}))
+        print(f"  last published submission: {published['id']}")
+        for package in sub.get("applicationPackages", []):
+            print(f"  package: {package.get('fileName')} ({package.get('version')})")
+        print(f"  listing languages ({len(listings)}):")
+        for listing in listings:
+            code = whatsnew_for(listing)
+            print(f"    {listing}: notes from whatsnew/{code or 'en'}.md" + ("" if code else " (the game has no notes in it)"))
+    pending = app.get("pendingApplicationSubmission")
+    if pending:
+        print(
+            f"  a submission is in progress ({pending['id']}): the next release stops "
+            "until it is finished or deleted (or replaced, by hand)"
+        )
+    print("Ready: a release tag will be sent to the Store")
+
+
+def submit(args, api=API, token_url=TOKEN_URL, poll_every=30):
+    env = credentials()
     if not os.path.isfile(args.package):
         sys.exit(f"{args.package}: no such package")
 
@@ -309,6 +363,9 @@ def main(argv=None):
     show.add_argument("version")
     show.add_argument("--lang", help="only this whatsnew language (pt-BR, en…)")
 
+    test = sub.add_parser("check", help="sign in and read the game in Partner Center (changes nothing)")
+    test.add_argument("--app-id", required=True, help="the Store ID (9NZ…)")
+
     send = sub.add_parser("submit", help="send the version to the Store")
     send.add_argument("--app-id", required=True, help="the Store ID (9NZ…)")
     send.add_argument("--version", required=True, help="the version, without the v (0.12.3)")
@@ -327,7 +384,7 @@ def main(argv=None):
             print(f"===== {code} ({len(text)} characters)\n{text}\n")
     else:
         try:
-            submit(args)
+            (check if args.command == "check" else submit)(args)
         except ApiError as e:
             sys.exit(str(e))
 

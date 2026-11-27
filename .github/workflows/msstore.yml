@@ -9,7 +9,9 @@
 # - When the packaging changes (any branch): builds and packs only, so a
 #   mistake shows up here and not on release day.
 # - By hand (Actions → Microsoft Store → Run workflow): builds and packs;
-#   run on a tag with "Send to the Store" ticked, it sends it too.
+#   run on a tag with "Send to the Store" ticked, it sends it too. With
+#   "Only check the connection" ticked (any branch), it only signs in to
+#   Partner Center and reads the game: nothing is built or sent.
 #
 # Secrets for sending (Settings → Secrets and variables → Actions → Secrets,
 # or the `microsoft-store` environment's): MSSTORE_TENANT_ID,
@@ -41,6 +43,10 @@ on:
       - ".github/workflows/msstore.yml"
   workflow_dispatch:
     inputs:
+      check:
+        description: Only check the connection with Partner Center (builds and sends nothing)
+        type: boolean
+        default: false
       submit:
         description: Send to the Store (run it on a version's tag)
         type: boolean
@@ -92,7 +98,7 @@ jobs:
     needs: changes
     # Tags: final versions only (v0.1.1, not v0.1.1-beta.1).
     if: >-
-      needs.changes.outputs.run == 'true' &&
+      needs.changes.outputs.run == 'true' && !inputs.check &&
       !(startsWith(github.ref, 'refs/tags/') && contains(github.ref_name, '-'))
     runs-on: windows-2022
     steps:
@@ -150,7 +156,7 @@ jobs:
     # a mistake in the notes shows up before release day.
     name: The Store's release notes
     needs: changes
-    if: needs.changes.outputs.run == 'true'
+    if: needs.changes.outputs.run == 'true' && !inputs.check
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
@@ -158,6 +164,27 @@ jobs:
         run: |
           version=$(sed -n 's/^## //p' crates/client/whatsnew/en.md | head -n1)
           python3 tools/msstore_submit.py notes "$version"
+
+  check:
+    # By hand: the secrets, the application's role in Partner Center and
+    # MSSTORE_APP_ID, checked without changing anything.
+    name: Check the connection with Partner Center
+    if: github.event_name == 'workflow_dispatch' && inputs.check
+    runs-on: ubuntu-24.04
+    environment: microsoft-store
+    steps:
+      - uses: actions/checkout@v5
+      - name: Sign in and read the game
+        env:
+          MSSTORE_TENANT_ID: ${{ secrets.MSSTORE_TENANT_ID }}
+          MSSTORE_CLIENT_ID: ${{ secrets.MSSTORE_CLIENT_ID }}
+          MSSTORE_CLIENT_SECRET: ${{ secrets.MSSTORE_CLIENT_SECRET }}
+          APP_ID: ${{ vars.MSSTORE_APP_ID }}
+        run: |
+          if [[ -z "$APP_ID" ]]; then
+            echo "Set the repository variable MSSTORE_APP_ID (the Store ID, 9NZ…)"; exit 1
+          fi
+          python3 tools/msstore_submit.py check --app-id "$APP_ID"
 
   submit:
     name: Send to the Store

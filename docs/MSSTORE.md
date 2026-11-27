@@ -385,7 +385,13 @@ Betas (`v0.2.0-beta.1`) não vão para a Store.
 3. **A variável** `MSSTORE_APP_ID` (na aba **Variables**) = o **Store ID**
    do jogo, `9NZ15BNMZPTG` (Partner Center → Product identity). É ela que
    liga o envio: sem ela, a tag só gera o MSIX, como antes.
-4. Opcional: em **Settings → Environments → microsoft-store** (criado na
+4. **Teste a conexão** sem enviar nada: **Actions → Microsoft Store → Run
+   workflow**, com **Only check the connection with Partner Center**
+   marcado (qualquer branch). O job *Check the connection with Partner
+   Center* entra no Partner Center, lê o jogo e lista os idiomas da
+   listagem e de que arquivo do `whatsnew` sai cada um; se algo estiver
+   errado, ele diz o quê (o segredo, o papel *Manager*, o Store ID).
+5. Opcional: em **Settings → Environments → microsoft-store** (criado na
    primeira execução), **Required reviewers** com você mesmo: o envio
    espera um clique seu em *Review deployments* antes de mexer na Store.
 

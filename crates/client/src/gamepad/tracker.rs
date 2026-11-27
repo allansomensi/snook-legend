@@ -323,6 +323,7 @@ impl Tracker {
         self.repeats & b.bit() != 0
     }
 
+    #[cfg(test)]
     pub fn any_pressed(&self) -> bool {
         self.now.buttons & !self.before.buttons != 0
     }

@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	أضف بريد استرداد أولا.
 This server doesn't send e-mail.	هذا الخادم لا يرسل رسائل البريد الإلكتروني.
 Too many e-mails. Try again in an hour.	رسائل بريد كثيرة جدا. حاول مرة أخرى بعد ساعة.
 The e-mail could not be sent. Try again in a moment.	تعذر إرسال البريد الإلكتروني. حاول مرة أخرى بعد قليل.
+Pocket by pocket, and by cut angle	جيبًا جيبًا، وحسب زاوية القطع
+Your progress week after week	تقدّمك أسبوعًا بعد أسبوع
+How you compare with your league	مقارنتك بلاعبي دوريّك
+Sending…	يجري الإرسال…
+Not sent	لم يتم الإرسال
+Sent	تم الإرسال
+Delivered	تم التسليم
+Read	تمت القراءة
+Invite to a game	دعوة إلى مباراة
+typing…	يكتب…
+online	متصل
+Not sent. Click to try again.	لم يتم الإرسال. انقر للمحاولة مرة أخرى.
+Newest messages	أحدث الرسائل
+Write a message…	اكتب رسالة…
+1 unread message	رسالة واحدة غير مقروءة
+{n} unread messages	{n} رسائل غير مقروءة
+Emoji	الرموز التعبيرية
+The keyboard and the mouse work as well.	تعمل لوحة المفاتيح والفأرة أيضًا.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + عصا التحكم اليمنى: تدوير · {lt} / {rt}: تكبير/تصغير
+{y}: 3D / top view	{y}: ثلاثي الأبعاد / منظر علوي
+Left stick · hold {lb}: fine · d-pad ← →: a hair	عصا التحكم اليسرى · اضغط {lb} مطولا: بدقة · أزرار الاتجاه ← →: تعديل طفيف
+Hold {a}, let go to shoot · {b}: cancel	اضغط {a} مطولا وأفلته للضرب · {b}: إلغاء
+Right stick	عصا التحكم اليمنى
+D-pad ↑ ↓	أزرار الاتجاه ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: التقاط · عصا التحكم اليسرى: تحريك · {a}: وضع
+Calling the 8	إعلان جيب الكرة 8
+{x}: the next pocket	{x}: الجيب التالي
+{start}: menu · {back}: controls	{start}: القائمة · {back}: عناصر التحكم
+No messages yet. Write to a player from their profile, or start one here.	لا توجد رسائل بعد. راسل لاعبًا من ملفه الشخصي، أو ابدأ محادثة من هنا.
+Pick a conversation to read it, or start a new one.	اختر محادثة لقراءتها، أو ابدأ محادثة جديدة.
+To:	إلى:
+Write to {name}	راسل {name}
+Search conversations	ابحث في المحادثات
+No conversation with that name.	لا توجد محادثة بهذا الاسم.
+See it in your profile	اعرضه في ملفك الشخصي
+Monday	الاثنين
+Tuesday	الثلاثاء
+Wednesday	الأربعاء
+Thursday	الخميس
+Friday	الجمعة
+Saturday	السبت
+Sunday	الأحد
+Yesterday	أمس
+{day} at {time}	{day} عند {time}
+last seen just now	آخر ظهور منذ لحظات
+last seen today at {time}	آخر ظهور اليوم عند {time}
+last seen yesterday at {time}	آخر ظهور أمس عند {time}
+last seen on {date}	آخر ظهور في {date}
+Danger zone	منطقة الخطر
+Delete my account…	حذف حسابي…
+Your username, e-mail and friends	اسم مستخدمك وبريدك الإلكتروني وأصدقاؤك
+Your coins, items and VIP	عملاتك وعناصرك واشتراك VIP
+Your ratings, achievements and history	تصنيفاتك وإنجازاتك وسجلّ مبارياتك
+This can't be undone. These go for good:	لا يمكن التراجع عن هذا. سيُحذف ما يلي نهائيًا:
+Type {name} to confirm	اكتب {name} للتأكيد
+I understand that my account can't be recovered.	أفهم أنه لا يمكن استعادة حسابي.
+Delete your account?	حذف حسابك؟
+Keep holding…	واصل الضغط…
+Hold to delete the account	اضغط مطولا لحذف الحساب
+Press and hold	اضغط مطولا
+Game controller	يد التحكم
+Controller connected	يد التحكم متصلة
+No controller connected	لا توجد يد تحكم متصلة
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	تعمل أيدي تحكم Xbox وPlayStation وSwitch Pro: وصّل إحداها لتلعب بها. في القوائم، أزرار الاتجاه للتنقل، وA للاختيار، وB للرجوع.
+Community	المجتمع

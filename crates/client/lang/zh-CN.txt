@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	请先设置找回邮箱。
 This server doesn't send e-mail.	此服务器不发送邮件。
 Too many e-mails. Try again in an hour.	邮件发送次数过多。请一小时后重试。
 The e-mail could not be sent. Try again in a moment.	邮件发送失败，请稍后重试。
+Pocket by pocket, and by cut angle	每个球袋、每种切球角度
+Your progress week after week	你每周的进步
+How you compare with your league	你与同联赛玩家的对比
+Sending…	正在发送…
+Not sent	发送失败
+Sent	已发送
+Delivered	已送达
+Read	已读
+Invite to a game	邀请对局
+typing…	正在输入…
+online	在线
+Not sent. Click to try again.	发送失败。点击重试。
+Newest messages	最新消息
+Write a message…	输入消息…
+1 unread message	1 条未读消息
+{n} unread messages	{n} 条未读消息
+Emoji	表情
+The keyboard and the mouse work as well.	键盘和鼠标也可以使用。
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + 右摇杆：旋转 · {lt} / {rt}：缩放
+{y}: 3D / top view	{y}：3D/俯视
+Left stick · hold {lb}: fine · d-pad ← →: a hair	左摇杆 · 按住 {lb}：微调 · 十字键 ← →：极小幅度
+Hold {a}, let go to shoot · {b}: cancel	按住 {a}，松开击球 · {b}：取消
+Right stick	右摇杆
+D-pad ↑ ↓	十字键 ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}：拿起 · 左摇杆：移动 · {a}：放下
+Calling the 8	8号球指定球袋
+{x}: the next pocket	{x}：下一个球袋
+{start}: menu · {back}: controls	{start}：菜单 · {back}：操作列表
+No messages yet. Write to a player from their profile, or start one here.	还没有消息。可以从玩家的资料页给他发消息，或在这里开始新对话。
+Pick a conversation to read it, or start a new one.	选择一个对话来阅读，或开始新的对话。
+To:	收件人：
+Write to {name}	给 {name} 发消息
+Search conversations	搜索对话
+No conversation with that name.	没有这个名字的对话。
+See it in your profile	在个人资料中查看
+Monday	星期一
+Tuesday	星期二
+Wednesday	星期三
+Thursday	星期四
+Friday	星期五
+Saturday	星期六
+Sunday	星期日
+Yesterday	昨日
+{day} at {time}	{day} {time}
+last seen just now	最后上线：刚刚
+last seen today at {time}	最后上线：今天 {time}
+last seen yesterday at {time}	最后上线：昨天 {time}
+last seen on {date}	最后上线：{date}
+Danger zone	危险区域
+Delete my account…	删除我的账号…
+Your username, e-mail and friends	你的用户名、邮箱和好友
+Your coins, items and VIP	你的金币、物品和 VIP
+Your ratings, achievements and history	你的积分、成就和对局记录
+This can't be undone. These go for good:	此操作无法撤销。以下内容将被永久删除：
+Type {name} to confirm	输入 {name} 以确认
+I understand that my account can't be recovered.	我了解我的账号将无法恢复。
+Delete your account?	要删除你的账号吗？
+Keep holding…	继续按住…
+Hold to delete the account	按住以删除账号
+Press and hold	按住不放
+Game controller	游戏手柄
+Controller connected	手柄已连接
+No controller connected	未连接手柄
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	支持 Xbox、PlayStation 和 Switch Pro 手柄：连接后即可用手柄游戏。在菜单中，十字键移动，A 确认，B 返回。
+Community	社区

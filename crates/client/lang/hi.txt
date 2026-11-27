@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	पहले रिकवरी ई-मेल स�
 This server doesn't send e-mail.	यह सर्वर ई-मेल नहीं भेजता।
 Too many e-mails. Try again in an hour.	बहुत सारे ई-मेल। एक घंटे बाद फिर कोशिश करें।
 The e-mail could not be sent. Try again in a moment.	ई-मेल नहीं भेजा जा सका। थोड़ी देर में फिर कोशिश करें।
+Pocket by pocket, and by cut angle	पॉकेट-दर-पॉकेट, और कट कोण के हिसाब से
+Your progress week after week	हफ़्ते-दर-हफ़्ते आपकी प्रगति
+How you compare with your league	अपनी लीग के मुकाबले आप कहाँ हैं
+Sending…	भेजा जा रहा है…
+Not sent	नहीं भेजा जा सका
+Sent	भेजा गया
+Delivered	पहुँच गया
+Read	पढ़ा गया
+Invite to a game	गेम के लिए इनवाइट करें
+typing…	टाइप कर रहे हैं…
+online	ऑनलाइन
+Not sent. Click to try again.	नहीं भेजा जा सका। फिर कोशिश करने के लिए क्लिक करें।
+Newest messages	सबसे नए संदेश
+Write a message…	संदेश लिखें…
+1 unread message	1 अपठित संदेश
+{n} unread messages	{n} अपठित संदेश
+Emoji	इमोजी
+The keyboard and the mouse work as well.	कीबोर्ड और माउस भी काम करते हैं।
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + राइट स्टिक: घुमाएँ · {lt} / {rt}: ज़ूम
+{y}: 3D / top view	{y}: 3D / ऊपर से व्यू
+Left stick · hold {lb}: fine · d-pad ← →: a hair	लेफ़्ट स्टिक · {lb} दबाए रखें: बारीक · डी-पैड ← →: ज़रा-सा
+Hold {a}, let go to shoot · {b}: cancel	{a} दबाए रखें, छोड़ते ही शॉट · {b}: रद्द करें
+Right stick	राइट स्टिक
+D-pad ↑ ↓	डी-पैड ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: उठाएँ · लेफ़्ट स्टिक: खिसकाएँ · {a}: रखें
+Calling the 8	8 बॉल का पॉकेट कॉल
+{x}: the next pocket	{x}: अगला पॉकेट
+{start}: menu · {back}: controls	{start}: मेन्यू · {back}: कंट्रोल
+No messages yet. Write to a player from their profile, or start one here.	अभी कोई संदेश नहीं। किसी खिलाड़ी को उसकी प्रोफ़ाइल से लिखें, या यहाँ से शुरू करें।
+Pick a conversation to read it, or start a new one.	पढ़ने के लिए कोई बातचीत चुनें, या नई बातचीत शुरू करें।
+To:	प्रति:
+Write to {name}	{name} को लिखें
+Search conversations	बातचीत खोजें
+No conversation with that name.	इस नाम से कोई बातचीत नहीं।
+See it in your profile	अपनी प्रोफ़ाइल में देखें
+Monday	सोमवार
+Tuesday	मंगलवार
+Wednesday	बुधवार
+Thursday	गुरुवार
+Friday	शुक्रवार
+Saturday	शनिवार
+Sunday	रविवार
+Yesterday	कल
+{day} at {time}	{day}, {time}
+last seen just now	अभी-अभी देखा गया
+last seen today at {time}	आख़िरी बार आज {time} पर देखा गया
+last seen yesterday at {time}	आख़िरी बार कल {time} पर देखा गया
+last seen on {date}	आख़िरी बार {date} को देखा गया
+Danger zone	डेंजर ज़ोन
+Delete my account…	मेरा अकाउंट डिलीट करें…
+Your username, e-mail and friends	आपका यूज़रनेम, ई-मेल और दोस्त
+Your coins, items and VIP	आपके कॉइन, आइटम और VIP
+Your ratings, achievements and history	आपकी रेटिंग, उपलब्धियाँ और गेम का इतिहास
+This can't be undone. These go for good:	इसे पूर्ववत नहीं किया जा सकता। ये हमेशा के लिए मिट जाएँगे:
+Type {name} to confirm	पुष्टि के लिए {name} लिखें
+I understand that my account can't be recovered.	मुझे पता है कि मेरा अकाउंट वापस नहीं मिल सकेगा।
+Delete your account?	अपना अकाउंट डिलीट करें?
+Keep holding…	दबाए रखें…
+Hold to delete the account	अकाउंट डिलीट करने के लिए दबाए रखें
+Press and hold	दबाकर रखें
+Game controller	गेम कंट्रोलर
+Controller connected	कंट्रोलर कनेक्ट है
+No controller connected	कोई कंट्रोलर कनेक्ट नहीं है
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Xbox, PlayStation और Switch Pro कंट्रोलर काम करते हैं: खेलने के लिए एक कनेक्ट करें। मेन्यू में डी-पैड से चलें, A से चुनें और B से वापस जाएँ।
+Community	कम्युनिटी

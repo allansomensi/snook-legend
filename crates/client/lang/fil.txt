@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Maglagay muna ng recovery e-mail.
 This server doesn't send e-mail.	Hindi nagpapadala ng e-mail ang server na ito.
 Too many e-mails. Try again in an hour.	Masyadong maraming e-mail. Subukan ulit pagkalipas ng isang oras.
 The e-mail could not be sent. Try again in a moment.	Hindi maipadala ang e-mail. Subukan ulit maya-maya.
+Pocket by pocket, and by cut angle	Bawat pocket, at bawat anggulo ng cut
+Your progress week after week	Ang progreso mo linggo-linggo
+How you compare with your league	Paano ka kumpara sa liga mo
+Sending…	Ipinapadala…
+Not sent	Hindi naipadala
+Sent	Naipadala
+Delivered	Naihatid
+Read	Nabasa
+Invite to a game	Imbitahan sa laro
+typing…	nagta-type…
+online	online
+Not sent. Click to try again.	Hindi naipadala. I-click para subukan ulit.
+Newest messages	Pinakabagong mensahe
+Write a message…	Sumulat ng mensahe…
+1 unread message	1 mensaheng hindi pa nababasa
+{n} unread messages	{n} mensaheng hindi pa nababasa
+Emoji	Emoji
+The keyboard and the mouse work as well.	Gumagana rin ang keyboard at mouse.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + right stick: paikutin · {lt} / {rt}: zoom
+{y}: 3D / top view	{y}: 3D / view mula sa itaas
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Left stick · pindutin nang matagal ang {lb}: pino · d-pad ← →: kaunting-kaunti
+Hold {a}, let go to shoot · {b}: cancel	Pindutin nang matagal ang {a}, bitawan para tumira · {b}: kanselahin
+Right stick	Right stick
+D-pad ↑ ↓	D-pad ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: damputin · left stick: ilipat · {a}: ilapag
+Calling the 8	Pag-call ng pocket ng 8
+{x}: the next pocket	{x}: ang susunod na pocket
+{start}: menu · {back}: controls	{start}: menu · {back}: controls
+No messages yet. Write to a player from their profile, or start one here.	Wala pang mensahe. Sumulat sa isang manlalaro mula sa profile niya, o magsimula rito.
+Pick a conversation to read it, or start a new one.	Pumili ng usapan para basahin ito, o magsimula ng bago.
+To:	Para kay:
+Write to {name}	Sumulat kay {name}
+Search conversations	Maghanap ng usapan
+No conversation with that name.	Walang usapan na may ganyang pangalan.
+See it in your profile	Tingnan sa profile mo
+Monday	Lunes
+Tuesday	Martes
+Wednesday	Miyerkoles
+Thursday	Huwebes
+Friday	Biyernes
+Saturday	Sabado
+Sunday	Linggo
+Yesterday	Kahapon
+{day} at {time}	{day} nang {time}
+last seen just now	huling nakita kanina lang
+last seen today at {time}	huling nakita ngayong araw nang {time}
+last seen yesterday at {time}	huling nakita kahapon nang {time}
+last seen on {date}	huling nakita noong {date}
+Danger zone	Danger zone
+Delete my account…	Burahin ang account ko…
+Your username, e-mail and friends	Ang username, e-mail at mga kaibigan mo
+Your coins, items and VIP	Ang coins, mga item at VIP mo
+Your ratings, achievements and history	Ang mga rating, achievement at history mo
+This can't be undone. These go for good:	Hindi na ito mababawi. Permanenteng mabubura ang mga ito:
+Type {name} to confirm	I-type ang {name} para kumpirmahin
+I understand that my account can't be recovered.	Naiintindihan ko na hindi na mare-recover ang account ko.
+Delete your account?	Burahin ang account mo?
+Keep holding…	Huwag bitawan…
+Hold to delete the account	Pindutin nang matagal para burahin ang account
+Press and hold	Pindutin nang matagal
+Game controller	Game controller
+Controller connected	May nakakonektang controller
+No controller connected	Walang nakakonektang controller
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Gumagana ang mga controller ng Xbox, PlayStation at Switch Pro: magkonekta ng isa para makapaglaro gamit ito. Sa mga menu, gumagalaw ang d-pad, pumipili ang A at bumabalik ang B.
+Community	Komunidad

@@ -346,18 +346,18 @@ impl Dms {
 
     /// `from` is typing to this player.
     pub fn typing_from(&mut self, from: &str) {
-        self.typing.insert(key(from), get_time());
+        self.typing.insert(key(from), clock());
     }
 
     /// `name` is typing to this player now.
     pub fn is_typing(&self, name: &str) -> bool {
-        self.typing.get(&key(name)).is_some_and(|at| get_time() - at < TYPING_SHOWN)
+        self.typing.get(&key(name)).is_some_and(|at| clock() - at < TYPING_SHOWN)
     }
 
     /// The server refused something just now: the message just sent, if
     /// one is on its way, didn't go (the notice says why).
     pub fn refused(&mut self) {
-        let now = get_time();
+        let now = clock();
         let newest = self
             .conversations
             .values_mut()
@@ -505,7 +505,7 @@ impl Dms {
 
     /// Messages that never came back fail.
     fn expire(&mut self) {
-        let now = get_time();
+        let now = clock();
         for c in self.conversations.values_mut() {
             for p in c.pending.iter_mut().filter(|p| now - p.sent > SEND_TIMEOUT) {
                 p.failed = true;
@@ -780,7 +780,7 @@ impl Dms {
         let c = self.conversations.get_mut(&key(with))?;
         let p = c.pending.iter_mut().find(|p| p.local == local)?;
         p.failed = false;
-        p.sent = get_time();
+        p.sent = clock();
         p.at = now();
         Some(ClientMsg::DmSend { to: with.to_string(), text: p.text.clone() })
     }
@@ -819,10 +819,10 @@ impl Dms {
             if self.input != self.typed {
                 self.typed = self.input.clone();
                 let due = self.typing_sent.as_ref().is_none_or(|(to, at)| {
-                    !to.eq_ignore_ascii_case(with) || get_time() - at >= TYPING_EVERY
+                    !to.eq_ignore_ascii_case(with) || clock() - at >= TYPING_EVERY
                 });
                 if due && can {
-                    self.typing_sent = Some((with.to_string(), get_time()));
+                    self.typing_sent = Some((with.to_string(), clock()));
                     out.push(ClientMsg::DmTyping { to: with.to_string() });
                 }
             }
@@ -837,7 +837,7 @@ impl Dms {
                     local: self.next_local,
                     text: text.clone(),
                     at: now(),
-                    sent: get_time(),
+                    sent: clock(),
                     failed: false,
                 });
                 out.push(ClientMsg::DmSend { to: with.to_string(), text });
@@ -859,6 +859,13 @@ const DARK: Color = Color::new(0.1, 0.06, 0.03, 1.0);
 
 fn now() -> i64 {
     crate::game::unix_now()
+}
+
+/// Seconds on a clock that only goes forward (since the game started):
+/// how long a message has been on its way, how long since "typing…".
+fn clock() -> f64 {
+    static START: std::sync::OnceLock<std::time::Instant> = std::sync::OnceLock::new();
+    START.get_or_init(std::time::Instant::now).elapsed().as_secs_f64()
 }
 
 /// The conversation's messages, the server's then those on their way.
@@ -1296,7 +1303,7 @@ mod tests {
             local: d.next_local,
             text: "hi".into(),
             at: 5,
-            sent: get_time(),
+            sent: clock(),
             failed: false,
         });
         assert_eq!(d.sending_to("ana"), Some(Tick::Sending));
@@ -1324,7 +1331,7 @@ mod tests {
             local: -1,
             text: "hi".into(),
             at: 5,
-            sent: get_time(),
+            sent: clock(),
             failed: false,
         });
         d.refused();

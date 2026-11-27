@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Előbb adj meg egy helyreállítási e-mailt.
 This server doesn't send e-mail.	Ez a szerver nem küld e-mailt.
 Too many e-mails. Try again in an hour.	Túl sok e-mail. Próbáld újra egy óra múlva.
 The e-mail could not be sent. Try again in a moment.	Nem sikerült elküldeni az e-mailt. Próbáld újra egy kicsit később.
+Pocket by pocket, and by cut angle	Lyukról lyukra és vágási szög szerint
+Your progress week after week	A fejlődésed hétről hétre
+How you compare with your league	Hogyan állsz a ligádhoz képest
+Sending…	Küldés…
+Not sent	Nincs elküldve
+Sent	Elküldve
+Delivered	Kézbesítve
+Read	Elolvasva
+Invite to a game	Meghívás egy játszmára
+typing…	ír…
+online	online
+Not sent. Click to try again.	Nincs elküldve. Kattints az újrapróbáláshoz.
+Newest messages	Legújabb üzenetek
+Write a message…	Írj üzenetet…
+1 unread message	1 olvasatlan üzenet
+{n} unread messages	{n} olvasatlan üzenet
+Emoji	Emoji
+The keyboard and the mouse work as well.	A billentyűzet és az egér is működik.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + jobb kar: forgatás · {lt} / {rt}: nagyítás
+{y}: 3D / top view	{y}: 3D / felülnézet
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Bal kar · {lb} nyomva tartva: finom célzás · iránygombok ← →: egy hajszálnyit
+Hold {a}, let go to shoot · {b}: cancel	Tartsd nyomva: {a}, majd engedd el a lökéshez · {b}: mégse
+Right stick	Jobb kar
+D-pad ↑ ↓	Iránygombok ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: felvétel · bal kar: mozgatás · {a}: lerakás
+Calling the 8	A 8-as bemondása
+{x}: the next pocket	{x}: következő lyuk
+{start}: menu · {back}: controls	{start}: menü · {back}: irányítás
+No messages yet. Write to a player from their profile, or start one here.	Még nincsenek üzenetek. Írj egy játékosnak a profiljáról, vagy kezdj itt egy beszélgetést.
+Pick a conversation to read it, or start a new one.	Válassz egy beszélgetést az elolvasásához, vagy kezdj egy újat.
+To:	Címzett:
+Write to {name}	Üzenet küldése: {name}
+Search conversations	Keresés a beszélgetésekben
+No conversation with that name.	Nincs ilyen nevű beszélgetés.
+See it in your profile	Megtekintés a profilodban
+Monday	Hétfő
+Tuesday	Kedd
+Wednesday	Szerda
+Thursday	Csütörtök
+Friday	Péntek
+Saturday	Szombat
+Sunday	Vasárnap
+Yesterday	Tegnap
+{day} at {time}	{day} {time}
+last seen just now	épp most volt online
+last seen today at {time}	utoljára online ma {time}-kor
+last seen yesterday at {time}	utoljára online tegnap {time}-kor
+last seen on {date}	utoljára online: {date}
+Danger zone	Veszélyzóna
+Delete my account…	Fiókom törlése…
+Your username, e-mail and friends	A felhasználóneved, az e-mail-címed és a barátaid
+Your coins, items and VIP	Az érméid, a tárgyaid és a VIP-tagságod
+Your ratings, achievements and history	Az értékszámaid, a teljesítményeid és az előzményeid
+This can't be undone. These go for good:	Ez nem vonható vissza. Ezek végleg eltűnnek:
+Type {name} to confirm	A megerősítéshez írd be: {name}
+I understand that my account can't be recovered.	Tudomásul veszem, hogy a fiókom nem állítható helyre.
+Delete your account?	Törlöd a fiókodat?
+Keep holding…	Tartsd még nyomva…
+Hold to delete the account	Tartsd nyomva a fiók törléséhez
+Press and hold	Nyomd meg és tartsd nyomva
+Game controller	Kontroller
+Controller connected	Kontroller csatlakoztatva
+No controller connected	Nincs csatlakoztatott kontroller
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Xbox, PlayStation és Switch Pro kontrollerek működnek: csatlakoztass egyet, és játssz vele. A menükben az iránygombokkal mozoghatsz, az A kiválaszt, a B visszalép.
+Community	Közösség

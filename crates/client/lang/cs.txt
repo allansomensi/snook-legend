@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Nejdřív si nastav e-mail pro obnovení.
 This server doesn't send e-mail.	Tento server neposílá e-maily.
 Too many e-mails. Try again in an hour.	Příliš mnoho e-mailů. Zkus to znovu za hodinu.
 The e-mail could not be sent. Try again in a moment.	E-mail se nepodařilo odeslat. Zkus to za chvilku znovu.
+Pocket by pocket, and by cut angle	Díra po díře a podle úhlu řezu
+Your progress week after week	Tvůj pokrok týden po týdnu
+How you compare with your league	Jak si stojíš proti své lize
+Sending…	Odesílání…
+Not sent	Neodesláno
+Sent	Odesláno
+Delivered	Doručeno
+Read	Přečteno
+Invite to a game	Pozvat ke hře
+typing…	píše…
+online	online
+Not sent. Click to try again.	Neodesláno. Klikni a zkus to znovu.
+Newest messages	Nejnovější zprávy
+Write a message…	Napiš zprávu…
+1 unread message	1 nepřečtená zpráva
+{n} unread messages	Nepřečtené zprávy: {n}
+Emoji	Emoji
+The keyboard and the mouse work as well.	Klávesnice a myš fungují také.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + pravá páčka: otáčení · {lt} / {rt}: přiblížení
+{y}: 3D / top view	{y}: 3D / pohled shora
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Levá páčka · drž {lb}: jemné míření · směrový kříž ← →: o chlup
+Hold {a}, let go to shoot · {b}: cancel	Drž {a}, pusť pro šťouch · {b}: zrušit
+Right stick	Pravá páčka
+D-pad ↑ ↓	Směrový kříž ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: vzít · levá páčka: posunout · {a}: položit
+Calling the 8	Ohlášení osmičky
+{x}: the next pocket	{x}: další díra
+{start}: menu · {back}: controls	{start}: menu · {back}: ovládání
+No messages yet. Write to a player from their profile, or start one here.	Zatím žádné zprávy. Napiš hráči z jeho profilu, nebo začni konverzaci tady.
+Pick a conversation to read it, or start a new one.	Vyber konverzaci a přečti si ji, nebo začni novou.
+To:	Komu:
+Write to {name}	Napsat hráči {name}
+Search conversations	Hledat konverzace
+No conversation with that name.	Žádná konverzace s tímto jménem.
+See it in your profile	Zobrazit v profilu
+Monday	Pondělí
+Tuesday	Úterý
+Wednesday	Středa
+Thursday	Čtvrtek
+Friday	Pátek
+Saturday	Sobota
+Sunday	Neděle
+Yesterday	Včera
+{day} at {time}	{day} v {time}
+last seen just now	naposledy online před chvílí
+last seen today at {time}	naposledy online dnes v {time}
+last seen yesterday at {time}	naposledy online včera v {time}
+last seen on {date}	naposledy online {date}
+Danger zone	Nebezpečná zóna
+Delete my account…	Smazat můj účet…
+Your username, e-mail and friends	Tvoje uživatelské jméno, e-mail a přátelé
+Your coins, items and VIP	Tvoje mince, předměty a VIP
+Your ratings, achievements and history	Tvoje ratingy, úspěchy a historie
+This can't be undone. These go for good:	Tohle nejde vrátit zpět. Nenávratně zmizí:
+Type {name} to confirm	Pro potvrzení napiš {name}
+I understand that my account can't be recovered.	Beru na vědomí, že můj účet nepůjde obnovit.
+Delete your account?	Smazat účet?
+Keep holding…	Drž dál…
+Hold to delete the account	Podrž pro smazání účtu
+Press and hold	Stiskni a podrž
+Game controller	Herní ovladač
+Controller connected	Ovladač připojen
+No controller connected	Není připojen žádný ovladač
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Fungují ovladače Xbox, PlayStation a Switch Pro: připoj jeden a hraj s ním. V menu se pohybuješ směrovým křížem, A vybírá a B vrací zpět.
+Community	Komunita

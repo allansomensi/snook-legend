@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Lege zuerst eine Wiederherstellungs-E-Mail fest.
 This server doesn't send e-mail.	Dieser Server verschickt keine E-Mails.
 Too many e-mails. Try again in an hour.	Zu viele E-Mails. Versuch es in einer Stunde noch einmal.
 The e-mail could not be sent. Try again in a moment.	Die E-Mail konnte nicht gesendet werden. Versuch es gleich noch einmal.
+Pocket by pocket, and by cut angle	Tasche für Tasche und nach Schnittwinkel
+Your progress week after week	Dein Fortschritt Woche für Woche
+How you compare with your league	Wie du im Vergleich zu deiner Liga stehst
+Sending…	Wird gesendet…
+Not sent	Nicht gesendet
+Sent	Gesendet
+Delivered	Zugestellt
+Read	Gelesen
+Invite to a game	Zu einer Partie einladen
+typing…	schreibt…
+online	online
+Not sent. Click to try again.	Nicht gesendet. Klick, um es noch einmal zu versuchen.
+Newest messages	Neueste Nachrichten
+Write a message…	Schreib eine Nachricht…
+1 unread message	1 ungelesene Nachricht
+{n} unread messages	{n} ungelesene Nachrichten
+Emoji	Emoji
+The keyboard and the mouse work as well.	Tastatur und Maus funktionieren auch.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + rechter Stick: drehen · {lt} / {rt}: Zoom
+{y}: 3D / top view	{y}: 3D / Draufsicht
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Linker Stick · {lb} halten: Feinzielen · Steuerkreuz ← →: ein Haarbreit
+Hold {a}, let go to shoot · {b}: cancel	{a} halten, zum Stoßen loslassen · {b}: abbrechen
+Right stick	Rechter Stick
+D-pad ↑ ↓	Steuerkreuz ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: aufnehmen · linker Stick: bewegen · {a}: ablegen
+Calling the 8	Die 8 ansagen
+{x}: the next pocket	{x}: nächste Tasche
+{start}: menu · {back}: controls	{start}: Menü · {back}: Steuerung
+No messages yet. Write to a player from their profile, or start one here.	Noch keine Nachrichten. Schreib einem Spieler über sein Profil oder beginne hier ein Gespräch.
+Pick a conversation to read it, or start a new one.	Wähle ein Gespräch, um es zu lesen, oder beginne ein neues.
+To:	An:
+Write to {name}	{name} schreiben
+Search conversations	Gespräche durchsuchen
+No conversation with that name.	Kein Gespräch mit diesem Namen.
+See it in your profile	In deinem Profil ansehen
+Monday	Montag
+Tuesday	Dienstag
+Wednesday	Mittwoch
+Thursday	Donnerstag
+Friday	Freitag
+Saturday	Samstag
+Sunday	Sonntag
+Yesterday	Gestern
+{day} at {time}	{day} um {time}
+last seen just now	zuletzt gerade eben online
+last seen today at {time}	zuletzt heute um {time} online
+last seen yesterday at {time}	zuletzt gestern um {time} online
+last seen on {date}	zuletzt am {date} online
+Danger zone	Gefahrenzone
+Delete my account…	Mein Konto löschen…
+Your username, e-mail and friends	Dein Benutzername, deine E-Mail und deine Freunde
+Your coins, items and VIP	Deine Münzen, Artikel und VIP
+Your ratings, achievements and history	Deine Wertungen, Erfolge und dein Verlauf
+This can't be undone. These go for good:	Das lässt sich nicht rückgängig machen. Endgültig gelöscht werden:
+Type {name} to confirm	Gib zur Bestätigung {name} ein
+I understand that my account can't be recovered.	Mir ist klar, dass mein Konto nicht wiederhergestellt werden kann.
+Delete your account?	Dein Konto löschen?
+Keep holding…	Weiter gedrückt halten…
+Hold to delete the account	Halten, um das Konto zu löschen
+Press and hold	Gedrückt halten
+Game controller	Controller
+Controller connected	Controller verbunden
+No controller connected	Kein Controller verbunden
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Controller für Xbox, PlayStation und Switch Pro funktionieren: Schließ einen an, um damit zu spielen. In den Menüs navigierst du mit dem Steuerkreuz, A wählt aus und B geht zurück.
+Community	Community

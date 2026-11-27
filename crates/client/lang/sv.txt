@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Lägg till en e-post för återställning först.
 This server doesn't send e-mail.	Den här servern skickar inte e-post.
 Too many e-mails. Try again in an hour.	För många e-postmeddelanden. Försök igen om en timme.
 The e-mail could not be sent. Try again in a moment.	E-postmeddelandet kunde inte skickas. Försök igen om en stund.
+Pocket by pocket, and by cut angle	Hål för hål och efter snittvinkel
+Your progress week after week	Din utveckling vecka för vecka
+How you compare with your league	Hur du står dig mot din liga
+Sending…	Skickar…
+Not sent	Inte skickat
+Sent	Skickat
+Delivered	Levererat
+Read	Läst
+Invite to a game	Bjud in till ett parti
+typing…	skriver…
+online	online
+Not sent. Click to try again.	Inte skickat. Klicka för att försöka igen.
+Newest messages	Senaste meddelandena
+Write a message…	Skriv ett meddelande…
+1 unread message	1 oläst meddelande
+{n} unread messages	{n} olästa meddelanden
+Emoji	Emoji
+The keyboard and the mouse work as well.	Tangentbordet och musen fungerar också.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + höger spak: vrid · {lt} / {rt}: zoom
+{y}: 3D / top view	{y}: 3D / vy ovanifrån
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Vänster spak · håll {lb}: finsikte · styrkors ← →: en hårsmån
+Hold {a}, let go to shoot · {b}: cancel	Håll {a}, släpp för att stöta · {b}: avbryt
+Right stick	Höger spak
+D-pad ↑ ↓	Styrkors ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: ta upp · vänster spak: flytta · {a}: lägg ner
+Calling the 8	Anmäla 8-bollen
+{x}: the next pocket	{x}: nästa hål
+{start}: menu · {back}: controls	{start}: meny · {back}: kontroller
+No messages yet. Write to a player from their profile, or start one here.	Inga meddelanden än. Skriv till en spelare från hens profil, eller starta en konversation här.
+Pick a conversation to read it, or start a new one.	Välj en konversation för att läsa den, eller starta en ny.
+To:	Till:
+Write to {name}	Skriv till {name}
+Search conversations	Sök bland konversationer
+No conversation with that name.	Ingen konversation med det namnet.
+See it in your profile	Visa i din profil
+Monday	Måndag
+Tuesday	Tisdag
+Wednesday	Onsdag
+Thursday	Torsdag
+Friday	Fredag
+Saturday	Lördag
+Sunday	Söndag
+Yesterday	I går
+{day} at {time}	{day} kl. {time}
+last seen just now	senast sedd nyss
+last seen today at {time}	senast sedd i dag kl. {time}
+last seen yesterday at {time}	senast sedd i går kl. {time}
+last seen on {date}	senast sedd {date}
+Danger zone	Farozon
+Delete my account…	Radera mitt konto…
+Your username, e-mail and friends	Ditt användarnamn, din e-post och dina vänner
+Your coins, items and VIP	Dina mynt, föremål och VIP
+Your ratings, achievements and history	Dina rankningar, prestationer och historik
+This can't be undone. These go for good:	Det här går inte att ångra. Följande försvinner för gott:
+Type {name} to confirm	Skriv {name} för att bekräfta
+I understand that my account can't be recovered.	Jag förstår att mitt konto inte kan återställas.
+Delete your account?	Radera ditt konto?
+Keep holding…	Fortsätt hålla in…
+Hold to delete the account	Håll in för att radera kontot
+Press and hold	Tryck och håll in
+Game controller	Handkontroll
+Controller connected	Handkontroll ansluten
+No controller connected	Ingen handkontroll ansluten
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Handkontroller för Xbox, PlayStation och Switch Pro fungerar: anslut en för att spela med den. I menyerna flyttar du med styrkorset, A väljer och B går tillbaka.
+Community	Gemenskap

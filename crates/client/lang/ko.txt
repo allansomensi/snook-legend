@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	먼저 복구 이메일을 설정하세요.
 This server doesn't send e-mail.	이 서버는 이메일을 보내지 않아요.
 Too many e-mails. Try again in an hour.	이메일을 너무 많이 보냈어요. 1시간 후에 다시 시도하세요.
 The e-mail could not be sent. Try again in a moment.	이메일을 보내지 못했어요. 잠시 후 다시 시도하세요.
+Pocket by pocket, and by cut angle	포켓별, 커트 각도별 분석
+Your progress week after week	주별 성장 추이
+How you compare with your league	같은 리그 플레이어와의 비교
+Sending…	전송 중…
+Not sent	전송 실패
+Sent	전송됨
+Delivered	전달됨
+Read	읽음
+Invite to a game	게임에 초대
+typing…	입력 중…
+online	온라인
+Not sent. Click to try again.	전송하지 못했어요. 클릭해서 다시 보내세요.
+Newest messages	최신 메시지
+Write a message…	메시지 입력…
+1 unread message	읽지 않은 메시지 1개
+{n} unread messages	읽지 않은 메시지 {n}개
+Emoji	이모지
+The keyboard and the mouse work as well.	키보드와 마우스도 사용할 수 있어요.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + 오른쪽 스틱: 회전 · {lt} / {rt}: 줌
+{y}: 3D / top view	{y}: 3D / 탑뷰
+Left stick · hold {lb}: fine · d-pad ← →: a hair	왼쪽 스틱 · {lb} 누르고 있기: 미세 조준 · 방향 패드 ← →: 아주 조금
+Hold {a}, let go to shoot · {b}: cancel	{a} 누르고 있다가 떼면 샷 · {b}: 취소
+Right stick	오른쪽 스틱
+D-pad ↑ ↓	방향 패드 ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: 집기 · 왼쪽 스틱: 이동 · {a}: 놓기
+Calling the 8	8번 공 포켓 지정
+{x}: the next pocket	{x}: 다음 포켓
+{start}: menu · {back}: controls	{start}: 메뉴 · {back}: 조작 목록
+No messages yet. Write to a player from their profile, or start one here.	아직 메시지가 없어요. 플레이어의 프로필에서 메시지를 보내거나 여기서 시작하세요.
+Pick a conversation to read it, or start a new one.	읽을 대화를 선택하거나 새 대화를 시작하세요.
+To:	받는 사람:
+Write to {name}	{name}님에게 메시지 보내기
+Search conversations	대화 검색
+No conversation with that name.	그런 이름의 대화가 없어요.
+See it in your profile	프로필에서 보기
+Monday	월요일
+Tuesday	화요일
+Wednesday	수요일
+Thursday	목요일
+Friday	금요일
+Saturday	토요일
+Sunday	일요일
+Yesterday	어제
+{day} at {time}	{day} {time}
+last seen just now	마지막 접속: 방금
+last seen today at {time}	마지막 접속: 오늘 {time}
+last seen yesterday at {time}	마지막 접속: 어제 {time}
+last seen on {date}	마지막 접속: {date}
+Danger zone	위험 구역
+Delete my account…	내 계정 삭제…
+Your username, e-mail and friends	사용자 이름, 이메일, 친구
+Your coins, items and VIP	코인, 아이템, VIP
+Your ratings, achievements and history	레이팅, 업적, 게임 기록
+This can't be undone. These go for good:	되돌릴 수 없어요. 다음 항목이 영구 삭제돼요:
+Type {name} to confirm	확인하려면 다음을 입력하세요: {name}
+I understand that my account can't be recovered.	계정을 복구할 수 없다는 것을 이해했습니다.
+Delete your account?	계정을 삭제할까요?
+Keep holding…	계속 누르고 있으세요…
+Hold to delete the account	길게 눌러 계정 삭제
+Press and hold	길게 누르세요
+Game controller	게임 컨트롤러
+Controller connected	컨트롤러 연결됨
+No controller connected	연결된 컨트롤러 없음
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Xbox, PlayStation, Switch Pro 컨트롤러를 지원해요. 연결하면 바로 플레이할 수 있어요. 메뉴에서는 방향 패드로 이동하고 A로 선택, B로 돌아가요.
+Community	커뮤니티

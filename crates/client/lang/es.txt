@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Primero añade un correo de recuperación.
 This server doesn't send e-mail.	Este servidor no envía correos.
 Too many e-mails. Try again in an hour.	Demasiados correos. Inténtalo de nuevo en una hora.
 The e-mail could not be sent. Try again in a moment.	No se pudo enviar el correo. Inténtalo de nuevo en un momento.
+Pocket by pocket, and by cut angle	Tronera por tronera y por ángulo de corte
+Your progress week after week	Tu progreso semana a semana
+How you compare with your league	Cómo te comparas con tu liga
+Sending…	Enviando…
+Not sent	No enviado
+Sent	Enviado
+Delivered	Entregado
+Read	Leído
+Invite to a game	Invitar a una partida
+typing…	escribiendo…
+online	en línea
+Not sent. Click to try again.	No enviado. Haz clic para intentarlo de nuevo.
+Newest messages	Mensajes más recientes
+Write a message…	Escribe un mensaje…
+1 unread message	1 mensaje sin leer
+{n} unread messages	{n} mensajes sin leer
+Emoji	Emojis
+The keyboard and the mouse work as well.	El teclado y el ratón también funcionan.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + stick derecho: girar · {lt} / {rt}: zoom
+{y}: 3D / top view	{y}: 3D / vista cenital
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Stick izquierdo · mantén {lb}: puntería fina · cruceta ← →: un poquito
+Hold {a}, let go to shoot · {b}: cancel	Mantén {a} y suelta para tirar · {b}: cancelar
+Right stick	Stick derecho
+D-pad ↑ ↓	Cruceta ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: tomar · stick izquierdo: mover · {a}: colocar
+Calling the 8	Cantar la tronera de la 8
+{x}: the next pocket	{x}: la siguiente tronera
+{start}: menu · {back}: controls	{start}: menú · {back}: controles
+No messages yet. Write to a player from their profile, or start one here.	Aún no hay mensajes. Escribe a un jugador desde su perfil, o empieza una conversación aquí.
+Pick a conversation to read it, or start a new one.	Elige una conversación para leerla, o empieza una nueva.
+To:	Para:
+Write to {name}	Escribir a {name}
+Search conversations	Buscar conversaciones
+No conversation with that name.	Ninguna conversación con ese nombre.
+See it in your profile	Ver en tu perfil
+Monday	Lunes
+Tuesday	Martes
+Wednesday	Miércoles
+Thursday	Jueves
+Friday	Viernes
+Saturday	Sábado
+Sunday	Domingo
+Yesterday	Ayer
+{day} at {time}	{day} a las {time}
+last seen just now	últ. vez hace un momento
+last seen today at {time}	últ. vez hoy a las {time}
+last seen yesterday at {time}	últ. vez ayer a las {time}
+last seen on {date}	últ. vez el {date}
+Danger zone	Zona de peligro
+Delete my account…	Eliminar mi cuenta…
+Your username, e-mail and friends	Tu nombre de usuario, correo y amigos
+Your coins, items and VIP	Tus monedas, objetos y VIP
+Your ratings, achievements and history	Tus ratings, logros e historial
+This can't be undone. These go for good:	No se puede deshacer. Se borrarán para siempre:
+Type {name} to confirm	Escribe {name} para confirmar
+I understand that my account can't be recovered.	Entiendo que mi cuenta no se podrá recuperar.
+Delete your account?	¿Eliminar tu cuenta?
+Keep holding…	Sigue pulsando…
+Hold to delete the account	Mantén pulsado para eliminar la cuenta
+Press and hold	Pulsa y mantén
+Game controller	Mando
+Controller connected	Mando conectado
+No controller connected	Ningún mando conectado
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Funcionan los mandos de Xbox, PlayStation y Switch Pro: conecta uno para jugar con él. En los menús, la cruceta sirve para moverse, A para elegir y B para volver atrás.
+Community	Comunidad

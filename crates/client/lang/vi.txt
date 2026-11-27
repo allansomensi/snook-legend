@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Hãy đặt email khôi phục trước.
 This server doesn't send e-mail.	Máy chủ này không gửi email.
 Too many e-mails. Try again in an hour.	Quá nhiều email. Hãy thử lại sau một giờ.
 The e-mail could not be sent. Try again in a moment.	Không gửi được email. Hãy thử lại sau giây lát.
+Pocket by pocket, and by cut angle	Theo từng lỗ và theo góc cắt
+Your progress week after week	Tiến bộ của bạn qua từng tuần
+How you compare with your league	Bạn so với người chơi cùng giải đấu
+Sending…	Đang gửi…
+Not sent	Không gửi được
+Sent	Đã gửi
+Delivered	Đã nhận
+Read	Đã xem
+Invite to a game	Mời chơi một ván
+typing…	đang nhập…
+online	trực tuyến
+Not sent. Click to try again.	Không gửi được. Bấm để thử lại.
+Newest messages	Tin nhắn mới nhất
+Write a message…	Nhập tin nhắn…
+1 unread message	1 tin nhắn chưa đọc
+{n} unread messages	{n} tin nhắn chưa đọc
+Emoji	Biểu tượng cảm xúc
+The keyboard and the mouse work as well.	Bàn phím và chuột vẫn dùng được.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + cần analog phải: xoay · {lt} / {rt}: thu phóng
+{y}: 3D / top view	{y}: 3D / nhìn từ trên
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Cần analog trái · giữ {lb}: ngắm tinh · D-pad ← →: nhích nhẹ
+Hold {a}, let go to shoot · {b}: cancel	Giữ {a}, thả để đánh · {b}: hủy
+Right stick	Cần analog phải
+D-pad ↑ ↓	D-pad ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: nhấc bi · cần analog trái: di chuyển · {a}: đặt bi
+Calling the 8	Chỉ định lỗ cho bi 8
+{x}: the next pocket	{x}: lỗ tiếp theo
+{start}: menu · {back}: controls	{start}: menu · {back}: điều khiển
+No messages yet. Write to a player from their profile, or start one here.	Chưa có tin nhắn nào. Hãy nhắn cho một người chơi từ hồ sơ của họ, hoặc bắt đầu tại đây.
+Pick a conversation to read it, or start a new one.	Chọn một cuộc trò chuyện để đọc, hoặc bắt đầu cuộc trò chuyện mới.
+To:	Đến:
+Write to {name}	Nhắn cho {name}
+Search conversations	Tìm cuộc trò chuyện
+No conversation with that name.	Không có cuộc trò chuyện nào với tên đó.
+See it in your profile	Xem trong hồ sơ của bạn
+Monday	Thứ Hai
+Tuesday	Thứ Ba
+Wednesday	Thứ Tư
+Thursday	Thứ Năm
+Friday	Thứ Sáu
+Saturday	Thứ Bảy
+Sunday	Chủ Nhật
+Yesterday	Hôm qua
+{day} at {time}	{day} lúc {time}
+last seen just now	truy cập vừa xong
+last seen today at {time}	truy cập lần cuối hôm nay lúc {time}
+last seen yesterday at {time}	truy cập lần cuối hôm qua lúc {time}
+last seen on {date}	truy cập lần cuối ngày {date}
+Danger zone	Vùng nguy hiểm
+Delete my account…	Xóa tài khoản của tôi…
+Your username, e-mail and friends	Tên người dùng, email và bạn bè của bạn
+Your coins, items and VIP	Xu, vật phẩm và VIP của bạn
+Your ratings, achievements and history	Điểm, thành tích và lịch sử của bạn
+This can't be undone. These go for good:	Không thể hoàn tác. Những thứ này sẽ mất vĩnh viễn:
+Type {name} to confirm	Nhập {name} để xác nhận
+I understand that my account can't be recovered.	Tôi hiểu rằng tài khoản của tôi sẽ không thể khôi phục.
+Delete your account?	Xóa tài khoản của bạn?
+Keep holding…	Tiếp tục giữ…
+Hold to delete the account	Giữ để xóa tài khoản
+Press and hold	Nhấn và giữ
+Game controller	Tay cầm chơi game
+Controller connected	Đã kết nối tay cầm
+No controller connected	Chưa kết nối tay cầm
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Hỗ trợ tay cầm Xbox, PlayStation và Switch Pro: hãy kết nối một tay cầm để chơi. Trong menu, D-pad để di chuyển, A để chọn và B để quay lại.
+Community	Cộng đồng

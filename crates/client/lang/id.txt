@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Atur e-mail pemulihan dulu.
 This server doesn't send e-mail.	Server ini tidak mengirim e-mail.
 Too many e-mails. Try again in an hour.	Terlalu banyak e-mail. Coba lagi dalam satu jam.
 The e-mail could not be sent. Try again in a moment.	E-mail tidak bisa dikirim. Coba lagi sebentar lagi.
+Pocket by pocket, and by cut angle	Per lubang, dan per sudut potong
+Your progress week after week	Perkembanganmu minggu demi minggu
+How you compare with your league	Perbandinganmu dengan liga-mu
+Sending…	Mengirim…
+Not sent	Tidak terkirim
+Sent	Terkirim
+Delivered	Diterima
+Read	Dibaca
+Invite to a game	Ajak bermain
+typing…	mengetik…
+online	online
+Not sent. Click to try again.	Tidak terkirim. Klik untuk mencoba lagi.
+Newest messages	Pesan terbaru
+Write a message…	Tulis pesan…
+1 unread message	1 pesan belum dibaca
+{n} unread messages	{n} pesan belum dibaca
+Emoji	Emoji
+The keyboard and the mouse work as well.	Keyboard dan mouse juga bisa dipakai.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + analog kanan: putar · {lt} / {rt}: zoom
+{y}: 3D / top view	{y}: 3D / tampak atas
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Analog kiri · tahan {lb}: halus · d-pad ← →: sedikit saja
+Hold {a}, let go to shoot · {b}: cancel	Tahan {a}, lepas untuk memukul · {b}: batal
+Right stick	Analog kanan
+D-pad ↑ ↓	D-pad ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: ambil · analog kiri: geser · {a}: letakkan
+Calling the 8	Pilih lubang bola 8
+{x}: the next pocket	{x}: lubang berikutnya
+{start}: menu · {back}: controls	{start}: menu · {back}: kontrol
+No messages yet. Write to a player from their profile, or start one here.	Belum ada pesan. Kirim pesan ke pemain dari profilnya, atau mulai di sini.
+Pick a conversation to read it, or start a new one.	Pilih percakapan untuk membacanya, atau mulai yang baru.
+To:	Kepada:
+Write to {name}	Kirim pesan ke {name}
+Search conversations	Cari percakapan
+No conversation with that name.	Tidak ada percakapan dengan nama itu.
+See it in your profile	Lihat di profilmu
+Monday	Senin
+Tuesday	Selasa
+Wednesday	Rabu
+Thursday	Kamis
+Friday	Jumat
+Saturday	Sabtu
+Sunday	Minggu
+Yesterday	Kemarin
+{day} at {time}	{day} pukul {time}
+last seen just now	terakhir dilihat baru saja
+last seen today at {time}	terakhir dilihat hari ini pukul {time}
+last seen yesterday at {time}	terakhir dilihat kemarin pukul {time}
+last seen on {date}	terakhir dilihat {date}
+Danger zone	Zona berbahaya
+Delete my account…	Hapus akunku…
+Your username, e-mail and friends	Nama pengguna, e-mail, dan temanmu
+Your coins, items and VIP	Koin, item, dan VIP-mu
+Your ratings, achievements and history	Rating, pencapaian, dan riwayatmu
+This can't be undone. These go for good:	Ini tidak bisa dibatalkan. Semua ini hilang selamanya:
+Type {name} to confirm	Ketik {name} untuk konfirmasi
+I understand that my account can't be recovered.	Saya mengerti bahwa akun saya tidak bisa dipulihkan.
+Delete your account?	Hapus akunmu?
+Keep holding…	Terus tahan…
+Hold to delete the account	Tahan untuk menghapus akun
+Press and hold	Tekan dan tahan
+Game controller	Kontroler game
+Controller connected	Kontroler terhubung
+No controller connected	Tidak ada kontroler yang terhubung
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Kontroler Xbox, PlayStation, dan Switch Pro bisa dipakai: hubungkan salah satunya untuk bermain. Di menu, d-pad untuk berpindah, A untuk memilih, dan B untuk kembali.
+Community	Komunitas

@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Önce bir kurtarma e-postası belirle.
 This server doesn't send e-mail.	Bu sunucu e-posta göndermiyor.
 Too many e-mails. Try again in an hour.	Çok fazla e-posta. Bir saat sonra tekrar dene.
 The e-mail could not be sent. Try again in a moment.	E-posta gönderilemedi. Birazdan tekrar dene.
+Pocket by pocket, and by cut angle	Cep cep ve kesme açısına göre
+Your progress week after week	Hafta hafta gelişimin
+How you compare with your league	Liginle karşılaştırman
+Sending…	Gönderiliyor…
+Not sent	Gönderilmedi
+Sent	Gönderildi
+Delivered	İletildi
+Read	Okundu
+Invite to a game	Oyuna davet et
+typing…	yazıyor…
+online	çevrim içi
+Not sent. Click to try again.	Gönderilmedi. Tekrar denemek için tıkla.
+Newest messages	En yeni mesajlar
+Write a message…	Bir mesaj yaz…
+1 unread message	1 okunmamış mesaj
+{n} unread messages	{n} okunmamış mesaj
+Emoji	Emoji
+The keyboard and the mouse work as well.	Klavye ve fare de çalışır.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + sağ çubuk: döndürme · {lt} / {rt}: yakınlaştırma
+{y}: 3D / top view	{y}: 3D / üstten görünüm
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Sol çubuk · {lb} basılı tut: hassas · yön tuşları ← →: azıcık
+Hold {a}, let go to shoot · {b}: cancel	{a} basılı tut, vurmak için bırak · {b}: iptal
+Right stick	Sağ çubuk
+D-pad ↑ ↓	Yön tuşları ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: eline al · sol çubuk: taşı · {a}: yerleştir
+Calling the 8	8 için cep söyleme
+{x}: the next pocket	{x}: sonraki cep
+{start}: menu · {back}: controls	{start}: menü · {back}: kontroller
+No messages yet. Write to a player from their profile, or start one here.	Henüz mesaj yok. Bir oyuncuya profilinden yaz ya da buradan bir konuşma başlat.
+Pick a conversation to read it, or start a new one.	Okumak için bir konuşma seç ya da yeni bir tane başlat.
+To:	Kime:
+Write to {name}	{name} ile mesajlaş
+Search conversations	Konuşmalarda ara
+No conversation with that name.	Bu adla bir konuşma yok.
+See it in your profile	Profilinde gör
+Monday	Pazartesi
+Tuesday	Salı
+Wednesday	Çarşamba
+Thursday	Perşembe
+Friday	Cuma
+Saturday	Cumartesi
+Sunday	Pazar
+Yesterday	Dün
+{day} at {time}	{day} {time}
+last seen just now	son görülme az önce
+last seen today at {time}	son görülme bugün {time}
+last seen yesterday at {time}	son görülme dün {time}
+last seen on {date}	son görülme {date}
+Danger zone	Tehlikeli bölge
+Delete my account…	Hesabımı sil…
+Your username, e-mail and friends	Kullanıcı adın, e-postan ve arkadaşların
+Your coins, items and VIP	Jetonların, eşyaların ve VIP üyeliğin
+Your ratings, achievements and history	Puanların, başarımların ve geçmişin
+This can't be undone. These go for good:	Bu işlem geri alınamaz. Bunlar kalıcı olarak silinir:
+Type {name} to confirm	Onaylamak için {name} yaz
+I understand that my account can't be recovered.	Hesabımın kurtarılamayacağını anlıyorum.
+Delete your account?	Hesabın silinsin mi?
+Keep holding…	Basılı tutmaya devam et…
+Hold to delete the account	Hesabı silmek için basılı tut
+Press and hold	Basılı tut
+Game controller	Oyun kolu
+Controller connected	Oyun kolu bağlı
+No controller connected	Bağlı oyun kolu yok
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Xbox, PlayStation ve Switch Pro oyun kolları desteklenir: oynamak için birini bağla. Menülerde yön tuşları gezinir, A seçer, B geri döner.
+Community	Topluluk

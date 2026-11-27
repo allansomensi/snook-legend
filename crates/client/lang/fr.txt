@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Ajoutez d'abord un e-mail de récupération.
 This server doesn't send e-mail.	Ce serveur n'envoie pas d'e-mails.
 Too many e-mails. Try again in an hour.	Trop d'e-mails. Réessayez dans une heure.
 The e-mail could not be sent. Try again in a moment.	L'e-mail n'a pas pu être envoyé. Réessayez dans un instant.
+Pocket by pocket, and by cut angle	Poche par poche, et selon l'angle de coupe
+Your progress week after week	Votre progression semaine après semaine
+How you compare with your league	Comment vous vous situez dans votre ligue
+Sending…	Envoi en cours…
+Not sent	Non envoyé
+Sent	Envoyé
+Delivered	Distribué
+Read	Lu
+Invite to a game	Inviter à une partie
+typing…	écrit…
+online	en ligne
+Not sent. Click to try again.	Non envoyé. Cliquez pour réessayer.
+Newest messages	Derniers messages
+Write a message…	Écrivez un message…
+1 unread message	1 message non lu
+{n} unread messages	{n} messages non lus
+Emoji	Emoji
+The keyboard and the mouse work as well.	Le clavier et la souris fonctionnent aussi.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + stick droit : tourner · {lt} / {rt} : zoom
+{y}: 3D / top view	{y} : 3D / vue de dessus
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Stick gauche · maintenez {lb} : visée fine · croix ← → : un poil
+Hold {a}, let go to shoot · {b}: cancel	Maintenez {a}, relâchez pour tirer · {b} : annuler
+Right stick	Stick droit
+D-pad ↑ ↓	Croix directionnelle ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x} : prendre · stick gauche : déplacer · {a} : poser
+Calling the 8	Annoncer la 8
+{x}: the next pocket	{x} : la poche suivante
+{start}: menu · {back}: controls	{start} : menu · {back} : commandes
+No messages yet. Write to a player from their profile, or start one here.	Pas encore de messages. Écrivez à un joueur depuis son profil, ou commencez une conversation ici.
+Pick a conversation to read it, or start a new one.	Choisissez une conversation pour la lire, ou commencez-en une nouvelle.
+To:	À :
+Write to {name}	Écrire à {name}
+Search conversations	Rechercher des conversations
+No conversation with that name.	Aucune conversation à ce nom.
+See it in your profile	Voir dans votre profil
+Monday	Lundi
+Tuesday	Mardi
+Wednesday	Mercredi
+Thursday	Jeudi
+Friday	Vendredi
+Saturday	Samedi
+Sunday	Dimanche
+Yesterday	Hier
+{day} at {time}	{day} à {time}
+last seen just now	vu à l'instant
+last seen today at {time}	vu aujourd'hui à {time}
+last seen yesterday at {time}	vu hier à {time}
+last seen on {date}	vu le {date}
+Danger zone	Zone de danger
+Delete my account…	Supprimer mon compte…
+Your username, e-mail and friends	Votre nom d'utilisateur, votre e-mail et vos amis
+Your coins, items and VIP	Vos pièces, vos objets et votre VIP
+Your ratings, achievements and history	Vos classements, vos succès et votre historique
+This can't be undone. These go for good:	C'est irréversible. Tout ceci sera effacé définitivement :
+Type {name} to confirm	Saisissez {name} pour confirmer
+I understand that my account can't be recovered.	Je comprends que mon compte ne pourra pas être récupéré.
+Delete your account?	Supprimer votre compte ?
+Keep holding…	Continuez d'appuyer…
+Hold to delete the account	Maintenez pour supprimer le compte
+Press and hold	Appuyez et maintenez
+Game controller	Manette
+Controller connected	Manette connectée
+No controller connected	Aucune manette connectée
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Les manettes Xbox, PlayStation et Switch Pro fonctionnent : connectez-en une pour jouer avec. Dans les menus, la croix directionnelle permet de se déplacer, A de choisir et B de revenir en arrière.
+Community	Communauté

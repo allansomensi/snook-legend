@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Setează mai întâi un e-mail de recuperare.
 This server doesn't send e-mail.	Acest server nu trimite e-mailuri.
 Too many e-mails. Try again in an hour.	Prea multe e-mailuri. Încearcă din nou peste o oră.
 The e-mail could not be sent. Try again in a moment.	E-mailul nu a putut fi trimis. Încearcă din nou peste puțin timp.
+Pocket by pocket, and by cut angle	Buzunar cu buzunar și după unghiul de tăiere
+Your progress week after week	Progresul tău săptămână de săptămână
+How you compare with your league	Cum te compari cu liga ta
+Sending…	Se trimite…
+Not sent	Netrimis
+Sent	Trimis
+Delivered	Livrat
+Read	Citit
+Invite to a game	Invită la o partidă
+typing…	scrie…
+online	online
+Not sent. Click to try again.	Netrimis. Dă clic ca să încerci din nou.
+Newest messages	Cele mai noi mesaje
+Write a message…	Scrie un mesaj…
+1 unread message	1 mesaj necitit
+{n} unread messages	Mesaje necitite: {n}
+Emoji	Emoji
+The keyboard and the mouse work as well.	Funcționează și tastatura, și mouse-ul.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + stick drept: rotește · {lt} / {rt}: zoom
+{y}: 3D / top view	{y}: 3D / vedere de sus
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Stick stâng · ține apăsat {lb}: țintire fină · D-pad ← →: un pic
+Hold {a}, let go to shoot · {b}: cancel	Ține apăsat {a}, eliberează ca să lovești · {b}: anulează
+Right stick	Stick drept
+D-pad ↑ ↓	D-pad ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: ridică · stick stâng: mută · {a}: așază
+Calling the 8	Anunță bila 8
+{x}: the next pocket	{x}: buzunarul următor
+{start}: menu · {back}: controls	{start}: meniu · {back}: comenzi
+No messages yet. Write to a player from their profile, or start one here.	Niciun mesaj încă. Scrie-i unui jucător din profilul lui sau începe o conversație aici.
+Pick a conversation to read it, or start a new one.	Alege o conversație ca s-o citești sau începe una nouă.
+To:	Către:
+Write to {name}	Mesaj către {name}
+Search conversations	Caută conversații
+No conversation with that name.	Nicio conversație cu acest nume.
+See it in your profile	Vezi în profilul tău
+Monday	Luni
+Tuesday	Marți
+Wednesday	Miercuri
+Thursday	Joi
+Friday	Vineri
+Saturday	Sâmbătă
+Sunday	Duminică
+Yesterday	Ieri
+{day} at {time}	{day} la {time}
+last seen just now	văzut ultima dată adineauri
+last seen today at {time}	văzut ultima dată azi la {time}
+last seen yesterday at {time}	văzut ultima dată ieri la {time}
+last seen on {date}	văzut ultima dată pe {date}
+Danger zone	Zonă periculoasă
+Delete my account…	Șterge contul meu…
+Your username, e-mail and friends	Numele tău de utilizator, e-mailul și prietenii
+Your coins, items and VIP	Monedele, obiectele și VIP-ul tău
+Your ratings, achievements and history	Ratingurile, realizările și istoricul tău
+This can't be undone. These go for good:	Acțiunea nu poate fi anulată. Se vor șterge definitiv:
+Type {name} to confirm	Scrie {name} ca să confirmi
+I understand that my account can't be recovered.	Înțeleg că contul meu nu va mai putea fi recuperat.
+Delete your account?	Ștergi contul?
+Keep holding…	Ține apăsat în continuare…
+Hold to delete the account	Ține apăsat ca să ștergi contul
+Press and hold	Apasă și ține apăsat
+Game controller	Controller
+Controller connected	Controller conectat
+No controller connected	Niciun controller conectat
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Funcționează controllerele Xbox, PlayStation și Switch Pro: conectează unul ca să joci cu el. În meniuri, te deplasezi cu D-pad-ul, alegi cu A și revii cu B.
+Community	Comunitate

@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Όρισε πρώτα ένα email ανάκτηση
 This server doesn't send e-mail.	Αυτός ο διακομιστής δεν στέλνει email.
 Too many e-mails. Try again in an hour.	Πάρα πολλά email. Δοκίμασε ξανά σε μία ώρα.
 The e-mail could not be sent. Try again in a moment.	Δεν ήταν δυνατό να σταλεί το email. Δοκίμασε ξανά σε λίγο.
+Pocket by pocket, and by cut angle	Τρύπα με τρύπα και ανά γωνία κοπής
+Your progress week after week	Η πρόοδός σας εβδομάδα με την εβδομάδα
+How you compare with your league	Πώς συγκρίνεστε με τη λίγκα σας
+Sending…	Αποστολή…
+Not sent	Δεν στάλθηκε
+Sent	Στάλθηκε
+Delivered	Παραδόθηκε
+Read	Διαβάστηκε
+Invite to a game	Πρόσκληση σε παρτίδα
+typing…	πληκτρολογεί…
+online	online
+Not sent. Click to try again.	Δεν στάλθηκε. Κάντε κλικ για να δοκιμάσετε ξανά.
+Newest messages	Νεότερα μηνύματα
+Write a message…	Γράψτε ένα μήνυμα…
+1 unread message	1 μη αναγνωσμένο μήνυμα
+{n} unread messages	{n} μη αναγνωσμένα μηνύματα
+Emoji	Emoji
+The keyboard and the mouse work as well.	Λειτουργούν επίσης το πληκτρολόγιο και το ποντίκι.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + δεξιός μοχλός: περιστροφή · {lt} / {rt}: ζουμ
+{y}: 3D / top view	{y}: 3D / κάτοψη
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Αριστερός μοχλός · κράτα το {lb}: λεπτή σκόπευση · κουμπιά κατεύθυνσης ← →: ελάχιστα
+Hold {a}, let go to shoot · {b}: cancel	Κράτα το {a}, άφησέ το για χτύπημα · {b}: ακύρωση
+Right stick	Δεξιός μοχλός
+D-pad ↑ ↓	Κουμπιά κατεύθυνσης ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: σήκωμα · αριστερός μοχλός: μετακίνηση · {a}: τοποθέτηση
+Calling the 8	Δήλωση τρύπας για την 8
+{x}: the next pocket	{x}: επόμενη τρύπα
+{start}: menu · {back}: controls	{start}: μενού · {back}: χειρισμός
+No messages yet. Write to a player from their profile, or start one here.	Δεν υπάρχουν μηνύματα ακόμα. Γράψτε σε έναν παίκτη από το προφίλ του ή ξεκινήστε μια συζήτηση εδώ.
+Pick a conversation to read it, or start a new one.	Διαλέξτε μια συζήτηση για να τη διαβάσετε ή ξεκινήστε μια νέα.
+To:	Προς:
+Write to {name}	Μήνυμα σε {name}
+Search conversations	Αναζήτηση συζητήσεων
+No conversation with that name.	Καμία συζήτηση με αυτό το όνομα.
+See it in your profile	Δες το στο προφίλ σου
+Monday	Δευτέρα
+Tuesday	Τρίτη
+Wednesday	Τετάρτη
+Thursday	Πέμπτη
+Friday	Παρασκευή
+Saturday	Σάββατο
+Sunday	Κυριακή
+Yesterday	Χθες
+{day} at {time}	{day} στις {time}
+last seen just now	τελευταία σύνδεση μόλις τώρα
+last seen today at {time}	τελευταία σύνδεση σήμερα στις {time}
+last seen yesterday at {time}	τελευταία σύνδεση χθες στις {time}
+last seen on {date}	τελευταία σύνδεση στις {date}
+Danger zone	Ζώνη κινδύνου
+Delete my account…	Διαγραφή του λογαριασμού μου…
+Your username, e-mail and friends	Το όνομα χρήστη, το email και οι φίλοι σου
+Your coins, items and VIP	Τα νομίσματα, τα αντικείμενα και το VIP σου
+Your ratings, achievements and history	Οι βαθμολογίες, τα επιτεύγματα και το ιστορικό σου
+This can't be undone. These go for good:	Αυτό δεν αναιρείται. Χάνονται οριστικά:
+Type {name} to confirm	Γράψε {name} για επιβεβαίωση
+I understand that my account can't be recovered.	Καταλαβαίνω ότι ο λογαριασμός μου δεν μπορεί να ανακτηθεί.
+Delete your account?	Διαγραφή του λογαριασμού σου;
+Keep holding…	Συνέχισε να κρατάς…
+Hold to delete the account	Κράτα πατημένο για να διαγραφεί ο λογαριασμός
+Press and hold	Πάτα και κράτα
+Game controller	Χειριστήριο
+Controller connected	Χειριστήριο συνδεδεμένο
+No controller connected	Κανένα συνδεδεμένο χειριστήριο
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Λειτουργούν χειριστήρια Xbox, PlayStation και Switch Pro: σύνδεσε ένα για να παίξεις με αυτό. Στα μενού, τα κουμπιά κατεύθυνσης μετακινούν, το A επιλέγει και το B επιστρέφει.
+Community	Κοινότητα

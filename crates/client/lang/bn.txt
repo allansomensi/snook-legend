@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	আগে একটি রিকভারি ই-�
 This server doesn't send e-mail.	এই সার্ভার ই-মেইল পাঠায় না।
 Too many e-mails. Try again in an hour.	অনেক বেশি ই-মেইল। এক ঘণ্টা পরে আবার চেষ্টা করুন।
 The e-mail could not be sent. Try again in a moment.	ই-মেইলটি পাঠানো গেল না। একটু পরে আবার চেষ্টা করুন।
+Pocket by pocket, and by cut angle	প্রতিটি পকেট ধরে, আর কাট কোণ অনুযায়ী
+Your progress week after week	সপ্তাহে সপ্তাহে আপনার উন্নতি
+How you compare with your league	আপনার লিগের তুলনায় আপনি কোথায়
+Sending…	পাঠানো হচ্ছে…
+Not sent	পাঠানো যায়নি
+Sent	পাঠানো হয়েছে
+Delivered	পৌঁছেছে
+Read	পড়া হয়েছে
+Invite to a game	গেমে আমন্ত্রণ জানান
+typing…	টাইপ করছেন…
+online	অনলাইন
+Not sent. Click to try again.	পাঠানো যায়নি। আবার চেষ্টা করতে ক্লিক করুন।
+Newest messages	সবচেয়ে নতুন বার্তা
+Write a message…	একটি বার্তা লিখুন…
+1 unread message	1টি অপঠিত বার্তা
+{n} unread messages	{n}টি অপঠিত বার্তা
+Emoji	ইমোজি
+The keyboard and the mouse work as well.	কিবোর্ড আর মাউসও কাজ করে।
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + ডান স্টিক: ঘোরান · {lt} / {rt}: জুম
+{y}: 3D / top view	{y}: 3D / ওপর থেকে দৃশ্য
+Left stick · hold {lb}: fine · d-pad ← →: a hair	বাঁ স্টিক · {lb} চেপে ধরুন: সূক্ষ্ম · ডি-প্যাড ← →: একটুখানি
+Hold {a}, let go to shoot · {b}: cancel	{a} চেপে ধরুন, ছাড়লেই শট · {b}: বাতিল
+Right stick	ডান স্টিক
+D-pad ↑ ↓	ডি-প্যাড ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: তুলুন · বাঁ স্টিক: সরান · {a}: রাখুন
+Calling the 8	8 নম্বর বলের পকেট ঘোষণা
+{x}: the next pocket	{x}: পরের পকেট
+{start}: menu · {back}: controls	{start}: মেনু · {back}: কন্ট্রোল
+No messages yet. Write to a player from their profile, or start one here.	এখনও কোনো বার্তা নেই। কোনো খেলোয়াড়কে তার প্রোফাইল থেকে লিখুন, অথবা এখানে শুরু করুন।
+Pick a conversation to read it, or start a new one.	পড়তে একটি কথোপকথন বেছে নিন, অথবা নতুন একটি শুরু করুন।
+To:	প্রাপক:
+Write to {name}	{name}-কে লিখুন
+Search conversations	কথোপকথন খুঁজুন
+No conversation with that name.	এই নামে কোনো কথোপকথন নেই।
+See it in your profile	আপনার প্রোফাইলে দেখুন
+Monday	সোমবার
+Tuesday	মঙ্গলবার
+Wednesday	বুধবার
+Thursday	বৃহস্পতিবার
+Friday	শুক্রবার
+Saturday	শনিবার
+Sunday	রবিবার
+Yesterday	গতকাল
+{day} at {time}	{day}, {time}
+last seen just now	শেষ দেখা এইমাত্র
+last seen today at {time}	শেষ দেখা আজ {time}-এ
+last seen yesterday at {time}	শেষ দেখা গতকাল {time}-এ
+last seen on {date}	শেষ দেখা {date} তারিখে
+Danger zone	বিপজ্জনক এলাকা
+Delete my account…	আমার অ্যাকাউন্ট মুছুন…
+Your username, e-mail and friends	আপনার ইউজারনেম, ই-মেইল ও বন্ধুরা
+Your coins, items and VIP	আপনার কয়েন, আইটেম ও VIP
+Your ratings, achievements and history	আপনার রেটিং, অর্জন ও গেমের ইতিহাস
+This can't be undone. These go for good:	এটি আর ফেরানো যাবে না। এগুলো চিরতরে মুছে যাবে:
+Type {name} to confirm	নিশ্চিত করতে {name} লিখুন
+I understand that my account can't be recovered.	আমি বুঝেছি যে আমার অ্যাকাউন্ট আর ফিরিয়ে আনা যাবে না।
+Delete your account?	আপনার অ্যাকাউন্ট মুছবেন?
+Keep holding…	ধরে থাকুন…
+Hold to delete the account	অ্যাকাউন্ট মুছতে চেপে ধরে রাখুন
+Press and hold	চেপে ধরে রাখুন
+Game controller	গেম কন্ট্রোলার
+Controller connected	কন্ট্রোলার সংযুক্ত
+No controller connected	কোনো কন্ট্রোলার সংযুক্ত নেই
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Xbox, PlayStation ও Switch Pro কন্ট্রোলার কাজ করে: খেলতে একটি সংযুক্ত করুন। মেনুতে ডি-প্যাড দিয়ে চলাচল করুন, A দিয়ে বেছে নিন আর B দিয়ে ফিরে যান।
+Community	কমিউনিটি

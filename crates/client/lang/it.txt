@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Imposta prima un'e-mail di recupero.
 This server doesn't send e-mail.	Questo server non invia e-mail.
 Too many e-mails. Try again in an hour.	Troppe e-mail. Riprova tra un'ora.
 The e-mail could not be sent. Try again in a moment.	Impossibile inviare l'e-mail. Riprova tra un attimo.
+Pocket by pocket, and by cut angle	Buca per buca e per angolo di taglio
+Your progress week after week	I tuoi progressi settimana dopo settimana
+How you compare with your league	Come ti confronti con la tua lega
+Sending…	Invio in corso…
+Not sent	Non inviato
+Sent	Inviato
+Delivered	Consegnato
+Read	Letto
+Invite to a game	Invita a una partita
+typing…	sta scrivendo…
+online	online
+Not sent. Click to try again.	Non inviato. Clicca per riprovare.
+Newest messages	Messaggi più recenti
+Write a message…	Scrivi un messaggio…
+1 unread message	1 messaggio non letto
+{n} unread messages	{n} messaggi non letti
+Emoji	Emoji
+The keyboard and the mouse work as well.	Funzionano anche tastiera e mouse.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + levetta destra: ruota · {lt} / {rt}: zoom
+{y}: 3D / top view	{y}: 3D / vista dall'alto
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Levetta sinistra · tieni premuto {lb}: mira fine · croce ← →: un pochino
+Hold {a}, let go to shoot · {b}: cancel	Tieni premuto {a}, rilascia per tirare · {b}: annulla
+Right stick	Levetta destra
+D-pad ↑ ↓	Croce direzionale ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: prendi · levetta sinistra: sposta · {a}: posa
+Calling the 8	Chiamata della 8
+{x}: the next pocket	{x}: la buca successiva
+{start}: menu · {back}: controls	{start}: menu · {back}: comandi
+No messages yet. Write to a player from their profile, or start one here.	Nessun messaggio per ora. Scrivi a un giocatore dal suo profilo, o inizia una conversazione qui.
+Pick a conversation to read it, or start a new one.	Scegli una conversazione per leggerla, o iniziane una nuova.
+To:	A:
+Write to {name}	Scrivi a {name}
+Search conversations	Cerca conversazioni
+No conversation with that name.	Nessuna conversazione con quel nome.
+See it in your profile	Vedi nel tuo profilo
+Monday	Lunedì
+Tuesday	Martedì
+Wednesday	Mercoledì
+Thursday	Giovedì
+Friday	Venerdì
+Saturday	Sabato
+Sunday	Domenica
+Yesterday	Ieri
+{day} at {time}	{day} alle {time}
+last seen just now	ultimo accesso poco fa
+last seen today at {time}	ultimo accesso oggi alle {time}
+last seen yesterday at {time}	ultimo accesso ieri alle {time}
+last seen on {date}	ultimo accesso il {date}
+Danger zone	Zona pericolosa
+Delete my account…	Elimina il mio account…
+Your username, e-mail and friends	Il tuo nome utente, l'e-mail e gli amici
+Your coins, items and VIP	Le tue monete, gli oggetti e il VIP
+Your ratings, achievements and history	I tuoi punteggi, gli obiettivi e lo storico delle partite
+This can't be undone. These go for good:	Non si può annullare. Verranno cancellati per sempre:
+Type {name} to confirm	Scrivi {name} per confermare
+I understand that my account can't be recovered.	Ho capito che il mio account non potrà essere recuperato.
+Delete your account?	Eliminare il tuo account?
+Keep holding…	Continua a tenere premuto…
+Hold to delete the account	Tieni premuto per eliminare l'account
+Press and hold	Premi e tieni premuto
+Game controller	Controller
+Controller connected	Controller connesso
+No controller connected	Nessun controller connesso
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Funzionano i controller Xbox, PlayStation e Switch Pro: collegane uno per giocarci. Nei menu, la croce direzionale sposta la selezione, A sceglie e B torna indietro.
+Community	Comunità

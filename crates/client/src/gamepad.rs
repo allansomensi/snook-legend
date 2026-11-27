@@ -345,12 +345,6 @@ pub fn repeat(b: Button) -> bool {
     with(|pad| pad.tracker.repeat(b))
 }
 
-/// Any button went down this frame (the triggers count once past about a
-/// third of the way).
-pub fn any_pressed() -> bool {
-    with(|pad| pad.tracker.any_pressed())
-}
-
 /// An axis with its deadzone: the sticks −1..1 (Y up-positive), nothing
 /// until a stick is a fifth of the way out (round the centre, so diagonals
 /// stay diagonal) and then rising smoothly from 0; the triggers 0..1,
@@ -379,18 +373,9 @@ pub fn stick_flick(left: bool) -> Option<(i32, i32)> {
 /// pointer: true from the moment a button is pressed (or a stick or
 /// trigger leaves its deadzone), false again once the mouse moves (a few
 /// pixels), a mouse button, the wheel or a key is used, or the controller
-/// goes away. [`poll`] watches macroquad's mouse and keyboard itself;
-/// [`note_mouse_or_keyboard`] is for anything else that should count.
+/// goes away. [`poll`] watches macroquad's mouse and keyboard itself.
 pub fn active() -> bool {
     with(|pad| pad.active)
-}
-
-/// The player used something other than the controller (touch, say):
-/// [`active`] is false until the controller is used again. [`poll`]
-/// already notices macroquad's mouse and keyboard; called later in the
-/// frame, this wins over a controller picked up the same frame.
-pub fn note_mouse_or_keyboard() {
-    PAD.with_borrow_mut(|pad| pad.active = false);
 }
 
 /// Shakes the controller in use, `strength` 0..1 for `seconds` (0 stops

@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	先に復旧用メールを設定してください
 This server doesn't send e-mail.	このサーバーはメールを送信しません。
 Too many e-mails. Try again in an hour.	メールの送信回数が多すぎます。1時間後にもう一度お試しください。
 The e-mail could not be sent. Try again in a moment.	メールを送信できませんでした。しばらくしてからもう一度お試しください。
+Pocket by pocket, and by cut angle	ポケットごと、カット角度ごとの分析
+Your progress week after week	週ごとの成長
+How you compare with your league	同じリーグのプレイヤーとの比較
+Sending…	送信中…
+Not sent	送信失敗
+Sent	送信済み
+Delivered	配信済み
+Read	既読
+Invite to a game	対戦に招待
+typing…	入力中…
+online	オンライン
+Not sent. Click to try again.	送信できませんでした。クリックして再送信します。
+Newest messages	最新のメッセージ
+Write a message…	メッセージを入力…
+1 unread message	未読メッセージ 1 件
+{n} unread messages	未読メッセージ {n} 件
+Emoji	絵文字
+The keyboard and the mouse work as well.	キーボードとマウスも使えます。
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb}+右スティック：回転 · {lt} / {rt}：ズーム
+{y}: 3D / top view	{y}：3D / トップビュー
+Left stick · hold {lb}: fine · d-pad ← →: a hair	左スティック · {lb}長押し：微調整 · 十字キー ← →：ほんの少し
+Hold {a}, let go to shoot · {b}: cancel	{a}長押し、離してショット · {b}：キャンセル
+Right stick	右スティック
+D-pad ↑ ↓	十字キー ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}：持つ · 左スティック：移動 · {a}：置く
+Calling the 8	8番のポケットコール
+{x}: the next pocket	{x}：次のポケット
+{start}: menu · {back}: controls	{start}：メニュー · {back}：操作一覧
+No messages yet. Write to a player from their profile, or start one here.	メッセージはまだありません。プレイヤーのプロフィールから送るか、ここから始めましょう。
+Pick a conversation to read it, or start a new one.	読む会話を選ぶか、新しい会話を始めましょう。
+To:	宛先：
+Write to {name}	{name}にメッセージ
+Search conversations	会話を検索
+No conversation with that name.	その名前の会話はありません。
+See it in your profile	プロフィールで見る
+Monday	月曜日
+Tuesday	火曜日
+Wednesday	水曜日
+Thursday	木曜日
+Friday	金曜日
+Saturday	土曜日
+Sunday	日曜日
+Yesterday	昨日
+{day} at {time}	{day} {time}
+last seen just now	最終ログイン：たった今
+last seen today at {time}	最終ログイン：今日 {time}
+last seen yesterday at {time}	最終ログイン：昨日 {time}
+last seen on {date}	最終ログイン：{date}
+Danger zone	危険な操作
+Delete my account…	アカウントを削除…
+Your username, e-mail and friends	ユーザー名、メールアドレス、フレンド
+Your coins, items and VIP	コイン、アイテム、VIP
+Your ratings, achievements and history	レート、実績、対戦履歴
+This can't be undone. These go for good:	この操作は取り消せません。次のものは完全に削除されます：
+Type {name} to confirm	確認のため「{name}」と入力してください
+I understand that my account can't be recovered.	アカウントを復元できないことを理解しました。
+Delete your account?	アカウントを削除しますか？
+Keep holding…	そのまま押し続けて…
+Hold to delete the account	長押しでアカウントを削除
+Press and hold	長押ししてください
+Game controller	ゲームコントローラー
+Controller connected	コントローラー接続中
+No controller connected	コントローラー未接続
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Xbox、PlayStation、Switch Proのコントローラーに対応しています：接続するとプレイに使えます。メニューでは十字キーで移動、Aで決定、Bで戻ります。
+Community	コミュニティ

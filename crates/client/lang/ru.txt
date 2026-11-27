@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Сначала укажите почту для в�
 This server doesn't send e-mail.	Этот сервер не отправляет письма.
 Too many e-mails. Try again in an hour.	Слишком много писем. Попробуйте снова через час.
 The e-mail could not be sent. Try again in a moment.	Не удалось отправить письмо. Повторите попытку чуть позже.
+Pocket by pocket, and by cut angle	По каждой лузе и по углу резки
+Your progress week after week	Ваш прогресс неделя за неделей
+How you compare with your league	Как вы выглядите на фоне своей лиги
+Sending…	Отправка…
+Not sent	Не отправлено
+Sent	Отправлено
+Delivered	Доставлено
+Read	Прочитано
+Invite to a game	Пригласить на партию
+typing…	печатает…
+online	в сети
+Not sent. Click to try again.	Не отправлено. Нажмите, чтобы повторить.
+Newest messages	Последние сообщения
+Write a message…	Напишите сообщение…
+1 unread message	1 непрочитанное сообщение
+{n} unread messages	Непрочитанных сообщений: {n}
+Emoji	Эмодзи
+The keyboard and the mouse work as well.	Клавиатура и мышь тоже работают.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + правый стик: поворот · {lt} / {rt}: зум
+{y}: 3D / top view	{y}: 3D / вид сверху
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Левый стик · удерживать {lb}: точный прицел · крестовина ← →: чуть-чуть
+Hold {a}, let go to shoot · {b}: cancel	Удерживать {a}, отпустить для удара · {b}: отмена
+Right stick	Правый стик
+D-pad ↑ ↓	Крестовина ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: взять · левый стик: двигать · {a}: поставить
+Calling the 8	Заказ восьмёрки
+{x}: the next pocket	{x}: следующая луза
+{start}: menu · {back}: controls	{start}: меню · {back}: управление
+No messages yet. Write to a player from their profile, or start one here.	Сообщений пока нет. Напишите игроку из его профиля или начните переписку здесь.
+Pick a conversation to read it, or start a new one.	Выберите переписку, чтобы прочитать её, или начните новую.
+To:	Кому:
+Write to {name}	Написать игроку {name}
+Search conversations	Поиск переписок
+No conversation with that name.	Нет переписки с таким именем.
+See it in your profile	Открыть в профиле
+Monday	Понедельник
+Tuesday	Вторник
+Wednesday	Среда
+Thursday	Четверг
+Friday	Пятница
+Saturday	Суббота
+Sunday	Воскресенье
+Yesterday	Вчера
+{day} at {time}	{day} в {time}
+last seen just now	в сети только что
+last seen today at {time}	в сети сегодня в {time}
+last seen yesterday at {time}	в сети вчера в {time}
+last seen on {date}	в сети {date}
+Danger zone	Опасная зона
+Delete my account…	Удалить мой аккаунт…
+Your username, e-mail and friends	Ваше имя пользователя, почта и друзья
+Your coins, items and VIP	Ваши монеты, предметы и VIP-статус
+Your ratings, achievements and history	Ваши рейтинги, достижения и история
+This can't be undone. These go for good:	Это нельзя отменить. Безвозвратно удалятся:
+Type {name} to confirm	Введите {name} для подтверждения
+I understand that my account can't be recovered.	Я понимаю, что мой аккаунт нельзя будет восстановить.
+Delete your account?	Удалить аккаунт?
+Keep holding…	Удерживайте…
+Hold to delete the account	Удерживайте, чтобы удалить аккаунт
+Press and hold	Нажмите и удерживайте
+Game controller	Геймпад
+Controller connected	Геймпад подключён
+No controller connected	Геймпад не подключён
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Поддерживаются геймпады Xbox, PlayStation и Switch Pro: подключите любой из них, чтобы играть. В меню крестовина перемещает, A выбирает, B возвращает назад.
+Community	Сообщество

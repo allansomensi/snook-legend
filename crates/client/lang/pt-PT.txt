@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Define primeiro um e-mail de recuperação.
 This server doesn't send e-mail.	Este servidor não envia e-mails.
 Too many e-mails. Try again in an hour.	Demasiados e-mails. Tenta novamente daqui a uma hora.
 The e-mail could not be sent. Try again in a moment.	Não foi possível enviar o e-mail. Tenta novamente daqui a pouco.
+Pocket by pocket, and by cut angle	Buraco a buraco e por ângulo de corte
+Your progress week after week	A tua evolução semana a semana
+How you compare with your league	Como te comparas com a tua liga
+Sending…	A enviar…
+Not sent	Não enviada
+Sent	Enviada
+Delivered	Entregue
+Read	Lida
+Invite to a game	Convidar para uma partida
+typing…	a escrever…
+online	online
+Not sent. Click to try again.	Não enviada. Clica para tentar de novo.
+Newest messages	Mensagens mais recentes
+Write a message…	Escreve uma mensagem…
+1 unread message	1 mensagem por ler
+{n} unread messages	{n} mensagens por ler
+Emoji	Emojis
+The keyboard and the mouse work as well.	O teclado e o rato também funcionam.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + analógico direito: rodar · {lt} / {rt}: zoom
+{y}: 3D / top view	{y}: 3D / vista de cima
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Analógico esquerdo · mantém {lb} premido: mira fina · direcional ← →: um pouquinho
+Hold {a}, let go to shoot · {b}: cancel	Mantém {a} premido e solta para jogar · {b}: cancelar
+Right stick	Analógico direito
+D-pad ↑ ↓	Direcional ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: pegar · analógico esquerdo: mover · {a}: pousar
+Calling the 8	Cantar o buraco da 8
+{x}: the next pocket	{x}: o buraco seguinte
+{start}: menu · {back}: controls	{start}: menu · {back}: controlos
+No messages yet. Write to a player from their profile, or start one here.	Ainda não há mensagens. Escreve a um jogador a partir do perfil dele, ou começa uma conversa aqui.
+Pick a conversation to read it, or start a new one.	Escolhe uma conversa para a leres, ou começa uma nova.
+To:	Para:
+Write to {name}	Escrever a {name}
+Search conversations	Pesquisar conversas
+No conversation with that name.	Nenhuma conversa com esse nome.
+See it in your profile	Ver no teu perfil
+Monday	Segunda-feira
+Tuesday	Terça-feira
+Wednesday	Quarta-feira
+Thursday	Quinta-feira
+Friday	Sexta-feira
+Saturday	Sábado
+Sunday	Domingo
+Yesterday	Ontem
+{day} at {time}	{day} às {time}
+last seen just now	visto agora mesmo
+last seen today at {time}	visto pela última vez hoje às {time}
+last seen yesterday at {time}	visto pela última vez ontem às {time}
+last seen on {date}	visto pela última vez em {date}
+Danger zone	Zona de perigo
+Delete my account…	Eliminar a minha conta…
+Your username, e-mail and friends	O teu nome de utilizador, e-mail e amigos
+Your coins, items and VIP	As tuas moedas, artigos e VIP
+Your ratings, achievements and history	Os teus ratings, conquistas e histórico
+This can't be undone. These go for good:	Isto não pode ser desfeito. Serão apagados para sempre:
+Type {name} to confirm	Escreve {name} para confirmar
+I understand that my account can't be recovered.	Compreendo que a minha conta não poderá ser recuperada.
+Delete your account?	Eliminar a tua conta?
+Keep holding…	Continua a premir…
+Hold to delete the account	Mantém premido para eliminar a conta
+Press and hold	Prime e mantém premido
+Game controller	Comando
+Controller connected	Comando ligado
+No controller connected	Nenhum comando ligado
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Os comandos Xbox, PlayStation e Switch Pro funcionam: liga um para jogar com ele. Nos menus, o direcional navega, A escolhe e B volta atrás.
+Community	Comunidade

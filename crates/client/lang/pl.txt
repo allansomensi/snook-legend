@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Najpierw ustaw e-mail do odzyskiwania.
 This server doesn't send e-mail.	Ten serwer nie wysyła e-maili.
 Too many e-mails. Try again in an hour.	Za dużo e-maili. Spróbuj ponownie za godzinę.
 The e-mail could not be sent. Try again in a moment.	Nie udało się wysłać e-maila. Spróbuj ponownie za chwilę.
+Pocket by pocket, and by cut angle	Łuza po łuzie i według kąta cięcia
+Your progress week after week	Twoje postępy tydzień po tygodniu
+How you compare with your league	Jak wypadasz na tle swojej ligi
+Sending…	Wysyłanie…
+Not sent	Nie wysłano
+Sent	Wysłano
+Delivered	Dostarczono
+Read	Odczytano
+Invite to a game	Zaproś do partii
+typing…	pisze…
+online	online
+Not sent. Click to try again.	Nie wysłano. Kliknij, aby spróbować ponownie.
+Newest messages	Najnowsze wiadomości
+Write a message…	Napisz wiadomość…
+1 unread message	1 nieprzeczytana wiadomość
+{n} unread messages	Nieprzeczytane wiadomości: {n}
+Emoji	Emoji
+The keyboard and the mouse work as well.	Klawiatura i mysz też działają.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + prawa gałka: obrót · {lt} / {rt}: przybliżenie
+{y}: 3D / top view	{y}: 3D / widok z góry
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Lewa gałka · przytrzymaj {lb}: precyzyjnie · krzyżak ← →: o włos
+Hold {a}, let go to shoot · {b}: cancel	Przytrzymaj {a}, puść, aby uderzyć · {b}: anuluj
+Right stick	Prawa gałka
+D-pad ↑ ↓	Krzyżak ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: podnieś · lewa gałka: przesuń · {a}: odłóż
+Calling the 8	Deklaracja ósemki
+{x}: the next pocket	{x}: następna łuza
+{start}: menu · {back}: controls	{start}: menu · {back}: sterowanie
+No messages yet. Write to a player from their profile, or start one here.	Na razie brak wiadomości. Napisz do gracza z jego profilu albo zacznij rozmowę tutaj.
+Pick a conversation to read it, or start a new one.	Wybierz rozmowę, aby ją przeczytać, albo zacznij nową.
+To:	Do:
+Write to {name}	Napisz do gracza {name}
+Search conversations	Szukaj rozmów
+No conversation with that name.	Nie ma rozmowy z graczem o tej nazwie.
+See it in your profile	Zobacz w profilu
+Monday	Poniedziałek
+Tuesday	Wtorek
+Wednesday	Środa
+Thursday	Czwartek
+Friday	Piątek
+Saturday	Sobota
+Sunday	Niedziela
+Yesterday	Wczoraj
+{day} at {time}	{day}, {time}
+last seen just now	ostatnio widziano przed chwilą
+last seen today at {time}	ostatnio widziano dzisiaj o {time}
+last seen yesterday at {time}	ostatnio widziano wczoraj o {time}
+last seen on {date}	ostatnio widziano {date}
+Danger zone	Strefa zagrożenia
+Delete my account…	Usuń moje konto…
+Your username, e-mail and friends	Twoja nazwa użytkownika, e-mail i znajomi
+Your coins, items and VIP	Twoje monety, przedmioty i VIP
+Your ratings, achievements and history	Twoje rankingi, osiągnięcia i historia
+This can't be undone. These go for good:	Tego nie można cofnąć. Bezpowrotnie znikną:
+Type {name} to confirm	Wpisz {name}, aby potwierdzić
+I understand that my account can't be recovered.	Rozumiem, że mojego konta nie da się odzyskać.
+Delete your account?	Usunąć konto?
+Keep holding…	Trzymaj dalej…
+Hold to delete the account	Przytrzymaj, aby usunąć konto
+Press and hold	Naciśnij i przytrzymaj
+Game controller	Kontroler
+Controller connected	Kontroler podłączony
+No controller connected	Brak podłączonego kontrolera
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Działają kontrolery Xbox, PlayStation i Switch Pro: podłącz jeden, aby na nim grać. W menu krzyżak służy do poruszania się, A do wyboru, a B do powrotu.
+Community	Społeczność

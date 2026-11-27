@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	ตั้ง​อีเมล​กู้​คื
 This server doesn't send e-mail.	เซิร์ฟเวอร์​นี้​ไม่​ส่ง​อีเมล
 Too many e-mails. Try again in an hour.	ส่ง​อีเมล​มาก​เกินไป ลอง​ใหม่​ใน​อีก​หนึ่ง​ชั่วโมง
 The e-mail could not be sent. Try again in a moment.	ส่ง​อีเมล​ไม่​ได้ ลอง​ใหม่​ใน​อีกสักครู่
+Pocket by pocket, and by cut angle	แยก​ตาม​หลุม และ​ตาม​มุม​ตัด
+Your progress week after week	พัฒนาการ​ของ​คุณ​ใน​แต่ละ​สัปดาห์
+How you compare with your league	เทียบ​ฝีมือ​กับ​ลีก​ของ​คุณ
+Sending…	กำลัง​ส่ง…
+Not sent	ส่ง​ไม่​สำเร็จ
+Sent	ส่ง​แล้ว
+Delivered	ส่ง​ถึง​แล้ว
+Read	อ่าน​แล้ว
+Invite to a game	ชวน​เล่น​เกม
+typing…	กำลัง​พิมพ์…
+online	ออนไลน์
+Not sent. Click to try again.	ส่ง​ไม่​สำเร็จ คลิก​เพื่อ​ลอง​อีกครั้ง
+Newest messages	ข้อความ​ล่าสุด
+Write a message…	พิมพ์​ข้อความ…
+1 unread message	ยัง​ไม่​อ่าน 1 ข้อความ
+{n} unread messages	ยัง​ไม่​อ่าน {n} ข้อความ
+Emoji	อีโมจิ
+The keyboard and the mouse work as well.	ใช้​คีย์บอร์ด​และ​เมาส์​ได้​เช่นกัน
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + อนาล็อก​ขวา: หมุน · {lt} / {rt}: ซูม
+{y}: 3D / top view	{y}: 3D / มุมบน
+Left stick · hold {lb}: fine · d-pad ← →: a hair	อนาล็อก​ซ้าย · กด {lb} ค้าง: เล็ง​ละเอียด · ปุ่ม​ทิศทาง ← →: ขยับ​ทีละ​นิด
+Hold {a}, let go to shoot · {b}: cancel	กด {a} ค้าง แล้ว​ปล่อย​เพื่อ​แทง · {b}: ยกเลิก
+Right stick	อนาล็อก​ขวา
+D-pad ↑ ↓	ปุ่ม​ทิศทาง ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: หยิบ · อนาล็อก​ซ้าย: ย้าย · {a}: วาง
+Calling the 8	ขาน​หลุม​ลูก 8
+{x}: the next pocket	{x}: หลุม​ถัดไป
+{start}: menu · {back}: controls	{start}: เมนู · {back}: การควบคุม
+No messages yet. Write to a player from their profile, or start one here.	ยัง​ไม่มี​ข้อความ เขียน​ถึง​ผู้เล่น​จาก​โปรไฟล์​ของ​เขา หรือ​เริ่ม​ที่นี่
+Pick a conversation to read it, or start a new one.	เลือก​บทสนทนา​เพื่อ​อ่าน หรือ​เริ่ม​บทสนทนา​ใหม่
+To:	ถึง:
+Write to {name}	ส่ง​ข้อความ​ถึง {name}
+Search conversations	ค้นหา​บทสนทนา
+No conversation with that name.	ไม่พบ​บทสนทนา​ชื่อ​นี้
+See it in your profile	ดู​ใน​โปรไฟล์​ของ​คุณ
+Monday	วันจันทร์
+Tuesday	วันอังคาร
+Wednesday	วันพุธ
+Thursday	วันพฤหัสบดี
+Friday	วันศุกร์
+Saturday	วันเสาร์
+Sunday	วันอาทิตย์
+Yesterday	เมื่อวาน
+{day} at {time}	{day} เวลา {time} น.
+last seen just now	ออนไลน์​ล่าสุด​เมื่อ​สักครู่
+last seen today at {time}	ออนไลน์​ล่าสุด​วันนี้ เวลา {time} น.
+last seen yesterday at {time}	ออนไลน์​ล่าสุด​เมื่อวาน เวลา {time} น.
+last seen on {date}	ออนไลน์​ล่าสุด​เมื่อ {date}
+Danger zone	โซน​อันตราย
+Delete my account…	ลบ​บัญชี​ของ​ฉัน…
+Your username, e-mail and friends	ชื่อผู้ใช้ อีเมล และ​เพื่อน​ของ​คุณ
+Your coins, items and VIP	เหรียญ ไอเท็ม และ VIP ของ​คุณ
+Your ratings, achievements and history	เรตติ้ง ความสำเร็จ และ​ประวัติ​ของ​คุณ
+This can't be undone. These go for good:	การ​ลบ​นี้​ย้อน​กลับ​ไม่ได้ สิ่ง​เหล่านี้​จะ​หายไป​ถาวร:
+Type {name} to confirm	พิมพ์ {name} เพื่อ​ยืนยัน
+I understand that my account can't be recovered.	ฉัน​เข้าใจ​ว่า​บัญชี​ของ​ฉัน​จะ​กู้​คืน​ไม่ได้​อีก
+Delete your account?	ลบ​บัญชี​ของ​คุณ?
+Keep holding…	กด​ค้าง​ต่อไป…
+Hold to delete the account	กด​ค้าง​เพื่อ​ลบ​บัญชี
+Press and hold	กด​ค้าง​ไว้
+Game controller	จอย​เกม
+Controller connected	เชื่อมต่อ​จอย​แล้ว
+No controller connected	ไม่ได้​เชื่อมต่อ​จอย
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	ใช้​จอย Xbox, PlayStation และ Switch Pro ได้: เชื่อมต่อ​จอย​เพื่อ​เล่น ใน​เมนู ปุ่ม​ทิศทาง​ใช้​เลื่อน A ใช้​เลือก และ B ใช้​ย้อน​กลับ
+Community	ชุมชน

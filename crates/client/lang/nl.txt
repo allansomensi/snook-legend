@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Stel eerst een herstel-e-mailadres in.
 This server doesn't send e-mail.	Deze server verstuurt geen e-mail.
 Too many e-mails. Try again in an hour.	Te veel e-mails. Probeer het over een uur opnieuw.
 The e-mail could not be sent. Try again in a moment.	De e-mail kon niet worden verstuurd. Probeer het zo opnieuw.
+Pocket by pocket, and by cut angle	Per pocket en per snijhoek
+Your progress week after week	Je vooruitgang week na week
+How you compare with your league	Hoe je je verhoudt tot je competitie
+Sending…	Verzenden…
+Not sent	Niet verzonden
+Sent	Verzonden
+Delivered	Afgeleverd
+Read	Gelezen
+Invite to a game	Uitnodigen voor een partij
+typing…	typt…
+online	online
+Not sent. Click to try again.	Niet verzonden. Klik om het opnieuw te proberen.
+Newest messages	Nieuwste berichten
+Write a message…	Schrijf een bericht…
+1 unread message	1 ongelezen bericht
+{n} unread messages	{n} ongelezen berichten
+Emoji	Emoji
+The keyboard and the mouse work as well.	Toetsenbord en muis werken ook.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + rechterstick: draaien · {lt} / {rt}: zoomen
+{y}: 3D / top view	{y}: 3D / bovenaanzicht
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Linkerstick · houd {lb} ingedrukt: fijn richten · D-pad ← →: een tikje
+Hold {a}, let go to shoot · {b}: cancel	Houd {a} ingedrukt, laat los om te stoten · {b}: annuleren
+Right stick	Rechterstick
+D-pad ↑ ↓	D-pad ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: oppakken · linkerstick: verplaatsen · {a}: neerleggen
+Calling the 8	8-bal aangeven
+{x}: the next pocket	{x}: de volgende pocket
+{start}: menu · {back}: controls	{start}: menu · {back}: besturing
+No messages yet. Write to a player from their profile, or start one here.	Nog geen berichten. Schrijf een speler via zijn profiel, of begin hier een gesprek.
+Pick a conversation to read it, or start a new one.	Kies een gesprek om het te lezen, of begin een nieuw gesprek.
+To:	Aan:
+Write to {name}	Bericht aan {name}
+Search conversations	Gesprekken zoeken
+No conversation with that name.	Geen gesprek met die naam.
+See it in your profile	In je profiel bekijken
+Monday	Maandag
+Tuesday	Dinsdag
+Wednesday	Woensdag
+Thursday	Donderdag
+Friday	Vrijdag
+Saturday	Zaterdag
+Sunday	Zondag
+Yesterday	Gisteren
+{day} at {time}	{day} om {time}
+last seen just now	zojuist gezien
+last seen today at {time}	laatst gezien vandaag om {time}
+last seen yesterday at {time}	laatst gezien gisteren om {time}
+last seen on {date}	laatst gezien op {date}
+Danger zone	Gevarenzone
+Delete my account…	Mijn account verwijderen…
+Your username, e-mail and friends	Je gebruikersnaam, e-mailadres en vrienden
+Your coins, items and VIP	Je munten, items en VIP
+Your ratings, achievements and history	Je ratings, prestaties en speelgeschiedenis
+This can't be undone. These go for good:	Dit kan niet ongedaan worden gemaakt. Dit ben je voorgoed kwijt:
+Type {name} to confirm	Typ {name} om te bevestigen
+I understand that my account can't be recovered.	Ik begrijp dat mijn account niet kan worden hersteld.
+Delete your account?	Je account verwijderen?
+Keep holding…	Blijf ingedrukt houden…
+Hold to delete the account	Houd ingedrukt om het account te verwijderen
+Press and hold	Indrukken en vasthouden
+Game controller	Controller
+Controller connected	Controller verbonden
+No controller connected	Geen controller verbonden
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Controllers van Xbox, PlayStation en Switch Pro werken: sluit er een aan om ermee te spelen. In de menu's navigeer je met de D-pad, kies je met A en ga je terug met B.
+Community	Community

@@ -2549,3 +2549,68 @@ Set a recovery e-mail first.	Спершу вкажіть пошту для ві�
 This server doesn't send e-mail.	Цей сервер не надсилає листів.
 Too many e-mails. Try again in an hour.	Забагато листів. Спробуйте ще раз за годину.
 The e-mail could not be sent. Try again in a moment.	Не вдалося надіслати лист. Спробуйте ще раз за мить.
+Pocket by pocket, and by cut angle	По кожній лузі й за кутом різання
+Your progress week after week	Ваш прогрес тиждень за тижнем
+How you compare with your league	Як ви виглядаєте на тлі своєї ліги
+Sending…	Надсилання…
+Not sent	Не надіслано
+Sent	Надіслано
+Delivered	Доставлено
+Read	Прочитано
+Invite to a game	Запросити на партію
+typing…	друкує…
+online	в мережі
+Not sent. Click to try again.	Не надіслано. Клацніть, щоб спробувати ще раз.
+Newest messages	Найновіші повідомлення
+Write a message…	Напишіть повідомлення…
+1 unread message	1 непрочитане повідомлення
+{n} unread messages	Непрочитаних повідомлень: {n}
+Emoji	Емодзі
+The keyboard and the mouse work as well.	Клавіатура й миша теж працюють.
+{rb} + right stick: turn · {lt} / {rt}: zoom	{rb} + правий стік: обертання · {lt} / {rt}: масштаб
+{y}: 3D / top view	{y}: 3D / вид згори
+Left stick · hold {lb}: fine · d-pad ← →: a hair	Лівий стік · утримуйте {lb}: точно · хрестовина ← →: ледь-ледь
+Hold {a}, let go to shoot · {b}: cancel	Утримуйте {a} й відпустіть, щоб ударити · {b}: скасувати
+Right stick	Правий стік
+D-pad ↑ ↓	Хрестовина ↑ ↓
+{x}: pick up · left stick: move · {a}: put down	{x}: взяти · лівий стік: перемістити · {a}: поставити
+Calling the 8	Луза для вісімки
+{x}: the next pocket	{x}: наступна луза
+{start}: menu · {back}: controls	{start}: меню · {back}: керування
+No messages yet. Write to a player from their profile, or start one here.	Повідомлень поки немає. Напишіть гравцеві з його профілю або почніть листування тут.
+Pick a conversation to read it, or start a new one.	Виберіть листування, щоб прочитати його, або почніть нове.
+To:	Кому:
+Write to {name}	Написати {name}
+Search conversations	Пошук листувань
+No conversation with that name.	Немає листування з таким ім’ям.
+See it in your profile	Переглянути у профілі
+Monday	Понеділок
+Tuesday	Вівторок
+Wednesday	Середа
+Thursday	Четвер
+Friday	П’ятниця
+Saturday	Субота
+Sunday	Неділя
+Yesterday	Вчора
+{day} at {time}	{day} о {time}
+last seen just now	востаннє в мережі щойно
+last seen today at {time}	востаннє в мережі сьогодні о {time}
+last seen yesterday at {time}	востаннє в мережі вчора о {time}
+last seen on {date}	востаннє в мережі {date}
+Danger zone	Небезпечна зона
+Delete my account…	Видалити мій обліковий запис…
+Your username, e-mail and friends	Ваше ім’я користувача, пошта й друзі
+Your coins, items and VIP	Ваші монети, предмети й VIP
+Your ratings, achievements and history	Ваші рейтинги, досягнення та історія
+This can't be undone. These go for good:	Цю дію не можна скасувати. Назавжди зникнуть:
+Type {name} to confirm	Введіть {name}, щоб підтвердити
+I understand that my account can't be recovered.	Я розумію, що мій обліковий запис не можна буде відновити.
+Delete your account?	Видалити обліковий запис?
+Keep holding…	Не відпускайте…
+Hold to delete the account	Утримуйте, щоб видалити обліковий запис
+Press and hold	Натисніть і утримуйте
+Game controller	Геймпад
+Controller connected	Геймпад під’єднано
+No controller connected	Геймпад не під’єднано
+Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Підтримуються геймпади Xbox, PlayStation і Switch Pro: під’єднайте свій, щоб грати. У меню хрестовина переміщує, A вибирає, а B повертає назад.
+Community	Спільнота

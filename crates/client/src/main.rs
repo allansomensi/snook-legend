@@ -1329,10 +1329,6 @@ async fn main() {
         // The chat with other players' dialog is over every screen and game
         // (drawn near the end): nothing under it takes the pointer. Saved
         // first, given back last.
-        // The auctions' and the credits' pages, the same way (they open
-        // over the main menu, the lounge and the shop).
-        let ops_saved = (!settings_open && current.is_none() && online.ops_page_open())
-            .then(|| ui.suspend_input());
         let chat_saved = (!settings_open && online.chat_dialog_open).then(|| ui.suspend_input());
         // A conversation with a friend, over the lounge: nothing under it
         // takes the pointer.
@@ -2108,7 +2104,13 @@ async fn main() {
                                     shop.show_item(&code);
                                     next = Some(Screen::Shop);
                                 }
-                                inbox::InboxAction::Auctions => online.open_auctions(),
+                                inbox::InboxAction::Auctions => {
+                                    came_from = Some(CameFrom::Inbox);
+                                    shop.open(&mut online);
+                                    shop.show_tab("shop-auctions");
+                                    online.open_auctions();
+                                    next = Some(Screen::Shop);
+                                }
                             }
                         }
                         Screen::Profile => match profile.draw(&mut ui, &mut online) {
@@ -2382,11 +2384,7 @@ async fn main() {
         if !settings_open {
             online.draw_chat_dialog(&mut ui, &config);
         }
-        // A maintenance planned (on the main menu and in the lounge), the
-        // auctions' and the credits' pages (opened from the shop).
-        if let Some(saved) = ops_saved {
-            ui.resume_input(saved);
-        }
+        // A maintenance planned (on the main menu and in the lounge).
         if current.is_none() && !settings_open && waiting.is_none() {
             let in_lounge =
                 matches!(screen, Screen::Online) && online.stage == online::Stage::Lounge;

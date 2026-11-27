@@ -1417,7 +1417,7 @@ impl Online {
                     if let Some(username) = crate::dev::var("SNOOK_LEGEND_AUTOWATCH") {
                         self.send(ClientMsg::Spectate { username });
                     }
-                    // SNOOK_LEGEND_OPEN=auctions|credits|dm:<name> opens that
+                    // SNOOK_LEGEND_OPEN=auctions|credits|dm:<name> asks for that
                     // page once signed in (screenshots, tools/screens.py).
                     match crate::dev::var("SNOOK_LEGEND_OPEN").as_deref() {
                         Some("auctions") => self.open_auctions(),

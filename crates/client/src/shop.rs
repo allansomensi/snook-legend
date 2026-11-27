@@ -30,6 +30,10 @@ enum Tab {
     Items(Category),
     Coins,
     Vip,
+    /// The auctions of rare items.
+    Auctions,
+    /// The credits of those who support the game.
+    Supporters,
 }
 
 /// What the 3D preview's bar asks for.
@@ -566,10 +570,22 @@ impl CardGrid {
     }
 }
 
+/// A page of the shop that isn't items (the auctions, the credits): its
+/// title over it, then what `f` draws under.
+fn page(ui: &mut Ui, body: Rect, icon: Icon, title: &str, f: impl FnOnce(&mut Ui, Rect)) {
+    let mid = body.y + 14.0;
+    crate::icons::draw(icon, vec2(body.x + 11.0, mid), 20.0, GOLD);
+    ui.text(title, body.x + 30.0, text_y(mid, 20.0), 20.0, GOLD, true);
+    let area = Rect::new(body.x, body.y + 40.0, body.w - 6.0, body.h - 46.0);
+    f(ui, area);
+}
+
 /// What the list of categories shows at the right end of a row.
 pub(crate) enum SideNote<'a> {
     Count(&'a str),
     Icon(Icon),
+    /// A count that wants attention (auctions open): a gold pill.
+    Badge(&'a str),
 }
 
 /// A row of the list of categories: the label on the left, a count or an
@@ -607,6 +623,14 @@ pub(crate) fn side_tab(
         SideNote::Count(n) => {
             let w = ui.text_size(n, 12.0, false).x;
             ui.text(n, right - w, text_y(mid, 12.0), 12.0, MUTED, false);
+            w
+        }
+        SideNote::Badge(n) => {
+            let w = (ui.text_size(n, 11.0, true).x + 10.0).max(20.0);
+            let pill = Rect::new(right - w, mid - 10.0, w, 20.0);
+            rrect(pill, 10.0, GOLD);
+            let dark = Color::new(0.1, 0.06, 0.03, 1.0);
+            ui.text_centered(n, pill.x + w / 2.0, text_y(mid, 11.0), 11.0, dark, true);
             w
         }
         SideNote::Icon(icon) => {
@@ -785,6 +809,8 @@ impl ShopScreen {
             "shop-tables" => Tab::Items(Category::Table),
             "shop-halls" => Tab::Items(Category::Hall),
             "shop-reactions" => Tab::Items(Category::Reaction),
+            "shop-auctions" => Tab::Auctions,
+            "shop-supporters" => Tab::Supporters,
             _ => Tab::Items(Category::Cloth),
         };
         self.grid.reset();
@@ -920,8 +946,10 @@ impl ShopScreen {
         // The categories, down the left side.
         let top = r.y + HEADER_H + 12.0;
         let side = Rect::new(r.x + PAD - 4.0, top, SIDE_W, r.y + r.h - PAD - top);
-        // Rows shrink a little when the window is short (eleven of them).
-        let rows = Category::ALL.len() as f32 + 2.0;
+        // Rows shrink a little when the window is short (the categories,
+        // coins and VIP, and the community's two under their heading).
+        let community = signed_in && !online.lan;
+        let rows = Category::ALL.len() as f32 + 2.0 + if community { 2.9 } else { 0.0 };
         let pitch = ((side.h - 12.0) / rows).clamp(31.0, 40.0);
         let row_h = pitch - 4.0;
         let mut y = side.y;
@@ -961,24 +989,32 @@ impl ShopScreen {
             }
             y += pitch;
         }
-        // The auctions of rare items (how many are open), and the credits of
-        // those who support the game: pages of their own, over the shop.
-        if signed_in && !online.lan {
+        // The community, apart under its own heading: the auctions of rare
+        // items (how many are open) and the credits of those who support
+        // the game, pages of the shop like the rest.
+        if community {
+            y += 6.0;
+            draw_line(side.x + 12.0, y - 1.0, side.x + side.w - 12.0, y - 1.0, 1.0, BORDER);
+            y += 10.0;
+            let head = t("Community").to_uppercase();
+            ui.text(&head, side.x + 16.0, y, 11.0, MUTED, true);
+            y += 20.0;
             let open = online.open_auctions_count();
-            let auctions = if open > 0 {
-                crate::i18n::tw("Auctions ({n})", &[("n", &open)])
-            } else {
-                t("Auctions").to_string()
-            };
+            let count = open.to_string();
+            let note =
+                if open > 0 { SideNote::Badge(&count) } else { SideNote::Icon(Icon::Hourglass) };
             let tr = Rect::new(side.x, y, side.w, row_h);
-            if side_tab(ui, tr, &auctions, SideNote::Icon(Icon::Hourglass), false, false) && !modal
-            {
+            if side_tab(ui, tr, t("Auctions"), note, self.tab == Tab::Auctions, true) && !modal {
+                self.tab = Tab::Auctions;
                 online.open_auctions();
             }
             y += pitch;
             let tr = Rect::new(side.x, y, side.w, row_h);
-            if side_tab(ui, tr, t("Supporters"), SideNote::Icon(Icon::Star), false, false) && !modal
+            let selected = self.tab == Tab::Supporters;
+            if side_tab(ui, tr, t("Supporters"), SideNote::Icon(Icon::Star), selected, true)
+                && !modal
             {
+                self.tab = Tab::Supporters;
                 online.open_supporters();
             }
         }
@@ -1013,6 +1049,8 @@ impl ShopScreen {
             Tab::Items(c) => Category::ALL.iter().position(|x| *x == c).unwrap_or(0),
             Tab::Coins => Category::ALL.len(),
             Tab::Vip => Category::ALL.len() + 1,
+            Tab::Auctions => Category::ALL.len() + 2,
+            Tab::Supporters => Category::ALL.len() + 3,
         };
         let fx = ui.switch_down(motion::id("shop-tab"), index as i64, 14.0);
         match self.tab {
@@ -1023,6 +1061,12 @@ impl ShopScreen {
             }
             Tab::Coins => self.coins(ui, online, body),
             Tab::Vip => self.vip(ui, online, body),
+            Tab::Auctions => page(ui, body, Icon::Hourglass, t("Auctions"), |ui, area| {
+                online.auctions_page(ui, area)
+            }),
+            Tab::Supporters => page(ui, body, Icon::Star, t("Supporters"), |ui, area| {
+                online.supporters_page(ui, area)
+            }),
         }
         ui.pop_fx(fx);
         action

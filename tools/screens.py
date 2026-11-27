@@ -136,7 +136,7 @@ SCREENS = {
     "match-clock": (["--vs", "medium"], {"_ini": "shot_clock=30"}, False, 150),
     "match-clock-low": (
         ["--vs", "medium"],
-        {"_ini": "shot_clock=30", "SNOOK_LEGEND_CLOCK_LEFT": "19.6"},
+        {"_ini": "shot_clock=30", "SNOOK_LEGEND_CLOCK_LEFT": "16.6"},
         False,
         150,
     ),

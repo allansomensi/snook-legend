@@ -400,57 +400,26 @@ pub fn clock_tag(ui: &Ui, m: &Match, board: &Board) {
     ui.text(&text, tag.x + 23.0, crate::ranking::text_y(tag.y + h / 2.0, size), size, tc, true);
 }
 
-/// The last ten seconds of this player's own turn: the seconds large and
-/// faint in the middle of the screen, over the table (the balls show
-/// through), each coming in a little larger; and (the last five) a red glow
-/// beating at the edges of the screen. Nothing for a turn watched.
+/// The last ten seconds of this player's own turn: a red glow beating
+/// around their box in the top bar, once a second (nothing over the table:
+/// the tag and the ticking say the rest). Nothing for a turn watched.
 pub fn clock_warning(ui: &Ui, m: &Match, board: &Board) {
-    let _ = board;
+    let _ = ui;
     let Some((left, _)) = running_clock(m) else { return };
     if !(m.is_human_turn() && !m.is_spectating()) || left > 10.0 || left <= 0.0 {
         return;
     }
-    let secs = left.ceil() as i32;
-    let k = left.fract();
-    // Each second lands: larger and brighter as it comes, then settling.
-    let fresh = ((k - 0.7).max(0.0) / 0.3).min(1.0);
-    let size = 150.0 * (1.0 + 0.15 * fresh);
-    // Pale over the cloth (red on green would read muddy), red and
-    // stronger for the last five.
-    let last = left <= 5.0;
-    let alpha = if last { 0.42 + 0.2 * fresh } else { 0.24 + 0.14 * fresh };
-    let n = secs.to_string();
-    let w = ui.text_size(&n, size, true).x;
-    let c = vec2(crate::ui::vw() / 2.0, crate::ui::vh() / 2.0);
+    let seat = m.game.current_player().min(1);
+    let r = board.avatars[seat];
+    // Each second beats; the last five, harder.
+    let beat = (left.fract() * std::f32::consts::PI).sin().abs();
+    let strength = if left <= 5.0 { 0.55 } else { 0.32 };
     let red = crate::ui::ALERT;
-    let tint =
-        if last { Color::new(1.0, 0.45, 0.36, alpha) } else { Color::new(1.0, 0.93, 0.85, alpha) };
-    ui.text(&n, c.x - w / 2.0, crate::ranking::caps_y(c.y, size), size, tint, true);
-    if last {
-        let beat = (k * std::f32::consts::PI).sin().abs();
-        edge_glow(Color::new(red.r, red.g, red.b, 0.16 * beat));
-    }
-}
-
-/// A glow along the edges of the screen, fading inward.
-fn edge_glow(color: Color) {
-    let (sw, sh) = (crate::ui::vw(), crate::ui::vh());
-    let steps = 14;
-    let depth = 4.0;
-    for i in 0..steps {
-        let a = color.a * (1.0 - i as f32 / steps as f32).powi(2);
-        let c = Color::new(color.r, color.g, color.b, a);
-        let d = i as f32 * depth;
-        crate::paint::draw_rectangle(d, d, sw - 2.0 * d, depth, c);
-        crate::paint::draw_rectangle(d, sh - d - depth, sw - 2.0 * d, depth, c);
-        crate::paint::draw_rectangle(d, d + depth, depth, sh - 2.0 * d - 2.0 * depth, c);
-        crate::paint::draw_rectangle(
-            sw - d - depth,
-            d + depth,
-            depth,
-            sh - 2.0 * d - 2.0 * depth,
-            c,
-        );
+    for k in 1..=5 {
+        let d = k as f32 * 1.6;
+        let ring = Rect::new(r.x - d, r.y - d, r.w + 2.0 * d, r.h + 2.0 * d);
+        let a = strength * beat * (1.0 - k as f32 / 6.0);
+        rrect_lines(ring, 9.0 + d, 1.6, Color::new(red.r, red.g, red.b, a));
     }
 }
 

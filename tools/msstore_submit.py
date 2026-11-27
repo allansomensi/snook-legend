@@ -275,6 +275,10 @@ def request(method, url, body=None, headers=None, token=None):
     if body is not None and not isinstance(body, bytes):
         data = json.dumps(body).encode("utf-8")
         headers["Content-Type"] = "application/json"
+    elif body == b"":
+        # A POST without a body (a new submission, a commit): the API
+        # still wants it said as JSON.
+        headers.setdefault("Content-Type", "application/json")
     req = urllib.request.Request(url, data=data, headers=headers, method=method)
     for attempt in range(4):
         try:

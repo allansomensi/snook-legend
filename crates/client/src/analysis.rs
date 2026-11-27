@@ -11,7 +11,7 @@
 
 use macroquad::prelude::*;
 use snook_legend_core::{PocketId, Table};
-use snook_legend_proto::advanced::{AdvancedStats, CUT_KINDS, Sums, Week, week_start};
+use snook_legend_proto::advanced::{AdvancedStats, CUT_KINDS, Week, week_start};
 use snook_legend_proto::analysis::{
     GRID_H, GRID_W, MIN_ATTEMPTS, POCKETS, ShotAnalysis, ShotKind, Tally,
 };
@@ -72,14 +72,9 @@ pub fn draw(
         crate::online::loading(ui, area);
         return false;
     };
-    if !stats.vip {
-        // The page with made-up numbers, dimmed and still, under the pitch.
-        let saved = crate::paint::opacity();
-        crate::paint::set_opacity(saved * 0.28);
-        let input = ui.suspend_input();
-        page(ui, &sample_analysis(), &sample(), area, heat);
-        ui.resume_input(input);
-        crate::paint::set_opacity(saved);
+    // (Development aid, screenshots: SNOOK_LEGEND_PITCH shows a VIP member
+    // what the others see.)
+    if !stats.vip || crate::dev::flag("SNOOK_LEGEND_PITCH") {
         return pitch(ui, area);
     }
     let none = ShotAnalysis::default();
@@ -318,82 +313,121 @@ fn ahead_and_behind(ui: &mut Ui, s: &AdvancedStats, x: f32, y: f32, w: f32) {
     }
 }
 
-/// The card over the preview: what the page is, and the way to it.
+/// What the page is for a player who isn't VIP, and the way to it: a
+/// picture of its parts (shapes only: no number of anyone's, made up or
+/// not, to read through), what it shows, and "Become VIP".
 fn pitch(ui: &mut Ui, area: Rect) -> bool {
-    let w = 420.0f32.min(area.w - 20.0);
+    let wide = area.w >= 640.0;
+    let card = Rect::new(area.x, area.y, area.w, area.h);
+    rrect(card, 12.0, Color::new(1.0, 1.0, 1.0, 0.025));
+    rrect_lines(card, 12.0, 1.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.25));
+    let pad = 24.0;
+    // The picture on the left (when there is room), the words on the right.
+    let pic_w = if wide { (area.w * 0.42).min(380.0) } else { 0.0 };
+    if wide {
+        let pic = Rect::new(card.x + pad, card.y + pad, pic_w, card.h - 2.0 * pad);
+        sketch(pic);
+    }
+    let x = card.x + pad + if wide { pic_w + 32.0 } else { 0.0 };
+    let w = card.x + card.w - pad - x;
+    let bullets = [
+        (Icon::Ball, t("Pocket by pocket, and by cut angle")),
+        (Icon::Refresh, t("Your progress week after week")),
+        (Icon::People, t("How you compare with your league")),
+    ];
     let text = t(
         "See how you pot pocket by pocket and by cut angle, how you progress week after week, and how you compare with the players of your league.",
     );
-    let lines = ui.wrap(text, w - 40.0, 14.0);
-    let h = 70.0 + lines.len() as f32 * 19.0 + 64.0;
-    let r = Rect::new(area.x + (area.w - w) / 2.0, area.y + (area.h - h) / 2.0, w, h);
-    ui.panel(r);
-    rrect_lines(r, 12.0, 1.5, GOLD);
-    crate::icons::draw(Icon::Crown, vec2(r.x + 30.0, r.y + 30.0), 22.0, GOLD);
-    let (title, size) = ui.fitted(t("Shot analysis"), 18.0, r.w - 70.0, true);
-    ui.text(&title, r.x + 50.0, r.y + 20.0, size, GOLD, true);
-    for (k, line) in lines.iter().enumerate() {
-        ui.text(line, r.x + 20.0, r.y + 56.0 + k as f32 * 19.0, 14.0, CREAM, false);
+    let lines = ui.wrap(text, w, 14.0);
+    let block =
+        40.0 + 14.0 + lines.len() as f32 * 19.0 + 18.0 + bullets.len() as f32 * 30.0 + 22.0 + 40.0;
+    let mut y = card.y + ((card.h - block) / 2.0).max(pad);
+    crate::icons::draw_filled(Icon::Crown, vec2(x + 14.0, y + 18.0), 24.0, GOLD);
+    let (title, size) = ui.fitted(t("Shot analysis"), 22.0, w - 40.0, true);
+    ui.text(&title, x + 38.0, crate::ranking::text_y(y + 18.0, size), size, GOLD, true);
+    let vip = t("VIP");
+    let tw_ = ui.text_size(&title, size, true).x;
+    let pill_w = ui.text_size(vip, 10.5, true).x + 14.0;
+    if x + 38.0 + tw_ + 10.0 + pill_w < x + w {
+        let pill = Rect::new(x + 38.0 + tw_ + 10.0, y + 9.0, pill_w, 18.0);
+        rrect(pill, 9.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.18));
+        ui.text(vip, pill.x + 7.0, crate::ranking::text_y(pill.y + 9.0, 10.5), 10.5, GOLD, true);
     }
-    let b = Rect::new(r.x + (r.w - 200.0) / 2.0, r.y + r.h - 52.0, 200.0, 38.0);
-    ui.primary_button(b, t("Become VIP"))
+    y += 40.0 + 14.0;
+    for line in &lines {
+        ui.text(line, x, y, 14.0, CREAM, false);
+        y += 19.0;
+    }
+    y += 18.0;
+    for (icon, label) in bullets {
+        let c = vec2(x + 13.0, y + 11.0);
+        crate::paint::draw_circle(c.x, c.y, 13.0, Color::new(GOLD.r, GOLD.g, GOLD.b, 0.12));
+        crate::icons::draw(icon, c, 14.0, GOLD);
+        let label = ui.ellipsize(label, w - 36.0, 14.0);
+        ui.text(&label, x + 34.0, crate::ranking::text_y(c.y, 14.0), 14.0, CREAM, true);
+        y += 30.0;
+    }
+    y += 22.0;
+    let label = t("Become VIP");
+    let bw = (ui.text_size(label, 15.0, true).x + 48.0).max(180.0).min(w);
+    ui.primary_button(Rect::new(x, y, bw, 40.0), label)
 }
 
-/// The league's numbers and the weeks behind the preview (made up: never
-/// anyone's).
-fn sample() -> AdvancedStats {
-    let t = |a: u32, m: u32| Tally { attempts: a, made: m };
-    let mine = Sums {
-        pockets: [t(40, 26), t(38, 22), t(20, 9), t(22, 12), t(41, 30), t(36, 21)],
-        cuts: [t(60, 48), t(70, 44), t(40, 18), t(20, 5)],
-        overall: t(197, 120),
-    };
-    let league = Sums {
-        pockets: [t(40, 22), t(40, 22), t(20, 8), t(20, 8), t(40, 22), t(40, 22)],
-        cuts: [t(60, 44), t(70, 40), t(40, 16), t(20, 4)],
-        overall: t(200, 104),
-    };
-    AdvancedStats {
-        vip: false,
-        games: 42,
-        mine,
-        league,
-        league_players: 120,
-        weeks: (0..8)
-            .map(|k| Week { week: 2900 + k, pots: t(40, 20 + (k as u32 * 3) % 9), games: 5 })
-            .collect(),
-        ..Default::default()
+/// A sketch of the page's parts in `r`, in shapes only: a table with warm
+/// patches where shots go in, bars of different lengths, a line that
+/// climbs. Nothing in it is a number.
+fn sketch(r: Rect) {
+    let faint = Color::new(1.0, 0.92, 0.8, 0.07);
+    let gold = |a: f32| Color::new(GOLD.r, GOLD.g, GOLD.b, a);
+    rrect(r, 10.0, Color::new(0.0, 0.0, 0.0, 0.22));
+    // The table: rails, cloth, pockets, and patches of heat.
+    let tw = r.w - 32.0;
+    let th = (tw * 0.5).min(r.h * 0.46);
+    let table = Rect::new(r.x + 16.0, r.y + 16.0, tw, th);
+    rrect(table, 8.0, Color::new(0.30, 0.20, 0.12, 0.55));
+    let cloth = Rect::new(table.x + 9.0, table.y + 9.0, table.w - 18.0, table.h - 18.0);
+    rrect(cloth, 4.0, Color::new(0.10, 0.32, 0.20, 0.55));
+    for (fx, fy) in [(0.0, 0.0), (0.5, 0.0), (1.0, 0.0), (0.0, 1.0), (0.5, 1.0), (1.0, 1.0)] {
+        let c = vec2(cloth.x + cloth.w * fx, cloth.y + cloth.h * fy);
+        crate::paint::draw_circle(c.x, c.y, 6.0, Color::new(0.0, 0.0, 0.0, 0.7));
     }
-}
-
-/// A shot analysis to show behind the preview (made up, as [`sample`]).
-fn sample_analysis() -> ShotAnalysis {
-    let s = sample();
-    let t = |a: u32, m: u32| Tally { attempts: a, made: m };
-    let mut a = ShotAnalysis { games: s.games, pockets: s.mine.pockets, ..Default::default() };
-    for (k, kind) in CUT_KINDS.iter().enumerate() {
-        a.kinds[kind.index()] = s.mine.cuts[k];
+    for (fx, fy, k) in [(0.22, 0.35, 1.0), (0.7, 0.6, 0.8), (0.45, 0.72, 0.6), (0.82, 0.28, 0.5)] {
+        let c = vec2(cloth.x + cloth.w * fx, cloth.y + cloth.h * fy);
+        for (i, a) in [(1.0, 0.10), (0.65, 0.14), (0.35, 0.22)] {
+            crate::paint::draw_circle(c.x, c.y, 22.0 * k * i, gold(a));
+        }
     }
-    for (kind, tally) in [
-        (ShotKind::Bank, t(18, 7)),
-        (ShotKind::Kick, t(9, 3)),
-        (ShotKind::Combination, t(6, 2)),
-        (ShotKind::Jump, t(4, 1)),
-        (ShotKind::Masse, t(3, 1)),
-        (ShotKind::Break, t(21, 13)),
-    ] {
-        a.kinds[kind.index()] = tally;
+    // Bars, like the kinds of shot.
+    let mut y = table.y + table.h + 22.0;
+    let bar_room = r.y + r.h * 0.78 - y;
+    let n = ((bar_room / 16.0).floor() as usize).clamp(2, 5);
+    for (k, len) in [0.82, 0.64, 0.47, 0.71, 0.35].iter().take(n).enumerate() {
+        let label = Rect::new(r.x + 16.0, y + 2.0, 54.0 + (k % 2) as f32 * 14.0, 6.0);
+        rrect(label, 3.0, faint);
+        let track = Rect::new(r.x + 100.0, y, r.w - 116.0, 10.0);
+        rrect(track, 5.0, Color::new(1.0, 1.0, 1.0, 0.05));
+        rrect(Rect::new(track.x, track.y, track.w * len, track.h), 5.0, gold(0.45));
+        y += 16.0;
     }
-    a.distances = [t(80, 62), t(78, 44), t(39, 14)];
-    a.safeties = t(25, 15);
-    // Busier around the pockets and the spots, as real games are.
-    for (k, cell) in a.heat.iter_mut().enumerate() {
-        let (col, row) = ((k % GRID_W) as f32, (k / GRID_W) as f32);
-        let wave = ((col * 0.9).sin() + (row * 1.3).cos() + 2.0) * 3.0;
-        let attempts = wave.round() as u32;
-        *cell = t(attempts, attempts * 3 / 5);
+    // A line that climbs, week after week.
+    let chart = Rect::new(r.x + 16.0, y + 8.0, r.w - 32.0, (r.y + r.h - 16.0) - (y + 8.0));
+    if chart.h > 18.0 {
+        let pts = [0.25, 0.4, 0.33, 0.55, 0.5, 0.68, 0.62, 0.8];
+        let at = |i: usize| {
+            vec2(
+                chart.x + chart.w * i as f32 / (pts.len() - 1) as f32,
+                chart.y + chart.h * (1.0 - pts[i]),
+            )
+        };
+        for i in 1..pts.len() {
+            let (a, b) = (at(i - 1), at(i));
+            crate::paint::draw_line(a.x, a.y, b.x, b.y, 2.0, gold(0.6));
+        }
+        for i in 0..pts.len() {
+            let p = at(i);
+            crate::paint::draw_circle(p.x, p.y, 3.0, gold(0.8));
+        }
     }
-    a
 }
 
 /// Where on the screen a point of the table is.

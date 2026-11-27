@@ -86,6 +86,13 @@ SCREENS = {
     "profile-rating": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "rating"}, True, 200),
     "profile-numbers": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "numbers"}, True, 200),
     "profile-analysis": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "analysis"}, True, 200),
+    # What a player who isn't VIP sees there.
+    "profile-analysis-pitch": (
+        ["--screen", "profile:Ana"],
+        {"SNOOK_LEGEND_PROFILE_PANE": "analysis", "SNOOK_LEGEND_PITCH": "1"},
+        True,
+        200,
+    ),
     "profile-achievements": (["--screen", "profile:Ana"], {"SNOOK_LEGEND_PROFILE_PANE": "achievements"}, True, 200),
     # A medal and a reaction close up (a click on them in Achievements).
     "profile-medal": (

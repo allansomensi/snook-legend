@@ -357,7 +357,7 @@ impl Device {
             match self.file.read(&mut buffer) {
                 Ok(0) => break,
                 Ok(n) => {
-                    for event in buffer[..n].chunks_exact(EVENT_SIZE) {
+                    for event in buffer[..n].as_chunks::<EVENT_SIZE>().0 {
                         self.apply(event);
                     }
                     if n < buffer.len() {

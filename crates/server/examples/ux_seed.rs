@@ -60,6 +60,14 @@ async fn main() {
     // The staff portal against these players (`npm run dev` in the
     // website's repository): its origin, and who signs in to it.
     config.admin_origin = std::env::var("SNOOK_LEGEND_ADMIN_ORIGIN").ok();
+    // E-mails (a forgotten password, a confirmation) go to the log, with
+    // their links.
+    config.mail = snook_legend_server::mail::MailSetup::Outbox;
+    let _ = tracing_subscriber::fmt()
+        .with_env_filter(
+            std::env::var("RUST_LOG").unwrap_or_else(|_| "warn,snook_legend_server::mail=info".into()),
+        )
+        .try_init();
     config.admins = std::env::var("SNOOK_LEGEND_ADMINS")
         .map(|v| v.split(',').map(|n| n.trim().to_string()).filter(|n| !n.is_empty()).collect())
         .unwrap_or_default();

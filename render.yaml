@@ -42,6 +42,14 @@ services:
         sync: false
       # (The terms of use and the privacy policy are on the website,
       # snooklegend.app: who provides the game is set in Vercel, LEGAL_*.)
+      # E-mail through Resend (forgotten passwords, confirming the recovery
+      # e-mail): an API key with sending access, and who e-mails come from,
+      # e.g. "Snook Legend <support@snooklegend.app>" (docs/DEPLOY.pt-BR.md,
+      # step 12). Without them no e-mail is sent.
+      - key: SNOOK_LEGEND_RESEND_API_KEY
+        sync: false
+      - key: SNOOK_LEGEND_MAIL_FROM
+        sync: false
       # Your username: you become an administrator the next time you sign in.
       - key: SNOOK_LEGEND_ADMINS
         sync: false

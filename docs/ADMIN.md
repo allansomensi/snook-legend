@@ -9,13 +9,49 @@ and `src/admin`), published by Vercel with the rest of the site. It calls the se
 origin (the website's, `SNOOK_LEGEND_ADMIN_ORIGIN`, CORS without credentials); `/admin` on
 the server leads to the portal. The portal has a strict Content Security
 Policy (a nonce per page; the only server it talks to is the API).
-Staff sign in with their game account; the portal's session is separate
-from the game's, is sent as a bearer token (never a cookie, so there is no
-CSRF surface), is kept for the browser tab only, and lasts 8 hours.
+Staff sign in with their game account and a code from an authenticator
+app (two-step verification, required: see below); the portal's session is
+separate from the game's, is sent as a bearer token (never a cookie, so
+there is no CSRF surface), is kept for the browser tab only, and lasts 8
+hours. A device can be kept signed in for 30 days without use.
 
 The server keeps what needs the live lounge (who's online, games in
 progress, the chat, the replays rebuilt with the physics) behind the API;
 everything on screen is the portal's.
+
+## Signing in: two-step verification (0.12.3)
+
+Every moderator and administrator signs in with their password **and** a
+six-digit code from an authenticator app (Google Authenticator, Microsoft
+Authenticator, 1Password, Authy…).
+
+- **The first time**, after the password, the portal shows a QR code to
+  scan (on the phone itself, "Open in the app" adds it, or the key can be
+  typed), asks for the code the app shows, and then shows **ten recovery
+  codes**: each signs in once instead of a code, for a lost phone. They are
+  shown once; "I saved my recovery codes" comes before the portal.
+- **Then**, every sign-in asks for the code (or a recovery code). A code is
+  used once, and a wrong one counts against the account (ten in fifteen
+  minutes stop it for a while).
+- **Keep me signed in on this device** (ticked by default in the installed
+  app): the device stays signed in without the password or the code until
+  it goes 30 days unused. A new 8-hour session is made from it whenever the
+  tab's ends.
+- **Your account** (the account menu, top right): when two-step verification
+  was turned on, the recovery codes left and "Make new codes" (with a code
+  of the app), the devices kept signed in (which one is this; sign one out),
+  and "Sign out everywhere". Signing out from the menu signs this device out
+  too.
+- **In the game**, an account of the staff with two-step verification on is
+  asked for the code too when it signs in with the password (a saved
+  session doesn't ask).
+- **A lost phone and no codes left:** an administrator opens the player's
+  page → More → *Turn two-step verification off…*; that staff member is
+  signed out of the portal everywhere and sets it up again at their next
+  sign-in. The player's page says whether it is on. (The only
+  administrator: see `DEPLOY.pt-BR.md`, step 3.)
+- A new password (in the game or by e-mail), a ban, or a role taken away
+  signs every portal session and device out.
 
 ## Using it
 

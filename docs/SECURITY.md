@@ -131,12 +131,26 @@ Open, for the operator to decide:
   draws, so a modified game could show the full guide in rated games.
   Mitigation: reports, history review in the panel; a future option is
   server-side statistics on shot accuracy.
-- **E-mail (partly addressed).** Players can set a recovery e-mail (offered
-  from the payment checkout), change their password and delete their
-  account (anonymised). The server still sends no e-mail itself; staff
-  verify by the recovery e-mail and reset from the panel. Original note: Without e-mail there is no self-service password reset;
-  staff can reset a password from the panel after verifying the player some
-  other way.
+- **E-mail (addressed in 0.12.3).** A forgotten password is chosen again
+  by a link e-mailed (through Resend) to the account's recovery e-mail,
+  which must have been confirmed by a link first (addresses set before were
+  typed with the password and count as confirmed). Links are 32 random
+  bytes kept as hashes, last an hour (a confirmation 7 days), work once and
+  only the latest; asking never tells whether an account exists; requests
+  are limited per address, per name and per account; a new password ends
+  every session and tells the address. An account without a confirmed
+  e-mail still needs the staff (who verify the player some other way).
+- **Staff accounts (addressed in 0.12.3).** The portal used to open on the
+  game password alone. Moderators and administrators now also give a TOTP
+  code (RFC 6238, each step once, ten wrong codes per account per quarter
+  hour), set up on their first sign-in, with ten single-use recovery codes
+  (kept as hashes). The TOTP secret itself is kept in the database as it is
+  (it has to be read to check a code): someone who read the database and
+  cracked a staff password could make codes. A device kept signed in holds
+  a 32-byte token (hashed on the server) in the browser's localStorage,
+  where a script running in the portal could read it; the portal runs only
+  its own scripts (a nonce-based CSP), and the device ends after 30 days
+  unused, from the account's page, or with a new password.
 - **One instance (deploys addressed).** Games are saved after every stroke
   and handed to the next server on SIGTERM. Original note: The lounge is in memory: a restart ends games in progress
   (accounts and results are safe). Fine for this size; scaling out would need

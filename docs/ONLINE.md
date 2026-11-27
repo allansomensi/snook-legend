@@ -32,6 +32,26 @@
    ending in `match_started`. Every game is played under one of the rules,
    and its `game` carries them.
 
+### Accounts (0.12.3)
+
+- **A forgotten password**: the game's "Forgot your password?" opens the
+  website's page (`/reset-password/` in the game's language); the server
+  e-mails a link to the account's confirmed recovery e-mail (see
+  `crates/server/src/recovery.rs`). Choosing the new password there ends
+  every session: an online game is sent `kicked { reason: "Your password
+  was changed. Sign in again." }`.
+- **The recovery e-mail is confirmed** by a link sent to it:
+  `set_recovery_email { email, password, lang }` sends it (`lang`: the
+  game's language, the e-mail's), `confirm_email_again { lang }` sends it
+  again, and `account { …, recovery_email_unconfirmed }` says it waits. Only
+  a confirmed address gets new-password links.
+- **Staff with two-step verification** (turned on in the portal) are asked
+  for the code of their app: `login` is answered with `auth_error { reason:
+  AUTH_CODE_REQUIRED }`, and the game signs in again with `login_with_code {
+  username, password, code }` (six digits or a recovery code; a wrong one:
+  `AUTH_CODE_WRONG`). Resuming a saved session asks nothing. A game older
+  than 0.12.3 shows the words and can't go further.
+
 ## A shot, without waiting for the network
 
 ```

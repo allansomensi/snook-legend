@@ -102,9 +102,30 @@ ela define fica guardado no banco, valendo também depois de reiniciar.
 1. Abra o jogo, **Jogar online → Nova conta**, crie a conta com o nome que pôs
    em `SNOOK_LEGEND_ADMINS` (ou entre, se ela já existe). Ao entrar, ela vira admin.
 2. Abra o painel, `https://snooklegend.app/admin/` (passo 11.4), e entre com o
-   mesmo usuário e senha. Para testar antes, rode o site na sua máquina (o
-   README do repositório do site) com `NEXT_PUBLIC_API_URL` apontando para o
-   servidor e `SNOOK_LEGEND_ADMIN_ORIGIN=http://localhost:3000` no Render.
+   mesmo usuário e senha. Na primeira vez o painel pede para configurar a
+   **verificação em duas etapas** (obrigatória para moderadores e
+   administradores): instale um aplicativo autenticador no celular (Google
+   Authenticator, Microsoft Authenticator, 1Password, Authy…), escaneie o QR
+   code (no próprio celular, toque em "Abrir no aplicativo"), digite o código
+   de 6 dígitos e **guarde os 10 códigos de recuperação** que aparecem (num
+   gerenciador de senhas ou impressos). Daí em diante o painel pede a senha e
+   o código do aplicativo; "Manter conectado neste aparelho" dispensa os dois
+   até o aparelho ficar 30 dias sem uso (bom para o painel instalado como app
+   no celular). No jogo, a conta da equipe com a verificação ligada também
+   pede o código ao entrar com a senha. Para testar antes, rode o site na sua
+   máquina (o README do repositório do site) com `NEXT_PUBLIC_API_URL`
+   apontando para o servidor e `SNOOK_LEGEND_ADMIN_ORIGIN=http://localhost:3000` no Render.
+
+   **Perdeu o celular e os códigos?** Outro administrador desliga a sua
+   verificação na página do jogador (Mais → Desativar a verificação em duas
+   etapas…) e você a configura de novo ao entrar. Sendo o único
+   administrador, rode no SQL Editor do Neon (troque o nome):
+
+   ```sql
+   UPDATE account_security SET totp_secret = NULL, totp_enabled_at = NULL, totp_last_step = 0
+   WHERE user_id = (SELECT id FROM users WHERE lower(username) = lower('seu_nome'));
+   DELETE FROM recovery_codes WHERE user_id = (SELECT id FROM users WHERE lower(username) = lower('seu_nome'));
+   ```
 
 No painel: visão geral (online, partidas, contas, denúncias abertas), busca de
 jogadores, ban temporário/permanente, silenciar, desconectar, encerrar todas
@@ -400,6 +421,52 @@ não estava definida no build.
 Atualize os endereços no **Microsoft Partner Center** e na **Stripe**
 (passo 10).
 
+## 12. E-mail: senha esquecida e confirmação (Resend)
+
+Desde a 0.12.3 o servidor manda e-mails pelo [Resend](https://resend.com):
+o link para escolher uma nova senha (o jogador pede em
+`snooklegend.app/pt/redefinir-senha/`, e o jogo leva até lá em "Esqueceu a
+senha?"), o link que confirma o e-mail de recuperação (só e-mails
+confirmados recebem links de senha; os que já existiam contam como
+confirmados) e o aviso de que a senha mudou. Sem isso configurado, nada disso
+funciona: o servidor avisa nos logs (`e-mail off`).
+
+1. **Conta e domínio.** Em resend.com → **Domains → Add domain**:
+   `snooklegend.app`, região **North Virginia (us-east-1)** (a mesma do
+   Render e do Neon). Em **Tracking options**, deixe **desligados** o
+   rastreamento de aberturas e de cliques: o de cliques reescreve os links do
+   e-mail e faria o link de nova senha passar pelos servidores do Resend.
+2. **DNS.** O Resend mostra os registros a criar (DKIM em
+   `resend._domainkey`, e SPF/MX no subdomínio `send`). Crie-os onde está o DNS
+   de `snooklegend.app` (Vercel → Domains → DNS Records, passo 11.2) e espere o
+   domínio ficar **Verified**. Recomendado: um DMARC, um registro TXT em
+   `_dmarc` com `v=DMARC1; p=none; rua=mailto:admin@snooklegend.app` (depois de
+   algumas semanas sem problemas, `p=quarantine`).
+3. **Chave.** **API Keys → Create API key**, permissão **Sending access**,
+   domínio `snooklegend.app`. Copie a chave (`re_…`): ela só aparece uma vez.
+4. **Render → Environment** do serviço:
+
+   | Variável | Valor |
+   |---|---|
+   | `SNOOK_LEGEND_RESEND_API_KEY` | a chave `re_…` |
+   | `SNOOK_LEGEND_MAIL_FROM` | `Snook Legend <support@snooklegend.app>` (as respostas dos jogadores vão para esse endereço) |
+
+   Salve: o Render reinicia o serviço, e o log diz
+   `e-mail on (Resend, from Snook Legend <support@snooklegend.app>)`.
+5. **Teste.** No jogo, em Configurações → Conta, salve o seu e-mail de
+   recuperação: chega um e-mail para confirmar. Depois, em
+   `https://snooklegend.app/pt/redefinir-senha/`, peça o link com o seu
+   usuário. Os envios aparecem em resend.com → **Emails**.
+
+O site chama `api.snooklegend.app/api/account/…` do navegador: o servidor
+responde só à origem de `SNOOK_LEGEND_SITE_URL` (e à do painel). Um
+servidor sem e-mail continua funcionando; só a recuperação de senha fica a
+cargo da equipe (Painel → jogador → Definir nova senha).
+
+**Ordem do deploy da 0.12.3.** O login do painel mudou (senha, depois o
+código): publique o servidor e o site juntos (o merge no `main` do site e a
+imagem nova no Render). Entre os dois, o painel antigo não consegue entrar.
+
 ## Problemas comuns
 
 | Sintoma | Causa provável |
@@ -410,4 +477,6 @@ Atualize os endereços no **Microsoft Partner Center** e na **Stripe**
 | Jogadores recebem "Muitas contas novas desta rede" sem motivo | `SNOOK_LEGEND_CLIENT_IP_HEADER` ausente. O painel mostra o aviso "Every player comes from the same address". |
 | "Saiu uma nova versão do jogo" com o jogo já atualizado | O servidor ainda roda a versão anterior: faça o deploy da imagem nova (passo 6.4). A partir da 0.3.1 o jogo percebe isso sozinho e diz que o servidor está sendo atualizado. |
 | "Esta versão do Snook Legend está desatualizada" | O jogo é mais antigo que o servidor: atualize o jogo. |
+| Não chega o e-mail de nova senha | O e-mail de recuperação não foi confirmado (o jogo mostra "Ainda não confirmado"), o domínio não está *Verified* no Resend, ou a chave/remetente estão errados (procure `Resend refused` nos logs). Veja também a caixa de spam. |
+| O painel diz "Código errado" com o código certo | O relógio do celular está adiantado ou atrasado: ative a hora automática. Cada código vale uma vez; espere o próximo. |
 | Partida em andamento sumiu | O servidor caiu sem aviso (falta de memória, falha da instância): o salão fica na memória; contas e resultados ficam no banco. Num deploy ou numa manutenção agendada as partidas passam para o servidor novo; uma partida que nenhum jogador retoma dentro do tempo de reconexão é encerrada. |

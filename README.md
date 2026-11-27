@@ -131,6 +131,9 @@ which every desktop installation has. How releases are made is described in
 - **Instant shots online**: your shot plays the moment you take it (local
   prediction of the deterministic physics), the opponent's as soon as the
   server announces it; the server's result is authoritative.
+- **Accounts**: a forgotten password is chosen again from a link e-mailed
+  (through Resend) to the account's recovery e-mail, which is confirmed by a
+  link first; the game's "Forgot your password?" opens the website's page.
 - **Profiles and progress**: a rating card for each rules (rating, tier and
   how far the next one is, peak, world rank, rating chart), numbers, match
   history with the rules and rating changes, **68 achievements** (the medal
@@ -168,7 +171,9 @@ which every desktop installation has. How releases are made is described in
 - **Replay** of the last shot, a discreet **zoom bar**, a read-only game
   history offline, and a staff **portal** (Next.js, part of the
   website at `snooklegend.app/admin`, over the server's staff API: moderation, wallets,
-  payments, metrics, audit log).
+  payments, metrics, audit log), where every moderator and administrator signs
+  in with two-step verification (an authenticator app) and a phone can stay
+  signed in.
 - **Aiming guides**: the full guide (where both balls go) is for offline
   practice; against people, the standard guide (ghost ball) or a short line.
   The head string can be kept on the table at all times (Settings → Game).

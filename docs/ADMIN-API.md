@@ -1,5 +1,25 @@
 # Staff API
 
+## Signing in (0.12.3: two steps)
+
+Moderators and administrators sign in with the password and then a code
+of an authenticator app (see `crates/server/src/admin/security.rs`).
+
+| Call | Body | Answer |
+|---|---|---|
+| `POST /admin/api/login` | `{username, password, remember}` | `{step: "code", ticket}`, or the first time `{step: "setup", ticket, secret, uri}` (`uri`: `otpauth://totp/…`, for the QR code). 401 wrong password, 403 not staff, 429 too many tries. |
+| `POST /admin/api/login/code` | `{ticket, code}` (six digits, or a recovery code `xxxx-xxxx`) | `{token, user}`; with `remember`: `device` (keep it: it is only given once) and `device_id`; the first time `recovery_codes` (10); after a recovery code `codes_left`. 401 `Wrong code. Try the app's newest one.` (the ticket takes 5), or `The sign-in took too long. Sign in again.` (10 minutes, or the ticket was used). |
+| `POST /admin/api/login/device` | `{device}` | `{token, user, device_id}`: a new 8-hour session for a device kept signed in; its end moves 30 days on. 401 when it was signed out or went 30 days unused. |
+| `GET /admin/api/security` | | `{two_step_at, recovery_codes_left, devices: [{id, label, created_at, last_used_at, expires_at}], device_days}` |
+| `POST /admin/api/security/recovery-codes` | `{code}` (of the app, not a recovery code) | `{recovery_codes}`: ten new ones; the old ones stop working |
+| `DELETE /admin/api/security/devices/{id}` | | signs that device out |
+| `POST /admin/api/security/sign-out-everywhere` | | every portal session and device of the staff member ends (this one too) |
+| `POST /admin/api/users/{name}/two-step/reset` | | administrators: turns that account's two-step verification off and signs it out of the portal everywhere (audit `two-step-reset`) |
+
+`GET /admin/api/users/{name}` also has `two_step_at` (null: off) and
+`recovery_email_confirmed`. The audit log's `login` entries say how
+(` · recovery code`, ` · device kept signed in`, ` · two-step verification turned on`).
+
 The staff portal's calls to the server (`/admin/api`). Every call needs the
 staff session's bearer token (`Authorization: Bearer …`); each area below
 says which role it needs. Errors answer `{"error": "…"}` with a 4xx status.
@@ -338,6 +358,25 @@ week ago to six weeks ahead).
 ones as set now, and those finished), `promotion`, `maintenance`, `auction`,
 `vip_item` (`id`: the item's code). `status`: `scheduled`, `live`, `ended`,
 `cancelled`, `started` (maintenance).
+
+## The account API (the website's pages, 0.12.3)
+
+From the website's origin only (`SNOOK_LEGEND_SITE_URL`'s, and the
+portal's; CORS, no credentials). Errors are `{error, code}`; `code` is
+`bad_request`, `weak_password`, `invalid_token`, `rate_limited` or
+`unavailable`.
+
+| Call | Body | What it does |
+|---|---|---|
+| `POST /api/account/forgot` | `{login, lang}` (a username or an e-mail; `lang` `en`, `pt-BR`, `es`) | e-mails a link to choose a new password to the confirmed recovery e-mail of the account (each account of an e-mail). Always `{ok: true}`: whether an account matches is never told. 10 an hour per address, 5 per name or e-mail, 5 e-mails an hour per account. |
+| `POST /api/account/reset` | `{token, password}` | the link's token (an hour, once, the latest only) and the new password (8 or more characters, not only digits): every session of the account ends, and the address is told. `{ok, username}`. |
+| `POST /api/account/confirm-email` | `{token}` | confirms the recovery e-mail the link was sent to (7 days). `{ok, username, email}`. |
+
+The links lead to the website (`/reset-password/`, `/pt/redefinir-senha/`,
+`/es/restablecer-contrasena/`; `/confirm-email/`, `/pt/confirmar-email/`,
+`/es/confirmar-correo/`) with the token after `#token=`. `GET
+/forgot-password?lang=pt` leads to the website's page (another server's game
+links there).
 
 ## Public API
 

@@ -3,6 +3,34 @@
 ## Not released yet
 
 The next version's changes, until it is numbered (see docs/RELEASING.md).
+Migration `0037` (account security). Same protocol (25): games of 0.12.2
+and older play on; staff with two-step verification need this version to
+sign in to the game.
+
+### Accounts
+- **Forgot your password?** on the sign-in screen opens the website's page
+  (`snooklegend.app/pt/redefinir-senha/`…): a username or an e-mail, and a
+  link goes to the account's confirmed recovery e-mail. It works for an
+  hour, once; choosing the new password signs the account out everywhere
+  and the address is told. Whether an account exists is never said.
+- **The recovery e-mail is confirmed** by a link sent to it (the account's
+  settings say when it waits, with "Send again"); only a confirmed one gets
+  new-password links. Addresses set before count as confirmed.
+- E-mails are sent through Resend (`SNOOK_LEGEND_RESEND_API_KEY`,
+  `SNOOK_LEGEND_MAIL_FROM`; docs/DEPLOY.pt-BR.md, step 12), in Portuguese,
+  Spanish or English; the password changed in the game is told too.
+
+### Staff
+- **Two-step verification is required** for moderators and administrators:
+  the portal asks for a code from an authenticator app after the password,
+  set up on the first sign-in (a QR code, "Open in the app" on a phone)
+  with ten recovery codes. In the game, a staff account with it on asks for
+  the code too.
+- **Keep me signed in on this device**: the portal (installed as an app on
+  a phone, especially) stays signed in until the device goes 30 days
+  unused. *Your account* lists the devices, signs them out, makes new
+  recovery codes and signs out everywhere; an administrator turns a lost
+  phone's verification off from the player's page.
 
 ### Interface
 - The main menu's row: five places, each with its name (Ranking, Profile,

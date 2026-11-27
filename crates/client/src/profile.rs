@@ -329,6 +329,17 @@ impl ProfileScreen {
         self.show(name, online);
     }
 
+    /// Opens `name`'s profile on their achievements, with achievement
+    /// `code`'s card up (from the inbox's notice of it).
+    pub fn open_achievement(&mut self, name: &str, code: &str, online: &mut Online) {
+        self.open(name, online);
+        self.pane = Pane::Achievements;
+        if let Some(k) = ACHIEVEMENTS.iter().position(|a| a.code == code) {
+            self.detail = Some(crate::medal_detail::Detail::Achievement(k));
+            self.detail_fresh = true;
+        }
+    }
+
     /// Goes on to `name`'s profile from this one (Back returns here).
     fn go_to(&mut self, name: &str, online: &mut Online) {
         let mut trail = std::mem::take(&mut self.trail);

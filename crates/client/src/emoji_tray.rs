@@ -77,29 +77,27 @@ impl EmojiTray {
     ) -> (bool, Option<Rect>) {
         ui.block(button);
         let hover = ui.hovering(button);
-        let lit = hover || self.open;
-        crate::ui::rrect(
-            button,
-            7.0,
-            if lit {
-                Color::new(0.38, 0.25, 0.12, 0.95)
-            } else {
-                Color::new(0.07, 0.045, 0.03, 0.85)
-            },
-        );
-        crate::ui::rrect_lines(button, 7.0, 1.2, if lit { GOLD } else { BORDER });
-        let face = if lit { 19.0 } else { 17.0 };
-        let opacity = crate::paint::opacity();
-        crate::paint::set_opacity(opacity * if lit { 1.0 } else { 0.8 });
-        ui.text_centered(
-            "😊",
-            button.x + button.w / 2.0,
-            button.y + (button.h - face) / 2.0,
-            face,
-            CREAM,
-            false,
-        );
-        crate::paint::set_opacity(opacity);
+        let lit = ui.hover_anim(button, hover || self.open);
+        // Quiet until wanted: a face in the interface's colours, its round
+        // lit under the pointer and while the tray is open.
+        if lit > 0.01 {
+            crate::ui::rrect(
+                button,
+                button.h.min(button.w) / 2.0,
+                Color::new(1.0, 0.86, 0.6, 0.10 * lit),
+            );
+        }
+        let c = vec2(button.x + button.w / 2.0, button.y + button.h / 2.0);
+        let size = (button.h * 0.6).min(21.0);
+        if self.open {
+            crate::icons::draw_filled(crate::icons::Icon::Smiley, c, size, GOLD);
+        } else {
+            let color = crate::ui::mix(crate::ui::MUTED, CREAM, lit);
+            crate::icons::draw(crate::icons::Icon::Smiley, c, size, color);
+        }
+        if hover && !self.open {
+            ui.tooltip(crate::i18n::t("Emoji"), button);
+        }
         let clicked = ui.activated(button, hover);
         if clicked {
             self.open = !self.open;
@@ -112,6 +110,7 @@ impl EmojiTray {
             self.fade = 0.0;
             return (clicked, None);
         }
+        let opacity = crate::paint::opacity();
         let recent = RECENT.with(|r| r.borrow().clone());
         let rows = EMOJI.len().div_ceil(COLS);
         let recent_h = if recent.is_empty() { 0.0 } else { CELL + 7.0 };

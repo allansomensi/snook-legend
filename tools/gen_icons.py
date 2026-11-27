@@ -194,7 +194,7 @@ ICONS = {
     "Ranking": "ranking",
     "Palette": "palette",
     "Confetti": "confetti",
-    "Chat": "chat-circle",
+    "Chat": "chat-circle-dots",
     "Info": "info",
     "Warning": "warning",
     "WifiSlash": "wifi-slash",
@@ -220,6 +220,15 @@ ICONS = {
     "Handshake": "handshake",
     "DoorOpen": "door-open",
     "Chest": "treasure-chest",
+    "Send": "paper-plane-right",
+    "Smiley": "smiley",
+    "Search": "magnifying-glass",
+    "Trash": "trash",
+    "Megaphone": "megaphone",
+    "Compose": "note-pencil",
+    "Gavel": "gavel",
+    "ChevronDown": "caret-down",
+    "ShieldWarning": "shield-warning",
 }
 
 # Layers drawn under an icon, in another colour: (name, path).

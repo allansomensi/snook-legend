@@ -82,6 +82,38 @@ pub enum Icon {
     DoorOpen,
     /// A treasure chest: the collection (everything the player has).
     Chest,
+    /// A paper plane: send a message.
+    Send,
+    /// A smiling face: the emoji tray.
+    Smiley,
+    /// A bell: notifications.
+    Bell,
+    /// A speech bubble with dots: conversations.
+    Chat,
+    /// A magnifying glass: search.
+    Search,
+    /// A game controller: playing with one.
+    GameController,
+    /// A bin: delete.
+    Trash,
+    /// A triangle with "!": something that can't be undone, or went wrong.
+    Warning,
+    /// A clock face: time.
+    Clock,
+    /// A megaphone: what the staff announce.
+    Megaphone,
+    /// A note and a pencil: write a new message.
+    Compose,
+    /// A judge's gavel: a penalty from the staff.
+    Gavel,
+    /// A caret pointing down: down to the newest.
+    ChevronDown,
+    /// An envelope: the inbox.
+    Envelope,
+    /// A shield with "!": the account's danger zone.
+    ShieldWarning,
+    /// A pool ball: a game (an invitation to one).
+    Ball,
 }
 
 thread_local! {
@@ -156,7 +188,7 @@ mod tests {
     #[test]
     fn every_icon_is_in_the_font() {
         let face = rustybuzz::Face::from_slice(super::FONT_BYTES, 0).unwrap();
-        for k in 0..=super::Icon::Chest as u32 {
+        for k in 0..=super::Icon::Ball as u32 {
             for base in [0xE000, 0xE100] {
                 let c = char::from_u32(base + k).unwrap();
                 assert!(face.glyph_index(c).is_some(), "icon {k} (U+{:04X})", base + k);

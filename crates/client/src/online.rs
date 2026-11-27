@@ -1853,6 +1853,8 @@ impl Online {
             ServerMsg::Error { message } => match current.as_mut() {
                 Some(m) if m.is_online() => m.handle_server(ServerMsg::Error { message }),
                 _ => {
+                    // A private message just sent was refused: its bubble says so.
+                    self.dms.refused();
                     // A lounge line refused: it leaves the chat, the notice says why.
                     let refused = [
                         "You are muted",
@@ -2279,25 +2281,73 @@ impl Online {
         }
     }
 
-    /// The conversation open with a friend, over the lounge.
-    pub fn draw_dms(&mut self, ui: &mut Ui) {
-        if self.dms.open.is_none() || !self.signed_in() {
-            return;
+    /// The conversation open with a friend, over the lounge: the profile
+    /// to open, if the player asked for it.
+    pub fn draw_dms(&mut self, ui: &mut Ui) -> Option<String> {
+        let with = self.dms.open.clone()?;
+        if !self.signed_in() {
+            return None;
         }
         let me = self.username.clone();
         let phrases = self.phrases_only();
-        for msg in self.dms.draw(ui, &me, phrases) {
+        let mut peer = self.peer(&with);
+        peer.can_invite &= self.stage == Stage::Lounge;
+        let (msgs, action) = self.dms.draw(ui, &me, phrases, &peer);
+        for msg in msgs {
             self.send_text(msg);
+        }
+        match action {
+            crate::dm::DmAction::None => None,
+            crate::dm::DmAction::Profile(name) => {
+                self.dms.close(ui);
+                Some(name)
+            }
+            crate::dm::DmAction::Invite(name) => {
+                self.dms.close(ui);
+                self.open_invite(&name);
+                None
+            }
         }
     }
 
-    /// The open conversation in `r` (the inbox's messages).
-    pub fn draw_conversation(&mut self, ui: &mut Ui, r: Rect) {
+    /// The open conversation in `r` (the inbox's messages): what the
+    /// player asked for there.
+    pub fn draw_conversation(&mut self, ui: &mut Ui, r: Rect) -> crate::dm::DmAction {
         let me = self.username.clone();
         let phrases = self.phrases_only();
-        for msg in self.dms.conversation(ui, r, &me, phrases) {
+        let Some(with) = self.dms.open.clone() else { return crate::dm::DmAction::None };
+        let mut peer = self.peer(&with);
+        // (An invitation is set up over the lounge.)
+        peer.can_invite = false;
+        let (msgs, action) = self.dms.conversation(ui, r, &me, phrases, &peer);
+        for msg in msgs {
             self.send_text(msg);
         }
+        action
+    }
+
+    /// What the game knows of `name` for their conversation: as they are
+    /// now, whether they are online (a friend's or a player in the lounge
+    /// live, else as their conversation last said), when they were last.
+    pub fn peer(&self, name: &str) -> crate::dm::Peer {
+        let friend =
+            self.friends.friends.iter().find(|f| f.player.username.eq_ignore_ascii_case(name));
+        let lounge = self.players.iter().find(|p| p.username.eq_ignore_ascii_case(name));
+        let thread = self.dms.threads().iter().find(|t| t.with.eq_ignore_ascii_case(name));
+        let snapshot = self.dms.snapshot(name);
+        let player = friend
+            .map(|f| f.player.clone())
+            .or_else(|| lounge.cloned())
+            .or_else(|| thread.and_then(|t| t.player.clone()));
+        let online = match (friend, lounge) {
+            (Some(f), _) => Some(f.online),
+            (None, Some(_)) => Some(true),
+            (None, None) => snapshot.map(|s| s.0).or(thread.map(|t| t.online)),
+        };
+        let last_seen = friend.map_or(0, |f| f.last_seen).max(snapshot.map_or(0, |s| s.1));
+        let can_invite = !self.lan
+            && lounge.is_some_and(|p| p.status == PlayerStatus::Available && !p.focus && !p.guest);
+        crate::dm::Peer { player, online, last_seen, can_invite }
     }
 
     /// Direct messages from the server.
@@ -2325,10 +2375,12 @@ impl Online {
                     self.send(ClientMsg::DmRead { with });
                 }
             }
-            ServerMsg::DmHistory { with, messages, more, .. } => {
-                self.dms.history(&with, messages, more)
+            ServerMsg::DmHistory { with, messages, more, online, last_seen } => {
+                self.dms.history(&with, messages, more, online, last_seen)
             }
             ServerMsg::DmThreads { threads } => self.dms.set_threads(threads),
+            ServerMsg::DmStatus { with, up_to, read } => self.dms.status(&with, up_to, read),
+            ServerMsg::DmTyping { from } => self.dms.typing_from(&from),
             _ => {}
         }
     }

@@ -74,6 +74,8 @@ SCREENS = {
     "lounge-daily": (["--screen", "daily"], {}, True, 200),
     "lounge-doubles": (["--screen", "doubles"], {}, True, 200),
     "inbox": (["--screen", "inbox"], {}, True, 200),
+    "inbox-notes": (["--screen", "inbox"], {"SNOOK_LEGEND_INBOX": "notes"}, True, 200),
+    "inbox-achievement": (["--screen", "inbox"], {"SNOOK_LEGEND_INBOX": "achievement"}, True, 200),
     "dm": (["--screen", "dm:Bruno"], {"SNOOK_LEGEND_OPEN": "dm:Bruno"}, True, 220),
     "ranking": (["--screen", "ranking"], {}, True, 200),
     "ranking-friends": (["--screen", "ranking-friends"], {}, True, 200),

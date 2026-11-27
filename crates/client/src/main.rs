@@ -46,6 +46,7 @@ mod ladder;
 mod lan;
 mod languages;
 mod legal;
+mod localtime;
 mod medal_art;
 mod medal_detail;
 mod medals;
@@ -2071,6 +2072,14 @@ async fn main() {
                                     came_from = Some(CameFrom::Inbox);
                                     next = Some(Screen::Profile);
                                 }
+                                // An achievement's notice: its card in the profile.
+                                inbox::InboxAction::Achievement(code) => {
+                                    let me = online.me.as_ref().map(|m| m.username.clone());
+                                    let me = me.unwrap_or_default();
+                                    profile.open_achievement(&me, &code, &mut online);
+                                    came_from = Some(CameFrom::Inbox);
+                                    next = Some(Screen::Profile);
+                                }
                                 inbox::InboxAction::Shop(code) => {
                                     came_from = Some(CameFrom::Inbox);
                                     shop.open(&mut online);
@@ -2351,7 +2360,12 @@ async fn main() {
         }
         if let Some(saved) = dm_saved {
             ui.resume_input(saved);
-            online.draw_dms(&mut ui);
+            if let Some(name) = online.draw_dms(&mut ui) {
+                profile.open(&name, &mut online);
+                came_from = None;
+                screen = Screen::Profile;
+                screen_fade = 0.0;
+            }
         }
         // The chat with other players turned on (opened by writing with it
         // off), over any screen, a game too.

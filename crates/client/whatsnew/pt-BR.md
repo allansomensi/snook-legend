@@ -3,6 +3,17 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.12.3
+
+### Esqueceu a senha?
+Agora há um link para isso na tela de entrada: digite seu usuário ou e-mail no site e um link para escolher uma nova senha chega ao seu e-mail de recuperação.
+
+### E-mail de recuperação confirmado
+Um e-mail de recuperação novo recebe um link para confirmar que é seu; até ele ser aberto, a página da sua conta avisa e oferece “Enviar de novo”. Os endereços salvos antes já valem.
+
+### O menu principal
+Ranking, Perfil, Caixa de entrada, Loja e Configurações lado a lado, com seus nomes. A coleção fica na loja, e as regras em Configurações → Jogo → Sobre.
+
 ## 0.12.2
 
 ### Mensagens privadas

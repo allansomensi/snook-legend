@@ -2,6 +2,17 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.12.3
+
+### Ți-ai uitat parola?
+Ecranul de conectare are acum un link pentru asta: scrie pe site numele de utilizator sau e-mailul, iar un link pentru a alege o parolă nouă ajunge la e-mailul tău de recuperare.
+
+### E-mail de recuperare confirmat
+Un e-mail de recuperare nou primește un link care confirmă că e al tău; până îl deschizi, pagina contului tău îți spune, cu „Trimite din nou”. Adresele salvate înainte contează deja.
+
+### Meniul principal
+Clasament, Profil, Mesaje, Magazin și Setări unul lângă altul, cu numele lor. Colecția e în magazin, iar regulile în Setări → Joc → Despre.
+
 ## 0.12.2
 
 ### Mesaje private

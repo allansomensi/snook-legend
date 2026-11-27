@@ -3,6 +3,17 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.12.3
+
+### Glömt lösenordet?
+Inloggningsskärmen har nu en länk för det: skriv ditt användarnamn eller din e-post på webbplatsen, så skickas en länk för att välja ett nytt lösenord till din e-post för återställning.
+
+### E-post för återställning bekräftad
+En ny e-post för återställning får en länk som bekräftar att den är din; tills den öppnas visar din kontosida det, med ”Skicka igen”. Adresser som sparats tidigare gäller redan.
+
+### Huvudmenyn
+Topplista, Profil, Inkorg, Butik och Inställningar sida vid sida, med sina namn. Samlingen finns i butiken, och reglerna under Inställningar → Spel → Om.
+
 ## 0.12.2
 
 ### Privata meddelanden

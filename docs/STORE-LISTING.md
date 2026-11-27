@@ -58,12 +58,12 @@ Em 27 idiomas, entre eles português, inglês, espanhol, francês, alemão, ital
 
 ### Novidades desta versão
 
-Versão 0.12.2: mensagens privadas, um chat mais tranquilo e conquistas mais difíceis.
-• Mensagens privadas: escreva para qualquer jogador pela caixa de entrada ou pelo perfil dele. Em Configurações → Jogo você escolhe quem pode escrever para você; menores de 18 anos, só amigos.
-• Um chat mais tranquilo: nas partidas online o chat mostra só o que os jogadores escrevem; o que acontece na mesa fica no histórico da partida, no alto. Quer tudo junto? Configurações → Jogo.
-• Conquistas mais difíceis: as sequências de vitórias agora são de 5, 10, 15 e 30, e o XP de cada conquista acompanha a medalha.
-• Análise para VIP: a análise das tacadas e as estatísticas avançadas viraram uma página só, para membros VIP.
-• Telas mais fluidas: a loja e a coleção rolam para baixo, as janelas somem suavemente, o botão de voltar do mouse volta e o teclado chega a todos os botões.
+Versão 0.12.3: esqueceu a senha? Recupere a conta pelo e-mail.
+• Esqueceu a senha? A tela de entrada tem um link para isso: digite seu usuário ou e-mail no site e um link para escolher uma nova senha chega ao seu e-mail de recuperação.
+• E-mail de recuperação confirmado: um e-mail novo recebe um link para confirmar que é seu; até lá, a página da sua conta avisa e oferece “Enviar de novo”.
+• O menu principal: Ranking, Perfil, Caixa de entrada, Loja e Configurações lado a lado, com seus nomes. A coleção fica na loja, e as regras em Configurações → Jogo → Sobre.
+
+Da versão 0.12.2: mensagens privadas, um chat mais tranquilo e conquistas mais difíceis.
 
 Da versão 0.12.1: tudo mais fluido, partidas contra o computador que começam como as online e conquistas vistas de perto.
 
@@ -136,12 +136,12 @@ In 27 languages, including English, Portuguese, Spanish, French, German, Italian
 
 ### What's new in this version
 
-Version 0.12.2: private messages, a quieter chat and harder achievements.
-• Private messages: write to any player from the inbox or from their profile. Settings → Game decides who can write to you; under 18, friends only.
-• A quieter chat: in online games the chat keeps to what the players say; what happens at the table is in the game's history, at the top. Want it all together? Settings → Game.
-• Harder achievements: wins in a row now go 5, 10, 15 and 30, and each achievement's XP follows its medal.
-• The analysis for VIP: the shot analysis and the advanced statistics are now one page, for VIP members.
-• Smoother screens: the shop and the collection scroll down, windows fade out, the mouse's back button goes back and the keyboard reaches every button.
+Version 0.12.3: forgot your password? Get your account back by e-mail.
+• Forgot your password? The sign-in screen has a link for it: type your username or e-mail on the website, and a link to choose a new password goes to your recovery e-mail.
+• Your recovery e-mail, confirmed: a new one gets a link to confirm it is yours; until then, your account page says so, with “Send again”.
+• The main menu: Ranking, Profile, Inbox, Shop and Settings side by side, with their names. The collection is in the shop, and the rules in Settings → Game → About.
+
+From version 0.12.2: private messages, a quieter chat and harder achievements.
 
 From version 0.12.1: smoother everywhere, games against the computer that open like online ones, and achievements up close.
 
@@ -214,12 +214,12 @@ En 27 idiomas, entre ellos español, inglés, portugués, francés, alemán, ita
 
 ### Novedades de esta versión
 
-Versión 0.12.2: mensajes privados, un chat más tranquilo y logros más difíciles.
-• Mensajes privados: escribe a cualquier jugador desde el buzón o desde su perfil. En Ajustes → Juego eliges quién puede escribirte; los menores de 18, solo amigos.
-• Un chat más tranquilo: en las partidas online el chat muestra solo lo que escriben los jugadores; lo que pasa en la mesa está en el historial de la partida, arriba. ¿Lo quieres todo junto? Ajustes → Juego.
-• Logros más difíciles: las rachas de victorias ahora son de 5, 10, 15 y 30, y la XP de cada logro sigue a su medalla.
-• El análisis para VIP: el análisis de los tiros y las estadísticas avanzadas son ahora una sola página, para los miembros VIP.
-• Pantallas más fluidas: la tienda y la colección se desplazan hacia abajo, las ventanas se desvanecen, el botón de retroceso del ratón vuelve atrás y el teclado llega a todos los botones.
+Versión 0.12.3: ¿olvidaste tu contraseña? Recupera la cuenta por correo.
+• ¿Olvidaste tu contraseña? La pantalla de inicio de sesión tiene un enlace para eso: escribe tu usuario o correo en el sitio y un enlace para elegir una nueva contraseña llega a tu correo de recuperación.
+• Correo de recuperación confirmado: uno nuevo recibe un enlace para confirmar que es tuyo; hasta entonces, la página de tu cuenta lo avisa y ofrece “Enviar de nuevo”.
+• El menú principal: Ranking, Perfil, Buzón, Tienda y Ajustes uno al lado del otro, con sus nombres. La colección está en la tienda, y las reglas en Ajustes → Juego → Acerca de.
+
+De la versión 0.12.2: mensajes privados, un chat más tranquilo y logros más difíciles.
 
 De la versión 0.12.1: más fluido en todas partes, partidas contra el ordenador que empiezan como las online y los logros de cerca.
 

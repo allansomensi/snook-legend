@@ -1,11 +1,15 @@
 # Changelog
 
-## Not released yet
+## 0.12.3 (protocol 25)
 
-The next version's changes, until it is numbered (see docs/RELEASING.md).
-Migration `0037` (account security). Same protocol (25): games of 0.12.2
-and older play on; staff with two-step verification need this version to
-sign in to the game.
+A forgotten password chosen again by e-mail, the recovery e-mail confirmed,
+two-step verification for the staff, the staff portal on a phone (kept
+signed in for 30 days), and the main menu's row with its names. Same
+protocol as 0.12.0: games of 0.12.2 and older play on; staff with two-step
+verification need this version to sign in to the game. Migration `0037`
+(account security). The server needs `SNOOK_LEGEND_RESEND_API_KEY` and
+`SNOOK_LEGEND_MAIL_FROM` to send e-mail, and goes out with the website
+(the portal's sign-in changed).
 
 ### Accounts
 - **Forgot your password?** on the sign-in screen opens the website's page

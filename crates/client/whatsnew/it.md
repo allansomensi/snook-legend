@@ -3,6 +3,17 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.12.3
+
+### Password dimenticata?
+La schermata di accesso ora ha un link per questo: scrivi il tuo nome utente o la tua e-mail sul sito e un link per scegliere una nuova password arriva alla tua e-mail di recupero.
+
+### E-mail di recupero confermata
+Una nuova e-mail di recupero riceve un link per confermare che è tua; finché non lo apri, la pagina del tuo account lo segnala, con “Invia di nuovo”. Gli indirizzi salvati prima valgono già.
+
+### Il menu principale
+Classifica, Profilo, Posta in arrivo, Negozio e Impostazioni affiancati, con i loro nomi. La collezione è nel negozio, e le regole in Impostazioni → Gioco → Informazioni.
+
 ## 0.12.2
 
 ### Messaggi privati

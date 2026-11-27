@@ -2,6 +2,17 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.12.3
+
+### Nie pamiętasz hasła?
+Ekran logowania ma teraz do tego link: wpisz na stronie swoją nazwę użytkownika lub e-mail, a link do wybrania nowego hasła trafi na Twój e-mail do odzyskiwania.
+
+### Potwierdzony e-mail do odzyskiwania
+Nowy e-mail do odzyskiwania dostaje link, który potwierdza, że należy do Ciebie; dopóki go nie otworzysz, strona konta o tym przypomina i oferuje „Wyślij ponownie”. Adresy zapisane wcześniej już się liczą.
+
+### Menu główne
+Ranking, Profil, Skrzynka, Sklep i Ustawienia obok siebie, z nazwami. Kolekcja jest w sklepie, a zasady w Ustawienia → Gra → Informacje.
+
 ## 0.12.2
 
 ### Prywatne wiadomości

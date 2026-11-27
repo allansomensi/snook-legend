@@ -2,6 +2,17 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.12.3
+
+### Elfelejtetted a jelszavad?
+A bejelentkezési képernyőn most van erre egy link: add meg a weboldalon a felhasználóneved vagy az e-mail-címed, és a helyreállítási e-mailedre érkezik egy link új jelszó választásához.
+
+### Megerősített helyreállítási e-mail
+Az új helyreállítási e-mail kap egy linket, amellyel megerősíted, hogy a tiéd; amíg nem nyitod meg, a fiókod oldala jelzi, „Újraküldés” gombbal. A korábban mentett címek már érvényesek.
+
+### A főmenü
+Ranglista, Profil, Postafiók, Bolt és Beállítások egymás mellett, a nevükkel. A gyűjtemény a boltban van, a szabályok pedig a Beállítások → Játék → Névjegy alatt.
+
 ## 0.12.2
 
 ### Privát üzenetek

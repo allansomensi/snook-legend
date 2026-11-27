@@ -2,6 +2,17 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.12.3
+
+### Quên mật khẩu?
+Màn hình đăng nhập giờ có liên kết cho việc này: nhập tên người dùng hoặc email trên trang web, và liên kết để chọn mật khẩu mới sẽ được gửi tới email khôi phục của bạn.
+
+### Email khôi phục đã xác nhận
+Email khôi phục mới sẽ nhận một liên kết để xác nhận đó là của bạn; cho tới khi mở liên kết, trang tài khoản sẽ báo, kèm nút “Gửi lại”. Các địa chỉ đã lưu trước đó đều được tính.
+
+### Menu chính
+Xếp hạng, Hồ sơ, Hộp thư, Cửa hàng và Cài đặt nằm cạnh nhau, có tên rõ ràng. Bộ sưu tập ở trong cửa hàng, còn luật ở Cài đặt → Trò chơi → Giới thiệu.
+
 ## 0.12.2
 
 ### Tin nhắn riêng

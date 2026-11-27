@@ -197,6 +197,22 @@
   </keywords>
 
   <releases>
+    <release version="0.12.3" date="2026-11-27" type="stable">
+      <description>
+        <ul>
+          <li><em>Forgot your password?</em> The sign-in screen has a link for it now: type your username or e-mail on the website, and a link to choose a new password goes to your recovery e-mail.</li>
+          <li xml:lang="pt_BR"><em>Esqueceu a senha?</em> Agora há um link para isso na tela de entrada: digite seu usuário ou e-mail no site e um link para escolher uma nova senha chega ao seu e-mail de recuperação.</li>
+          <li xml:lang="es"><em>¿Olvidaste tu contraseña?</em> La pantalla de inicio de sesión tiene ahora un enlace para eso: escribe tu usuario o correo en el sitio y un enlace para elegir una nueva contraseña llega a tu correo de recuperación.</li>
+          <li><em>Your recovery e-mail, confirmed.</em> A new recovery e-mail gets a link to confirm it is yours; until it is opened, your account page says so, with “Send again”. Addresses saved before already count.</li>
+          <li xml:lang="pt_BR"><em>E-mail de recuperação confirmado.</em> Um e-mail de recuperação novo recebe um link para confirmar que é seu; até ele ser aberto, a página da sua conta avisa e oferece “Enviar de novo”. Os endereços salvos antes já valem.</li>
+          <li xml:lang="es"><em>Correo de recuperación confirmado.</em> Un correo de recuperación nuevo recibe un enlace para confirmar que es tuyo; hasta que lo abras, la página de tu cuenta lo avisa y ofrece “Enviar de nuevo”. Las direcciones guardadas antes ya cuentan.</li>
+          <li><em>The main menu.</em> Ranking, Profile, Inbox, Shop and Settings side by side, with their names. The collection is in the shop, and the rules in Settings → Game → About.</li>
+          <li xml:lang="pt_BR"><em>O menu principal.</em> Ranking, Perfil, Caixa de entrada, Loja e Configurações lado a lado, com seus nomes. A coleção fica na loja, e as regras em Configurações → Jogo → Sobre.</li>
+          <li xml:lang="es"><em>El menú principal.</em> Ranking, Perfil, Buzón, Tienda y Ajustes uno al lado del otro, con sus nombres. La colección está en la tienda, y las reglas en Ajustes → Juego → Acerca de.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.12.3</url>
+    </release>
     <release version="0.12.2" date="2026-11-26" type="stable">
       <description>
         <ul>
@@ -357,25 +373,12 @@
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.1</url>
     </release>
     <release version="0.10.0" date="2026-11-22" type="stable">
-      <description>
-        <ul>
-          <li><em>A new look.</em> The whole interface was redone: a typeface made for screens, one family of sharp icons, smooth edges at any size, a new menu with the game's logo, and buttons that light up and click softly. Screens fade in as they open.</li>
-          <li xml:lang="pt_BR"><em>Um visual novo.</em> Toda a interface foi refeita: uma fonte feita para telas, uma família única de ícones nítidos, bordas lisas em qualquer tamanho, um menu novo com o logotipo do jogo e botões que acendem e fazem um clique suave. As telas aparecem com um fade.</li>
-          <li xml:lang="es"><em>Un aspecto nuevo.</em> Toda la interfaz se rehízo: una tipografía pensada para pantallas, una sola familia de iconos nítidos, bordes suaves a cualquier tamaño, un menú nuevo con el logotipo del juego y botones que se iluminan y hacen un clic suave. Las pantallas aparecen con un fundido.</li>
-          <li><em>Profile pictures from the game.</em> The faces gave way to things of the game: 32 new pictures, from the numbered balls and the nine-ball rack to a cue on fire. If you had a face, it became one of them; change it in your profile.</li>
-          <li xml:lang="pt_BR"><em>Fotos do perfil do jogo.</em> Os rostos deram lugar a coisas do jogo: 32 fotos novas, das bolas numeradas e do rack do 9-ball a um taco em chamas. Se você usava um rosto, ele virou uma delas; troque no seu perfil.</li>
-          <li xml:lang="es"><em>Fotos de perfil del juego.</em> Las caras dejaron su lugar a cosas del juego: 32 fotos nuevas, desde las bolas numeradas y el rack del 9-ball hasta un taco en llamas. Si tenías una cara, ahora es una de ellas; cámbiala en tu perfil.</li>
-          <li><em>The shop, as on the table.</em> Cloths show in their own texture under the lamp, and ball sets racked on the cloth. Signed out, the shop says once what signing in is for. When the server can't be reached, a clear message and a "Try again" button.</li>
-          <li xml:lang="pt_BR"><em>A loja, como na mesa.</em> Os panos aparecem com a própria textura sob a luminária, e os jogos de bolas no triângulo, sobre o pano. Sem entrar na conta, a loja diz uma vez para que serve entrar. Sem conexão com o servidor, uma mensagem clara e o botão “Tentar de novo”.</li>
-          <li xml:lang="es"><em>La tienda, como en la mesa.</em> Los paños se ven con su propia textura bajo la lámpara, y los juegos de bolas en el triángulo, sobre el paño. Sin iniciar sesión, la tienda dice una vez para qué sirve entrar. Sin conexión con el servidor, un mensaje claro y el botón "Reintentar".</li>
-        </ul>
-      </description>
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.0</url>
     </release>
-    <release version="0.9.1" date="2026-11-22" type="stable">
+    <release version="0.9.1" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.9.1</url>
     </release>
-    <release version="0.9.0" date="2026-11-21" type="stable">
+    <release version="0.9.0" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.9.0</url>
     </release>
     <release version="0.8.3" date="2026-11-21" type="stable">

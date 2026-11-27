@@ -3,6 +3,17 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.12.3
+
+### Zapomenuté heslo?
+Přihlašovací obrazovka na to teď má odkaz: na webu zadej své uživatelské jméno nebo e-mail a odkaz na volbu nového hesla přijde na tvůj e-mail pro obnovení.
+
+### E-mail pro obnovení potvrzen
+Nový e-mail pro obnovení dostane odkaz, kterým potvrdíš, že je tvůj; dokud ho neotevřeš, stránka účtu to ukazuje, s tlačítkem „Poslat znovu“. Dříve uložené adresy už platí.
+
+### Hlavní nabídka
+Žebříček, Profil, Schránka, Obchod a Nastavení vedle sebe, se svými názvy. Sbírka je v obchodě a pravidla v Nastavení → Hra → O hře.
+
 ## 0.12.2
 
 ### Soukromé zprávy

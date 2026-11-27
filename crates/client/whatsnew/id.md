@@ -3,6 +3,17 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.12.3
+
+### Lupa kata sandi?
+Layar masuk sekarang punya tautan untuk itu: ketik nama pengguna atau e-mail kamu di situs, dan tautan untuk memilih kata sandi baru dikirim ke e-mail pemulihan kamu.
+
+### E-mail pemulihan dikonfirmasi
+E-mail pemulihan yang baru mendapat tautan untuk memastikan itu milikmu; sampai tautan dibuka, halaman akunmu memberi tahu, dengan “Kirim lagi”. Alamat yang disimpan sebelumnya sudah berlaku.
+
+### Menu utama
+Peringkat, Profil, Kotak masuk, Toko, dan Pengaturan berdampingan, dengan namanya. Koleksi ada di toko, dan aturan di Pengaturan → Game → Tentang.
+
 ## 0.12.2
 
 ### Pesan pribadi

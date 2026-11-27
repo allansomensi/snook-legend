@@ -3,6 +3,17 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.12.3
+
+### Wachtwoord vergeten?
+Het aanmeldscherm heeft er nu een link voor: typ je gebruikersnaam of e-mail op de website, en een link om een nieuw wachtwoord te kiezen gaat naar je herstel-e-mailadres.
+
+### Herstel-e-mailadres bevestigd
+Een nieuw herstel-e-mailadres krijgt een link om te bevestigen dat het van jou is; tot die geopend is, staat het op je accountpagina, met ‘Opnieuw sturen’. Eerder opgeslagen adressen tellen al.
+
+### Het hoofdmenu
+Ranglijst, Profiel, Inbox, Winkel en Instellingen naast elkaar, met hun naam. De collectie staat in de winkel, en de regels onder Instellingen → Spel → Over.
+
 ## 0.12.2
 
 ### Privéberichten

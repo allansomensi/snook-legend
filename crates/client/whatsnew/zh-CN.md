@@ -3,6 +3,17 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.3
+
+### 忘记密码？
+登录界面现在有了对应的链接：在网站上输入你的用户名或邮箱，选择新密码的链接就会发到你的找回邮箱。
+
+### 找回邮箱已确认
+新的找回邮箱会收到一个确认链接，证明邮箱是你的；在打开之前，你的账户页面会提示，并提供“重新发送”。之前保存的地址已经有效。
+
+### 主菜单
+排行榜、个人资料、收件箱、商店和设置并排显示，各有名称。收藏在商店里，规则在设置 → 游戏 → 关于。
+
 ## 0.12.2
 
 ### 私信

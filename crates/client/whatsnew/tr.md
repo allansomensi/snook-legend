@@ -3,6 +3,17 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.3
+
+### Şifreni mi unuttun?
+Giriş ekranında artık bunun için bir bağlantı var: sitede kullanıcı adını veya e-postanı yaz, yeni bir şifre seçme bağlantısı kurtarma e-postana gelsin.
+
+### Kurtarma e-postası onaylandı
+Yeni bir kurtarma e-postasına, senin olduğunu onaylaman için bir bağlantı gelir; açılana kadar hesap sayfan bunu “Tekrar gönder” ile birlikte gösterir. Daha önce kaydedilen adresler zaten geçerli.
+
+### Ana menü
+Sıralama, Profil, Gelen kutusu, Mağaza ve Ayarlar yan yana, adlarıyla. Koleksiyon mağazada, kurallar ise Ayarlar → Oyun → Hakkında bölümünde.
+
 ## 0.12.2
 
 ### Özel mesajlar

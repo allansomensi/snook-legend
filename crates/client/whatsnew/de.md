@@ -3,6 +3,17 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.12.3
+
+### Passwort vergessen?
+Der Anmeldebildschirm hat jetzt einen Link dafür: Gib auf der Website deinen Benutzernamen oder deine E-Mail ein, und ein Link zum Wählen eines neuen Passworts geht an deine Wiederherstellungs-E-Mail.
+
+### Wiederherstellungs-E-Mail bestätigt
+Eine neue Wiederherstellungs-E-Mail bekommt einen Link, der bestätigt, dass sie dir gehört; bis er geöffnet ist, zeigt es deine Kontoseite an, mit „Erneut senden“. Früher gespeicherte Adressen gelten schon.
+
+### Das Hauptmenü
+Rangliste, Profil, Posteingang, Shop und Einstellungen nebeneinander, mit ihren Namen. Die Sammlung ist im Shop, die Regeln unter Einstellungen → Spiel → Info.
+
 ## 0.12.2
 
 ### Private Nachrichten

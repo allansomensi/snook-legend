@@ -3,6 +3,17 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.3
+
+### Forgot your password?
+The sign-in screen has a link for it now: type your username or e-mail on the website, and a link to choose a new password goes to your recovery e-mail.
+
+### Your recovery e-mail, confirmed
+A new recovery e-mail gets a link to confirm it is yours; until it is opened, your account page says so, with “Send again”. Addresses saved before already count.
+
+### The main menu
+Ranking, Profile, Inbox, Shop and Settings side by side, with their names. The collection is in the shop, and the rules in Settings → Game → About.
+
 ## 0.12.2
 
 ### Private messages

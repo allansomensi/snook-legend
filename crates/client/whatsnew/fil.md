@@ -2,6 +2,17 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.12.3
+
+### Nakalimutan ang password?
+May link na para rito sa screen ng pag-sign in: i-type sa website ang username o e-mail mo, at may darating na link sa recovery e-mail mo para pumili ng bagong password.
+
+### Kumpirmadong recovery e-mail
+Ang bagong recovery e-mail ay may darating na link para kumpirmahing iyo ito; hangga't hindi pa nabubuksan, sinasabi ito ng page ng account mo, may “Ipadala ulit”. Bilang na ang mga address na na-save dati.
+
+### Ang main menu
+Magkakatabi ang Ranking, Profile, Inbox, Shop at Settings, kasama ang mga pangalan nila. Nasa shop ang koleksyon, at ang mga patakaran ay nasa Settings → Laro → Tungkol sa.
+
 ## 0.12.2
 
 ### Mga pribadong mensahe

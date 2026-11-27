@@ -3,6 +3,17 @@
 # destaque, e as linhas seguintes são o texto dele. Curto e sobre o que os
 # jogadores veem; todas as línguas têm as mesmas versões e o mesmo número de destaques.
 
+## 0.12.3
+
+### Esqueceste-te da palavra-passe?
+O ecrã de entrada tem agora uma ligação para isso: escreve o teu utilizador ou e-mail no site e chega ao teu e-mail de recuperação uma ligação para escolher uma nova palavra-passe.
+
+### E-mail de recuperação confirmado
+Um e-mail de recuperação novo recebe uma ligação para confirmar que é teu; até ser aberta, a página da tua conta avisa e oferece “Enviar novamente”. Os endereços guardados antes já contam.
+
+### O menu principal
+Ranking, Perfil, Caixa de entrada, Loja e Definições lado a lado, com os seus nomes. A coleção está na loja, e as regras em Definições → Jogo → Acerca de.
+
 ## 0.12.2
 
 ### Mensagens privadas

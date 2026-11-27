@@ -3,6 +3,17 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.12.3
+
+### ¿Olvidaste tu contraseña?
+La pantalla de inicio de sesión tiene ahora un enlace para eso: escribe tu usuario o correo en el sitio y un enlace para elegir una nueva contraseña llega a tu correo de recuperación.
+
+### Correo de recuperación confirmado
+Un correo de recuperación nuevo recibe un enlace para confirmar que es tuyo; hasta que lo abras, la página de tu cuenta lo avisa y ofrece “Enviar de nuevo”. Las direcciones guardadas antes ya cuentan.
+
+### El menú principal
+Ranking, Perfil, Buzón, Tienda y Ajustes uno al lado del otro, con sus nombres. La colección está en la tienda, y las reglas en Ajustes → Juego → Acerca de.
+
 ## 0.12.2
 
 ### Mensajes privados

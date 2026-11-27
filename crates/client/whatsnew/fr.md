@@ -4,6 +4,17 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.12.3
+
+### Mot de passe oublié ?
+L’écran de connexion a désormais un lien pour cela : saisissez votre pseudo ou votre e-mail sur le site, et un lien pour choisir un nouveau mot de passe arrive à votre e-mail de récupération.
+
+### E-mail de récupération confirmé
+Un nouvel e-mail de récupération reçoit un lien pour confirmer qu’il est à vous ; tant qu’il n’est pas ouvert, la page de votre compte l’indique, avec « Renvoyer ». Les adresses enregistrées avant comptent déjà.
+
+### Le menu principal
+Classement, Profil, Boîte de réception, Boutique et Paramètres côte à côte, avec leur nom. La collection est dans la boutique, et les règles dans Paramètres → Jeu → À propos.
+
 ## 0.12.2
 
 ### Messages privés

@@ -65,7 +65,8 @@ async fn main() {
     config.mail = snook_legend_server::mail::MailSetup::Outbox;
     let _ = tracing_subscriber::fmt()
         .with_env_filter(
-            std::env::var("RUST_LOG").unwrap_or_else(|_| "warn,snook_legend_server::mail=info".into()),
+            std::env::var("RUST_LOG")
+                .unwrap_or_else(|_| "warn,snook_legend_server::mail=info".into()),
         )
         .try_init();
     config.admins = std::env::var("SNOOK_LEGEND_ADMINS")

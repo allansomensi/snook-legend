@@ -212,6 +212,21 @@ pub(super) fn wheel_units(raw: f32) -> f32 {
     -notches * NOTCH
 }
 
+/// Raw wheel steps that [`wheel_units`] reads as `units` (a controller's
+/// stick scrolling as the wheel does).
+pub(super) fn raw_from_units(units: f32) -> f32 {
+    let notches = -units / NOTCH;
+    if cfg!(windows) {
+        notches * 120.0
+    } else if cfg!(target_os = "macos") {
+        // (Read as a touchpad's: never a whole multiple of ten.)
+        let raw = -units / 1.4;
+        if raw.abs() >= 10.0 && (raw / 10.0).fract() == 0.0 { raw + 0.01 } else { raw }
+    } else {
+        notches
+    }
+}
+
 thread_local! {
     /// The window's own queue of wheel events (all of them: macroquad keeps
     /// only a frame's last).

@@ -512,3 +512,67 @@ mod tests {
         assert!(pad.active && pad.tracker.pressed(Button::South));
     }
 }
+
+/// What is printed on button `b` of the controller in use (its maker's
+/// names: "A", "Cross", "LB", "L1"…), for the list of controls.
+pub fn label(b: Button) -> &'static str {
+    label_for(family(), b)
+}
+
+fn label_for(f: Family, b: Button) -> &'static str {
+    use Button::*;
+    match (f, b) {
+        (Family::PlayStation, South) => "✕",
+        (Family::PlayStation, East) => "○",
+        (Family::PlayStation, West) => "□",
+        (Family::PlayStation, North) => "△",
+        (Family::PlayStation, LeftShoulder) => "L1",
+        (Family::PlayStation, RightShoulder) => "R1",
+        (Family::PlayStation, LeftTrigger) => "L2",
+        (Family::PlayStation, RightTrigger) => "R2",
+        (Family::PlayStation, Back) => "Create",
+        (Family::PlayStation, Start) => "Options",
+        (Family::PlayStation, LeftStick) => "L3",
+        (Family::PlayStation, RightStick) => "R3",
+        (Family::Nintendo, South) => "B",
+        (Family::Nintendo, East) => "A",
+        (Family::Nintendo, West) => "Y",
+        (Family::Nintendo, North) => "X",
+        (Family::Nintendo, LeftShoulder) => "L",
+        (Family::Nintendo, RightShoulder) => "R",
+        (Family::Nintendo, LeftTrigger) => "ZL",
+        (Family::Nintendo, RightTrigger) => "ZR",
+        (Family::Nintendo, Back) => "−",
+        (Family::Nintendo, Start) => "+",
+        (_, South) => "A",
+        (_, East) => "B",
+        (_, West) => "X",
+        (_, North) => "Y",
+        (_, LeftShoulder) => "LB",
+        (_, RightShoulder) => "RB",
+        (_, LeftTrigger) => "LT",
+        (_, RightTrigger) => "RT",
+        (_, Back) => "View",
+        (_, Start) => "Menu",
+        (_, Guide) => "Home",
+        (_, LeftStick) => "LS",
+        (_, RightStick) => "RS",
+        (_, DpadUp) => "↑",
+        (_, DpadDown) => "↓",
+        (_, DpadLeft) => "←",
+        (_, DpadRight) => "→",
+    }
+}
+
+#[cfg(test)]
+mod label_tests {
+    use super::*;
+
+    #[test]
+    fn buttons_are_named_as_their_maker_prints_them() {
+        assert_eq!(label_for(Family::Xbox, Button::South), "A");
+        assert_eq!(label_for(Family::Nintendo, Button::South), "B", "Nintendo's A is on the right");
+        assert_eq!(label_for(Family::PlayStation, Button::RightShoulder), "R1");
+        assert_eq!(label_for(Family::Generic, Button::LeftTrigger), "LT");
+    }
+}

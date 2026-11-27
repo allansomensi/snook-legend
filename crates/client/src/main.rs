@@ -32,7 +32,6 @@ mod flags;
 mod fonts;
 mod game;
 // Not wired to the game yet.
-#[allow(dead_code)]
 mod gamepad;
 mod gfx;
 mod hall_textures;
@@ -588,8 +587,11 @@ async fn main() {
         paint::set_opacity(1.0);
         // The mouse's back button is Back on the screens, not in a match.
         ui::back_button(current.is_none());
-        // Tab, Enter and the arrows are the game's at the table.
-        ui.keyboard_nav(current.is_none());
+        // The game controller, read once a frame (before anything asks).
+        gamepad::poll();
+        // Tab, Enter and the arrows are the game's at the table (not while
+        // its menu is open: the menu has them).
+        ui.keyboard_nav(current.is_none() || hud.paused);
         ui.begin();
         // The chat's dialog (drawn near the end, over any screen or game)
         // holds the keyboard too: no Esc, Space or arrow reaches the game,

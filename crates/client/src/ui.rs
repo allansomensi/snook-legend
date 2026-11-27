@@ -246,6 +246,11 @@ pub fn back_button(on: bool) {
 /// answers this.
 pub fn esc_pressed() -> bool {
     key_pressed(KeyCode::Escape)
+        // A controller's B (and Start) step back on the screens (at the
+        // table, the game has them).
+        || (focus::pad_menus()
+            && (crate::gamepad::pressed(crate::gamepad::Button::East)
+                || crate::gamepad::pressed(crate::gamepad::Button::Start)))
         || (BACK_BUTTON.load(std::sync::atomic::Ordering::Relaxed)
             && (is_mouse_button_pressed(MouseButton::Back) || motion::scripted_back()))
 }
@@ -444,6 +449,12 @@ impl Ui {
         ghost::begin_frame();
         self.frame += 1;
         self.wheel = scroll::wheel_this_frame();
+        // A controller's right stick scrolls, as the wheel.
+        let pad = crate::gamepad::axis(crate::gamepad::Axis::RightY);
+        if pad != 0.0 {
+            let units = -pad * pad.abs() * 1100.0 * get_frame_time().min(0.05);
+            self.wheel += scroll::raw_from_units(units);
+        }
         self.wheel_taken = false;
         self.tab_run = None;
         self.last_scroll_views = std::mem::replace(&mut self.scroll_views, 0);

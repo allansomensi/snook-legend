@@ -199,6 +199,36 @@ impl Controls {
         if !is_mouse_button_down(MouseButton::Right) {
             self.orbiting = false;
         }
+        // A game controller: Y switches the view, the right stick (with RB
+        // held) turns the table, the right stick's click puts the camera
+        // back, the triggers zoom.
+        {
+            use crate::gamepad::{self as pad, Axis, Button};
+            if pad::pressed(Button::North) {
+                rig.tv_paused = true;
+                if rig.mode == CameraMode::Top {
+                    rig.enter_3d();
+                } else {
+                    rig.reset();
+                }
+            }
+            if pad::pressed(Button::RightStick) {
+                rig.reset();
+            }
+            if pad::down(Button::RightShoulder) {
+                let st = pad::stick(false);
+                if st.length() > 0.0 {
+                    rig.tv_paused = true;
+                    let turn = vec2(st.x, -st.y) * 520.0 * get_frame_time();
+                    self.orbit(rig, turn);
+                }
+            }
+            let zoom = pad::axis(Axis::RightTrigger) - pad::axis(Axis::LeftTrigger);
+            if zoom != 0.0 {
+                rig.tv_paused = true;
+                rig.zoom(1.8f32.powf(-zoom * get_frame_time()), None);
+            }
+        }
         if !typing {
             if keys::pressed(Action::ToggleView) {
                 rig.tv_paused = true;
@@ -302,8 +332,11 @@ impl Controls {
         let pointer = pointer_on_table(cam, radius);
         let cue = m.game.ball(BallId::CUE).xy();
 
-        // Ball in hand: B toggles placing, Enter confirms.
-        if keys::pressed(Action::BallInHand) && m.game.ball_in_hand().is_some() {
+        use crate::gamepad::{self as pad, Button};
+        // Ball in hand: B toggles placing, Enter confirms (a controller's X
+        // and A).
+        let pad_place = pad::pressed(Button::West);
+        if (keys::pressed(Action::BallInHand) || pad_place) && m.game.ball_in_hand().is_some() {
             let placing = m.is_placing_cue_ball();
             m.set_placing(!placing);
         }
@@ -414,6 +447,19 @@ impl Controls {
             self.mode = DragMode::None;
         }
         if m.is_placing_cue_ball() {
+            // A controller's left stick moves the ball as the camera sees
+            // the table; A puts it down.
+            let st = pad::stick(true);
+            if st.length() > 0.0 {
+                let (right, up) = screen_axes(cam);
+                let speed = 0.9 * st.length().powf(1.6) as f64 / st.length() as f64;
+                let step = (right * st.x as f64 + up * st.y as f64) * speed * dt;
+                place_near(m, cue + step);
+            }
+            if pad::pressed(Button::South) {
+                m.set_placing(false);
+                return;
+            }
             if !keys::pressed(Action::Shoot) {
                 return;
             }
@@ -431,11 +477,37 @@ impl Controls {
         } else {
             self.key_hold = 0.0;
         }
+        // A controller: the left stick turns the cue (slowly near the
+        // middle, for precision; much more slowly with LB held), the d-pad's
+        // left and right nudge it by a hair.
+        let st = pad::stick(true);
+        if st.x != 0.0 {
+            let x = st.x as f64;
+            let rate = if pad::down(Button::LeftShoulder) || fine {
+                0.01 + 0.08 * x.abs()
+            } else {
+                0.03 + 1.5 * x.abs().powf(2.4)
+            };
+            m.aim.yaw -= x.signum() * rate * dt;
+        }
+        if pad::repeat(Button::DpadLeft) {
+            m.aim.yaw += NUDGE;
+        }
+        if pad::repeat(Button::DpadRight) {
+            m.aim.yaw -= NUDGE;
+        }
         m.aim.yaw = m.aim.yaw.rem_euclid(std::f64::consts::TAU);
 
         // Spin and elevation.
         let tip_rate = 1.2 * dt;
         let mut tip = m.aim.tip;
+        // The right stick moves the tip on the cue ball (not while RB turns
+        // the table).
+        if !pad::down(Button::RightShoulder) {
+            let rs = pad::stick(false);
+            tip.x += rs.x as f64 * tip_rate;
+            tip.y += rs.y as f64 * tip_rate;
+        }
         if keys::down(Action::SpinUp) {
             tip.y += tip_rate;
         }
@@ -450,10 +522,10 @@ impl Controls {
         }
         m.aim.tip = if tip.length() > 1.0 { tip.normalize() } else { tip };
         let max_elevation = m.game.params().max_elevation;
-        if keys::down(Action::ElevationUp) {
+        if keys::down(Action::ElevationUp) || pad::down(Button::DpadUp) {
             m.aim.elevation = (m.aim.elevation + 0.6 * dt).min(max_elevation);
         }
-        if keys::down(Action::ElevationDown) {
+        if keys::down(Action::ElevationDown) || pad::down(Button::DpadDown) {
             m.aim.elevation = (m.aim.elevation - 0.6 * dt).max(0.0);
         }
 
@@ -461,7 +533,10 @@ impl Controls {
         // press seen during this turn counts: a key still held from the
         // opponent's shot charges nothing, and the window losing the focus
         // (which reports every held key as let go) shoots nothing.
-        if keys::pressed(Action::Shoot) {
+        // (A controller's A: held to charge, let go to shoot; B lets it
+        // go without shooting.)
+        let shoot_down = keys::down(Action::Shoot) || pad::down(Button::South);
+        if keys::pressed(Action::Shoot) || pad::pressed(Button::South) {
             m.aim.charging = true;
             m.aim.power = 0.0;
             self.shoot_armed = true;
@@ -472,17 +547,22 @@ impl Controls {
         if m.aim.charging && self.shoot_armed {
             // Esc cancels a stroke being charged with Space; a power set on
             // the bar is no stroke (Esc opens the menu and keeps it).
-            if !typing && is_key_pressed(KeyCode::Escape) && keys::down(Action::Shoot) {
+            let pad_cancel = pad::pressed(Button::East) && pad::down(Button::South);
+            if (!typing && is_key_pressed(KeyCode::Escape) && keys::down(Action::Shoot))
+                || pad_cancel
+            {
                 m.aim.charging = false;
                 m.aim.power = 0.0;
                 self.shoot_armed = false;
                 // This Esc cancelled the stroke: it doesn't open the menu too.
                 m.escape_used = true;
-            } else if keys::down(Action::Shoot) {
+            } else if shoot_down {
                 m.aim.power = (m.aim.power + CHARGE_RATE * dt as f32).min(1.0);
-            } else if keys::released(Action::Shoot) {
+            } else if keys::released(Action::Shoot) || pad::released(Button::South) {
                 self.shoot_armed = false;
                 if m.aim.power > 0.01 {
+                    // A controller feels the stroke, as hard as it was.
+                    crate::gamepad::rumble(0.15 + 0.6 * m.aim.power, 0.08 + 0.12 * m.aim.power);
                     m.shoot();
                 } else {
                     m.aim.charging = false;
@@ -490,6 +570,26 @@ impl Controls {
             }
         }
     }
+}
+
+/// How far a press of the controller's d-pad turns the cue (radians: a
+/// hair, for the last adjustment).
+const NUDGE: f64 = 0.0012;
+
+/// The table's directions that are right and up on the screen (unit
+/// vectors on the table), as the camera sees it: a controller's stick moves
+/// the ball in hand that way.
+fn screen_axes(cam: &SceneCamera) -> (DVec2, DVec2) {
+    let forward = (cam.target - cam.eye).normalize_or_zero();
+    let right_world = forward.cross(cam.up).normalize_or_zero();
+    // Up on the screen, laid on the table: the camera's up when it looks
+    // straight down, else the way it looks.
+    let up_world = if forward.y.abs() > 0.95 { cam.up } else { forward };
+    let flat = |v: Vec3| {
+        let d = DVec2::new(v.x as f64, -v.z as f64);
+        if d.length() > 1e-6 { d.normalize() } else { DVec2::X }
+    };
+    (flat(right_world), flat(up_world))
 }
 
 /// Moves the cue ball in hand to `p`, or to the nearest free legal spot.

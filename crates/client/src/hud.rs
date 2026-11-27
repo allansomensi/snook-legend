@@ -498,20 +498,30 @@ impl Hud {
         let intro_on = m.intro_on();
         self.intro_on = intro_on;
         if !ui.wants_keyboard && !intro_on {
+            use crate::gamepad::{self as pad, Button};
+            // A controller: Start opens and closes the menu, B steps back
+            // out of what is open (at the table B is the game's).
+            let open = self.paused || self.reactions_open || self.quick_open;
+            let esc = is_key_pressed(KeyCode::Escape)
+                || pad::pressed(Button::Start)
+                || (open && pad::pressed(Button::East));
             if self.report.is_some() || self.rules.is_some() {
                 // The dialog has Esc.
-            } else if is_key_pressed(KeyCode::Escape) && self.reactions_open {
+            } else if esc && self.reactions_open {
                 self.reactions_open = false;
-            } else if is_key_pressed(KeyCode::Escape) && self.quick_open {
+            } else if esc && self.quick_open {
                 self.quick_open = false;
-            } else if is_key_pressed(KeyCode::Escape) && self.paused && self.show_help {
+            } else if esc && self.paused && self.show_help {
                 // The list of controls closes back to the menu (as its Back).
                 self.show_help = false;
-            } else if is_key_pressed(KeyCode::Escape) && !escape_used {
+            } else if esc && !escape_used {
                 self.paused = !self.paused;
                 self.confirm_leave = false;
             }
-            if keys::pressed(Action::Help) && self.report.is_none() && self.rules.is_none() {
+            if (keys::pressed(Action::Help) || pad::pressed(Button::Back))
+                && self.report.is_none()
+                && self.rules.is_none()
+            {
                 // The list of controls, in the menu.
                 self.show_help = !(self.paused && self.show_help);
                 self.paused = self.show_help;
@@ -1233,7 +1243,10 @@ impl Hud {
         }
         if self.show_help && self.paused {
             let _modal = ui.modal_scope(crate::ui::motion::id("match-help"), 0.5);
-            let lines = controls_list(self.top_only);
+            // A controller in use: its buttons; else the keys and the mouse.
+            let pad = crate::gamepad::connected() && crate::gamepad::active();
+            let lines =
+                if pad { pad_controls_list(self.top_only) } else { controls_list(self.top_only) };
             const ROW: f32 = 26.0;
             const PAD: f32 = 24.0;
             let label_w =
@@ -1261,7 +1274,11 @@ impl Hud {
                 let room = r.x + r.w - PAD - x;
                 ui.text(&ui.ellipsize(b, room, 14.0), x, yy + 5.0, 14.0, MUTED, false);
             }
-            let note = t("Keys can be changed in Settings → Controls.");
+            let note = if pad {
+                t("The keyboard and the mouse work as well.")
+            } else {
+                t("Keys can be changed in Settings → Controls.")
+            };
             let note_y = top + 12.0 + lines.len() as f32 * ROW + 12.0;
             let note = ui.ellipsize(note, r.w - 2.0 * PAD, 12.0);
             ui.text_centered(&note, sw / 2.0, note_y, 12.0, MUTED, false);
@@ -2295,6 +2312,56 @@ fn video_bar_rect(m: &Match) -> Rect {
         crate::ui::vh() - BOTTOM_BAR + (BOTTOM_BAR - 52.0) / 2.0
     };
     Rect::new((sw - w) / 2.0, y, w, 52.0)
+}
+
+/// The list of controls with a game controller (its maker's button names).
+pub(crate) fn pad_controls_list(top_only: bool) -> Vec<(&'static str, String)> {
+    use crate::gamepad::{Button, label};
+    let b = |x: Button| label(x);
+    let mut camera = vec![tw(
+        "{rb} + right stick: turn · {lt} / {rt}: zoom",
+        &[
+            ("rb", &b(Button::RightShoulder)),
+            ("lt", &b(Button::LeftTrigger)),
+            ("rt", &b(Button::RightTrigger)),
+        ],
+    )];
+    if !top_only {
+        camera.insert(0, tw("{y}: 3D / top view", &[("y", &b(Button::North))]));
+    }
+    vec![
+        (
+            t("Aim"),
+            tw(
+                "Left stick · hold {lb}: fine · d-pad ← →: a hair",
+                &[("lb", &b(Button::LeftShoulder))],
+            ),
+        ),
+        (
+            t("Shoot"),
+            tw(
+                "Hold {a}, let go to shoot · {b}: cancel",
+                &[("a", &b(Button::South)), ("b", &b(Button::East))],
+            ),
+        ),
+        (t("Spin"), t("Right stick").to_string()),
+        (t("Elevation"), t("D-pad ↑ ↓").to_string()),
+        (
+            t("Cue ball in hand"),
+            tw(
+                "{x}: pick up · left stick: move · {a}: put down",
+                &[("x", &b(Button::West)), ("a", &b(Button::South))],
+            ),
+        ),
+        (t("Camera"), camera.join(" · ")),
+        (
+            t("Menu"),
+            tw(
+                "{start}: menu · {back}: controls",
+                &[("start", &b(Button::Start)), ("back", &b(Button::Back))],
+            ),
+        ),
+    ]
 }
 
 /// The list of controls (H), with the keys the player has chosen (a line

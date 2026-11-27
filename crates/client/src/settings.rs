@@ -835,6 +835,25 @@ impl SettingsScreen {
                         }
                     }
                 }
+                // A game controller: whether one is there, and its buttons.
+                rows.heading(ui, t("Game controller"), None);
+                let connected = crate::gamepad::connected();
+                let status = if connected {
+                    crate::gamepad::name().unwrap_or_else(|| t("Controller connected").to_string())
+                } else {
+                    t("No controller connected").to_string()
+                };
+                let hint = t(
+                    "Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.",
+                );
+                if let Some((_, c)) = rows.row(ui, &status, hint, Control::Switch) {
+                    let dot = vec2(c.x + c.w - 8.0, c.y + c.h / 2.0);
+                    let color = if connected { crate::dm::ONLINE } else { MUTED };
+                    crate::paint::draw_circle(dot.x, dot.y, 5.0, color);
+                }
+                for (label, what) in crate::hud::pad_controls_list(false) {
+                    rows.row(ui, label, &what, Control::Switch);
+                }
             }
             Tab::Sound => {
                 rows.heading(ui, t("Sound"), None);

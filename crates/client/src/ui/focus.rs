@@ -99,13 +99,21 @@ impl Ui {
         }
         // Off; or a dialog holds the keyboard; or a field's own Tab moves on.
         let field = self.focus.filter(|&f| f < super::MODAL_FOCUS);
-        if nav.off || self.focus.is_some_and(|f| f >= super::MODAL_FOCUS) {
+        let menus = !nav.off && !self.focus.is_some_and(|f| f >= super::MODAL_FOCUS);
+        PAD_MENUS.with(|m| m.set(menus));
+        if !menus {
             nav.visible = false;
             return;
         }
         if nav.prev.is_empty() {
             return;
         }
+        // A game controller: the d-pad or the stick moves the focus to the
+        // nearest thing that direction, A presses it.
+        if self.pad_nav(field) {
+            return;
+        }
+        let nav = &mut self.kb;
         // Tab and Shift+Tab (in a field: its own Tab, see `tab_move`).
         let shift = is_key_down(KeyCode::LeftShift)
             || is_key_down(KeyCode::RightShift)
@@ -177,6 +185,89 @@ impl Ui {
                 }
             }
         }
+    }
+
+    /// The focus moved by a game controller (see [`crate::gamepad`]): the
+    /// d-pad or the left stick go to the nearest thing that way (along a
+    /// row of tabs, the next tab is chosen), A presses what has the focus.
+    /// The first touch only shows where the focus is. True when the
+    /// controller did something this frame.
+    fn pad_nav(&mut self, field: Option<u64>) -> bool {
+        use crate::gamepad::{self, Button};
+        if !gamepad::connected() {
+            return false;
+        }
+        let dir = [
+            (Button::DpadLeft, (-1, 0)),
+            (Button::DpadRight, (1, 0)),
+            (Button::DpadUp, (0, -1)),
+            (Button::DpadDown, (0, 1)),
+        ]
+        .into_iter()
+        .find(|(b, _)| gamepad::repeat(*b))
+        .map(|(_, d)| d)
+        .or_else(|| gamepad::stick_flick(true));
+        let press = gamepad::pressed(Button::South);
+        if dir.is_none() && !press {
+            return false;
+        }
+        let nav = &mut self.kb;
+        let at = nav.current.or(field).and_then(|k| nav.prev.iter().position(|it| it.key == k));
+        // The first touch: where the focus is (or the first thing there).
+        if !nav.visible || at.is_none() {
+            let i = at.unwrap_or_else(|| nav.prev.iter().position(|it| it.selected).unwrap_or(0));
+            nav.current = Some(nav.prev[i].key);
+            nav.visible = true;
+            nav.moved = true;
+            return true;
+        }
+        let i = at.unwrap_or(0);
+        let item = nav.prev[i];
+        if press {
+            if item.field {
+                self.focus = Some(item.key);
+                self.cursor_owner = None;
+            } else {
+                nav.hit = Some(item.key);
+                nav.keys_taken = true;
+            }
+            return true;
+        }
+        let Some((dx, dy)) = dir else { return false };
+        // Along a row of tabs, its way: the next tab, chosen.
+        if let Some((g, down)) = item.group {
+            let step = if down { dy } else { dx };
+            let across = if down { dx } else { dy };
+            if step != 0 && across == 0 {
+                let mates: Vec<usize> = (0..nav.prev.len())
+                    .filter(|&k| nav.prev[k].group.is_some_and(|(x, _)| x == g))
+                    .collect();
+                if let Some(at) = mates.iter().position(|&k| k == i) {
+                    let to = at as i32 + step;
+                    if to >= 0 && (to as usize) < mates.len() {
+                        let key = nav.prev[mates[to as usize]].key;
+                        nav.current = Some(key);
+                        nav.hit = Some(key);
+                        nav.moved = true;
+                        nav.arrows_taken = true;
+                        return true;
+                    }
+                }
+            }
+        }
+        if let Some(next) = nearest(&nav.prev, i, (dx, dy)) {
+            let it = nav.prev[next];
+            nav.current = Some(it.key);
+            nav.moved = true;
+            if it.field {
+                self.focus = Some(it.key);
+                self.cursor_owner = None;
+            } else if field.is_some() {
+                self.focus = None;
+                self.anchor = None;
+            }
+        }
+        true
     }
 
     /// Notes that `r` (where it is drawn now) can take the focus; true when
@@ -311,6 +402,68 @@ fn ring(r: Rect, a: f32) {
     super::rrect_lines(outer, radius + 2.0, 1.5, Color::new(0.0, 0.0, 0.0, 0.35 * a));
 }
 
+thread_local! {
+    /// The keyboard's focus goes through the screen this frame (menus, not
+    /// the table): a controller's B is Esc there.
+    static PAD_MENUS: Cell<bool> = const { Cell::new(false) };
+}
+
+/// The screen's menus have the controller's buttons (not the table's game).
+pub(super) fn pad_menus() -> bool {
+    PAD_MENUS.with(Cell::get)
+}
+
+/// The nearest item to `from` in direction `dir` (y down), on screen: what
+/// lies that way, the closest first, the ones in line with it before those
+/// off to the side.
+fn nearest(items: &[Item], from: usize, dir: (i32, i32)) -> Option<usize> {
+    let centre = |r: Rect| vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
+    let a = items[from].screen;
+    let c0 = centre(a);
+    let d = vec2(dir.0 as f32, dir.1 as f32);
+    let own_group = items[from].group.map(|g| g.0);
+    let mut best: Option<(f32, usize)> = None;
+    for (k, it) in items.iter().enumerate() {
+        if k == from || it.key == items[from].key {
+            continue;
+        }
+        // A row of tabs is reached at its chosen tab.
+        if let Some((g, _)) = it.group
+            && Some(g) != own_group
+            && !it.selected
+            && items.iter().any(|x| x.selected && x.group.is_some_and(|(y, _)| y == g))
+        {
+            continue;
+        }
+        let r = it.screen;
+        // How far ahead, from edge to edge (overlapping: by the centres).
+        let ahead = match dir {
+            (1, 0) => r.x - (a.x + a.w),
+            (-1, 0) => a.x - (r.x + r.w),
+            (0, 1) => r.y - (a.y + a.h),
+            _ => a.y - (r.y + r.h),
+        };
+        let delta = centre(r) - c0;
+        let forward = delta.dot(d);
+        if forward <= 2.0 {
+            continue;
+        }
+        let ahead = ahead.max(0.0).max(forward * 0.25);
+        let side = (delta - d * forward).length();
+        // Overlapping across the way it goes: in line.
+        let in_line = if dir.0 != 0 {
+            r.y < a.y + a.h && a.y < r.y + r.h
+        } else {
+            r.x < a.x + a.w && a.x < r.x + r.w
+        };
+        let score = ahead + side * if in_line { 0.3 } else { 2.0 };
+        if best.is_none_or(|(b, _)| score < b) {
+            best = Some((score, k));
+        }
+    }
+    best.map(|(_, k)| k)
+}
+
 /// The next place for Tab (`step` 1) or Shift+Tab (-1) from `from`: a row
 /// of tabs is one stop (its chosen tab), however many tabs it has.
 fn next_stop(items: &[Item], from: Option<u64>, step: i32) -> Option<usize> {
@@ -356,6 +509,29 @@ mod tests {
             selected,
             field: false,
         }
+    }
+
+    fn at(key: u64, x: f32, y: f32) -> Item {
+        let r = Rect::new(x, y, 100.0, 30.0);
+        Item { key, screen: r, local: r, group: None, selected: false, field: false }
+    }
+
+    #[test]
+    fn a_controller_goes_to_the_nearest_thing_that_way() {
+        // Two columns of buttons, and one far off to the right and down.
+        let items = [
+            at(1, 0.0, 0.0),
+            at(2, 0.0, 50.0),
+            at(3, 200.0, 0.0),
+            at(4, 200.0, 50.0),
+            at(5, 600.0, 400.0),
+        ];
+        assert_eq!(nearest(&items, 0, (0, 1)), Some(1), "down: the one under it");
+        assert_eq!(nearest(&items, 0, (1, 0)), Some(2), "right: the one in line");
+        assert_eq!(nearest(&items, 1, (1, 0)), Some(3));
+        assert_eq!(nearest(&items, 3, (0, 1)), Some(4), "down, off to the side if nothing else");
+        assert_eq!(nearest(&items, 0, (-1, 0)), None, "nothing that way");
+        assert_eq!(nearest(&items, 0, (0, -1)), None);
     }
 
     #[test]

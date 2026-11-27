@@ -1,11 +1,16 @@
 # Changelog
 
-## Not released yet
+## 0.12.4 (protocol 26)
 
-Protocol 26 (private messages' receipts, typing and presence): games of
-0.12.x play on with a server of this version (they just don't get the
-receipts), and this version waits for its server to be updated. Migration
-`0038` (when a private message reached its reader's game).
+Private messages read like a messaging app's (times, ticks for sent,
+delivered and read, online and typing), a new inbox, game controllers,
+the shot clock at a glance, a safer account deletion, the shop's auctions
+and supporters as its own pages, and the Microsoft Store release sent by
+itself. Protocol 26 (private messages' receipts, typing and presence):
+games of 0.12.x play on with a server of this version (they just don't get
+the receipts), and this version waits for its server to be updated, so the
+server goes out first. Migration `0038` (when a private message reached
+its reader's game).
 
 ### Private messages
 - **A conversation reads like a messaging app's**: bubbles (this player's on

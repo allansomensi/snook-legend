@@ -2,6 +2,23 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.12.4
+
+### Üzenetek, mint a kedvenc alkalmazásodban
+Buborékos beszélgetések, minden üzenet idejével, a napok elválasztásával és pipákkal: elküldve, kézbesítve, és két arany pipával elolvasva. Látod, ki van online és mikor ír, és emojikat is küldhetsz.
+
+### Új postafiók
+Üzenetek és értesítések egymás mellett, keresés a beszélgetésekben, és teljesítmények az érméjükkel: a „Megtekintés a profilodban” egyenesen oda visz.
+
+### Játssz kontrollerrel
+Az Xbox, a PlayStation és a Switch Pro kontrollerei az asztalnál és minden menüben működnek. A Beállítások → Irányítás megmutatja, melyik gomb mit csinál.
+
+### A lökésóra egy pillantásra
+Egy sáv és a hátralévő másodpercek a képed alatt, az utolsó tízben pirosan lüktetve.
+
+### Biztonságosabb fiók, rendezettebb bolt
+A fiók törléséhez most saját ablak és nyomva tartott gomb kell; az árverések és a támogatók a bolt oldalai lettek.
+
 ## 0.12.3
 
 ### Elfelejtetted a jelszavad?

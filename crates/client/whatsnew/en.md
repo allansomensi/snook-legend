@@ -3,6 +3,23 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.4
+
+### Messages like your favourite app
+Chats in bubbles, with the time of each message, the day between them and ticks: sent, delivered, and two gold ones once read. See who is online and when they are typing, and send emoji.
+
+### A new inbox
+Messages and notifications side by side, a search over your conversations, and achievements with their medal: “See it in your profile” takes you right to it.
+
+### Play with a controller
+Xbox, PlayStation and Switch Pro controllers work at the table and in every menu. Settings → Controls shows what each button does.
+
+### The shot clock at a glance
+A bar and the seconds left under your picture, red and beating in the last ten.
+
+### A safer account, a tidier shop
+Deleting your account takes a window of its own and a button held down; the auctions and the supporters are pages of the shop.
+
 ## 0.12.3
 
 ### Forgot your password?

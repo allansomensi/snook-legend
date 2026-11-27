@@ -1,4 +1,4 @@
--- 0.13.0: a private message says when it reached the other player's game
+-- 0.12.4: a private message says when it reached the other player's game
 -- (`delivered_at`: as it was sent, if they were online, else when they
 -- next signed in), not only when they read it.
 ALTER TABLE direct_messages ADD COLUMN delivered_at BIGINT;

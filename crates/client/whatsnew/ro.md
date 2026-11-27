@@ -2,6 +2,23 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.12.4
+
+### Mesaje ca în aplicația ta preferată
+Conversații în baloane, cu ora fiecărui mesaj, ziua dintre ele și bife: trimis, livrat și, cu două bife aurii, citit. Vezi cine e online și când îți scrie, și trimite emoji.
+
+### O nouă secțiune Mesaje
+Mesajele și notificările alături, căutare în conversații și fiecare realizare cu medalia ei: „Vezi în profilul tău” te duce direct la ea.
+
+### Joacă cu un controller
+Controllerele Xbox, PlayStation și Switch Pro merg la masă și în toate meniurile. Setări → Comenzi arată ce face fiecare buton.
+
+### Timpul pe lovitură dintr-o privire
+O bară și secundele rămase sub poza ta, roșii și pulsând în ultimele zece.
+
+### Cont mai sigur, magazin mai ordonat
+Ștergerea contului are acum fereastra ei și un buton pe care îl ții apăsat; licitațiile și susținătorii sunt pagini ale magazinului.
+
 ## 0.12.3
 
 ### Ți-ai uitat parola?

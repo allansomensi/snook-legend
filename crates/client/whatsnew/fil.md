@@ -2,6 +2,23 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.12.4
+
+### Mga mensaheng parang sa paborito mong app
+Nasa bubble na ang mga usapan, may oras ng bawat mensahe, araw sa pagitan nila at mga check: naipadala, naihatid, at dalawang ginto kapag nabasa na. Tingnan kung sino ang online at nagta-type, at magpadala ng emoji.
+
+### Bagong inbox
+Magkatabi ang mga mensahe at notification, may paghahanap sa mga usapan mo, at may medalya ang mga achievement: dadalhin ka mismo roon ng “Tingnan sa profile mo”.
+
+### Maglaro gamit ang controller
+Gumagana ang mga controller ng Xbox, PlayStation at Switch Pro sa mesa at sa bawat menu. Ipinapakita ng Settings → Controls ang ginagawa ng bawat button.
+
+### Ang shot clock sa isang tingin
+Isang bar at ang natitirang segundo sa ilalim ng profile picture mo, pula at pumipintig sa huling sampu.
+
+### Mas ligtas na account, mas maayos na shop
+May sariling window na ang pagbura ng account mo at button na kailangang pindutin nang matagal; mga page na ng shop ang mga subasta at tagasuporta.
+
 ## 0.12.3
 
 ### Nakalimutan ang password?

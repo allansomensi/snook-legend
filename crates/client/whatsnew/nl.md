@@ -3,6 +3,23 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.12.4
+
+### Berichten zoals in je favoriete app
+Gesprekken in tekstballonnen, met de tijd van elk bericht, de dag ertussen en vinkjes: verzonden, afgeleverd en, met twee gouden, gelezen. Zie wie er online is en wanneer de ander typt, en stuur emoji.
+
+### Een nieuwe inbox
+Berichten en meldingen naast elkaar, zoeken in je gesprekken en prestaties met hun medaille: ‘In je profiel bekijken’ brengt je er meteen heen.
+
+### Speel met een controller
+Controllers van Xbox, PlayStation en Switch Pro werken aan tafel en in elk menu. Instellingen → Besturing toont wat elke knop doet.
+
+### De shotclock in één oogopslag
+Een balk en de resterende seconden onder je foto, rood en kloppend in de laatste tien.
+
+### Veiliger account, nettere winkel
+Je account verwijderen gaat nu via een eigen venster en een knop die je ingedrukt houdt; de veilingen en de supporters zijn pagina's van de winkel.
+
 ## 0.12.3
 
 ### Wachtwoord vergeten?

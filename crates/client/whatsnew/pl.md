@@ -2,6 +2,23 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.12.4
+
+### Wiadomości jak w ulubionej aplikacji
+Rozmowy w dymkach, z godziną każdej wiadomości, dniem między nimi i ptaszkami: wysłano, dostarczono i, z dwoma złotymi, odczytano. Zobacz, kto jest online i kiedy pisze, i wysyłaj emoji.
+
+### Nowa skrzynka
+Wiadomości i powiadomienia obok siebie, wyszukiwanie w rozmowach i każde osiągnięcie z medalem: „Zobacz w profilu” przenosi prosto do niego.
+
+### Graj na kontrolerze
+Kontrolery Xbox, PlayStation i Switch Pro działają przy stole i we wszystkich menu. Ustawienia → Sterowanie pokazuje, co robi każdy przycisk.
+
+### Czas na uderzenie jak na dłoni
+Pasek i pozostałe sekundy pod twoim zdjęciem, czerwone i pulsujące przez ostatnie dziesięć.
+
+### Bezpieczniejsze konto, uporządkowany sklep
+Usunięcie konta ma teraz własne okno i przycisk do przytrzymania; aukcje i wspierający to strony sklepu.
+
 ## 0.12.3
 
 ### Nie pamiętasz hasła?

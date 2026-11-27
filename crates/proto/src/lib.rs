@@ -165,7 +165,7 @@ pub const OLDEST_PROTOCOL_VERSION: u32 = 24;
 
 /// The first version whose games read the private messages' receipts
 /// (delivered, read) and "typing…" ([`ServerMsg::DmStatus`],
-/// [`ServerMsg::DmTyping`]): 0.13.0. Older games would drop them as
+/// [`ServerMsg::DmTyping`]): 0.12.4. Older games would drop them as
 /// malformed, so they are never sent them.
 pub const DM_RECEIPTS_PROTOCOL: u32 = 26;
 

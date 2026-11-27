@@ -3,6 +3,23 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.12.4
+
+### Messaggi come nella tua app preferita
+Conversazioni a fumetti, con l'ora di ogni messaggio, il giorno a separarli e le spunte: inviato, consegnato e, con due spunte dorate, letto. Vedi chi è online e quando sta scrivendo, e manda emoji.
+
+### La posta in arrivo rinnovata
+Messaggi e notifiche fianco a fianco, una ricerca nelle conversazioni e gli obiettivi con la loro medaglia: «Vedi nel tuo profilo» ti ci porta subito.
+
+### Gioca con il controller
+I controller Xbox, PlayStation e Switch Pro funzionano al tavolo e in tutti i menu. Impostazioni → Comandi mostra cosa fa ogni pulsante.
+
+### Il tempo per tiro a colpo d'occhio
+Una barra e i secondi rimasti sotto la tua immagine, rossi e pulsanti negli ultimi dieci.
+
+### Account più sicuro, negozio più ordinato
+Eliminare l'account ora ha una finestra tutta sua e un pulsante da tenere premuto; le aste e i sostenitori sono pagine del negozio.
+
 ## 0.12.3
 
 ### Password dimenticata?

@@ -3,6 +3,23 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.12.4
+
+### Pesan seperti aplikasi favoritmu
+Percakapan dalam gelembung, dengan jam tiap pesan, hari di antara pesan, dan centang: terkirim, diterima, dan dua centang emas saat dibaca. Lihat siapa yang online dan yang sedang mengetik, lalu kirim emoji.
+
+### Kotak masuk baru
+Pesan dan notifikasi berdampingan, pencarian di percakapanmu, dan pencapaian dengan medalinya: “Lihat di profilmu” langsung membawamu ke sana.
+
+### Main dengan kontroler
+Kontroler Xbox, PlayStation, dan Switch Pro bisa dipakai di meja dan di semua menu. Pengaturan → Kontrol menunjukkan fungsi setiap tombol.
+
+### Batas waktu pukulan langsung terlihat
+Bilah dan sisa detik di bawah foto profilmu, merah dan berdenyut di sepuluh detik terakhir.
+
+### Akun lebih aman, toko lebih rapi
+Menghapus akun kini punya jendela sendiri dan tombol yang harus ditahan; lelang dan pendukung jadi halaman di toko.
+
 ## 0.12.3
 
 ### Lupa kata sandi?

@@ -3,6 +3,23 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.12.4
+
+### Mensajes como en tu app favorita
+Conversaciones en burbujas, con la hora de cada mensaje, el día entre ellos y los checks: enviado, entregado y, con dos dorados, leído. Mira quién está en línea y cuándo está escribiendo, y envía emojis.
+
+### Un buzón nuevo
+Mensajes y notificaciones lado a lado, búsqueda en tus conversaciones y logros con su medalla: “Ver en tu perfil” te lleva directamente a él.
+
+### Juega con mando
+Los mandos de Xbox, PlayStation y Switch Pro funcionan en la mesa y en todos los menús. Ajustes → Controles muestra qué hace cada botón.
+
+### El tiempo por tacada de un vistazo
+Una barra y los segundos que quedan bajo tu foto, en rojo y latiendo en los diez últimos.
+
+### Cuenta más segura, tienda más ordenada
+Eliminar tu cuenta tiene ahora su propia ventana y un botón que hay que mantener pulsado; las subastas y los mecenas son páginas de la tienda.
+
 ## 0.12.3
 
 ### ¿Olvidaste tu contraseña?

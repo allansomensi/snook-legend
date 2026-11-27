@@ -4,6 +4,23 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.12.4
+
+### Des messages comme dans votre appli préférée
+Des conversations en bulles, avec l'heure de chaque message, le jour entre eux et des coches : envoyé, distribué, et deux coches dorées une fois lu. Voyez qui est en ligne et quand il écrit, et envoyez des emoji.
+
+### Une nouvelle boîte de réception
+Messages et notifications côte à côte, une recherche dans vos conversations, et les succès avec leur médaille : « Voir dans votre profil » vous y mène directement.
+
+### Jouez à la manette
+Les manettes Xbox, PlayStation et Switch Pro fonctionnent à la table et dans tous les menus. Paramètres → Commandes indique ce que fait chaque bouton.
+
+### Le chrono d'un coup d'œil
+Une barre et les secondes restantes sous votre photo, qui passent au rouge et battent pendant les dix dernières.
+
+### Un compte plus sûr, une boutique mieux rangée
+Supprimer votre compte passe par une fenêtre à part et un bouton à maintenir enfoncé ; les enchères et les soutiens sont des pages de la boutique.
+
 ## 0.12.3
 
 ### Mot de passe oublié ?

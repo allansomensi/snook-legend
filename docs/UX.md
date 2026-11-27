@@ -342,7 +342,7 @@ mouse's back button (`back`).
 | Players' cards (the score panel, the match intro) | A gem and a glow for an epic or legendary cue, the gem on the start of the name. | No cue on the cards. |
 | Main menu, the row at the bottom | Seven icons and Quit; with that many the names didn't fit and were left out, icons alone. | Five, each with its name: Ranking, Profile, Inbox, Shop (the collection is in its header; "Shop and collection" on hover), Settings, and Quit apart. The rules moved to Settings → Game → About (with the terms, the privacy policy and the credits); the "i" by the rules switch still opens them. In a narrow window the names get smaller and closer, then Quit loses its word, before the names go. |
 
-## Messages like a messaging app, the inbox, controllers (0.13)
+## Messages like a messaging app, the inbox, controllers (0.12.4)
 
 | Where | Before | Now |
 |---|---|---|

@@ -197,6 +197,28 @@
   </keywords>
 
   <releases>
+    <release version="0.12.4" date="2026-11-27" type="stable">
+      <description>
+        <ul>
+          <li><em>Messages like your favourite app.</em> Chats in bubbles, with the time of each message, the day between them and ticks: sent, delivered, and two gold ones once read. See who is online and when they are typing, and send emoji.</li>
+          <li xml:lang="pt_BR"><em>Mensagens como no seu app favorito.</em> Conversas em balões, com o horário de cada mensagem, o dia entre elas e os tiques: enviada, entregue e dois dourados quando lida. Veja quem está online e quando está digitando, e mande emoji.</li>
+          <li xml:lang="es"><em>Mensajes como en tu app favorita.</em> Conversaciones en burbujas, con la hora de cada mensaje, el día entre ellos y los checks: enviado, entregado y, con dos dorados, leído. Mira quién está en línea y cuándo está escribiendo, y envía emojis.</li>
+          <li><em>A new inbox.</em> Messages and notifications side by side, a search over your conversations, and achievements with their medal: “See it in your profile” takes you right to it.</li>
+          <li xml:lang="pt_BR"><em>Uma caixa de entrada nova.</em> Mensagens e notificações lado a lado, busca nas conversas e conquistas com a sua medalha: “Ver no seu perfil” leva direto a ela.</li>
+          <li xml:lang="es"><em>Un buzón nuevo.</em> Mensajes y notificaciones lado a lado, búsqueda en tus conversaciones y logros con su medalla: “Ver en tu perfil” te lleva directamente a él.</li>
+          <li><em>Play with a controller.</em> Xbox, PlayStation and Switch Pro controllers work at the table and in every menu. Settings → Controls shows what each button does.</li>
+          <li xml:lang="pt_BR"><em>Jogue com controle.</em> Controles de Xbox, PlayStation e Switch Pro funcionam na mesa e em todos os menus. Configurações → Controles mostra o que cada botão faz.</li>
+          <li xml:lang="es"><em>Juega con mando.</em> Los mandos de Xbox, PlayStation y Switch Pro funcionan en la mesa y en todos los menús. Ajustes → Controles muestra qué hace cada botón.</li>
+          <li><em>The shot clock at a glance.</em> A bar and the seconds left under your picture, red and beating in the last ten.</li>
+          <li xml:lang="pt_BR"><em>O tempo da jogada num relance.</em> Uma barra e os segundos que faltam sob a sua foto, em vermelho e pulsando nos últimos dez.</li>
+          <li xml:lang="es"><em>El tiempo por tacada de un vistazo.</em> Una barra y los segundos que quedan bajo tu foto, en rojo y latiendo en los diez últimos.</li>
+          <li><em>A safer account, a tidier shop.</em> Deleting your account takes a window of its own and a button held down; the auctions and the supporters are pages of the shop.</li>
+          <li xml:lang="pt_BR"><em>Conta mais segura, loja mais arrumada.</em> Excluir a conta agora tem uma janela própria e um botão que se segura; os leilões e os apoiadores viraram páginas da loja.</li>
+          <li xml:lang="es"><em>Cuenta más segura, tienda más ordenada.</em> Eliminar tu cuenta tiene ahora su propia ventana y un botón que hay que mantener pulsado; las subastas y los mecenas son páginas de la tienda.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.12.4</url>
+    </release>
     <release version="0.12.3" date="2026-11-27" type="stable">
       <description>
         <ul>
@@ -288,7 +310,7 @@
       </description>
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.12.0</url>
     </release>
-    <release version="0.11.2" date="2026-11-24" type="stable">
+    <release version="0.11.2" date="2026-11-27" type="stable">
       <description>
         <ul>
           <li><em>Official rules: any pocket counts.</em> Nothing is called any more: a ball of your group in any pocket keeps the table, and the 8 wins in any pocket. Games played before keep the rules they were played with.</li>
@@ -301,7 +323,7 @@
       </description>
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.11.2</url>
     </release>
-    <release version="0.11.1" date="2026-11-24" type="stable">
+    <release version="0.11.1" date="2026-11-27" type="stable">
       <description>
         <ul>
           <li><em>Free as soon as the game ends.</em> When a game is over, both players show as free in the lounge at once, and can be invited while still looking at the result. Leaving as the last shot rolls no longer leaves you at the table.</li>
@@ -360,79 +382,69 @@
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.2</url>
     </release>
     <release version="0.10.1" date="2026-11-22" type="stable">
-      <description>
-        <ul>
-          <li><em>Screens bright again.</em> In 0.10.0, opening the lounge could leave the whole interface dimmed, even back in the menu. Fixed.</li>
-          <li xml:lang="pt_BR"><em>Telas claras de novo.</em> Na 0.10.0, abrir o salão podia deixar a interface inteira escurecida, mesmo de volta ao menu. Corrigido.</li>
-          <li xml:lang="es"><em>Pantallas claras otra vez.</em> En la 0.10.0, abrir el salón podía dejar toda la interfaz oscurecida, incluso de vuelta en el menú. Corregido.</li>
-          <li><em>Signed in stays signed in.</em> The game keeps you signed in until you choose "Sign out", even after the connection drops or the server restarts: the menu shows you offline, and a click connects again. An account is still in one place at a time: signing in elsewhere disconnects the other.</li>
-          <li xml:lang="pt_BR"><em>Conectado continua conectado.</em> O jogo mantém você na conta até você escolher “Sair da conta”, mesmo se a conexão cair ou o servidor reiniciar: o menu mostra você offline, e um clique conecta de novo. Uma conta continua em um lugar só: entrar em outro lugar desconecta o anterior.</li>
-          <li xml:lang="es"><em>La sesión sigue abierta.</em> El juego mantiene tu sesión hasta que elijas "Cerrar sesión", aunque se caiga la conexión o el servidor se reinicie: el menú te muestra sin conexión y un clic vuelve a conectar. Una cuenta sigue en un solo lugar: entrar en otro desconecta el anterior.</li>
-        </ul>
-      </description>
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.1</url>
     </release>
     <release version="0.10.0" date="2026-11-22" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.0</url>
     </release>
-    <release version="0.9.1" date="2026-11-27" type="stable">
+    <release version="0.9.1" date="2026-11-22" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.9.1</url>
     </release>
-    <release version="0.9.0" date="2026-11-27" type="stable">
+    <release version="0.9.0" date="2026-11-21" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.9.0</url>
     </release>
-    <release version="0.8.3" date="2026-11-21" type="stable">
+    <release version="0.8.3" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.3</url>
     </release>
-    <release version="0.8.2" date="2026-11-21" type="stable">
+    <release version="0.8.2" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.2</url>
     </release>
-    <release version="0.8.1" date="2026-11-20" type="stable">
+    <release version="0.8.1" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.1</url>
     </release>
-    <release version="0.8.0" date="2026-11-19" type="stable">
+    <release version="0.8.0" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.0</url>
     </release>
-    <release version="0.7.4" date="2026-11-19" type="stable">
+    <release version="0.7.4" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.4</url>
     </release>
-    <release version="0.7.3" date="2026-11-19" type="stable">
+    <release version="0.7.3" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.3</url>
     </release>
-    <release version="0.7.2" date="2026-11-18" type="stable">
+    <release version="0.7.2" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.2</url>
     </release>
-    <release version="0.7.1" date="2026-11-18" type="stable">
+    <release version="0.7.1" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.1</url>
     </release>
-    <release version="0.7.0" date="2026-11-18" type="stable">
+    <release version="0.7.0" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.0</url>
     </release>
-    <release version="0.6.2" date="2026-11-18" type="stable">
+    <release version="0.6.2" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.6.2</url>
     </release>
-    <release version="0.6.1" date="2026-11-18" type="stable">
+    <release version="0.6.1" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.6.1</url>
     </release>
-    <release version="0.6.0" date="2026-11-17" type="stable">
+    <release version="0.6.0" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.6.0</url>
     </release>
-    <release version="0.5.1" date="2026-11-17" type="stable">
+    <release version="0.5.1" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.5.1</url>
     </release>
-    <release version="0.5.0" date="2026-11-17" type="stable">
+    <release version="0.5.0" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.5.0</url>
     </release>
-    <release version="0.4.0" date="2026-11-17" type="stable">
+    <release version="0.4.0" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.4.0</url>
     </release>
-    <release version="0.3.0" date="2026-11-16" type="stable">
+    <release version="0.3.0" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.3.0</url>
     </release>
-    <release version="0.2.0" date="2026-11-16" type="stable">
+    <release version="0.2.0" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.2.0</url>
     </release>
-    <release version="0.1.4" date="2026-11-13" type="stable">
+    <release version="0.1.4" date="2026-11-27" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.1.4</url>
     </release>
   </releases>

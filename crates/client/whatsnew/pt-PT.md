@@ -3,6 +3,23 @@
 # destaque, e as linhas seguintes são o texto dele. Curto e sobre o que os
 # jogadores veem; todas as línguas têm as mesmas versões e o mesmo número de destaques.
 
+## 0.12.4
+
+### Mensagens como na tua app favorita
+Conversas em balões, com a hora de cada mensagem, o dia entre elas e os vistos: enviada, entregue e dois dourados quando lida. Vê quem está online e quando está a escrever, e envia emojis.
+
+### Uma nova caixa de entrada
+Mensagens e notificações lado a lado, pesquisa nas conversas e conquistas com a sua medalha: “Ver no teu perfil” leva-te diretamente a ela.
+
+### Joga com um comando
+Os comandos de Xbox, PlayStation e Switch Pro funcionam na mesa e em todos os menus. Definições → Controlos mostra o que faz cada botão.
+
+### O tempo por jogada num relance
+Uma barra e os segundos que faltam por baixo da tua foto, a vermelho e a pulsar nos últimos dez.
+
+### Conta mais segura, loja mais arrumada
+Eliminar a conta tem agora uma janela própria e um botão para manter premido; os leilões e os apoiantes passaram a ser páginas da loja.
+
 ## 0.12.3
 
 ### Esqueceste-te da palavra-passe?

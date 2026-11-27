@@ -3,6 +3,23 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.12.4
+
+### Nachrichten wie in deiner Lieblings-App
+Gespräche in Sprechblasen, mit der Uhrzeit jeder Nachricht, dem Tag dazwischen und Häkchen: gesendet, zugestellt und, mit zwei goldenen, gelesen. Sieh, wer online ist und wann jemand schreibt, und schick Emojis.
+
+### Ein neuer Posteingang
+Nachrichten und Benachrichtigungen nebeneinander, eine Suche in deinen Gesprächen und Erfolge mit ihrer Medaille: „In deinem Profil ansehen“ bringt dich direkt hin.
+
+### Spiel mit Controller
+Controller von Xbox, PlayStation und Switch Pro funktionieren am Tisch und in jedem Menü. Einstellungen → Steuerung zeigt, was jede Taste tut.
+
+### Die Shot Clock auf einen Blick
+Ein Balken und die verbleibenden Sekunden unter deinem Bild, rot und pulsierend in den letzten zehn.
+
+### Konto sicherer, Shop aufgeräumter
+Zum Löschen deines Kontos gibt es jetzt ein eigenes Fenster und einen Knopf, den du gedrückt hältst; Auktionen und Unterstützer sind Seiten im Shop.
+
 ## 0.12.3
 
 ### Passwort vergessen?

@@ -2,6 +2,23 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.12.4
+
+### Tin nhắn như ứng dụng bạn yêu thích
+Trò chuyện dạng bong bóng, có giờ của từng tin nhắn, ngày ngăn giữa các tin và dấu tích: đã gửi, đã nhận, và hai dấu tích vàng khi đã xem. Biết ai đang trực tuyến, ai đang nhập, và gửi biểu tượng cảm xúc.
+
+### Hộp thư mới
+Tin nhắn và thông báo nằm cạnh nhau, tìm kiếm trong các cuộc trò chuyện, và thành tích kèm huy chương: “Xem trong hồ sơ của bạn” đưa bạn thẳng tới đó.
+
+### Chơi bằng tay cầm
+Tay cầm Xbox, PlayStation và Switch Pro dùng được trên bàn và ở mọi menu. Cài đặt → Điều khiển cho biết mỗi nút làm gì.
+
+### Thời gian mỗi cú đánh, nhìn là biết
+Một thanh và số giây còn lại dưới ảnh đại diện của bạn, chuyển đỏ và nhấp nháy theo nhịp trong mười giây cuối.
+
+### Tài khoản an toàn hơn, cửa hàng gọn hơn
+Xóa tài khoản giờ có cửa sổ riêng và một nút phải nhấn giữ; đấu giá và người ủng hộ trở thành các trang của cửa hàng.
+
 ## 0.12.3
 
 ### Quên mật khẩu?

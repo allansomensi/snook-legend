@@ -3,6 +3,23 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.12.4
+
+### Meddelanden som i din favoritapp
+Chattar i bubblor, med klockslaget för varje meddelande, dagen mellan dem och bockar: skickat, levererat och, med två guldbockar, läst. Se vem som är online och när någon skriver, och skicka emoji.
+
+### En ny inkorg
+Meddelanden och aviseringar sida vid sida, sökning i dina konversationer och prestationer med sin medalj: ”Visa i din profil” tar dig direkt dit.
+
+### Spela med handkontroll
+Handkontroller från Xbox, PlayStation och Switch Pro fungerar vid bordet och i alla menyer. Inställningar → Kontroller visar vad varje knapp gör.
+
+### Stöttimern i ett ögonkast
+En stapel och sekunderna som är kvar under din bild, röda och pulserande de sista tio.
+
+### Säkrare konto, prydligare butik
+Att radera kontot har nu ett eget fönster och en knapp som du håller in; auktionerna och supportrarna är sidor i butiken.
+
 ## 0.12.3
 
 ### Glömt lösenordet?

@@ -3,6 +3,23 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.12.4
+
+### Zprávy jako ve tvé oblíbené aplikaci
+Konverzace v bublinách, s časem každé zprávy, dnem mezi nimi a fajfkami: odesláno, doručeno a se dvěma zlatými přečteno. Sleduj, kdo je online a kdy píše, a posílej emoji.
+
+### Nová schránka
+Zprávy a oznámení vedle sebe, hledání v konverzacích a úspěchy s medailí: „Zobrazit v profilu“ tě k nim rovnou zavede.
+
+### Hraj s herním ovladačem
+Ovladače Xbox, PlayStation a Switch Pro fungují u stolu i ve všech nabídkách. Nastavení → Ovládání ukazuje, co dělá které tlačítko.
+
+### Čas na šťouch na první pohled
+Pruh a zbývající sekundy pod tvým obrázkem, v posledních deseti červené a pulzující.
+
+### Bezpečnější účet, uklizenější obchod
+Smazání účtu má teď vlastní okno a tlačítko, které podržíš; aukce a podporovatelé jsou stránky obchodu.
+
 ## 0.12.3
 
 ### Zapomenuté heslo?

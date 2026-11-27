@@ -3,6 +3,23 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.4
+
+### En sevdiğin uygulamadaki gibi mesajlar
+Baloncuklu konuşmalar, her mesajın saati, mesajlar arasında gün ve tikler: gönderildi, iletildi ve okunduğunda iki altın tik. Kimin çevrim içi olduğunu, kimin yazıyor olduğunu gör ve emoji gönder.
+
+### Yeni bir gelen kutusu
+Mesajlar ve bildirimler yan yana, konuşmalarında arama ve madalyasıyla başarımlar: “Profilinde gör” seni doğrudan ona götürür.
+
+### Oyun koluyla oyna
+Xbox, PlayStation ve Switch Pro oyun kolları masada ve tüm menülerde çalışır. Ayarlar → Kontroller her düğmenin ne yaptığını gösterir.
+
+### Vuruş süresi bir bakışta
+Profil resminin altında bir çubuk ve kalan saniyeler; son on saniyede kırmızı ve nabız gibi atıyor.
+
+### Daha güvenli hesap, daha düzenli mağaza
+Hesabını silmek artık ayrı bir pencere ve basılı tutulan bir düğme istiyor; açık artırmalar ve destekçiler mağazanın sayfaları oldu.
+
 ## 0.12.3
 
 ### Şifreni mi unuttun?

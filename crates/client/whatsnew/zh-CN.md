@@ -3,6 +3,23 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.12.4
+
+### 消息，就像你最爱的应用
+对话以气泡显示，每条消息都有时间，消息之间标出日期，还有勾号：已发送、已送达，已读后变成两个金色的勾。能看到谁在线、谁正在输入，还能发送表情。
+
+### 全新的收件箱
+消息和通知并排显示，可以搜索对话，成就通知附带奖牌：点击“在个人资料中查看”即可直达。
+
+### 用手柄玩
+Xbox、PlayStation和Switch Pro手柄在球台上和所有菜单中都能使用。在设置 → 操作中可以看到每个按键的作用。
+
+### 每杆限时一目了然
+头像下方显示进度条和剩余秒数，最后十秒变红并跳动。
+
+### 账号更安全，商店更整洁
+删除账号现在有单独的窗口，还要按住按钮；拍卖和支持者成了商店里的页面。
+
 ## 0.12.3
 
 ### 忘记密码？

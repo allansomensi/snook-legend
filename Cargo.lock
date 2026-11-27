@@ -2156,6 +2156,7 @@ dependencies = [
  "fontdue",
  "futures-util",
  "glam 0.33.12",
+ "libc",
  "lzma-rust2",
  "macroquad",
  "png",

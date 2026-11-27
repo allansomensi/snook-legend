@@ -31,6 +31,9 @@ mod emoji_tray;
 mod flags;
 mod fonts;
 mod game;
+// Not wired to the game yet.
+#[allow(dead_code)]
+mod gamepad;
 mod gfx;
 mod hall_textures;
 mod halls;

@@ -66,8 +66,13 @@ sha2 = "0.10"
 tar = { version = "0.4", default-features = false }
 lzma-rust2 = { version = "0.25", default-features = false, features = ["std", "xz"] }
 
+# Game controllers on Linux (src/gamepad/joydev.rs): the joystick devices'
+# ioctls and open flags, for each architecture.
+[target.'cfg(target_os = "linux")'.dependencies]
+libc = "0.2"
+
 [target.'cfg(windows)'.dependencies]
-zip = { version = "9", default-features = false, features = ["deflate-flate2"] }
+zip ={ version = "9", default-features = false, features = ["deflate-flate2"] }
 flate2 = "1"
 # The Store build only: Windows.Services.Store (prices, the purchase dialog
 # and the key the server checks purchases with; see src/msstore.rs).

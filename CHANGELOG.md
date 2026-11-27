@@ -2,6 +2,97 @@
 
 ## Not released yet
 
+Protocol 26 (private messages' receipts, typing and presence): games of
+0.12.x play on with a server of this version (they just don't get the
+receipts), and this version waits for its server to be updated. Migration
+`0038` (when a private message reached its reader's game).
+
+### Private messages
+- **A conversation reads like a messaging app's**: bubbles (this player's on
+  the right, gold), grouped by who wrote them, with the time in each, the
+  day between messages of different days ("Today", "Yesterday", a weekday,
+  a date) and a line above the messages that came while away ("3 unread
+  messages"). One to three emoji alone are drawn large.
+- **How far each message got**: a clock while it goes, one tick once the
+  server has it, two once the other player's game has it (online when it
+  was sent, or since), two in gold once read. A message the server turned
+  away (or that never came back) gets a red mark: a click sends it again.
+  A hint over the time says it in words, with the date.
+- **Online, typing, last seen**: the conversation's header shows the other
+  player's picture with a green dot when online, and under the name
+  "online", "typing…" (while they write) or when they were last seen
+  (friends). The inbox's list shows the dot and "typing…" too.
+- The emoji tray (a quiet face by the field), a round gold Send, the field
+  growing to five lines, a way down to the newest messages (with how many
+  came below), and the conversation's header buttons: invite to a game
+  (over the lounge), profile, close.
+- Times are in the computer's own time zone (`localtime.rs`), written as
+  the language does ("14:32", "2:32 PM").
+
+### Inbox
+- **Two sections, Messages and Notifications**, in a switch at the top
+  right with their unread counts, each a list on the left and the one
+  picked on the right (one at a time on a narrow window).
+- Messages: a search over the conversations, a new message to a friend
+  (the friends listed, online first, filtered as the name is typed) or to
+  any name, each conversation with the other's picture, the newest message
+  with its ticks and the unread count.
+- Notifications: each with the mark of what it is about (a megaphone, a
+  gavel, a gift, a trophy, the achievement's own medal), what it is about
+  first (an achievement by its name), times as "14:32", "Yesterday" or a
+  weekday, "Mark all as read" by the filters.
+- **An achievement's notice shows its medal large**, its name, metal and
+  when, what it took, and **"See it in your profile"**, which opens the
+  profile's achievements on that medal's card.
+
+### Chats
+- The lounge's chat: each author's time in a quiet column, the day between
+  lines of other days, a small clock on a line on its way, the round Send.
+- The table's chat: the time on the line under the pointer.
+
+### Account
+- The account page in cards: username, recovery e-mail, password and a
+  **danger zone**.
+- **Deleting the account takes a dialog of its own**: what goes for good,
+  the username typed again, the password, "I understand that my account
+  can't be recovered" and a button held down until it fills (2.5 s).
+
+### At the table
+- **The shot clock reads at a glance**: a thicker ring round the player's
+  picture (gold, amber past half, red for the last ten seconds), a bar that
+  empties under the picture, and the seconds left in a tag under the box,
+  red and larger for the last ten. The last ten seconds of one's own turn,
+  a red glow beats around the box. Nothing is drawn over the table.
+
+### Game controllers
+- **Xbox, PlayStation, Switch Pro and other controllers**: XInput on
+  Windows, the joystick devices on Linux (the Flatpak needs
+  `--device=all`), GameController on macOS; nothing to install.
+- At the table: the left stick aims (slowly near the middle; LB fine, the
+  d-pad's left and right by a hair), the right stick sets the spin, the
+  d-pad's up and down the elevation, A held charges and let go shoots (B
+  lets it go), X picks up the cue ball in hand (the left stick moves it as
+  the camera sees the table, A puts it down) or calls the 8's pocket, Y
+  switches the view, RB with the right stick turns the table, the triggers
+  zoom, Start is the menu and View the list of controls (named as the
+  controller's maker prints them). The stroke is felt in the controller
+  (Windows).
+- On the screens: the d-pad or the stick go to the nearest button that
+  way, A presses it, B goes back, the right stick scrolls; the dialogs at
+  the table (the break's choice, the end of the game) too.
+- Settings → Controls says whether a controller is connected and what its
+  buttons do.
+
+### Shop
+- **The auctions and the supporters are pages of the shop**, under their
+  own heading ("Community") at the foot of the categories, instead of a
+  window over it; the auctions open show as a gold count.
+
+### Profile
+- **The shot analysis for players who aren't VIP** shows what it is (a
+  sketch of its parts in shapes, what it shows, "Become VIP") instead of a
+  page of made-up numbers dimmed under a card, which could still be read.
+
 ### Microsoft Store
 - **A release is sent to the Store by itself**: on a version's tag, the
   Microsoft Store workflow makes a new submission in Partner Center with

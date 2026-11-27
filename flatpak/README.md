@@ -41,6 +41,9 @@ What a build of the freedesktop runtime 26.08 showed:
   default device to PulseAudio (or PipeWire's PulseAudio server), so the
   PulseAudio socket is enough: in a test the game's clicks reached the
   sound server as "ALSA plug-in [snook-legend]".
+- **Game controllers** (optional): the game reads `/dev/input/js*`, which
+  takes `--device=all` (`--device=input` from Flatpak 1.15.6); without it
+  the game plays with the keyboard and the mouse only.
 - Nothing else: the settings are kept in the sandbox's `XDG_CONFIG_HOME`
   (`~/.var/app/app.snooklegend.SnookLegend/config/snook-legend`), links open
   through the desktop's portal (the runtime's `xdg-open`), and notifications

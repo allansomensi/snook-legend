@@ -145,7 +145,10 @@ which every desktop installation has. How releases are made is described in
 - **End-of-game numbers**: potting success, balls made, best run, fouls and
   how often each player had ball in hand.
 - **Social**: **private messages** in the inbox (to friends, and between
-  adults to anyone who takes them, a few until the other answers), recent
+  adults to anyone who takes them, a few until the other answers), read
+  like a messaging app's: bubbles with their time, ticks for sent,
+  delivered and read (in gold), online and "typing…", the days between
+  messages, emoji; recent
   opponents, a status message on the profile, a "looking for a game" board
   in the lounge, and gifts that arrive with a message and a thank-you.
 - **The shop**: cloth colours, cues, chalk and ball sets, shown on the table
@@ -164,6 +167,9 @@ which every desktop installation has. How releases are made is described in
 - **Cues that level up** with the online games you win with them, and
   **themed tables and halls** (beach bar, industrial loft, English club,
   mountain lodge, neon arcade, art deco lounge, skyline penthouse…).
+- **Game controllers** (Xbox, PlayStation, Switch Pro…) on Windows, Linux
+  and macOS, with nothing to install: aim, spin, power, the cue ball in
+  hand, the camera and every menu.
 - **Configurable shortcuts** and **automatic updates** (checked against their
   SHA-256, installed on restart) with a "What's new" window.
 - **Local network**: host a game from the game itself (no server needed);

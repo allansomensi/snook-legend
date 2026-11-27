@@ -31,6 +31,10 @@ sign in to the game.
   unused. *Your account* lists the devices, signs them out, makes new
   recovery codes and signs out everywhere; an administrator turns a lost
   phone's verification off from the player's page.
+- **The portal on a phone**: the main sections in a bar at the bottom and
+  the others in a sheet, tables as cards, windows that rise from the bottom
+  and fit, touch-sized buttons and fields, charts drawn at their width, and
+  the installed app clear of the notch in the theme's colour.
 
 ### Interface
 - The main menu's row: five places, each with its name (Ranking, Profile,

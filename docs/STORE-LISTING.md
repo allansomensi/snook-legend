@@ -3,7 +3,9 @@
 Texts for Partner Center → the product → **Store listings**, one block per
 language. Limits: short description 1,000 characters, description 10,000,
 "What's new in this version" 1,500, up to 20 product features of 200
-characters each, up to 7 search terms.
+characters each, up to 7 search terms. "What's new in this version" is not
+here: each release writes it, in every language of the listing, from the
+game's own "What's new".
 
 The screenshots for each language are in `store-art/screenshots/<language>/`
 (1920 × 1080, in the order to upload them); the logos and the hero art are in
@@ -58,16 +60,9 @@ Em 27 idiomas, entre eles português, inglês, espanhol, francês, alemão, ital
 
 ### Novidades desta versão
 
-Versão 0.12.3: esqueceu a senha? Recupere a conta pelo e-mail.
-• Esqueceu a senha? A tela de entrada tem um link para isso: digite seu usuário ou e-mail no site e um link para escolher uma nova senha chega ao seu e-mail de recuperação.
-• E-mail de recuperação confirmado: um e-mail novo recebe um link para confirmar que é seu; até lá, a página da sua conta avisa e oferece “Enviar de novo”.
-• O menu principal: Ranking, Perfil, Caixa de entrada, Loja e Configurações lado a lado, com seus nomes. A coleção fica na loja, e as regras em Configurações → Jogo → Sobre.
-
-Da versão 0.12.2: mensagens privadas, um chat mais tranquilo e conquistas mais difíceis.
-
-Da versão 0.12.1: tudo mais fluido, partidas contra o computador que começam como as online e conquistas vistas de perto.
-
-Da versão 0.12.0: duplas, contra o relógio, a 8 cantada na regra oficial, a coleção e a caixa de entrada.
+Written by the release itself: the Microsoft Store workflow fills it in
+every language from `crates/client/whatsnew/` (see [MSSTORE.md](MSSTORE.md),
+"Lançar uma versão"). To see it: `python3 tools/msstore_submit.py notes <version>`.
 
 ### Recursos do produto
 
@@ -136,16 +131,9 @@ In 27 languages, including English, Portuguese, Spanish, French, German, Italian
 
 ### What's new in this version
 
-Version 0.12.3: forgot your password? Get your account back by e-mail.
-• Forgot your password? The sign-in screen has a link for it: type your username or e-mail on the website, and a link to choose a new password goes to your recovery e-mail.
-• Your recovery e-mail, confirmed: a new one gets a link to confirm it is yours; until then, your account page says so, with “Send again”.
-• The main menu: Ranking, Profile, Inbox, Shop and Settings side by side, with their names. The collection is in the shop, and the rules in Settings → Game → About.
-
-From version 0.12.2: private messages, a quieter chat and harder achievements.
-
-From version 0.12.1: smoother everywhere, games against the computer that open like online ones, and achievements up close.
-
-From version 0.12.0: doubles, against the clock, the 8 called under the official rules, the collection and the inbox.
+Written by the release itself: the Microsoft Store workflow fills it in
+every language from `crates/client/whatsnew/` (see [MSSTORE.md](MSSTORE.md),
+"Lançar uma versão"). To see it: `python3 tools/msstore_submit.py notes <version>`.
 
 ### Product features
 
@@ -214,16 +202,9 @@ En 27 idiomas, entre ellos español, inglés, portugués, francés, alemán, ita
 
 ### Novedades de esta versión
 
-Versión 0.12.3: ¿olvidaste tu contraseña? Recupera la cuenta por correo.
-• ¿Olvidaste tu contraseña? La pantalla de inicio de sesión tiene un enlace para eso: escribe tu usuario o correo en el sitio y un enlace para elegir una nueva contraseña llega a tu correo de recuperación.
-• Correo de recuperación confirmado: uno nuevo recibe un enlace para confirmar que es tuyo; hasta entonces, la página de tu cuenta lo avisa y ofrece “Enviar de nuevo”.
-• El menú principal: Ranking, Perfil, Buzón, Tienda y Ajustes uno al lado del otro, con sus nombres. La colección está en la tienda, y las reglas en Ajustes → Juego → Acerca de.
-
-De la versión 0.12.2: mensajes privados, un chat más tranquilo y logros más difíciles.
-
-De la versión 0.12.1: más fluido en todas partes, partidas contra el ordenador que empiezan como las online y los logros de cerca.
-
-De la versión 0.12.0: dobles, contrarreloj, la 8 cantada en la regla oficial, la colección y el buzón.
+Written by the release itself: the Microsoft Store workflow fills it in
+every language from `crates/client/whatsnew/` (see [MSSTORE.md](MSSTORE.md),
+"Lançar uma versão"). To see it: `python3 tools/msstore_submit.py notes <version>`.
 
 ### Características del producto
 

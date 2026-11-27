@@ -29,8 +29,9 @@ curl --proto '=https' --tlsv1.2 -LsSf https://github.com/allansomensi/snook-lege
 powershell -ExecutionPolicy Bypass -c "irm https://github.com/allansomensi/snook-legend/releases/latest/download/snook-legend-installer.ps1 | iex"
 ```
 
-The Microsoft Store gets its own package (MSIX) from the same tag; see
-[MSSTORE.md](MSSTORE.md). The Flatpak's desktop file and MetaInfo (for
+The Microsoft Store gets its own package (MSIX) from the same tag, sent to
+the Store with "What's new" in every language of its listing once the
+repository variable `MSSTORE_APP_ID` is set; see [MSSTORE.md](MSSTORE.md). The Flatpak's desktop file and MetaInfo (for
 Flathub) are in `flatpak/`; see [flatpak/README.md](../flatpak/README.md).
 
 ## Publishing a version
@@ -55,7 +56,8 @@ Flathub) are in `flatpak/`; see [flatpak/README.md](../flatpak/README.md).
 
 The **Release** workflow builds every platform, makes the installers and
 publishes the GitHub Release; the **Server image** workflow publishes
-`ghcr.io/<owner>/snook-legend-server:<tag>`. Flathub's copy is updated
+`ghcr.io/<owner>/snook-legend-server:<tag>`; the **Microsoft Store**
+workflow packs the MSIX and sends it to the Store for certification. Flathub's copy is updated
 by hand in its own repository (the tag, and `cargo-sources.json` when
 `Cargo.lock` changed; see [flatpak/README.md](../flatpak/README.md)). A version with a suffix (`v0.2.0-beta.1`)
 is published as a pre-release. Pull requests run `dist plan` only, which

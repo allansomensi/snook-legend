@@ -1,11 +1,20 @@
 # The Microsoft Store package (MSIX); see docs/MSSTORE.md.
 #
 # - On a release tag (v1.2.3, not betas): builds the Store version of the
-#   game and packs it. The package (the `msix` artifact of the run) is sent
-#   to the Store by hand, in Partner Center, with the version's notes.
+#   game, packs it and, once the repository variable MSSTORE_APP_ID is set,
+#   sends it to the Store (tools/msstore_submit.py): a new submission with
+#   this package and "What's new" in every language of the Store listing,
+#   from crates/client/whatsnew. Without MSSTORE_APP_ID the package (the
+#   `msix` artifact of the run) is sent by hand, in Partner Center.
 # - When the packaging changes (any branch): builds and packs only, so a
 #   mistake shows up here and not on release day.
-# - By hand (Actions → Microsoft Store → Run workflow).
+# - By hand (Actions → Microsoft Store → Run workflow): builds and packs;
+#   run on a tag with "Send to the Store" ticked, it sends it too.
+#
+# Secrets for sending (Settings → Secrets and variables → Actions → Secrets,
+# or the `microsoft-store` environment's): MSSTORE_TENANT_ID,
+# MSSTORE_CLIENT_ID, MSSTORE_CLIENT_SECRET, a Microsoft Entra application
+# with the Manager role in Partner Center.
 #
 # Repository variables (Settings → Secrets and variables → Actions → Variables):
 #   MSSTORE_IDENTITY_NAME, MSSTORE_PUBLISHER, MSSTORE_PUBLISHER_DISPLAY_NAME
@@ -16,6 +25,8 @@
 #     add-ons in the package; anything else (or unset) builds it without
 #     any purchase for real money (coins are earned by playing), so the
 #     Store's age rating needs no "in-game purchases".
+#   MSSTORE_APP_ID: the game's Store ID (9NZ…, Partner Center → Product
+#     identity); set, release tags are sent to the Store by themselves.
 name: Microsoft Store
 
 on:
@@ -26,8 +37,18 @@ on:
     paths:
       - "crates/client/msix/**"
       - "tools/msix/**"
+      - "tools/msstore_submit.py"
       - ".github/workflows/msstore.yml"
   workflow_dispatch:
+    inputs:
+      submit:
+        description: Send to the Store (run it on a version's tag)
+        type: boolean
+        default: false
+      replace_pending:
+        description: Replace a submission in progress in Partner Center
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -60,7 +81,7 @@ jobs:
             base=$(git merge-base HEAD origin/main 2>/dev/null || echo HEAD~1)
           fi
           if git diff --name-only "$base" HEAD \
-              | grep -qE '^(crates/client/msix/|tools/msix/|\.github/workflows/msstore\.yml)'; then
+              | grep -qE '^(crates/client/msix/|tools/msix/|tools/msstore_submit\.py|\.github/workflows/msstore\.yml)'; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
@@ -123,3 +144,58 @@ jobs:
         with:
           name: msix
           path: target/msix/*.msix
+
+  notes:
+    # Every language's "What's new in this version" as it would be sent, so
+    # a mistake in the notes shows up before release day.
+    name: The Store's release notes
+    needs: changes
+    if: needs.changes.outputs.run == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Write them for the newest version
+        run: |
+          version=$(sed -n 's/^## //p' crates/client/whatsnew/en.md | head -n1)
+          python3 tools/msstore_submit.py notes "$version"
+
+  submit:
+    name: Send to the Store
+    needs: msix
+    # Final release tags once MSSTORE_APP_ID is set; by hand, on a tag, with
+    # "Send to the Store" ticked.
+    if: >-
+      vars.MSSTORE_APP_ID != '' &&
+      startsWith(github.ref, 'refs/tags/v') && !contains(github.ref_name, '-') &&
+      (github.event_name == 'push' || inputs.submit)
+    runs-on: ubuntu-24.04
+    # Its secrets can live here, and required reviewers set on it make the
+    # submission wait for a click (Settings → Environments).
+    environment: microsoft-store
+    # One submission at a time: Partner Center takes only one in progress.
+    concurrency:
+      group: msstore-submission
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/download-artifact@v8
+        with:
+          name: msix
+          path: msix
+      - name: New submission with this package and the version's notes
+        env:
+          MSSTORE_TENANT_ID: ${{ secrets.MSSTORE_TENANT_ID }}
+          MSSTORE_CLIENT_ID: ${{ secrets.MSSTORE_CLIENT_ID }}
+          MSSTORE_CLIENT_SECRET: ${{ secrets.MSSTORE_CLIENT_SECRET }}
+          APP_ID: ${{ vars.MSSTORE_APP_ID }}
+          TAG: ${{ github.ref_name }}
+          REPLACE: ${{ inputs.replace_pending }}
+        run: |
+          shopt -s nullglob
+          packages=(msix/*.msix)
+          if (( ${#packages[@]} != 1 )); then
+            echo "Expected one .msix in the artifact, found ${#packages[@]}"; exit 1
+          fi
+          args=(submit --app-id "$APP_ID" --version "${TAG#v}" --package "${packages[0]}")
+          if [[ "$REPLACE" == "true" ]]; then args+=(--replace-pending); fi
+          python3 tools/msstore_submit.py "${args[@]}"

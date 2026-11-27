@@ -33,7 +33,8 @@ O build da Store usa a feature `store` do jogo (`crates/client/src/channel.rs`):
 | `crates/client/msix/AppxManifest.xml` | o manifesto do pacote (identidade, ícones, firewall) |
 | `crates/client/msix/Assets/` | os ícones do pacote (`cargo test --release -p snook-legend export_msix_assets -- --ignored` os refaz a partir do emblema) |
 | `tools/msix/make-msix.ps1` | preenche o manifesto e monta o `.msix` |
-| `.github/workflows/msstore.yml` | gera o MSIX (o envio à Store é manual) |
+| `tools/msstore_submit.py` | envia a versão à Store: o `.msix` e as novidades em cada idioma da listagem |
+| `.github/workflows/msstore.yml` | gera o MSIX e, numa tag de versão, o envia à Store (veja [Lançar uma versão](#lançar-uma-versão)) |
 | repositório `snooklegend.app`, `src/content/legal/` | os termos de uso e a política de privacidade, no site |
 
 ## Uma vez só: preparar a Store
@@ -349,18 +350,68 @@ Microsoft, que exige uma fila no Azure).
 ## Lançar uma versão
 
 Do mesmo jeito de sempre (veja `RELEASING.md`): versão no `Cargo.toml`,
-seção no `CHANGELOG.md`, tag `vX.Y.Z`. O workflow *Microsoft Store* gera o
-MSIX (a versão `0.1.2` vira `0.1.2.0`, como a Store exige) e o deixa como
-o artefato `msix` da execução. O envio à Store é feito à mão:
+seção no `CHANGELOG.md`, novidades em `crates/client/whatsnew/*.md`, tag
+`vX.Y.Z`. O workflow *Microsoft Store* gera o MSIX (a versão `0.1.2` vira
+`0.1.2.0`, como a Store exige) e, com o envio automático ligado (abaixo),
+**o envia sozinho**:
 
-1. Baixe o artefato `msix` da execução do workflow *Microsoft Store* da tag.
-2. No Partner Center: o produto → **Start update** (nova submissão).
-3. Em **Packages**, envie o `.msix` (e remova o da versão anterior).
-4. Em **Store listings**, escreva as novidades da versão em **What's new in
-   this version** (o texto de `crates/client/whatsnew/` serve).
-5. **Submit to the Store**.
+1. Cria uma submissão nova no Partner Center (uma cópia da última
+   publicada: descrição, imagens, preço e classificação continuam iguais).
+2. Troca o pacote: o `.msix` da tag entra, o da versão anterior sai.
+3. Em **cada idioma da listagem**, escreve **What's new in this version**
+   a partir de `crates/client/whatsnew/<idioma>.md`: os destaques da
+   versão e, se couberem nos 1.500 caracteres, os títulos das três
+   anteriores. Um idioma que o jogo não tem (chinês tradicional, por
+   exemplo) recebe o inglês. Para ver o texto antes:
+   `python3 tools/msstore_submit.py notes 0.12.3` (o job *The Store's
+   release notes* do workflow também o mostra).
+4. Manda para certificação (até três dias úteis) e espera o Partner Center
+   aceitar a submissão; um erro aparece no log do job *Send to the Store*.
 
 Betas (`v0.2.0-beta.1`) não vão para a Store.
+
+### Ligar o envio automático (uma vez só)
+
+1. **Uma aplicação do Microsoft Entra para o Partner Center.** No
+   Partner Center: **Account settings** (a engrenagem) → **User
+   management** → **Microsoft Entra applications** → **Add Microsoft
+   Entra application** → **Create Microsoft Entra application**, com o
+   papel **Manager**. Anote o **Tenant ID** e o **Client ID**; na
+   aplicação, **Add new key** cria o *client secret* (anote o valor: ele
+   só aparece uma vez, e vence; anote a data também). Não use a aplicação
+   das compras (seção 2 acima): esta pode mudar a página da loja.
+2. **GitHub → Settings → Secrets and variables → Actions → Secrets:**
+   `MSSTORE_TENANT_ID`, `MSSTORE_CLIENT_ID`, `MSSTORE_CLIENT_SECRET`.
+3. **A variável** `MSSTORE_APP_ID` (na aba **Variables**) = o **Store ID**
+   do jogo, `9NZ15BNMZPTG` (Partner Center → Product identity). É ela que
+   liga o envio: sem ela, a tag só gera o MSIX, como antes.
+4. Opcional: em **Settings → Environments → microsoft-store** (criado na
+   primeira execução), **Required reviewers** com você mesmo: o envio
+   espera um clique seu em *Review deployments* antes de mexer na Store.
+
+### Quando algo der errado
+
+- **"Partner Center already has a submission in progress"**: há uma
+  submissão aberta (começada à mão, ou uma anterior recusada). Termine ou
+  apague no Partner Center, ou rode **Actions → Microsoft Store → Run
+  workflow** escolhendo a **tag** em *Use workflow from*, com **Send to
+  the Store** e **Replace a submission in progress** marcados.
+- **Recusada pelo Partner Center** (`CommitFailed`): o log diz o motivo.
+  A submissão fica lá, para corrigir e enviar à mão.
+- **Falhou antes de enviar** (rede, pacote): a submissão começada é
+  apagada; rode de novo na tag (**Send to the Store** marcado).
+- **Mandar à mão, sem a automação:** baixe o artefato `msix` da execução,
+  no Partner Center **Start update**, troque o pacote em **Packages**,
+  escreva as novidades em **Store listings** e **Submit to the Store**.
+
+### Novos idiomas na listagem
+
+O envio só escreve as novidades nos idiomas que **já têm listagem** no
+Partner Center. Hoje o pacote declara três (`<Resources>` em
+`crates/client/msix/AppxManifest.xml`: pt-BR, en-US e es-ES). Para um
+idioma novo: em **Store listings → Manage additional languages**, acrescente-o
+com a descrição e as capturas de tela; dali em diante o envio preenche as
+novidades dele sozinho.
 
 ## Testar o pacote no seu computador
 

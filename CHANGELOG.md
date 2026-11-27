@@ -1,5 +1,18 @@
 # Changelog
 
+## Not released yet
+
+### Microsoft Store
+- **A release is sent to the Store by itself**: on a version's tag, the
+  Microsoft Store workflow makes a new submission in Partner Center with
+  the new MSIX (in place of the previous one) and "What's new in this
+  version" in every language of the Store listing, written from
+  `crates/client/whatsnew/` (`tools/msstore_submit.py`, the Store
+  submission API), and sends it to certification. It is on once the
+  repository variable `MSSTORE_APP_ID` and the secrets of a Microsoft
+  Entra application with the Manager role in Partner Center are set
+  (docs/MSSTORE.md, "Lançar uma versão").
+
 ## 0.12.3 (protocol 25)
 
 A forgotten password chosen again by e-mail, the recovery e-mail confirmed,

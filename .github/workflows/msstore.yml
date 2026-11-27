@@ -180,11 +180,11 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: The listings (store-listing/)
-        run: python3 -B tools/msstore_submit.py listings
+        run: python3 -B -u tools/msstore_submit.py listings
       - name: The notes of the newest version
         run: |
           version=$(sed -n 's/^## //p' crates/client/whatsnew/en.md | head -n1)
-          python3 -B tools/msstore_submit.py notes "$version"
+          python3 -B -u tools/msstore_submit.py notes "$version"
 
   check:
     # By hand: the secrets, the application's role in Partner Center and
@@ -205,7 +205,7 @@ jobs:
           if [[ -z "$APP_ID" ]]; then
             echo "Set the repository variable MSSTORE_APP_ID (the Store ID, 9NZ…)"; exit 1
           fi
-          python3 -B tools/msstore_submit.py check --app-id "$APP_ID"
+          python3 -B -u tools/msstore_submit.py check --app-id "$APP_ID"
 
   listing:
     # By hand: the Store page from the repository, without a new package.
@@ -231,7 +231,7 @@ jobs:
           fi
           args=(listing --app-id "$APP_ID")
           if [[ "$REPLACE" == "true" ]]; then args+=(--replace-pending); fi
-          python3 -B tools/msstore_submit.py "${args[@]}"
+          python3 -B -u tools/msstore_submit.py "${args[@]}"
 
   submit:
     name: Send to the Store
@@ -272,4 +272,4 @@ jobs:
           fi
           args=(submit --app-id "$APP_ID" --version "${TAG#v}" --package "${packages[0]}")
           if [[ "$REPLACE" == "true" ]]; then args+=(--replace-pending); fi
-          python3 -B tools/msstore_submit.py "${args[@]}"
+          python3 -B -u tools/msstore_submit.py "${args[@]}"

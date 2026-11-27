@@ -483,8 +483,15 @@ async fn a_new_username_keeps_the_doubles_rating() {
     for (_, c) in clients.iter_mut() {
         c.expect("the end", |m| matches!(m, ServerMsg::MatchEnded { .. })).await;
     }
+    // Both out of the game before Ana opens a table: each one's leaving
+    // comes through their own connection, and a table opened before Bia's
+    // had arrived would be refused ("Finish your game first"). The lounge
+    // answers a ping after what came before it on that connection.
     for name in ["ana", "bia"] {
-        client(&mut clients, name).send(ClientMsg::LeaveMatch).await;
+        let c = client(&mut clients, name);
+        c.send(ClientMsg::LeaveMatch).await;
+        c.send(ClientMsg::Ping).await;
+        c.expect("left", |m| matches!(m, ServerMsg::Pong)).await;
     }
     // The pair's table shows the pair's rating.
     async fn table_rating(clients: &mut [(String, Client)], host: &str) -> i32 {
@@ -583,14 +590,22 @@ async fn time_attack_attempts_are_checked_and_ranked() {
         unreachable!()
     };
     assert_eq!(result, Err(Refused::NotCleared));
-    // One that does: its rack is the server's.
-    a.send(ClientMsg::TimeAttackStart).await;
-    let ServerMsg::TimeAttackStarted { attempt, seed } =
-        a.expect("started", |m| matches!(m, ServerMsg::TimeAttackStarted { .. })).await
-    else {
-        unreachable!()
+    // One that does: its rack is the server's. A rack now and then has no
+    // plain way through (`plain_strokes`): those attempts are left unsent.
+    let mut used = 1;
+    let (attempt, seed, strokes) = loop {
+        a.send(ClientMsg::TimeAttackStart).await;
+        let ServerMsg::TimeAttackStarted { attempt, seed } =
+            a.expect("started", |m| matches!(m, ServerMsg::TimeAttackStarted { .. })).await
+        else {
+            unreachable!()
+        };
+        used += 1;
+        if let Some(strokes) = time_attack::plain_strokes(seed) {
+            break (attempt, seed, strokes);
+        }
+        assert!(used < time_attack::ATTEMPTS_PER_DAY, "no rack with a plain way through");
     };
-    let strokes = time_attack::plain_strokes(seed).expect("a way through");
     let run = time_attack::replay(seed, &strokes).unwrap();
     a.send(ClientMsg::TimeAttackSubmit { attempt, strokes: strokes.clone() }).await;
     let ServerMsg::TimeAttackResult { result, .. } =
@@ -611,7 +626,7 @@ async fn time_attack_attempts_are_checked_and_ranked() {
     };
     assert_eq!(info.best_ms, Some(outcome.ms));
     assert_eq!(info.board.len(), 1);
-    assert_eq!(info.attempts_left, time_attack::ATTEMPTS_PER_DAY - 2);
+    assert_eq!(info.attempts_left, time_attack::ATTEMPTS_PER_DAY - used);
     // The same attempt twice is refused.
     a.send(ClientMsg::TimeAttackSubmit { attempt, strokes }).await;
     let ServerMsg::TimeAttackResult { result, .. } =
@@ -621,7 +636,7 @@ async fn time_attack_attempts_are_checked_and_ranked() {
     };
     assert_eq!(result, Err(Refused::NotStarted));
     // The day's attempts run out.
-    for _ in 2..time_attack::ATTEMPTS_PER_DAY {
+    for _ in used..time_attack::ATTEMPTS_PER_DAY {
         a.send(ClientMsg::TimeAttackStart).await;
         a.expect("started", |m| matches!(m, ServerMsg::TimeAttackStarted { .. })).await;
     }

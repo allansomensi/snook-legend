@@ -342,6 +342,24 @@ mouse's back button (`back`).
 | Players' cards (the score panel, the match intro) | A gem and a glow for an epic or legendary cue, the gem on the start of the name. | No cue on the cards. |
 | Main menu, the row at the bottom | Seven icons and Quit; with that many the names didn't fit and were left out, icons alone. | Five, each with its name: Ranking, Profile, Inbox, Shop (the collection is in its header; "Shop and collection" on hover), Settings, and Quit apart. The rules moved to Settings → Game → About (with the terms, the privacy policy and the credits); the "i" by the rules switch still opens them. In a narrow window the names get smaller and closer, then Quit loses its word, before the names go. |
 
+## Messages like a messaging app, the inbox, controllers (0.13)
+
+| Where | Before | Now |
+|---|---|---|
+| A conversation | "Name: text" lines, as the lounge's chat; nothing said when or whether a message got there. | Bubbles (one's own on the right, in gold), grouped by author, the time in each, the day between days, a line over what came while away, emoji alone drawn large. Ticks: a clock while it goes, one (the server has it), two (the other's game has it), two in gold (read); a red mark on one that didn't go, a click sends it again. The header: picture with a green dot, "online" / "typing…" / "last seen …", invite, profile. A round way down to the newest, with what came below. |
+| Inbox | Messages and the notification filters in one row of tabs; "Achievement unlocked" five times in a row; dates in full. | Two sections in a switch (Messages, Notifications) with their counts. Conversations with pictures, ticks and a search; a new message lists the friends. Notifications by what they are about (the achievement's name first, its medal as the mark), times as "14:32" / "Yesterday" / a weekday. An achievement's notice: the medal large, its name and metal, "See it in your profile" (the profile opens on its card). |
+| Lounge chat | No times. | The time of each author's line in a quiet column, the day between lines of other days, a clock on a line on its way, the round Send. The table's chat: the time on the line under the pointer. |
+| Account | One long column; deleting took the password and a second click. | Cards (username, recovery e-mail, password, danger zone). Deleting opens its own dialog: what goes for good, the username typed again, the password, "I understand…", and a button held down until it fills. |
+| Shot clock | A thin ring round a small picture; the seconds only for the last ten. | A thicker ring (gold, amber past half, red), a bar emptying under the picture, the seconds in a tag under the box at all times; the last ten of one's own turn, a red glow beats round the box. Nothing over the table (a large number in the middle got in the way of the game). |
+| Shop | Auctions and Supporters as rows that opened a window over the shop. | Pages of the shop under their own heading, "Community". |
+| Analysis, not VIP | The page with made-up numbers dimmed under a card: still readable. | A card on its own: a sketch in shapes only, what it shows, "Become VIP". |
+| Game controllers | None. | Aiming, spin, power, the ball in hand, calling the 8 and the camera at the table; on the screens the d-pad goes to the nearest button that way (a spatial focus, from the keyboard's), A presses, B goes back, the right stick scrolls. The list of controls names the controller's own buttons. |
+
+Screens for these: `dm`, `inbox`, `inbox-notes`, `inbox-achievement`,
+`account`, `account-delete`, `match-clock`, `match-clock-low`
+(`SNOOK_LEGEND_CLOCK_LEFT`), `auctions`, `credits`,
+`profile-analysis-pitch` (`SNOOK_LEGEND_PITCH`).
+
 ## Still to do
 
 - Arabic is shaped and ordered right, but laid out left to right (labels

@@ -2534,3 +2534,18 @@ Animated	Animált
 Previous	Előző
 Reduce motion	Mozgás csökkentése
 Screens, windows and lists change at once, without sliding or easing.	A képernyők, ablakok és listák azonnal váltanak, csúszás és áttűnés nélkül.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Elfelejtetted a jelszavad?
+Code	Kód
+Not confirmed yet: open the link we sent to it.	Még nincs megerősítve: nyisd meg a linket, amit erre a címre küldtünk.
+Send again	Újraküldés
+Enter the 6-digit code from your authenticator app.	Írd be a hitelesítő alkalmazásod 6 jegyű kódját.
+Wrong code. Try the app's newest one.	Hibás kód. Próbáld az alkalmazás legújabb kódjával.
+Too many wrong codes. Wait a few minutes and try again.	Túl sok hibás kód. Várj néhány percet, és próbáld újra.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	Helyreállítási e-mail mentve. A megerősítéshez nyisd meg a linket, amit erre a címre küldtünk (a spam mappát is nézd meg).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	Újra elküldtük a linket. Nyisd meg, hogy megerősítsd a helyreállítási e-mailedet (a spam mappát is nézd meg).
+Your recovery e-mail is confirmed.	A helyreállítási e-mailed megerősítve.
+Set a recovery e-mail first.	Előbb adj meg egy helyreállítási e-mailt.
+This server doesn't send e-mail.	Ez a szerver nem küld e-mailt.
+Too many e-mails. Try again in an hour.	Túl sok e-mail. Próbáld újra egy óra múlva.
+The e-mail could not be sent. Try again in a moment.	Nem sikerült elküldeni az e-mailt. Próbáld újra egy kicsit később.

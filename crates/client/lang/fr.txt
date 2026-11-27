@@ -2534,3 +2534,18 @@ Animated	Animée
 Previous	Précédent
 Reduce motion	Réduire les animations
 Screens, windows and lists change at once, without sliding or easing.	Les écrans, fenêtres et listes changent d'un coup, sans glissement ni transition.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Mot de passe oublié ?
+Code	Code
+Not confirmed yet: open the link we sent to it.	Pas encore confirmé : ouvrez le lien envoyé à cette adresse.
+Send again	Renvoyer
+Enter the 6-digit code from your authenticator app.	Saisissez le code à 6 chiffres de votre application d'authentification.
+Wrong code. Try the app's newest one.	Code incorrect. Essayez le plus récent de l'application.
+Too many wrong codes. Wait a few minutes and try again.	Trop de codes incorrects. Attendez quelques minutes et réessayez.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	E-mail de récupération enregistré. Ouvrez le lien que nous y avons envoyé pour le confirmer (regardez aussi dans vos spams).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	Nous avons renvoyé le lien. Ouvrez-le pour confirmer votre e-mail de récupération (regardez aussi dans vos spams).
+Your recovery e-mail is confirmed.	Votre e-mail de récupération est confirmé.
+Set a recovery e-mail first.	Ajoutez d'abord un e-mail de récupération.
+This server doesn't send e-mail.	Ce serveur n'envoie pas d'e-mails.
+Too many e-mails. Try again in an hour.	Trop d'e-mails. Réessayez dans une heure.
+The e-mail could not be sent. Try again in a moment.	L'e-mail n'a pas pu être envoyé. Réessayez dans un instant.

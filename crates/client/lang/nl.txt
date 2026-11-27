@@ -2534,3 +2534,18 @@ Animated	Geanimeerd
 Previous	Vorige
 Reduce motion	Beweging beperken
 Screens, windows and lists change at once, without sliding or easing.	Schermen, vensters en lijsten wisselen meteen, zonder schuiven of overgangen.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Wachtwoord vergeten?
+Code	Code
+Not confirmed yet: open the link we sent to it.	Nog niet bevestigd: open de link die we ernaartoe hebben gestuurd.
+Send again	Opnieuw sturen
+Enter the 6-digit code from your authenticator app.	Voer de 6-cijferige code uit je authenticator-app in.
+Wrong code. Try the app's newest one.	Verkeerde code. Probeer de nieuwste uit de app.
+Too many wrong codes. Wait a few minutes and try again.	Te veel verkeerde codes. Wacht een paar minuten en probeer het opnieuw.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	Herstel-e-mailadres opgeslagen. Open de link die we ernaartoe hebben gestuurd om het te bevestigen (kijk ook in je spammap).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	We hebben de link opnieuw gestuurd. Open hem om je herstel-e-mailadres te bevestigen (kijk ook in je spammap).
+Your recovery e-mail is confirmed.	Je herstel-e-mailadres is bevestigd.
+Set a recovery e-mail first.	Stel eerst een herstel-e-mailadres in.
+This server doesn't send e-mail.	Deze server verstuurt geen e-mail.
+Too many e-mails. Try again in an hour.	Te veel e-mails. Probeer het over een uur opnieuw.
+The e-mail could not be sent. Try again in a moment.	De e-mail kon niet worden verstuurd. Probeer het zo opnieuw.

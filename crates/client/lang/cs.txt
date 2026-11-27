@@ -2534,3 +2534,18 @@ Animated	Animovaná
 Previous	Předchozí
 Reduce motion	Omezit pohyb
 Screens, windows and lists change at once, without sliding or easing.	Obrazovky, okna a seznamy se mění okamžitě, bez posouvání a plynulých přechodů.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Zapomenuté heslo?
+Code	Kód
+Not confirmed yet: open the link we sent to it.	Zatím nepotvrzený: otevři odkaz, který jsme na tuto adresu poslali.
+Send again	Poslat znovu
+Enter the 6-digit code from your authenticator app.	Zadej šestimístný kód z ověřovací aplikace.
+Wrong code. Try the app's newest one.	Špatný kód. Zkus ten nejnovější z aplikace.
+Too many wrong codes. Wait a few minutes and try again.	Příliš mnoho špatných kódů. Počkej pár minut a zkus to znovu.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	E-mail pro obnovení uložen. Potvrď ho otevřením odkazu, který jsme na něj poslali (podívej se i do spamu).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	Odkaz jsme poslali znovu. Otevři ho a potvrď tak svůj e-mail pro obnovení (podívej se i do spamu).
+Your recovery e-mail is confirmed.	Tvůj e-mail pro obnovení je potvrzený.
+Set a recovery e-mail first.	Nejdřív si nastav e-mail pro obnovení.
+This server doesn't send e-mail.	Tento server neposílá e-maily.
+Too many e-mails. Try again in an hour.	Příliš mnoho e-mailů. Zkus to znovu za hodinu.
+The e-mail could not be sent. Try again in a moment.	E-mail se nepodařilo odeslat. Zkus to za chvilku znovu.

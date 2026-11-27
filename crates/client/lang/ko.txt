@@ -2534,3 +2534,18 @@ Animated	애니메이션
 Previous	이전
 Reduce motion	동작 줄이기
 Screens, windows and lists change at once, without sliding or easing.	화면, 창, 목록이 미끄러지거나 서서히 바뀌지 않고 즉시 바뀝니다.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	비밀번호를 잊으셨나요?
+Code	인증 코드
+Not confirmed yet: open the link we sent to it.	아직 확인되지 않았어요: 이 주소로 보낸 링크를 열어 주세요.
+Send again	다시 보내기
+Enter the 6-digit code from your authenticator app.	인증 앱에 표시된 6자리 코드를 입력하세요.
+Wrong code. Try the app's newest one.	코드가 틀렸어요. 앱의 가장 최근 코드를 입력하세요.
+Too many wrong codes. Wait a few minutes and try again.	잘못된 코드를 너무 많이 입력했어요. 몇 분 기다린 후 다시 시도하세요.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	복구 이메일을 저장했어요. 확인하려면 이 주소로 보낸 링크를 열어 주세요(스팸함도 확인하세요).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	링크를 다시 보냈어요. 링크를 열어 복구 이메일을 확인해 주세요(스팸함도 확인하세요).
+Your recovery e-mail is confirmed.	복구 이메일이 확인됐어요.
+Set a recovery e-mail first.	먼저 복구 이메일을 설정하세요.
+This server doesn't send e-mail.	이 서버는 이메일을 보내지 않아요.
+Too many e-mails. Try again in an hour.	이메일을 너무 많이 보냈어요. 1시간 후에 다시 시도하세요.
+The e-mail could not be sent. Try again in a moment.	이메일을 보내지 못했어요. 잠시 후 다시 시도하세요.

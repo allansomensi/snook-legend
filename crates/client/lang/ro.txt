@@ -2534,3 +2534,18 @@ Animated	Animată
 Previous	Anterior
 Reduce motion	Reduce mișcarea
 Screens, windows and lists change at once, without sliding or easing.	Ecranele, ferestrele și listele se schimbă imediat, fără glisare sau tranziții.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Ți-ai uitat parola?
+Code	Cod
+Not confirmed yet: open the link we sent to it.	Încă neconfirmat: deschide linkul pe care l-am trimis la această adresă.
+Send again	Trimite din nou
+Enter the 6-digit code from your authenticator app.	Introdu codul de 6 cifre din aplicația de autentificare.
+Wrong code. Try the app's newest one.	Cod greșit. Încearcă cel mai nou cod din aplicație.
+Too many wrong codes. Wait a few minutes and try again.	Prea multe coduri greșite. Așteaptă câteva minute și încearcă din nou.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	E-mailul de recuperare a fost salvat. Deschide linkul pe care l-am trimis la această adresă ca să-l confirmi (verifică și dosarul de spam).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	Am trimis din nou linkul. Deschide-l ca să confirmi e-mailul de recuperare (verifică și dosarul de spam).
+Your recovery e-mail is confirmed.	E-mailul de recuperare este confirmat.
+Set a recovery e-mail first.	Setează mai întâi un e-mail de recuperare.
+This server doesn't send e-mail.	Acest server nu trimite e-mailuri.
+Too many e-mails. Try again in an hour.	Prea multe e-mailuri. Încearcă din nou peste o oră.
+The e-mail could not be sent. Try again in a moment.	E-mailul nu a putut fi trimis. Încearcă din nou peste puțin timp.

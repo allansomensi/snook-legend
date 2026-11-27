@@ -2534,3 +2534,18 @@ Animated	Animasi
 Previous	Sebelumnya
 Reduce motion	Kurangi gerakan
 Screens, windows and lists change at once, without sliding or easing.	Layar, jendela, dan daftar langsung berganti, tanpa bergeser atau transisi halus.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Lupa kata sandi?
+Code	Kode
+Not confirmed yet: open the link we sent to it.	Belum dikonfirmasi: buka tautan yang kami kirim ke e-mail ini.
+Send again	Kirim lagi
+Enter the 6-digit code from your authenticator app.	Masukkan kode 6 digit dari aplikasi autentikatormu.
+Wrong code. Try the app's newest one.	Kode salah. Coba kode terbaru dari aplikasi.
+Too many wrong codes. Wait a few minutes and try again.	Terlalu banyak kode salah. Tunggu beberapa menit lalu coba lagi.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	E-mail pemulihan disimpan. Buka tautan yang kami kirim ke e-mail itu untuk mengonfirmasinya (cek juga folder spam).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	Kami sudah mengirim tautannya lagi. Buka tautan itu untuk mengonfirmasi e-mail pemulihanmu (cek juga folder spam).
+Your recovery e-mail is confirmed.	E-mail pemulihanmu sudah dikonfirmasi.
+Set a recovery e-mail first.	Atur e-mail pemulihan dulu.
+This server doesn't send e-mail.	Server ini tidak mengirim e-mail.
+Too many e-mails. Try again in an hour.	Terlalu banyak e-mail. Coba lagi dalam satu jam.
+The e-mail could not be sent. Try again in a moment.	E-mail tidak bisa dikirim. Coba lagi sebentar lagi.

@@ -2534,3 +2534,18 @@ Animated	Hareketli
 Previous	Önceki
 Reduce motion	Hareketi azalt
 Screens, windows and lists change at once, without sliding or easing.	Ekranlar, pencereler ve listeler kaymadan ya da geçiş olmadan anında değişir.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Şifreni mi unuttun?
+Code	Kod
+Not confirmed yet: open the link we sent to it.	Henüz onaylanmadı: bu adrese gönderdiğimiz bağlantıyı aç.
+Send again	Tekrar gönder
+Enter the 6-digit code from your authenticator app.	Doğrulama uygulamandaki 6 haneli kodu gir.
+Wrong code. Try the app's newest one.	Kod yanlış. Uygulamadaki en yeni kodu dene.
+Too many wrong codes. Wait a few minutes and try again.	Çok fazla yanlış kod. Birkaç dakika bekleyip tekrar dene.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	Kurtarma e-postası kaydedildi. Onaylamak için bu adrese gönderdiğimiz bağlantıyı aç (spam klasörüne de bak).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	Bağlantıyı tekrar gönderdik. Kurtarma e-postanı onaylamak için bağlantıyı aç (spam klasörüne de bak).
+Your recovery e-mail is confirmed.	Kurtarma e-postan onaylandı.
+Set a recovery e-mail first.	Önce bir kurtarma e-postası belirle.
+This server doesn't send e-mail.	Bu sunucu e-posta göndermiyor.
+Too many e-mails. Try again in an hour.	Çok fazla e-posta. Bir saat sonra tekrar dene.
+The e-mail could not be sent. Try again in a moment.	E-posta gönderilemedi. Birazdan tekrar dene.

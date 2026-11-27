@@ -2534,3 +2534,18 @@ Animated	Animated
 Previous	Nakaraan
 Reduce motion	Bawasan ang galaw
 Screens, windows and lists change at once, without sliding or easing.	Agad na nagbabago ang mga screen, window at listahan, nang walang pag-slide o unti-unting paglipat.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Nakalimutan ang password?
+Code	Code
+Not confirmed yet: open the link we sent to it.	Hindi pa kumpirmado: buksan ang link na ipinadala namin dito.
+Send again	Ipadala ulit
+Enter the 6-digit code from your authenticator app.	Ilagay ang 6-digit na code mula sa iyong authenticator app.
+Wrong code. Try the app's newest one.	Maling code. Subukan ang pinakabago sa app.
+Too many wrong codes. Wait a few minutes and try again.	Masyadong maraming maling code. Maghintay nang ilang minuto at subukan ulit.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	Na-save ang recovery e-mail. Buksan ang link na ipinadala namin dito para makumpirma ito (tingnan din ang spam folder).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	Ipinadala namin ulit ang link. Buksan ito para makumpirma ang recovery e-mail mo (tingnan din ang spam folder).
+Your recovery e-mail is confirmed.	Kumpirmado na ang recovery e-mail mo.
+Set a recovery e-mail first.	Maglagay muna ng recovery e-mail.
+This server doesn't send e-mail.	Hindi nagpapadala ng e-mail ang server na ito.
+Too many e-mails. Try again in an hour.	Masyadong maraming e-mail. Subukan ulit pagkalipas ng isang oras.
+The e-mail could not be sent. Try again in a moment.	Hindi maipadala ang e-mail. Subukan ulit maya-maya.

@@ -2534,3 +2534,18 @@ Animated	Κινούμενη
 Previous	Προηγούμενο
 Reduce motion	Μείωση κίνησης
 Screens, windows and lists change at once, without sliding or easing.	Οθόνες, παράθυρα και λίστες αλλάζουν αμέσως, χωρίς ολίσθηση ή ομαλή μετάβαση.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Ξέχασες τον κωδικό σου;
+Code	Κωδικός επαλήθευσης
+Not confirmed yet: open the link we sent to it.	Δεν έχει επιβεβαιωθεί ακόμα: άνοιξε τον σύνδεσμο που στείλαμε εκεί.
+Send again	Αποστολή ξανά
+Enter the 6-digit code from your authenticator app.	Γράψε τον 6ψήφιο κωδικό από την εφαρμογή ελέγχου ταυτότητας.
+Wrong code. Try the app's newest one.	Λάθος κωδικός. Δοκίμασε τον πιο πρόσφατο της εφαρμογής.
+Too many wrong codes. Wait a few minutes and try again.	Πάρα πολλοί λάθος κωδικοί. Περίμενε λίγα λεπτά και δοκίμασε ξανά.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	Το email ανάκτησης αποθηκεύτηκε. Άνοιξε τον σύνδεσμο που στείλαμε εκεί για να το επιβεβαιώσεις (κοίτα και στα ανεπιθύμητα).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	Στείλαμε ξανά τον σύνδεσμο. Άνοιξέ τον για να επιβεβαιώσεις το email ανάκτησης (κοίτα και στα ανεπιθύμητα).
+Your recovery e-mail is confirmed.	Το email ανάκτησής σου επιβεβαιώθηκε.
+Set a recovery e-mail first.	Όρισε πρώτα ένα email ανάκτησης.
+This server doesn't send e-mail.	Αυτός ο διακομιστής δεν στέλνει email.
+Too many e-mails. Try again in an hour.	Πάρα πολλά email. Δοκίμασε ξανά σε μία ώρα.
+The e-mail could not be sent. Try again in a moment.	Δεν ήταν δυνατό να σταλεί το email. Δοκίμασε ξανά σε λίγο.

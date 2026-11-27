@@ -876,6 +876,19 @@ mod tests {
         }
     }
 
+    /// The sign-in of staff with two-step verification: the server's words
+    /// ask for the code and refuse a wrong one, in every language.
+    #[test]
+    fn the_codes_of_the_staff_are_asked_for_everywhere() {
+        for lang in Lang::translated() {
+            for text in
+                [snook_legend_proto::AUTH_CODE_REQUIRED, snook_legend_proto::AUTH_CODE_WRONG]
+            {
+                assert!(translate(lang, text).is_some(), "{lang:?}: {text}");
+            }
+        }
+    }
+
     #[test]
     fn drills_are_translated_everywhere() {
         for lang in Lang::translated() {

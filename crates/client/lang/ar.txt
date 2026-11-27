@@ -2534,3 +2534,18 @@ Animated	متحركة
 Previous	السابق
 Reduce motion	تقليل الحركة
 Screens, windows and lists change at once, without sliding or easing.	تتغيّر الشاشات والنوافذ والقوائم فورًا، دون انزلاق أو انتقال تدريجي.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	هل نسيت كلمة المرور؟
+Code	الرمز
+Not confirmed yet: open the link we sent to it.	لم يتم تأكيده بعد: افتح الرابط الذي أرسلناه إليه.
+Send again	إعادة الإرسال
+Enter the 6-digit code from your authenticator app.	أدخل الرمز المكون من 6 أرقام من تطبيق المصادقة.
+Wrong code. Try the app's newest one.	رمز خاطئ. جرب أحدث رمز في التطبيق.
+Too many wrong codes. Wait a few minutes and try again.	رموز خاطئة كثيرة جدا. انتظر بضع دقائق ثم حاول مرة أخرى.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	تم حفظ بريد الاسترداد. افتح الرابط الذي أرسلناه إليه لتأكيده (تحقق من مجلد الرسائل المزعجة أيضا).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	أرسلنا الرابط مرة أخرى. افتحه لتأكيد بريد الاسترداد (تحقق من مجلد الرسائل المزعجة أيضا).
+Your recovery e-mail is confirmed.	تم تأكيد بريد الاسترداد.
+Set a recovery e-mail first.	أضف بريد استرداد أولا.
+This server doesn't send e-mail.	هذا الخادم لا يرسل رسائل البريد الإلكتروني.
+Too many e-mails. Try again in an hour.	رسائل بريد كثيرة جدا. حاول مرة أخرى بعد ساعة.
+The e-mail could not be sent. Try again in a moment.	تعذر إرسال البريد الإلكتروني. حاول مرة أخرى بعد قليل.

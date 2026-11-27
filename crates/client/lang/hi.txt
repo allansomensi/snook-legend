@@ -2534,3 +2534,18 @@ Animated	एनिमेटेड
 Previous	पिछला
 Reduce motion	गति कम करें
 Screens, windows and lists change at once, without sliding or easing.	स्क्रीन, विंडो और सूचियाँ तुरंत बदलती हैं, बिना खिसके या धीरे-धीरे बदले।
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	पासवर्ड भूल गए?
+Code	कोड
+Not confirmed yet: open the link we sent to it.	अभी पुष्टि नहीं हुई: इस ई-मेल पर भेजा गया लिंक खोलें।
+Send again	फिर से भेजें
+Enter the 6-digit code from your authenticator app.	अपने ऑथेंटिकेटर ऐप से 6 अंकों का कोड डालें।
+Wrong code. Try the app's newest one.	कोड ग़लत है। ऐप का सबसे नया कोड आज़माएँ।
+Too many wrong codes. Wait a few minutes and try again.	बहुत सारे ग़लत कोड। कुछ मिनट रुककर फिर कोशिश करें।
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	रिकवरी ई-मेल सेव हो गया। इसकी पुष्टि के लिए उस पर भेजा गया लिंक खोलें (स्पैम फ़ोल्डर भी देखें)।
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	हमने लिंक फिर से भेज दिया है। अपने रिकवरी ई-मेल की पुष्टि के लिए उसे खोलें (स्पैम फ़ोल्डर भी देखें)।
+Your recovery e-mail is confirmed.	आपके रिकवरी ई-मेल की पुष्टि हो गई है।
+Set a recovery e-mail first.	पहले रिकवरी ई-मेल सेट करें।
+This server doesn't send e-mail.	यह सर्वर ई-मेल नहीं भेजता।
+Too many e-mails. Try again in an hour.	बहुत सारे ई-मेल। एक घंटे बाद फिर कोशिश करें।
+The e-mail could not be sent. Try again in a moment.	ई-मेल नहीं भेजा जा सका। थोड़ी देर में फिर कोशिश करें।

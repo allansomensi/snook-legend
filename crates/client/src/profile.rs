@@ -102,6 +102,9 @@ struct AccountForm {
     email_loaded: bool,
     /// The password, to change the recovery e-mail.
     email_password: String,
+    /// When "Send again" last sent the link that confirms the recovery
+    /// e-mail ([`get_time`]): not again for a moment.
+    resent_at: Option<f64>,
     old_password: String,
     new_password: String,
     delete_password: String,
@@ -1727,13 +1730,29 @@ impl ProfileScreen {
                 "Your name, e-mail, friends and items are erased for good. Your opponents keep the games you played (without your name).",
             ),
         );
+        // A recovery e-mail that waits for the link sent to it: a line under
+        // it says so, with "Send again" beside it.
+        let unconfirmed = online
+            .account
+            .as_ref()
+            .is_some_and(|a| a.recovery_email_unconfirmed && a.recovery_email.is_some());
+        let again = t("Send again");
+        let again_w = crate::online::button_w(ui, again, 28.0);
+        let unconfirmed_note = if unconfirmed {
+            let text = t("Not confirmed yet: open the link we sent to it.");
+            ui.wrap(text, fw - again_w - 12.0, 13.0)
+        } else {
+            Vec::new()
+        };
+        let unconfirmed_h =
+            if unconfirmed { (unconfirmed_note.len() as f32 * 17.0).max(28.0) + 6.0 } else { 0.0 };
         // The height follows the text (it wraps differently per language):
         // the title, the four sections as laid out below, and Close.
         let lines = (email_note.len() + delete_note.len()) as f32 * 17.0;
         // A supporter (VIP now or before) chooses to be in the credits.
         let supporter = online.account.as_ref().is_some_and(|a| a.supporter);
         let credits_h = if supporter { 34.0 } else { 0.0 };
-        let h = 70.0 + 144.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines + credits_h;
+        let h = 70.0 + 144.0 + 89.0 + 171.0 + 64.0 + 88.0 + lines + credits_h + unconfirmed_h;
         // Taller than the window (a large interface size): the dialog
         // scrolls with the wheel, so every control stays in reach.
         let room = sh - 20.0;
@@ -1846,6 +1865,24 @@ impl ProfileScreen {
         }
         ui.text_input(71, Rect::new(x, y, fw, 34.0), &mut form.email, 120);
         y += 38.0;
+        if unconfirmed {
+            // The text and the button share the row's middle.
+            let row_h = unconfirmed_h - 6.0;
+            let mid = y + row_h / 2.0;
+            let mut line_mid = mid - (unconfirmed_note.len() as f32 - 1.0) * 17.0 / 2.0;
+            for line in &unconfirmed_note {
+                ui.text(line, x, text_y(line_mid, 13.0), 13.0, ALERT, false);
+                line_mid += 17.0;
+            }
+            let b = Rect::new(x + fw - again_w, mid - 14.0, again_w, 28.0);
+            let ready = form.resent_at.is_none_or(|at| get_time() - at > 20.0);
+            if ui.button(b, again, ready) {
+                let lang = crate::i18n::lang().code().to_string();
+                online.send(ClientMsg::ConfirmEmailAgain { lang });
+                form.resent_at = Some(get_time());
+            }
+            y += unconfirmed_h;
+        }
         // The password, in every case (even for the e-mail of a payment:
         // whoever pays types that e-mail, and it may be someone else's).
         if ui.focus == Some(76) {
@@ -1860,6 +1897,8 @@ impl ProfileScreen {
             online.send(ClientMsg::SetRecoveryEmail {
                 email: form.email.trim().to_string(),
                 password: std::mem::take(&mut form.email_password),
+                // The confirmation e-mail's language.
+                lang: crate::i18n::lang().code().to_string(),
             });
         }
         y += 34.0 + 12.0;

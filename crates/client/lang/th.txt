@@ -2534,3 +2534,18 @@ Animated	เคลื่อนไหว
 Previous	ก่อนหน้า
 Reduce motion	ลด​การ​เคลื่อนไหว
 Screens, windows and lists change at once, without sliding or easing.	หน้าจอ หน้าต่าง และ​รายการ​เปลี่ยน​ทันที โดย​ไม่​เลื่อน​หรือ​ค่อยๆ​เปลี่ยน
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	ลืม​รหัสผ่าน?
+Code	รหัส​ยืนยัน
+Not confirmed yet: open the link we sent to it.	ยัง​ไม่​ได้​ยืนยัน: เปิด​ลิงก์​ที่​เรา​ส่ง​ไป​ที่​อีเมล​นี้
+Send again	ส่ง​อีกครั้ง
+Enter the 6-digit code from your authenticator app.	ใส่​รหัส 6 หลัก​จาก​แอป​ยืนยัน​ตัวตน​ของ​คุณ
+Wrong code. Try the app's newest one.	รหัส​ไม่​ถูกต้อง ลอง​ใช้​รหัส​ล่าสุด​ใน​แอป
+Too many wrong codes. Wait a few minutes and try again.	ใส่​รหัส​ผิด​หลายครั้ง​เกินไป รอ​สัก​สอง​สาม​นาที​แล้ว​ลอง​ใหม่
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	บันทึก​อีเมล​กู้​คืน​บัญชี​แล้ว เปิด​ลิงก์​ที่​เรา​ส่ง​ไป​ที่​อีเมล​นั้น​เพื่อ​ยืนยัน (ดู​ใน​โฟลเดอร์​สแปม​ด้วย)
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	เรา​ส่ง​ลิงก์​ไป​อีกครั้ง​แล้ว เปิด​ลิงก์​เพื่อ​ยืนยัน​อีเมล​กู้​คืน​บัญชี​ของ​คุณ (ดู​ใน​โฟลเดอร์​สแปม​ด้วย)
+Your recovery e-mail is confirmed.	ยืนยัน​อีเมล​กู้​คืน​บัญชี​ของ​คุณ​แล้ว
+Set a recovery e-mail first.	ตั้ง​อีเมล​กู้​คืน​บัญชี​ก่อน
+This server doesn't send e-mail.	เซิร์ฟเวอร์​นี้​ไม่​ส่ง​อีเมล
+Too many e-mails. Try again in an hour.	ส่ง​อีเมล​มาก​เกินไป ลอง​ใหม่​ใน​อีก​หนึ่ง​ชั่วโมง
+The e-mail could not be sent. Try again in a moment.	ส่ง​อีเมล​ไม่​ได้ ลอง​ใหม่​ใน​อีกสักครู่

@@ -2534,3 +2534,18 @@ Animated	Animada
 Previous	Anterior
 Reduce motion	Reduzir movimento
 Screens, windows and lists change at once, without sliding or easing.	Telas, janelas e listas mudam na hora, sem deslizar nem suavizar.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Esqueceu a senha?
+Code	Código
+Not confirmed yet: open the link we sent to it.	Ainda não confirmado: abra o link que enviamos.
+Send again	Enviar de novo
+Enter the 6-digit code from your authenticator app.	Digite o código de 6 dígitos do seu aplicativo autenticador.
+Wrong code. Try the app's newest one.	Código incorreto. Tente o mais recente do aplicativo.
+Too many wrong codes. Wait a few minutes and try again.	Muitos códigos errados. Espere alguns minutos e tente de novo.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	E-mail de recuperação salvo. Para confirmá-lo, abra o link que enviamos para ele (veja também a pasta de spam).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	Enviamos o link de novo. Abra-o para confirmar seu e-mail de recuperação (veja também a pasta de spam).
+Your recovery e-mail is confirmed.	Seu e-mail de recuperação está confirmado.
+Set a recovery e-mail first.	Cadastre um e-mail de recuperação primeiro.
+This server doesn't send e-mail.	Este servidor não envia e-mails.
+Too many e-mails. Try again in an hour.	Muitos e-mails enviados. Tente de novo daqui a uma hora.
+The e-mail could not be sent. Try again in a moment.	Não foi possível enviar o e-mail. Tente de novo em instantes.

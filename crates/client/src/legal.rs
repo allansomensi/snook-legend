@@ -1,6 +1,7 @@
 //! The terms of use and the privacy policy: the server publishes them (see
 //! `crates/server/src/pages.rs`), in the player's language, and the game
 //! links to them where they matter (signing up, buying, the settings).
+//! Also the page where a forgotten password is replaced (signing in).
 
 use macroquad::prelude::*;
 
@@ -48,12 +49,7 @@ fn url_in(server: &str, page: Page, lang: Lang) -> Option<String> {
         };
         return Some(format!("{}{path}", crate::config::SITE_URL));
     }
-    let (scheme, rest) = if let Some(rest) = server.strip_prefix("wss://") {
-        ("https", rest)
-    } else {
-        ("http", server.strip_prefix("ws://")?)
-    };
-    let host = rest.split('/').next().filter(|h| !h.is_empty())?;
+    let site = site_of(server)?;
     let path = match (page, pt, es) {
         (Page::Terms, true, _) => "termos",
         (Page::Terms, _, true) => "terminos",
@@ -62,12 +58,53 @@ fn url_in(server: &str, page: Page, lang: Lang) -> Option<String> {
         (Page::Privacy, _, true) => "privacidad",
         (Page::Privacy, ..) => "privacy",
     };
-    Some(format!("{scheme}://{host}/{path}"))
+    Some(format!("{site}/{path}"))
+}
+
+/// A server's web address from its game address (`wss://host/ws` →
+/// `https://host`, `ws://` → `http://`).
+fn site_of(server: &str) -> Option<String> {
+    let (scheme, rest) = if let Some(rest) = server.strip_prefix("wss://") {
+        ("https", rest)
+    } else {
+        ("http", server.strip_prefix("ws://")?)
+    };
+    let host = rest.split('/').next().filter(|h| !h.is_empty())?;
+    Some(format!("{scheme}://{host}"))
 }
 
 /// Opens the page in the browser (only from a server with `https`).
 pub fn open(server: &str, page: Page) -> bool {
     url(server, page).is_some_and(|u| crate::util::open_url(&u))
+}
+
+/// Where a player of `server` who forgot their password asks for a link to
+/// choose a new one (sent to the account's recovery e-mail), in the game's
+/// language: the game's website for the public server; another server's
+/// own page (`wss://host/ws` → `https://host/forgot-password?lang=de`),
+/// which leads to its website's.
+pub fn forgot_password_url(server: &str) -> Option<String> {
+    forgot_password_url_in(server, lang())
+}
+
+fn forgot_password_url_in(server: &str, lang: Lang) -> Option<String> {
+    let server = server.trim();
+    if crate::config::same_server(server, crate::config::OFFICIAL_SERVER) {
+        // The website's page is in Portuguese, Spanish and English.
+        let path = match lang {
+            Lang::Portuguese | Lang::EuropeanPortuguese => "/pt/redefinir-senha/",
+            Lang::Spanish => "/es/restablecer-contrasena/",
+            _ => "/reset-password/",
+        };
+        return Some(format!("{}{path}", crate::config::SITE_URL));
+    }
+    Some(format!("{}/forgot-password?lang={}", site_of(server)?, lang.code()))
+}
+
+/// Opens the page for a forgotten password in the browser (only from a
+/// server with `https`).
+pub fn open_forgot_password(server: &str) -> bool {
+    forgot_password_url(server).is_some_and(|u| crate::util::open_url(&u))
 }
 
 /// A link: the text in gold, underlined under the pointer. Whether it was
@@ -158,5 +195,30 @@ mod tests {
             assert_eq!(at(Page::Terms, Lang::Spanish), "https://snooklegend.app/es/terminos/");
             assert_eq!(at(Page::Privacy, Lang::German), "https://snooklegend.app/privacy/");
         }
+    }
+
+    /// A forgotten password: the website's page for the public server (in
+    /// Portuguese, Spanish or English), another server's own page with the
+    /// game's language.
+    #[test]
+    fn a_forgotten_password_is_asked_for_on_the_right_page() {
+        for s in [crate::config::OFFICIAL_SERVER, crate::config::LEGACY_SERVER] {
+            let at = |lang| forgot_password_url_in(s, lang).unwrap();
+            assert_eq!(at(Lang::English), "https://snooklegend.app/reset-password/");
+            assert_eq!(at(Lang::Portuguese), "https://snooklegend.app/pt/redefinir-senha/");
+            assert_eq!(at(Lang::EuropeanPortuguese), "https://snooklegend.app/pt/redefinir-senha/");
+            assert_eq!(at(Lang::Spanish), "https://snooklegend.app/es/restablecer-contrasena/");
+            assert_eq!(at(Lang::Japanese), "https://snooklegend.app/reset-password/");
+        }
+        assert_eq!(
+            forgot_password_url_in("wss://snook.example.com/ws", Lang::Portuguese).as_deref(),
+            Some("https://snook.example.com/forgot-password?lang=pt-BR")
+        );
+        assert_eq!(
+            forgot_password_url_in(" ws://127.0.0.1:7878/ws ", Lang::German).as_deref(),
+            Some("http://127.0.0.1:7878/forgot-password?lang=de")
+        );
+        assert_eq!(forgot_password_url_in("https://example.com", Lang::English), None);
+        assert_eq!(forgot_password_url_in("wss:///ws", Lang::English), None);
     }
 }

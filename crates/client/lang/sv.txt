@@ -2534,3 +2534,18 @@ Animated	Animerad
 Previous	Föregående
 Reduce motion	Minska rörelse
 Screens, windows and lists change at once, without sliding or easing.	Skärmar, fönster och listor byts direkt, utan glidning eller övergångar.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Glömt lösenordet?
+Code	Kod
+Not confirmed yet: open the link we sent to it.	Inte bekräftad än: öppna länken vi skickade dit.
+Send again	Skicka igen
+Enter the 6-digit code from your authenticator app.	Ange den 6-siffriga koden från din autentiseringsapp.
+Wrong code. Try the app's newest one.	Fel kod. Prova den senaste i appen.
+Too many wrong codes. Wait a few minutes and try again.	För många felaktiga koder. Vänta några minuter och försök igen.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	E-post för återställning sparad. Öppna länken vi skickade dit för att bekräfta den (titta även i skräpposten).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	Vi skickade länken igen. Öppna den för att bekräfta din e-post för återställning (titta även i skräpposten).
+Your recovery e-mail is confirmed.	Din e-post för återställning är bekräftad.
+Set a recovery e-mail first.	Lägg till en e-post för återställning först.
+This server doesn't send e-mail.	Den här servern skickar inte e-post.
+Too many e-mails. Try again in an hour.	För många e-postmeddelanden. Försök igen om en timme.
+The e-mail could not be sent. Try again in a moment.	E-postmeddelandet kunde inte skickas. Försök igen om en stund.

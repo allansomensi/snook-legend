@@ -2534,3 +2534,18 @@ Animated	アニメーション
 Previous	前へ
 Reduce motion	動きを減らす
 Screens, windows and lists change at once, without sliding or easing.	画面・ウィンドウ・リストが、スライドやなめらかな切り替えなしで即座に変わります。
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	パスワードをお忘れですか？
+Code	認証コード
+Not confirmed yet: open the link we sent to it.	未確認です：このアドレスに送ったリンクを開いてください。
+Send again	再送信
+Enter the 6-digit code from your authenticator app.	認証アプリに表示される6桁のコードを入力してください。
+Wrong code. Try the app's newest one.	コードが違います。アプリの最新のコードを入力してください。
+Too many wrong codes. Wait a few minutes and try again.	コードの誤りが多すぎます。数分待ってからもう一度お試しください。
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	復旧用メールを保存しました。確認のため、このアドレスに送ったリンクを開いてください（迷惑メールフォルダーもご確認ください）。
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	リンクを再送信しました。開いて復旧用メールを確認してください（迷惑メールフォルダーもご確認ください）。
+Your recovery e-mail is confirmed.	復旧用メールの確認が完了しました。
+Set a recovery e-mail first.	先に復旧用メールを設定してください。
+This server doesn't send e-mail.	このサーバーはメールを送信しません。
+Too many e-mails. Try again in an hour.	メールの送信回数が多すぎます。1時間後にもう一度お試しください。
+The e-mail could not be sent. Try again in a moment.	メールを送信できませんでした。しばらくしてからもう一度お試しください。

@@ -2534,3 +2534,18 @@ Animated	অ্যানিমেটেড
 Previous	আগেরটি
 Reduce motion	গতি কমান
 Screens, windows and lists change at once, without sliding or easing.	স্ক্রিন, উইন্ডো আর তালিকা সঙ্গে সঙ্গে বদলায়, সরে বা ধীরে ধীরে নয়।
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	পাসওয়ার্ড ভুলে গেছেন?
+Code	কোড
+Not confirmed yet: open the link we sent to it.	এখনও নিশ্চিত হয়নি: এই ই-মেইলে পাঠানো লিংকটি খুলুন।
+Send again	আবার পাঠান
+Enter the 6-digit code from your authenticator app.	আপনার অথেন্টিকেটর অ্যাপ থেকে 6 সংখ্যার কোডটি লিখুন।
+Wrong code. Try the app's newest one.	কোড ভুল। অ্যাপের সবচেয়ে নতুন কোডটি দিন।
+Too many wrong codes. Wait a few minutes and try again.	অনেকবার ভুল কোড। কয়েক মিনিট অপেক্ষা করে আবার চেষ্টা করুন।
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	রিকভারি ই-মেইল সেভ হয়েছে। নিশ্চিত করতে সেখানে পাঠানো লিংকটি খুলুন (স্প্যাম ফোল্ডারও দেখুন)।
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	আমরা লিংকটি আবার পাঠিয়েছি। আপনার রিকভারি ই-মেইল নিশ্চিত করতে এটি খুলুন (স্প্যাম ফোল্ডারও দেখুন)।
+Your recovery e-mail is confirmed.	আপনার রিকভারি ই-মেইল নিশ্চিত হয়েছে।
+Set a recovery e-mail first.	আগে একটি রিকভারি ই-মেইল দিন।
+This server doesn't send e-mail.	এই সার্ভার ই-মেইল পাঠায় না।
+Too many e-mails. Try again in an hour.	অনেক বেশি ই-মেইল। এক ঘণ্টা পরে আবার চেষ্টা করুন।
+The e-mail could not be sent. Try again in a moment.	ই-মেইলটি পাঠানো গেল না। একটু পরে আবার চেষ্টা করুন।

@@ -2534,3 +2534,18 @@ Animated	动态
 Previous	上一个
 Reduce motion	减少动态效果
 Screens, windows and lists change at once, without sliding or easing.	界面、窗口和列表即时切换，不滑动、不渐变。
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	忘记密码？
+Code	验证码
+Not confirmed yet: open the link we sent to it.	尚未确认：请打开我们发到该邮箱的链接。
+Send again	重新发送
+Enter the 6-digit code from your authenticator app.	请输入身份验证器应用中的6位验证码。
+Wrong code. Try the app's newest one.	验证码错误。请使用应用中最新的验证码。
+Too many wrong codes. Wait a few minutes and try again.	验证码错误次数过多。请等待几分钟后重试。
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	找回邮箱已保存。请打开我们发到该邮箱的链接以完成确认（也请查看垃圾邮件文件夹）。
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	链接已重新发送。请打开它以确认你的找回邮箱（也请查看垃圾邮件文件夹）。
+Your recovery e-mail is confirmed.	你的找回邮箱已确认。
+Set a recovery e-mail first.	请先设置找回邮箱。
+This server doesn't send e-mail.	此服务器不发送邮件。
+Too many e-mails. Try again in an hour.	邮件发送次数过多。请一小时后重试。
+The e-mail could not be sent. Try again in a moment.	邮件发送失败，请稍后重试。

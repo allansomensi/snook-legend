@@ -2534,3 +2534,18 @@ Animated	Анімована
 Previous	Назад
 Reduce motion	Зменшити рух
 Screens, windows and lists change at once, without sliding or easing.	Екрани, вікна й списки змінюються одразу, без ковзання й плавних переходів.
+# Signing in: a forgotten password, the staff's code; the recovery e-mail confirmed by its link.
+Forgot your password?	Забули пароль?
+Code	Код
+Not confirmed yet: open the link we sent to it.	Ще не підтверджено: відкрийте посилання, яке ми туди надіслали.
+Send again	Надіслати ще раз
+Enter the 6-digit code from your authenticator app.	Введіть 6-значний код із застосунку для автентифікації.
+Wrong code. Try the app's newest one.	Неправильний код. Введіть найновіший із застосунку.
+Too many wrong codes. Wait a few minutes and try again.	Забагато неправильних кодів. Зачекайте кілька хвилин і спробуйте ще раз.
+Recovery e-mail saved. Open the link we sent to it to confirm it (look in the spam folder too).	Пошту для відновлення збережено. Щоб підтвердити її, відкрийте посилання, яке ми туди надіслали (перегляньте й папку «Спам»).
+We sent the link again. Open it to confirm your recovery e-mail (look in the spam folder too).	Ми надіслали посилання ще раз. Відкрийте його, щоб підтвердити пошту для відновлення (перегляньте й папку «Спам»).
+Your recovery e-mail is confirmed.	Пошту для відновлення підтверджено.
+Set a recovery e-mail first.	Спершу вкажіть пошту для відновлення.
+This server doesn't send e-mail.	Цей сервер не надсилає листів.
+Too many e-mails. Try again in an hour.	Забагато листів. Спробуйте ще раз за годину.
+The e-mail could not be sent. Try again in a moment.	Не вдалося надіслати лист. Спробуйте ще раз за мить.

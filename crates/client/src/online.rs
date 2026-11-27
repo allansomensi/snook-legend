@@ -190,6 +190,11 @@ pub struct Online {
     /// it: the same account, nothing forgotten).
     pub renaming_to: Option<String>,
     password: String,
+    /// The server asked this account for the code of its authenticator app
+    /// (staff with two-step verification, see
+    /// [`snook_legend_proto::AUTH_CODE_REQUIRED`]): the sign-in form's
+    /// field under the password, and what is typed in it. Never saved.
+    auth_code: Option<String>,
     country: String,
     register: bool,
     /// Error shown on the sign-in form.
@@ -689,6 +694,9 @@ pub struct AccountView {
     /// VIP now or before: may appear in the supporters' credits.
     pub supporter: bool,
     pub in_credits: bool,
+    /// The recovery e-mail waits for the link sent to it to be opened (no
+    /// link to a new password goes there until then).
+    pub recovery_email_unconfirmed: bool,
 }
 
 const MAX_RECONNECTS: u32 = 15;
@@ -736,6 +744,7 @@ impl Online {
             signed_in_as: String::new(),
             renaming_to: None,
             password: String::new(),
+            auth_code: None,
             country: String::new(),
             register: false,
             error: None,
@@ -881,6 +890,7 @@ impl Online {
                 | ClientMsg::Resume { .. }
                 | ClientMsg::Guest { .. }
                 | ClientMsg::Login { .. }
+                | ClientMsg::LoginWithCode { .. }
                 | ClientMsg::Register { .. }
         );
         if self.me.is_some() && !self.authed && !signing_in {
@@ -1373,6 +1383,7 @@ impl Online {
                 self.auto_resume = true;
                 self.session_count = self.session_count.wrapping_add(1);
                 self.password.clear();
+                self.auth_code = None;
                 self.error = None;
                 self.stage = Stage::Lounge;
                 if !self.lan {
@@ -1469,6 +1480,20 @@ impl Online {
                     config.token.clear();
                     save = true;
                 }
+                // A staff member with two-step verification, signing in
+                // with the password (a saved session is never asked): the
+                // code of their app, in a field under the password, which
+                // says so. A wrong code keeps the field, empty for the next.
+                let code_asked = !self.auto_resume
+                    && !self.register
+                    && reason == snook_legend_proto::AUTH_CODE_REQUIRED;
+                if code_asked {
+                    self.auth_code = Some(String::new());
+                } else if reason == snook_legend_proto::AUTH_CODE_WRONG
+                    && let Some(code) = self.auth_code.as_mut()
+                {
+                    code.clear();
+                }
                 self.auto_resume = false;
                 self.me = None;
                 self.held.borrow_mut().clear();
@@ -1476,7 +1501,7 @@ impl Online {
                     drop(m);
                 }
                 self.stage = if self.lan { Stage::Idle } else { Stage::SignIn };
-                self.error = Some(crate::i18n::server_text(&reason));
+                self.error = (!code_asked).then(|| crate::i18n::server_text(&reason));
             }
             ServerMsg::Kicked { reason } => {
                 // Signed in elsewhere, banned, or disconnected by the staff:
@@ -1898,6 +1923,7 @@ impl Online {
                 name_change_price,
                 supporter,
                 in_credits,
+                recovery_email_unconfirmed,
             } => {
                 // After a payment, without a recovery e-mail: offer the one paid with.
                 if recovery_email.is_none() && !config.email_offer_declined {
@@ -1910,6 +1936,7 @@ impl Online {
                     name_change_price,
                     supporter,
                     in_credits,
+                    recovery_email_unconfirmed,
                 });
             }
             msg @ (ServerMsg::Promotions { .. }
@@ -2513,7 +2540,8 @@ impl Online {
             if typed { ui.primary_button(yes_r, yes) } else { ui.button(yes_r, yes, false) };
         if (clicked || enter) && typed {
             let password = std::mem::take(&mut self.offer_password);
-            self.send(ClientMsg::SetRecoveryEmail { email, password });
+            let lang = crate::i18n::lang().code().to_string();
+            self.send(ClientMsg::SetRecoveryEmail { email, password, lang });
             close(self, ui);
         } else if crate::ui::esc_pressed() || (!typed && ui.dismissed(r)) {
             // Not now (Esc, or a press around it before the password is
@@ -3125,7 +3153,15 @@ impl Online {
         } else {
             Vec::new()
         };
-        let welcome = if !self.register && message.is_empty() {
+        // The code of a staff member's authenticator app, when the server
+        // asked for it: what to type, as the server said it.
+        let code_hint = if self.auth_code.is_some() {
+            let text = crate::i18n::server_text(snook_legend_proto::AUTH_CODE_REQUIRED);
+            ui.wrap(&text, inner, 12.0)
+        } else {
+            Vec::new()
+        };
+        let welcome = if !self.register && message.is_empty() && self.auth_code.is_none() {
             ui.wrap(t("New here? Choose “New account”: it takes ten seconds."), inner, 13.0)
         } else {
             Vec::new()
@@ -3137,13 +3173,19 @@ impl Online {
             h += pass_hint.len() as f32 * 16.0 + 4.0 + FIELD;
             // The terms under the button.
             h += 14.0 + 17.0 + 20.0 - 4.0;
+        } else {
+            if self.auth_code.is_some() {
+                h += code_hint.len() as f32 * 16.0 + 4.0 + FIELD;
+            }
+            // "Forgot your password?" under the button.
+            h += 14.0 + 17.0 - 4.0;
         }
         if !message.is_empty() {
             h += message.len() as f32 * 19.0 + 8.0;
         }
         h += 4.0 + 44.0;
         if !welcome.is_empty() {
-            h += 14.0 + welcome.len() as f32 * 17.0 - 4.0;
+            h += 8.0 + welcome.len() as f32 * 17.0;
         }
         h += pad;
         let r = Rect::new((sw - w) / 2.0, ((sh - h) / 2.0).max(8.0), w, h);
@@ -3167,19 +3209,32 @@ impl Online {
         if let Some(i) = ui.segmented(Rect::new(x, y, inner, 36.0), &tabs, self.register as usize) {
             self.register = i == 1;
             self.error = None;
+            self.auth_code = None;
             self.form_focused = false;
         }
         y += 36.0 + 20.0;
 
         // The cursor starts in the first empty field (not on the frame of a
-        // click: that click would take it away again).
+        // click: that click would take it away again); the code's, when the
+        // server just asked for it.
         if !self.form_focused && !picker_open && !is_mouse_button_pressed(MouseButton::Left) {
-            ui.focus = Some(if self.username.is_empty() { 20 } else { 21 });
+            ui.focus = Some(if self.username.is_empty() {
+                20
+            } else if self.password.is_empty() || self.auth_code.is_none() {
+                21
+            } else {
+                22
+            });
             self.form_focused = true;
         }
         ui.text(t("Username"), x, y, 13.0, MUTED, true);
         let field = Rect::new(x, y + 20.0, inner, 36.0);
+        let typed_name = self.username.clone();
         let user_enter = ui.text_input(20, field, &mut self.username, 16);
+        // Another name: the code was asked of the last one's account.
+        if self.username != typed_name {
+            self.auth_code = None;
+        }
         // Enter in the name goes on to the password while that is empty.
         let to_password = user_enter && self.password.is_empty();
         if to_password {
@@ -3189,8 +3244,27 @@ impl Online {
         ui.text(t("Password"), x, y, 13.0, MUTED, true);
         let field = Rect::new(x, y + 20.0, inner, 36.0);
         let pass_enter = ui.password_input(21, field, &mut self.password, 72);
+        // Enter in the password goes on to the code while that is empty.
+        let to_code = pass_enter && self.auth_code.as_ref().is_some_and(|c| c.trim().is_empty());
+        if to_code {
+            ui.focus = Some(22);
+        }
+        let mut code_enter = false;
+        if let Some(code) = self.auth_code.as_mut() {
+            y += 20.0 + 36.0 + 6.0;
+            for line in &code_hint {
+                ui.text(line, x, y, 12.0, MUTED, false);
+                y += 16.0;
+            }
+            y += 14.0;
+            ui.text(t("Code"), x, y, 13.0, MUTED, true);
+            let field = Rect::new(x, y + 20.0, inner, 36.0);
+            code_enter = ui.text_input(22, field, code, 12);
+            // Six digits of the app, or a recovery code ("abcd-efgh").
+            code.retain(|c| c.is_ascii_alphanumeric() || c == ' ' || c == '-');
+        }
         // (The Enter that moved the cursor here is not a submission.)
-        let submit = (user_enter || pass_enter) && !to_password;
+        let submit = (user_enter || pass_enter || code_enter) && !to_password && !to_code;
         let mut just_opened = false;
         if self.register {
             y += 20.0 + 36.0 + 6.0;
@@ -3239,6 +3313,15 @@ impl Online {
             y += 17.0;
             crate::legal::links(ui, &config.server, sw / 2.0, y, 13.0);
             y += 20.0;
+        } else {
+            // A forgotten password is replaced on the website, by a link
+            // sent to the recovery e-mail.
+            let forgot = t("Forgot your password?");
+            let fw = ui.text_size(forgot, 13.0, true).x;
+            if crate::legal::link(ui, forgot, sw / 2.0 - fw / 2.0, y, 13.0).0 {
+                crate::legal::open_forgot_password(&config.server);
+            }
+            y += 17.0 + 8.0;
         }
         for line in &welcome {
             ui.text_centered(line, sw / 2.0, y, 13.0, MUTED, false);
@@ -3277,6 +3360,9 @@ impl Online {
             } else if !pass_ok {
                 self.error =
                     Some(t("Passwords need at least 8 characters (not only digits).").into());
+            } else if self.auth_code.as_ref().is_some_and(|c| c.trim().is_empty()) {
+                // The code is what is missing.
+                ui.focus = Some(22);
             } else {
                 let username = self.username.trim().to_string();
                 let password = self.password.clone();
@@ -3288,6 +3374,8 @@ impl Online {
                         // Asked when the player first writes to others.
                         minor: None,
                     }
+                } else if let Some(code) = &self.auth_code {
+                    ClientMsg::LoginWithCode { username, password, code: code.trim().to_string() }
                 } else {
                     ClientMsg::Login { username, password }
                 });
@@ -6187,7 +6275,8 @@ const ACHIEVEMENT_CARD_SECS: f32 = 6.0;
 
 #[cfg(test)]
 mod tests {
-    use super::status_url;
+    use super::*;
+    use snook_legend_proto::{AUTH_CODE_REQUIRED, AUTH_CODE_WRONG};
 
     #[test]
     fn the_status_is_next_to_the_game_address() {
@@ -6201,5 +6290,40 @@ mod tests {
         );
         assert_eq!(status_url("https://example.com"), None);
         assert_eq!(status_url("wss:///ws"), None);
+    }
+
+    /// A staff member with two-step verification: the server asks for the
+    /// code (a field, not an error), a wrong one empties it and says so,
+    /// and signing in ends it. A saved session is never asked.
+    #[test]
+    fn the_code_of_the_staff_is_asked_after_the_password() {
+        let (mut current, mut config) = (None, Config::default());
+        let mut o = Online::empty("wss://snook.example.com/ws", false);
+        o.username = "Mod".into();
+        o.password = "a password".into();
+        let refused = |reason: &str| ServerMsg::AuthError { reason: reason.into() };
+        o.handle(refused(AUTH_CODE_REQUIRED), &mut current, &mut config);
+        assert_eq!((o.auth_code.as_deref(), &o.error), (Some(""), &None));
+        assert_eq!(o.stage, Stage::SignIn);
+        o.auth_code = Some("123 456".into());
+        o.handle(refused(AUTH_CODE_WRONG), &mut current, &mut config);
+        assert_eq!(o.auth_code.as_deref(), Some(""));
+        assert_eq!(o.error.as_deref(), Some(AUTH_CODE_WRONG));
+        // The password stays for the next try; nothing of it is saved.
+        assert_eq!(o.password, "a password");
+        assert!(config.token.is_empty());
+        o.auth_code = Some("654321".into());
+        let player = PlayerInfo { username: "Mod".into(), ..Default::default() };
+        o.handle(ServerMsg::AuthOk { player, token: "new".into() }, &mut current, &mut config);
+        assert_eq!((o.auth_code.as_deref(), o.password.as_str()), (None, ""));
+        assert_eq!(config.token, "new");
+
+        // Resuming a saved session: never a field for a code.
+        let mut o = Online::empty("wss://snook.example.com/ws", false);
+        o.token = "saved".into();
+        o.auto_resume = true;
+        o.handle(refused(AUTH_CODE_REQUIRED), &mut current, &mut config);
+        assert_eq!(o.auth_code, None);
+        assert_eq!(o.token, "saved");
     }
 }

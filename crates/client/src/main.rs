@@ -591,7 +591,13 @@ async fn main() {
         gamepad::poll();
         // Tab, Enter and the arrows are the game's at the table (not while
         // its menu is open: the menu has them).
-        ui.keyboard_nav(current.is_none() || hud.paused);
+        // (Nor while a dialog at the table waits for this player: the
+        // break's choice, the end of the game.)
+        let table_dialog = current.as_ref().is_some_and(|m| {
+            matches!(m.phase, game::Phase::GameOver)
+                || (m.game.pending_choice().is_some() && m.is_human_turn())
+        });
+        ui.keyboard_nav(current.is_none() || hud.paused || table_dialog);
         ui.begin();
         // The chat's dialog (drawn near the end, over any screen or game)
         // holds the keyboard too: no Esc, Space or arrow reaches the game,

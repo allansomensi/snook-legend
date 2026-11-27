@@ -2353,6 +2353,7 @@ pub(crate) fn pad_controls_list(top_only: bool) -> Vec<(&'static str, String)> {
                 &[("x", &b(Button::West)), ("a", &b(Button::South))],
             ),
         ),
+        (t("Calling the 8"), tw("{x}: the next pocket", &[("x", &b(Button::West))])),
         (t("Camera"), camera.join(" · ")),
         (
             t("Menu"),

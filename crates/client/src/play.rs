@@ -335,8 +335,14 @@ impl Controls {
         use crate::gamepad::{self as pad, Button};
         // Ball in hand: B toggles placing, Enter confirms (a controller's X
         // and A).
-        let pad_place = pad::pressed(Button::West);
-        if (keys::pressed(Action::BallInHand) || pad_place) && m.game.ball_in_hand().is_some() {
+        let pad_x = pad::pressed(Button::West);
+        let in_hand = m.game.ball_in_hand().is_some();
+        // (X calls the 8's pocket when there is one to call and no ball in hand.)
+        if pad_x && !in_hand && m.game.may_call_pocket() && m.is_human_turn() {
+            pad_call(m, scene);
+        }
+        let pad_place = pad_x && in_hand;
+        if (keys::pressed(Action::BallInHand) || pad_place) && in_hand {
             let placing = m.is_placing_cue_ball();
             m.set_placing(!placing);
         }
@@ -535,8 +541,10 @@ impl Controls {
         // (which reports every held key as let go) shoots nothing.
         // (A controller's A: held to charge, let go to shoot; B lets it
         // go without shooting.)
-        let shoot_down = keys::down(Action::Shoot) || pad::down(Button::South);
-        if keys::pressed(Action::Shoot) || pad::pressed(Button::South) {
+        // (Not while the break's choice waits: A is choosing there.)
+        let choosing = m.game.pending_choice().is_some();
+        let shoot_down = keys::down(Action::Shoot) || (pad::down(Button::South) && !choosing);
+        if keys::pressed(Action::Shoot) || (pad::pressed(Button::South) && !choosing) {
             m.aim.charging = true;
             m.aim.power = 0.0;
             self.shoot_armed = true;
@@ -570,6 +578,45 @@ impl Controls {
             }
         }
     }
+}
+
+/// Calls pocket `id` for the 8, and says so.
+fn call_eight(m: &mut Match, id: PocketId) {
+    m.called_pocket = Some(id);
+    let name = m.names[m.game.current_player()].clone();
+    m.notify(
+        crate::i18n::tw(
+            "{name} calls the 8-ball in the {pocket} pocket.",
+            &[("name", &name), ("pocket", &crate::i18n::pocket(id))],
+        ),
+        false,
+    );
+}
+
+/// A controller's X with the 8 to call: the pocket the 8 goes to when hit
+/// straight from where the cue ball is, then the next one round the table
+/// at each press.
+fn pad_call(m: &mut Match, scene: &Scene) {
+    let next = match m.called_pocket {
+        Some(id) => {
+            let i = PocketId::ALL.iter().position(|p| *p == id).unwrap_or(0);
+            PocketId::ALL[(i + 1) % PocketId::ALL.len()]
+        }
+        None => {
+            let cue = m.game.ball(BallId::CUE).xy();
+            let eight = m.game.ball(BallId::EIGHT).xy();
+            let way = (eight - cue).normalize_or_zero();
+            PocketId::ALL
+                .into_iter()
+                .max_by(|a, b| {
+                    let s =
+                        |p: PocketId| (scene.pocket_center(p) - eight).normalize_or_zero().dot(way);
+                    s(*a).total_cmp(&s(*b))
+                })
+                .unwrap_or(PocketId::ALL[0])
+        }
+    };
+    call_eight(m, next);
 }
 
 /// How far a press of the controller's d-pad turns the cue (radians: a
@@ -675,15 +722,7 @@ fn click(m: &mut Match, scene: &Scene, at: Option<DVec2>) {
     if m.game.may_call_pocket()
         && let Some((id, _)) = nearest
     {
-        m.called_pocket = Some(id);
-        let name = m.names[m.game.current_player()].clone();
-        m.notify(
-            crate::i18n::tw(
-                "{name} calls the 8-ball in the {pocket} pocket.",
-                &[("name", &name), ("pocket", &crate::i18n::pocket(id))],
-            ),
-            false,
-        );
+        call_eight(m, id);
         return;
     }
     let cue = m.game.ball(BallId::CUE).xy();

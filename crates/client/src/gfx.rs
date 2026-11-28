@@ -1030,7 +1030,10 @@ impl Materials {
         let ctx = gl.quad_context;
         let mut u = self.state.borrow_mut();
         u.model = transform.unwrap_or(Mat4::IDENTITY).to_cols_array();
-        let (w, h) = match self.target.get() {
+        let target = self.target.get().or_else(|| {
+            scene_target().map(|(pass, (w, h))| (pass.raw_miniquad_id(), w as i32, h as i32))
+        });
+        let (w, h) = match target {
             Some((pass, w, h)) => {
                 ctx.begin_pass(Some(pass), mq::PassAction::Nothing);
                 (w as f32, h as f32)
@@ -1741,6 +1744,23 @@ pub struct SceneCamera {
     pub fovy: f32,
 }
 
+thread_local! {
+    /// Where the 3D scene is drawn this frame instead of the window (see
+    /// [`crate::post`]): a render pass and its size.
+    static SCENE_TARGET: std::cell::RefCell<Option<(macroquad::texture::RenderPass, (u32, u32))>> =
+        const { std::cell::RefCell::new(None) };
+}
+
+/// The 3D scene is drawn into `target` from now on (none: the window); see
+/// [`crate::post`].
+pub fn set_scene_target(target: Option<(macroquad::texture::RenderPass, (u32, u32))>) {
+    SCENE_TARGET.with(|t| *t.borrow_mut() = target);
+}
+
+fn scene_target() -> Option<(macroquad::texture::RenderPass, (u32, u32))> {
+    SCENE_TARGET.with(|t| t.borrow().clone())
+}
+
 impl Camera for SceneCamera {
     fn matrix(&self) -> Mat4 {
         let aspect = screen_width() / screen_height().max(1.0);
@@ -1752,10 +1772,10 @@ impl Camera for SceneCamera {
         true
     }
     fn render_pass(&self) -> Option<macroquad::texture::RenderPass> {
-        None
+        scene_target().map(|(pass, _)| pass)
     }
     fn viewport(&self) -> Option<(i32, i32, i32, i32)> {
-        None
+        scene_target().map(|(_, (w, h))| (0, 0, w as i32, h as i32))
     }
 }
 

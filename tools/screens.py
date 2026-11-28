@@ -377,6 +377,9 @@ SCREENS = {
     "match-official": (["--vs", "medium"], {"_ini": "rules=official"}, False, 150),
     "match-3d": (["--vs", "medium"], {"SNOOK_LEGEND_VIEW": "3d"}, False, 150),
     "match-pov": (["--vs", "medium"], {"SNOOK_LEGEND_VIEW": "3d", "_ini": "camera_pov=true"}, False, 150),
+    "match-3d-ultra": (["--vs", "medium"], {"SNOOK_LEGEND_VIEW": "3d", "_ini": "quality=ultra"}, False, 150),
+    "showroom-cue-royal-ultra": (["--screen", "showroom:cue_royal"], {"SNOOK_LEGEND_SHOWROOM": "still,bare,view=0", "_ini": "quality=ultra"}, True, 200),
+    "match-3d-ultra-nopost": (["--vs", "medium"], {"SNOOK_LEGEND_VIEW": "3d", "SNOOK_LEGEND_NO_POST": "1", "_ini": "quality=ultra"}, False, 150),
     "match-3d-filigree": (
         ["--vs", "medium"],
         {"SNOOK_LEGEND_VIEW": "3d", "_ini": "cue=cue_filigree"},

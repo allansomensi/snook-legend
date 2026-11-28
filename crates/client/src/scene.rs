@@ -1132,11 +1132,12 @@ impl Camera for MirrorCamera<'_> {
     fn depth_enabled(&self) -> bool {
         true
     }
+    // (Into the scene's picture when it has one: see `crate::post`.)
     fn render_pass(&self) -> Option<macroquad::texture::RenderPass> {
-        None
+        self.0.render_pass()
     }
     fn viewport(&self) -> Option<(i32, i32, i32, i32)> {
-        None
+        self.0.viewport()
     }
 }
 

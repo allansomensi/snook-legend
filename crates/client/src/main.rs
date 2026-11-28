@@ -65,6 +65,7 @@ mod opponents;
 mod paint;
 mod perks;
 mod play;
+mod post;
 mod profile;
 mod ranking;
 mod reactions;
@@ -399,6 +400,10 @@ async fn main() {
     let mut showroom: Option<showroom::Showroom> = None;
     // Winning effects playing over the table.
     let mut win_effects: Vec<effects::WinEffect> = Vec::new();
+    // Ultra's finishing touches over the scene (made once, when first
+    // asked for; none if the graphics card can't).
+    let mut post: Option<post::Post> = None;
+    let mut post_tried = false;
     // System notifications for a player in another window.
     let mut notifier = notify::Notifier::default();
     // Where the profile and ranking go back to.
@@ -1166,14 +1171,35 @@ async fn main() {
         }
 
         let studio = in_showroom && showroom.as_ref().is_some_and(|s| s.in_studio());
-        clear_background(if studio {
+        let background = if studio {
             // The showroom's stage melts into this.
             Color::new(0.012, 0.011, 0.011, 1.0)
         } else if config.focused_scene {
             Color::new(0.055, 0.05, 0.048, 1.0)
         } else {
             Color::new(0.03, 0.02, 0.015, 1.0)
-        });
+        };
+        clear_background(background);
+        // The lounge fills the window and hides the table: don't spend the
+        // GPU (and the battery) drawing it behind.
+        let table_hidden = current.is_none()
+            && (matches!(screen, Screen::LanLounge)
+                || (matches!(screen, Screen::Online) && online.signed_in()));
+        // Ultra: the scene into a picture of its own, finished below.
+        let post_on = config.quality == config::Quality::Ultra
+            && !table_hidden
+            && !crate::dev::flag("SNOOK_LEGEND_SAFE_GRAPHICS")
+            && !crate::dev::flag("SNOOK_LEGEND_NO_POST");
+        if post_on && !post_tried {
+            post_tried = true;
+            post = post::Post::new();
+        }
+        if let Some(p) = post.as_mut().filter(|_| post_on) {
+            let samples = crate::dev::var("SNOOK_LEGEND_POST_SAMPLES")
+                .and_then(|v| v.parse().ok())
+                .unwrap_or(config.msaa.clamp(1, 8));
+            p.begin(background, samples);
+        }
         // The lamp over the table hides from a camera above it (the
         // overhead view, a high view of the whole table), as a broadcast's
         // would: its light stays.
@@ -1223,10 +1249,7 @@ async fn main() {
                 let overlay = play::overlay(m, &scene, get_time() as f32);
                 scene.draw(&cam, m.balls(), dt, &overlay);
             }
-            // The lounge fills the window and hides the table: don't spend
-            // the GPU (and the battery) drawing it behind.
-            None if matches!(screen, Screen::LanLounge)
-                || (matches!(screen, Screen::Online) && online.signed_in()) => {}
+            None if table_hidden => {}
             // The showroom's stage: the item alone.
             None if showroom.as_ref().is_some_and(|s| s.in_studio()) && in_showroom => {
                 let s = showroom.as_ref().expect("checked");
@@ -1277,6 +1300,10 @@ async fn main() {
                     None => scene.draw(&cam, &menu_rack, dt, &overlay),
                 }
             }
+        }
+
+        if let Some(p) = post.as_ref().filter(|_| post_on) {
+            p.finish();
         }
 
         // Development aid: with SNOOK_LEGEND_SCENE_ONLY, --screenshot saves the 3D

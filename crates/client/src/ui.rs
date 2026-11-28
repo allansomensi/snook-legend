@@ -33,6 +33,8 @@ pub const GREEN: Color = Color::new(0.12, 0.45, 0.25, 1.0);
 struct LogRow {
     name: Option<(String, Color)>,
     text: String,
+    /// Where the row starts in its line's text (bytes): its styles' runs.
+    start: usize,
     indent: f32,
     index: usize,
     centred: bool,
@@ -94,6 +96,9 @@ pub struct FeedLine {
     /// When it was written (Unix seconds; 0: not known, the game's own
     /// notices).
     pub at: i64,
+    /// How its text is drawn, run by run (a VIP's or the staff's styles;
+    /// none: plainly).
+    pub runs: Vec<snook_legend_proto::chat_style::Run>,
 }
 
 /// What the reader did with a line of [`Ui::chat_log`].
@@ -105,6 +110,66 @@ pub enum ChatAction {
     Pin { id: u64 },
     /// Open the profile of a player a line mentions.
     Profile(String),
+}
+
+/// A row of a styled chat line cut into what is drawn one way: (text, its
+/// style, mentioned). `start`: where the row starts in the line's text.
+fn styled_pieces(
+    text: &str,
+    start: usize,
+    runs: &[snook_legend_proto::chat_style::Run],
+    mentions: &[String],
+) -> Vec<(String, snook_legend_proto::chat_style::Style, bool)> {
+    let mut out = Vec::new();
+    let mut at = start;
+    for (span, mention) in mention_spans(text, mentions) {
+        let end = at + span.len();
+        let mut cut = at;
+        // Cut where the runs change (within the span).
+        for r in runs.iter().filter(|r| r.end > at && r.start < end) {
+            let (a, b) = (r.start.max(at), r.end.min(end));
+            if a > cut {
+                out.push((span[cut - at..a - at].to_string(), Default::default(), mention));
+            }
+            if let Some(piece) = span.get(a - at..b - at) {
+                out.push((piece.to_string(), r.style, mention));
+            }
+            cut = b;
+        }
+        if cut < end {
+            out.push((span[cut - at..].to_string(), Default::default(), mention));
+        }
+        at = end;
+    }
+    out
+}
+
+/// The colour a chat line is written in (the secret one: its hue for
+/// where a letter is, moving with time).
+fn ink_color(ink: snook_legend_proto::chat_style::Ink, x: f32) -> Color {
+    use snook_legend_proto::chat_style::Ink;
+    let c = |r: u8, g: u8, b: u8| Color::from_rgba(r, g, b, 255);
+    match ink {
+        Ink::Gold => GOLD,
+        Ink::Yellow => c(255, 228, 92),
+        Ink::Orange => c(255, 156, 64),
+        Ink::Pink => c(255, 128, 190),
+        Ink::Purple => c(190, 140, 255),
+        Ink::Blue => c(116, 168, 255),
+        Ink::Cyan => c(92, 228, 240),
+        Ink::Green => c(118, 226, 128),
+        Ink::White => c(255, 255, 255),
+        Ink::Grey => c(166, 162, 156),
+        Ink::Red => c(255, 92, 80),
+        Ink::Secret => {
+            let h = (get_time() as f32 * 0.35 - x / 160.0).rem_euclid(1.0) * 6.0;
+            let f = |n: f32| {
+                let k = (n + h).rem_euclid(6.0);
+                1.0 - (k.min(4.0 - k).clamp(0.0, 1.0)) * 0.62
+            };
+            Color::new(f(5.0), f(3.0), f(1.0), 1.0)
+        }
+    }
 }
 
 /// A line's text cut where it mentions players: (text, mentioned).
@@ -717,6 +782,75 @@ impl Ui {
     }
 
     /// Draws text, emoji included, with its top-left corner at (`x`, `y`).
+    /// A row of a styled chat line (see [`styled_pieces`]): bold, italic
+    /// (slanted), underlined, struck through, coloured; the mentions in
+    /// gold, and a click on one gives that player's name.
+    fn styled_row(
+        &mut self,
+        pieces: &[(String, snook_legend_proto::chat_style::Style, bool)],
+        at: Vec2,
+        size: f32,
+        color: Color,
+        pending: bool,
+    ) -> Option<String> {
+        use snook_legend_proto::chat_style::Ink;
+        let mut clicked = None;
+        let mut x = at.x;
+        let fade = |c: Color| if pending { Color::new(c.r, c.g, c.b, c.a * 0.5) } else { c };
+        for (text, style, mention) in pieces {
+            let bold = style.bold || *mention;
+            let w = self.text_size(text, size, bold).x;
+            let base =
+                if *mention { GOLD } else { style.ink.map_or(color, |ink| ink_color(ink, x)) };
+            // Italic: the letters slanted about their baseline.
+            let base_y = at.y + size * 0.8;
+            if style.italic {
+                let m = Mat4::from_translation(vec3(base_y * 0.2, 0.0, 0.0))
+                    * Mat4::from_cols(
+                        vec4(1.0, 0.0, 0.0, 0.0),
+                        vec4(-0.2, 1.0, 0.0, 0.0),
+                        vec4(0.0, 0.0, 1.0, 0.0),
+                        vec4(0.0, 0.0, 0.0, 1.0),
+                    );
+                unsafe { get_internal_gl() }.quad_gl.push_model_matrix(m);
+            }
+            if style.ink == Some(Ink::Secret) && !*mention {
+                // Letter by letter, each its own hue.
+                let mut cx = x;
+                for ch in text.chars() {
+                    let s = ch.to_string();
+                    self.draw_text_raw(&s, cx, at.y, size, fade(ink_color(Ink::Secret, cx)), bold);
+                    cx += self.text_size(&s, size, bold).x;
+                }
+            } else {
+                self.draw_text_raw(text, x, at.y, size, fade(base), bold);
+            }
+            if style.italic {
+                unsafe { get_internal_gl() }.quad_gl.pop_model_matrix();
+            }
+            let line =
+                fade(if style.ink == Some(Ink::Secret) { ink_color(Ink::Secret, x) } else { base });
+            if style.underline {
+                draw_line(x, base_y + 2.0, x + w, base_y + 2.0, 1.0, line);
+            }
+            if style.strike {
+                let my = at.y + size * 0.52;
+                draw_line(x, my, x + w, my, 1.2, line);
+            }
+            if *mention {
+                let hit = Rect::new(x, at.y - 1.0, w, size + 4.0);
+                if self.hovering(hit) {
+                    draw_line(x, base_y + 3.0, x + w, base_y + 3.0, 1.0, GOLD);
+                    if self.clicked(hit) {
+                        clicked = Some(text.trim_start_matches('@').to_string());
+                    }
+                }
+            }
+            x += w;
+        }
+        clicked
+    }
+
     fn draw_text_raw(&self, text: &str, x: f32, y: f32, size: f32, color: Color, bold: bool) {
         let Some(pieces) = emoji::pieces(text) else {
             self.draw_font_text(text, x, y, size, color, bold);
@@ -1927,11 +2061,18 @@ impl Ui {
                     };
                     let label = format!("{name}: ");
                     let indent = self.text_size(&label, SIZE, true).x;
-                    let room = (inner.w - indent).max(60.0);
+                    // (Bold runs are wider than the wrap measures.)
+                    let bold = l.runs.iter().any(|r| r.style.bold);
+                    let room = (inner.w - indent).max(60.0) * if bold { 0.93 } else { 1.0 };
+                    let mut from = 0;
                     for (k, w) in self.wrap(&text, room, SIZE).into_iter().enumerate() {
+                        let start =
+                            text.get(from..).and_then(|t| t.find(&w)).map_or(from, |i| from + i);
+                        from = start + w.len();
                         block.push(LogRow {
                             name: (k == 0 && !follows).then(|| (label.clone(), color)),
                             text: w,
+                            start,
                             indent,
                             index,
                             centred: false,
@@ -1948,6 +2089,7 @@ impl Ui {
                         block.push(LogRow {
                             name: None,
                             text: w,
+                            start: 0,
                             indent: 0.0,
                             index,
                             centred: true,
@@ -1964,6 +2106,7 @@ impl Ui {
                     LogRow {
                         name: None,
                         text: label,
+                        start: 0,
                         indent: 0.0,
                         index,
                         centred: true,
@@ -2213,7 +2356,15 @@ impl Ui {
             }
             let color = if deleted { Color::new(0.62, 0.56, 0.5, 0.8) } else { CREAM };
             let size = if deleted { 13.0 } else { SIZE };
-            if line.mentions.is_empty() || deleted {
+            if !line.runs.is_empty() && !deleted {
+                // A VIP's or the staff's styles (the players it mentions
+                // in gold all the same).
+                let at = vec2(inner.x + row.indent, y + (SIZE - size) * 0.5);
+                let pieces = styled_pieces(&row.text, row.start, &line.runs, &line.mentions);
+                if let Some(name) = self.styled_row(&pieces, at, size, color, pending) {
+                    action = Some(ChatAction::Profile(name));
+                }
+            } else if line.mentions.is_empty() || deleted {
                 self.text(
                     &row.text,
                     inner.x + row.indent,

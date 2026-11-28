@@ -12,6 +12,7 @@ mod achievements;
 pub mod activity;
 pub mod advanced;
 pub mod analysis;
+pub mod chat_style;
 pub mod collection;
 pub mod correspondence;
 mod countries;
@@ -823,6 +824,10 @@ pub struct ChatLine {
     /// are written, filled in by the server: only real players).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub mentions: Vec<String>,
+    /// What its writer may style in it (VIPs and the staff; see
+    /// [`chat_style`]): none, the text as written.
+    #[serde(default, skip_serializing_if = "chat_style::Styles::is_none")]
+    pub styles: chat_style::Styles,
 }
 
 /// Who deleted a chat line.

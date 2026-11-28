@@ -182,6 +182,7 @@ impl Lounge {
             kind: ChatKind::Player,
             rating: s.shown_rating(),
             admin: s.user.role == snook_legend_proto::Role::Admin,
+            styles: s.styles(),
             ..Default::default()
         };
         let sender = s.user.id;

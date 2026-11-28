@@ -2613,8 +2613,15 @@ const AIM_INTERVAL: f32 = 0.05;
 const REMOTE_AIM_RATE: f64 = 16.0;
 
 impl OnlineMatch {
-    /// This player's own line, shown at once as it goes to the server.
-    pub fn echo_chat(&mut self, name: &str, admin: bool, text: &str) {
+    /// This player's own line, shown at once as it goes to the server (with
+    /// the styles they may use).
+    pub fn echo_chat(
+        &mut self,
+        name: &str,
+        admin: bool,
+        styles: snook_legend_proto::chat_style::Styles,
+        text: &str,
+    ) {
         let line = ChatLine {
             from: name.to_string(),
             text: text.to_string(),
@@ -2622,6 +2629,7 @@ impl OnlineMatch {
             kind: ChatKind::Player,
             rating: self.ratings[self.seat],
             admin,
+            styles,
             ..Default::default()
         };
         let mut feed = FeedLine::chat(&line);
@@ -3157,6 +3165,13 @@ impl FeedLine {
             }
             ChatKind::System => (None, crate::i18n::server_text(&line.text), FeedKind::Event),
         };
+        // A VIP's or the staff's styles: the text without its markers, and
+        // how each run of it is drawn.
+        let (text, runs) = if kind == FeedKind::Player && line.deleted.is_none() {
+            snook_legend_proto::chat_style::parse(&text, line.styles)
+        } else {
+            (text, Vec::new())
+        };
         FeedLine {
             from,
             text,
@@ -3167,6 +3182,7 @@ impl FeedLine {
             pending: false,
             mentions: line.mentions.clone(),
             at: line.at,
+            runs,
         }
     }
 

@@ -760,3 +760,34 @@ async fn advanced_statistics_are_for_vip_members() {
     assert_eq!(stats.tier, None);
     assert_eq!(stats.league_players, 0);
 }
+
+/// Who may style their chat lines: VIPs and the staff (moderators too);
+/// everyone else's read as written.
+#[tokio::test]
+async fn chat_lines_say_who_may_style_them() {
+    use snook_legend_proto::chat_style::Styles;
+    let (url, server) = start().await;
+    let (mut ana, ana_token) = Client::register(&url, "ana").await;
+    let (mut bob, bob_token) = Client::register(&url, "bob").await;
+    let said = |text: &'static str| move |m: &ServerMsg| matches!(m, ServerMsg::Chat { line } if line.text == text);
+    let styles = |m: ServerMsg| match m {
+        ServerMsg::Chat { line } => line.styles,
+        _ => unreachable!(),
+    };
+    ana.send(ClientMsg::Chat { text: "**plain**".into() }).await;
+    assert_eq!(styles(bob.expect("plain", said("**plain**")).await), Styles::None);
+    // A VIP.
+    let ana_id = server.store.user_by_name("ana").await.unwrap().unwrap().id;
+    server.store.set_vip(ana_id, snook_legend_server::now() + 3600, true).await.unwrap();
+    drop(ana);
+    let mut ana = Client::resume(&url, &ana_token).await;
+    ana.send(ClientMsg::Chat { text: "**vip**".into() }).await;
+    assert_eq!(styles(bob.expect("vip", said("**vip**")).await), Styles::Vip);
+    // A moderator.
+    let bob_id = server.store.user_by_name("bob").await.unwrap().unwrap().id;
+    server.store.set_role(bob_id, snook_legend_proto::Role::Moderator).await.unwrap();
+    drop(bob);
+    let mut bob = Client::resume(&url, &bob_token).await;
+    bob.send(ClientMsg::Chat { text: "[red]rules[/]".into() }).await;
+    assert_eq!(styles(ana.expect("staff", said("[red]rules[/]")).await), Styles::Staff);
+}

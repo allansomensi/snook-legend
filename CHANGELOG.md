@@ -21,6 +21,17 @@
   group's ball first): only "Try again" now, and a new rack against the
   clock always keeps its rules.
 
+### Chat
+- **VIPs, moderators and administrators style their lines**, written as
+  text (no buttons): `**bold**`, `*italic*`, `__underlined__`,
+  `~~struck through~~`, and colours: `[blue]like this[/blue]` (or closed
+  with `[/]`; gold, yellow, orange, pink, purple, blue, cyan, green,
+  white, grey, and red for the staff alone; in English or Portuguese).
+  Anyone else's line reads exactly as written. In the lounge, at the table
+  and among the spectators; mentions stay whole. (`ChatLine::styles`, set
+  by the server; a server before this version styles nothing, and a game
+  before it shows the markers.)
+
 ### Ranking
 - **A country's ranking**: World, **Country**, Friends and Doubles. The
   country is the flag on the player's profile; without one, the ranking

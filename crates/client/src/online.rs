@@ -119,6 +119,21 @@ pub struct WalletView {
     pub cue_wins: Vec<(String, u32)>,
 }
 
+impl Online {
+    /// What this player may style in their chat lines (as the server will
+    /// say of them): the staff all of it, VIPs all but the staff's red.
+    pub fn my_styles(&self) -> snook_legend_proto::chat_style::Styles {
+        use snook_legend_proto::chat_style::Styles;
+        match self.me.as_ref().map(|me| me.role) {
+            Some(snook_legend_proto::Role::Admin | snook_legend_proto::Role::Moderator) => {
+                Styles::Staff
+            }
+            _ if self.wallet.as_ref().is_some_and(WalletView::is_vip) => Styles::Vip,
+            _ => Styles::None,
+        }
+    }
+}
+
 impl WalletView {
     pub fn is_vip(&self) -> bool {
         self.vip_until > crate::game::unix_now()
@@ -1107,7 +1122,7 @@ impl Online {
                             .as_ref()
                             .is_some_and(|me| me.role == snook_legend_proto::Role::Admin);
                         let name = o.me.clone().unwrap_or_else(|| m.names[o.seat].clone());
-                        o.echo_chat(&name, admin, text);
+                        o.echo_chat(&name, admin, self.my_styles(), text);
                     }
                     c.send(msg);
                 }
@@ -1582,6 +1597,7 @@ impl Online {
                 if let Some(l) = self.chat.iter_mut().find(|l| l.id == id) {
                     l.deleted = Some(by);
                     l.text.clear();
+                    l.runs.clear();
                 }
             }
             ServerMsg::ChatRemoved { id } => self.chat.retain(|l| l.id != id),
@@ -1873,9 +1889,13 @@ impl Online {
                         "You're sending messages too quickly",
                         "Please don't repeat",
                     ];
+                    let styles = self.my_styles();
                     if refused.iter().any(|p| message.starts_with(p))
                         && let Some(text) = self.echoes.pop()
-                        && let Some(i) = self.chat.iter().rposition(|l| l.pending && l.text == text)
+                        && let Some(i) = self.chat.iter().rposition(|l| {
+                            l.pending
+                                && l.text == snook_legend_proto::chat_style::plain(&text, styles)
+                        })
                     {
                         self.chat.remove(i);
                     }
@@ -4024,6 +4044,7 @@ impl Online {
                     kind: snook_legend_proto::ChatKind::Player,
                     rating: me.rating_in(self.rules),
                     admin: me.role == snook_legend_proto::Role::Admin,
+                    styles: self.my_styles(),
                     ..Default::default()
                 };
                 let mut feed = FeedLine::chat(&line);

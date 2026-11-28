@@ -290,6 +290,18 @@ pub struct Session {
 }
 
 impl Session {
+    /// What this player may style in their chat lines: the staff all of it,
+    /// VIPs all but the staff's red, the rest nothing (see
+    /// `snook_legend_proto::chat_style`).
+    fn styles(&self) -> snook_legend_proto::chat_style::Styles {
+        use snook_legend_proto::chat_style::Styles;
+        match self.user.role {
+            snook_legend_proto::Role::Admin | snook_legend_proto::Role::Moderator => Styles::Staff,
+            _ if self.look.vip => Styles::Vip,
+            _ => Styles::None,
+        }
+    }
+
     fn limits(&self) -> Limits {
         [
             self.chat_bucket.clone(),
@@ -1788,8 +1800,14 @@ impl Lounge {
         if text.is_empty() {
             return None;
         }
-        // Muted (why and until when), or a word the chat doesn't allow.
-        if let Some(refusal) = self.text_refusal(k, &text) {
+        // Muted (why and until when), or a word the chat doesn't allow (as
+        // read too, without the styles' markers between its letters).
+        let styles = self.sessions.get(k).map(Session::styles).unwrap_or_default();
+        let plain = snook_legend_proto::chat_style::plain(&text, styles);
+        let refusal = self
+            .text_refusal(k, &text)
+            .or_else(|| if plain != text { self.text_refusal(k, &plain) } else { None });
+        if let Some(refusal) = refusal {
             self.refuse(k, place, refusal);
             return None;
         }
@@ -1835,6 +1853,7 @@ impl Lounge {
             kind: ChatKind::Player,
             rating: s.shown_rating(),
             admin: s.user.role == snook_legend_proto::Role::Admin,
+            styles: s.styles(),
             mentions,
             ..Default::default()
         };
@@ -1862,6 +1881,7 @@ impl Lounge {
             kind: ChatKind::Player,
             rating: s.shown_rating(),
             admin: s.user.role == snook_legend_proto::Role::Admin,
+            styles: s.styles(),
             ..Default::default()
         };
         let sender = s.user.id;

@@ -357,10 +357,13 @@ async fn main() {
                         }))
                         .await;
                 }
+                // (VIPs: their lines styled.)
                 2 => {
-                    let _ = ws
-                        .send(send(ClientMsg::Chat { text: "Anyone up for a rated game?".into() }))
-                        .await;
+                    let text = "*Good luck* everyone, __have fun__ ~~or not~~ [blue]see you[/]";
+                    let _ = ws.send(send(ClientMsg::Chat { text: text.into() })).await;
+                    tokio::time::sleep(Duration::from_millis(1200)).await;
+                    let text = "Anyone up for a **rated** game? [gold]Brazilian rules[/]";
+                    let _ = ws.send(send(ClientMsg::Chat { text: text.into() })).await;
                 }
                 _ => {}
             }

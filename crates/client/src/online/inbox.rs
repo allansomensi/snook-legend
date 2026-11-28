@@ -458,7 +458,8 @@ impl Online {
             return;
         }
         let text = tw("{name} mentioned you", &[("name", &line.from)]);
-        self.attention = Some(format!("{text}: {}", line.text));
+        let read = snook_legend_proto::chat_style::plain(&line.text, line.styles);
+        self.attention = Some(format!("{text}: {read}"));
         self.toast(text, true);
         self.invite_sound = true;
     }
@@ -504,7 +505,9 @@ impl Online {
         let label = t("Pinned");
         let lw = ui.text_size(label, 11.0, true).x + 12.0;
         let text = if line.kind == snook_legend_proto::ChatKind::Player {
-            format!("{}: {}", line.from, line.text)
+            // (Pinned, the text as read: without its styles' markers.)
+            let read = snook_legend_proto::chat_style::plain(&line.text, line.styles);
+            format!("{}: {read}", line.from)
         } else {
             crate::i18n::server_text(&line.text)
         };

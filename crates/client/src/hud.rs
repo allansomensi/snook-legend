@@ -1081,6 +1081,9 @@ impl Hud {
             (&m.phase, m.game.game_over(), &m.replay)
             && m.drill.is_none()
             && m.daily.is_none()
+            // (Against the clock has its own panel, with "Try again": this
+            // one's Rematch dealt a plain game of 8-ball over it.)
+            && m.time_attack.is_none()
         {
             let all_computers = m.controllers.iter().all(|c| matches!(c, Controller::Computer(_)));
             let title = tw("{name} wins!", &[("name", &m.names[over.winner])]);

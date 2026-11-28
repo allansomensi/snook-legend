@@ -82,9 +82,15 @@ impl TimeAttackRun {
     /// penalties (stopped once the table is clear).
     pub fn elapsed(&self) -> f32 {
         self.finished.unwrap_or_else(|| {
-            (get_time() - self.started) as f32 + self.fouls as f32 * FOUL_PENALTY_MS as f32 / 1000.0
+            (now() - self.started) as f32 + self.fouls as f32 * FOUL_PENALTY_MS as f32 / 1000.0
         })
     }
+}
+
+/// Seconds on a clock that only goes forward (since the game started).
+fn now() -> f64 {
+    static START: std::sync::OnceLock<std::time::Instant> = std::sync::OnceLock::new();
+    START.get_or_init(std::time::Instant::now).elapsed().as_secs_f64()
 }
 
 /// The best time on this computer (seconds), from its file.
@@ -121,7 +127,7 @@ impl TimeAttackRun {
             attempt,
             seed,
             strokes: Vec::new(),
-            started: get_time(),
+            started: now(),
             fouls: 0,
             finished: None,
             sent: false,

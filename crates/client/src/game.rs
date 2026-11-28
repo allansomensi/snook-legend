@@ -1269,7 +1269,18 @@ impl Match {
         self.seed = seed;
         self.breaker = breaker % 2;
         let rules = self.game.rules();
-        self.game = EightBallGame::new(seed, breaker, rules);
+        // Against the clock, the rack stays one against the clock (a new
+        // rack is this computer's own: the server's racks come from it).
+        if self.game.is_time_attack() {
+            self.game = EightBallGame::time_attack(seed);
+            if let Some(run) = self.time_attack.as_mut()
+                && run.seed != seed
+            {
+                *run = crate::time_attack::TimeAttackRun::new(0, seed);
+            }
+        } else {
+            self.game = EightBallGame::new(seed, breaker, rules);
+        }
         if let Some(run) = self.ladder.as_mut() {
             run.record = snook_legend_proto::replay::Replay::new(seed, breaker, rules);
             run.reported = false;
@@ -3796,5 +3807,19 @@ mod ladder_tests {
         let run = m.ladder.as_ref().unwrap();
         assert!(run.record.strokes.is_empty() && !run.reported);
         assert_eq!(run.record.seed, m.seed());
+    }
+
+    /// A new rack against the clock is still one against the clock (no
+    /// groups, no fouls for the order), however it is dealt; a rack of the
+    /// server's dealt anew is this computer's own (not counted).
+    #[test]
+    fn against_the_clock_stays_against_the_clock() {
+        let mut m = Match::time_attack(42, 7, "ana", AimGuide::Full);
+        assert!(m.game.is_time_attack());
+        m.rematch();
+        assert!(m.game.is_time_attack());
+        let run = m.time_attack.as_ref().expect("still against the clock");
+        assert_eq!((run.attempt, run.seed), (0, m.seed()));
+        assert!(run.strokes.is_empty() && run.finished.is_none());
     }
 }

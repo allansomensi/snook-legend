@@ -16,6 +16,10 @@
 ### Time attack
 - **3 attempts a day** (were 10): each one weighs. The server counts them
   (a game of 0.12.x shows "of 10" beside the 3 left).
+- A cleared table showed the panel of a game of 8-ball under the time's,
+  and its Rematch dealt a plain game (groups, fouls for hitting the other
+  group's ball first): only "Try again" now, and a new rack against the
+  clock always keeps its rules.
 
 ### Ranking
 - **A country's ranking**: World, **Country**, Friends and Doubles. The

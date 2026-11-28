@@ -37,6 +37,8 @@ pub enum Kind {
     Cloth,
     Table,
     Hall,
+    /// A winning effect: the 8 made on the player's table, and the effect.
+    Effect,
 }
 
 impl Kind {
@@ -48,6 +50,7 @@ impl Kind {
             Category::Cloth => Kind::Cloth,
             Category::Table => Kind::Table,
             Category::Hall => Kind::Hall,
+            Category::Effect => Kind::Effect,
             _ => return None,
         })
     }
@@ -146,7 +149,27 @@ pub struct Showroom {
     /// The rectangles of the interface this frame (the stage under them
     /// doesn't take the pointer).
     panels: Vec<Rect>,
+    /// A winning effect's shot (see [`Showroom::effect_shot`]).
+    shot: Option<EffectShot>,
 }
+
+/// A winning effect shown: on the player's table, the cue ball sends the 8
+/// into a corner pocket, and the effect plays over it; again and again.
+struct EffectShot {
+    /// The pocket (table coordinates: its hole's centre), and the way from
+    /// it to the balls.
+    hole: ::glam::DVec2,
+    dir: ::glam::DVec2,
+    /// Where the shot is in its turn (seconds).
+    clock: f32,
+}
+
+/// The shot's times: still, the cue ball rolling to the 8, the 8 rolling
+/// to the pocket, and the effect (then it starts again).
+const SHOT_REST: f32 = 0.8;
+const SHOT_CUE: f32 = 0.32;
+const SHOT_ROLL: f32 = 0.9;
+const SHOT_AFTER: f32 = crate::effects::LENGTH + 0.8;
 
 impl Showroom {
     /// The showroom for the item `code` (none for an item with nothing to
@@ -162,9 +185,21 @@ impl Showroom {
                     _ => None,
                 }))
                 .collect(),
-            Kind::Hall => vec![Setting::Table],
+            Kind::Hall | Kind::Effect => vec![Setting::Table],
         };
         let half = vec2(table.spec.length as f32 / 2.0, table.spec.width as f32 / 2.0);
+        // A winning effect: over the corner pocket at the far right.
+        let shot = (kind == Kind::Effect)
+            .then(|| {
+                let corner = table.pockets.iter().filter(|p| !p.id.is_side()).max_by(|a, b| {
+                    (a.hole_center.x + a.hole_center.y)
+                        .total_cmp(&(b.hole_center.x + b.hole_center.y))
+                })?;
+                let hole = corner.hole_center;
+                let dir = (-hole).normalize_or_zero();
+                Some(EffectShot { hole, dir, clock: 0.0 })
+            })
+            .flatten();
         let mut s = Showroom {
             code: item.code,
             item,
@@ -175,7 +210,8 @@ impl Showroom {
             ball_r: table.spec.ball_radius as f32,
             view: View { yaw: 0.0, pitch: 0.3, dist: 2.0, target: Vec3::ZERO },
             goal: None,
-            spinning: true,
+            // (A shot plays: the stage keeps still.)
+            spinning: kind != Kind::Effect,
             preset: Some(0),
             ball: None,
             lift: 0.0,
@@ -188,6 +224,7 @@ impl Showroom {
             touched: None,
             cam: (Vec3::ZERO, Vec3::ONE, 0.6),
             panels: Vec::new(),
+            shot,
         };
         s.view = s.presets()[0].1;
         // It comes in from a little further and higher, settling.
@@ -330,7 +367,7 @@ impl Showroom {
                 balls: self.ball_poses(),
                 ..Default::default()
             },
-            Kind::Cloth | Kind::Table | Kind::Hall => Showcase {
+            Kind::Cloth | Kind::Table | Kind::Hall | Kind::Effect => Showcase {
                 floor: 0.0,
                 floor_radius: 12.0,
                 table: true,
@@ -384,6 +421,65 @@ impl Showroom {
         spots
     }
 
+    /// A winning effect's shot this frame (after `dt` seconds): the cue ball
+    /// and the 8 where they are, rolling, the 8 dropping into the pocket;
+    /// and the pocket's centre (table coordinates) when the 8 went down
+    /// just now (the effect starts there). None for other items.
+    pub fn effect_shot(
+        &mut self,
+        dt: f32,
+    ) -> Option<(Vec<snook_legend_core::Ball>, Option<::glam::DVec2>)> {
+        use ::glam::{DQuat, DVec3};
+        use snook_legend_core::Ball;
+        let r = self.ball_r as f64;
+        let shot = self.shot.as_mut()?;
+        let period = SHOT_REST + SHOT_CUE + SHOT_ROLL + SHOT_AFTER;
+        let before = shot.clock;
+        shot.clock += dt.min(0.1);
+        if shot.clock >= period {
+            shot.clock = 0.0;
+        }
+        let t = shot.clock;
+        let (hole, dir) = (shot.hole, shot.dir);
+        let start8 = hole + dir * 0.55;
+        let contact = start8 + dir * (2.0 * r);
+        let start_cue = hole + dir * 1.15;
+        // Rolling: turned about the axis across the way it goes.
+        let rolled = |id: BallId, xy: ::glam::DVec2, from: ::glam::DVec2, z: f64| {
+            let mut b = Ball::at_rest(id, xy, r);
+            let way = xy - from;
+            let d = way.length();
+            if d > 1e-6 {
+                let axis = DVec3::new(-way.y, way.x, 0.0) / d;
+                b.orientation = DQuat::from_axis_angle(axis, d / r);
+            }
+            b.position.z = z;
+            b
+        };
+        let ease_out = |k: f32| 1.0 - (1.0 - k.clamp(0.0, 1.0)).powi(2);
+        let hit = SHOT_REST + SHOT_CUE;
+        // The cue ball: to the 8, then a little on.
+        let cue = if t < SHOT_REST {
+            start_cue
+        } else if t < hit {
+            let k = (t - SHOT_REST) / SHOT_CUE;
+            start_cue + (contact - start_cue) * (k as f64)
+        } else {
+            contact - dir * (0.05 * ease_out((t - hit) / 0.5) as f64)
+        };
+        let mut balls = vec![rolled(BallId::CUE, cue, start_cue, r)];
+        // The 8: to the pocket, slowing, and down into it at the end.
+        let k = ((t - hit) / SHOT_ROLL).clamp(0.0, 1.0);
+        let down = hit + SHOT_ROLL;
+        if t < down {
+            let at = start8 + (hole - start8) * ease_out(k) as f64;
+            let sink = ((k - 0.82) / 0.18).clamp(0.0, 1.0) as f64;
+            balls.push(rolled(BallId::EIGHT, at, start8, r * (1.0 - 2.6 * sink * sink)));
+        }
+        let dropped = (before < down && t >= down).then_some(hole);
+        Some((balls, dropped))
+    }
+
     /// The player's set racked on the table at its foot spot, the cue ball
     /// at the head spot (a table or a cloth on the stage).
     fn table_rack(&self) -> Vec<(usize, Mat4)> {
@@ -408,6 +504,22 @@ impl Showroom {
         let hall = |label| (label, v(3.95, 0.16, 4.1, vec3(0.0, 1.05, 0.0)));
         let table = |label| (label, v(3.95, 0.45, 3.6, vec3(0.0, h - 0.12, 0.0)));
         match (self.kind, self.setting) {
+            (Kind::Effect, _) => match &self.shot {
+                Some(shot) => {
+                    // From behind the cue ball, a little to the side, the
+                    // pocket ahead; and the pocket, close.
+                    let along = crate::coords::surface(shot.dir, 0.0) - Vec3::Y * TABLE_HEIGHT;
+                    let yaw = along.z.atan2(along.x);
+                    let near = crate::coords::surface(shot.hole + shot.dir * 0.4, 0.0);
+                    let hole = crate::coords::surface(shot.hole, 0.0);
+                    vec![
+                        (t("The shot"), v(yaw + 0.5, 0.34, 1.05, near)),
+                        (t("Pocket"), v(yaw + 1.05, 0.7, 0.75, hole)),
+                        table(t("Table")),
+                    ]
+                }
+                None => vec![table(t("Table"))],
+            },
             (Kind::Hall, _) => vec![
                 hall(t("Hall")),
                 table(t("Table")),

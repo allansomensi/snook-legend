@@ -153,6 +153,7 @@ pub fn has_3d_preview(item: &Item) -> bool {
             | Category::Chalk
             | Category::Table
             | Category::Hall
+            | Category::Effect
     )
 }
 
@@ -331,6 +332,17 @@ pub fn chalk_cube(c: Vec2, s: f32, col: Color) {
     draw_line(front.x, front.y, right.x, right.y, 1.0, lit(0.9));
 }
 
+thread_local! {
+    /// Who is looking at the shop (their name in the frames' pictures).
+    static VIEWER: std::cell::RefCell<Option<snook_legend_proto::PlayerInfo>> =
+        const { std::cell::RefCell::new(None) };
+}
+
+/// Who is looking at the shop: the frames show their name, flag and crown.
+pub fn set_viewer(me: Option<snook_legend_proto::PlayerInfo>) {
+    VIEWER.with(|v| *v.borrow_mut() = me);
+}
+
 /// A small picture of an item.
 pub fn preview(ui: &Ui, item: &Item, r: Rect) {
     let c = vec2(r.x + r.w / 2.0, r.y + r.h / 2.0);
@@ -375,24 +387,45 @@ pub fn preview(ui: &Ui, item: &Item, r: Rect) {
             crate::swatch::ball_set(r, item.code, colors, eight, ivory)
         }
         Look::Frame { a, b, shine } => {
-            // A name card inside the frame.
+            // The player's own name in it, as on their profile: the flag,
+            // the name in its colour, the VIP crown.
             rrect(r, 8.0, Color::new(0.0, 0.0, 0.0, 0.25));
-            // (140 × 60 at most, smaller to fit a small picture.)
-            let k = ((r.w - 12.0) / 140.0).min((r.h - 12.0) / 60.0).clamp(0.2, 1.0);
-            let card = Rect::new(c.x - 70.0 * k, c.y - 30.0 * k, 140.0 * k, 60.0 * k);
+            let me = VIEWER.with(|v| v.borrow().clone()).unwrap_or_else(|| {
+                snook_legend_proto::PlayerInfo {
+                    username: crate::i18n::t("Your name").to_string(),
+                    ..Default::default()
+                }
+            });
+            let pad = 14.0;
+            let flag_h = 18.0;
+            let flag_w =
+                if me.country.is_empty() { 0.0 } else { crate::flags::width(flag_h) + 9.0 };
+            let size = 20.0;
+            let name_w = ui.text_size(&me.username, size, true).x;
+            let crown_w = if me.vip { 24.0 } else { 0.0 };
+            let w = flag_w + name_w + crown_w + 2.0 * pad;
+            let h = 40.0;
+            // Shrunk to fit a small picture.
+            let k = ((r.w - 16.0) / w).min((r.h - 12.0) / h).min(1.0);
+            let card = Rect::new(c.x - w * k / 2.0, c.y - h * k / 2.0, w * k, h * k);
             frame(card, a, b, shine, get_time() as f32);
-            let inset = 5.0 * k;
             rrect(
-                Rect::new(
-                    card.x + inset,
-                    card.y + inset,
-                    card.w - 2.0 * inset,
-                    card.h - 2.0 * inset,
-                ),
-                8.0 * k,
-                Color::new(0.08, 0.05, 0.03, 1.0),
+                Rect::new(card.x + 3.0, card.y + 3.0, card.w - 6.0, card.h - 6.0),
+                9.0 * k,
+                Color::new(0.09, 0.055, 0.035, 1.0),
             );
-            crate::icons::draw(Icon::Person, vec2(card.x + 26.0 * k, c.y), 26.0 * k, rgb(a));
+            // (Every size shrunk with the card.)
+            let mut x = card.x + pad * k;
+            let mid = c.y;
+            if !me.country.is_empty() {
+                crate::flags::draw(&me.country, x, mid - flag_h * k / 2.0, flag_h * k);
+                x += flag_w * k;
+            }
+            crate::ui::draw_name(ui, &me, x, mid - size * k * 0.56, size * k);
+            if me.vip {
+                let at = vec2(x + name_w * k + 14.0 * k, mid);
+                crate::icons::draw(Icon::Crown, at, 17.0 * k, GOLD);
+            }
         }
         Look::Name(style) => {
             rrect(r, 8.0, Color::new(0.0, 0.0, 0.0, 0.25));
@@ -833,6 +866,8 @@ impl ShopScreen {
     }
 
     pub fn draw(&mut self, ui: &mut Ui, online: &mut Online) -> ShopAction {
+        // Who looks: the frames show their own name.
+        set_viewer(online.me.clone());
         if std::mem::take(&mut self.sign_in) {
             return ShopAction::SignIn;
         }

@@ -75,6 +75,11 @@
   and a set on a dark ground keeps a white cue ball. (Racing, Polka dots,
   Planets and Camouflage are the TV set, Vintage, Earth tones and Forest
   of before: whoever has them keeps them.)
+- **Frames show the player's own name in them**, as on the profile: the
+  flag, the name in its colour, the VIP crown.
+- **A winning effect can be seen played** (the eye, "Look at it
+  closely"): on the player's table, the cue ball sends the 8 into a
+  corner pocket, the effect bursts from it, and again.
 - The shop's cues all framed alike: the butt, close up, in each card.
 - Looking at a chalk from low down: the foot of the cube no longer sinks
   into the floor's shadow (on Low and Medium), and the cue's tip is a

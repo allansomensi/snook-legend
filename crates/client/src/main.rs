@@ -1250,7 +1250,22 @@ async fn main() {
                         overlay.cue_look = (cue, chalk);
                     }
                 }
-                scene.draw(&cam, &menu_rack, dt, &overlay)
+                // A winning effect looked at: its shot, and the effect over
+                // the pocket once the 8 is down.
+                let shot = showroom.as_mut().filter(|_| in_showroom).and_then(|s| {
+                    let code = s.code;
+                    s.effect_shot(dt).map(|(balls, dropped)| (code, balls, dropped))
+                });
+                match shot {
+                    Some((code, balls, dropped)) => {
+                        if let Some(hole) = dropped {
+                            let at = coords::surface(hole, 0.04);
+                            win_effects.extend(effects::WinEffect::of(code, at));
+                        }
+                        scene.draw(&cam, &balls, dt, &overlay)
+                    }
+                    None => scene.draw(&cam, &menu_rack, dt, &overlay),
+                }
             }
         }
 

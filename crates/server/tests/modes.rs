@@ -575,25 +575,35 @@ async fn time_attack_attempts_are_checked_and_ranked() {
     };
     assert_eq!(info.attempts_left, time_attack::ATTEMPTS_PER_DAY);
     assert!(info.board.is_empty() && info.best_ms.is_none());
-    // An attempt that doesn't clear the table.
-    a.send(ClientMsg::TimeAttackStart).await;
+    // An attempt that doesn't clear the table (another player's: a day has
+    // few attempts).
+    let mut b = Client::register(&url, "bia").await;
+    b.send(ClientMsg::TimeAttackStart).await;
     let ServerMsg::TimeAttackStarted { attempt, .. } =
-        a.expect("started", |m| matches!(m, ServerMsg::TimeAttackStarted { .. })).await
+        b.expect("started", |m| matches!(m, ServerMsg::TimeAttackStarted { .. })).await
     else {
         unreachable!()
     };
     let brk = Stroke { shot: Shot::new(0.0, 8.0), cue_ball: None };
-    a.send(ClientMsg::TimeAttackSubmit { attempt, strokes: vec![brk] }).await;
+    b.send(ClientMsg::TimeAttackSubmit { attempt, strokes: vec![brk] }).await;
     let ServerMsg::TimeAttackResult { result, .. } =
-        a.expect("refused", |m| matches!(m, ServerMsg::TimeAttackResult { .. })).await
+        b.expect("refused", |m| matches!(m, ServerMsg::TimeAttackResult { .. })).await
     else {
         unreachable!()
     };
     assert_eq!(result, Err(Refused::NotCleared));
     // One that does: its rack is the server's. A rack now and then has no
-    // plain way through (`plain_strokes`): those attempts are left unsent.
-    let mut used = 1;
+    // plain way through (`plain_strokes`): those attempts are left unsent,
+    // and a player out of attempts hands over to a new one.
+    let mut used = 0;
+    let mut players = 0;
     let (attempt, seed, strokes) = loop {
+        if used == time_attack::ATTEMPTS_PER_DAY {
+            players += 1;
+            assert!(players < 8, "no rack with a plain way through");
+            a = Client::register(&url, &format!("cai{players}")).await;
+            used = 0;
+        }
         a.send(ClientMsg::TimeAttackStart).await;
         let ServerMsg::TimeAttackStarted { attempt, seed } =
             a.expect("started", |m| matches!(m, ServerMsg::TimeAttackStarted { .. })).await
@@ -604,7 +614,6 @@ async fn time_attack_attempts_are_checked_and_ranked() {
         if let Some(strokes) = time_attack::plain_strokes(seed) {
             break (attempt, seed, strokes);
         }
-        assert!(used < time_attack::ATTEMPTS_PER_DAY, "no rack with a plain way through");
     };
     let run = time_attack::replay(seed, &strokes).unwrap();
     a.send(ClientMsg::TimeAttackSubmit { attempt, strokes: strokes.clone() }).await;

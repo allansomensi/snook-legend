@@ -21,9 +21,9 @@ use snook_legend_core::{BallId, EightBallGame, Shot};
 
 /// What each shot with a foul (or the 8 made early) adds to the time.
 pub const FOUL_PENALTY_MS: u32 = 10_000;
-/// Attempts that count, per player and day (UTC): enough to improve, too
-/// few to grind the table with thousands of racks.
-pub const ATTEMPTS_PER_DAY: u32 = 10;
+/// Attempts that count, per player and day (UTC): each one weighs, and
+/// none grinds the table with racks.
+pub const ATTEMPTS_PER_DAY: u32 = 3;
 /// An attempt must be sent this long after it started at the latest.
 pub const TIME_LIMIT_SECS: i64 = 20 * 60;
 /// The most strokes an attempt may have.

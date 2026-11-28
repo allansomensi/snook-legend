@@ -58,7 +58,7 @@ Green chalk	Πράσινη κιμωλία
 Red chalk	Κόκκινη κιμωλία
 Purple chalk	Μωβ κιμωλία
 Gold chalk	Χρυσή κιμωλία
-Vintage	Vintage
+Polka dots	Πουά
 Pastel	Παστέλ
 Neon	Νέον
 You already have this item.	Έχεις ήδη αυτό το αντικείμενο.
@@ -1116,8 +1116,9 @@ Yellow chalk	Κίτρινη κιμωλία
 Black chalk	Μαύρη κιμωλία
 White chalk	Λευκή κιμωλία
 Silver chalk	Ασημί κιμωλία
-TV set	Σετ TV
-Earth tones	Γήινοι τόνοι
+Racing	Αγωνιστικό
+Planets	Πλανήτες
+Camouflage	Παραλλαγή
 Ocean	Ωκεανός
 Sunset	Ηλιοβασίλεμα
 Candy	Καραμέλα

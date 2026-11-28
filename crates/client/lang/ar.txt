@@ -58,7 +58,7 @@ Green chalk	طباشير خضراء
 Red chalk	طباشير حمراء
 Purple chalk	طباشير بنفسجية
 Gold chalk	طباشير ذهبية
-Vintage	عتيق
+Polka dots	منقّط
 Pastel	باستيل
 Neon	نيون
 You already have this item.	لديك هذا العنصر بالفعل.
@@ -1116,8 +1116,9 @@ Yellow chalk	طباشير صفراء
 Black chalk	طباشير سوداء
 White chalk	طباشير بيضاء
 Silver chalk	طباشير فضية
-TV set	طقم البث التلفزيوني
-Earth tones	ألوان ترابية
+Racing	سباق
+Planets	كواكب
+Camouflage	تمويه
 Ocean	المحيط
 Sunset	الغروب
 Candy	حلوى

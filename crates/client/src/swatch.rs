@@ -196,6 +196,13 @@ pub fn ball_set(r: Rect, code: &'static str, colors: [[u8; 3]; 7], eight: [u8; 3
     show(r, layers, |r, radius| {
         let g = crate::studio::geometry();
         let rgb = |c: [u8; 3]| Color::from_rgba(c[0], c[1], c[2], 255);
+        // (On a dark ground, the cue ball stays white.)
+        let cue = if 0.3 * ivory[0] as f32 + 0.59 * ivory[1] as f32 + 0.11 * ivory[2] as f32 > 128.0
+        {
+            rgb(ivory)
+        } else {
+            rgb([246, 242, 228])
+        };
         let ivory = rgb(ivory);
         let balls: Vec<Drawn> = g
             .rack()
@@ -203,7 +210,7 @@ pub fn ball_set(r: Rect, code: &'static str, colors: [[u8; 3]; 7], eight: [u8; 3
             .map(|&(n, at)| {
                 let n = n as usize;
                 let (base, stripe) = match n {
-                    0 => (ivory, None),
+                    0 => (cue, None),
                     8 => (rgb(eight), None),
                     1..=7 => (rgb(colors[n - 1]), None),
                     _ => (ivory, Some(rgb(colors[n - 9]))),

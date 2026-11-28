@@ -58,7 +58,7 @@ Green chalk	Зелена крейда
 Red chalk	Червона крейда
 Purple chalk	Фіолетова крейда
 Gold chalk	Золота крейда
-Vintage	Вінтаж
+Polka dots	Горошок
 Pastel	Пастель
 Neon	Неон
 You already have this item.	У вас уже є цей предмет.
@@ -1116,8 +1116,9 @@ Yellow chalk	Жовта крейда
 Black chalk	Чорна крейда
 White chalk	Біла крейда
 Silver chalk	Срібна крейда
-TV set	Телевізійний набір
-Earth tones	Земляні тони
+Racing	Перегони
+Planets	Планети
+Camouflage	Камуфляж
 Ocean	Океан
 Sunset	Захід сонця
 Candy	Цукерки

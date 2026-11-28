@@ -58,7 +58,7 @@ Green chalk	Зелёный мел
 Red chalk	Красный мел
 Purple chalk	Фиолетовый мел
 Gold chalk	Золотой мел
-Vintage	Винтаж
+Polka dots	Горошек
 Pastel	Пастель
 Neon	Неон
 You already have this item.	У вас уже есть этот предмет.
@@ -1116,8 +1116,9 @@ Yellow chalk	Жёлтый мел
 Black chalk	Чёрный мел
 White chalk	Белый мел
 Silver chalk	Серебристый мел
-TV set	ТВ-набор
-Earth tones	Земляные тона
+Racing	Гонки
+Planets	Планеты
+Camouflage	Камуфляж
 Ocean	Океан
 Sunset	Закат
 Candy	Леденец

@@ -58,7 +58,7 @@ Green chalk	Yeşil tebeşir
 Red chalk	Kırmızı tebeşir
 Purple chalk	Mor tebeşir
 Gold chalk	Altın tebeşir
-Vintage	Vintage
+Polka dots	Puantiyeli
 Pastel	Pastel
 Neon	Neon
 You already have this item.	Bu eşya zaten sende var.
@@ -1116,8 +1116,9 @@ Yellow chalk	Sarı tebeşir
 Black chalk	Siyah tebeşir
 White chalk	Beyaz tebeşir
 Silver chalk	Gümüş tebeşir
-TV set	TV takımı
-Earth tones	Toprak tonları
+Racing	Yarış
+Planets	Gezegenler
+Camouflage	Kamuflaj
 Ocean	Okyanus
 Sunset	Gün batımı
 Candy	Şeker

@@ -192,6 +192,56 @@ impl BallFinish {
     ];
 }
 
+/// How a ball set is drawn, beyond its colours and finish. Whatever the
+/// design, a solid is all its colour and a stripe has the ground at its
+/// poles, and every number reads.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum BallDesign {
+    /// The number in a circle of the ground (as on any table).
+    Standard,
+    /// A dark ground (the set's `ivory`): the stripes' poles and the number
+    /// circles dark, light digits; the cue ball stays white.
+    Dark,
+    /// No circle: big light digits outlined in dark, straight on the
+    /// colour.
+    Bold,
+    /// Spots of the ground all over the colour.
+    Dots,
+    /// Bands of tone round the ball, like a gas giant's.
+    Planet,
+    /// Waves of light rolling round the colour.
+    Waves,
+    /// The upper half lit, the lower half deeper: a horizon.
+    Halves,
+    /// A chequered flag of the colour and a deeper tone.
+    Checker,
+    /// Blotches of the colour in three tones.
+    Camo,
+    /// A ribbon of a lighter tone winding round, as on a sweet.
+    Swirl,
+    /// Cut like a gem: facets of light and shade.
+    Facets,
+    /// The patches of a football.
+    Football,
+}
+
+impl BallDesign {
+    pub const ALL: [BallDesign; 12] = [
+        BallDesign::Standard,
+        BallDesign::Dark,
+        BallDesign::Bold,
+        BallDesign::Dots,
+        BallDesign::Planet,
+        BallDesign::Waves,
+        BallDesign::Halves,
+        BallDesign::Checker,
+        BallDesign::Camo,
+        BallDesign::Swirl,
+        BallDesign::Facets,
+        BallDesign::Football,
+    ];
+}
+
 /// What a winning 8-ball does.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum EffectKind {
@@ -357,12 +407,14 @@ pub enum Look {
     /// Chalk: the colour on the cue tip.
     Chalk([u8; 3]),
     /// Balls: a palette for the seven colours (1–7 / 9–15), the 8 and the
-    /// cue ball, and the ivory of stripes and number circles.
+    /// cue ball, and the ivory of stripes and number circles; how they are
+    /// finished and drawn.
     Balls {
         colors: [[u8; 3]; 7],
         eight: [u8; 3],
         ivory: [u8; 3],
         finish: BallFinish,
+        design: BallDesign,
     },
     /// Frame: two colours (a gradient) and whether it shines.
     Frame {
@@ -531,7 +583,28 @@ const fn balls(
         category: Category::Balls,
         name,
         price,
-        look: Look::Balls { colors, eight, ivory, finish },
+        look: Look::Balls { colors, eight, ivory, finish, design: BallDesign::Standard },
+    }
+}
+
+/// A ball set drawn its own way (see [`BallDesign`]).
+#[allow(clippy::too_many_arguments)]
+const fn designed_balls(
+    code: &'static str,
+    name: &'static str,
+    price: Price,
+    colors: [[u8; 3]; 7],
+    eight: [u8; 3],
+    ivory: [u8; 3],
+    finish: BallFinish,
+    design: BallDesign,
+) -> Item {
+    Item {
+        code,
+        category: Category::Balls,
+        name,
+        price,
+        look: Look::Balls { colors, eight, ivory, finish, design },
     }
 }
 
@@ -1210,75 +1283,79 @@ pub const ITEMS: &[Item] = &[
     chalk("chalk_champion", "Champion's chalk", Price::Earned, [196, 30, 44]),
     // Balls.
     balls("balls_classic", "Classic", Price::Free, CLASSIC, [22, 22, 24], IVORY, Gloss),
-    balls(
+    designed_balls(
         "balls_tv",
-        "TV set",
+        "Racing",
         Price::Coins(1750),
         [
-            [255, 214, 0],
-            [0, 90, 220],
-            [235, 30, 30],
-            [140, 50, 200],
-            [255, 130, 0],
-            [0, 160, 70],
-            [118, 64, 28],
+            [255, 210, 0],
+            [0, 84, 214],
+            [230, 30, 36],
+            [134, 48, 196],
+            [255, 124, 0],
+            [0, 156, 70],
+            [120, 62, 28],
         ],
         [16, 16, 18],
         [252, 250, 244],
         Gloss,
+        BallDesign::Checker,
     ),
-    balls(
+    designed_balls(
         "balls_vintage",
-        "Vintage",
+        "Polka dots",
         Price::Coins(2250),
         [
-            [214, 170, 40],
-            [40, 64, 130],
-            [170, 48, 34],
-            [96, 50, 110],
-            [200, 110, 40],
-            [40, 106, 60],
-            [96, 64, 38],
+            [255, 196, 0],
+            [24, 96, 232],
+            [236, 40, 72],
+            [150, 64, 214],
+            [255, 120, 20],
+            [0, 170, 100],
+            [136, 70, 34],
         ],
-        [30, 26, 24],
-        [236, 222, 190],
-        Matte,
+        [20, 20, 24],
+        [252, 250, 244],
+        Gloss,
+        BallDesign::Dots,
     ),
-    balls(
+    designed_balls(
         "balls_earth",
-        "Earth tones",
+        "Planets",
         Price::Coins(2500),
         [
-            [196, 160, 70],
-            [60, 80, 100],
-            [150, 70, 50],
-            [100, 70, 90],
-            [180, 110, 60],
-            [80, 110, 70],
-            [64, 42, 16],
+            [226, 186, 104],
+            [44, 96, 206],
+            [198, 74, 42],
+            [126, 74, 170],
+            [214, 138, 76],
+            [38, 150, 132],
+            [150, 104, 64],
         ],
-        [36, 30, 26],
-        [238, 228, 205],
-        Matte,
+        [18, 16, 26],
+        [232, 238, 248],
+        Gloss,
+        BallDesign::Planet,
     ),
-    balls(
+    designed_balls(
         "balls_pastel",
         "Pastel",
         Price::Coins(3000),
         [
-            [250, 220, 110],
-            [120, 160, 230],
-            [240, 120, 120],
-            [180, 140, 220],
-            [250, 170, 110],
-            [120, 200, 150],
-            [148, 110, 88],
+            [250, 214, 96],
+            [110, 156, 232],
+            [240, 116, 124],
+            [176, 134, 224],
+            [250, 164, 100],
+            [110, 200, 148],
+            [156, 112, 86],
         ],
-        [40, 40, 48],
+        [56, 56, 70],
         [250, 248, 240],
-        Gloss,
+        Pearl,
+        BallDesign::Bold,
     ),
-    balls(
+    designed_balls(
         "balls_ocean",
         "Ocean",
         Price::Coins(3000),
@@ -1292,10 +1369,11 @@ pub const ITEMS: &[Item] = &[
             [20, 60, 100],
         ],
         [8, 20, 40],
-        [240, 250, 252],
+        [236, 248, 250],
         Gloss,
+        BallDesign::Waves,
     ),
-    balls(
+    designed_balls(
         "balls_sunset",
         "Sunset",
         Price::Coins(3250),
@@ -1311,25 +1389,27 @@ pub const ITEMS: &[Item] = &[
         [40, 14, 30],
         [255, 244, 228],
         Gloss,
+        BallDesign::Halves,
     ),
-    balls(
+    designed_balls(
         "balls_forest",
-        "Forest",
+        "Camouflage",
         Price::Coins(3250),
         [
-            [200, 190, 80],
-            [40, 90, 70],
-            [158, 44, 32],
-            [60, 72, 90],
-            [170, 110, 40],
-            [30, 110, 50],
-            [104, 68, 36],
+            [204, 184, 76],
+            [52, 84, 122],
+            [166, 64, 40],
+            [104, 80, 124],
+            [196, 124, 52],
+            [70, 112, 52],
+            [112, 82, 50],
         ],
-        [20, 26, 18],
-        [236, 232, 214],
+        [26, 28, 22],
+        [226, 222, 200],
         Matte,
+        BallDesign::Camo,
     ),
-    balls(
+    designed_balls(
         "balls_neon",
         "Neon",
         Price::Coins(3750),
@@ -1340,28 +1420,30 @@ pub const ITEMS: &[Item] = &[
             [190, 60, 255],
             [255, 150, 0],
             [0, 240, 120],
-            [255, 60, 30],
+            [255, 96, 60],
         ],
-        [10, 10, 12],
-        [250, 250, 250],
+        [44, 44, 52],
+        [18, 18, 22],
         Gloss,
+        BallDesign::Dark,
     ),
-    balls(
+    designed_balls(
         "balls_candy",
         "Candy",
         Price::Coins(3750),
         [
-            [255, 230, 120],
-            [120, 200, 255],
-            [255, 110, 150],
-            [210, 150, 255],
-            [255, 180, 120],
-            [140, 240, 180],
-            [120, 72, 50],
+            [255, 214, 60],
+            [60, 150, 255],
+            [255, 70, 120],
+            [190, 110, 255],
+            [255, 150, 70],
+            [60, 220, 150],
+            [150, 86, 60],
         ],
         [90, 50, 110],
         [255, 252, 250],
-        Pearl,
+        Gloss,
+        BallDesign::Swirl,
     ),
     balls(
         "balls_pearl",
@@ -1406,22 +1488,23 @@ pub const ITEMS: &[Item] = &[
         [222, 226, 232],
         Metal,
     ),
-    balls(
+    designed_balls(
         "balls_royal",
         "Jewels",
         Price::Vip,
         [
-            [230, 180, 40],
-            [20, 40, 140],
-            [160, 10, 30],
-            [80, 20, 120],
-            [210, 100, 20],
-            [10, 100, 60],
-            [104, 62, 30],
+            [236, 184, 30],
+            [20, 50, 170],
+            [180, 10, 40],
+            [100, 30, 150],
+            [226, 106, 20],
+            [10, 120, 70],
+            [110, 60, 28],
         ],
         [16, 14, 20],
         [245, 236, 210],
-        Pearl,
+        Cut,
+        BallDesign::Facets,
     ),
     balls(
         "balls_gold",
@@ -1457,7 +1540,7 @@ pub const ITEMS: &[Item] = &[
         [244, 240, 232],
         Veined,
     ),
-    balls(
+    designed_balls(
         "balls_glow",
         "Glow",
         Price::Coins(11_000),
@@ -1468,13 +1551,14 @@ pub const ITEMS: &[Item] = &[
             [200, 80, 255],
             [255, 160, 20],
             [20, 255, 150],
-            [150, 96, 50],
+            [255, 110, 70],
         ],
-        [16, 10, 28],
-        [250, 250, 255],
+        [48, 40, 70],
+        [16, 12, 26],
         Glow,
+        BallDesign::Bold,
     ),
-    balls(
+    designed_balls(
         "balls_galaxy",
         "Galaxy",
         Price::Coins(15_000),
@@ -1487,9 +1571,10 @@ pub const ITEMS: &[Item] = &[
             [30, 190, 170],
             [120, 70, 60],
         ],
-        [10, 8, 24],
-        [236, 236, 252],
+        [44, 40, 78],
+        [12, 10, 30],
         Galaxy,
+        BallDesign::Dark,
     ),
     balls(
         "balls_crystal",
@@ -1508,7 +1593,7 @@ pub const ITEMS: &[Item] = &[
         [250, 252, 255],
         Cut,
     ),
-    balls(
+    designed_balls(
         "balls_ruby",
         "Crown jewels",
         Price::Achievement("tournament_win_10"),
@@ -1524,6 +1609,7 @@ pub const ITEMS: &[Item] = &[
         [30, 4, 12],
         [255, 244, 228],
         Cut,
+        BallDesign::Facets,
     ),
     balls(
         "balls_champion",
@@ -1542,7 +1628,7 @@ pub const ITEMS: &[Item] = &[
         [252, 238, 200],
         Metal,
     ),
-    balls(
+    designed_balls(
         "balls_christmas",
         "Christmas baubles",
         Price::Earned,
@@ -1558,8 +1644,9 @@ pub const ITEMS: &[Item] = &[
         [20, 40, 28],
         [250, 246, 236],
         Pearl,
+        BallDesign::Dots,
     ),
-    balls(
+    designed_balls(
         "balls_carnival",
         "Carnival",
         Price::Earned,
@@ -1575,8 +1662,9 @@ pub const ITEMS: &[Item] = &[
         [30, 10, 50],
         [255, 252, 245],
         Glow,
+        BallDesign::Swirl,
     ),
-    balls(
+    designed_balls(
         "balls_halloween",
         "Haunted",
         Price::Earned,
@@ -1589,11 +1677,12 @@ pub const ITEMS: &[Item] = &[
             [90, 170, 40],
             [110, 70, 40],
         ],
-        [16, 10, 18],
-        [232, 226, 210],
+        [50, 34, 54],
+        [20, 14, 22],
         Matte,
+        BallDesign::Dark,
     ),
-    balls(
+    designed_balls(
         "balls_world_cup",
         "World cup",
         Price::Earned,
@@ -1609,6 +1698,7 @@ pub const ITEMS: &[Item] = &[
         [20, 20, 22],
         [255, 255, 255],
         Gloss,
+        BallDesign::Football,
     ),
     // Tables.
     table("table_classic", "Classic", Price::Free, TableStyle::Classic),
@@ -2125,6 +2215,12 @@ mod tests {
             assert!(
                 looks.iter().any(|l| matches!(l, Look::Cue { style, .. } if *style == s)),
                 "{s:?}"
+            );
+        }
+        for d in BallDesign::ALL {
+            assert!(
+                looks.iter().any(|l| matches!(l, Look::Balls { design, .. } if *design == d)),
+                "{d:?}"
             );
         }
         for f in BallFinish::ALL {

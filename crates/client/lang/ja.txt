@@ -58,7 +58,7 @@ Green chalk	緑のチョーク
 Red chalk	赤のチョーク
 Purple chalk	紫のチョーク
 Gold chalk	金のチョーク
-Vintage	ヴィンテージ
+Polka dots	水玉
 Pastel	パステル
 Neon	ネオン
 You already have this item.	このアイテムはすでに持っています。
@@ -1116,8 +1116,9 @@ Yellow chalk	黄色のチョーク
 Black chalk	黒のチョーク
 White chalk	白のチョーク
 Silver chalk	銀のチョーク
-TV set	TV仕様
-Earth tones	アーストーン
+Racing	レーシング
+Planets	惑星
+Camouflage	迷彩
 Ocean	オーシャン
 Sunset	サンセット
 Candy	キャンディ

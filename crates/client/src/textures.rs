@@ -29,6 +29,8 @@ pub struct Palette {
     pub ivory: [u8; 3],
     /// Marble veins and galaxy stars are painted into the balls.
     pub finish: snook_legend_proto::shop::BallFinish,
+    /// How the balls are drawn: dots, bands, a chequer, no circles…
+    pub design: snook_legend_proto::shop::BallDesign,
 }
 
 impl Palette {
@@ -37,14 +39,19 @@ impl Palette {
         let item = snook_legend_proto::shop::item(code)
             .or_else(|| snook_legend_proto::shop::item("balls_classic"));
         match item.map(|i| i.look) {
-            Some(snook_legend_proto::shop::Look::Balls { colors, eight, ivory, finish }) => {
-                Palette { colors, eight, ivory, finish }
-            }
+            Some(snook_legend_proto::shop::Look::Balls {
+                colors,
+                eight,
+                ivory,
+                finish,
+                design,
+            }) => Palette { colors, eight, ivory, finish, design },
             _ => Palette {
                 colors: [[255, 204, 10]; 7],
                 eight: [22, 22, 24],
                 ivory: IVORY,
                 finish: snook_legend_proto::shop::BallFinish::Gloss,
+                design: snook_legend_proto::shop::BallDesign::Standard,
             },
         }
     }
@@ -57,6 +64,8 @@ pub fn ball_color(id: BallId) -> [u8; 3] {
 
 pub fn ball_color_in(id: BallId, p: &Palette) -> [u8; 3] {
     match id.0 {
+        // (A set on a dark ground keeps a white cue ball.)
+        0 if !light(p.ivory) => IVORY,
         0 => p.ivory,
         8 => p.eight,
         n => p.colors[((n - 1) % 8).min(6) as usize],
@@ -65,6 +74,11 @@ pub fn ball_color_in(id: BallId, p: &Palette) -> [u8; 3] {
 
 const IVORY: [u8; 3] = [246, 242, 228];
 const INK: [u8; 3] = [20, 20, 20];
+
+/// A light colour (dark digits read on it).
+fn light(c: [u8; 3]) -> bool {
+    0.3 * c[0] as f32 + 0.59 * c[1] as f32 + 0.11 * c[2] as f32 > 128.0
+}
 
 /// A ball's number, rasterised from the game's bold font with real
 /// anti-aliasing (a 5x7 bitmap font looked blocky up close): coverage 0..1
@@ -165,8 +179,9 @@ fn mix(a: [f32; 3], b: [u8; 3], t: f32) -> [f32; 3] {
 /// for a texel covering `px` radians. Numbers sit on local ±Z; stripes run
 /// around the band |x| < 0.5.
 fn ball_surface_f(id: BallId, p: Vec3, pal: &Palette, label: Option<&Label>, px: f32) -> [f32; 3] {
+    use snook_legend_proto::shop::BallDesign;
     let color = ball_color_in(id, pal);
-    let ivory = pal.ivory;
+    let ground = pal.ivory;
     let f = |c: [u8; 3]| c.map(|v| v as f32);
     if id == BallId::CUE {
         // Six small red dots (they show the spin).
@@ -174,15 +189,21 @@ fn ball_surface_f(id: BallId, p: Vec3, pal: &Palette, label: Option<&Label>, px:
         let near = dots.iter().map(|d| p.dot(*d).clamp(-1.0, 1.0).acos()).fold(9.0, f32::min);
         return mix(f(color), [190, 30, 30], coverage(0.0895 - near, px));
     }
-    // The body: the colour, or ivory outside a stripe's band.
+    // The body: the colour (in the set's design), or the ground outside a
+    // stripe's band.
     let band = match id.kind() {
         BallKind::Stripe => coverage(0.5 - p.x.abs(), px * (1.0 - p.x * p.x).sqrt().max(0.2)),
         _ => 1.0,
     };
-    let mut c = mix(f(ivory), color, band);
+    let body = design_pattern(pal.design, p, f(color), ground, px);
+    let mut c = [0, 1, 2].map(|i| ground[i] as f32 + (body[i] - ground[i] as f32) * band);
     c = finish_pattern(pal.finish, p, c, px);
-    // A large number circle with big, bold digits: readable from across the table.
+    // A large number circle with big, bold digits: readable from across the
+    // table (on a dark ground, light digits; with no circle, light digits
+    // outlined in dark straight on the colour).
     let spot_angle: f32 = 0.56;
+    let bold = pal.design == BallDesign::Bold;
+    let digits = if light(ground) { INK } else { IVORY };
     for (s, e1) in [(Vec3::Z, Vec3::X), (-Vec3::Z, -Vec3::X)] {
         let angle = p.dot(s).clamp(-1.0, 1.0).acos();
         if angle < spot_angle + px {
@@ -191,11 +212,164 @@ fn ball_surface_f(id: BallId, p: Vec3, pal: &Palette, label: Option<&Label>, px:
             let a = p.dot(e1) / scale;
             let b = p.dot(Vec3::Y) / scale;
             let ink = label.map_or(0.0, |l| l.sample(a, b));
-            let face = mix(f(ivory), INK, ink);
-            c = [0, 1, 2].map(|i| c[i] + (face[i] - c[i]) * inside);
+            if bold {
+                // The outline: the digits grown a little all round.
+                let k = 0.075;
+                let grown = label.map_or(0.0, |l| {
+                    [
+                        (k, 0.0),
+                        (-k, 0.0),
+                        (0.0, k),
+                        (0.0, -k),
+                        (0.7 * k, 0.7 * k),
+                        (-0.7 * k, 0.7 * k),
+                        (0.7 * k, -0.7 * k),
+                        (-0.7 * k, -0.7 * k),
+                    ]
+                    .iter()
+                    .map(|(da, db)| l.sample(a + da, b + db))
+                    .fold(ink, f32::max)
+                });
+                let fill = if light(ground) { ground } else { IVORY };
+                let edged = mix(c, INK, grown * inside);
+                c = mix(edged, fill, ink * inside);
+            } else {
+                let face = mix(f(ground), digits, ink);
+                c = [0, 1, 2].map(|i| c[i] + (face[i] - c[i]) * inside);
+            }
         }
     }
     c
+}
+
+/// Evenly spread points over the sphere (a Fibonacci lattice).
+fn spread(n: usize) -> Vec<Vec3> {
+    let golden = std::f32::consts::PI * (3.0 - 5f32.sqrt());
+    (0..n)
+        .map(|i| {
+            let y = 1.0 - 2.0 * (i as f32 + 0.5) / n as f32;
+            let r = (1.0 - y * y).sqrt();
+            let a = golden * i as f32;
+            Vec3::new(r * a.cos(), y, r * a.sin())
+        })
+        .collect()
+}
+
+/// The two nearest of `points` to `p` (angles) and the nearest's index.
+fn nearest_two(points: &[Vec3], p: Vec3) -> (f32, f32, usize) {
+    let (mut d1, mut d2, mut k) = (9.0f32, 9.0f32, 0);
+    for (i, q) in points.iter().enumerate() {
+        let d = p.dot(*q).clamp(-1.0, 1.0).acos();
+        if d < d1 {
+            d2 = d1;
+            d1 = d;
+            k = i;
+        } else if d < d2 {
+            d2 = d;
+        }
+    }
+    (d1, d2, k)
+}
+
+fn tone(c: [f32; 3], k: f32) -> [f32; 3] {
+    c.map(|v| (v * k).clamp(0.0, 255.0))
+}
+
+fn toward(c: [f32; 3], to: [f32; 3], k: f32) -> [f32; 3] {
+    [0, 1, 2].map(|i| c[i] + (to[i] - c[i]) * k.clamp(0.0, 1.0))
+}
+
+/// A ball set's design over the colour of a ball (`c`), at `p` (the stripe
+/// band runs round the X axis; see [`ball_surface_f`]).
+fn design_pattern(
+    design: snook_legend_proto::shop::BallDesign,
+    p: Vec3,
+    c: [f32; 3],
+    ground: [u8; 3],
+    px: f32,
+) -> [f32; 3] {
+    use snook_legend_proto::shop::BallDesign;
+    let white = [255.0, 255.0, 255.0];
+    // Round the stripes' axis (X): the angle, and how far along it.
+    let round = p.z.atan2(p.y);
+    match design {
+        BallDesign::Standard | BallDesign::Dark | BallDesign::Bold => c,
+        BallDesign::Dots => {
+            static DOTS: std::sync::OnceLock<Vec<Vec3>> = std::sync::OnceLock::new();
+            let dots = DOTS.get_or_init(|| spread(26));
+            let (d, _, _) = nearest_two(dots, p);
+            let spot = if light(ground) { ground.map(|v| v as f32) } else { toward(c, white, 0.7) };
+            toward(c, spot, coverage(0.17 - d, px))
+        }
+        BallDesign::Planet => {
+            // Bands of tone round the ball, wavering, and a thin dark belt.
+            let t = p.x * 9.0 + 0.5 * (round * 3.0 + p.x * 4.0).sin();
+            let k = 0.86 + 0.2 * (t.sin() * 0.5 + 0.5) + 0.06 * (t * 2.7).sin();
+            let belt = coverage(0.05 - (p.x - 0.18).abs(), px * 2.0);
+            toward(tone(c, k), tone(c, 0.55), belt)
+        }
+        BallDesign::Waves => {
+            // Crests of light rolling round the ball, deeper in the troughs.
+            let w = (p.x * 7.0 + 0.45 * (round * 4.0).sin()) * std::f32::consts::PI;
+            let s = w.sin();
+            let crest = coverage(s - 0.82, px * 20.0);
+            toward(tone(c, 0.82 + 0.18 * (s * 0.5 + 0.5)), white, crest * 0.5)
+        }
+        BallDesign::Halves => {
+            // The upper half in the light, the lower one deeper.
+            toward(tone(c, 0.6), c, coverage(p.y, px * 3.0))
+        }
+        BallDesign::Checker => {
+            let i = ((round / std::f32::consts::PI + 1.0) * 6.0).floor() as i32;
+            let j = ((p.x + 1.0) * 4.0).floor() as i32;
+            if (i + j).rem_euclid(2) == 0 { c } else { tone(c, 0.5) }
+        }
+        BallDesign::Camo => {
+            let n = (p.x * 4.3 + p.y * 2.1).sin()
+                + (p.y * 5.1 - p.z * 3.3).sin() * 0.8
+                + (p.z * 6.7 + p.x * 2.9).sin() * 0.6;
+            let m = (p.x * 7.9 - p.z * 4.1).sin() + (p.y * 8.3 + p.x * 3.7).sin() * 0.7;
+            if n > 0.9 {
+                tone(c, 0.45)
+            } else if m > 0.8 {
+                tone(c, 1.18)
+            } else if n < -0.7 {
+                tone(c, 0.72)
+            } else {
+                c
+            }
+        }
+        BallDesign::Swirl => {
+            // A lighter ribbon winding round, twice.
+            let s = (round / std::f32::consts::TAU * 2.0 + p.x * 1.7).rem_euclid(1.0);
+            let edge = (s - 0.14).abs() - 0.14;
+            toward(c, white, 0.5 * coverage(-edge, px * 3.0))
+        }
+        BallDesign::Facets => {
+            // Facets of a cut stone: each its own light, bright edges.
+            static FACETS: std::sync::OnceLock<Vec<Vec3>> = std::sync::OnceLock::new();
+            let facets = FACETS.get_or_init(|| spread(44));
+            let (d1, d2, k) = nearest_two(facets, p);
+            let lit = tone(c, 0.72 + 0.5 * hash(k as i32, 3, 91));
+            toward(lit, white, 0.45 * coverage(0.025 - (d2 - d1), px * 2.0))
+        }
+        BallDesign::Football => {
+            // Dark patches round the twelve corners of an icosahedron.
+            static CORNERS: std::sync::OnceLock<Vec<Vec3>> = std::sync::OnceLock::new();
+            let corners = CORNERS.get_or_init(|| {
+                let g = (1.0 + 5f32.sqrt()) / 2.0;
+                let mut v = Vec::new();
+                for (a, b) in [(1.0, g), (-1.0, g), (1.0, -g), (-1.0, -g)] {
+                    v.push(Vec3::new(0.0, a, b).normalize());
+                    v.push(Vec3::new(a, b, 0.0).normalize());
+                    v.push(Vec3::new(b, 0.0, a).normalize());
+                }
+                v
+            });
+            let (d, _, _) = nearest_two(corners, p);
+            toward(c, tone(c, 0.22), coverage(0.3 - d, px))
+        }
+    }
 }
 
 /// What a finish paints into a ball's body (`p`: the direction on the ball;

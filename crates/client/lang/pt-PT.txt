@@ -58,7 +58,7 @@ Green chalk	Giz verde
 Red chalk	Giz vermelho
 Purple chalk	Giz roxo
 Gold chalk	Giz dourado
-Vintage	Vintage
+Polka dots	Bolinhas
 Pastel	Pastel
 Neon	Néon
 You already have this item.	Já tens este artigo.
@@ -1116,8 +1116,9 @@ Yellow chalk	Giz amarelo
 Black chalk	Giz preto
 White chalk	Giz branco
 Silver chalk	Giz prateado
-TV set	Estilo TV
-Earth tones	Tons de terra
+Racing	Corrida
+Planets	Planetas
+Camouflage	Camuflado
 Ocean	Oceano
 Sunset	Pôr do sol
 Candy	Rebuçado

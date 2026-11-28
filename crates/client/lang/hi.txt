@@ -58,7 +58,7 @@ Green chalk	हरी चॉक
 Red chalk	लाल चॉक
 Purple chalk	बैंगनी चॉक
 Gold chalk	सुनहरी चॉक
-Vintage	विंटेज
+Polka dots	पोल्का डॉट
 Pastel	पेस्टल
 Neon	नियॉन
 You already have this item.	यह आइटम आपके पास पहले से है।
@@ -1116,8 +1116,9 @@ Yellow chalk	पीली चॉक
 Black chalk	काली चॉक
 White chalk	सफ़ेद चॉक
 Silver chalk	रुपहली चॉक
-TV set	TV सेट
-Earth tones	मिट्टी के रंग
+Racing	रेसिंग
+Planets	ग्रह
+Camouflage	कैमोफ़्लाज
 Ocean	समंदर
 Sunset	सूर्यास्त
 Candy	कैंडी

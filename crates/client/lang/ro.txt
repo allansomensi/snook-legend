@@ -58,7 +58,7 @@ Green chalk	Cretă verde
 Red chalk	Cretă roșie
 Purple chalk	Cretă mov
 Gold chalk	Cretă aurie
-Vintage	Vintage
+Polka dots	Buline
 Pastel	Pastel
 Neon	Neon
 You already have this item.	Ai deja acest obiect.
@@ -1116,8 +1116,9 @@ Yellow chalk	Cretă galbenă
 Black chalk	Cretă neagră
 White chalk	Cretă albă
 Silver chalk	Cretă argintie
-TV set	Set TV
-Earth tones	Tonuri de pământ
+Racing	Curse
+Planets	Planete
+Camouflage	Camuflaj
 Ocean	Ocean
 Sunset	Apus
 Candy	Bomboane

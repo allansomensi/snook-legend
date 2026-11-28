@@ -58,7 +58,7 @@ Green chalk	Tiza verde
 Red chalk	Tiza roja
 Purple chalk	Tiza morada
 Gold chalk	Tiza dorada
-Vintage	Vintage
+Polka dots	Lunares
 Pastel	Pastel
 Neon	Neón
 You already have this item.	Ya tienes este objeto.
@@ -1116,8 +1116,9 @@ Yellow chalk	Tiza amarilla
 Black chalk	Tiza negra
 White chalk	Tiza blanca
 Silver chalk	Tiza plateada
-TV set	Juego de TV
-Earth tones	Tonos tierra
+Racing	Carreras
+Planets	Planetas
+Camouflage	Camuflaje
 Ocean	Océano
 Sunset	Atardecer
 Candy	Caramelo

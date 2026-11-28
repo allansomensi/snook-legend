@@ -58,7 +58,7 @@ Green chalk	Groen krijt
 Red chalk	Rood krijt
 Purple chalk	Paars krijt
 Gold chalk	Gouden krijt
-Vintage	Vintage
+Polka dots	Stippen
 Pastel	Pastel
 Neon	Neon
 You already have this item.	Je hebt dit item al.
@@ -1116,8 +1116,9 @@ Yellow chalk	Geel krijt
 Black chalk	Zwart krijt
 White chalk	Wit krijt
 Silver chalk	Zilveren krijt
-TV set	TV-set
-Earth tones	Aardetinten
+Racing	Racen
+Planets	Planeten
+Camouflage	Camouflage
 Ocean	Oceaan
 Sunset	Zonsondergang
 Candy	Snoep

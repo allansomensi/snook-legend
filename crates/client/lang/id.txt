@@ -58,7 +58,7 @@ Green chalk	Kapur hijau
 Red chalk	Kapur merah
 Purple chalk	Kapur ungu
 Gold chalk	Kapur emas
-Vintage	Vintage
+Polka dots	Polkadot
 Pastel	Pastel
 Neon	Neon
 You already have this item.	Kamu sudah punya item ini.
@@ -1116,8 +1116,9 @@ Yellow chalk	Kapur kuning
 Black chalk	Kapur hitam
 White chalk	Kapur putih
 Silver chalk	Kapur perak
-TV set	Set TV
-Earth tones	Warna tanah
+Racing	Balap
+Planets	Planet
+Camouflage	Kamuflase
 Ocean	Samudra
 Sunset	Senja
 Candy	Permen

@@ -35,6 +35,16 @@
 - VIP's page: "Gift a friend" in place of "Give a month to a friend".
 - **Level 50 is a ruby medal** (the last level's milestone, as the hardest
   feats).
+- **Ball sets that look nothing alike**: each drawn its own way, not the
+  classic set recoloured. Racing (chequered), Polka dots, Planets (bands),
+  Pastel (big outlined digits, no circles), Ocean (waves), Sunset (a
+  horizon), Camouflage, Neon (on black), Candy (a swirl), Jewels (cut
+  facets), Glow (lit on black), Galaxy (on a night sky); among the earned
+  ones the World cup a football, Christmas baubles spotted, Carnival
+  swirled, Haunted on black. Solids, stripes and numbers read as always,
+  and a set on a dark ground keeps a white cue ball. (Racing, Polka dots,
+  Planets and Camouflage are the TV set, Vintage, Earth tones and Forest
+  of before: whoever has them keeps them.)
 - The shop's cues all framed alike: the butt, close up, in each card.
 - Looking at a chalk from low down: the foot of the cube no longer sinks
   into the floor's shadow (on Low and Medium), and the cue's tip is a

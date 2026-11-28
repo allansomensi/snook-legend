@@ -58,7 +58,7 @@ Green chalk	绿色巧粉
 Red chalk	红色巧粉
 Purple chalk	紫色巧粉
 Gold chalk	金色巧粉
-Vintage	复古
+Polka dots	波点
 Pastel	粉彩
 Neon	霓虹
 You already have this item.	你已拥有此物品。
@@ -1116,8 +1116,9 @@ Yellow chalk	黄色巧粉
 Black chalk	黑色巧粉
 White chalk	白色巧粉
 Silver chalk	银色巧粉
-TV set	电视转播
-Earth tones	大地色
+Racing	赛车
+Planets	行星
+Camouflage	迷彩
 Ocean	海洋
 Sunset	日落
 Candy	糖果

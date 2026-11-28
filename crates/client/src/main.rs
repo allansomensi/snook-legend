@@ -29,6 +29,7 @@ mod dm;
 mod effects;
 mod emoji;
 mod emoji_tray;
+mod emotes;
 mod flags;
 mod fonts;
 mod game;
@@ -2486,6 +2487,16 @@ async fn main() {
 
         // Hover hints go on top of everything (panels, chat, toasts).
         ui.draw_overlays();
+        // Development aid (screenshots): SNOOK_LEGEND_EMOTES=<seconds> draws
+        // every acting reaction over the screen, that far into it.
+        if let Some(t) = crate::dev::var("SNOOK_LEGEND_EMOTES").and_then(|v| v.parse::<f32>().ok())
+        {
+            emotes::sheet(t);
+        }
+        if let Some(t) = crate::dev::var("SNOOK_LEGEND_EFFECTS").and_then(|v| v.parse::<f32>().ok())
+        {
+            effects::sheet(t);
+        }
 
         let in_match = current.is_some();
         if in_match != was_in_match {

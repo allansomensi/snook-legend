@@ -2759,6 +2759,20 @@ fn draw_reactions(m: &mut Match, xs: [f32; 2], eye: Vec2) {
             1.0
         };
         let alpha = (t / 0.12).min(1.0) * ((REACTION_TIME - t) / 0.7).clamp(0.0, 1.0);
+        // A character performs, bigger (it pops in by itself); a picture
+        // pops in here.
+        if crate::reactions::acts(code) {
+            let y = TOP_BAR + 52.0 + 8.0 * (t / REACTION_TIME).sqrt();
+            let size = 84.0;
+            crate::paint::draw_circle(
+                xs[*seat],
+                y,
+                size * 0.46,
+                Color::new(0.0, 0.0, 0.0, 0.3 * alpha),
+            );
+            crate::reactions::draw_sent(code, vec2(xs[*seat], y), size, alpha, t);
+            continue;
+        }
         let y = TOP_BAR + 30.0 + 14.0 * (t / REACTION_TIME).sqrt();
         let size = 38.0 * pop;
         macroquad::shapes::draw_circle(
@@ -2767,7 +2781,7 @@ fn draw_reactions(m: &mut Match, xs: [f32; 2], eye: Vec2) {
             size * 0.62,
             Color::new(0.0, 0.0, 0.0, 0.35 * alpha),
         );
-        crate::reactions::draw(code, vec2(xs[*seat], y), size, alpha);
+        crate::reactions::draw_sent(code, vec2(xs[*seat], y), size, alpha, t);
     }
     o.reactions.retain(|(.., age)| *age < REACTION_TIME);
 }

@@ -31,6 +31,22 @@
   group's ball first): only "Try again" now, and a new rack against the
   clock always keeps its rules.
 
+### Reactions and winning effects
+- **Reactions that act**: the faces and hands are drawn by the game now,
+  and each one performs. Thumbs up comes up with a wink and pumps; Clap
+  claps (the face bouncing on each one); Wow drops its jaw, hands to its
+  cheeks; Laugh shakes with tears of joy, holding its belly; Wave waves;
+  Ice shivers, teeth chattering, icicles on its chin; Huff turns red and
+  fumes; Sob cries in streams; Sleepy nods off, a bubble at its nose;
+  Salute snaps to attention; Facepalm, Shrug, No look (peeking through its
+  fingers), Mind blown, Melting, Cool (the glasses slide down), Devil,
+  Angel, Star eyes… 36 of them. In a game they are shown bigger, and play
+  from the start; the other reactions hop and land.
+- **The flames are a real fire**: tongues of flame in three layers (red,
+  orange, a white-hot heart) swaying and flickering, a glow on the cloth,
+  embers flying up and smoke above. Sparks glow and flash, fireworks
+  burst bigger with trails, the shockwave and the hearts are stronger.
+
 ### Chat
 - **VIPs, moderators and administrators style their lines**, written as
   text (no buttons): `**bold**`, `*italic*`, `__underlined__`,

@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Nakukuha ang coins sa paglalaro:
 If you like, you can also buy them:	Kung gusto mo, puwede mo rin itong bilhin:
 one month	isang buwan
 already VIP	VIP na
-Give a month to a friend · {p}	Iregalo ang isang buwan sa kaibigan · {p}
+Gift a friend · {p}	Iregalo sa kaibigan · {p}
 {from} gave you a month of VIP!	Binigyan ka ni {from} ng isang buwan ng VIP!
 {name} received a month of VIP.	Nakatanggap si {name} ng isang buwan ng VIP.
 Your friend is already VIP.	VIP na ang kaibigan mo.

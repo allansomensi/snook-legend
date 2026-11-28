@@ -1177,7 +1177,7 @@ Coins are earned by playing:	코인은 플레이해서 얻어요:
 If you like, you can also buy them:	원하면 구매할 수도 있어요:
 one month	1개월
 already VIP	이미 VIP
-Give a month to a friend · {p}	친구에게 1개월 선물 · {p}
+Gift a friend · {p}	친구에게 선물하기 · {p}
 {from} gave you a month of VIP!	{from} 님이 VIP 1개월을 선물했어요!
 {name} received a month of VIP.	{name} 님이 VIP 1개월을 받았어요.
 Your friend is already VIP.	친구가 이미 VIP예요.

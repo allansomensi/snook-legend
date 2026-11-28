@@ -1177,7 +1177,7 @@ Coins are earned by playing:	कॉइन खेलकर कमाए जात
 If you like, you can also buy them:	चाहें तो आप इन्हें ख़रीद भी सकते हैं:
 one month	एक महीना
 already VIP	पहले से VIP
-Give a month to a friend · {p}	किसी दोस्त को एक महीना गिफ़्ट करें · {p}
+Gift a friend · {p}	किसी दोस्त को गिफ़्ट करें · {p}
 {from} gave you a month of VIP!	{from} ने आपको एक महीने का VIP गिफ़्ट किया!
 {name} received a month of VIP.	{name} को एक महीने का VIP मिला।
 Your friend is already VIP.	आपका दोस्त पहले से VIP है।

@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Érméket játékkal lehet szerezni:
 If you like, you can also buy them:	Ha szeretnéd, vásárolhatsz is:
 one month	egy hónap
 already VIP	már VIP
-Give a month to a friend · {p}	Egy hónap ajándékba egy barátnak · {p}
+Gift a friend · {p}	Ajándékozd egy barátnak · {p}
 {from} gave you a month of VIP!	{from} egy hónap VIP-et ajándékozott neked!
 {name} received a month of VIP.	{name} egy hónap VIP-et kapott.
 Your friend is already VIP.	A barátod már VIP.

@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Münzen verdienst du durchs Spielen:
 If you like, you can also buy them:	Wenn du magst, kannst du sie auch kaufen:
 one month	ein Monat
 already VIP	schon VIP
-Give a month to a friend · {p}	Einen Monat verschenken · {p}
+Gift a friend · {p}	Einem Freund schenken · {p}
 {from} gave you a month of VIP!	{from} hat dir einen Monat VIP geschenkt!
 {name} received a month of VIP.	{name} hat einen Monat VIP erhalten.
 Your friend is already VIP.	Dein Freund ist schon VIP.

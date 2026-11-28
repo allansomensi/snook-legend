@@ -471,11 +471,11 @@ impl Menu {
         // the collection is in the shop (its header), the rules by the
         // switch above (the "i") and in Settings → Game → About.
         let dock = [
-            (Icon::Trophy, t("Ranking"), Some(t("World ranking")), MenuAction::Ranking),
+            (Icon::Trophy, t("Ranking"), None, MenuAction::Ranking),
             (Icon::Person, t("Profile"), None, MenuAction::Profile),
             // (Drawn as an envelope: see below.)
             (Icon::List, t("Inbox"), None, MenuAction::Inbox),
-            (Icon::Shop, t("Shop"), Some(t("Shop and collection")), MenuAction::Shop),
+            (Icon::Shop, t("Shop"), None, MenuAction::Shop),
             (Icon::Gear, t("Settings"), None, MenuAction::Settings),
         ];
         let by = y - m.gap + 22.0;

@@ -2039,7 +2039,7 @@ impl ShopScreen {
             && !offers.vip_gift_price.is_empty()
         {
             let g = Rect::new(area.x, y, bw, 40.0);
-            let label = tw("Give a month to a friend · {p}", &[("p", &offers.vip_gift_price)]);
+            let label = tw("Gift a friend · {p}", &[("p", &offers.vip_gift_price)]);
             if ui.button(g, &label, online.signed_in()) {
                 self.gift_pick = Some(VIP_GIFT);
                 self.gift_first.reset();

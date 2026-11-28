@@ -1177,7 +1177,7 @@ Coins are earned by playing:	金币通过游戏获得：
 If you like, you can also buy them:	你也可以选择购买：
 one month	一个月
 already VIP	已是VIP
-Give a month to a friend · {p}	赠送好友一个月 · {p}
+Gift a friend · {p}	赠送好友 · {p}
 {from} gave you a month of VIP!	{from}送给你一个月VIP！
 {name} received a month of VIP.	{name}收到了一个月VIP。
 Your friend is already VIP.	你的好友已经是VIP。

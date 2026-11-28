@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Koin didapat dengan bermain:
 If you like, you can also buy them:	Kalau mau, kamu juga bisa membelinya:
 one month	satu bulan
 already VIP	sudah VIP
-Give a month to a friend · {p}	Hadiahkan sebulan ke teman · {p}
+Gift a friend · {p}	Hadiahkan ke teman · {p}
 {from} gave you a month of VIP!	{from} memberimu sebulan VIP!
 {name} received a month of VIP.	{name} menerima sebulan VIP.
 Your friend is already VIP.	Temanmu sudah VIP.

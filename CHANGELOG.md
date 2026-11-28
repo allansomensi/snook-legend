@@ -1,5 +1,19 @@
 # Changelog
 
+## Not released yet
+
+### At the table
+- The shot clock: the ring round the picture and the seconds under it (the
+  bar under the name said the same as the ring, and is gone).
+- The result of an online game: no "watch the deciding shot again" button
+  under Report (put the result away with its "–", or press R).
+
+### Main menu, shop, achievements
+- The main menu's row shows no hints: each button says what it is.
+- VIP's page: "Gift a friend" in place of "Give a month to a friend".
+- **Level 50 is a ruby medal** (the last level's milestone, as the hardest
+  feats).
+
 ## 0.12.4 (protocol 26)
 
 Private messages read like a messaging app's (times, ticks for sent,

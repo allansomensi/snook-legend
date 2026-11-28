@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Jetonlar oynayarak kazanılır:
 If you like, you can also buy them:	İstersen satın da alabilirsin:
 one month	bir ay
 already VIP	zaten VIP
-Give a month to a friend · {p}	Bir arkadaşına bir ay hediye et · {p}
+Gift a friend · {p}	Bir arkadaşına hediye et · {p}
 {from} gave you a month of VIP!	{from} sana bir aylık VIP hediye etti!
 {name} received a month of VIP.	{name} bir aylık VIP aldı.
 Your friend is already VIP.	Arkadaşın zaten VIP.

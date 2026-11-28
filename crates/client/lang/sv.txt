@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Mynt tjänar du genom att spela:
 If you like, you can also buy them:	Om du vill kan du också köpa dem:
 one month	en månad
 already VIP	redan VIP
-Give a month to a friend · {p}	Ge en månad till en vän · {p}
+Gift a friend · {p}	Ge bort till en vän · {p}
 {from} gave you a month of VIP!	{from} gav dig en månad VIP!
 {name} received a month of VIP.	{name} fick en månad VIP.
 Your friend is already VIP.	Din vän är redan VIP.

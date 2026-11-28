@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Monedele se câștigă jucând:
 If you like, you can also buy them:	Dacă vrei, le poți și cumpăra:
 one month	o lună
 already VIP	deja VIP
-Give a month to a friend · {p}	Dăruiește o lună unui prieten · {p}
+Gift a friend · {p}	Dăruiește unui prieten · {p}
 {from} gave you a month of VIP!	{from} ți-a dăruit o lună de VIP!
 {name} received a month of VIP.	{name} a primit o lună de VIP.
 Your friend is already VIP.	Prietenul tău e deja VIP.

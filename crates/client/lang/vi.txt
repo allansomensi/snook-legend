@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Xu kiếm được bằng cách chơi:
 If you like, you can also buy them:	Nếu muốn, bạn cũng có thể mua:
 one month	một tháng
 already VIP	đã là VIP
-Give a month to a friend · {p}	Tặng bạn bè một tháng · {p}
+Gift a friend · {p}	Tặng bạn bè · {p}
 {from} gave you a month of VIP!	{from} đã tặng bạn một tháng VIP!
 {name} received a month of VIP.	{name} đã nhận được một tháng VIP.
 Your friend is already VIP.	Người bạn đó đã là VIP.

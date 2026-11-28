@@ -357,9 +357,8 @@ fn clock_ring(ui: &Ui, m: &Match, face: Vec2) {
     }
 }
 
-/// The shot clock where it reads at a glance: a bar that empties along the
-/// bottom of the player's box, and the seconds left in a tag hanging under
-/// it (red and larger for the last ten).
+/// The shot clock where it reads at a glance: the seconds left in a tag
+/// hanging under the player's box (red and larger for the last ten).
 pub fn clock_tag(ui: &Ui, m: &Match, board: &Board) {
     let Some((left, total)) = running_clock(m) else { return };
     if matches!(m.phase, Phase::GameOver) {
@@ -367,13 +366,9 @@ pub fn clock_tag(ui: &Ui, m: &Match, board: &Board) {
     }
     let seat = m.game.current_player().min(1);
     let r = board.avatars[seat];
-    let frac = (left / total.max(1.0)).clamp(0.0, 1.0);
     let color = clock_color(left, total);
-    // The bar, inside the box's bottom edge.
-    let bar = Rect::new(r.x + 6.0, r.y + r.h - 5.0, r.w - 12.0, 3.0);
-    rrect(bar, 1.5, Color::new(1.0, 1.0, 1.0, 0.10));
-    rrect(Rect::new(bar.x, bar.y, bar.w * frac, bar.h), 1.5, color);
-    // The tag: a clock and the seconds, under the box.
+    // The tag: a clock and the seconds, under the box (the ring round the
+    // picture shows how much of the time is left).
     let urgent = left < 10.0;
     let secs = left.ceil().max(0.0) as i32;
     let text =

@@ -1177,7 +1177,7 @@ Coins are earned by playing:	تكسب العملات باللعب:
 If you like, you can also buy them:	ويمكنك أيضا شراؤها إن أردت:
 one month	شهر واحد
 already VIP	عضو VIP بالفعل
-Give a month to a friend · {p}	إهداء شهر لصديق · {p}
+Gift a friend · {p}	أهدِ صديقًا · {p}
 {from} gave you a month of VIP!	{from} أهداك شهرا من VIP!
 {name} received a month of VIP.	{name} تلقى شهرا من VIP.
 Your friend is already VIP.	صديقك عضو VIP بالفعل.

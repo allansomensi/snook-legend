@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Mince se získávají hraním:
 If you like, you can also buy them:	Jestli chceš, můžeš si je i koupit:
 one month	jeden měsíc
 already VIP	už má VIP
-Give a month to a friend · {p}	Darovat příteli měsíc · {p}
+Gift a friend · {p}	Darovat příteli · {p}
 {from} gave you a month of VIP!	{from} ti daroval(a) měsíc VIP!
 {name} received a month of VIP.	{name} dostal(a) měsíc VIP.
 Your friend is already VIP.	Tvůj přítel už VIP má.

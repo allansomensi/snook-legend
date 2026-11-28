@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Монеты зарабатываются в игр
 If you like, you can also buy them:	При желании их можно и купить:
 one month	один месяц
 already VIP	уже VIP
-Give a month to a friend · {p}	Подарить месяц другу · {p}
+Gift a friend · {p}	Подарить другу · {p}
 {from} gave you a month of VIP!	{from} дарит вам месяц VIP!
 {name} received a month of VIP.	{name} получает месяц VIP.
 Your friend is already VIP.	Ваш друг уже VIP.

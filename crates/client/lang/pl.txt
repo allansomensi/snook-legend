@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Monety zdobywa się, grając:
 If you like, you can also buy them:	Jeśli chcesz, możesz je też kupić:
 one month	jeden miesiąc
 already VIP	ma już VIP
-Give a month to a friend · {p}	Podaruj miesiąc znajomemu · {p}
+Gift a friend · {p}	Podaruj znajomemu · {p}
 {from} gave you a month of VIP!	Prezent od gracza {from}: miesiąc VIP!
 {name} received a month of VIP.	{name} otrzymuje miesiąc VIP.
 Your friend is already VIP.	Twój znajomy ma już VIP.

@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Munten verdien je door te spelen:
 If you like, you can also buy them:	Als je wilt, kun je ze ook kopen:
 one month	een maand
 already VIP	al VIP
-Give a month to a friend · {p}	Geef een vriend een maand cadeau · {p}
+Gift a friend · {p}	Cadeau geven aan een vriend · {p}
 {from} gave you a month of VIP!	{from} heeft je een maand VIP gegeven!
 {name} received a month of VIP.	{name} heeft een maand VIP ontvangen.
 Your friend is already VIP.	Je vriend is al VIP.

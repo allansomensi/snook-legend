@@ -246,7 +246,8 @@ pub const ACHIEVEMENTS: &[Achievement] = &[
     a("level_20", "Level 20", "Reach level 20.", Stat::Awarded, 1, 2),
     a("level_30", "Level 30", "Reach level 30.", Stat::Awarded, 1, 2),
     a("level_40", "Level 40", "Reach level 40.", Stat::Awarded, 1, 3),
-    a("level_50", "Level 50", "Reach level 50.", Stat::Awarded, 1, 3),
+    // (The last level's milestone: a ruby, as the hardest feats.)
+    a("level_50", "Level 50", "Reach level 50.", Stat::Awarded, 1, RUBY),
     a(
         "ladder_champion",
         "Champion of the tour",
@@ -398,7 +399,7 @@ mod tests {
     #[test]
     fn ruby_is_rare_and_the_golden_break_brazilian() {
         let rubies: Vec<_> = ACHIEVEMENTS.iter().filter(|a| a.level == RUBY).collect();
-        assert!((1..=5).contains(&rubies.len()));
+        assert!((1..=6).contains(&rubies.len()));
         // The secrets: at least eight, none of them a ruby.
         let secrets: Vec<_> = ACHIEVEMENTS.iter().filter(|a| a.secret).collect();
         assert!(secrets.len() >= 8);

@@ -1177,7 +1177,7 @@ Coins are earned by playing:	คุณ​ได้​เหรียญ​จา
 If you like, you can also buy them:	ถ้า​ต้องการ คุณ​ซื้อ​เหรียญ​ได้​ด้วย:
 one month	หนึ่งเดือน
 already VIP	เป็น VIP อยู่แล้ว
-Give a month to a friend · {p}	มอบ​หนึ่ง​เดือน​ให้​เพื่อน · {p}
+Gift a friend · {p}	มอบ​ให้​เพื่อน · {p}
 {from} gave you a month of VIP!	{from} มอบ VIP หนึ่ง​เดือน​ให้​คุณ!
 {name} received a month of VIP.	{name} ได้รับ VIP หนึ่ง​เดือน
 Your friend is already VIP.	เพื่อน​ของ​คุณ​เป็น VIP อยู่แล้ว

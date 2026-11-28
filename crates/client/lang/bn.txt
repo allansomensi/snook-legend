@@ -1177,7 +1177,7 @@ Coins are earned by playing:	কয়েন খেলে অর্জন কর
 If you like, you can also buy them:	চাইলে কিনতেও পারেন:
 one month	এক মাস
 already VIP	আগে থেকেই VIP
-Give a month to a friend · {p}	বন্ধুকে এক মাস উপহার দিন · {p}
+Gift a friend · {p}	বন্ধুকে উপহার দিন · {p}
 {from} gave you a month of VIP!	{from} আপনাকে এক মাসের VIP উপহার দিয়েছেন!
 {name} received a month of VIP.	{name} এক মাসের VIP পেয়েছেন।
 Your friend is already VIP.	আপনার বন্ধু আগে থেকেই VIP।

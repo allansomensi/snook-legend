@@ -1177,7 +1177,7 @@ Coins are earned by playing:	Les pièces se gagnent en jouant :
 If you like, you can also buy them:	Si vous voulez, vous pouvez aussi en acheter :
 one month	un mois
 already VIP	déjà VIP
-Give a month to a friend · {p}	Offrir un mois à un ami · {p}
+Gift a friend · {p}	Offrir à un ami · {p}
 {from} gave you a month of VIP!	{from} vous a offert un mois de VIP !
 {name} received a month of VIP.	{name} a reçu un mois de VIP.
 Your friend is already VIP.	Votre ami est déjà VIP.

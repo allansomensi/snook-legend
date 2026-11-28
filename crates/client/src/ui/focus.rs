@@ -378,9 +378,15 @@ impl Ui {
             .and_then(|k| nav.items.borrow().iter().find(|it| it.key == k && !it.field).copied());
         let a = self.anim(motion::id("focus-ring-alpha"), found.is_some() as u8 as f32, 24.0);
         let Some(item) = found else {
-            if a > 0.01
-                && let Some(last) = self.anims.borrow().get(&motion::id("focus-ring")).map(|s| s.v)
-            {
+            // (Read and let go before the glide below writes it: a borrow in
+            // the `if let` lasts the whole block, and the game came down on
+            // Esc while the ring was showing.)
+            let last = if a > 0.01 {
+                self.anims.borrow().get(&motion::id("focus-ring")).map(|s| s.v)
+            } else {
+                None
+            };
+            if let Some(last) = last {
                 let r = Rect::new(last[0], last[1], last[2], last[3]);
                 ring(r, a);
                 // (Kept while it fades.)

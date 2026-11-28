@@ -2,6 +2,11 @@
 
 ## Not released yet
 
+### Fixed
+- **The game closed** when Esc left a screen (the settings, a menu) while
+  the keyboard's focus ring was showing (after Tab): the ring fading out
+  read and wrote its place at once and the game came down.
+
 ### At the table
 - The shot clock: the ring round the picture and the seconds under it (the
   bar under the name said the same as the ring, and is gone).

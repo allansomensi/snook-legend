@@ -13,6 +13,10 @@
 - The result of an online game: no "watch the deciding shot again" button
   under Report (put the result away with its "–", or press R).
 
+### Time attack
+- **3 attempts a day** (were 10): each one weighs. The server counts them
+  (a game of 0.12.x shows "of 10" beside the 3 left).
+
 ### Ranking
 - **A country's ranking**: World, **Country**, Friends and Doubles. The
   country is the flag on the player's profile; without one, the ranking
@@ -35,6 +39,23 @@
   its walls and ceiling instead of going through them.
 
 ### Graphics
+- **The cues, made as real ones are**: turned smooth from a domed leather
+  tip (layered, chalked, the chalk rubbed down its side) through the
+  ferrule, a pro-taper maple shaft (its grain, a faint blue by the
+  ferrule) or carbon fibre's strands, the joint's two collars, the
+  forearm, the rings, the wrap and the butt sleeve to a rubber bumper;
+  each in one detailed texture (the patterns sharp, no longer in coarse
+  blocks), every part with its own finish: lacquer with a clear coat,
+  satin, matte linen and leather, polished metal mirroring the room in its
+  own colour, mother-of-pearl shifting its colours. The finer the cue, the
+  richer its make: ivory collars and a ring on the plainest; veneers
+  along the points, ring stacks with an accent; steel pins and checks;
+  gold, engraved collars, checks twice over and a stitched leather wrap on
+  the finest. The level's marks are inlaid in it. The shop's pictures show
+  the same cue. (The full detail is made in the background: a cue first
+  seen shows a lighter version for a moment.)
+- Glossy things mirror the cloth under them (a blue cloth's blue, not
+  always green), and the studio's floor in the showroom.
 - The balls' shadows on Low and Medium no longer flicker: side by side (a
   rack, a set in the showroom), one hid part of the next in light,
   hard-edged patches that shimmered as the camera moved.

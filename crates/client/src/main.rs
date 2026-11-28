@@ -21,6 +21,7 @@ mod coords;
 mod correspondence;
 mod countries;
 mod country_names;
+mod cue_skin;
 mod cues;
 mod cup;
 mod dev;

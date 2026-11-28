@@ -46,13 +46,14 @@ pub struct Scene {
     pub hall_preview: bool,
     quality: Quality,
     balls: Vec<gfx::Model>,
-    cue: gfx::Model,
     white: Texture2D,
     shadow: Texture2D,
     lamps: [Vec3; LAMP_COUNT],
     sinking: HashMap<BallId, Sinking>,
     /// Cue meshes by (cue, chalk, level) design.
-    cues: HashMap<(String, String, u8), (gfx::Model, Option<gfx::Model>)>,
+    /// The cues drawn lately (design, chalk, level), the most recent last:
+    /// a few are kept (each skin is a large texture).
+    cues: Vec<((String, String, u8), CueModel)>,
     pub lamp_visible: bool,
     /// The camera looks down on the table: nothing of the room (cords,
     /// fans, beams) is drawn between it and the table.
@@ -88,7 +89,6 @@ pub struct Scene {
     /// Where each ball is drawn this frame (ball index, transform).
     ball_poses: Vec<(usize, Mat4)>,
     /// The cue drawn last (its design), so the look-up is skipped.
-    cue_key: Option<(String, String, u8)>,
     /// The shop's stage: its floor (height, radius) and the cubes of chalk
     /// shown on it (by code).
     stage_floor: Option<(f32, f32, gfx::Model)>,
@@ -287,7 +287,6 @@ impl Scene {
             .into_iter()
             .map(|p| gfx::sphere_mesh(r, &upload(p, false), ball_segments))
             .collect();
-        let cue = cue_mesh("cue_classic", "chalk_blue", 0, &white).0;
 
         // The lamps span the table's length, as the halls hang them.
         let lamps = crate::halls::lamp_xs(crate::halls::lamp_reach(half_table(&table)))
@@ -306,12 +305,11 @@ impl Scene {
             hall_preview: false,
             quality,
             balls,
-            cue,
             white,
             shadow,
             lamps,
             sinking: HashMap::new(),
-            cues: HashMap::new(),
+            cues: Vec::new(),
             lamp_visible: !focused,
             clear_over_table: false,
             looks: looks.clone(),
@@ -332,7 +330,6 @@ impl Scene {
             glow_order: Vec::new(),
             glow_tex: upload(textures::halo(), false),
             ball_poses: Vec::with_capacity(16),
-            cue_key: None,
             stage_floor: None,
             chalks: HashMap::new(),
             props: Default::default(),
@@ -465,6 +462,7 @@ impl Scene {
         let light_eye = vec3(cam.eye.x, cam.eye.y.min(LIGHT_EYE_MAX_Y), cam.eye.z);
         let lens = (cam.eye.y - TABLE_HEIGHT).max(0.1) / (light_eye.y - TABLE_HEIGHT).max(0.1);
         self.materials.set_frame(light_eye, self.lamps, 1.55, self.lamp_count, focus, tint);
+        self.materials.set_below(self.cloth_below());
         let soft_shadows = self.soft_shadows && self.ball_shadows;
         let mut casters = [Vec4::ZERO; 16];
         if soft_shadows {
@@ -584,28 +582,36 @@ impl Scene {
     /// chalked, with the marks of its level, moved by `model` (its mesh runs
     /// along +Y from the tip). Each design is built once.
     fn draw_cue(&mut self, model: Mat4, design: &str, chalk: &str, level: u8) {
-        let wanted = (design, chalk, level);
-        let known =
-            self.cue_key.as_ref().is_some_and(|k| (k.0.as_str(), k.1.as_str(), k.2) == wanted);
-        if !known && !design.is_empty() {
-            let key = (design.to_string(), chalk.to_string(), level);
-            if !self.cues.contains_key(&key) {
-                let mesh = cue_mesh(&key.0, &key.1, key.2, &self.white);
-                self.cues.insert(key.clone(), mesh);
+        let design = if design.is_empty() { "cue_classic" } else { design };
+        let at = self
+            .cues
+            .iter()
+            .position(|(k, _)| (k.0.as_str(), k.1.as_str(), k.2) == (design, chalk, level));
+        let at = match at {
+            Some(i) => {
+                // The most recent last.
+                let entry = self.cues.remove(i);
+                self.cues.push(entry);
+                self.cues.len() - 1
             }
-            self.cue_key = Some(key);
-        }
-        self.materials.use_lit(Surface::WOOD);
-        match self.cue_key.as_ref().and_then(|k| self.cues.get(k)) {
-            Some((mesh, glow)) if !design.is_empty() => {
-                self.materials.draw(mesh, Some(model));
-                if let Some(glow) = glow {
-                    // The top level's gold glows softly.
-                    self.materials.use_blended(Surface::UNLIT);
-                    self.materials.draw(glow, Some(model));
+            None => {
+                // (Both players' cues and a few looked at in the shop.)
+                if self.cues.len() >= 4 {
+                    self.cues.remove(0);
                 }
+                let made = CueModel::new(design, chalk, level, self.quality, &self.white);
+                self.cues.push(((design.to_string(), chalk.to_string(), level), made));
+                self.cues.len() - 1
             }
-            _ => self.materials.draw(&self.cue, Some(model)),
+        };
+        let cue = &mut self.cues[at].1;
+        cue.update();
+        self.materials.use_lit(Surface::CUE);
+        self.materials.draw(&cue.model, Some(model));
+        if let Some(glow) = &cue.glow {
+            // The top level's gold glows softly.
+            self.materials.use_blended(Surface::UNLIT);
+            self.materials.draw(glow, Some(model));
         }
     }
 
@@ -618,6 +624,9 @@ impl Scene {
         // A neutral, dark studio seen in what is glossy.
         let tint = vec3(0.075, 0.065, 0.06);
         self.materials.set_frame(light_eye, self.lamps, 1.55, self.lamp_count, 1.0, tint);
+        // (The stage's dark floor under the lamps, or the table's cloth.)
+        let below = if show.table { self.cloth_below() } else { vec3(0.085, 0.075, 0.065) };
+        self.materials.set_below(below);
         let soft = self.soft_shadows;
         let r = self.ball_radius();
         let mut casters = [Vec4::ZERO; 16];
@@ -793,6 +802,12 @@ impl Scene {
         }
     }
 
+    /// The cloth as glossy things mirror it (a ball's underside, a cue).
+    fn cloth_below(&self) -> Vec3 {
+        let c = self.looks.cloth;
+        vec3(c[0] as f32, c[1] as f32, c[2] as f32) / 255.0 * 0.32
+    }
+
     /// Lays `felt` on the cloth and the cushions.
     fn dress(&mut self, felt: &Texture2D) {
         for &i in &self.felt_parts {
@@ -819,6 +834,7 @@ impl Scene {
         // A neutral, dark studio seen in what is glossy.
         let tint = vec3(0.075, 0.065, 0.06);
         self.materials.set_frame(view.eye, self.lamps, 1.55, 3, 1.0, tint);
+        self.materials.set_below(self.cloth_below());
         let r = self.ball_radius();
         let mut casters = [Vec4::ZERO; 16];
         for (slot, (_, model)) in casters.iter_mut().zip(shot.balls) {
@@ -1218,171 +1234,57 @@ impl Default for Looks {
     }
 }
 
-/// A cue of the given design, chalked with `chalk` (shop codes), with the
-/// marks of its `level` (see [`cue_marks`]); and, at the top level, a soft
-/// glow drawn see-through over its gold.
-pub fn cue_mesh(
-    cue: &str,
-    chalk: &str,
-    level: u8,
-    white: &Texture2D,
-) -> (gfx::Model, Option<gfx::Model>) {
-    use snook_legend_proto::shop::CueStyle;
+/// The look of a cue (shop codes; unknown ones are the classic cue and
+/// the blue chalk).
+fn cue_look(design: &str, chalk: &str, level: u8) -> crate::cue_skin::Look {
     use snook_legend_proto::shop::{Look, item};
-    let (butt, accent, ring, style, shaft) = match item(cue).map(|i| i.look) {
-        Some(Look::Cue { butt, accent, ring, style, shaft }) => (butt, accent, ring, style, shaft),
-        _ => (
-            [35, 20, 12],
-            [20, 20, 24],
-            [240, 238, 228],
-            CueStyle::Plain,
-            snook_legend_proto::shop::MAPLE,
-        ),
-    };
+    let design = crate::cues::Design::of(design)
+        .or_else(|| crate::cues::Design::of("cue_classic"))
+        .expect("the classic cue");
     let chalk = match item(chalk).map(|i| i.look) {
         Some(Look::Chalk(c)) => c,
         _ => [40, 80, 150],
     };
-    let c = |v: [u8; 3]| rgb(v[0], v[1], v[2]);
-    let mut m = MeshBuilder::default();
-    // A regulation pool cue: a 13 mm tip, 58" long, 19 oz (the physics' mass).
-    // The tip, chalked: leather, domed at its end like a real one.
-    m.frustum(-0.0027, 0.0064, 0.0, 0.0065, 24, c(chalk));
-    m.end_cap(-0.0027, 0.0064, -0.0019, 24, 5, c(chalk));
-    m.frustum(0.0, 0.0065, 0.022, 0.0066, 24, rgb(240, 238, 228)); // ferrule
-    m.frustum(0.022, 0.0066, 0.80, 0.0105, 16, c(shaft)); // maple (or carbon) shaft
-    m.frustum(0.80, 0.0105, 0.815, 0.0106, 16, c(ring)); // joint ring
-    // The forearm, with the cue's pattern in the accent colour (as in the
-    // shop), so everyone at the table can tell the cue apart.
-    let b = c(butt);
-    let paint = crate::cues::Paint::of(butt, accent, ring);
-    let (round, along) = crate::cues::resolution(style);
-    if style == CueStyle::Plain {
-        m.frustum(0.815, 0.0106, 1.10, 0.0125, 16, b);
-    } else {
-        m.painted_frustum(0.815, 0.0106, 1.10, 0.0125, round, along, |u, v| {
-            crate::cues::pattern(style, paint, u, v)
-        });
-    }
-    m.frustum(1.10, 0.0125, 1.115, 0.0126, 16, c(ring)); // ring
-    // The wrap (a dark leather on the finest, see `cues::wrap_color`).
-    m.frustum(1.115, 0.0126, 1.35, 0.0138, 16, crate::cues::wrap_color(style, paint));
-    if crate::cues::paints_sleeve(style) {
-        // The finest cues carry the pattern on the butt sleeve too.
-        m.painted_frustum(1.35, 0.0138, 1.47, 0.0148, round, along / 3, |u, v| {
-            crate::cues::pattern(style, paint, u, v)
-        });
-    } else {
-        m.frustum(1.35, 0.0138, 1.47, 0.0148, 16, c(butt)); // butt
-    }
-    m.frustum(1.47, 0.0148, 1.48, 0.0, 16, c(ring)); // cap
-    let glow = cue_marks(&mut m, level, b);
-    (m.build(white), glow.map(|g| g.build(white)))
+    crate::cue_skin::Look { design, chalk: rgb(chalk[0], chalk[1], chalk[2]), level }
 }
 
-/// The radius of the cue at `y` (from the tip), for marks laid on it.
-fn cue_radius(y: f32) -> f32 {
-    let lerp = |y0: f32, r0: f32, y1: f32, r1: f32| r0 + (r1 - r0) * ((y - y0) / (y1 - y0));
-    if y < 1.10 {
-        lerp(0.815, 0.0106, 1.10, 0.0125)
-    } else if y < 1.35 {
-        lerp(1.115, 0.0126, 1.35, 0.0138)
-    } else {
-        lerp(1.35, 0.0138, 1.47, 0.0148)
-    }
+/// A cue at the table: its turned shape in its skin (see `cue_skin`), and
+/// the glow of the top level's gold. The skin at full size is made in the
+/// background; a small one, made at once, stands in until it is ready.
+struct CueModel {
+    model: gfx::Model,
+    glow: Option<gfx::Model>,
+    pending: Option<std::thread::JoinHandle<textures::Pixels>>,
 }
 
-/// The marks of a cue's level, purely for show: metal bands near the joint
-/// (silver, then gold), then pearl inlays, then an engraved gold band; the
-/// top level's gold glows (the see-through glow is returned).
-fn cue_marks(m: &mut MeshBuilder, level: u8, wood: Color) -> Option<MeshBuilder> {
-    if level == 0 {
-        return None;
+impl CueModel {
+    fn new(design: &str, chalk: &str, level: u8, quality: Quality, white: &Texture2D) -> Self {
+        let look = cue_look(design, chalk, level);
+        // (Round it, along it, sampled finely; and the lathe's sides.)
+        let (w, h, fine, segments) = match quality {
+            Quality::Low => (256, 1024, false, 40),
+            Quality::Medium => (512, 2048, false, 48),
+            Quality::High => (512, 2048, true, 64),
+            Quality::Ultra => (1024, 4096, true, 80),
+        };
+        let quick = crate::cue_skin::skin(&look, 128, 512, false);
+        let model = crate::cue_skin::shape(segments).build(&upload(quick, true));
+        let pending = std::thread::Builder::new()
+            .name("cue skin".into())
+            .spawn(move || crate::cue_skin::skin(&look, w, h, fine))
+            .ok();
+        let glow = crate::cue_skin::glow(level).map(|g| g.build(white));
+        CueModel { model, glow, pending }
     }
-    let silver = rgb(214, 218, 226);
-    let gold = rgb(236, 194, 92);
-    let pearl = rgb(244, 240, 228);
-    let metal = if level >= 4 { gold } else { silver };
-    // Laid a hair above the wood, so nothing flickers.
-    let lift = 0.00025;
-    let band = |m: &mut MeshBuilder, y: f32, h: f32, color: Color| {
-        m.frustum(y, cue_radius(y) + lift, y + h, cue_radius(y + h) + lift, 16, color);
-    };
-    // Bands just below the joint: one at level 1, two from level 2, three
-    // from level 5.
-    let bands = match level {
-        1 => 1,
-        2..=4 => 2,
-        _ => 3,
-    };
-    for k in 0..bands {
-        band(m, 0.826 + k as f32 * 0.012, 0.005, metal);
-    }
-    // Pearl diamonds round the forearm from level 3 (and on the butt sleeve
-    // from level 5).
-    let diamonds = |m: &mut MeshBuilder, y0: f32, y1: f32, count: f32, inlay: Color| {
-        let (r0, r1) = (cue_radius(y0) + lift * 0.6, cue_radius(y1) + lift * 0.6);
-        m.painted_frustum(y0, r0, y1, r1, 48, 10, |u, v| {
-            let d = ((u * count).fract() - 0.5).abs() * 2.0 + (v - 0.5).abs() * 2.0;
-            if d < 0.8 { inlay } else { wood }
-        });
-    };
-    if level >= 3 {
-        let y = 0.826 + bands as f32 * 0.012 + 0.004;
-        diamonds(m, y, y + 0.03, 6.0, pearl);
-    }
-    if level >= 4 {
-        // A gold ring on the butt sleeve.
-        band(m, 1.13, 0.006, gold);
-    }
-    if level >= 5 {
-        diamonds(m, 1.145, 1.18, 8.0, pearl);
-        band(m, 1.19, 0.006, gold);
-    }
-    if level < 6 {
-        return None;
-    }
-    // The top level: a wide engraved gold band at the joint (a running
-    // scroll cut into the gold) and a soft glow around it.
-    let (y0, y1) = (0.815, 0.824);
-    let deep = rgb(150, 104, 36);
-    m.painted_frustum(y0, cue_radius(y0) + lift, y1, cue_radius(y1) + lift, 48, 6, |u, v| {
-        let wave = ((u * 12.0 * std::f32::consts::TAU).sin() * 0.35 + 0.5 - v).abs();
-        if wave < 0.12 { deep } else { gold }
-    });
-    // The glow: the gold lit from within (drawn over it, see-through), and
-    // a faint haze round it that fades out along the cue.
-    let mut glow = MeshBuilder::default();
-    glow.frustum(
-        y0,
-        cue_radius(y0) + lift * 2.0,
-        y1,
-        cue_radius(y1) + lift * 2.0,
-        24,
-        Color::new(1.0, 0.86, 0.5, 0.35),
-    );
-    let rings = [(0.79f32, 0.0f32), (0.812, 0.1), (0.828, 0.1), (0.86, 0.0)];
-    for w in rings.windows(2) {
-        let ((ya, aa), (yb, ab)) = (w[0], w[1]);
-        let (ra, rb) = (cue_radius(ya.max(0.815)) * 1.3, cue_radius(yb.max(0.815)) * 1.3);
-        for k in 0..20 {
-            let (t0, t1) = (
-                k as f32 / 20.0 * std::f32::consts::TAU,
-                (k + 1) as f32 / 20.0 * std::f32::consts::TAU,
-            );
-            let d = |t: f32| vec3(t.cos(), 0.0, t.sin());
-            let ca = Color::new(1.0, 0.8, 0.4, aa);
-            let cb = Color::new(1.0, 0.8, 0.4, ab);
-            let i = [
-                glow.push(d(t0) * ra + Vec3::Y * ya, Vec2::ZERO, d(t0), ca),
-                glow.push(d(t1) * ra + Vec3::Y * ya, Vec2::ZERO, d(t1), ca),
-                glow.push(d(t1) * rb + Vec3::Y * yb, Vec2::ZERO, d(t1), cb),
-                glow.push(d(t0) * rb + Vec3::Y * yb, Vec2::ZERO, d(t0), cb),
-            ];
-            glow.indices.extend_from_slice(&[i[0], i[1], i[2], i[0], i[2], i[3]]);
+
+    /// Puts the full-size skin on once it is made.
+    fn update(&mut self) {
+        if self.pending.as_ref().is_some_and(|p| p.is_finished())
+            && let Some(Ok(pixels)) = self.pending.take().map(|p| p.join())
+        {
+            self.model.set_texture(&upload(pixels, true));
         }
     }
-    Some(glow)
 }
 
 pub struct CuePose {
@@ -1392,7 +1294,7 @@ pub struct CuePose {
 
 impl CuePose {
     /// The far end of the cue (the mesh runs along its local +Y from the
-    /// tip; see `cue_mesh`).
+    /// tip; see `cue_skin`).
     pub fn butt(&self) -> Vec3 {
         self.tip + self.rotation * (Vec3::Y * CUE_LENGTH)
     }
@@ -1523,8 +1425,8 @@ pub fn ball_surface(finish: BallFinish) -> Surface {
     }
 }
 
-/// Length of the cue mesh, tip to butt (see `cue_mesh`).
-const CUE_LENGTH: f32 = 1.48;
+/// Length of the cue, tip to butt (see `cue_skin`).
+const CUE_LENGTH: f32 = crate::cue_skin::LENGTH;
 
 /// Radius of the hole drawn for a pocket: exactly where balls drop.
 /// A ball that has gone over the lip of a pocket: it keeps the velocity it

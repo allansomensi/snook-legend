@@ -107,7 +107,7 @@ const HINT_SECS: f64 = 9.0;
 const FLOAT: f32 = 2.8;
 /// The height a cue floats at over the stage.
 const CUE_HEIGHT: f32 = 0.09;
-/// The length of the cue mesh (see `scene::cue_mesh`).
+/// The length of the cue (see `cue_skin`).
 const CUE_LENGTH: f32 = 1.48;
 /// The order the balls are racked in on the stage, row by row from the apex.
 const RACK: [[u8; 5]; 5] =

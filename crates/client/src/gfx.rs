@@ -63,7 +63,7 @@ uniform vec4 Ambient;        // rgb, w = number of lamps (1 or 3)
 uniform vec4 Surface;        // x = specular, y = shininess, z = unlit, w = rim
 uniform vec4 Extra;          // x = clear coat (glossy reflection of the room), y = cut-outs,
                              // z = haze (unlit: fades where seen edge on),
-                             // w = 1 the room (see Clear), 2 a ball
+                             // w = 1 the room (see Clear), 2 a ball, 3 a cue
 uniform vec4 Shadows;        // x = soft shadows on, y = occlusion on, z = cloth height,
                              // w = reflection pass (fade with height)
 uniform vec4 Balls[16];      // xyz = centre, w = radius (0 = empty slot)
@@ -76,6 +76,7 @@ uniform vec4 CueB;           // the cue's butt: xyz, w = radius
 uniform vec4 Spot;           // xy = half size of the pool of light on the table,
                              // z = the angle a lamp's glint on a ball must span, per
                              // metre from the camera, to cover a pixel or two
+uniform vec4 Below;          // rgb = what glossy things mirror below them (the cloth, a floor)
 uniform vec4 Clear;          // the room is left out of this box over the table when the
                              // camera looks down on it: xy = half size, z = bottom, w = top
                              // (w <= z: off). Extra.w marks the room's surfaces.
@@ -260,8 +261,7 @@ float ball_glint(vec3 pos, vec3 r) {
 vec3 environment(vec3 r) {
     // The hall's own colour (warm wood, a sunset, a cold loft…).
     vec3 room = Stage.yzw;
-    vec3 cloth = vec3(0.03, 0.17, 0.08);
-    vec3 c = mix(room, cloth, smoothstep(-0.05, -0.45, r.y));
+    vec3 c = mix(room, Below.rgb, smoothstep(-0.05, -0.45, r.y));
     c += vec3(0.05, 0.035, 0.02) * smoothstep(0.2, 0.9, r.y);
     c += lamp_reflection(Lamp1, r);
     if (Ambient.w > 1.5) {
@@ -270,6 +270,13 @@ vec3 environment(vec3 r) {
     }
     return c;
 }
+
+// The highlight of what is being lit: its strength and sharpness, and its
+// colour (white, or a metal's own). Set in main from Surface (a cue's
+// texture changes them part by part).
+float g_spec;
+float g_shine;
+vec3 g_tint;
 
 vec3 lamp_at(vec3 pos, vec3 at, vec3 n, vec3 v, vec3 base, float shadow) {
     vec3 l = pos - at;
@@ -280,8 +287,8 @@ vec3 lamp_at(vec3 pos, vec3 at, vec3 n, vec3 v, vec3 base, float shadow) {
     float att = LampColor.w / (1.0 + 0.9 * d * d);
     float diff = max(dot(n, l), 0.0);
     vec3 h = normalize(l + v);
-    float spec = pow(max(dot(n, h), 0.0), Surface.y) * Surface.x;
-    return LampColor.rgb * (diff * base + spec) * att * cone * shadow;
+    float spec = pow(max(dot(n, h), 0.0), g_shine) * g_spec;
+    return LampColor.rgb * (diff * base + spec * g_tint) * att * cone * shadow;
 }
 
 vec3 lamp(vec3 pos, vec3 n, vec3 v, vec3 base, float shadow) {
@@ -331,7 +338,8 @@ void main() {
             discard;
         }
     }
-    vec4 base = texture2D(Texture, uv, Extra.w > 1.5 ? -1.0 : 0.0) * color;
+    bool ball = Extra.w > 1.5 && Extra.w < 2.5;
+    vec4 base = texture2D(Texture, uv, ball ? -1.0 : 0.0) * color;
     if (Surface.z > 0.5) {
         // Unlit: the light is baked into the colour (the halls) or the
         // surface shines by itself.
@@ -365,6 +373,26 @@ void main() {
     }
     vec3 n = normalize(v_normal);
     vec3 v = normalize(CameraPos - v_world);
+    g_spec = Surface.x;
+    g_shine = Surface.y;
+    g_tint = vec3(1.0);
+    // A cue (Extra.w = 3): the texture's alpha says what each part is made
+    // of: 0 polished metal, 0.33 matte (leather, linen, rubber), 0.55 satin
+    // (an oiled shaft), 0.75 lacquer, 1 pearl (lacquer whose colours shift
+    // with the angle).
+    float metal = 0.0;
+    float gloss = 1.0;
+    float pearl = 0.0;
+    if (Extra.w > 2.5) {
+        float a = base.a;
+        metal = 1.0 - smoothstep(0.08, 0.25, a);
+        gloss = max(smoothstep(0.38, 0.72, a), metal);
+        pearl = smoothstep(0.85, 0.97, a);
+        g_spec = Surface.x * mix(0.05, 1.0, gloss) * (1.0 + 2.0 * metal);
+        g_shine = mix(9.0, Surface.y, gloss) * (1.0 + 0.6 * metal);
+        g_tint = mix(vec3(1.0), base.rgb * 1.3 + 0.04, metal);
+        base = vec4(base.rgb * (1.0 - 0.85 * metal), 1.0);
+    }
 #ifdef DEBUG_NORMALS
     // Development check: faces whose normal points away from the viewer
     // (they are lit from behind and look dark) show up red.
@@ -416,9 +444,25 @@ void main() {
         float ndv = max(dot(n, v), 0.0);
         float fresnel = 0.04 + 0.96 * pow(1.0 - ndv, 5.0);
         vec3 r = reflect(-v, n);
-        c += environment(r) * Extra.x * (0.05 + 0.75 * fresnel);
+        vec3 env = environment(r);
+        if (Extra.w > 2.5) {
+            // The clear coat over what is polished (none on the matte
+            // parts); metal mirrors the room in its own colour, brighter
+            // towards the lamps above it.
+            c += env * Extra.x * (0.05 + 0.75 * fresnel) * gloss * (1.0 - metal);
+            // (A broad band of light where it faces up, as under a
+            // studio's softbox or a table's lamps: polished metal reads by
+            // its contrast.)
+            float band = smoothstep(0.3, 0.92, r.y);
+            vec3 sky = env + LampColor.rgb * LampColor.w * (0.03 + 0.32 * band);
+            c += sky * g_tint * metal * (0.6 + 0.4 * fresnel);
+            // Mother-of-pearl: colours shifting with the angle.
+            c += pearl * 0.1 * (0.5 + 0.5 * cos(6.2832 * (ndv * 1.3 + vec3(0.0, 0.33, 0.67))));
+        } else {
+            c += env * Extra.x * (0.05 + 0.75 * fresnel);
+        }
     }
-    if (Extra.w > 1.5) {
+    if (ball) {
         // The light over the table, mirrored in the ball's polish: one
         // clean dot (the three lamps side by side made a ragged bar across
         // a small ball).
@@ -464,6 +508,9 @@ pub struct Surface {
     /// A ball: its lamp glints never get smaller than a clean dot and its
     /// texture is read sharp (see the shader).
     pub ball: bool,
+    /// A cue: its texture's alpha says what each part is made of (see
+    /// `cue_skin::Finish` and the shader).
+    pub cue: bool,
 }
 
 impl Surface {
@@ -476,6 +523,7 @@ impl Surface {
         cut: 0.0,
         haze: 0.0,
         ball: false,
+        cue: false,
     };
     pub const WOOD: Surface = Surface {
         specular: 0.35,
@@ -486,6 +534,7 @@ impl Surface {
         cut: 0.0,
         haze: 0.0,
         ball: false,
+        cue: false,
     };
     /// Polished phenolic balls, as a tournament set looks under the lamps:
     /// each lamp is a small, crisp glint and the room a faint reflection,
@@ -499,6 +548,7 @@ impl Surface {
         cut: 0.0,
         haze: 0.0,
         ball: true,
+        cue: false,
     };
     pub const UNLIT: Surface = Surface {
         specular: 0.0,
@@ -509,9 +559,33 @@ impl Surface {
         cut: 0.0,
         haze: 0.0,
         ball: false,
+        cue: false,
+    };
+    /// A cue: lacquer's gloss for its polished parts, which its texture
+    /// turns down to satin and matte or up to metal and pearl part by part.
+    pub const CUE: Surface = Surface {
+        specular: 0.55,
+        shininess: 90.0,
+        unlit: false,
+        rim: 0.04,
+        coat: 0.42,
+        cut: 0.0,
+        haze: 0.0,
+        ball: false,
+        cue: true,
     };
     pub const fn lit(specular: f32, shininess: f32, rim: f32, coat: f32) -> Surface {
-        Surface { specular, shininess, unlit: false, rim, coat, cut: 0.0, haze: 0.0, ball: false }
+        Surface {
+            specular,
+            shininess,
+            unlit: false,
+            rim,
+            coat,
+            cut: 0.0,
+            haze: 0.0,
+            ball: false,
+            cue: false,
+        }
     }
 
     /// A surface whose light is baked into its colours (the halls) but which
@@ -527,6 +601,7 @@ impl Surface {
             cut: 0.0,
             haze: 0.0,
             ball: false,
+            cue: false,
         }
     }
 
@@ -542,6 +617,7 @@ impl Surface {
             cut: 0.0,
             haze: power,
             ball: false,
+            cue: false,
         }
     }
 
@@ -575,6 +651,7 @@ struct Uniforms {
     cue_a: [f32; 4],
     cue_b: [f32; 4],
     spot: [f32; 4],
+    below: [f32; 4],
     clear: [f32; 4],
 }
 
@@ -599,6 +676,7 @@ impl Default for Uniforms {
             cue_a: [0.0; 4],
             cue_b: [0.0; 4],
             spot: [1.25, 0.72, 0.0, 0.0],
+            below: [0.03, 0.17, 0.08, 0.0],
             clear: [0.0; 4],
         }
     }
@@ -623,6 +701,7 @@ fn uniform_descs() -> Vec<UniformDesc> {
         UniformDesc::new("CueA", UniformType::Float4),
         UniformDesc::new("CueB", UniformType::Float4),
         UniformDesc::new("Spot", UniformType::Float4),
+        UniformDesc::new("Below", UniformType::Float4),
         UniformDesc::new("Clear", UniformType::Float4),
     ]
 }
@@ -871,6 +950,13 @@ impl Materials {
         self.room.set(room);
     }
 
+    /// What glossy surfaces mirror below them: the cloth at the table, the
+    /// stage's floor in the showroom.
+    pub fn set_below(&self, color: Vec3) {
+        let v = color.extend(0.0);
+        self.set("Below", v, |u| u.below = v.to_array());
+    }
+
     /// The box over the table the room is left out of while the camera looks
     /// down on it (`None`: nothing is left out).
     pub fn set_clear(&self, clear: Option<(Vec2, f32, f32)>) {
@@ -986,7 +1072,9 @@ fn set_surface(m: &Material, s: Surface, room: bool) {
 /// What a surface is to the shader (`Extra.w`): 2 a ball, 1 the room, 0 the
 /// rest.
 fn kind(s: Surface, room: bool) -> f32 {
-    if s.ball {
+    if s.cue {
+        3.0
+    } else if s.ball {
         2.0
     } else if room {
         1.0
@@ -1443,88 +1531,6 @@ impl MeshBuilder {
             let n = (n + Vec3::Y * slope).normalize_or_zero();
             v.normal = vec4(n.x, n.y, n.z, 0.0);
             v.position += at;
-        }
-    }
-
-    /// A frustum painted cell by cell: `paint(u, v)` gives the colour at
-    /// `u` round the side (0..1) and `v` along it (0 at `y0`, 1 at `y1`).
-    /// Each cell has its own vertices, so patterns keep sharp edges.
-    #[allow(clippy::too_many_arguments)]
-    pub fn painted_frustum(
-        &mut self,
-        y0: f32,
-        r0: f32,
-        y1: f32,
-        r1: f32,
-        segments: u32,
-        rows: u32,
-        paint: impl Fn(f32, f32) -> Color,
-    ) {
-        for row in 0..rows {
-            let (v0, v1) = (row as f32 / rows as f32, (row + 1) as f32 / rows as f32);
-            let (ya, yb) = (y0 + (y1 - y0) * v0, y0 + (y1 - y0) * v1);
-            let (ra, rb) = (r0 + (r1 - r0) * v0, r0 + (r1 - r0) * v1);
-            for k in 0..segments {
-                let u = (k as f32 + 0.5) / segments as f32;
-                let color = paint(u, (v0 + v1) / 2.0);
-                let a0 = k as f32 / segments as f32 * std::f32::consts::TAU;
-                let a1 = (k + 1) as f32 / segments as f32 * std::f32::consts::TAU;
-                let d0 = vec3(a0.cos(), 0.0, a0.sin());
-                let d1 = vec3(a1.cos(), 0.0, a1.sin());
-                let p = [
-                    d0 * ra + Vec3::Y * ya,
-                    d1 * ra + Vec3::Y * ya,
-                    d1 * rb + Vec3::Y * yb,
-                    d0 * rb + Vec3::Y * yb,
-                ];
-                let i: Vec<u16> = [(0, d0), (1, d1), (2, d1), (3, d0)]
-                    .iter()
-                    .map(|&(k, n)| self.push(p[k], Vec2::ZERO, n, color))
-                    .collect();
-                self.indices.extend_from_slice(&[i[0], i[2], i[1], i[0], i[3], i[2]]);
-            }
-        }
-    }
-
-    /// A rounded cap closing a round end: the circle of radius `r` at `y`
-    /// swells by `height` along the axis (towards -Y when `height` is
-    /// negative) into part of a sphere, with smooth normals (a cue's tip).
-    pub fn end_cap(
-        &mut self,
-        y: f32,
-        r: f32,
-        height: f32,
-        segments: u32,
-        rings: u32,
-        color: Color,
-    ) {
-        let h = height.abs().max(1e-5);
-        let s = height.signum();
-        // The sphere through the circle and the apex.
-        let radius = (r * r + h * h) / (2.0 * h);
-        let centre = y + s * (h - radius);
-        let top = (r / radius).clamp(0.0, 1.0).asin();
-        let point = |ring: u32, k: u32| {
-            let theta = top * (1.0 - ring as f32 / rings as f32);
-            let a = k as f32 / segments as f32 * std::f32::consts::TAU;
-            let d = vec3(a.cos(), 0.0, a.sin());
-            let n = d * theta.sin() + Vec3::Y * s * theta.cos();
-            (Vec3::Y * centre + n * radius, n)
-        };
-        let first = self.vertices.len() as u16;
-        for ring in 0..=rings {
-            for k in 0..=segments {
-                let (p, n) = point(ring, k);
-                self.push(p, Vec2::ZERO, n, color);
-            }
-        }
-        let stride = segments as u16 + 1;
-        for ring in 0..rings as u16 {
-            for k in 0..segments as u16 {
-                let a = first + ring * stride + k;
-                let b = a + stride;
-                self.indices.extend_from_slice(&[a, b, a + 1, a + 1, b, b + 1]);
-            }
         }
     }
 

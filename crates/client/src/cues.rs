@@ -23,12 +23,12 @@ impl Paint {
     }
 }
 
-fn mix(a: Color, b: Color, k: f32) -> Color {
+pub(crate) fn mix(a: Color, b: Color, k: f32) -> Color {
     let k = k.clamp(0.0, 1.0);
     Color::new(a.r + (b.r - a.r) * k, a.g + (b.g - a.g) * k, a.b + (b.b - a.b) * k, 1.0)
 }
 
-fn shade(c: Color, k: f32) -> Color {
+pub(crate) fn shade(c: Color, k: f32) -> Color {
     if k >= 0.0 {
         mix(c, Color::new(1.0, 1.0, 1.0, 1.0), k)
     } else {
@@ -37,7 +37,7 @@ fn shade(c: Color, k: f32) -> Color {
 }
 
 /// A repeatable pseudo-random number in 0..1 for a cell.
-fn hash(i: i32, j: i32) -> f32 {
+pub(crate) fn hash(i: i32, j: i32) -> f32 {
     let mut h = (i as u32).wrapping_mul(0x8DA6_B343) ^ (j as u32).wrapping_mul(0xD816_3841);
     h ^= h >> 13;
     h = h.wrapping_mul(0x85EB_CA6B);
@@ -58,30 +58,23 @@ pub fn paints_sleeve(style: CueStyle) -> bool {
 /// styles a dark leather of the butt's tone, so that the gold or the
 /// pearl stays for the inlays.
 pub fn wrap_color(style: CueStyle, p: Paint) -> Color {
-    match style {
-        CueStyle::Filigree
-        | CueStyle::Inlay
-        | CueStyle::Damascus
-        | CueStyle::Lightning
-        | CueStyle::Aurora
-        | CueStyle::Lava
-        | CueStyle::Crystal
-        | CueStyle::Gems => shade(p.butt, -0.55),
-        _ => p.accent,
-    }
+    if leather_wrap(style) { shade(p.butt, -0.55) } else { p.accent }
 }
 
-/// How finely a style must be painted on the 3D cue: (round, along).
-pub fn resolution(style: CueStyle) -> (u32, u32) {
-    match style {
-        CueStyle::Plain => (16, 1),
-        CueStyle::Points | CueStyle::Spiral => (32, 40),
-        CueStyle::Weave => (24, 30),
-        CueStyle::Stripes => (32, 40),
-        // The finest patterns: wire, bolts and cracks need the detail.
-        CueStyle::Filigree | CueStyle::Lightning | CueStyle::Lava | CueStyle::Web => (64, 96),
-        _ => (48, 64),
-    }
+/// Whether a style's wrap is leather (stitched; the finest styles) rather
+/// than Irish linen.
+pub fn leather_wrap(style: CueStyle) -> bool {
+    matches!(
+        style,
+        CueStyle::Filigree
+            | CueStyle::Inlay
+            | CueStyle::Damascus
+            | CueStyle::Lightning
+            | CueStyle::Aurora
+            | CueStyle::Lava
+            | CueStyle::Crystal
+            | CueStyle::Gems
+    )
 }
 
 /// The colour at `(u, v)` of a forearm (or sleeve) of `style`.
@@ -479,66 +472,45 @@ pub struct Design {
     pub paint: Paint,
     pub style: CueStyle,
     pub shaft: Color,
+    /// A carbon-fibre shaft (else maple).
+    pub carbon: bool,
+    /// How fine its make is (its rarity in the shop): collars, rings,
+    /// veneers, metal (see `cue_skin`).
+    pub tier: snook_legend_proto::shop::Rarity,
 }
 
 impl Design {
     pub fn of(code: &str) -> Option<Design> {
-        use snook_legend_proto::shop::{Look, item};
-        match item(code)?.look {
+        use snook_legend_proto::shop::{CARBON_SHAFT, Look, item, rarity};
+        let item = item(code)?;
+        match item.look {
             Look::Cue { butt, accent, ring, style, shaft } => Some(Design {
                 paint: Paint::of(butt, accent, ring),
                 style,
                 shaft: Color::from_rgba(shaft[0], shaft[1], shaft[2], 255),
+                carbon: shaft == CARBON_SHAFT,
+                tier: rarity(item),
             }),
             _ => None,
         }
     }
 }
 
-/// Half the thickness of the cue at `k` along it (0: the butt end, 1: the
-/// tip), in the units of the shop's picture (6 at the butt).
-pub fn half_width(k: f32) -> f32 {
-    let lerp = |k0: f32, w0: f32, k1: f32, w1: f32| w0 + (w1 - w0) * ((k - k0) / (k1 - k0));
-    match k {
-        k if k < 0.08 => lerp(0.0, 6.0, 0.08, 5.6),
-        k if k < 0.26 => lerp(0.08, 5.6, 0.26, 5.0),
-        k if k < 0.46 => lerp(0.26, 5.0, 0.46, 4.3),
-        k if k < 0.97 => lerp(0.46, 4.3, 0.97, 2.4),
-        _ => lerp(0.97, 2.4, 1.0, 2.2),
-    }
-}
-
-/// The colour of the cue's surface at `k` along it and `u` round it (the
-/// side facing the viewer runs from 0.25 to 0.75).
-fn surface(d: &Design, k: f32, u: f32) -> Color {
-    let p = d.paint;
-    let sleeve = paints_sleeve(d.style);
-    match k {
-        k if k < 0.08 && sleeve => pattern(d.style, p, u, 1.0 - k / 0.08),
-        k if k < 0.08 => p.butt,
-        k if k < 0.26 => {
-            // The wrap: a fine linen texture.
-            let thread = ((u * 90.0).sin() * (k * 400.0).sin()).abs();
-            shade(wrap_color(d.style, p), -0.12 * thread)
-        }
-        k if k < 0.27 => p.ring,
-        k if k < 0.45 => pattern(d.style, p, u, 1.0 - (k - 0.27) / 0.18),
-        k if k < 0.46 => p.ring,
-        k if k < 0.97 => d.shaft,
-        k if k < 0.99 => Color::new(0.95, 0.94, 0.9, 1.0),
-        _ => Color::new(0.16, 0.32, 0.6, 1.0),
-    }
-}
-
 /// A picture of the cue, `w` by `h` pixels, from its butt to `span` along
-/// it (1: the whole cue), lit like a varnished cylinder.
+/// it (1: the whole cue): its skin (see `cue_skin`) lit as in a studio,
+/// lacquer with a sharp streak of light, metal mirroring a bright band,
+/// linen and rubber matte, pearl shifting its colours.
 pub fn image(d: &Design, span: f32, w: u16, h: u16) -> macroquad::texture::Image {
+    use crate::cue_skin::{Finish, LENGTH, Look, radius, texel};
+    let look = Look { design: *d, chalk: Color::from_rgba(40, 80, 150, 255), level: 0 };
     let mut img = macroquad::texture::Image::gen_image_color(w, h, Color::new(0.0, 0.0, 0.0, 0.0));
-    // 6.3 units fill half the picture's height.
-    let unit = h as f32 / 2.0 / 6.3;
+    // The butt (29.6 mm) fills all but a pixel or two of the height.
+    let unit = h as f32 / 2.0 / 0.0155;
     for px in 0..w {
         let k = (px as f32 + 0.5) / w as f32 * span;
-        let hw = half_width(k) * unit;
+        let y = (1.0 - k) * LENGTH;
+        // (The bumper's rounded end is left square: a picture's edge.)
+        let hw = radius(y.clamp(0.0, LENGTH - 0.002)) * unit;
         for py in 0..h {
             let dy = py as f32 + 0.5 - h as f32 / 2.0;
             // Coverage of the edge, for a smooth outline.
@@ -548,18 +520,46 @@ pub fn image(d: &Design, span: f32, w: u16, h: u16) -> macroquad::texture::Image
             }
             let n = (dy / hw).clamp(-1.0, 1.0); // -1 at the top, 1 at the bottom
             let u = 0.25 + 0.5 * (n + 1.0) / 2.0;
-            let base = surface(d, k, u);
-            // Lambert from above, a specular streak and a dark rim.
+            let (base, finish) = texel(&look, y, u);
             let facing = (1.0 - n * n).sqrt();
             let light = 0.55 + 0.45 * facing - 0.18 * n;
-            let spec = 0.38 * (-((n + 0.42) / 0.11).powi(2)).exp();
-            let c = Color::new(
-                (base.r * light + spec).min(1.0),
-                (base.g * light + spec).min(1.0),
-                (base.b * light + spec).min(1.0),
-                cover,
+            let streak = |width: f32, at: f32| (-((n - at) / width).powi(2)).exp();
+            let lit = |k: f32| Color::new(base.r * k, base.g * k, base.b * k, 1.0);
+            let c = match finish {
+                Finish::Metal => {
+                    // A bright band of the room above, dark below it, a
+                    // pale rim: the metal's own colour throughout.
+                    let band = 0.25 + 1.1 * streak(0.28, -0.45) + 0.35 * streak(0.2, 0.75);
+                    let c = lit(band);
+                    mix(c, Color::new(1.0, 1.0, 1.0, 1.0), 0.35 * streak(0.07, -0.47))
+                }
+                Finish::Matte => lit(0.5 + 0.42 * facing - 0.2 * n),
+                Finish::Satin => {
+                    let c = lit(light);
+                    mix(c, Color::new(1.0, 1.0, 1.0, 1.0), 0.16 * streak(0.2, -0.42))
+                }
+                Finish::Lacquer | Finish::Pearl => {
+                    let c = lit(light);
+                    let c = mix(c, Color::new(1.0, 1.0, 1.0, 1.0), 0.42 * streak(0.1, -0.42));
+                    if finish == Finish::Pearl {
+                        let t = n * 3.0 + k * 40.0;
+                        let tint = Color::new(
+                            0.5 + 0.5 * t.cos(),
+                            0.5 + 0.5 * (t - 2.1).cos(),
+                            0.5 + 0.5 * (t + 2.1).cos(),
+                            1.0,
+                        );
+                        mix(c, tint, 0.14)
+                    } else {
+                        c
+                    }
+                }
+            };
+            img.set_pixel(
+                px as u32,
+                py as u32,
+                Color::new(c.r.min(1.0), c.g.min(1.0), c.b.min(1.0), cover),
             );
-            img.set_pixel(px as u32, py as u32, c);
         }
     }
     img

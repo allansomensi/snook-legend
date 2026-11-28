@@ -269,6 +269,13 @@ SCREENS = {
     "match-8ball": (["--vs", "medium"], {}, False, 150),
     "match-official": (["--vs", "medium"], {"_ini": "rules=official"}, False, 150),
     "match-3d": (["--vs", "medium"], {"SNOOK_LEGEND_VIEW": "3d"}, False, 150),
+    "match-3d-filigree": (
+        ["--vs", "medium"],
+        {"SNOOK_LEGEND_VIEW": "3d", "_ini": "cue=cue_filigree"},
+        False,
+        150,
+    ),
+
     "match-call8": (["--vs", "medium", "--on-eight"], {"_ini": "rules=official"}, False, 150),
     "match-call8-br": (["--vs", "medium", "--on-eight"], {}, False, 150),
     "match-intro": (["--vs", "medium"], {"SNOOK_LEGEND_INTRO": "1"}, False, 90),

@@ -126,6 +126,19 @@ SCREENS = {
     "auctions": (["--screen", "shop-auctions"], {"SNOOK_LEGEND_OPEN": "auctions"}, True, 220),
     "credits": (["--screen", "shop-supporters"], {"SNOOK_LEGEND_OPEN": "credits"}, True, 220),
     "collection": (["--screen", "collection"], {}, True, 200),
+    # A chalk close up and from low down (its base on the floor, the cue's tip).
+    "showroom-chalk-low": (
+        ["--screen", "showroom:chalk_black"],
+        {"SNOOK_LEGEND_SHOWROOM": "still,bare,pitch=4,dist=14"},
+        True,
+        200,
+    ),
+    "showroom-chalk-medium": (
+        ["--screen", "showroom:chalk_black"],
+        {"SNOOK_LEGEND_SHOWROOM": "still,bare,view=0,pitch=6", "_ini": "quality=medium"},
+        True,
+        200,
+    ),
     "match-8ball": (["--vs", "medium"], {}, False, 150),
     "match-official": (["--vs", "medium"], {"_ini": "rules=official"}, False, 150),
     "match-3d": (["--vs", "medium"], {"SNOOK_LEGEND_VIEW": "3d"}, False, 150),

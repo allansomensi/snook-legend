@@ -205,6 +205,8 @@ impl Showroom {
     /// there at once.
     pub fn dev(&mut self) {
         let Some(spec) = crate::dev::var("SNOOK_LEGEND_SHOWROOM") else { return };
+        let mut pitch = None;
+        let mut dist = None;
         for part in spec.split(',') {
             let (key, value) = part.split_once('=').unwrap_or((part, ""));
             let n: usize = value.parse().unwrap_or(0);
@@ -218,12 +220,22 @@ impl Showroom {
                 "ball" => self.look_at_ball(n),
                 "still" => self.spinning = false,
                 "bare" => self.hide_ui = true,
+                // The camera's pitch and distance, in hundredths.
+                "pitch" => pitch = Some(n as f32 / 100.0),
+                "dist" => dist = Some(n as f32 / 100.0),
                 _ => {}
             }
         }
         if let Some((goal, _)) = self.goal.take() {
             self.view = goal;
         }
+        if let Some(p) = pitch {
+            self.view.pitch = p;
+        }
+        if let Some(d) = dist {
+            self.view.dist = d;
+        }
+        self.view = self.clamp(self.view);
         self.lift = if self.ball.is_some() { 1.0 } else { 0.0 };
     }
 

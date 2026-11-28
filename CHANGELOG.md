@@ -22,6 +22,10 @@
 - VIP's page: "Gift a friend" in place of "Give a month to a friend".
 - **Level 50 is a ruby medal** (the last level's milestone, as the hardest
   feats).
+- The shop's cues all framed alike: the butt, close up, in each card.
+- Looking at a chalk from low down: the foot of the cube no longer sinks
+  into the floor's shadow (on Low and Medium), and the cue's tip is a
+  rounded leather dome, no longer an open tube.
 
 ## 0.12.4 (protocol 26)
 

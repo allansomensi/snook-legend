@@ -192,8 +192,12 @@ pub fn cue_picture(ui: &Ui, code: &str, r: Rect, level: u8) {
 /// a big picture shows the butt half, where the patterns are) and how much
 /// thicker it is drawn.
 fn cue_zoom(r: Rect) -> (f32, f32) {
-    // (A wide picture only: in a small square the whole cue shows.)
-    if r.h >= 60.0 && r.w >= 1.4 * r.h { (0.56, (r.h / 32.0).clamp(1.0, 3.6)) } else { (1.0, 1.0) }
+    // (A wide picture only: in a small or narrow one the whole cue shows.)
+    if r.h >= 40.0 && r.w >= 1.4 * r.h && r.w >= 100.0 {
+        (0.56, (r.h / 32.0).clamp(1.0, 3.6))
+    } else {
+        (1.0, 1.0)
+    }
 }
 
 /// Where a point `k` along the cue (0: the butt, 1: the tip) is drawn.
@@ -1193,7 +1197,14 @@ impl ShopScreen {
                 crate::icons::draw(Icon::Star, vec2(c.x + 16.0, c.y + 16.0), 14.0, GOLD);
             }
             let inner = c.w - 24.0;
-            let top = if rarity > snook_legend_proto::shop::Rarity::Common { 30.0 } else { 12.0 };
+            // Every cue in the same frame (whatever its rarity or level),
+            // so they all show alike: their butt, where the patterns are.
+            let is_cue = item.category == Category::Cue;
+            let top = if rarity > snook_legend_proto::shop::Rarity::Common || is_cue {
+                30.0
+            } else {
+                12.0
+            };
             let pic = Rect::new(c.x + 12.0, c.y + top, inner, (c.h - 108.0 - top).max(40.0));
             // A cue's level, under its picture (what it has won online).
             let level_info = (item.category == Category::Cue && signed_in)
@@ -1216,6 +1227,7 @@ impl ShopScreen {
                         tip = Some((how, zone));
                     }
                 }
+                None if is_cue => preview(ui, item, Rect::new(pic.x, pic.y, pic.w, pic.h - 18.0)),
                 None => preview(ui, item, pic),
             }
             let name_y = pic.y + pic.h + 10.0;

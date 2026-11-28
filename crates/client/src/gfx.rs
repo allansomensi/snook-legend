@@ -1486,6 +1486,48 @@ impl MeshBuilder {
         }
     }
 
+    /// A rounded cap closing a round end: the circle of radius `r` at `y`
+    /// swells by `height` along the axis (towards -Y when `height` is
+    /// negative) into part of a sphere, with smooth normals (a cue's tip).
+    pub fn end_cap(
+        &mut self,
+        y: f32,
+        r: f32,
+        height: f32,
+        segments: u32,
+        rings: u32,
+        color: Color,
+    ) {
+        let h = height.abs().max(1e-5);
+        let s = height.signum();
+        // The sphere through the circle and the apex.
+        let radius = (r * r + h * h) / (2.0 * h);
+        let centre = y + s * (h - radius);
+        let top = (r / radius).clamp(0.0, 1.0).asin();
+        let point = |ring: u32, k: u32| {
+            let theta = top * (1.0 - ring as f32 / rings as f32);
+            let a = k as f32 / segments as f32 * std::f32::consts::TAU;
+            let d = vec3(a.cos(), 0.0, a.sin());
+            let n = d * theta.sin() + Vec3::Y * s * theta.cos();
+            (Vec3::Y * centre + n * radius, n)
+        };
+        let first = self.vertices.len() as u16;
+        for ring in 0..=rings {
+            for k in 0..=segments {
+                let (p, n) = point(ring, k);
+                self.push(p, Vec2::ZERO, n, color);
+            }
+        }
+        let stride = segments as u16 + 1;
+        for ring in 0..rings as u16 {
+            for k in 0..segments as u16 {
+                let a = first + ring * stride + k;
+                let b = a + stride;
+                self.indices.extend_from_slice(&[a, b, a + 1, a + 1, b, b + 1]);
+            }
+        }
+    }
+
     pub fn frustum(&mut self, y0: f32, r0: f32, y1: f32, r1: f32, segments: u32, color: Color) {
         for k in 0..segments {
             let a0 = k as f32 / segments as f32 * std::f32::consts::TAU;

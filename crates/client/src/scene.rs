@@ -742,7 +742,9 @@ impl Scene {
             }
         }
         if !blobs.is_empty() {
-            self.materials.use_blended(Surface::UNLIT);
+            // (Leaving no depth: the streak lies a little over the floor,
+            // and must not cut into the foot of the chalk standing on it.)
+            self.materials.use_glow(Surface::UNLIT);
             blobs.build_dynamic(&self.shadow).draw();
         }
         if let Some((code, model)) = &show.chalk {
@@ -1240,8 +1242,10 @@ pub fn cue_mesh(
     let c = |v: [u8; 3]| rgb(v[0], v[1], v[2]);
     let mut m = MeshBuilder::default();
     // A regulation pool cue: a 13 mm tip, 58" long, 19 oz (the physics' mass).
-    m.frustum(-0.004, 0.0064, 0.0, 0.0065, 12, c(chalk)); // tip, chalked
-    m.frustum(0.0, 0.0065, 0.022, 0.0066, 12, rgb(240, 238, 228)); // ferrule
+    // The tip, chalked: leather, domed at its end like a real one.
+    m.frustum(-0.0027, 0.0064, 0.0, 0.0065, 24, c(chalk));
+    m.end_cap(-0.0027, 0.0064, -0.0019, 24, 5, c(chalk));
+    m.frustum(0.0, 0.0065, 0.022, 0.0066, 24, rgb(240, 238, 228)); // ferrule
     m.frustum(0.022, 0.0066, 0.80, 0.0105, 16, c(shaft)); // maple (or carbon) shaft
     m.frustum(0.80, 0.0105, 0.815, 0.0106, 16, c(ring)); // joint ring
     // The forearm, with the cue's pattern in the accent colour (as in the

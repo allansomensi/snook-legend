@@ -3,10 +3,18 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.13.1
+
+### The reactions you know
+Reactions are drawn as before again: 0.13.0's new faces are gone.
+
+### A sharper Ultra
+Ultra's glow lights only the brightest glints now, no longer a haze over the balls: the picture is as sharp as on High, with Ultra's finish.
+
 ## 0.13.0
 
-### Reactions that come alive
-36 reactions that act: they clap, laugh till they cry, shiver, fume and sob, and show big at the table. And the winning flames are a real fire now.
+### A real fire when you win
+The winning flames are a real fire now: tongues of flame, embers and smoke. Sparks, fireworks and hearts burst bigger too.
 
 ### Polls in the lounge
 Ask a question with up to six options and watch the votes come in, live. VIPs can also write in bold, italic and colour, right in the text: **like this**.

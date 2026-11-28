@@ -4,10 +4,18 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.13.1
+
+### Les réactions que vous connaissez
+Les réactions sont de nouveau dessinées comme avant : les nouveaux visages de la 0.13.0 ont disparu.
+
+### Un Ultra plus net
+La lueur d'Ultra ne touche plus que les reflets les plus vifs, sans voile sur les billes : l'image est aussi nette qu'en Élevée, avec la finition d'Ultra.
+
 ## 0.13.0
 
-### Des réactions qui prennent vie
-36 réactions qui jouent la comédie : elles applaudissent, rient aux larmes, grelottent, fulminent et sanglotent, et s'affichent en grand à la table. Et les flammes de la victoire sont maintenant un vrai feu.
+### Un vrai feu pour la victoire
+Les flammes de la victoire sont maintenant un vrai feu : langues de flammes, braises et fumée. Étincelles, feux d'artifice et cœurs éclatent aussi plus grand.
 
 ### Des sondages dans le salon
 Posez une question avec jusqu'à six options et regardez les votes arriver en direct. Les VIP peuvent aussi écrire en gras, en italique et en couleur, directement dans le texte : **comme ça**.

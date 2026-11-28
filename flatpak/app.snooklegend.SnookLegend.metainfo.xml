@@ -197,12 +197,25 @@
   </keywords>
 
   <releases>
+    <release version="0.13.1" date="2026-11-28" type="stable">
+      <description>
+        <ul>
+          <li><em>The reactions you know.</em> Reactions are drawn as before again: 0.13.0's new faces are gone.</li>
+          <li xml:lang="pt_BR"><em>As reações de sempre.</em> As reações voltaram a ser desenhadas como antes: as carinhas novas da 0.13.0 saíram.</li>
+          <li xml:lang="es"><em>Las reacciones de siempre.</em> Las reacciones vuelven a dibujarse como antes: las caritas nuevas de la 0.13.0 ya no están.</li>
+          <li><em>A sharper Ultra.</em> Ultra's glow lights only the brightest glints now, no longer a haze over the balls: the picture is as sharp as on High, with Ultra's finish.</li>
+          <li xml:lang="pt_BR"><em>Um Ultra mais nítido.</em> O brilho do Ultra agora fica só nos reflexos mais fortes, sem embaçar as bolas: a imagem é tão nítida quanto na Alta, com o acabamento do Ultra.</li>
+          <li xml:lang="es"><em>Un Ultra más nítido.</em> El brillo de Ultra ahora queda solo en los reflejos más intensos, sin velar las bolas: la imagen es tan nítida como en Alta, con el acabado de Ultra.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.13.1</url>
+    </release>
     <release version="0.13.0" date="2026-11-28" type="stable">
       <description>
         <ul>
-          <li><em>Reactions that come alive.</em> 36 reactions that act: they clap, laugh till they cry, shiver, fume and sob, and show big at the table. And the winning flames are a real fire now.</li>
-          <li xml:lang="pt_BR"><em>Reações que ganham vida.</em> 36 reações que atuam: batem palmas, choram de rir, tremem de frio, bufam e choram, e aparecem grandes na mesa. E as chamas da vitória agora são fogo de verdade.</li>
-          <li xml:lang="es"><em>Reacciones que cobran vida.</em> 36 reacciones que actúan: aplauden, lloran de risa, tiritan, resoplan y lloran, y se ven en grande en la mesa. Y las llamas de la victoria ahora son fuego de verdad.</li>
+          <li><em>A real fire when you win.</em> The winning flames are a real fire now: tongues of flame, embers and smoke. Sparks, fireworks and hearts burst bigger too.</li>
+          <li xml:lang="pt_BR"><em>Fogo de verdade na vitória.</em> As chamas da vitória agora são fogo de verdade: labaredas, brasas e fumaça. Faíscas, fogos de artifício e corações também estouram maiores.</li>
+          <li xml:lang="es"><em>Fuego de verdad al ganar.</em> Las llamas de la victoria ahora son fuego de verdad: lenguas de fuego, brasas y humo. Chispas, fuegos artificiales y corazones también estallan más grandes.</li>
           <li><em>Polls in the lounge.</em> Ask a question with up to six options and watch the votes come in, live. VIPs can also write in bold, italic and colour, right in the text: **like this**.</li>
           <li xml:lang="pt_BR"><em>Enquetes no salão.</em> Faça uma pergunta com até seis opções e veja os votos chegarem ao vivo. VIPs também podem escrever em negrito, itálico e em cores, direto no texto: **assim**.</li>
           <li xml:lang="es"><em>Encuestas en el salón.</em> Haz una pregunta con hasta seis opciones y mira llegar los votos en directo. Los VIP también pueden escribir en negrita, cursiva y en colores, directamente en el texto: **así**.</li>
@@ -384,13 +397,6 @@
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.11.0</url>
     </release>
     <release version="0.10.3" date="2026-11-23" type="stable">
-      <description>
-        <ul>
-          <li><em>Your tour is really back.</em> In 0.10.2 the tour didn't come back for everyone, though they had its cue. Now, signed in with the account that won the tour, it is complete again, every opponent unlocked.</li>
-          <li xml:lang="pt_BR"><em>O circuito vencido volta de verdade.</em> Na 0.10.2 o circuito não voltava para todo mundo, mesmo com o taco. Agora, entrando com a conta que venceu o circuito, ele volta completo, com todos os adversários liberados.</li>
-          <li xml:lang="es"><em>El circuito ganado vuelve de verdad.</em> En la 0.10.2 el circuito no volvía para todos, aunque tuvieran su taco. Ahora, al entrar con la cuenta que ganó el circuito, vuelve completo, con todos los rivales desbloqueados.</li>
-        </ul>
-      </description>
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.3</url>
     </release>
     <release version="0.10.2" date="2026-11-22" type="stable">

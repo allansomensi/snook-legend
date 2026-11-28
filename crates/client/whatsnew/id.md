@@ -3,10 +3,18 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.13.1
+
+### Reaksi yang kamu kenal
+Reaksi kembali digambar seperti dulu: wajah-wajah baru dari 0.13.0 sudah dihapus.
+
+### Ultra yang lebih tajam
+Cahaya Ultra kini hanya ada di kilau paling terang, tanpa kabut di atas bola: gambarnya setajam Tinggi, dengan sentuhan Ultra.
+
 ## 0.13.0
 
-### Reaksi yang hidup
-36 reaksi yang berakting: bertepuk tangan, tertawa sampai menangis, menggigil, mendengus kesal, dan terisak, lalu tampil besar di meja. Dan api kemenangan kini benar-benar api.
+### Api sungguhan saat menang
+Api kemenangan kini benar-benar api: lidah api, bara, dan asap. Percikan, kembang api, dan hati juga meledak lebih besar.
 
 ### Polling di lobi
 Ajukan pertanyaan dengan hingga enam pilihan dan lihat suara masuk secara langsung. VIP juga bisa menulis tebal, miring, dan berwarna, langsung di teks: **begini**.

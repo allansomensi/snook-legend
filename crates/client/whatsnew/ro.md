@@ -2,10 +2,18 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.13.1
+
+### Reacțiile pe care le știi
+Reacțiile sunt din nou desenate ca înainte: fețele noi din 0.13.0 au dispărut.
+
+### Un Ultra mai clar
+Strălucirea din Ultra rămâne acum doar pe reflexele cele mai puternice, fără ceață peste bile: imaginea e la fel de clară ca pe Ridicată, cu finisajul din Ultra.
+
 ## 0.13.0
 
-### Reacții care prind viață
-36 de reacții care joacă teatru: aplaudă, râd cu lacrimi, tremură, pufnesc și suspină, iar la masă apar mari. Iar flăcările victoriei sunt acum foc adevărat.
+### Foc adevărat la victorie
+Flăcările victoriei sunt acum foc adevărat: limbi de foc, jar și fum. Scânteile, artificiile și inimile explodează și ele mai mari.
 
 ### Sondaje în salon
 Pune o întrebare cu până la șase opțiuni și vezi voturile venind în direct. VIP-ii pot scrie și îngroșat, cursiv și colorat, direct în text: **așa**.

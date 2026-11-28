@@ -2,10 +2,18 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.13.1
+
+### A megszokott reakciók
+A reakciók újra a régi módon jelennek meg: a 0.13.0 új arcai eltűntek.
+
+### Élesebb Ultra
+Az Ultra ragyogása most csak a legfényesebb csillanásokon marad, nincs többé pára a golyókon: a kép olyan éles, mint Magas beállításon, az Ultra kidolgozásával.
+
 ## 0.13.0
 
-### Életre kelő reakciók
-36 reakció, amely színészkedik: tapsol, könnyesre nevet, didereg, fújtat és zokog, az asztalnál pedig nagyban látszik. A győzelem lángjai pedig most már igazi tűz.
+### Igazi tűz a győzelemnél
+A győzelem lángjai most már igazi tűz: lángnyelvek, parázs és füst. A szikrák, a tűzijáték és a szívek is nagyobbat robbannak.
 
 ### Szavazások a társalgóban
 Tegyél fel egy kérdést legfeljebb hat válasszal, és nézd élőben, ahogy jönnek a szavazatok. A VIP-ek félkövéren, dőlten és színesen is írhatnak, egyenesen a szövegben: **így**.

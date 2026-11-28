@@ -2,10 +2,18 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.13.1
+
+### Reakcje, które znasz
+Reakcje znów są rysowane jak dawniej: nowe buźki z 0.13.0 zniknęły.
+
+### Ostrzejsze Ultra
+Blask w Ultra pojawia się teraz tylko na najjaśniejszych odbiciach, bez mgiełki na bilach: obraz jest tak ostry jak na Wysokiej, z wykończeniem Ultra.
+
 ## 0.13.0
 
-### Reakcje, które ożywają
-36 reakcji, które grają: klaszczą, śmieją się do łez, trzęsą się z zimna, prychają i szlochają, a przy stole widać je w dużym rozmiarze. A płomienie zwycięstwa to teraz prawdziwy ogień.
+### Prawdziwy ogień przy zwycięstwie
+Płomienie zwycięstwa to teraz prawdziwy ogień: języki ognia, żar i dym. Iskry, fajerwerki i serca też wybuchają większe.
 
 ### Ankiety w lobby
 Zadaj pytanie z maksymalnie sześcioma odpowiedziami i patrz, jak głosy spływają na żywo. VIP-y mogą też pisać pogrubieniem, kursywą i w kolorze, prosto w tekście: **tak**.

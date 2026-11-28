@@ -3,10 +3,18 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.13.1
+
+### Le reazioni di sempre
+Le reazioni tornano a essere disegnate come prima: i nuovi visi della 0.13.0 non ci sono più.
+
+### Un Ultra più nitido
+Il bagliore di Ultra ora resta solo sui riflessi più intensi, senza velare le bilie: l'immagine è nitida come in Alta, con la finitura di Ultra.
+
 ## 0.13.0
 
-### Reazioni che prendono vita
-36 reazioni che recitano: applaudono, ridono fino alle lacrime, tremano, sbuffano e singhiozzano, e al tavolo si vedono in grande. E le fiamme della vittoria ora sono un fuoco vero.
+### Un vero fuoco quando vinci
+Le fiamme della vittoria ora sono un fuoco vero: lingue di fuoco, braci e fumo. Anche scintille, fuochi d'artificio e cuori esplodono più grandi.
 
 ### Sondaggi nella sala
 Fai una domanda con fino a sei opzioni e guarda arrivare i voti in diretta. I VIP possono anche scrivere in grassetto, corsivo e a colori, direttamente nel testo: **così**.

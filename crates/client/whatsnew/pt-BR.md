@@ -3,10 +3,18 @@
 # destaque, e as linhas seguintes são o texto dele. Mesmas versões e mesmo
 # número de destaques em todas as línguas.
 
+## 0.13.1
+
+### As reações de sempre
+As reações voltaram a ser desenhadas como antes: as carinhas novas da 0.13.0 saíram.
+
+### Um Ultra mais nítido
+O brilho do Ultra agora fica só nos reflexos mais fortes, sem embaçar as bolas: a imagem é tão nítida quanto na Alta, com o acabamento do Ultra.
+
 ## 0.13.0
 
-### Reações que ganham vida
-36 reações que atuam: batem palmas, choram de rir, tremem de frio, bufam e choram, e aparecem grandes na mesa. E as chamas da vitória agora são fogo de verdade.
+### Fogo de verdade na vitória
+As chamas da vitória agora são fogo de verdade: labaredas, brasas e fumaça. Faíscas, fogos de artifício e corações também estouram maiores.
 
 ### Enquetes no salão
 Faça uma pergunta com até seis opções e veja os votos chegarem ao vivo. VIPs também podem escrever em negrito, itálico e em cores, direto no texto: **assim**.

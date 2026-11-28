@@ -3,10 +3,18 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.13.1
+
+### Die Reaktionen, die du kennst
+Die Reaktionen werden wieder wie früher gezeichnet: Die neuen Gesichter aus 0.13.0 sind weg.
+
+### Ein schärferes Ultra
+Das Leuchten von Ultra liegt jetzt nur noch auf den hellsten Glanzlichtern, kein Schleier mehr über den Kugeln: Das Bild ist so scharf wie auf Hoch, mit dem Finish von Ultra.
+
 ## 0.13.0
 
-### Reaktionen, die lebendig werden
-36 Reaktionen, die schauspielern: Sie klatschen, lachen Tränen, zittern, schnauben und schluchzen, und am Tisch erscheinen sie groß. Und die Siegesflammen sind jetzt ein echtes Feuer.
+### Echtes Feuer beim Sieg
+Die Siegesflammen sind jetzt ein echtes Feuer: Flammenzungen, Glut und Rauch. Funken, Feuerwerk und Herzen platzen ebenfalls größer.
 
 ### Umfragen in der Lounge
 Stell eine Frage mit bis zu sechs Antworten und sieh live zu, wie die Stimmen eintreffen. VIPs können außerdem fett, kursiv und farbig schreiben, direkt im Text: **so**.

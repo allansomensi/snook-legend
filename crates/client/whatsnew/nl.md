@@ -3,10 +3,18 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.13.1
+
+### De reacties die je kent
+Reacties worden weer getekend zoals vroeger: de nieuwe gezichtjes van 0.13.0 zijn weg.
+
+### Een scherpere Ultra
+De gloed van Ultra zit nu alleen nog op de felste glimlichten, geen waas meer over de ballen: het beeld is zo scherp als op Hoog, met de afwerking van Ultra.
+
 ## 0.13.0
 
-### Reacties die tot leven komen
-36 reacties die acteren: ze klappen, lachen tot ze huilen, rillen, briesen en snikken, en aan tafel zie je ze groot. En de vlammen bij een overwinning zijn nu echt vuur.
+### Echt vuur bij een overwinning
+De vlammen bij een overwinning zijn nu echt vuur: vlammentongen, gloeiende sintels en rook. Vonken, vuurwerk en hartjes spatten ook groter uiteen.
 
 ### Peilingen in de lounge
 Stel een vraag met tot zes opties en zie de stemmen live binnenkomen. VIP's kunnen ook vet, cursief en in kleur schrijven, gewoon in de tekst: **zo**.

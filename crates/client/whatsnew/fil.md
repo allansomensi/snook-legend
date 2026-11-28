@@ -2,10 +2,18 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.13.1
+
+### Ang mga reaksyong kilala mo
+Iginuguhit muli ang mga reaksyon gaya ng dati: wala na ang mga bagong mukha ng 0.13.0.
+
+### Mas malinaw na Ultra
+Nasa pinakamaliwanag na kislap na lang ang liwanag ng Ultra, wala nang ulap sa mga bola: kasinglinaw na ng Mataas ang larawan, may finish ng Ultra.
+
 ## 0.13.0
 
-### Mga reaksyong nabubuhay
-36 na reaksyong umaarte: pumapalakpak, tumatawa hanggang maiyak, nanginginig, umuusok sa galit at humihikbi, at malaki ang mga ito sa mesa. At totoong apoy na ang mga liyab ng panalo.
+### Totoong apoy kapag nanalo
+Totoong apoy na ang mga liyab ng panalo: mga dila ng apoy, baga at usok. Mas malaki na ring sumasabog ang mga kislap, paputok at puso.
 
 ### Mga poll sa lounge
 Magtanong na may hanggang anim na pagpipilian at panoorin ang mga boto nang live. Puwede ring sumulat ang mga VIP nang naka-bold, italic at may kulay, mismo sa text: **ganito**.

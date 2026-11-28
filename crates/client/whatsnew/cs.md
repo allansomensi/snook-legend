@@ -3,10 +3,18 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.13.1
+
+### Reakce, jak je znáš
+Reakce se zase kreslí jako dřív: nové obličeje z 0.13.0 jsou pryč.
+
+### Ostřejší Ultra
+Záře v Ultra je teď jen na nejjasnějších odlescích, žádný opar přes koule: obraz je stejně ostrý jako na Vysoká, s dokončením Ultra.
+
 ## 0.13.0
 
-### Reakce, které ožijí
-36 reakcí, které hrají: tleskají, smějí se k slzám, třesou se zimou, funí a vzlykají, a u stolu se ukazují ve velkém. A plameny vítězství jsou teď skutečný oheň.
+### Skutečný oheň při vítězství
+Plameny vítězství jsou teď skutečný oheň: plamenné jazyky, žhavé uhlíky a kouř. Jiskry, ohňostroje a srdíčka také vybuchují větší.
 
 ### Ankety v herně
 Polož otázku až se šesti možnostmi a sleduj, jak hlasy přibývají živě. VIP mohou také psát tučně, kurzívou a barevně, přímo v textu: **takhle**.

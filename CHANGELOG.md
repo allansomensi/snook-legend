@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.13.1 (protocol 27)
+
+The reactions as they were before 0.13.0, and a sharper Ultra. The same
+protocol as 0.13.0: it plays on the same server, which is unchanged. No
+migration.
+
+### Reactions
+- **Drawn as before 0.13.0**: the faces and hands that acted are gone;
+  each reaction is its picture again, as in 0.12.4 (its size and its way
+  of moving too). The winning effects keep their new fire.
+
+### Graphics
+- **A sharper Ultra**: its glow came from whatever had one bright channel
+  (a yellow or an orange ball whole, the brass, the diamonds) and was
+  strong, a haze over the table that read as a blurred picture. It comes
+  now only from what is near white to the eye (a lamp's glint, a bulb),
+  and softer: the picture is as sharp as on High, with Ultra's finish.
+  (The picture itself was always the window's size: no detail was lost.)
+
 ## 0.13.0 (protocol 27)
 
 Reactions drawn by the game that act, a real fire among the winning

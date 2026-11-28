@@ -3,10 +3,18 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.13.1
+
+### Bildiğin tepkiler
+Tepkiler yine eskisi gibi çiziliyor: 0.13.0'ın yeni yüzleri kaldırıldı.
+
+### Daha net bir Ultra
+Ultra'nın parıltısı artık yalnızca en parlak yansımalarda kalıyor, toplarda pus yok: görüntü Yüksek'teki kadar net, Ultra'nın son dokunuşuyla.
+
 ## 0.13.0
 
-### Canlanan tepkiler
-Rol yapan 36 tepki: alkışlıyor, gözünden yaş gelene kadar gülüyor, titriyor, köpürüyor ve hıçkıra hıçkıra ağlıyor; masada da büyük görünüyor. Zafer alevleri de artık gerçek bir ateş.
+### Kazanınca gerçek ateş
+Zafer alevleri artık gerçek bir ateş: alev dilleri, köz ve duman. Kıvılcımlar, havai fişekler ve kalpler de daha büyük patlıyor.
 
 ### Lobide anketler
 En fazla altı seçenekli bir soru sor ve oyların canlı gelişini izle. VIP'ler metnin içinde kalın, italik ve renkli de yazabilir: **böyle**.

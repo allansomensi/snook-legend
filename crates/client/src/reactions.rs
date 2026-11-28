@@ -94,39 +94,13 @@ pub fn motion(code: &str) -> Option<Motion> {
 /// rare ones moving). False for an unknown code.
 pub fn draw(code: &str, at: Vec2, size: f32, alpha: f32) -> bool {
     let Some(i) = REACTIONS.iter().position(|r| r.code == code) else { return false };
-    // The characters act, each on its own beat (past their popping in).
-    if crate::emotes::draw(code, at, size, alpha, 0.6 + get_time() as f32 + i as f32 * 0.37) {
-        return true;
-    }
-    draw_picture(i, code, at, size, alpha, get_time() as f32)
-}
-
-/// Reaction `code` sent `age` seconds ago, in a game: a character performs
-/// from the start (popping in); a picture hops in.
-pub fn draw_sent(code: &str, at: Vec2, size: f32, alpha: f32, age: f32) -> bool {
-    let Some(i) = REACTIONS.iter().position(|r| r.code == code) else { return false };
-    if crate::emotes::draw(code, at, size, alpha, age) {
-        return true;
-    }
-    draw_picture(i, code, at, size, alpha, age)
-}
-
-/// Whether reaction `code` is one of the characters that act (drawn
-/// bigger in a game: they have a lot to show).
-pub fn acts(code: &str) -> bool {
-    crate::emotes::is_character(code)
-}
-
-/// A reaction's picture: the rare ones move their own way, the rest hop
-/// now and then (squashed as they land), `time` seconds on.
-fn draw_picture(i: usize, code: &str, at: Vec2, size: f32, alpha: f32, time: f32) -> bool {
     let (col, row) = (i % COLUMNS, i / COLUMNS);
     let src = Rect::new(col as f32 * SIZE, row as f32 * SIZE, SIZE, SIZE);
     let a = alpha;
+    let time = get_time() as f32;
     // Each reaction moves on its own beat.
     let phase = i as f32 * 0.7;
     let (mut at, mut size, mut rotation) = (at, size, 0.0);
-    let mut squash = vec2(1.0, 1.0);
     let glow = |c: [u8; 3], k: f32, at: Vec2, size: f32| {
         let color = Color::from_rgba(c[0], c[1], c[2], 255);
         for (r, alpha) in [(0.62, 0.10), (0.5, 0.12), (0.38, 0.14)] {
@@ -150,19 +124,7 @@ fn draw_picture(i: usize, code: &str, at: Vec2, size: f32, alpha: f32, time: f32
         }
     };
     match motion(code) {
-        None => {
-            // A hop now and then: up, and squashed a little on landing.
-            let k = ((time + phase) % 2.4) / 2.4;
-            let up = if k < 0.18 { (k / 0.18 * std::f32::consts::PI).sin() } else { 0.0 };
-            let land = if (0.18..0.26).contains(&k) {
-                ((k - 0.18) / 0.08 * std::f32::consts::PI).sin()
-            } else {
-                0.0
-            };
-            at.y -= up * size * 0.12;
-            squash = vec2(1.0 + 0.12 * land - 0.05 * up, 1.0 - 0.12 * land + 0.06 * up);
-            at.y += (1.0 - squash.y) * size * 0.5;
-        }
+        None => {}
         Some(Motion::Pulse(c)) => {
             let k = 0.5 + 0.5 * (time * 3.0 + phase).sin();
             glow(c, k, at, size);
@@ -179,14 +141,13 @@ fn draw_picture(i: usize, code: &str, at: Vec2, size: f32, alpha: f32, time: f32
             at += vec2((time * 47.0).sin(), (time * 39.0).cos()) * size * 0.015;
         }
     }
-    let dest = vec2(size, size) * squash;
     draw_texture_ex(
         &atlas(),
-        at.x - dest.x / 2.0,
-        at.y - dest.y / 2.0,
+        at.x - size / 2.0,
+        at.y - size / 2.0,
         Color::new(1.0, 1.0, 1.0, a),
         DrawTextureParams {
-            dest_size: Some(dest),
+            dest_size: Some(vec2(size, size)),
             source: Some(src),
             rotation,
             ..Default::default()

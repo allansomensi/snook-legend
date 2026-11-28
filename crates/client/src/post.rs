@@ -20,16 +20,19 @@ void main() {
 }
 "#;
 
-/// What is bright enough to glow, with a soft knee.
+/// What is bright enough to glow, with a soft knee: only what is near
+/// white (a lamp's glint, a bulb), by its brightness to the eye, so that a
+/// yellow ball, the brass or the wood never glow whole (a haze over them
+/// all reads as a blurred picture).
 const BRIGHT: &str = r#"#version 100
 precision mediump float;
 varying mediump vec2 uv;
 uniform sampler2D Texture;
 void main() {
     vec3 c = texture2D(Texture, uv).rgb;
-    float l = max(c.r, max(c.g, c.b));
-    float k = smoothstep(0.62, 0.95, l);
-    gl_FragColor = vec4(c * k, 1.0);
+    float l = dot(c, vec3(0.2126, 0.7152, 0.0722));
+    float k = smoothstep(0.82, 1.0, l);
+    gl_FragColor = vec4(c * k * k, 1.0);
 }
 "#;
 
@@ -195,7 +198,7 @@ impl Post {
         // On the window.
         set_default_camera();
         self.composite.set_texture("Glow", b.texture.clone());
-        self.composite.set_uniform("Params", vec4(0.55, 0.16, 0.012, (get_time() % 100.0) as f32));
+        self.composite.set_uniform("Params", vec4(0.3, 0.16, 0.012, (get_time() % 100.0) as f32));
         gl_use_material(&self.composite);
         draw_texture_ex(
             &scene.texture,

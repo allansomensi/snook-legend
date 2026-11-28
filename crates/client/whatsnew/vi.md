@@ -2,10 +2,18 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.13.1
+
+### Biểu cảm quen thuộc
+Biểu cảm lại được vẽ như trước: những gương mặt mới của 0.13.0 đã được bỏ.
+
+### Ultra sắc nét hơn
+Ánh sáng của Ultra giờ chỉ còn ở những điểm bóng sáng nhất, không còn mờ trên bi: hình ảnh sắc nét như mức Cao, với lớp hoàn thiện của Ultra.
+
 ## 0.13.0
 
-### Biểu cảm sống động
-36 biểu cảm biết diễn: vỗ tay, cười ra nước mắt, run cầm cập, giận phì phò và nức nở, và hiện to tại bàn chơi. Ngọn lửa chiến thắng giờ là lửa thật.
+### Lửa thật khi chiến thắng
+Ngọn lửa chiến thắng giờ là lửa thật: lưỡi lửa, than hồng và khói. Tia lửa, pháo hoa và trái tim cũng nổ to hơn.
 
 ### Bình chọn trong sảnh
 Đặt câu hỏi với tối đa sáu lựa chọn và xem phiếu bầu đến trực tiếp. VIP còn có thể viết đậm, nghiêng và có màu ngay trong tin nhắn: **như thế này**.

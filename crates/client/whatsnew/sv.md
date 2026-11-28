@@ -3,10 +3,18 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.13.1
+
+### Reaktionerna du känner
+Reaktionerna ritas som förut igen: de nya ansiktena från 0.13.0 är borta.
+
+### En skarpare Ultra
+Ultras sken ligger nu bara på de starkaste glansen, ingen dimma över bollarna: bilden är lika skarp som på Hög, med Ultras finish.
+
 ## 0.13.0
 
-### Reaktioner som får liv
-36 reaktioner som spelar teater: de klappar, skrattar så de gråter, huttrar, fnyser och snyftar, och vid bordet visas de stort. Och segerlågorna är en riktig eld nu.
+### Riktig eld när du vinner
+Segerlågorna är en riktig eld nu: eldtungor, glöd och rök. Gnistor, fyrverkerier och hjärtan spricker också större.
 
 ### Omröstningar i loungen
 Ställ en fråga med upp till sex alternativ och se rösterna komma in live. VIP-spelare kan också skriva i fetstil, kursiv och färg, direkt i texten: **så här**.

@@ -2615,3 +2615,26 @@ Controller connected	コントローラー接続中
 No controller connected	コントローラー未接続
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Xbox、PlayStation、Switch Proのコントローラーに対応しています：接続するとプレイに使えます。メニューでは十字キーで移動、Aで決定、Bで戻ります。
 Community	コミュニティ
+Country ranking	国別ランキング
+The top 100 of {country}	{country}のトップ100
+The best players of your country	あなたの国のトッププレイヤー
+Choose your country to see how you rank among its players.	国を選ぶと、その国のプレイヤーの中での順位が見られます。
+Choose my country	国を選ぶ
+No rated games in your country yet. Be the first!	あなたの国ではまだレート戦がありません。最初の一人になろう！
+Start a poll	投票を作る
+New poll	新しい投票
+Question	質問
+Ask the lounge something…	ロビーに質問しよう…
+Options	選択肢
+Option {n}	選択肢{n}
+Remove	削除
++ Add an option	＋選択肢を追加
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	ロビーの誰でも投票でき、投票は変えられます。投票はいつでも締め切れます。
+Post the poll	投票を投稿
+1 vote	1票
+{n} votes	{n}票
+1 vote · closed	1票・締切
+{n} votes · closed	{n}票・締切
+Close the poll	投票を締め切る
+A poll needs 2 to 6 different options.	投票には2〜6個の異なる選択肢が必要です。
+You can start another poll in a few minutes.	数分後に次の投票を作れます。

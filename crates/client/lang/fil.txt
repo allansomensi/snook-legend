@@ -2615,3 +2615,26 @@ Controller connected	May nakakonektang controller
 No controller connected	Walang nakakonektang controller
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Gumagana ang mga controller ng Xbox, PlayStation at Switch Pro: magkonekta ng isa para makapaglaro gamit ito. Sa mga menu, gumagalaw ang d-pad, pumipili ang A at bumabalik ang B.
 Community	Komunidad
+Country ranking	Ranking ng bansa
+The top 100 of {country}	Top 100 ng {country}
+The best players of your country	Mga pinakamahusay na manlalaro ng bansa mo
+Choose your country to see how you rank among its players.	Piliin ang bansa mo para makita ang puwesto mo sa mga manlalaro nito.
+Choose my country	Piliin ang bansa ko
+No rated games in your country yet. Be the first!	Wala pang rated na laro sa bansa mo. Ikaw na ang mauna!
+Start a poll	Gumawa ng poll
+New poll	Bagong poll
+Question	Tanong
+Ask the lounge something…	Magtanong sa lounge…
+Options	Mga pagpipilian
+Option {n}	Pagpipilian {n}
+Remove	Alisin
++ Add an option	+ Magdagdag ng pagpipilian
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Puwedeng bumoto ang lahat sa lounge at palitan ang boto nila. Puwede mong isara ang poll anumang oras.
+Post the poll	I-post ang poll
+1 vote	1 boto
+{n} votes	{n} boto
+1 vote · closed	1 boto · sarado
+{n} votes · closed	{n} boto · sarado
+Close the poll	Isara ang poll
+A poll needs 2 to 6 different options.	Kailangan ng poll ng 2 hanggang 6 na magkakaibang pagpipilian.
+You can start another poll in a few minutes.	Makakagawa ka ng ibang poll pagkalipas ng ilang minuto.

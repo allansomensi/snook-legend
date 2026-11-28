@@ -2615,3 +2615,26 @@ Controller connected	কন্ট্রোলার সংযুক্ত
 No controller connected	কোনো কন্ট্রোলার সংযুক্ত নেই
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Xbox, PlayStation ও Switch Pro কন্ট্রোলার কাজ করে: খেলতে একটি সংযুক্ত করুন। মেনুতে ডি-প্যাড দিয়ে চলাচল করুন, A দিয়ে বেছে নিন আর B দিয়ে ফিরে যান।
 Community	কমিউনিটি
+Country ranking	দেশের র‍্যাঙ্কিং
+The top 100 of {country}	{country}-এর সেরা ১০০
+The best players of your country	আপনার দেশের সেরা খেলোয়াড়রা
+Choose your country to see how you rank among its players.	দেশের খেলোয়াড়দের মধ্যে আপনার অবস্থান দেখতে আপনার দেশ বেছে নিন।
+Choose my country	আমার দেশ বেছে নিন
+No rated games in your country yet. Be the first!	আপনার দেশে এখনো কোনো রেটেড খেলা হয়নি। প্রথম হোন!
+Start a poll	পোল শুরু করুন
+New poll	নতুন পোল
+Question	প্রশ্ন
+Ask the lounge something…	লাউঞ্জকে কিছু জিজ্ঞেস করুন…
+Options	বিকল্প
+Option {n}	বিকল্প {n}
+Remove	সরান
++ Add an option	+ বিকল্প যোগ করুন
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	লাউঞ্জের সবাই ভোট দিতে ও ভোট বদলাতে পারেন। আপনি যেকোনো সময় পোল বন্ধ করতে পারেন।
+Post the poll	পোল পোস্ট করুন
+1 vote	১টি ভোট
+{n} votes	{n}টি ভোট
+1 vote · closed	১টি ভোট · বন্ধ
+{n} votes · closed	{n}টি ভোট · বন্ধ
+Close the poll	পোল বন্ধ করুন
+A poll needs 2 to 6 different options.	একটি পোলে ২ থেকে ৬টি আলাদা বিকল্প লাগে।
+You can start another poll in a few minutes.	কয়েক মিনিট পরে আপনি আরেকটি পোল শুরু করতে পারবেন।

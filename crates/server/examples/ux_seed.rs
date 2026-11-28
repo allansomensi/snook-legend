@@ -364,6 +364,12 @@ async fn main() {
                     tokio::time::sleep(Duration::from_millis(1200)).await;
                     let text = "Anyone up for a **rated** game? [gold]Brazilian rules[/]";
                     let _ = ws.send(send(ClientMsg::Chat { text: text.into() })).await;
+                    // A poll, that the others vote in.
+                    let question = "Which rules for Friday's tournament?".to_string();
+                    let options = ["Brazilian", "Official (WPA)", "Both, two brackets"]
+                        .map(String::from)
+                        .to_vec();
+                    let _ = ws.send(send(ClientMsg::CreatePoll { question, options })).await;
                 }
                 _ => {}
             }
@@ -378,6 +384,14 @@ async fn main() {
                         // (the screenshots of an online game, its chat).
                         let Message::Text(text) = m else { continue };
                         let Ok(msg) = snook_legend_proto::parse_server(&text) else { continue };
+                        // Everyone votes in the poll (not all the same way).
+                        if let ServerMsg::Chat { line } = &msg
+                            && let Some(poll) = &line.poll
+                        {
+                            let option = Some((k % 5).min(poll.options.len() - 1) as u8 % 3);
+                            let vote = ClientMsg::VotePoll { id: line.id, option };
+                            let _ = ws.send(send(vote)).await;
+                        }
                         if !["Wei", "Aisha", "Tomasz"].contains(&name.as_str()) {
                             continue;
                         }

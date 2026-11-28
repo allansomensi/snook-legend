@@ -2615,3 +2615,26 @@ Controller connected	Геймпад подключён
 No controller connected	Геймпад не подключён
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Поддерживаются геймпады Xbox, PlayStation и Switch Pro: подключите любой из них, чтобы играть. В меню крестовина перемещает, A выбирает, B возвращает назад.
 Community	Сообщество
+Country ranking	Рейтинг страны
+The top 100 of {country}	Топ-100: {country}
+The best players of your country	Лучшие игроки вашей страны
+Choose your country to see how you rank among its players.	Выберите страну, чтобы увидеть своё место среди её игроков.
+Choose my country	Выбрать мою страну
+No rated games in your country yet. Be the first!	В вашей стране ещё нет рейтинговых партий. Станьте первым!
+Start a poll	Создать опрос
+New poll	Новый опрос
+Question	Вопрос
+Ask the lounge something…	Спросите что-нибудь у лобби…
+Options	Варианты
+Option {n}	Вариант {n}
+Remove	Убрать
++ Add an option	+ Добавить вариант
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Голосовать может любой в лобби, и голос можно изменить. Опрос можно закрыть в любой момент.
+Post the poll	Опубликовать опрос
+1 vote	1 голос
+{n} votes	Голосов: {n}
+1 vote · closed	1 голос · закрыт
+{n} votes · closed	Голосов: {n} · закрыт
+Close the poll	Закрыть опрос
+A poll needs 2 to 6 different options.	В опросе должно быть от 2 до 6 разных вариантов.
+You can start another poll in a few minutes.	Новый опрос можно будет создать через несколько минут.

@@ -2615,3 +2615,26 @@ Controller connected	Đã kết nối tay cầm
 No controller connected	Chưa kết nối tay cầm
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Hỗ trợ tay cầm Xbox, PlayStation và Switch Pro: hãy kết nối một tay cầm để chơi. Trong menu, D-pad để di chuyển, A để chọn và B để quay lại.
 Community	Cộng đồng
+Country ranking	Bảng xếp hạng quốc gia
+The top 100 of {country}	Top 100 của {country}
+The best players of your country	Những người chơi giỏi nhất nước bạn
+Choose your country to see how you rank among its players.	Chọn quốc gia để xem bạn đứng thứ mấy trong số người chơi của nước đó.
+Choose my country	Chọn quốc gia của tôi
+No rated games in your country yet. Be the first!	Nước bạn chưa có ván tính điểm nào. Hãy là người đầu tiên!
+Start a poll	Tạo bình chọn
+New poll	Bình chọn mới
+Question	Câu hỏi
+Ask the lounge something…	Hỏi sảnh điều gì đó…
+Options	Lựa chọn
+Option {n}	Lựa chọn {n}
+Remove	Xóa
++ Add an option	+ Thêm lựa chọn
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Mọi người trong sảnh đều có thể bình chọn và đổi lựa chọn. Bạn có thể đóng bình chọn bất cứ lúc nào.
+Post the poll	Đăng bình chọn
+1 vote	1 phiếu
+{n} votes	{n} phiếu
+1 vote · closed	1 phiếu · đã đóng
+{n} votes · closed	{n} phiếu · đã đóng
+Close the poll	Đóng bình chọn
+A poll needs 2 to 6 different options.	Một bình chọn cần từ 2 đến 6 lựa chọn khác nhau.
+You can start another poll in a few minutes.	Vài phút nữa bạn có thể tạo bình chọn khác.

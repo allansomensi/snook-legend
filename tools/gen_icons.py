@@ -229,6 +229,7 @@ ICONS = {
     "Gavel": "gavel",
     "ChevronDown": "caret-down",
     "ShieldWarning": "shield-warning",
+    "Poll": "chart-bar-horizontal",
 }
 
 # Layers drawn under an icon, in another colour: (name, path).

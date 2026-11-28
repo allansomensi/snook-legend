@@ -297,6 +297,13 @@ pub struct Online {
     /// The dialog that turns the chat with other players on (the age group,
     /// then, under 18, a parent's or guardian's permission) or off.
     pub chat_dialog_open: bool,
+    /// The server's protocol (from its welcome; 0: one before 27): what it
+    /// can do (polls).
+    pub server_protocol: u32,
+    /// This player's votes in the lounge chat's polls: line -> option.
+    my_votes: std::collections::HashMap<u64, u8>,
+    /// A poll being written (its question and options), in the chat's place.
+    poll_draft: Option<(String, Vec<String>)>,
     /// Its declaration is ticked.
     guardian_ticked: bool,
     /// What the player wrote with the chat off: it goes once the chat is
@@ -627,6 +634,10 @@ const TICKET_REFUSED: &str = "Slow down a little.";
 pub const EMAIL_OFFER_FIELD: u64 = 77;
 /// The lounge chat's scroll bar.
 const LOUNGE_LOG: u64 = 9_203;
+/// The poll being written: its question's field, and its options' (one id
+/// each from here).
+const POLL_QUESTION: u64 = 110;
+const POLL_OPTION: u64 = 111;
 
 /// "5 h", "3 days", "12 min": how long until something.
 /// A notice of something earned, with the event's multiplier when one ran.
@@ -829,6 +840,9 @@ impl Online {
             email_offer: crate::dev::var("SNOOK_LEGEND_EMAIL_OFFER"),
             age: None,
             chat_dialog_open: false,
+            server_protocol: 0,
+            my_votes: Default::default(),
+            poll_draft: None,
             guardian_ticked: false,
             pending_text: None,
             replays: None,
@@ -1545,7 +1559,10 @@ impl Online {
                 self.stage = if self.lan { Stage::Idle } else { Stage::SignIn };
                 self.error = Some(crate::i18n::server_text(&reason));
             }
-            ServerMsg::Welcome { motd, .. } => self.motd = crate::i18n::server_text(&motd),
+            ServerMsg::Welcome { motd, protocol, .. } => {
+                self.motd = crate::i18n::server_text(&motd);
+                self.server_protocol = protocol;
+            }
             ServerMsg::Lounge { players } => self.players = players,
             ServerMsg::PlayerUpdated { player } => {
                 if self.me.as_ref().is_some_and(|me| me.username == player.username) {
@@ -1601,6 +1618,25 @@ impl Online {
                 }
             }
             ServerMsg::ChatRemoved { id } => self.chat.retain(|l| l.id != id),
+            ServerMsg::PollVotes { id, votes, closed } => {
+                if let Some(p) =
+                    self.chat.iter_mut().find(|l| l.id == id).and_then(|l| l.poll.as_mut())
+                {
+                    p.votes = votes;
+                    p.closed = closed;
+                }
+            }
+            ServerMsg::PollVoted { id, option } => {
+                match option {
+                    Some(o) => self.my_votes.insert(id, o),
+                    None => self.my_votes.remove(&id),
+                };
+                if let Some(p) =
+                    self.chat.iter_mut().find(|l| l.id == id).and_then(|l| l.poll.as_mut())
+                {
+                    p.mine = option;
+                }
+            }
             ServerMsg::ChatCleared { by } => {
                 self.chat.clear();
                 self.chat_scroll = 0;
@@ -1624,8 +1660,14 @@ impl Online {
                 }
                 _ => self.text_refused(place, refusal),
             },
-            ServerMsg::ChatHistory { lines, .. } => {
+            ServerMsg::ChatHistory { lines, my_votes } => {
+                self.my_votes = my_votes.into_iter().collect();
                 self.chat = lines.iter().map(FeedLine::chat).collect();
+                for l in &mut self.chat {
+                    if let Some(p) = l.poll.as_mut() {
+                        p.mine = self.my_votes.get(&l.id).copied();
+                    }
+                }
                 self.chat_scroll = 0;
             }
             ServerMsg::Chat { line } => {
@@ -3904,9 +3946,18 @@ impl Online {
             }
             log_top += r.h + 8.0;
         }
-        // The field grows with what is typed (up to four lines).
+        // A poll being written: in the chat's place.
+        if self.poll_draft.is_some() {
+            let area = Rect::new(inner_x, log_top, inner_w, bottom - log_top);
+            self.draw_poll_form(ui, area);
+            return action;
+        }
+        // The field grows with what is typed (up to four lines); a poll can
+        // be started beside it where the server has them.
         let input_h = 36.0;
-        let field_w = inner_w - 2.0 * (input_h + 6.0);
+        let polls = self.server_protocol >= 27 && !self.phrases_only() && self.signed_in();
+        let buttons = if polls { 3.0 } else { 2.0 };
+        let field_w = inner_w - buttons * (input_h + 6.0);
         let field_h = ui.text_area_height(&self.chat_input, field_w, 4).max(input_h);
         let input = Rect::new(inner_x, bottom - field_h, field_w, field_h);
         let log = Rect::new(inner_x, log_top, inner_w, input.y - 10.0 - log_top);
@@ -3967,6 +4018,18 @@ impl Online {
                 Some(crate::ui::ChatAction::Profile(name)) => {
                     action = OnlineAction::Profile(name);
                 }
+                Some(crate::ui::ChatAction::Vote { id, option }) => {
+                    // Ticked at once; the counts come from the server.
+                    if let Some(p) =
+                        self.chat.iter_mut().find(|l| l.id == id).and_then(|l| l.poll.as_mut())
+                    {
+                        p.mine = option;
+                    }
+                    self.send(ClientMsg::VotePoll { id, option });
+                }
+                Some(crate::ui::ChatAction::ClosePoll { id }) => {
+                    self.send(ClientMsg::ClosePoll { id });
+                }
                 None => {}
             }
         }
@@ -4012,8 +4075,17 @@ impl Online {
         if !phrases {
             crate::ui::chat_counter(ui, &self.chat_input, input);
             self.emoji.track(ui, 30);
-            let emoji_r =
+            let mut emoji_r =
                 Rect::new(input.x + input.w + 6.0, input.y + input.h - input_h, input_h, input_h);
+            if polls {
+                let poll_r = emoji_r;
+                emoji_r.x += input_h + 6.0;
+                let tip = t("Start a poll");
+                if ui.icon_button_ex(poll_r, crate::icons::Icon::Poll, tip, true, true) {
+                    self.poll_draft = Some((String::new(), vec![String::new(), String::new()]));
+                    ui.focus = Some(POLL_QUESTION);
+                }
+            }
             let chat_area = Rect::new(inner_x, log.y, inner_w, input.y + input.h - log.y);
             self.emoji.draw(ui, emoji_r, input, chat_area, 30, &mut self.chat_input, MAX_CHAT_LEN);
             let hint = if self.chat_off() {
@@ -4024,7 +4096,7 @@ impl Online {
             placeholder(ui, 30, input, &self.chat_input, hint);
         }
         let send_r = Rect::new(
-            input.x + input.w + 6.0 + input_h + 6.0,
+            input.x + input.w + (buttons - 1.0) * (input_h + 6.0) + 6.0,
             input.y + input.h - input_h,
             input_h,
             input_h,
@@ -4059,6 +4131,98 @@ impl Online {
             ui.focus = if now { Some(30) } else { None };
         }
         action
+    }
+
+    /// A poll being written, in the chat's place: its question, two to six
+    /// options, and Post (or Cancel, or Esc).
+    fn draw_poll_form(&mut self, ui: &mut Ui, area: Rect) {
+        use snook_legend_proto::Poll;
+        let Some((mut question, mut options)) = self.poll_draft.take() else { return };
+        ui.block(area);
+        rrect(area, 8.0, Color::new(0.0, 0.0, 0.0, 0.25));
+        let pad = 14.0;
+        let x = area.x + pad;
+        let w = area.w - pad * 2.0;
+        let mut y = area.y + pad;
+        crate::icons::draw(crate::icons::Icon::Poll, vec2(x + 9.0, y + 10.0), 18.0, GOLD);
+        ui.text(t("New poll"), x + 26.0, y, 18.0, CREAM, true);
+        let close = Rect::new(area.x + area.w - pad - 28.0, y - 4.0, 28.0, 28.0);
+        let mut cancel =
+            ui.icon_button_ex(close, crate::icons::Icon::Close, t("Cancel"), true, true);
+        y += 34.0;
+        ui.text(t("Question"), x, y, 12.0, MUTED, true);
+        y += 18.0;
+        let qh = ui.text_area_height(&question, w, 3).max(36.0);
+        let q = Rect::new(x, y, w, qh);
+        ui.text_area(POLL_QUESTION, q, &mut question, Poll::QUESTION_MAX);
+        placeholder(ui, POLL_QUESTION, q, &question, t("Ask the lounge something…"));
+        y += qh + 12.0;
+        ui.text(t("Options"), x, y, 12.0, MUTED, true);
+        y += 18.0;
+        let row = 34.0;
+        let mut remove = None;
+        let n = options.len();
+        for (k, option) in options.iter_mut().enumerate() {
+            let id = POLL_OPTION + k as u64;
+            let field_w = if n > *Poll::OPTIONS.start() { w - 34.0 } else { w };
+            let f = Rect::new(x, y, field_w, row - 4.0);
+            ui.text_input(id, f, option, Poll::OPTION_MAX);
+            let hint = tw("Option {n}", &[("n", &(k + 1))]);
+            placeholder(ui, id, f, option, &hint);
+            if n > *Poll::OPTIONS.start() {
+                let b = Rect::new(x + w - 28.0, y + 2.0, 26.0, 26.0);
+                if ui.icon_button_ex(b, crate::icons::Icon::Close, t("Remove"), true, true) {
+                    remove = Some(k);
+                }
+            }
+            y += row;
+        }
+        if let Some(k) = remove {
+            options.remove(k);
+        }
+        if options.len() < *Poll::OPTIONS.end() {
+            let label = t("+ Add an option");
+            let bw = ui.text_size(label, 13.0, true).x + 24.0;
+            if ui.button(Rect::new(x, y + 2.0, bw, 30.0), label, true) {
+                options.push(String::new());
+                ui.focus = Some(POLL_OPTION + options.len() as u64 - 1);
+            }
+            y += 40.0;
+        }
+        let filled = options.iter().filter(|o| !o.trim().is_empty()).count();
+        let ready = !question.trim().is_empty() && filled >= *Poll::OPTIONS.start();
+        let hint = t(
+            "Everyone in the lounge can vote, and change their vote. You can close it at any time.",
+        );
+        for line in ui.wrap(hint, w, 12.0) {
+            ui.text(&line, x, y, 12.0, Color::new(MUTED.r, MUTED.g, MUTED.b, 0.8), false);
+            y += 16.0;
+        }
+        let bh = 38.0;
+        let by = (area.y + area.h - pad - bh).max(y + 8.0);
+        let bw = ((w - 10.0) / 2.0).min(180.0);
+        let post = Rect::new(x + w - bw, by, bw, bh);
+        if ui.button(Rect::new(post.x - 10.0 - bw, by, bw, bh), t("Cancel"), true) {
+            cancel = true;
+        }
+        let posted = if ready {
+            ui.primary_button(post, t("Post the poll"))
+        } else {
+            ui.button(post, t("Post the poll"), false)
+        };
+        if posted {
+            let options: Vec<String> =
+                options.iter().map(|o| o.trim().to_string()).filter(|o| !o.is_empty()).collect();
+            let question = snook_legend_proto::clean_chat(&question);
+            self.send_text(ClientMsg::CreatePoll { question, options });
+            self.chat_scroll = 0;
+            return;
+        }
+        if cancel || ui.escape() {
+            ui.focus = None;
+            return;
+        }
+        self.poll_draft = Some((question, options));
     }
 
     /// Sends a message with text for other players: a line in a chat, a
@@ -6302,6 +6466,7 @@ fn has_text(msg: &ClientMsg) -> bool {
         | ClientMsg::DmSend { text, .. } => !text.is_empty(),
         ClientMsg::SetStatusMessage { text } | ClientMsg::PostSeek { text, .. } => !text.is_empty(),
         ClientMsg::GiftItem { message, .. } => !message.is_empty(),
+        ClientMsg::CreatePoll { question, .. } => !question.is_empty(),
         _ => false,
     }
 }

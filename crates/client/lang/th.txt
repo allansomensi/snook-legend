@@ -2615,3 +2615,26 @@ Controller connected	เชื่อมต่อ​จอย​แล้ว
 No controller connected	ไม่ได้​เชื่อมต่อ​จอย
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	ใช้​จอย Xbox, PlayStation และ Switch Pro ได้: เชื่อมต่อ​จอย​เพื่อ​เล่น ใน​เมนู ปุ่ม​ทิศทาง​ใช้​เลื่อน A ใช้​เลือก และ B ใช้​ย้อน​กลับ
 Community	ชุมชน
+Country ranking	อันดับของประเทศ
+The top 100 of {country}	100 อันดับแรกของ {country}
+The best players of your country	ผู้เล่นที่เก่งที่สุดในประเทศของคุณ
+Choose your country to see how you rank among its players.	เลือกประเทศของคุณเพื่อดูอันดับของคุณในหมู่ผู้เล่นของประเทศนั้น
+Choose my country	เลือกประเทศของฉัน
+No rated games in your country yet. Be the first!	ยังไม่มีเกมจัดอันดับในประเทศของคุณ มาเป็นคนแรกกัน!
+Start a poll	สร้างโพล
+New poll	โพลใหม่
+Question	คำถาม
+Ask the lounge something…	ถามอะไรสักอย่างกับล็อบบี้…
+Options	ตัวเลือก
+Option {n}	ตัวเลือก {n}
+Remove	เอาออก
++ Add an option	+ เพิ่มตัวเลือก
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	ทุกคนในล็อบบี้โหวตและเปลี่ยนโหวตได้ คุณปิดโพลได้ทุกเมื่อ
+Post the poll	โพสต์โพล
+1 vote	1 โหวต
+{n} votes	{n} โหวต
+1 vote · closed	1 โหวต · ปิดแล้ว
+{n} votes · closed	{n} โหวต · ปิดแล้ว
+Close the poll	ปิดโพล
+A poll needs 2 to 6 different options.	โพลต้องมีตัวเลือกที่ต่างกัน 2 ถึง 6 ตัว
+You can start another poll in a few minutes.	อีกไม่กี่นาทีคุณจะสร้างโพลใหม่ได้

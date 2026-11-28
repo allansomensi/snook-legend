@@ -2615,3 +2615,26 @@ Controller connected	컨트롤러 연결됨
 No controller connected	연결된 컨트롤러 없음
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Xbox, PlayStation, Switch Pro 컨트롤러를 지원해요. 연결하면 바로 플레이할 수 있어요. 메뉴에서는 방향 패드로 이동하고 A로 선택, B로 돌아가요.
 Community	커뮤니티
+Country ranking	국가 랭킹
+The top 100 of {country}	{country} 상위 100명
+The best players of your country	우리나라 최고의 선수들
+Choose your country to see how you rank among its players.	나라를 고르면 그 나라 선수들 중 내 순위를 볼 수 있어요.
+Choose my country	내 나라 고르기
+No rated games in your country yet. Be the first!	아직 우리나라에 랭크 게임이 없어요. 첫 번째가 되어 보세요!
+Start a poll	투표 만들기
+New poll	새 투표
+Question	질문
+Ask the lounge something…	라운지에 물어보세요…
+Options	선택지
+Option {n}	선택지 {n}
+Remove	삭제
++ Add an option	+ 선택지 추가
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	라운지의 누구나 투표하고 투표를 바꿀 수 있어요. 언제든 투표를 마감할 수 있어요.
+Post the poll	투표 올리기
+1 vote	1표
+{n} votes	{n}표
+1 vote · closed	1표 · 마감
+{n} votes · closed	{n}표 · 마감
+Close the poll	투표 마감
+A poll needs 2 to 6 different options.	투표에는 서로 다른 선택지가 2~6개 필요해요.
+You can start another poll in a few minutes.	몇 분 뒤에 다른 투표를 만들 수 있어요.

@@ -2615,3 +2615,26 @@ Controller connected	Ovladač připojen
 No controller connected	Není připojen žádný ovladač
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Fungují ovladače Xbox, PlayStation a Switch Pro: připoj jeden a hraj s ním. V menu se pohybuješ směrovým křížem, A vybírá a B vrací zpět.
 Community	Komunita
+Country ranking	Žebříček země
+The top 100 of {country}	Nejlepší stovka: {country}
+The best players of your country	Nejlepší hráči tvé země
+Choose your country to see how you rank among its players.	Vyber svou zemi a uvidíš, kde stojíš mezi jejími hráči.
+Choose my country	Vybrat mou zemi
+No rated games in your country yet. Be the first!	Ve tvé zemi zatím nejsou hodnocené hry. Buď první!
+Start a poll	Založit anketu
+New poll	Nová anketa
+Question	Otázka
+Ask the lounge something…	Zeptej se herny na něco…
+Options	Možnosti
+Option {n}	Možnost {n}
+Remove	Odebrat
++ Add an option	+ Přidat možnost
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	V herně může hlasovat každý a hlas změnit. Anketu můžeš kdykoli uzavřít.
+Post the poll	Zveřejnit anketu
+1 vote	1 hlas
+{n} votes	Hlasy: {n}
+1 vote · closed	1 hlas · uzavřeno
+{n} votes · closed	Hlasy: {n} · uzavřeno
+Close the poll	Uzavřít anketu
+A poll needs 2 to 6 different options.	Anketa potřebuje 2 až 6 různých možností.
+You can start another poll in a few minutes.	Další anketu můžeš založit za pár minut.

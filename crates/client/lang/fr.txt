@@ -2615,3 +2615,26 @@ Controller connected	Manette connectée
 No controller connected	Aucune manette connectée
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Les manettes Xbox, PlayStation et Switch Pro fonctionnent : connectez-en une pour jouer avec. Dans les menus, la croix directionnelle permet de se déplacer, A de choisir et B de revenir en arrière.
 Community	Communauté
+Country ranking	Classement du pays
+The top 100 of {country}	Les 100 meilleurs de {country}
+The best players of your country	Les meilleurs joueurs de ton pays
+Choose your country to see how you rank among its players.	Choisis ton pays pour voir ton rang parmi ses joueurs.
+Choose my country	Choisir mon pays
+No rated games in your country yet. Be the first!	Pas encore de partie classée dans ton pays. Sois le premier !
+Start a poll	Créer un sondage
+New poll	Nouveau sondage
+Question	Question
+Ask the lounge something…	Demande quelque chose au salon…
+Options	Options
+Option {n}	Option {n}
+Remove	Retirer
++ Add an option	+ Ajouter une option
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Tout le salon peut voter et changer son vote. Tu peux clore le sondage à tout moment.
+Post the poll	Publier le sondage
+1 vote	1 vote
+{n} votes	{n} votes
+1 vote · closed	1 vote · clos
+{n} votes · closed	{n} votes · clos
+Close the poll	Clore le sondage
+A poll needs 2 to 6 different options.	Un sondage demande de 2 à 6 options différentes.
+You can start another poll in a few minutes.	Tu pourras créer un autre sondage dans quelques minutes.

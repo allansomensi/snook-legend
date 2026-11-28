@@ -2615,3 +2615,26 @@ Controller connected	Handkontroll ansluten
 No controller connected	Ingen handkontroll ansluten
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Handkontroller för Xbox, PlayStation och Switch Pro fungerar: anslut en för att spela med den. I menyerna flyttar du med styrkorset, A väljer och B går tillbaka.
 Community	Gemenskap
+Country ranking	Landsranking
+The top 100 of {country}	Topp 100 i {country}
+The best players of your country	De bästa spelarna i ditt land
+Choose your country to see how you rank among its players.	Välj ditt land för att se var du står bland dess spelare.
+Choose my country	Välj mitt land
+No rated games in your country yet. Be the first!	Inga rankade matcher i ditt land än. Bli först!
+Start a poll	Starta en omröstning
+New poll	Ny omröstning
+Question	Fråga
+Ask the lounge something…	Fråga loungen något…
+Options	Alternativ
+Option {n}	Alternativ {n}
+Remove	Ta bort
++ Add an option	+ Lägg till ett alternativ
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Alla i loungen kan rösta och ändra sin röst. Du kan stänga omröstningen när du vill.
+Post the poll	Publicera omröstningen
+1 vote	1 röst
+{n} votes	{n} röster
+1 vote · closed	1 röst · stängd
+{n} votes · closed	{n} röster · stängd
+Close the poll	Stäng omröstningen
+A poll needs 2 to 6 different options.	En omröstning behöver 2 till 6 olika alternativ.
+You can start another poll in a few minutes.	Du kan starta en ny omröstning om några minuter.

@@ -2615,3 +2615,26 @@ Controller connected	Controller verbunden
 No controller connected	Kein Controller verbunden
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Controller für Xbox, PlayStation und Switch Pro funktionieren: Schließ einen an, um damit zu spielen. In den Menüs navigierst du mit dem Steuerkreuz, A wählt aus und B geht zurück.
 Community	Community
+Country ranking	Länderrangliste
+The top 100 of {country}	Die Top 100 von {country}
+The best players of your country	Die besten Spieler deines Landes
+Choose your country to see how you rank among its players.	Wähle dein Land, um zu sehen, wo du unter seinen Spielern stehst.
+Choose my country	Mein Land wählen
+No rated games in your country yet. Be the first!	In deinem Land gibt es noch keine gewerteten Spiele. Sei der Erste!
+Start a poll	Umfrage starten
+New poll	Neue Umfrage
+Question	Frage
+Ask the lounge something…	Frag die Lounge etwas…
+Options	Optionen
+Option {n}	Option {n}
+Remove	Entfernen
++ Add an option	+ Option hinzufügen
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Alle in der Lounge können abstimmen und ihre Stimme ändern. Du kannst die Umfrage jederzeit beenden.
+Post the poll	Umfrage veröffentlichen
+1 vote	1 Stimme
+{n} votes	{n} Stimmen
+1 vote · closed	1 Stimme · beendet
+{n} votes · closed	{n} Stimmen · beendet
+Close the poll	Umfrage beenden
+A poll needs 2 to 6 different options.	Eine Umfrage braucht 2 bis 6 verschiedene Optionen.
+You can start another poll in a few minutes.	Du kannst in ein paar Minuten eine weitere Umfrage starten.

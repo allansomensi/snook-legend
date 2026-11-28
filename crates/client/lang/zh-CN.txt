@@ -2615,3 +2615,26 @@ Controller connected	手柄已连接
 No controller connected	未连接手柄
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	支持 Xbox、PlayStation 和 Switch Pro 手柄：连接后即可用手柄游戏。在菜单中，十字键移动，A 确认，B 返回。
 Community	社区
+Country ranking	国家排名
+The top 100 of {country}	{country}前100名
+The best players of your country	你所在国家的顶尖玩家
+Choose your country to see how you rank among its players.	选择你的国家，看看你在该国玩家中的排名。
+Choose my country	选择我的国家
+No rated games in your country yet. Be the first!	你的国家还没有排位赛。来当第一个吧！
+Start a poll	发起投票
+New poll	新投票
+Question	问题
+Ask the lounge something…	向大厅提个问题…
+Options	选项
+Option {n}	选项{n}
+Remove	删除
++ Add an option	＋添加选项
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	大厅里的每个人都可以投票，也可以改票。你可以随时结束投票。
+Post the poll	发布投票
+1 vote	1票
+{n} votes	{n}票
+1 vote · closed	1票 · 已结束
+{n} votes · closed	{n}票 · 已结束
+Close the poll	结束投票
+A poll needs 2 to 6 different options.	投票需要2到6个不同的选项。
+You can start another poll in a few minutes.	几分钟后你可以再发起投票。

@@ -2615,3 +2615,26 @@ Controller connected	Oyun kolu bağlı
 No controller connected	Bağlı oyun kolu yok
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Xbox, PlayStation ve Switch Pro oyun kolları desteklenir: oynamak için birini bağla. Menülerde yön tuşları gezinir, A seçer, B geri döner.
 Community	Topluluk
+Country ranking	Ülke sıralaması
+The top 100 of {country}	{country} ilk 100
+The best players of your country	Ülkenin en iyi oyuncuları
+Choose your country to see how you rank among its players.	Ülkendeki oyuncular arasında nerede olduğunu görmek için ülkeni seç.
+Choose my country	Ülkemi seç
+No rated games in your country yet. Be the first!	Ülkende henüz puanlı oyun yok. İlk sen ol!
+Start a poll	Anket başlat
+New poll	Yeni anket
+Question	Soru
+Ask the lounge something…	Lobiye bir şey sor…
+Options	Seçenekler
+Option {n}	Seçenek {n}
+Remove	Kaldır
++ Add an option	+ Seçenek ekle
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Lobideki herkes oy verebilir ve oyunu değiştirebilir. Anketi istediğin zaman kapatabilirsin.
+Post the poll	Anketi yayınla
+1 vote	1 oy
+{n} votes	{n} oy
+1 vote · closed	1 oy · kapandı
+{n} votes · closed	{n} oy · kapandı
+Close the poll	Anketi kapat
+A poll needs 2 to 6 different options.	Bir anket 2 ile 6 arasında farklı seçenek ister.
+You can start another poll in a few minutes.	Birkaç dakika sonra yeni bir anket başlatabilirsin.

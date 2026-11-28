@@ -35,6 +35,9 @@ struct LogRow {
     text: String,
     /// Where the row starts in its line's text (bytes): its styles' runs.
     start: usize,
+    /// A poll's option (its bar), or the poll's last row (its votes).
+    option: Option<u8>,
+    poll_end: bool,
     indent: f32,
     index: usize,
     centred: bool,
@@ -99,6 +102,18 @@ pub struct FeedLine {
     /// How its text is drawn, run by run (a VIP's or the staff's styles;
     /// none: plainly).
     pub runs: Vec<snook_legend_proto::chat_style::Run>,
+    /// A poll: its text is the question.
+    pub poll: Option<PollView>,
+}
+
+/// A poll in a chat log, as this player sees it.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct PollView {
+    pub options: Vec<String>,
+    pub votes: Vec<u32>,
+    pub closed: bool,
+    /// This player's vote.
+    pub mine: Option<u8>,
 }
 
 /// What the reader did with a line of [`Ui::chat_log`].
@@ -110,6 +125,10 @@ pub enum ChatAction {
     Pin { id: u64 },
     /// Open the profile of a player a line mentions.
     Profile(String),
+    /// Vote in poll `id` (none: take the vote back).
+    Vote { id: u64, option: Option<u8> },
+    /// Close poll `id` (its author, the staff).
+    ClosePoll { id: u64 },
 }
 
 /// A row of a styled chat line cut into what is drawn one way: (text, its
@@ -782,6 +801,82 @@ impl Ui {
     }
 
     /// Draws text, emoji included, with its top-left corner at (`x`, `y`).
+    /// A row of a poll in a chat log (`area`, a row high): an option's bar
+    /// (how many chose it, and this player's choice ticked; a click votes,
+    /// another takes the vote back), or with `option` none its last row:
+    /// how many voted, and "Close the poll" for its author and the staff.
+    fn poll_row(
+        &mut self,
+        area: Rect,
+        id: u64,
+        poll: &PollView,
+        option: Option<u8>,
+        may_close: bool,
+    ) -> Option<ChatAction> {
+        let total = poll.votes.iter().sum::<u32>();
+        let Some(k) = option else {
+            let text = match (total, poll.closed) {
+                (1, false) => crate::i18n::t("1 vote").to_string(),
+                (1, true) => crate::i18n::t("1 vote · closed").to_string(),
+                (_, false) => crate::i18n::tw("{n} votes", &[("n", &total)]),
+                (_, true) => crate::i18n::tw("{n} votes · closed", &[("n", &total)]),
+            };
+            let c = Color::new(MUTED.r, MUTED.g, MUTED.b, 0.85);
+            self.text(&text, area.x + 2.0, area.y + 2.0, 11.5, c, false);
+            if may_close && !poll.closed && id > 0 {
+                let label = crate::i18n::t("Close the poll");
+                let w = self.text_size(label, 11.5, true).x;
+                let x = area.x + area.w - w - 4.0;
+                let hit = Rect::new(x - 4.0, area.y, w + 8.0, area.h);
+                let hover = self.hovering(hit);
+                let c = if hover { GOLD } else { Color::new(GOLD.r, GOLD.g, GOLD.b, 0.7) };
+                self.text(label, x, area.y + 2.0, 11.5, c, true);
+                if self.clicked(hit) {
+                    return Some(ChatAction::ClosePoll { id });
+                }
+            }
+            return None;
+        };
+        let n = poll.votes.get(k as usize).copied().unwrap_or(0);
+        let share = if total > 0 { n as f32 / total as f32 } else { 0.0 };
+        let chosen = poll.mine == Some(k);
+        let bar = Rect::new(area.x, area.y + 1.0, area.w, area.h - 3.0);
+        let hover = !poll.closed && id > 0 && self.hovering(bar);
+        let back = if hover { 0.10 } else { 0.05 };
+        rrect(bar, 5.0, Color::new(1.0, 1.0, 1.0, back));
+        // How many chose it (eased as the votes come in).
+        let key = motion::mix(motion::id("poll-bar"), id.wrapping_mul(8) + k as u64);
+        let shown = self.glide(key, share, 10.0);
+        if shown > 0.002 {
+            let fill = Rect::new(bar.x, bar.y, (bar.w * shown).max(6.0), bar.h);
+            let a = if chosen { 0.42 } else { 0.22 };
+            rrect(fill, 5.0, Color::new(GOLD.r, GOLD.g, GOLD.b, a));
+        }
+        rrect_lines(bar, 5.0, 1.0, if chosen { GOLD } else { HAIRLINE });
+        // The tick of this player's choice, or an empty ring.
+        let c = vec2(bar.x + 10.0, bar.y + bar.h / 2.0);
+        if chosen {
+            draw_circle(c.x, c.y, 5.5, GOLD);
+            let ink = Color::new(0.1, 0.07, 0.04, 1.0);
+            crate::icons::draw(crate::icons::Icon::Check, c, 9.0, ink);
+        } else {
+            draw_circle_lines(c.x, c.y, 5.0, 1.2, Color::new(1.0, 1.0, 1.0, 0.4));
+        }
+        let pct = format!("{}%", (share * 100.0).round() as u32);
+        let pw = self.text_size(&pct, 11.5, true).x;
+        let room = bar.w - 24.0 - pw - 12.0;
+        let label = poll.options.get(k as usize).map(String::as_str).unwrap_or("");
+        let label = self.ellipsize(label, room, 12.5);
+        self.text(&label, bar.x + 21.0, bar.y + 1.5, 12.5, CREAM, chosen);
+        let c = if chosen { GOLD } else { Color::new(MUTED.r, MUTED.g, MUTED.b, 0.9) };
+        self.text(&pct, bar.x + bar.w - pw - 6.0, bar.y + 2.0, 11.5, c, true);
+        if hover && self.clicked(bar) {
+            let option = if chosen { None } else { Some(k) };
+            return Some(ChatAction::Vote { id, option });
+        }
+        None
+    }
+
     /// A row of a styled chat line (see [`styled_pieces`]): bold, italic
     /// (slanted), underlined, struck through, coloured; the mentions in
     /// gold, and a click on one gives that player's name.
@@ -2032,7 +2127,9 @@ impl Ui {
             let player = l.kind == FeedKind::Player;
             let author = l.from.as_ref().map(|(n, _)| n.as_str());
             // A line under the one before it: same author, nothing between.
+            // (A poll has its author's name over it.)
             let follows = player
+                && l.poll.is_none()
                 && older.is_some_and(|o| {
                     o.kind == FeedKind::Player
                         && o.deleted.is_none()
@@ -2073,12 +2170,32 @@ impl Ui {
                             name: (k == 0 && !follows).then(|| (label.clone(), color)),
                             text: w,
                             start,
+                            option: None,
+                            poll_end: false,
                             indent,
                             index,
                             centred: false,
                             gap: k == 0 && !follows,
                             day: false,
                         });
+                    }
+                    // A poll: a bar for each option, then its votes.
+                    if let Some(poll) = l.poll.as_ref().filter(|_| l.deleted.is_none()) {
+                        let rows = (0..poll.options.len()).map(|k| (Some(k as u8), false));
+                        for (option, poll_end) in rows.chain(std::iter::once((None, true))) {
+                            block.push(LogRow {
+                                name: None,
+                                text: String::new(),
+                                start: 0,
+                                option,
+                                poll_end,
+                                indent,
+                                index,
+                                centred: false,
+                                gap: false,
+                                day: false,
+                            });
+                        }
                     }
                 }
                 _ => {
@@ -2090,6 +2207,8 @@ impl Ui {
                             name: None,
                             text: w,
                             start: 0,
+                            option: None,
+                            poll_end: false,
                             indent: 0.0,
                             index,
                             centred: true,
@@ -2107,6 +2226,8 @@ impl Ui {
                         name: None,
                         text: label,
                         start: 0,
+                        option: None,
+                        poll_end: false,
                         indent: 0.0,
                         index,
                         centred: true,
@@ -2353,6 +2474,18 @@ impl Ui {
             }
             if let Some((name, color)) = &row.name {
                 self.text(name, inner.x, y, SIZE, soft(*color), true);
+            }
+            if (row.option.is_some() || row.poll_end)
+                && let Some(poll) = line.poll.as_ref()
+            {
+                let mine = me.is_some_and(|m| {
+                    line.from.as_ref().is_some_and(|(n, _)| n.eq_ignore_ascii_case(m))
+                });
+                let area = Rect::new(inner.x + row.indent, y, inner.w - row.indent - 4.0, LINE);
+                if let Some(a) = self.poll_row(area, line.id, poll, row.option, mine || pin) {
+                    action = Some(a);
+                }
+                continue;
             }
             let color = if deleted { Color::new(0.62, 0.56, 0.5, 0.8) } else { CREAM };
             let size = if deleted { 13.0 } else { SIZE };

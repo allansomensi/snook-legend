@@ -2615,3 +2615,26 @@ Controller connected	Kontroller csatlakoztatva
 No controller connected	Nincs csatlakoztatott kontroller
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Xbox, PlayStation és Switch Pro kontrollerek működnek: csatlakoztass egyet, és játssz vele. A menükben az iránygombokkal mozoghatsz, az A kiválaszt, a B visszalép.
 Community	Közösség
+Country ranking	Országos ranglista
+The top 100 of {country}	{country} legjobb 100 játékosa
+The best players of your country	Országod legjobb játékosai
+Choose your country to see how you rank among its players.	Válaszd ki az országodat, és lásd, hol állsz a játékosai között.
+Choose my country	Országom kiválasztása
+No rated games in your country yet. Be the first!	Az országodban még nincs pontszerző játszma. Legyél te az első!
+Start a poll	Szavazás indítása
+New poll	Új szavazás
+Question	Kérdés
+Ask the lounge something…	Kérdezz valamit a társalgótól…
+Options	Lehetőségek
+Option {n}	{n}. lehetőség
+Remove	Eltávolítás
++ Add an option	+ Lehetőség hozzáadása
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	A társalgóban mindenki szavazhat, és módosíthatja a szavazatát. A szavazást bármikor lezárhatod.
+Post the poll	Szavazás közzététele
+1 vote	1 szavazat
+{n} votes	{n} szavazat
+1 vote · closed	1 szavazat · lezárva
+{n} votes · closed	{n} szavazat · lezárva
+Close the poll	Szavazás lezárása
+A poll needs 2 to 6 different options.	Egy szavazáshoz 2–6 különböző lehetőség kell.
+You can start another poll in a few minutes.	Néhány perc múlva indíthatsz újabb szavazást.

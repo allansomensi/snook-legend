@@ -42,6 +42,15 @@
   by the server; a server before this version styles nothing, and a game
   before it shows the markers.)
 
+- **Polls in the lounge**: the button beside the emoji starts one (a
+  question and 2 to 6 options, in the chat's place); in the chat it is a
+  bar for each option with how many chose it, live. A click votes,
+  another changes or takes back the vote; its author or the staff close
+  it. One poll every five minutes, the chat's checks on its words.
+  (Protocol 27: `CreatePoll`, `VotePoll`, `ClosePoll`, `PollVotes`,
+  `PollVoted`, a chat line's `poll`; the Welcome says the server's
+  protocol, and a game shows the button only where polls work.)
+
 ### Ranking
 - **A country's ranking**: World, **Country**, Friends and Doubles. The
   country is the flag on the player's profile; without one, the ranking

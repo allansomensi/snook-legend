@@ -2615,3 +2615,26 @@ Controller connected	Controle conectado
 No controller connected	Nenhum controle conectado
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Os controles de Xbox, PlayStation e Switch Pro funcionam: conecte um para jogar com ele. Nos menus, o direcional navega, A escolhe e B volta.
 Community	Comunidade
+Country ranking	Ranking do país
+The top 100 of {country}	Os 100 melhores do {country}
+The best players of your country	Os melhores jogadores do seu país
+Choose your country to see how you rank among its players.	Escolha o seu país para ver a sua posição entre os jogadores dele.
+Choose my country	Escolher meu país
+No rated games in your country yet. Be the first!	Ainda não há partidas valendo rating no seu país. Seja o primeiro!
+Start a poll	Criar enquete
+New poll	Nova enquete
+Question	Pergunta
+Ask the lounge something…	Pergunte algo ao salão…
+Options	Opções
+Option {n}	Opção {n}
+Remove	Remover
++ Add an option	+ Adicionar opção
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Todos no salão podem votar e mudar o voto. Você pode encerrar a enquete quando quiser.
+Post the poll	Publicar enquete
+1 vote	1 voto
+{n} votes	{n} votos
+1 vote · closed	1 voto · encerrada
+{n} votes · closed	{n} votos · encerrada
+Close the poll	Encerrar enquete
+A poll needs 2 to 6 different options.	Uma enquete precisa de 2 a 6 opções diferentes.
+You can start another poll in a few minutes.	Você poderá criar outra enquete daqui a alguns minutos.

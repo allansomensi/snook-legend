@@ -2615,3 +2615,26 @@ Controller connected	Controller conectat
 No controller connected	Niciun controller conectat
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Funcționează controllerele Xbox, PlayStation și Switch Pro: conectează unul ca să joci cu el. În meniuri, te deplasezi cu D-pad-ul, alegi cu A și revii cu B.
 Community	Comunitate
+Country ranking	Clasamentul țării
+The top 100 of {country}	Top 100 din {country}
+The best players of your country	Cei mai buni jucători din țara ta
+Choose your country to see how you rank among its players.	Alege-ți țara ca să vezi pe ce loc ești printre jucătorii ei.
+Choose my country	Alege țara mea
+No rated games in your country yet. Be the first!	Încă nu sunt partide cu rating în țara ta. Fii primul!
+Start a poll	Creează un sondaj
+New poll	Sondaj nou
+Question	Întrebare
+Ask the lounge something…	Întreabă ceva salonul…
+Options	Opțiuni
+Option {n}	Opțiunea {n}
+Remove	Elimină
++ Add an option	+ Adaugă o opțiune
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Toată lumea din salon poate vota și își poate schimba votul. Poți închide sondajul oricând.
+Post the poll	Publică sondajul
+1 vote	1 vot
+{n} votes	{n} voturi
+1 vote · closed	1 vot · închis
+{n} votes · closed	{n} voturi · închis
+Close the poll	Închide sondajul
+A poll needs 2 to 6 different options.	Un sondaj are nevoie de 2–6 opțiuni diferite.
+You can start another poll in a few minutes.	Vei putea crea alt sondaj peste câteva minute.

@@ -2615,3 +2615,26 @@ Controller connected	Геймпад під’єднано
 No controller connected	Геймпад не під’єднано
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Підтримуються геймпади Xbox, PlayStation і Switch Pro: під’єднайте свій, щоб грати. У меню хрестовина переміщує, A вибирає, а B повертає назад.
 Community	Спільнота
+Country ranking	Рейтинг країни
+The top 100 of {country}	Топ-100: {country}
+The best players of your country	Найкращі гравці твоєї країни
+Choose your country to see how you rank among its players.	Обери свою країну, щоб побачити своє місце серед її гравців.
+Choose my country	Обрати мою країну
+No rated games in your country yet. Be the first!	У твоїй країні ще немає рейтингових партій. Стань першим!
+Start a poll	Створити опитування
+New poll	Нове опитування
+Question	Запитання
+Ask the lounge something…	Запитай щось у лобі…
+Options	Варіанти
+Option {n}	Варіант {n}
+Remove	Прибрати
++ Add an option	+ Додати варіант
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Голосувати може будь-хто в лобі, і голос можна змінити. Опитування можна закрити будь-коли.
+Post the poll	Опублікувати опитування
+1 vote	1 голос
+{n} votes	Голосів: {n}
+1 vote · closed	1 голос · закрито
+{n} votes · closed	Голосів: {n} · закрито
+Close the poll	Закрити опитування
+A poll needs 2 to 6 different options.	В опитуванні має бути від 2 до 6 різних варіантів.
+You can start another poll in a few minutes.	Нове опитування можна буде створити за кілька хвилин.

@@ -2615,3 +2615,26 @@ Controller connected	Kontroler terhubung
 No controller connected	Tidak ada kontroler yang terhubung
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Kontroler Xbox, PlayStation, dan Switch Pro bisa dipakai: hubungkan salah satunya untuk bermain. Di menu, d-pad untuk berpindah, A untuk memilih, dan B untuk kembali.
 Community	Komunitas
+Country ranking	Peringkat negara
+The top 100 of {country}	100 teratas {country}
+The best players of your country	Pemain terbaik di negaramu
+Choose your country to see how you rank among its players.	Pilih negaramu untuk melihat peringkatmu di antara pemainnya.
+Choose my country	Pilih negaraku
+No rated games in your country yet. Be the first!	Belum ada permainan berperingkat di negaramu. Jadilah yang pertama!
+Start a poll	Buat polling
+New poll	Polling baru
+Question	Pertanyaan
+Ask the lounge something…	Tanyakan sesuatu ke lobi…
+Options	Pilihan
+Option {n}	Pilihan {n}
+Remove	Hapus
++ Add an option	+ Tambah pilihan
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Semua orang di lobi bisa memilih dan mengubah pilihannya. Kamu bisa menutup polling kapan saja.
+Post the poll	Kirim polling
+1 vote	1 suara
+{n} votes	{n} suara
+1 vote · closed	1 suara · ditutup
+{n} votes · closed	{n} suara · ditutup
+Close the poll	Tutup polling
+A poll needs 2 to 6 different options.	Polling butuh 2 sampai 6 pilihan yang berbeda.
+You can start another poll in a few minutes.	Kamu bisa membuat polling lain beberapa menit lagi.

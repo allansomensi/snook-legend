@@ -114,6 +114,8 @@ pub enum Icon {
     ShieldWarning,
     /// A pool ball: a game (an invitation to one).
     Ball,
+    /// Horizontal bars: a poll.
+    Poll,
 }
 
 thread_local! {

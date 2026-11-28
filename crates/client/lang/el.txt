@@ -2615,3 +2615,26 @@ Controller connected	Χειριστήριο συνδεδεμένο
 No controller connected	Κανένα συνδεδεμένο χειριστήριο
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Λειτουργούν χειριστήρια Xbox, PlayStation και Switch Pro: σύνδεσε ένα για να παίξεις με αυτό. Στα μενού, τα κουμπιά κατεύθυνσης μετακινούν, το A επιλέγει και το B επιστρέφει.
 Community	Κοινότητα
+Country ranking	Κατάταξη χώρας
+The top 100 of {country}	Οι 100 καλύτεροι: {country}
+The best players of your country	Οι καλύτεροι παίκτες της χώρας σου
+Choose your country to see how you rank among its players.	Διάλεξε τη χώρα σου για να δεις τη θέση σου ανάμεσα στους παίκτες της.
+Choose my country	Επιλογή της χώρας μου
+No rated games in your country yet. Be the first!	Δεν υπάρχουν ακόμη αγώνες με βαθμολογία στη χώρα σου. Γίνε ο πρώτος!
+Start a poll	Νέα δημοσκόπηση
+New poll	Νέα δημοσκόπηση
+Question	Ερώτηση
+Ask the lounge something…	Ρώτα κάτι το σαλόνι…
+Options	Επιλογές
+Option {n}	Επιλογή {n}
+Remove	Αφαίρεση
++ Add an option	+ Προσθήκη επιλογής
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Όλοι στο σαλόνι μπορούν να ψηφίσουν και να αλλάξουν ψήφο. Μπορείς να κλείσεις τη δημοσκόπηση όποτε θέλεις.
+Post the poll	Δημοσίευση
+1 vote	1 ψήφος
+{n} votes	{n} ψήφοι
+1 vote · closed	1 ψήφος · έκλεισε
+{n} votes · closed	{n} ψήφοι · έκλεισε
+Close the poll	Κλείσιμο δημοσκόπησης
+A poll needs 2 to 6 different options.	Μια δημοσκόπηση χρειάζεται 2 έως 6 διαφορετικές επιλογές.
+You can start another poll in a few minutes.	Μπορείς να ξεκινήσεις άλλη δημοσκόπηση σε λίγα λεπτά.

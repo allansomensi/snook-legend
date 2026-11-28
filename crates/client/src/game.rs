@@ -3167,11 +3167,16 @@ impl FeedLine {
         };
         // A VIP's or the staff's styles: the text without its markers, and
         // how each run of it is drawn.
-        let (text, runs) = if kind == FeedKind::Player && line.deleted.is_none() {
+        let (text, mut runs) = if kind == FeedKind::Player && line.deleted.is_none() {
             snook_legend_proto::chat_style::parse(&text, line.styles)
         } else {
             (text, Vec::new())
         };
+        // A poll's question stands out (in bold, unless styled already).
+        if line.poll.is_some() && runs.is_empty() && !text.is_empty() {
+            let style = snook_legend_proto::chat_style::Style { bold: true, ..Default::default() };
+            runs.push(snook_legend_proto::chat_style::Run { start: 0, end: text.len(), style });
+        }
         FeedLine {
             from,
             text,
@@ -3183,6 +3188,14 @@ impl FeedLine {
             mentions: line.mentions.clone(),
             at: line.at,
             runs,
+            poll: line.poll.as_ref().filter(|_| line.deleted.is_none()).map(|p| {
+                crate::ui::PollView {
+                    options: p.options.clone(),
+                    votes: p.votes.clone(),
+                    closed: p.closed,
+                    mine: None,
+                }
+            }),
         }
     }
 

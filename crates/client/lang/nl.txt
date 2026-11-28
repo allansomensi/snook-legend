@@ -2615,3 +2615,26 @@ Controller connected	Controller verbonden
 No controller connected	Geen controller verbonden
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	Controllers van Xbox, PlayStation en Switch Pro werken: sluit er een aan om ermee te spelen. In de menu's navigeer je met de D-pad, kies je met A en ga je terug met B.
 Community	Community
+Country ranking	Landranglijst
+The top 100 of {country}	De top 100 van {country}
+The best players of your country	De beste spelers van je land
+Choose your country to see how you rank among its players.	Kies je land om te zien waar je staat tussen de spelers ervan.
+Choose my country	Mijn land kiezen
+No rated games in your country yet. Be the first!	Nog geen gewaardeerde potjes in je land. Wees de eerste!
+Start a poll	Peiling starten
+New poll	Nieuwe peiling
+Question	Vraag
+Ask the lounge something…	Vraag de lounge iets…
+Options	Opties
+Option {n}	Optie {n}
+Remove	Verwijderen
++ Add an option	+ Optie toevoegen
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	Iedereen in de lounge kan stemmen en zijn stem wijzigen. Je kunt de peiling altijd sluiten.
+Post the poll	Peiling plaatsen
+1 vote	1 stem
+{n} votes	{n} stemmen
+1 vote · closed	1 stem · gesloten
+{n} votes · closed	{n} stemmen · gesloten
+Close the poll	Peiling sluiten
+A poll needs 2 to 6 different options.	Een peiling heeft 2 tot 6 verschillende opties nodig.
+You can start another poll in a few minutes.	Over een paar minuten kun je nog een peiling starten.

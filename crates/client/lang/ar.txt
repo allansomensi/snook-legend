@@ -2615,3 +2615,26 @@ Controller connected	يد التحكم متصلة
 No controller connected	لا توجد يد تحكم متصلة
 Xbox, PlayStation and Switch Pro controllers work: connect one to play with it. In the menus, the d-pad moves, A chooses and B goes back.	تعمل أيدي تحكم Xbox وPlayStation وSwitch Pro: وصّل إحداها لتلعب بها. في القوائم، أزرار الاتجاه للتنقل، وA للاختيار، وB للرجوع.
 Community	المجتمع
+Country ranking	ترتيب الدولة
+The top 100 of {country}	أفضل 100 في {country}
+The best players of your country	أفضل لاعبي دولتك
+Choose your country to see how you rank among its players.	اختر دولتك لترى ترتيبك بين لاعبيها.
+Choose my country	اختيار دولتي
+No rated games in your country yet. Be the first!	لا توجد مباريات مصنّفة في دولتك بعد. كن الأول!
+Start a poll	إنشاء استطلاع
+New poll	استطلاع جديد
+Question	السؤال
+Ask the lounge something…	اسأل الصالة عن شيء…
+Options	الخيارات
+Option {n}	الخيار {n}
+Remove	إزالة
++ Add an option	+ إضافة خيار
+Everyone in the lounge can vote, and change their vote. You can close it at any time.	يمكن للجميع في الصالة التصويت وتغيير أصواتهم. يمكنك إغلاق الاستطلاع متى شئت.
+Post the poll	نشر الاستطلاع
+1 vote	صوت واحد
+{n} votes	{n} أصوات
+1 vote · closed	صوت واحد · مغلق
+{n} votes · closed	{n} أصوات · مغلق
+Close the poll	إغلاق الاستطلاع
+A poll needs 2 to 6 different options.	يحتاج الاستطلاع إلى ما بين 2 و6 خيارات مختلفة.
+You can start another poll in a few minutes.	يمكنك إنشاء استطلاع آخر بعد بضع دقائق.

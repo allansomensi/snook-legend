@@ -68,6 +68,12 @@ SCREENS = {
     "avatars": (["--screen", "avatars"], {}, False, 90),
     "signin": (["--online"], {}, False, 120),
     "lounge-players": (["--screen", "players"], {}, True, 200),
+    "lounge-poll": (
+        ["--screen", "players"],
+        {"SNOOK_LEGEND_INPUT": "80:move 1152 675;82:down;83:up"},
+        True,
+        200,
+    ),
     "lounge-tables": (["--screen", "tables"], {}, True, 200),
     "lounge-tournaments": (["--screen", "tournaments"], {}, True, 200),
     "lounge-friends": (["--screen", "friends"], {}, True, 200),

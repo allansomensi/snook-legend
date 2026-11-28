@@ -35,6 +35,7 @@ mod doubles;
 pub use doubles::LiveDoubles;
 mod match_social;
 mod moderation;
+mod polls;
 mod social;
 mod tournaments;
 
@@ -483,6 +484,10 @@ pub struct Lounge {
     /// Who wrote each lounge chat line (its number -> the account's id):
     /// hidden from those who blocked them, online or not.
     chat_authors: HashMap<u64, i64>,
+    /// The votes in the polls of the chat: line -> account -> option.
+    poll_votes: HashMap<u64, HashMap<i64, u8>>,
+    /// When each account last started a poll.
+    last_poll: HashMap<i64, Instant>,
     /// The staff's themed tournaments, and the tournament each one became.
     scheduled_tournaments: Vec<tournaments::ScheduledTournament>,
     event_tournaments: HashMap<i64, u64>,
@@ -840,6 +845,7 @@ impl Lounge {
         let _ = tx.try_send(ServerMsg::Welcome {
             motd: self.settings.motd.clone(),
             lan: self.settings.lan,
+            protocol: snook_legend_proto::PROTOCOL_VERSION,
         });
         self.sessions.insert(
             k.clone(),
@@ -1302,6 +1308,7 @@ impl Lounge {
                 self.chat_deleted.remove(&old.id);
                 self.chat_removed.remove(&old.id);
                 self.chat_authors.remove(&old.id);
+                self.poll_votes.remove(&old.id);
             }
         }
         line
@@ -1317,6 +1324,7 @@ impl Lounge {
         if let Some(&by) = self.chat_deleted.get(&l.id) {
             l.text = String::new();
             l.deleted = Some(by);
+            l.poll = None;
         }
         Some(l)
     }
@@ -1561,6 +1569,11 @@ impl Lounge {
                     self.clear_chat(&by);
                 }
             }
+            ClientMsg::CreatePoll { question, options } => {
+                self.create_poll(&k, &question, &options)
+            }
+            ClientMsg::VotePoll { id, option } => self.vote_poll(&k, id, option),
+            ClientMsg::ClosePoll { id } => self.close_poll(&k, id),
             ClientMsg::MatchChat { text } => self.match_chat(&k, &text),
             ClientMsg::SpectatorChat { text } => self.spectator_chat(&k, &text),
             ClientMsg::React { code } => self.react(&k, &code),
@@ -1952,7 +1965,8 @@ impl Lounge {
             .filter(|l| !self.chat_authors.get(&l.id).is_some_and(|a| s.blocked.contains(a)))
             .filter_map(|l| self.shown(l))
             .collect();
-        self.send(k, ServerMsg::ChatHistory { lines });
+        let my_votes = self.my_votes(k);
+        self.send(k, ServerMsg::ChatHistory { lines, my_votes });
         self.send_pinned(k);
     }
 

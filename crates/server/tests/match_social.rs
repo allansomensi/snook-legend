@@ -791,3 +791,82 @@ async fn chat_lines_say_who_may_style_them() {
     bob.send(ClientMsg::Chat { text: "[red]rules[/]".into() }).await;
     assert_eq!(styles(ana.expect("staff", said("[red]rules[/]")).await), Styles::Staff);
 }
+
+/// A poll in the lounge chat: votes counted by account, changed or taken
+/// back, the counts sent to everyone, each player's own vote kept for
+/// them; closed by its author (no one else), and no more votes then.
+#[tokio::test]
+async fn lounge_polls_count_votes() {
+    let (url, _server) = start().await;
+    let (mut ana, _) = Client::register(&url, "ana").await;
+    let (mut bob, bob_token) = Client::register(&url, "bob").await;
+    // Too few options.
+    ana.send(ClientMsg::CreatePoll { question: "Hm?".into(), options: vec!["only".into()] }).await;
+    ana.expect(
+        "refused",
+        |m| matches!(m, ServerMsg::Error { message } if message.contains("2 to 6")),
+    )
+    .await;
+    let options = vec!["Brazilian".into(), "Official".into(), " brazilian ".into(), "".into()];
+    ana.send(ClientMsg::CreatePoll { question: "Which rules?".into(), options }).await;
+    let ServerMsg::Chat { line } =
+        bob.expect("poll", |m| matches!(m, ServerMsg::Chat { line } if line.poll.is_some())).await
+    else {
+        unreachable!()
+    };
+    let poll = line.poll.clone().unwrap();
+    assert_eq!(line.text, "Which rules?");
+    assert_eq!(poll.options, ["Brazilian", "Official"], "each once, none empty");
+    assert_eq!(poll.votes, [0, 0]);
+    let id = line.id;
+    // The counts as they come to everyone (each player's own votes too).
+    let counts = |want: [u32; 2], closed: bool| move |m: &ServerMsg| matches!(m, ServerMsg::PollVotes { votes, closed: c, .. } if votes[..] == want && *c == closed);
+    let is_votes = |m: &ServerMsg| matches!(m, ServerMsg::PollVotes { .. });
+    bob.send(ClientMsg::VotePoll { id, option: Some(0) }).await;
+    assert_eq!(
+        bob.expect("voted", |m| matches!(m, ServerMsg::PollVoted { .. })).await,
+        ServerMsg::PollVoted { id, option: Some(0) }
+    );
+    ana.expect("counts", counts([1, 0], false)).await;
+    ana.send(ClientMsg::VotePoll { id, option: Some(1) }).await;
+    bob.expect("counts", counts([1, 1], false)).await;
+    // Bob changes his mind, then takes it back; a vote out of range is nothing.
+    bob.send(ClientMsg::VotePoll { id, option: Some(1) }).await;
+    ana.expect("counts", counts([0, 2], false)).await;
+    bob.send(ClientMsg::VotePoll { id, option: Some(9) }).await;
+    bob.send(ClientMsg::VotePoll { id, option: None }).await;
+    ana.expect("counts", counts([0, 1], false)).await;
+    // Bob's vote again, and he comes back: the poll and his vote are there.
+    bob.send(ClientMsg::VotePoll { id, option: Some(0) }).await;
+    ana.expect("counts", counts([1, 1], false)).await;
+    drop(bob);
+    let mut bob = Client::resume(&url, &bob_token).await;
+    let ServerMsg::ChatHistory { lines, my_votes } =
+        bob.expect("history", |m| matches!(m, ServerMsg::ChatHistory { .. })).await
+    else {
+        unreachable!()
+    };
+    let kept = lines.iter().find(|l| l.id == id).and_then(|l| l.poll.clone()).unwrap();
+    assert_eq!(kept.votes, [1, 1]);
+    assert_eq!(my_votes, [(id, 0)]);
+    // Only its author closes it; then no more votes.
+    bob.send(ClientMsg::ClosePoll { id }).await;
+    ana.send(ClientMsg::ClosePoll { id }).await;
+    bob.expect("closed", counts([1, 1], true)).await;
+    bob.send(ClientMsg::VotePoll { id, option: Some(1) }).await;
+    ana.send(ClientMsg::Chat { text: "after".into() }).await;
+    let m = bob
+        .expect("next", |m| {
+            is_votes(m) || matches!(m, ServerMsg::Chat { line } if line.text == "after")
+        })
+        .await;
+    assert!(matches!(m, ServerMsg::Chat { .. }), "no vote counted once closed");
+    // One poll every few minutes.
+    let options = vec!["Yes".into(), "No".into()];
+    ana.send(ClientMsg::CreatePoll { question: "Again?".into(), options }).await;
+    ana.expect(
+        "too soon",
+        |m| matches!(m, ServerMsg::Error { message } if message.contains("another poll")),
+    )
+    .await;
+}

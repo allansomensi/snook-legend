@@ -155,7 +155,7 @@ pub const SPECTATOR_SEAT: usize = 2;
 pub const GAME_NAME: &str = "Snook Legend";
 
 /// Bumped whenever messages change incompatibly.
-pub const PROTOCOL_VERSION: u32 = 26;
+pub const PROTOCOL_VERSION: u32 = 27;
 
 /// The oldest version the server still lets in: version 24 changed the
 /// rules a replay is played back with (on a Brazilian break handed over
@@ -828,6 +828,34 @@ pub struct ChatLine {
     /// [`chat_style`]): none, the text as written.
     #[serde(default, skip_serializing_if = "chat_style::Styles::is_none")]
     pub styles: chat_style::Styles,
+    /// A poll (the text is its question): its options and votes.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub poll: Option<Poll>,
+}
+
+/// A poll in the lounge chat ([`ClientMsg::CreatePoll`]): its options and
+/// how many chose each. Its question is its line's text.
+#[derive(Debug, Clone, PartialEq, Eq, Default, Serialize, Deserialize)]
+pub struct Poll {
+    pub options: Vec<String>,
+    /// How many chose each option (as many as there are options).
+    pub votes: Vec<u32>,
+    /// Closed by its author or the staff: no more votes.
+    #[serde(default)]
+    pub closed: bool,
+}
+
+impl Poll {
+    /// How many options a poll has, at least and at most.
+    pub const OPTIONS: std::ops::RangeInclusive<usize> = 2..=6;
+    /// The longest question and option (characters).
+    pub const QUESTION_MAX: usize = 200;
+    pub const OPTION_MAX: usize = 60;
+
+    /// Everyone who voted.
+    pub fn total(&self) -> u32 {
+        self.votes.iter().sum()
+    }
 }
 
 /// Who deleted a chat line.
@@ -1336,6 +1364,21 @@ pub enum ClientMsg {
     },
     /// Clears the lounge chat (administrators).
     ClearChat,
+    /// A poll in the lounge chat: a question and its options (see [`Poll`]).
+    CreatePoll {
+        question: String,
+        options: Vec<String>,
+    },
+    /// A vote in poll `id` (the chat line's number): an option, or none to
+    /// take it back. Another vote changes it.
+    VotePoll {
+        id: u64,
+        option: Option<u8>,
+    },
+    /// Closes a poll (its author, or the staff): its votes stay.
+    ClosePoll {
+        id: u64,
+    },
     /// Chat with the opponent during a match.
     MatchChat {
         text: String,
@@ -1883,6 +1926,10 @@ pub enum ServerMsg {
         /// The server runs on a local network (guests, no ratings).
         #[serde(default)]
         lan: bool,
+        /// The server's protocol (0: one before 27, which didn't say): what
+        /// it can do (polls from 27).
+        #[serde(default)]
+        protocol: u32,
     },
     AuthOk {
         player: PlayerInfo,
@@ -1904,6 +1951,20 @@ pub enum ServerMsg {
     },
     ChatHistory {
         lines: Vec<ChatLine>,
+        /// This player's votes in the polls among them: (line, option).
+        #[serde(default, skip_serializing_if = "Vec::is_empty")]
+        my_votes: Vec<(u64, u8)>,
+    },
+    /// A poll's votes now (and whether it is closed).
+    PollVotes {
+        id: u64,
+        votes: Vec<u32>,
+        closed: bool,
+    },
+    /// This player's vote in poll `id`, as counted.
+    PollVoted {
+        id: u64,
+        option: Option<u8>,
     },
     /// A lounge chat line was deleted: show that it was, by whom.
     ChatDeleted {

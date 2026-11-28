@@ -125,7 +125,7 @@ fn age_in(msgs: &[ServerMsg]) -> Option<(Option<bool>, bool)> {
 /// history sent).
 fn history(msgs: &[ServerMsg]) -> Option<Vec<String>> {
     msgs.iter().rev().find_map(|m| match m {
-        ServerMsg::ChatHistory { lines } => Some(
+        ServerMsg::ChatHistory { lines, .. } => Some(
             lines
                 .iter()
                 .filter(|l| l.kind == snook_legend_proto::ChatKind::Player)

@@ -1624,7 +1624,7 @@ impl Online {
                 }
                 _ => self.text_refused(place, refusal),
             },
-            ServerMsg::ChatHistory { lines } => {
+            ServerMsg::ChatHistory { lines, .. } => {
                 self.chat = lines.iter().map(FeedLine::chat).collect();
                 self.chat_scroll = 0;
             }

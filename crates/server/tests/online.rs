@@ -2402,7 +2402,7 @@ async fn chat_lines_can_be_deleted_and_the_chat_cleared() {
     // Someone arriving now sees the deleted line without its text, and no
     // trace of the other.
     let (mut eve, _) = Client::register(&url, "eve").await;
-    let ServerMsg::ChatHistory { lines } =
+    let ServerMsg::ChatHistory { lines, .. } =
         eve.expect("history", |m| matches!(m, ServerMsg::ChatHistory { .. })).await
     else {
         unreachable!()
@@ -2417,7 +2417,7 @@ async fn chat_lines_can_be_deleted_and_the_chat_cleared() {
     let m = eve.expect("cleared", |m| matches!(m, ServerMsg::ChatCleared { .. })).await;
     assert_eq!(m, ServerMsg::ChatCleared { by: "boss".into() });
     let (mut late, _) = Client::register(&url, "late").await;
-    let ServerMsg::ChatHistory { lines } =
+    let ServerMsg::ChatHistory { lines, .. } =
         late.expect("history", |m| matches!(m, ServerMsg::ChatHistory { .. })).await
     else {
         unreachable!()
@@ -2564,7 +2564,7 @@ async fn blocks_reach_invitations_and_the_chat_history() {
         .await;
     let mut again = Client::connect(&url).await;
     again.send(ClientMsg::Resume { token }).await;
-    let ServerMsg::ChatHistory { lines } =
+    let ServerMsg::ChatHistory { lines, .. } =
         again.expect("history", |m| matches!(m, ServerMsg::ChatHistory { .. })).await
     else {
         unreachable!()

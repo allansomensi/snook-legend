@@ -3,6 +3,23 @@
 # destaque, e as linhas seguintes são o texto dele. Curto e sobre o que os
 # jogadores veem; todas as línguas têm as mesmas versões e o mesmo número de destaques.
 
+## 0.13.0
+
+### Reações que ganham vida
+36 reações que representam: batem palmas, choram a rir, tremem de frio, bufam e choram, e aparecem em grande na mesa. E as chamas da vitória são agora fogo a sério.
+
+### Sondagens no salão
+Faz uma pergunta com até seis opções e vê os votos a chegar em direto. Os VIP também podem escrever a negrito, itálico e a cores, diretamente no texto: **assim**.
+
+### Duas câmaras novas
+Na primeira pessoa, baixa atrás do taco como se o estivesses a segurar, e a câmara de TV nos teus jogos, a alternar ângulos enquanto as bolas rolam. Definições → Câmara.
+
+### Tacos como os verdadeiros
+Pontas de couro, veios de madeira, anéis, virolas e punhos, mais ricos nos tacos mais finos. E no Ultra a mesa ganha um acabamento de cinema: um brilho suave e mais contraste.
+
+### O ranking do teu país
+Um separador País ao lado de Mundo e Amigos. Na loja, vê molduras com o teu nome, efeitos de vitória jogados na tua mesa e conjuntos de bolas bem diferentes entre si.
+
 ## 0.12.4
 
 ### Mensagens como na tua app favorita

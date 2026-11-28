@@ -3,6 +3,23 @@
 # un destacado, y las líneas siguientes son su texto. Mismas versiones y
 # mismo número de destacados en todos los idiomas.
 
+## 0.13.0
+
+### Reacciones que cobran vida
+36 reacciones que actúan: aplauden, lloran de risa, tiritan, resoplan y lloran, y se ven en grande en la mesa. Y las llamas de la victoria ahora son fuego de verdad.
+
+### Encuestas en el salón
+Haz una pregunta con hasta seis opciones y mira llegar los votos en directo. Los VIP también pueden escribir en negrita, cursiva y en colores, directamente en el texto: **así**.
+
+### Dos cámaras nuevas
+En primera persona, baja detrás del taco como si lo sostuvieras, y la cámara de TV en tus partidas, cambiando de ángulo mientras ruedan las bolas. Ajustes → Cámara.
+
+### Tacos como los de verdad
+Puntas de cuero, vetas de arce, anillos, virolas y empuñaduras, más ricos en los tacos más finos. Y en Ultra la mesa recibe un acabado de cine: un brillo suave y más contraste.
+
+### El ranking de tu país
+Una pestaña País junto a Mundo y Amigos. En la tienda, mira marcos con tu propio nombre, efectos de victoria jugados en tu mesa y juegos de bolas muy distintos entre sí.
+
 ## 0.12.4
 
 ### Mensajes como en tu app favorita

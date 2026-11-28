@@ -1,6 +1,18 @@
 # Changelog
 
-## Not released yet
+## 0.13.0 (protocol 27)
+
+Reactions drawn by the game that act, a real fire among the winning
+effects, polls in the lounge and styled lines for VIPs and the staff, a
+first-person camera and the broadcast camera in one's own games, cues made
+as real ones are, Ultra finished like a film, a country's ranking, ball
+sets that look nothing alike, frames and winning effects seen before
+buying, 3 attempts a day against the clock, and versions that publish
+themselves. Protocol 27 (polls, styled chat lines, the server's protocol
+in the Welcome, a country's ranking): games of 0.12.x play on with a
+server of this version (no polls for them; styled lines read as written),
+and this version waits for its server to be updated, so the server goes
+out first. No migration.
 
 ### Releases
 - **A version publishes itself** once it reaches `main` and CI has passed
@@ -119,6 +131,13 @@
   its walls and ceiling instead of going through them.
 
 ### Graphics
+- **Ultra, finished like a film**: the 3D scene is drawn into a picture of
+  its own (with the anti-aliasing chosen) and laid on the window with a
+  soft glow round what is brightest (the lamp's glints on the balls, a
+  white ball under the light, the bulbs), a gently filmic contrast and a
+  touch more colour, a soft vignette and the faintest moving grain. The
+  interface is left as it is. (Only on Ultra; a graphics card that can't
+  do it simply draws as before.)
 - **The cues, made as real ones are**: turned smooth from a domed leather
   tip (layered, chalked, the chalk rubbed down its side) through the
   ferrule, a pro-taper maple shaft (its grain, a faint blue by the

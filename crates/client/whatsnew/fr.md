@@ -4,6 +4,23 @@
 # parlez de ce que voient les joueurs ; chaque langue a les mêmes versions et
 # le même nombre de points forts.
 
+## 0.13.0
+
+### Des réactions qui prennent vie
+36 réactions qui jouent la comédie : elles applaudissent, rient aux larmes, grelottent, fulminent et sanglotent, et s'affichent en grand à la table. Et les flammes de la victoire sont maintenant un vrai feu.
+
+### Des sondages dans le salon
+Posez une question avec jusqu'à six options et regardez les votes arriver en direct. Les VIP peuvent aussi écrire en gras, en italique et en couleur, directement dans le texte : **comme ça**.
+
+### Deux nouvelles caméras
+À la première personne, basse derrière la queue comme si vous la teniez, et la caméra télé dans vos parties, qui change d'angle pendant que les billes roulent. Paramètres → Caméra.
+
+### Des queues comme les vraies
+Procédés en cuir, veinage de l'érable, bagues, viroles et poignées, plus riches sur les plus belles queues. Et en Ultra, la table reçoit une finition de cinéma : une douce lueur et plus de contraste.
+
+### Le classement de votre pays
+Un onglet Pays à côté de Monde et Amis. Dans la boutique, voyez les cadres avec votre propre nom, les effets de victoire joués sur votre table et des jeux de billes qui ne se ressemblent plus.
+
 ## 0.12.4
 
 ### Des messages comme dans votre appli préférée

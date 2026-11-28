@@ -3,6 +3,23 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.13.0
+
+### Reactions that come alive
+36 reactions that act: they clap, laugh till they cry, shiver, fume and sob, and show big at the table. And the winning flames are a real fire now.
+
+### Polls in the lounge
+Ask a question with up to six options and watch the votes come in, live. VIPs can also write in bold, italic and colour, right in the text: **like this**.
+
+### Two new cameras
+First-person, low behind the cue as if you held it, and the TV camera in your own games, cutting between angles while the balls roll. Settings → Camera.
+
+### Cues like real ones
+Leather tips, maple grain, rings, collars and wraps, richer on finer cues. And on Ultra the table gets a film's finish: a soft glow and deeper contrast.
+
+### Your country's ranking
+A Country tab beside World and Friends. In the shop, see frames with your own name, winning effects played on your table, and ball sets that look nothing alike.
+
 ## 0.12.4
 
 ### Messages like your favourite app

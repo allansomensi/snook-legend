@@ -3,6 +3,23 @@
 # Highlight, und die Zeilen danach sind sein Text. Jede Sprache hat dieselben
 # Versionen und dieselbe Anzahl an Highlights.
 
+## 0.13.0
+
+### Reaktionen, die lebendig werden
+36 Reaktionen, die schauspielern: Sie klatschen, lachen Tränen, zittern, schnauben und schluchzen, und am Tisch erscheinen sie groß. Und die Siegesflammen sind jetzt ein echtes Feuer.
+
+### Umfragen in der Lounge
+Stell eine Frage mit bis zu sechs Antworten und sieh live zu, wie die Stimmen eintreffen. VIPs können außerdem fett, kursiv und farbig schreiben, direkt im Text: **so**.
+
+### Zwei neue Kameras
+Ego-Perspektive, tief hinter dem Queue, als hieltest du es, und die TV-Kamera in deinen eigenen Spielen, die zwischen Blickwinkeln schneidet, während die Kugeln rollen. Einstellungen → Kamera.
+
+### Queues wie echte
+Leder an der Spitze, Maserung im Ahorn, Ringe, Zierringe und Wicklungen, je edler das Queue, desto reicher. Und auf Ultra bekommt der Tisch den Look eines Films: sanftes Leuchten und mehr Kontrast.
+
+### Die Rangliste deines Landes
+Ein Tab „Land“ neben Welt und Freunde. Im Shop siehst du Rahmen mit deinem eigenen Namen, Siegeffekte auf deinem Tisch und Kugelsätze, die sich nicht mehr ähneln.
+
 ## 0.12.4
 
 ### Nachrichten wie in deiner Lieblings-App

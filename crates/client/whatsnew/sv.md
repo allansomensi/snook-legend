@@ -3,6 +3,23 @@
 # och raderna efter den är dess text. Håll det kort och om det spelarna
 # ser; alla språk har samma versioner och samma antal nyheter.
 
+## 0.13.0
+
+### Reaktioner som får liv
+36 reaktioner som spelar teater: de klappar, skrattar så de gråter, huttrar, fnyser och snyftar, och vid bordet visas de stort. Och segerlågorna är en riktig eld nu.
+
+### Omröstningar i loungen
+Ställ en fråga med upp till sex alternativ och se rösterna komma in live. VIP-spelare kan också skriva i fetstil, kursiv och färg, direkt i texten: **så här**.
+
+### Två nya kameror
+Förstaperson, lågt bakom kön som om du höll den, och tv-kameran i dina egna matcher, som klipper mellan vinklar medan bollarna rullar. Inställningar → Kamera.
+
+### Köer som riktiga
+Läderspetsar, lönnens ådring, ringar, hylsor och lindningar, rikare på finare köer. Och på Ultra får bordet en filmisk finish: ett mjukt sken och mer kontrast.
+
+### Ditt lands topplista
+En flik Land bredvid Världen och Vänner. I butiken ser du ramar med ditt eget namn, vinsteffekter spelade på ditt bord och bollset som inte längre liknar varandra.
+
 ## 0.12.4
 
 ### Meddelanden som i din favoritapp

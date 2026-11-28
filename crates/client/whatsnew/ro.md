@@ -2,6 +2,23 @@
 # "## <versiune>" începe o versiune (cea mai nouă prima), "### <titlu>" o noutate,
 # iar rândurile de după sunt textul ei.
 
+## 0.13.0
+
+### Reacții care prind viață
+36 de reacții care joacă teatru: aplaudă, râd cu lacrimi, tremură, pufnesc și suspină, iar la masă apar mari. Iar flăcările victoriei sunt acum foc adevărat.
+
+### Sondaje în salon
+Pune o întrebare cu până la șase opțiuni și vezi voturile venind în direct. VIP-ii pot scrie și îngroșat, cursiv și colorat, direct în text: **așa**.
+
+### Două camere noi
+La persoana întâi, jos în spatele tacului, ca și cum l-ai ține, și camera TV în partidele tale, care schimbă unghiurile cât timp bilele se rostogolesc. Setări → Cameră.
+
+### Tacuri ca cele adevărate
+Vârfuri de piele, fibra arțarului, inele, manșoane și înfășurări, mai bogate la tacurile mai fine. Iar pe Ultra, masa primește un finisaj de film: o strălucire blândă și mai mult contrast.
+
+### Clasamentul țării tale
+O filă Țara lângă Lume și Prieteni. În magazin, vezi rame cu propriul nume, efecte de victorie jucate pe masa ta și seturi de bile care nu mai seamănă între ele.
+
 ## 0.12.4
 
 ### Mesaje ca în aplicația ta preferată

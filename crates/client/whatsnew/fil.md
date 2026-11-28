@@ -2,6 +2,23 @@
 # "## <bersiyon>" ang simula ng isang bersiyon (pinakabago muna), "### <pamagat>"
 # ng isang highlight, at ang mga linya pagkatapos nito ang teksto nito.
 
+## 0.13.0
+
+### Mga reaksyong nabubuhay
+36 na reaksyong umaarte: pumapalakpak, tumatawa hanggang maiyak, nanginginig, umuusok sa galit at humihikbi, at malaki ang mga ito sa mesa. At totoong apoy na ang mga liyab ng panalo.
+
+### Mga poll sa lounge
+Magtanong na may hanggang anim na pagpipilian at panoorin ang mga boto nang live. Puwede ring sumulat ang mga VIP nang naka-bold, italic at may kulay, mismo sa text: **ganito**.
+
+### Dalawang bagong camera
+First-person, mababa sa likod ng cue na parang hawak mo ito, at ang TV camera sa sarili mong mga laro, na nagpapalit ng anggulo habang gumugulong ang mga bola. Settings → Camera.
+
+### Mga cue na parang totoo
+Mga tip na leather, hibla ng maple, mga singsing, collar at wrap, mas marangya sa mas magagandang cue. At sa Ultra, parang pelikula ang mesa: malambot na liwanag at mas malalim na contrast.
+
+### Ranking ng bansa mo
+Isang tab na Bansa katabi ng Mundo at Mga Kaibigan. Sa Shop, tingnan ang mga frame na may sarili mong pangalan, ang mga effect ng panalo sa mesa mo at mga set ng bola na hindi na magkamukha.
+
 ## 0.12.4
 
 ### Mga mensaheng parang sa paborito mong app

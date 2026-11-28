@@ -3,6 +3,23 @@
 # a řádky za ním jsou její text. Krátce a o tom, co hráči vidí; všechny
 # jazyky mají stejné verze a stejný počet novinek.
 
+## 0.13.0
+
+### Reakce, které ožijí
+36 reakcí, které hrají: tleskají, smějí se k slzám, třesou se zimou, funí a vzlykají, a u stolu se ukazují ve velkém. A plameny vítězství jsou teď skutečný oheň.
+
+### Ankety v herně
+Polož otázku až se šesti možnostmi a sleduj, jak hlasy přibývají živě. VIP mohou také psát tučně, kurzívou a barevně, přímo v textu: **takhle**.
+
+### Dvě nové kamery
+Z první osoby, nízko za tágem, jako bys ho držel, a televizní kamera ve tvých hrách, která střídá úhly, zatímco se koule kutálejí. Nastavení → Kamera.
+
+### Tága jako skutečná
+Kůže na špičce, kresba javoru, prstence, objímky a omotávky, bohatší na lepších tágách. A na Ultra dostane stůl filmový vzhled: jemnou záři a víc kontrastu.
+
+### Žebříček tvé země
+Karta Země vedle Svět a Přátelé. V obchodě uvidíš rámečky se svým jménem, vítězné efekty zahrané na tvém stole a sady koulí, které si už nejsou podobné.
+
 ## 0.12.4
 
 ### Zprávy jako ve tvé oblíbené aplikaci

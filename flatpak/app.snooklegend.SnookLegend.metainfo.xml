@@ -197,6 +197,28 @@
   </keywords>
 
   <releases>
+    <release version="0.13.0" date="2026-11-28" type="stable">
+      <description>
+        <ul>
+          <li><em>Reactions that come alive.</em> 36 reactions that act: they clap, laugh till they cry, shiver, fume and sob, and show big at the table. And the winning flames are a real fire now.</li>
+          <li xml:lang="pt_BR"><em>Reações que ganham vida.</em> 36 reações que atuam: batem palmas, choram de rir, tremem de frio, bufam e choram, e aparecem grandes na mesa. E as chamas da vitória agora são fogo de verdade.</li>
+          <li xml:lang="es"><em>Reacciones que cobran vida.</em> 36 reacciones que actúan: aplauden, lloran de risa, tiritan, resoplan y lloran, y se ven en grande en la mesa. Y las llamas de la victoria ahora son fuego de verdad.</li>
+          <li><em>Polls in the lounge.</em> Ask a question with up to six options and watch the votes come in, live. VIPs can also write in bold, italic and colour, right in the text: **like this**.</li>
+          <li xml:lang="pt_BR"><em>Enquetes no salão.</em> Faça uma pergunta com até seis opções e veja os votos chegarem ao vivo. VIPs também podem escrever em negrito, itálico e em cores, direto no texto: **assim**.</li>
+          <li xml:lang="es"><em>Encuestas en el salón.</em> Haz una pregunta con hasta seis opciones y mira llegar los votos en directo. Los VIP también pueden escribir en negrita, cursiva y en colores, directamente en el texto: **así**.</li>
+          <li><em>Two new cameras.</em> First-person, low behind the cue as if you held it, and the TV camera in your own games, cutting between angles while the balls roll. Settings → Camera.</li>
+          <li xml:lang="pt_BR"><em>Duas câmeras novas.</em> Em primeira pessoa, baixa atrás do taco como se você o segurasse, e a câmera de TV nas suas partidas, alternando ângulos enquanto as bolas rolam. Configurações → Câmera.</li>
+          <li xml:lang="es"><em>Dos cámaras nuevas.</em> En primera persona, baja detrás del taco como si lo sostuvieras, y la cámara de TV en tus partidas, cambiando de ángulo mientras ruedan las bolas. Ajustes → Cámara.</li>
+          <li><em>Cues like real ones.</em> Leather tips, maple grain, rings, collars and wraps, richer on finer cues. And on Ultra the table gets a film's finish: a soft glow and deeper contrast.</li>
+          <li xml:lang="pt_BR"><em>Tacos como os de verdade.</em> Ponteiras de couro, veios de madeira, anéis, colares e empunhaduras, mais ricos nos tacos mais finos. E no Ultra a mesa ganha um acabamento de cinema: brilho suave e mais contraste.</li>
+          <li xml:lang="es"><em>Tacos como los de verdad.</em> Puntas de cuero, vetas de arce, anillos, virolas y empuñaduras, más ricos en los tacos más finos. Y en Ultra la mesa recibe un acabado de cine: un brillo suave y más contraste.</li>
+          <li><em>Your country's ranking.</em> A Country tab beside World and Friends. In the shop, see frames with your own name, winning effects played on your table, and ball sets that look nothing alike.</li>
+          <li xml:lang="pt_BR"><em>O ranking do seu país.</em> Uma aba País ao lado de Mundo e Amigos. Na loja, veja molduras com o seu nome, efeitos de vitória jogados na sua mesa e conjuntos de bolas bem diferentes entre si.</li>
+          <li xml:lang="es"><em>El ranking de tu país.</em> Una pestaña País junto a Mundo y Amigos. En la tienda, mira marcos con tu propio nombre, efectos de victoria jugados en tu mesa y juegos de bolas muy distintos entre sí.</li>
+        </ul>
+      </description>
+      <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.13.0</url>
+    </release>
     <release version="0.12.4" date="2026-11-27" type="stable">
       <description>
         <ul>
@@ -310,7 +332,7 @@
       </description>
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.12.0</url>
     </release>
-    <release version="0.11.2" date="2026-11-27" type="stable">
+    <release version="0.11.2" date="2026-11-24" type="stable">
       <description>
         <ul>
           <li><em>Official rules: any pocket counts.</em> Nothing is called any more: a ball of your group in any pocket keeps the table, and the 8 wins in any pocket. Games played before keep the rules they were played with.</li>
@@ -323,7 +345,7 @@
       </description>
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.11.2</url>
     </release>
-    <release version="0.11.1" date="2026-11-27" type="stable">
+    <release version="0.11.1" date="2026-11-24" type="stable">
       <description>
         <ul>
           <li><em>Free as soon as the game ends.</em> When a game is over, both players show as free in the lounge at once, and can be invited while still looking at the result. Leaving as the last shot rolls no longer leaves you at the table.</li>
@@ -372,13 +394,6 @@
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.3</url>
     </release>
     <release version="0.10.2" date="2026-11-22" type="stable">
-      <description>
-        <ul>
-          <li><em>A tour won stays won.</em> Reinstalling the game, moving to another computer or installing it from the Store could start the tour over, every opponent locked, though you had won its cue. Signed in with the account that has the cue, the tour is complete again.</li>
-          <li xml:lang="pt_BR"><em>Circuito vencido continua vencido.</em> Reinstalar o jogo, trocar de computador ou instalar pela Store podia reiniciar o circuito com todos os adversários bloqueados, mesmo com o taco já conquistado. Entrando com a conta que tem o taco, o circuito volta completo.</li>
-          <li xml:lang="es"><em>El circuito ganado sigue ganado.</em> Reinstalar el juego, cambiar de computadora o instalarlo desde la Store podía reiniciar el circuito con todos los rivales bloqueados, aunque ya tuvieras su taco. Al entrar con la cuenta que tiene el taco, el circuito vuelve completo.</li>
-        </ul>
-      </description>
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.10.2</url>
     </release>
     <release version="0.10.1" date="2026-11-22" type="stable">
@@ -393,58 +408,58 @@
     <release version="0.9.0" date="2026-11-21" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.9.0</url>
     </release>
-    <release version="0.8.3" date="2026-11-27" type="stable">
+    <release version="0.8.3" date="2026-11-21" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.3</url>
     </release>
-    <release version="0.8.2" date="2026-11-27" type="stable">
+    <release version="0.8.2" date="2026-11-21" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.2</url>
     </release>
-    <release version="0.8.1" date="2026-11-27" type="stable">
+    <release version="0.8.1" date="2026-11-20" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.1</url>
     </release>
-    <release version="0.8.0" date="2026-11-27" type="stable">
+    <release version="0.8.0" date="2026-11-19" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.8.0</url>
     </release>
-    <release version="0.7.4" date="2026-11-27" type="stable">
+    <release version="0.7.4" date="2026-11-19" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.4</url>
     </release>
-    <release version="0.7.3" date="2026-11-27" type="stable">
+    <release version="0.7.3" date="2026-11-19" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.3</url>
     </release>
-    <release version="0.7.2" date="2026-11-27" type="stable">
+    <release version="0.7.2" date="2026-11-18" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.2</url>
     </release>
-    <release version="0.7.1" date="2026-11-27" type="stable">
+    <release version="0.7.1" date="2026-11-18" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.1</url>
     </release>
-    <release version="0.7.0" date="2026-11-27" type="stable">
+    <release version="0.7.0" date="2026-11-18" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.7.0</url>
     </release>
-    <release version="0.6.2" date="2026-11-27" type="stable">
+    <release version="0.6.2" date="2026-11-18" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.6.2</url>
     </release>
-    <release version="0.6.1" date="2026-11-27" type="stable">
+    <release version="0.6.1" date="2026-11-18" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.6.1</url>
     </release>
-    <release version="0.6.0" date="2026-11-27" type="stable">
+    <release version="0.6.0" date="2026-11-17" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.6.0</url>
     </release>
-    <release version="0.5.1" date="2026-11-27" type="stable">
+    <release version="0.5.1" date="2026-11-17" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.5.1</url>
     </release>
-    <release version="0.5.0" date="2026-11-27" type="stable">
+    <release version="0.5.0" date="2026-11-17" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.5.0</url>
     </release>
-    <release version="0.4.0" date="2026-11-27" type="stable">
+    <release version="0.4.0" date="2026-11-17" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.4.0</url>
     </release>
-    <release version="0.3.0" date="2026-11-27" type="stable">
+    <release version="0.3.0" date="2026-11-16" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.3.0</url>
     </release>
-    <release version="0.2.0" date="2026-11-27" type="stable">
+    <release version="0.2.0" date="2026-11-16" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.2.0</url>
     </release>
-    <release version="0.1.4" date="2026-11-27" type="stable">
+    <release version="0.1.4" date="2026-11-13" type="stable">
       <url type="details">https://github.com/allansomensi/snook-legend/releases/tag/v0.1.4</url>
     </release>
   </releases>

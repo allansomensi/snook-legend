@@ -2,6 +2,23 @@
 # "## <wersja>" zaczyna wersję (najnowsze najpierw), "### <tytuł>" nowość,
 # a kolejne wiersze to jej tekst. Każdy język ma te same wersje i tyle samo nowości.
 
+## 0.13.0
+
+### Reakcje, które ożywają
+36 reakcji, które grają: klaszczą, śmieją się do łez, trzęsą się z zimna, prychają i szlochają, a przy stole widać je w dużym rozmiarze. A płomienie zwycięstwa to teraz prawdziwy ogień.
+
+### Ankiety w lobby
+Zadaj pytanie z maksymalnie sześcioma odpowiedziami i patrz, jak głosy spływają na żywo. VIP-y mogą też pisać pogrubieniem, kursywą i w kolorze, prosto w tekście: **tak**.
+
+### Dwie nowe kamery
+Z pierwszej osoby, nisko za kijem, jakbyś go trzymał, i kamera telewizyjna w twoich grach, przełączająca ujęcia, gdy bile się toczą. Ustawienia → Kamera.
+
+### Kije jak prawdziwe
+Skórzane końcówki, słoje klonu, pierścienie, obejmy i owijki, bogatsze na lepszych kijach. A na Ultra stół zyskuje filmowe wykończenie: miękki blask i większy kontrast.
+
+### Ranking twojego kraju
+Zakładka Kraj obok Świat i Znajomi. W sklepie zobaczysz ramki z własnym nickiem, efekty zwycięstwa zagrane na twoim stole i zestawy bil zupełnie do siebie niepodobne.
+
 ## 0.12.4
 
 ### Wiadomości jak w ulubionej aplikacji

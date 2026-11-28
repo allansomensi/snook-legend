@@ -3,6 +3,23 @@
 # dan baris sesudahnya adalah teksnya. Singkat dan tentang apa yang dilihat
 # pemain; setiap bahasa punya versi yang sama dan jumlah sorotan yang sama.
 
+## 0.13.0
+
+### Reaksi yang hidup
+36 reaksi yang berakting: bertepuk tangan, tertawa sampai menangis, menggigil, mendengus kesal, dan terisak, lalu tampil besar di meja. Dan api kemenangan kini benar-benar api.
+
+### Polling di lobi
+Ajukan pertanyaan dengan hingga enam pilihan dan lihat suara masuk secara langsung. VIP juga bisa menulis tebal, miring, dan berwarna, langsung di teks: **begini**.
+
+### Dua kamera baru
+Orang pertama, rendah di belakang stik seolah kamu memegangnya, dan kamera TV di permainanmu sendiri, yang berganti sudut saat bola menggelinding. Pengaturan → Kamera.
+
+### Stik seperti aslinya
+Ujung kulit, serat kayu maple, cincin, kerah, dan balutan, makin mewah di stik yang lebih bagus. Dan di Ultra, meja mendapat sentuhan film: cahaya lembut dan kontras lebih dalam.
+
+### Peringkat negaramu
+Tab Negara di samping Dunia dan Teman. Di toko, lihat bingkai dengan namamu sendiri, efek kemenangan yang dimainkan di mejamu, dan set bola yang benar-benar berbeda satu sama lain.
+
 ## 0.12.4
 
 ### Pesan seperti aplikasi favoritmu

@@ -3,6 +3,23 @@
 # and the lines after it are its text. Keep it short and about what players
 # see; every language has the same versions and the same number of highlights.
 
+## 0.13.0
+
+### Canlanan tepkiler
+Rol yapan 36 tepki: alkışlıyor, gözünden yaş gelene kadar gülüyor, titriyor, köpürüyor ve hıçkıra hıçkıra ağlıyor; masada da büyük görünüyor. Zafer alevleri de artık gerçek bir ateş.
+
+### Lobide anketler
+En fazla altı seçenekli bir soru sor ve oyların canlı gelişini izle. VIP'ler metnin içinde kalın, italik ve renkli de yazabilir: **böyle**.
+
+### İki yeni kamera
+Istakayı sen tutuyormuşsun gibi alçaktan arkasında birinci şahıs, ve kendi oyunlarında, toplar yuvarlanırken açılar arasında geçiş yapan TV kamerası. Ayarlar → Kamera.
+
+### Gerçeği gibi ıstakalar
+Deri uçlar, akçaağaç damarları, halkalar, bilezikler ve sargılar; ıstaka ne kadar seçkinse o kadar zengin. Ultra'da da masa sinema gibi bir son dokunuş alıyor: yumuşak bir parıltı ve daha fazla kontrast.
+
+### Ülkenin sıralaması
+Dünya ve Arkadaşlar'ın yanında bir Ülke sekmesi. Mağazada kendi adınla çerçeveleri, masanda oynanan galibiyet efektlerini ve birbirine hiç benzemeyen top setlerini gör.
+
 ## 0.12.4
 
 ### En sevdiğin uygulamadaki gibi mesajlar

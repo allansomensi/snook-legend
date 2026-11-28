@@ -3,6 +3,23 @@
 # en de regels erna zijn de tekst ervan. Elke taal heeft dezelfde versies en
 # hetzelfde aantal hoogtepunten.
 
+## 0.13.0
+
+### Reacties die tot leven komen
+36 reacties die acteren: ze klappen, lachen tot ze huilen, rillen, briesen en snikken, en aan tafel zie je ze groot. En de vlammen bij een overwinning zijn nu echt vuur.
+
+### Peilingen in de lounge
+Stel een vraag met tot zes opties en zie de stemmen live binnenkomen. VIP's kunnen ook vet, cursief en in kleur schrijven, gewoon in de tekst: **zo**.
+
+### Twee nieuwe camera's
+Eerstepersoons, laag achter de keu alsof je hem vasthoudt, en de tv-camera in je eigen potjes, die tussen hoeken wisselt terwijl de ballen rollen. Instellingen → Camera.
+
+### Keus als echte
+Leren pomeransen, de nerf van esdoorn, ringen, kragen en wraps, rijker op mooiere keus. En op Ultra krijgt de tafel een filmische afwerking: een zachte gloed en meer contrast.
+
+### De ranglijst van je land
+Een tab Land naast Wereld en Vrienden. In de winkel zie je kaders met je eigen naam, overwinningseffecten op je eigen tafel en ballensets die niet meer op elkaar lijken.
+
 ## 0.12.4
 
 ### Berichten zoals in je favoriete app

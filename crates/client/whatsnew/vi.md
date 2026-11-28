@@ -2,6 +2,23 @@
 # "## <phiên bản>" mở đầu một phiên bản (mới nhất trước), "### <tiêu đề>" là một điểm nổi bật,
 # và các dòng sau đó là nội dung. Mọi ngôn ngữ có cùng các phiên bản và cùng số điểm nổi bật.
 
+## 0.13.0
+
+### Biểu cảm sống động
+36 biểu cảm biết diễn: vỗ tay, cười ra nước mắt, run cầm cập, giận phì phò và nức nở, và hiện to tại bàn chơi. Ngọn lửa chiến thắng giờ là lửa thật.
+
+### Bình chọn trong sảnh
+Đặt câu hỏi với tối đa sáu lựa chọn và xem phiếu bầu đến trực tiếp. VIP còn có thể viết đậm, nghiêng và có màu ngay trong tin nhắn: **như thế này**.
+
+### Hai camera mới
+Góc nhìn thứ nhất, thấp sau cây cơ như thể bạn đang cầm nó, và camera truyền hình trong ván của bạn, chuyển góc khi bi lăn. Cài đặt → Camera.
+
+### Cơ như thật
+Đầu cơ bằng da, vân gỗ phong, các vòng, khâu và quấn tay, càng sang trọng ở những cây cơ xịn hơn. Ở mức Ultra, bàn có lớp hoàn thiện như phim: ánh sáng dịu và độ tương phản sâu hơn.
+
+### Bảng xếp hạng quốc gia của bạn
+Thẻ Quốc gia bên cạnh Thế giới và Bạn bè. Trong Cửa hàng, xem khung có tên của chính bạn, hiệu ứng chiến thắng diễn trên bàn của bạn và những bộ bi khác hẳn nhau.
+
 ## 0.12.4
 
 ### Tin nhắn như ứng dụng bạn yêu thích

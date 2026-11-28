@@ -2,6 +2,23 @@
 # A "## <verzió>" egy verziót kezd (a legújabb elöl), a "### <cím>" egy
 # kiemelést, az utána következő sorok pedig a szövegét.
 
+## 0.13.0
+
+### Életre kelő reakciók
+36 reakció, amely színészkedik: tapsol, könnyesre nevet, didereg, fújtat és zokog, az asztalnál pedig nagyban látszik. A győzelem lángjai pedig most már igazi tűz.
+
+### Szavazások a társalgóban
+Tegyél fel egy kérdést legfeljebb hat válasszal, és nézd élőben, ahogy jönnek a szavazatok. A VIP-ek félkövéren, dőlten és színesen is írhatnak, egyenesen a szövegben: **így**.
+
+### Két új kamera
+Belső nézet, alacsonyan a dákó mögött, mintha te tartanád, és a tévékamera a saját játszmáidban, amely szöget vált, amíg gurulnak a golyók. Beállítások → Kamera.
+
+### Dákók, mint az igaziak
+Bőr a hegyén, juhar erezete, gyűrűk, gallérok és markolatok, a finomabb dákókon gazdagabban. Ultrán pedig az asztal filmes kidolgozást kap: lágy ragyogást és több kontrasztot.
+
+### Az országod ranglistája
+Egy Ország fül a Világ és a Barátok mellett. A boltban láthatod a kereteket a saját neveddel, a győzelmi effekteket a saját asztalodon és golyókészleteket, amelyek nem is hasonlítanak egymásra.
+
 ## 0.12.4
 
 ### Üzenetek, mint a kedvenc alkalmazásodban

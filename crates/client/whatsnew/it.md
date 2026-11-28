@@ -3,6 +3,23 @@
 # novità, e le righe che seguono sono il suo testo. Ogni lingua ha le stesse
 # versioni e lo stesso numero di novità.
 
+## 0.13.0
+
+### Reazioni che prendono vita
+36 reazioni che recitano: applaudono, ridono fino alle lacrime, tremano, sbuffano e singhiozzano, e al tavolo si vedono in grande. E le fiamme della vittoria ora sono un fuoco vero.
+
+### Sondaggi nella sala
+Fai una domanda con fino a sei opzioni e guarda arrivare i voti in diretta. I VIP possono anche scrivere in grassetto, corsivo e a colori, direttamente nel testo: **così**.
+
+### Due nuove visuali
+In prima persona, bassa dietro la stecca come se la tenessi tu, e la telecamera da diretta nelle tue partite, che cambia inquadratura mentre le bilie rotolano. Impostazioni → Visuale.
+
+### Stecche come quelle vere
+Cuoi in punta, venature dell'acero, anelli, ghiere e impugnature, più ricchi sulle stecche più pregiate. E in Ultra il tavolo ha una finitura da film: un bagliore morbido e più contrasto.
+
+### La classifica del tuo paese
+Una scheda Paese accanto a Mondo e Amici. Nel negozio, guarda le cornici con il tuo nome, gli effetti di vittoria giocati sul tuo tavolo e set di bilie davvero diversi tra loro.
+
 ## 0.12.4
 
 ### Messaggi come nella tua app preferita

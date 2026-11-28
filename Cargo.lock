@@ -2149,7 +2149,7 @@ dependencies = [
 
 [[package]]
 name = "snook-legend"
-version = "0.12.4"
+version = "0.13.0"
 dependencies = [
  "embed-resource",
  "flate2",
@@ -2182,7 +2182,7 @@ dependencies = [
 
 [[package]]
 name = "snook_legend_core"
-version = "0.12.4"
+version = "0.13.0"
 dependencies = [
  "glam 0.33.12",
  "libm",
@@ -2192,7 +2192,7 @@ dependencies = [
 
 [[package]]
 name = "snook_legend_proto"
-version = "0.12.4"
+version = "0.13.0"
 dependencies = [
  "glam 0.33.12",
  "serde",
@@ -2202,7 +2202,7 @@ dependencies = [
 
 [[package]]
 name = "snook_legend_server"
-version = "0.12.4"
+version = "0.13.0"
 dependencies = [
  "argon2",
  "axum",

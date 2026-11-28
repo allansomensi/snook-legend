@@ -2,6 +2,16 @@
 
 ## Not released yet
 
+### Releases
+- **A version publishes itself** once it reaches `main` and CI has passed
+  on it: the new workflow **Publish a version** checks the release is
+  ready (`tools/release_check.py`: a version newer than every one before,
+  not tagged yet, `Cargo.lock`, the changelog, "What's new" in every
+  language, the Store's notes, the MetaInfo), tags the commit
+  `v<version>` and starts Release, Microsoft Store and Server image on the
+  tag. Nothing is tagged by hand any more (a tag pushed by hand still
+  works); see docs/RELEASING.md.
+
 ### Fixed
 - **The game closed** when Esc left a screen (the settings, a menu) while
   the keyboard's focus ring was showing (after Tab): the ring fading out

@@ -1,0 +1,169 @@
+# Publishes a version by itself, with nothing to do by hand: once CI has
+# passed on the newest commit of main, and the version in Cargo.toml has no
+# tag yet, it checks the release is ready (tools/release_check.py: the
+# version newer than every one before, Cargo.lock, the changelog, "What's
+# new" in every language, the Store's notes, the MetaInfo), tags the commit
+# `v<version>` and starts the release on that tag:
+#
+# - Release (release.yml): every platform built, the GitHub Release;
+# - Microsoft Store (msstore.yml): the MSIX, sent to the Store;
+# - Server image (server-image.yml): the image, and the deploy on Render.
+#
+# A tag pushed by a workflow starts no workflow itself (GitHub keeps a
+# workflow's token from setting off others), so this one starts them, on
+# the tag, as a tag pushed by hand would: they run exactly the same. A tag
+# pushed by hand still works as before, and this then has nothing to do.
+#
+# Nothing is tagged unless every check passes; a version already tagged is
+# left alone; two runs never overlap. It can be run by hand too (Actions →
+# Publish a version → Run workflow, on main): the same, once CI has passed
+# on main's newest commit. See docs/RELEASING.md.
+name: Publish a version
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      start_again:
+        description: >-
+          The version is tagged already, but its release didn't start: start
+          its workflows on its tag again
+        type: boolean
+        default: false
+
+permissions:
+  # The tag, and starting the release's workflows.
+  contents: write
+  actions: write
+
+concurrency:
+  group: publish-a-version
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Tag and release
+    # CI passed on a push to main (not a pull request), or a run by hand.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          # Every tag and the history: the versions released so far.
+          fetch-depth: 0
+
+      - name: Which commit, which version
+        id: what
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          PASSED: ${{ github.event.workflow_run.head_sha }}
+          START_AGAIN: ${{ inputs.start_again }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha=$(git rev-parse HEAD)
+          if [[ "$EVENT" == workflow_run && "$PASSED" != "$sha" ]]; then
+            # main moved on meanwhile: its newest commit decides, when its
+            # own CI is through.
+            echo "::notice::CI passed on $PASSED, but main is at $sha now: that one decides."
+            echo "go=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [[ "$EVENT" == workflow_dispatch ]]; then
+            passed=$(gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$sha&event=push&status=success" --jq '.total_count')
+            if [[ "$passed" == 0 ]]; then
+              echo "::error::CI hasn't passed on main's newest commit ($sha): nothing is published before it does."
+              exit 1
+            fi
+          fi
+          version=$(python3 -c 'import tomllib; print(tomllib.load(open("Cargo.toml", "rb"))["workspace"]["package"]["version"])')
+          tag="v$version"
+          new=true
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" > /dev/null; then
+            if [[ "$START_AGAIN" != true ]]; then
+              echo "::notice::$tag is tagged already: nothing to publish (a new release raises the version in Cargo.toml)."
+              echo "go=false" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            # Starting its release again: the tag must be one of main's.
+            if ! git merge-base --is-ancestor "refs/tags/$tag" HEAD; then
+              echo "::error::$tag isn't on main: its release isn't started from here."
+              exit 1
+            fi
+            new=false
+          fi
+          {
+            echo "go=true"
+            echo "new=$new"
+            echo "sha=$sha"
+            echo "version=$version"
+            echo "tag=$tag"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Is the release ready?
+        if: steps.what.outputs.new == 'true'
+        run: python3 tools/release_check.py "${{ steps.what.outputs.version }}"
+
+      - name: Tag the commit
+        if: steps.what.outputs.new == 'true'
+        env:
+          SHA: ${{ steps.what.outputs.sha }}
+          TAG: ${{ steps.what.outputs.tag }}
+          VERSION: ${{ steps.what.outputs.version }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "Snook Legend $VERSION" "$SHA"
+          # Refused if the tag appeared meanwhile (a tag pushed by hand):
+          # then that one's release runs, and nothing is started here.
+          git push origin "refs/tags/$TAG"
+
+      - name: Start the release
+        if: steps.what.outputs.go == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.what.outputs.tag }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # (Each tried again on a passing failure of GitHub's API.)
+          start() {
+            for i in 1 2 3 4; do
+              gh workflow run "$@" && return 0
+              sleep $((i * 15))
+            done
+            echo "::error::Couldn't start $1 on $TAG: run this workflow again with \"start again\" ticked."
+            return 1
+          }
+          start release.yml --ref "$TAG"
+          start server-image.yml --ref "$TAG"
+          # (Sent to the Store once its variable MSSTORE_APP_ID is set.)
+          start msstore.yml --ref "$TAG" -f submit=true
+
+      - name: Summary
+        if: steps.what.outputs.go == 'true'
+        env:
+          TAG: ${{ steps.what.outputs.tag }}
+          SHA: ${{ steps.what.outputs.sha }}
+        shell: bash
+        run: |
+          {
+            echo "## Published $TAG"
+            echo
+            echo "Tagged \`$SHA\`, and started on the tag:"
+            echo
+            echo "- [Release](https://github.com/$GITHUB_REPOSITORY/actions/workflows/release.yml) → [the GitHub Release](https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG)"
+            echo "- [Microsoft Store](https://github.com/$GITHUB_REPOSITORY/actions/workflows/msstore.yml)"
+            echo "- [Server image](https://github.com/$GITHUB_REPOSITORY/actions/workflows/server-image.yml) (and its deploy)"
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -25,8 +25,9 @@ install-updater = false
 # Linux libraries and the release's game server, before each build
 github-build-setup = "../build-setup.yml"
 # wix/main.wxs is edited by hand (icon, shortcuts, no PATH entry, branded
-# dialogs): don't let `dist generate` overwrite it
-allow-dirty = ["msi"]
+# dialogs), and release.yml has a trigger of its own (workflow_dispatch,
+# for publish.yml): don't let `dist generate` overwrite them
+allow-dirty = ["ci", "msi"]
 
 # GitHub's macos-14 runners are gone: build the Apple Silicon version on macos-15.
 [dist.github-custom-runners]

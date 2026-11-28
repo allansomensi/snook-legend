@@ -2,7 +2,10 @@
 
 The game is packaged and published by [dist](https://axodotdev.github.io/cargo-dist)
 (cargo-dist). Its settings are in `dist-workspace.toml`; the workflow it
-generates is `.github/workflows/release.yml` (don't edit that file by hand).
+generates is `.github/workflows/release.yml` (edited by hand only for its
+`workflow_dispatch` trigger, which publish.yml needs: `dist generate` would
+take it away; `allow-dirty` in dist-workspace.toml keeps dist from
+complaining).
 
 ## What a release contains
 
@@ -36,23 +39,68 @@ Flathub) are in `flatpak/`; see [flatpak/README.md](../flatpak/README.md).
 
 ## Publishing a version
 
-1. Set the version in `Cargo.toml` (`[workspace.package] version`), turn
-   `CHANGELOG.md`'s "Not released yet" into a `## <version>` section (and
-   start a new one empty after the release), and add one to "What's new"
-   (`crates/client/whatsnew/*.md`), then write the Flatpak's releases from
-   it (`python3 tools/gen_metainfo.py`; a test checks it was done).
-2. Optional: the repository variable `SNOOK_LEGEND_SERVER` (Settings → Secrets and
-   variables → Actions → Variables) is the game server baked into the
-   release; without it the game uses the public server.
-3. Commit, tag and push:
+A version publishes itself once it reaches `main`: nothing is tagged by
+hand.
+
+1. Prepare the release in one commit: the version in `Cargo.toml`
+   (`[workspace.package] version`, and `Cargo.lock` by building),
+   `CHANGELOG.md`'s "Not released yet" turned into a `## <version>`
+   section, a `## <version>` section in "What's new"
+   (`crates/client/whatsnew/*.md`, every language, as many highlights in
+   each), and the Flatpak's releases written from it
+   (`python3 tools/gen_metainfo.py`). Check it:
 
    ```bash
-   git tag v0.2.0
+   python3 tools/release_check.py
    ```
 
-   ```bash
-   git push origin v0.2.0
-   ```
+2. Push it to `main`. When **CI** has passed on it, **Publish a version**
+   (`.github/workflows/publish.yml`) checks the release again
+   (`tools/release_check.py`), tags the commit `v<version>` (annotated)
+   and starts the release on that tag: **Release**, **Microsoft Store**
+   (sent to the Store) and **Server image** (and its deploy on Render).
+
+What keeps it safe:
+
+- The tag is always the version in `Cargo.toml` of the commit it marks:
+  nobody types it.
+- Only the newest commit of `main`, only once CI has passed on it (every
+  platform's tests, clippy, PostgreSQL, the server image, the advisories).
+- Only a version newer than every one released, and never one tagged
+  already: pushing more commits without raising the version publishes
+  nothing.
+- Only a release that is ready: the changelog, "What's new" in every
+  language, the Store's notes and the MetaInfo all have the version
+  (`tools/release_check.py` says what is missing, and nothing is tagged).
+- One run at a time; a tag pushed by hand meanwhile wins, and nothing is
+  started twice.
+
+If a step fails, the run says why. Fix it and push again (a version not
+tagged yet is published by the next commit that passes), or run
+**Publish a version** by hand (Actions → Publish a version → Run workflow,
+on `main`). If the tag was made but the release's workflows didn't start,
+run it with "start again" ticked. A workflow of the release that failed on
+its own is run again from its page, as always.
+
+A tag pushed by hand still publishes a version, as before (the workflows
+start on the tag's push):
+
+```bash
+git tag v0.2.0
+```
+
+```bash
+git push origin v0.2.0
+```
+
+(Why the workflow starts the others itself: a tag pushed with a
+workflow's own token sets off no other workflow, a rule of GitHub's to
+keep workflows from setting each other off without end. Started on the
+tag, they run exactly as on a pushed tag: `github.ref_name` is the tag.)
+
+Optional: the repository variable `SNOOK_LEGEND_SERVER` (Settings → Secrets
+and variables → Actions → Variables) is the game server baked into the
+release; without it the game uses the public server.
 
 The **Release** workflow builds every platform, makes the installers and
 publishes the GitHub Release; the **Server image** workflow publishes

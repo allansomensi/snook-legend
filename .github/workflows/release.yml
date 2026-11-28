@@ -43,6 +43,10 @@ on:
   push:
     tags:
       - '**[0-9]+.[0-9]+.[0-9]+*'
+  # Started on a version's tag by publish.yml (a tag a workflow pushes sets
+  # off no workflow): `github.ref_name` is the tag, as on a push. (Added by
+  # hand: dist-workspace.toml lets this file differ from dist's.)
+  workflow_dispatch:
 
 jobs:
   # Run 'dist plan' (or host) to determine what tasks we need to do

@@ -2638,3 +2638,7 @@ Post the poll	Publicar sondagem
 Close the poll	Fechar sondagem
 A poll needs 2 to 6 different options.	Uma sondagem precisa de 2 a 6 opções diferentes.
 You can start another poll in a few minutes.	Poderás criar outra sondagem daqui a alguns minutos.
+First-person view	Vista na primeira pessoa
+Low behind the cue, as if you were holding it.	Baixa, atrás do taco, como se o segurasses.
+Broadcast camera in your games	Câmara de transmissão nos teus jogos
+While the balls roll, the camera cuts between angles like on TV.	Enquanto as bolas rolam, a câmara corta entre ângulos como na TV.

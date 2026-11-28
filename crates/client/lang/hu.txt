@@ -2638,3 +2638,7 @@ Post the poll	Szavazás közzététele
 Close the poll	Szavazás lezárása
 A poll needs 2 to 6 different options.	Egy szavazáshoz 2–6 különböző lehetőség kell.
 You can start another poll in a few minutes.	Néhány perc múlva indíthatsz újabb szavazást.
+First-person view	Belső nézet
+Low behind the cue, as if you were holding it.	Alacsonyan a dákó mögött, mintha te fognád.
+Broadcast camera in your games	Közvetítéskamera a saját játszmáidban
+While the balls roll, the camera cuts between angles like on TV.	Amíg a golyók gurulnak, a kamera úgy vált a nézőpontok között, mint a tévében.

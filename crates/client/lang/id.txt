@@ -2638,3 +2638,7 @@ Post the poll	Kirim polling
 Close the poll	Tutup polling
 A poll needs 2 to 6 different options.	Polling butuh 2 sampai 6 pilihan yang berbeda.
 You can start another poll in a few minutes.	Kamu bisa membuat polling lain beberapa menit lagi.
+First-person view	Tampilan orang pertama
+Low behind the cue, as if you were holding it.	Rendah di belakang stik, seolah kamu memegangnya.
+Broadcast camera in your games	Kamera siaran di permainanmu
+While the balls roll, the camera cuts between angles like on TV.	Saat bola bergulir, kamera berpindah sudut seperti di TV.

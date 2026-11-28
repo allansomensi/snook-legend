@@ -2638,3 +2638,7 @@ Post the poll	투표 올리기
 Close the poll	투표 마감
 A poll needs 2 to 6 different options.	투표에는 서로 다른 선택지가 2~6개 필요해요.
 You can start another poll in a few minutes.	몇 분 뒤에 다른 투표를 만들 수 있어요.
+First-person view	1인칭 시점
+Low behind the cue, as if you were holding it.	큐 뒤 낮은 곳에서, 직접 잡은 것처럼.
+Broadcast camera in your games	내 게임에서 중계 카메라
+While the balls roll, the camera cuts between angles like on TV.	공이 구르는 동안 TV처럼 카메라가 각도를 바꿔요.

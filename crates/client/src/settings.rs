@@ -725,6 +725,38 @@ impl SettingsScreen {
                     toggle_on_click(ui, row, c, &mut config.shot_camera, follows);
                 }
                 let hint = if free {
+                    t("Low behind the cue, as if you were holding it.")
+                } else {
+                    t("Not with the top view only.")
+                };
+                if let Some((row, c)) = rows.row_ex(
+                    ui,
+                    t("First-person view"),
+                    hint,
+                    MUTED,
+                    Control::Switch,
+                    free,
+                    true,
+                ) {
+                    toggle_on_click(ui, row, c, &mut config.camera_pov, free);
+                }
+                let hint = if free {
+                    t("While the balls roll, the camera cuts between angles like on TV.")
+                } else {
+                    t("Not with the top view only.")
+                };
+                if let Some((row, c)) = rows.row_ex(
+                    ui,
+                    t("Broadcast camera in your games"),
+                    hint,
+                    MUTED,
+                    Control::Switch,
+                    free,
+                    true,
+                ) {
+                    toggle_on_click(ui, row, c, &mut config.tv_own_games, free);
+                }
+                let hint = if free {
                     t("Broadcast angles for other players' games and replays.")
                 } else {
                     t("Not with the top view only.")

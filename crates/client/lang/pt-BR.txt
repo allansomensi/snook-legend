@@ -2638,3 +2638,7 @@ Post the poll	Publicar enquete
 Close the poll	Encerrar enquete
 A poll needs 2 to 6 different options.	Uma enquete precisa de 2 a 6 opções diferentes.
 You can start another poll in a few minutes.	Você poderá criar outra enquete daqui a alguns minutos.
+First-person view	Visão em primeira pessoa
+Low behind the cue, as if you were holding it.	Baixa, atrás do taco, como se você o segurasse.
+Broadcast camera in your games	Câmera de transmissão nas suas partidas
+While the balls roll, the camera cuts between angles like on TV.	Enquanto as bolas rolam, a câmera corta entre ângulos como na TV.

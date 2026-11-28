@@ -2638,3 +2638,7 @@ Post the poll	Δημοσίευση
 Close the poll	Κλείσιμο δημοσκόπησης
 A poll needs 2 to 6 different options.	Μια δημοσκόπηση χρειάζεται 2 έως 6 διαφορετικές επιλογές.
 You can start another poll in a few minutes.	Μπορείς να ξεκινήσεις άλλη δημοσκόπηση σε λίγα λεπτά.
+First-person view	Προβολή πρώτου προσώπου
+Low behind the cue, as if you were holding it.	Χαμηλά πίσω από τη στέκα, σαν να την κρατάς.
+Broadcast camera in your games	Κάμερα μετάδοσης στα παιχνίδια σου
+While the balls roll, the camera cuts between angles like on TV.	Όσο κυλούν οι μπάλες, η κάμερα αλλάζει γωνίες όπως στην τηλεόραση.

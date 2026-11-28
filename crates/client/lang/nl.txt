@@ -2638,3 +2638,7 @@ Post the poll	Peiling plaatsen
 Close the poll	Peiling sluiten
 A poll needs 2 to 6 different options.	Een peiling heeft 2 tot 6 verschillende opties nodig.
 You can start another poll in a few minutes.	Over een paar minuten kun je nog een peiling starten.
+First-person view	Eerstepersoonsbeeld
+Low behind the cue, as if you were holding it.	Laag achter de keu, alsof je hem vasthoudt.
+Broadcast camera in your games	Uitzendcamera in je eigen potjes
+While the balls roll, the camera cuts between angles like on TV.	Terwijl de ballen rollen, wisselt de camera van hoek zoals op tv.

@@ -2638,3 +2638,7 @@ Post the poll	发布投票
 Close the poll	结束投票
 A poll needs 2 to 6 different options.	投票需要2到6个不同的选项。
 You can start another poll in a few minutes.	几分钟后你可以再发起投票。
+First-person view	第一人称视角
+Low behind the cue, as if you were holding it.	低在球杆后方，就像你握着它一样。
+Broadcast camera in your games	你的对局中使用转播镜头
+While the balls roll, the camera cuts between angles like on TV.	球滚动时，镜头会像电视转播一样切换角度。

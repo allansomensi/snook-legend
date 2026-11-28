@@ -2638,3 +2638,7 @@ Post the poll	পোল পোস্ট করুন
 Close the poll	পোল বন্ধ করুন
 A poll needs 2 to 6 different options.	একটি পোলে ২ থেকে ৬টি আলাদা বিকল্প লাগে।
 You can start another poll in a few minutes.	কয়েক মিনিট পরে আপনি আরেকটি পোল শুরু করতে পারবেন।
+First-person view	ফার্স্ট-পারসন ভিউ
+Low behind the cue, as if you were holding it.	কিউয়ের পেছনে নিচু, যেন আপনি এটি ধরে আছেন।
+Broadcast camera in your games	আপনার খেলায় সম্প্রচার ক্যামেরা
+While the balls roll, the camera cuts between angles like on TV.	বল গড়ানোর সময় ক্যামেরা টিভির মতো কোণ বদলায়।

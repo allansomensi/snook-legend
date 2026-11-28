@@ -2638,3 +2638,7 @@ Post the poll	Umfrage veröffentlichen
 Close the poll	Umfrage beenden
 A poll needs 2 to 6 different options.	Eine Umfrage braucht 2 bis 6 verschiedene Optionen.
 You can start another poll in a few minutes.	Du kannst in ein paar Minuten eine weitere Umfrage starten.
+First-person view	Ego-Perspektive
+Low behind the cue, as if you were holding it.	Tief hinter dem Queue, als hieltest du es.
+Broadcast camera in your games	Übertragungskamera in deinen Spielen
+While the balls roll, the camera cuts between angles like on TV.	Während die Kugeln rollen, schneidet die Kamera zwischen Winkeln wie im Fernsehen.

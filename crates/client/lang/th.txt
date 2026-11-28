@@ -2638,3 +2638,7 @@ Post the poll	โพสต์โพล
 Close the poll	ปิดโพล
 A poll needs 2 to 6 different options.	โพลต้องมีตัวเลือกที่ต่างกัน 2 ถึง 6 ตัว
 You can start another poll in a few minutes.	อีกไม่กี่นาทีคุณจะสร้างโพลใหม่ได้
+First-person view	มุมมองบุคคลที่หนึ่ง
+Low behind the cue, as if you were holding it.	ต่ำอยู่หลังคิว เหมือนคุณกำลังถือมันอยู่
+Broadcast camera in your games	กล้องถ่ายทอดในเกมของคุณ
+While the balls roll, the camera cuts between angles like on TV.	ขณะลูกกลิ้ง กล้องจะตัดสลับมุมเหมือนในทีวี

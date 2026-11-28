@@ -1033,6 +1033,15 @@ async fn main() {
             hud.observer.camera = None;
         }
         hud.tv_default = config.tv_camera;
+        // The player's own game: the broadcast's angles while the balls
+        // roll (if chosen), and the first-person view.
+        let own_game = current.as_ref().is_some_and(|m| !m.is_spectating() && !m.is_replay());
+        rig.tv_rolling = config.tv_own_games && own_game;
+        let pov = config.camera_pov && !config.top_view_only;
+        if pov && !rig.pov {
+            rig.mode = CameraMode::Aim;
+        }
+        rig.pov = pov;
         hud.events_in_chat = config.game_events_in_chat;
         if let Some(tv) = hud.observer.broadcast().filter(|_| watching) {
             rig.tv = tv;

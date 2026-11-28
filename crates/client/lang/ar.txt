@@ -2638,3 +2638,7 @@ Post the poll	نشر الاستطلاع
 Close the poll	إغلاق الاستطلاع
 A poll needs 2 to 6 different options.	يحتاج الاستطلاع إلى ما بين 2 و6 خيارات مختلفة.
 You can start another poll in a few minutes.	يمكنك إنشاء استطلاع آخر بعد بضع دقائق.
+First-person view	منظور الشخص الأول
+Low behind the cue, as if you were holding it.	منخفض خلف العصا، كأنك تمسكها.
+Broadcast camera in your games	كاميرا البث في مبارياتك
+While the balls roll, the camera cuts between angles like on TV.	بينما تتدحرج الكرات، تنتقل الكاميرا بين الزوايا كما في التلفاز.

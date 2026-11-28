@@ -2638,3 +2638,7 @@ Post the poll	Publică sondajul
 Close the poll	Închide sondajul
 A poll needs 2 to 6 different options.	Un sondaj are nevoie de 2–6 opțiuni diferite.
 You can start another poll in a few minutes.	Vei putea crea alt sondaj peste câteva minute.
+First-person view	Vedere la persoana întâi
+Low behind the cue, as if you were holding it.	Jos, în spatele tacului, ca și cum l-ai ține.
+Broadcast camera in your games	Cameră de transmisie în partidele tale
+While the balls roll, the camera cuts between angles like on TV.	Cât timp bilele se rostogolesc, camera schimbă unghiurile ca la TV.

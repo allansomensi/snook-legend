@@ -48,6 +48,11 @@ pub struct CameraRig {
     /// turning (zooming still works).
     pub top_only: bool,
     tv_state: TvState,
+    /// In the player's own game: the broadcast's angles while the balls
+    /// roll only (see [`CameraRig::tv`]).
+    pub tv_rolling: bool,
+    /// The first-person view: low behind the cue, turning with the aim.
+    pub pov: bool,
 }
 
 /// What the broadcast is showing.
@@ -63,6 +68,11 @@ struct TvState {
     close: bool,
     /// The previous frame's angle (a change is a cut).
     angle: u8,
+    /// Seconds since the last cut (an angle is held a while).
+    held: f32,
+    /// The pocket a ball is heading for, watched from behind it: its
+    /// centre (world), the ball, and how long since that ball went down.
+    pocket: Option<(Vec3, snook_legend_core::BallId, f32)>,
 }
 
 pub const DEFAULT_PITCH: f32 = 0.42;
@@ -110,6 +120,8 @@ impl Default for CameraRig {
             tv_paused: false,
             top_only: false,
             tv_state: TvState::default(),
+            tv_rolling: false,
+            pov: false,
         }
     }
 }
@@ -251,11 +263,17 @@ impl CameraRig {
         e
     }
 
-    /// The broadcast's view of `m`: (eye, target, field of view, angle).
-    /// A wide establishing shot when a turn begins, then from behind the
-    /// shooter while they aim; the rolling balls from above, from a high
-    /// corner or from high behind the shot, in turn.
+    /// The broadcast's view of `m`: (eye, target, field of view, angle),
+    /// directed as on television. A turn opens on the whole table, the
+    /// camera craning slowly down; then over the shooter's shoulder,
+    /// pushing in while they aim. When the balls roll: a ball on its way
+    /// to a pocket is watched from behind that pocket, low on the cloth,
+    /// until it drops (and a moment after); otherwise the play is followed
+    /// from above, from a high corner tracking along the rail, or from
+    /// high behind the shot, in turn. An angle is held a while (no cut
+    /// flickers), and the camera drifts a little, as if held.
     fn tv_view(&mut self, dt: f32, m: &Match) -> (Vec3, Vec3, f32, u8) {
+        use snook_legend_core::BallId;
         let center = vec3(0.0, TABLE_HEIGHT, 0.0);
         let rolling = matches!(m.phase, Phase::Simulating(_) | Phase::Pause(_));
         let st = &mut self.tv_state;
@@ -263,30 +281,94 @@ impl CameraRig {
             st.rolling = rolling;
             st.time = 0.0;
             st.close = false;
+            st.pocket = None;
             if rolling {
                 st.shots += 1;
             }
         }
         st.time += dt;
-        let cue = to_world(m.game.ball(snook_legend_core::BallId::CUE).position);
+        st.held += dt;
+        let t = st.time;
+        // A camera held by hand: a slow, small drift.
+        let drift =
+            vec3((t * 0.7).sin() * 0.018, (t * 0.9).sin() * 0.008, (t * 0.55).cos() * 0.018);
+        let ease = |x: f32| {
+            let x = x.clamp(0.0, 1.0);
+            x * x * (3.0 - 2.0 * x)
+        };
+        let cue = to_world(m.game.ball(BallId::CUE).position);
         let yaw = -(m.aim.yaw as f32);
         let forward = vec3(yaw.cos(), 0.0, yaw.sin());
         let side = if m.game.current_player() == 0 { 1.0 } else { -1.0 };
         if !rolling {
-            // While the shooter studies the table: the whole table first.
-            if !st.close && st.time < 2.4 {
-                let eye = center + vec3(-0.35 * side, 1.25, 1.85 * side);
+            // While the shooter studies the table: the whole table, the
+            // camera craning down.
+            if !st.close && t < 2.6 {
+                let k = ease(t / 2.6);
+                let high = vec3(-0.45 * side, 1.6, 2.15 * side);
+                let low = vec3(-0.3 * side, 1.15, 1.75 * side);
+                let eye = center + high.lerp(low, k) + drift;
                 return (eye, center + vec3(0.0, -0.05, 0.0), 44f32.to_radians(), 1);
             }
             st.close = true;
-            let (pitch, dist) = (0.34f32, 1.3f32);
-            let eye = cue - forward * dist * pitch.cos() + Vec3::Y * dist * pitch.sin();
+            // Over the shoulder, pushing in slowly.
+            let k = ease((t - 2.6) / 5.0);
+            let (pitch, dist) = (0.36 - 0.06 * k, 1.45 - 0.35 * k);
+            let eye = cue - forward * dist * pitch.cos() + Vec3::Y * dist * pitch.sin() + drift;
             let look = cue + forward * 0.55;
-            return (Self::constrain(eye), look, 48f32.to_radians(), 2);
+            return (Self::constrain(eye), look, 46f32.to_radians(), 2);
+        }
+        let balls = m.balls();
+        // A ball heading for a pocket: watched from behind the pocket.
+        if st.pocket.is_none() && st.held > 0.6 {
+            let table = m.game.table();
+            let mut best: Option<(f64, Vec3, BallId)> = None;
+            for b in balls.iter().filter(|b| b.in_play() && b.id != BallId::CUE) {
+                let v = b.velocity.truncate();
+                let speed = v.length();
+                if speed < 0.25 {
+                    continue;
+                }
+                let dir = v / speed;
+                for p in &table.pockets {
+                    let rel = p.hole_center - b.position.truncate();
+                    let along = rel.dot(dir);
+                    let off = (rel - dir * along).length();
+                    // On its way, close enough to be sure, far enough to see.
+                    if along > 0.15 && along < 1.5 && off < 0.05 {
+                        let when = along / speed;
+                        if best.is_none_or(|(w, ..)| when < w) {
+                            best = Some((when, crate::coords::surface(p.hole_center, 0.0), b.id));
+                        }
+                    }
+                }
+            }
+            if let Some((_, hole, id)) = best {
+                st.pocket = Some((hole, id, -1.0));
+            }
+        }
+        if let Some((hole, id, down)) = st.pocket.as_mut() {
+            let ball = balls.iter().find(|b| b.id == *id);
+            let gone = ball.is_none_or(|b| !b.in_play());
+            if gone && *down < 0.0 {
+                *down = 0.0;
+            }
+            if *down >= 0.0 {
+                *down += dt;
+            }
+            let at = ball.filter(|b| b.in_play()).map(|b| to_world(b.position)).unwrap_or(*hole);
+            // Behind the pocket, low, looking back along the ball's way.
+            let back = (*hole - at).with_y(0.0).normalize_or(Vec3::X);
+            let eye = *hole + back * 0.55 + Vec3::Y * 0.34;
+            let look = at.lerp(*hole, 0.45) + Vec3::Y * 0.01;
+            let still = ball.is_some_and(|b| b.in_play() && b.velocity.length() < 0.05);
+            if *down < 0.9 && !still {
+                return (eye, look, 40f32.to_radians(), 6);
+            }
+            st.pocket = None;
         }
         // The balls in motion: where the action is.
-        let moving: Vec<Vec3> = m
-            .balls()
+        let moving: Vec<Vec3> = balls
             .iter()
             .filter(|b| b.in_play() && b.velocity.length() > 0.02)
             .map(|b| to_world(b.position))
@@ -305,16 +387,32 @@ impl CameraRig {
                 let fov = 2.0 * (2.9 * 20f32.to_radians().tan() / height).atan();
                 (center + Vec3::Y * height, center, fov, 3)
             }
+            // From a high corner, tracking along the rail after the play.
             1 => {
-                let corner = vec3(2.1 * side, TABLE_HEIGHT + 1.35, -1.35 * side);
-                (corner, look, 46f32.to_radians(), 4)
+                let x = (2.1 * side + action.x * 0.35).clamp(-2.4, 2.4);
+                let corner = vec3(x, TABLE_HEIGHT + 1.3, -1.4 * side) + drift;
+                (corner, look, 44f32.to_radians(), 4)
             }
             _ => {
                 let (pitch, dist) = (0.78f32, 2.5f32);
-                let eye = look - forward * dist * pitch.cos() + Vec3::Y * dist * pitch.sin();
+                let eye =
+                    look - forward * dist * pitch.cos() + Vec3::Y * dist * pitch.sin() + drift;
                 (Self::constrain(eye), look, 48f32.to_radians(), 5)
             }
         }
+    }
+
+    /// The first-person view of `m`: low behind the cue ball, as if the
+    /// player held the cue, looking down the line of the shot (raised a
+    /// little with the cue's elevation). `focus`/`base` hold it still
+    /// while the balls roll.
+    fn pov_view(&self, m: &Match, focus: Vec3, base: f32) -> (Vec3, Vec3) {
+        let forward = vec3(base.cos(), 0.0, base.sin());
+        let elevation = m.aim.elevation as f32;
+        let back = 0.62 * (self.distance / DEFAULT_DISTANCE).clamp(0.6, 1.8);
+        let eye = focus - forward * back + Vec3::Y * (0.34 + 0.35 * elevation);
+        let look = focus + forward * 1.3 + Vec3::Y * 0.02;
+        (Self::constrain(eye), look)
     }
 
     pub fn update(&mut self, dt: f32, m: Option<&Match>, elapsed: f32) -> SceneCamera {
@@ -322,13 +420,19 @@ impl CameraRig {
             self.mode = CameraMode::Top;
             self.orbit = 0.0;
         }
-        if self.tv
+        // The broadcast: watching a game, or the player's own while the
+        // balls roll.
+        let rolling = m.is_some_and(|m| matches!(m.phase, Phase::Simulating(_) | Phase::Pause(_)));
+        if (self.tv || (self.tv_rolling && rolling))
             && !self.top_only
             && !self.tv_paused
             && let Some(m) = m
         {
             let (eye, target, fov, angle) = self.tv_view(dt, m);
             let cut = angle != self.tv_state.angle || !self.initialised;
+            if cut {
+                self.tv_state.held = 0.0;
+            }
             self.tv_state.angle = angle;
             if cut {
                 // A cut: straight to the new angle, as on television.
@@ -408,6 +512,12 @@ impl CameraRig {
                         let height = fit * zoom;
                         top_fov = 2.0 * (tan * height / TOP_EYE_HEIGHT).atan();
                         (look + Vec3::Y * TOP_EYE_HEIGHT, look, Vec3::NEG_Z)
+                    }
+                    CameraMode::Aim if self.pov => {
+                        // (Turning with the aim at once, as a head would.)
+                        rate = if moving { 4.0 } else { 14.0 };
+                        let (eye, look) = self.pov_view(m, focus, base);
+                        (eye, look, Vec3::Y)
                     }
                     CameraMode::Aim if !self.follow_cue => {
                         // Fixed view around the middle of the table: it only
@@ -508,6 +618,8 @@ impl CameraRig {
         let up = if dir.cross(self.up).length() < 1e-3 { Vec3::NEG_Z } else { self.up };
         let fov = if matches!(m.map(|_| self.mode), Some(CameraMode::Top)) {
             top_fov
+        } else if self.pov && m.is_some() {
+            50f32.to_radians()
         } else {
             48f32.to_radians()
         };

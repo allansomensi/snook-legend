@@ -2638,3 +2638,7 @@ Post the poll	Opublikuj ankietę
 Close the poll	Zamknij ankietę
 A poll needs 2 to 6 different options.	Ankieta wymaga od 2 do 6 różnych opcji.
 You can start another poll in a few minutes.	Kolejną ankietę możesz utworzyć za kilka minut.
+First-person view	Widok z pierwszej osoby
+Low behind the cue, as if you were holding it.	Nisko za kijem, jakbyś go trzymał.
+Broadcast camera in your games	Kamera transmisji w twoich grach
+While the balls roll, the camera cuts between angles like on TV.	Gdy bile się toczą, kamera zmienia ujęcia jak w telewizji.

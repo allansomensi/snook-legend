@@ -376,6 +376,7 @@ SCREENS = {
     "match-8ball": (["--vs", "medium"], {}, False, 150),
     "match-official": (["--vs", "medium"], {"_ini": "rules=official"}, False, 150),
     "match-3d": (["--vs", "medium"], {"SNOOK_LEGEND_VIEW": "3d"}, False, 150),
+    "match-pov": (["--vs", "medium"], {"SNOOK_LEGEND_VIEW": "3d", "_ini": "camera_pov=true"}, False, 150),
     "match-3d-filigree": (
         ["--vs", "medium"],
         {"SNOOK_LEGEND_VIEW": "3d", "_ini": "cue=cue_filigree"},

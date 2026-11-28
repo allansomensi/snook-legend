@@ -2638,3 +2638,7 @@ Post the poll	पोल पोस्ट करें
 Close the poll	पोल बंद करें
 A poll needs 2 to 6 different options.	पोल में 2 से 6 अलग-अलग विकल्प चाहिए।
 You can start another poll in a few minutes.	कुछ मिनट बाद आप दूसरा पोल बना सकेंगे।
+First-person view	फ़र्स्ट-पर्सन व्यू
+Low behind the cue, as if you were holding it.	क्यू के पीछे नीचे, जैसे आप उसे पकड़े हों।
+Broadcast camera in your games	अपने गेम में ब्रॉडकास्ट कैमरा
+While the balls roll, the camera cuts between angles like on TV.	गेंदें लुढ़कते समय कैमरा टीवी की तरह कोण बदलता है।

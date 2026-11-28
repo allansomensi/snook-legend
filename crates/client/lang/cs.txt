@@ -2638,3 +2638,7 @@ Post the poll	Zveřejnit anketu
 Close the poll	Uzavřít anketu
 A poll needs 2 to 6 different options.	Anketa potřebuje 2 až 6 různých možností.
 You can start another poll in a few minutes.	Další anketu můžeš založit za pár minut.
+First-person view	Pohled z první osoby
+Low behind the cue, as if you were holding it.	Nízko za tágem, jako bys ho držel.
+Broadcast camera in your games	Přenosová kamera ve tvých hrách
+While the balls roll, the camera cuts between angles like on TV.	Když se koule kutálejí, kamera střídá záběry jako v televizi.

@@ -2638,3 +2638,7 @@ Post the poll	Опубликовать опрос
 Close the poll	Закрыть опрос
 A poll needs 2 to 6 different options.	В опросе должно быть от 2 до 6 разных вариантов.
 You can start another poll in a few minutes.	Новый опрос можно будет создать через несколько минут.
+First-person view	Вид от первого лица
+Low behind the cue, as if you were holding it.	Низко за кием, будто вы его держите.
+Broadcast camera in your games	Камера трансляции в ваших партиях
+While the balls roll, the camera cuts between angles like on TV.	Пока шары катятся, камера переключает ракурсы, как на ТВ.

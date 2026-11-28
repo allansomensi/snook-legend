@@ -2638,3 +2638,7 @@ Post the poll	投票を投稿
 Close the poll	投票を締め切る
 A poll needs 2 to 6 different options.	投票には2〜6個の異なる選択肢が必要です。
 You can start another poll in a few minutes.	数分後に次の投票を作れます。
+First-person view	一人称視点
+Low behind the cue, as if you were holding it.	キューの後ろ、低い位置から。自分で構えているように。
+Broadcast camera in your games	自分の試合で中継カメラ
+While the balls roll, the camera cuts between angles like on TV.	球が転がる間、テレビ中継のようにカメラが切り替わります。

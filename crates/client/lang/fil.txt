@@ -2638,3 +2638,7 @@ Post the poll	I-post ang poll
 Close the poll	Isara ang poll
 A poll needs 2 to 6 different options.	Kailangan ng poll ng 2 hanggang 6 na magkakaibang pagpipilian.
 You can start another poll in a few minutes.	Makakagawa ka ng ibang poll pagkalipas ng ilang minuto.
+First-person view	First-person na view
+Low behind the cue, as if you were holding it.	Mababa sa likod ng tako, na parang hawak mo ito.
+Broadcast camera in your games	Broadcast camera sa mga laro mo
+While the balls roll, the camera cuts between angles like on TV.	Habang gumugulong ang mga bola, lumilipat ang camera ng anggulo gaya sa TV.

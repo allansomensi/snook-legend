@@ -31,6 +31,21 @@
   group's ball first): only "Try again" now, and a new rack against the
   clock always keeps its rules.
 
+### Cameras
+- **First-person view** (Settings → Camera): low behind the cue, as if
+  holding it, looking down the line of the shot; it turns with the aim at
+  once, and rises a little with the cue's elevation.
+- **The broadcast camera in one's own games** (Settings → Camera): while
+  the balls roll, the camera cuts between angles like on TV, and gives the
+  view back for the next aim.
+- **The broadcast, more cinematic**: a turn opens on the whole table with
+  the camera craning slowly down, then over the shooter's shoulder,
+  pushing in while they aim; a ball heading for a pocket is watched from
+  behind that pocket, low on the cloth, until it drops; otherwise the
+  play is followed from above, from a high corner tracking along the
+  rail, or from high behind the shot. Angles are held a while, and the
+  camera drifts a little, as if held.
+
 ### Reactions and winning effects
 - **Reactions that act**: the faces and hands are drawn by the game now,
   and each one performs. Thumbs up comes up with a wink and pumps; Clap

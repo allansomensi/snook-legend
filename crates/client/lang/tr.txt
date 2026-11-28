@@ -2638,3 +2638,7 @@ Post the poll	Anketi yayınla
 Close the poll	Anketi kapat
 A poll needs 2 to 6 different options.	Bir anket 2 ile 6 arasında farklı seçenek ister.
 You can start another poll in a few minutes.	Birkaç dakika sonra yeni bir anket başlatabilirsin.
+First-person view	Birinci şahıs görünümü
+Low behind the cue, as if you were holding it.	Istakanın arkasında, alçakta, sanki sen tutuyormuşsun gibi.
+Broadcast camera in your games	Oyunlarında yayın kamerası
+While the balls roll, the camera cuts between angles like on TV.	Toplar yuvarlanırken kamera televizyondaki gibi açılar arasında geçiş yapar.

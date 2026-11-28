@@ -209,6 +209,11 @@ pub struct Config {
     pub board_seen: i64,
     /// Watching a game: the camera cuts between angles like on TV.
     pub tv_camera: bool,
+    /// In this player's own games, the broadcast's angles while the balls
+    /// roll (the camera of their choice while they aim).
+    pub tv_own_games: bool,
+    /// The first-person view: low behind the cue, as if holding it.
+    pub camera_pov: bool,
     /// Windows notifications when a friend comes online or a tournament
     /// is about to start (while the game is in the background).
     pub desktop_notifications: bool,
@@ -358,6 +363,8 @@ impl Default for Config {
             email_offer_declined: false,
             board_seen: 0,
             tv_camera: false,
+            tv_own_games: false,
+            camera_pov: false,
             desktop_notifications: true,
             interface_sounds: true,
             reduce_motion: false,
@@ -614,6 +621,8 @@ impl Config {
                 // Renamed when the default became off: the old key was
                 // saved for everyone, so it says nothing about a choice.
                 "tv_view" => c.tv_camera = v == "true",
+                "tv_own_games" => c.tv_own_games = v == "true",
+                "camera_pov" => c.camera_pov = v == "true",
                 "desktop_notifications" => c.desktop_notifications = v != "false",
                 "interface_sounds" => c.interface_sounds = v != "false",
                 "reduce_motion" => c.reduce_motion = v == "true",
@@ -718,8 +727,8 @@ impl Config {
             self.keys.to_text()
         );
         text.push_str(&format!(
-            "show_reactions = {}\naim_color = {}\n",
-            self.show_reactions, self.aim_color
+            "show_reactions = {}\naim_color = {}\ntv_own_games = {}\ncamera_pov = {}\n",
+            self.show_reactions, self.aim_color, self.tv_own_games, self.camera_pov
         ));
         text
     }

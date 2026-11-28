@@ -2638,3 +2638,7 @@ Post the poll	Đăng bình chọn
 Close the poll	Đóng bình chọn
 A poll needs 2 to 6 different options.	Một bình chọn cần từ 2 đến 6 lựa chọn khác nhau.
 You can start another poll in a few minutes.	Vài phút nữa bạn có thể tạo bình chọn khác.
+First-person view	Góc nhìn thứ nhất
+Low behind the cue, as if you were holding it.	Thấp sau cơ, như thể bạn đang cầm nó.
+Broadcast camera in your games	Camera truyền hình trong ván của bạn
+While the balls roll, the camera cuts between angles like on TV.	Khi bi lăn, camera chuyển góc như trên TV.

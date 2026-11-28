@@ -2638,3 +2638,7 @@ Post the poll	Publicera omröstningen
 Close the poll	Stäng omröstningen
 A poll needs 2 to 6 different options.	En omröstning behöver 2 till 6 olika alternativ.
 You can start another poll in a few minutes.	Du kan starta en ny omröstning om några minuter.
+First-person view	Förstapersonsvy
+Low behind the cue, as if you were holding it.	Lågt bakom kön, som om du höll den.
+Broadcast camera in your games	Sändningskamera i dina matcher
+While the balls roll, the camera cuts between angles like on TV.	Medan bollarna rullar klipper kameran mellan vinklar som på tv.

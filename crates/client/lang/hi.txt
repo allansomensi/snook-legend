@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	इस गेम के नियम:
 The rules of your games: click to switch	आपके गेम के नियम: बदलने के लिए क्लिक करें
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	वही स्विच, जो मेन मेन्यू में है: ऑनलाइन, कंप्यूटर के ख़िलाफ़ और दो खिलाड़ी। हर नियम की अपनी रेटिंग होती है।
 The table as it lies.	टेबल जैसी है, वैसी।
-The top 100 of each rules · rated games	हर नियम के टॉप 100 · रेटेड गेम
+The top 100 of each rules	हर नियम के टॉप 100
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} हेड स्ट्रिंग के पीछे थी और क्यू बॉल ने पहले लाइन पार किए बिना उसे हिट किया
 What changes between the rules: click to read them	नियमों में क्या फ़र्क़ है: पढ़ने के लिए क्लिक करें
 With the cue ball in hand behind the head string.	हेड स्ट्रिंग के पीछे बॉल इन हैंड के साथ।
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	केवल त्वरित वाक�
 Messages	संदेश
 World	विश्व
 Friends ranking	दोस्तों की रैंकिंग
-You and your friends · rated games	आप और आपके दोस्त · रेटेड खेल
+You and your friends	आप और आपके दोस्त
 Add friends to see where you stand among them.	दोस्त जोड़ें और देखें कि उनके बीच आप कहाँ हैं।
 Chat and reactions	चैट और प्रतिक्रियाएँ
 Mute the opponent's chat	विरोधी की चैट म्यूट करें
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	इस हफ़्त
 Last week's winners	पिछले हफ़्ते के विजेता
 Doubles	डबल्स
 Doubles ranking	डबल्स रैंकिंग
-Each player's doubles rating · rated doubles	हर खिलाड़ी की डबल्स रेटिंग · रेटेड डबल्स
+Each player's doubles rating	हर खिलाड़ी की डबल्स रेटिंग
 No rated doubles yet. Be the first pair!	अभी तक कोई रेटेड डबल्स नहीं। पहली जोड़ी बनें!
 Clear the table in the least time	सबसे कम समय में टेबल साफ़ करें
 Against the clock: {n} balls left	घड़ी के ख़िलाफ़: {n} गेंदें बाकी

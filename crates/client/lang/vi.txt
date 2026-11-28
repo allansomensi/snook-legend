@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Luật của ván này: bấm để �
 The rules of your games: click to switch	Luật của các ván: bấm để đổi
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Công tắc ở menu chính: trực tuyến, đấu với máy và hai người chơi. Mỗi luật có điểm xếp hạng riêng.
 The table as it lies.	Giữ nguyên thế bàn.
-The top 100 of each rules · rated games	Top 100 của mỗi luật · ván xếp hạng
+The top 100 of each rules	Top 100 của mỗi luật
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} nằm sau vạch đầu bàn và bi cái chạm vào nó mà chưa qua vạch trước
 What changes between the rules: click to read them	Những điểm khác nhau giữa hai luật: bấm để đọc
 With the cue ball in hand behind the head string.	Với bi cái tự do sau vạch đầu bàn.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Chỉ các câu nhanh (không nhập tự 
 Messages	Tin nhắn
 World	Thế giới
 Friends ranking	Xếp hạng bạn bè
-You and your friends · rated games	Bạn và bạn bè · ván tính điểm
+You and your friends	Bạn và bạn bè
 Add friends to see where you stand among them.	Thêm bạn bè để xem bạn đứng ở đâu giữa họ.
 Chat and reactions	Trò chuyện và biểu cảm
 Mute the opponent's chat	Tắt tiếng trò chuyện của đối thủ
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Tuần này chưa ai d
 Last week's winners	Người thắng tuần trước
 Doubles	Đánh đôi
 Doubles ranking	Bảng xếp hạng đánh đôi
-Each player's doubles rating · rated doubles	Điểm đánh đôi của mỗi người chơi · ván đôi tính điểm
+Each player's doubles rating	Điểm đánh đôi của mỗi người chơi
 No rated doubles yet. Be the first pair!	Chưa có ván đôi tính điểm nào. Hãy là cặp đầu tiên!
 Clear the table in the least time	Dọn sạch bàn trong thời gian ngắn nhất
 Against the clock: {n} balls left	Đua với thời gian: còn {n} bi

@@ -1256,6 +1256,17 @@ impl Store {
     ) -> StoreResult<Vec<LeaderboardEntry>> {
         dispatch!(self, s => s.leaderboard(rules, limit, now))
     }
+    /// The ranking of a country's players under `rules` (`country`: an ISO
+    /// 3166-1 alpha-2 code, as players choose it), highest rating first.
+    pub async fn country_leaderboard(
+        &self,
+        rules: Rules,
+        country: &str,
+        limit: u32,
+        now: i64,
+    ) -> StoreResult<Vec<LeaderboardEntry>> {
+        dispatch!(self, s => s.country_leaderboard(rules, country, limit, now))
+    }
     /// A player's place in the world ranking under `rules` (None: no rated
     /// game under them).
     pub async fn rank_of(&self, user_id: i64, rules: Rules) -> StoreResult<Option<u32>> {

@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	このゲームのルール：クリ�
 The rules of your games: click to switch	ゲームのルール：クリックで切り替え
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	メインメニューと同じ切り替えです：オンライン、コンピューター対戦、2人対戦に適用されます。ルールごとにレートは別々です。
 The table as it lies.	今の配置のままプレイ。
-The top 100 of each rules · rated games	ルール別トップ100 · レート戦
+The top 100 of each rules	ルール別トップ100
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball}はヘッドストリングの後ろにあり、手球が先にラインを越えずに当たった
 What changes between the rules: click to read them	ルールの違い：クリックで表示
 With the cue ball in hand behind the head string.	ヘッドストリングの後ろからフリーボールで。
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	定型文のみ（自由入力なし）
 Messages	メッセージ
 World	世界
 Friends ranking	フレンドランキング
-You and your friends · rated games	あなたとフレンド・レート戦
+You and your friends	あなたとフレンド
 Add friends to see where you stand among them.	フレンドを追加すると、その中での順位が分かります。
 Chat and reactions	チャットとリアクション
 Mute the opponent's chat	相手のチャットをミュート
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	今週はまだ誰も�
 Last week's winners	先週の勝者
 Doubles	ダブルス
 Doubles ranking	ダブルスランキング
-Each player's doubles rating · rated doubles	各プレイヤーのダブルスレーティング · レート戦のダブルス
+Each player's doubles rating	各プレイヤーのダブルスレーティング
 No rated doubles yet. Be the first pair!	レート戦のダブルスはまだありません。最初のペアになりましょう！
 Clear the table in the least time	最短時間で台をクリア
 Against the clock: {n} balls left	タイムアタック：残り{n}球

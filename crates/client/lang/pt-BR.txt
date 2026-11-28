@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	A regra desta partida: clique para le
 The rules of your games: click to switch	A regra das suas partidas: clique para trocar
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	A mesma chave do menu principal: online, contra o computador e dois jogadores. Cada regra tem o seu rating.
 The table as it lies.	A mesa como está.
-The top 100 of each rules · rated games	Os 100 melhores de cada regra · partidas valendo rating
+The top 100 of each rules	Os 100 melhores de cada regra
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	A {ball} estava atrás da linha de cabeceira e a branca a acertou sem atravessar a linha antes
 What changes between the rules: click to read them	O que muda entre as regras: clique para ler
 With the cue ball in hand behind the head string.	Com a branca na mão atrás da linha de cabeceira.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Só as frases rápidas (sem texto livre)
 Messages	Mensagens
 World	Mundo
 Friends ranking	Ranking dos amigos
-You and your friends · rated games	Você e seus amigos · partidas valendo rating
+You and your friends	Você e seus amigos
 Add friends to see where you stand among them.	Adicione amigos para ver sua posição entre eles.
 Chat and reactions	Chat e reações
 Mute the opponent's chat	Silenciar o chat do adversário
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Ninguém limpou a mesa
 Last week's winners	Vencedores da semana passada
 Doubles	Duplas
 Doubles ranking	Ranking de duplas
-Each player's doubles rating · rated doubles	O rating de duplas de cada jogador · duplas valendo rating
+Each player's doubles rating	O rating de duplas de cada jogador
 No rated doubles yet. Be the first pair!	Nenhuma partida de duplas valendo rating ainda. Seja a primeira dupla!
 Clear the table in the least time	Limpe a mesa no menor tempo
 Against the clock: {n} balls left	Contra o relógio: {n} bolas restantes

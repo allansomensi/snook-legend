@@ -272,7 +272,7 @@ async fn doubles_take_turns_by_visit() {
     }
     assert_eq!(entries.len(), 4);
     assert!(entries[0].rating > 1200 && entries[0].wins == 1);
-    c.send(ClientMsg::Leaderboard { rules: Rules::Official }).await;
+    c.send(ClientMsg::Leaderboard { rules: Rules::Official, country: String::new() }).await;
     let ServerMsg::Leaderboard { entries, .. } =
         c.expect("singles", |m| matches!(m, ServerMsg::Leaderboard { .. })).await
     else {

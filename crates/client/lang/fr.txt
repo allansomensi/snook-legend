@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Les règles de cette partie : cliquez
 The rules of your games: click to switch	Les règles de vos parties : cliquez pour en changer
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Le même sélecteur que dans le menu principal : en ligne, contre l'ordinateur et à deux joueurs. Chaque jeu de règles a son propre classement.
 The table as it lies.	La table telle quelle.
-The top 100 of each rules · rated games	Le top 100 de chaque jeu de règles · parties classées
+The top 100 of each rules	Le top 100 de chaque jeu de règles
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	La {ball} était derrière la ligne de tête et la blanche l'a touchée sans franchir la ligne d'abord
 What changes between the rules: click to read them	Ce qui change entre les règles : cliquez pour les lire
 With the cue ball in hand behind the head string.	Avec la blanche en main derrière la ligne de tête.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Uniquement les phrases rapides (pas de tex
 Messages	Messages
 World	Monde
 Friends ranking	Classement des amis
-You and your friends · rated games	Vous et vos amis · parties classées
+You and your friends	Vous et vos amis
 Add friends to see where you stand among them.	Ajoutez des amis pour voir votre place parmi eux.
 Chat and reactions	Chat et réactions
 Mute the opponent's chat	Couper le chat de l'adversaire
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Personne n'a encore vi
 Last week's winners	Gagnants de la semaine dernière
 Doubles	Double
 Doubles ranking	Classement en double
-Each player's doubles rating · rated doubles	Le classement en double de chaque joueur · doubles classés
+Each player's doubles rating	Le classement en double de chaque joueur
 No rated doubles yet. Be the first pair!	Aucun double classé pour l'instant. Soyez le premier duo !
 Clear the table in the least time	Videz la table le plus vite possible
 Against the clock: {n} balls left	Contre la montre : {n} billes restantes

@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Le regole di questa partita: clicca p
 The rules of your games: click to switch	Le regole delle tue partite: clicca per cambiarle
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Lo stesso selettore del menu principale: online, contro il computer e due giocatori. Ogni regolamento ha il suo punteggio.
 The table as it lies.	Il tavolo così com'è.
-The top 100 of each rules · rated games	I migliori 100 di ogni regolamento · partite classificate
+The top 100 of each rules	I migliori 100 di ogni regolamento
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	La {ball} era dietro la linea di testa e la bianca l'ha colpita senza prima superare la linea
 What changes between the rules: click to read them	Cosa cambia tra i due regolamenti: clicca per leggerli
 With the cue ball in hand behind the head string.	Con la bianca in mano dietro la linea di testa.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Solo le frasi rapide (niente testo libero)
 Messages	Messaggi
 World	Mondo
 Friends ranking	Classifica degli amici
-You and your friends · rated games	Tu e i tuoi amici · partite classificate
+You and your friends	Tu e i tuoi amici
 Add friends to see where you stand among them.	Aggiungi amici per vedere la tua posizione tra loro.
 Chat and reactions	Chat e reazioni
 Mute the opponent's chat	Silenzia la chat dell'avversario
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Nessuno ha ancora ripu
 Last week's winners	Vincitori della settimana scorsa
 Doubles	Doppio
 Doubles ranking	Classifica del doppio
-Each player's doubles rating · rated doubles	Il punteggio di doppio di ogni giocatore · doppi classificati
+Each player's doubles rating	Il punteggio di doppio di ogni giocatore
 No rated doubles yet. Be the first pair!	Ancora nessun doppio classificato. Siate la prima coppia!
 Clear the table in the least time	Ripulisci il tavolo nel minor tempo
 Against the clock: {n} balls left	Contro il tempo: {n} bilie rimaste

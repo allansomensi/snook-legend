@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Правила цієї партії:
 The rules of your games: click to switch	Правила ваших партій: клацніть, щоб змінити
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Перемикач у головному меню: онлайн, проти комп’ютера й на двох гравців. Кожні правила мають власний рейтинг.
 The table as it lies.	Стіл як є.
-The top 100 of each rules · rated games	Топ-100 за кожними правилами · рейтингові партії
+The top 100 of each rules	Топ-100 за кожними правилами
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	За лінією дому стояла {ball}, і биток влучив у неї, не перетнувши спершу лінію
 What changes between the rules: click to read them	Що змінюється між правилами: клацніть, щоб прочитати
 With the cue ball in hand behind the head string.	Биток з руки за лінією дому.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Лише швидкі фрази (без �
 Messages	Повідомлення
 World	Світ
 Friends ranking	Рейтинг друзів
-You and your friends · rated games	Ви та ваші друзі · рейтингові партії
+You and your friends	Ви та ваші друзі
 Add friends to see where you stand among them.	Додайте друзів, щоб побачити своє місце серед них.
 Chat and reactions	Чат і реакції
 Mute the opponent's chat	Вимкнути чат суперника
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Цього тижня 
 Last week's winners	Переможці минулого тижня
 Doubles	Пари
 Doubles ranking	Рейтинг пар
-Each player's doubles rating · rated doubles	Парний рейтинг кожного гравця · рейтингові парні ігри
+Each player's doubles rating	Парний рейтинг кожного гравця
 No rated doubles yet. Be the first pair!	Рейтингових парних ігор ще немає. Станьте першою парою!
 Clear the table in the least time	Очистьте стіл за найкоротший час
 Against the clock: {n} balls left	На час: залишилося куль: {n}

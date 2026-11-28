@@ -1605,17 +1605,39 @@ impl PgStore {
         limit: u32,
         now: i64,
     ) -> StoreResult<Vec<LeaderboardEntry>> {
+        self.ranking(rules, None, limit, now).await
+    }
+
+    pub async fn country_leaderboard(
+        &self,
+        rules: Rules,
+        country: &str,
+        limit: u32,
+        now: i64,
+    ) -> StoreResult<Vec<LeaderboardEntry>> {
+        self.ranking(rules, Some(country), limit, now).await
+    }
+
+    /// The world's ranking, or a country's.
+    async fn ranking(
+        &self,
+        rules: Rules,
+        country: Option<&str>,
+        limit: u32,
+        now: i64,
+    ) -> StoreResult<Vec<LeaderboardEntry>> {
         let p = record_columns(rules);
         let rows = query(&format!(
             "SELECT u.username, u.{p}rating AS rating, u.{p}games AS games, u.{p}wins AS wins,
                     u.country, u.role, COALESCE(w.vip_until, 0) > $2 AS vip
              FROM users u LEFT JOIN wallets w ON w.user_id = u.id
              WHERE u.{p}games > 0 AND (u.banned_until IS NULL OR u.banned_until <= $2)
-               AND u.deleted_at IS NULL
+               AND u.deleted_at IS NULL AND ($3::text IS NULL OR upper(u.country) = upper($3))
              ORDER BY u.{p}rating DESC, u.{p}wins DESC, u.username COLLATE \"C\" ASC LIMIT $1"
         ))
         .bind(limit as i64)
         .bind(now)
+        .bind(country)
         .fetch_all(&self.pool)
         .await?;
         Ok(rows

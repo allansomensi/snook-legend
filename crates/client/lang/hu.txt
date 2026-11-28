@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	A játszma szabályai: kattints az el
 The rules of your games: click to switch	A játszmáid szabályai: kattints a váltáshoz
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Ugyanaz a kapcsoló, mint a főmenüben: online, a gép ellen és két játékos. Minden szabályrendszernek saját értékszáma van.
 The table as it lies.	Az asztal úgy, ahogy van.
-The top 100 of each rules · rated games	Mindkét szabályrendszer top 100-a · értékelt játszmák
+The top 100 of each rules	Mindkét szabályrendszer top 100-a
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	A(z) {ball} a kezdővonal mögött állt, és a fehér golyó úgy találta el, hogy előbb nem lépte át a vonalat
 What changes between the rules: click to read them	Mi a különbség a szabályok között: kattints az elolvasásukhoz
 With the cue ball in hand behind the head string.	Golyó kézben a kezdővonal mögött.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Csak a gyors mondatok (nincs szabad szöve
 Messages	Üzenetek
 World	Világ
 Friends ranking	Barátok ranglistája
-You and your friends · rated games	Te és a barátaid · pontszámított játszmák
+You and your friends	Te és a barátaid
 Add friends to see where you stand among them.	Adj hozzá barátokat, hogy lásd, hol állsz köztük.
 Chat and reactions	Chat és reakciók
 Mute the opponent's chat	Az ellenfél chatjének némítása
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Ezen a héten még sen
 Last week's winners	A múlt hét győztesei
 Doubles	Páros
 Doubles ranking	Páros ranglista
-Each player's doubles rating · rated doubles	Minden játékos páros pontszáma · pontszámos párosok
+Each player's doubles rating	Minden játékos páros pontszáma
 No rated doubles yet. Be the first pair!	Még nincs pontszámos páros. Legyetek az első pár!
 Clear the table in the least time	Tisztítsd le az asztalt a legrövidebb idő alatt
 Against the clock: {n} balls left	Időre: {n} golyó maradt

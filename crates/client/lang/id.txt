@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Aturan game ini: klik untuk membacany
 The rules of your games: click to switch	Aturan game kamu: klik untuk mengganti
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Sakelar yang sama dengan di menu utama: online, melawan komputer, dan dua pemain. Setiap aturan punya rating sendiri.
 The table as it lies.	Meja apa adanya.
-The top 100 of each rules · rated games	Top 100 tiap aturan · game ranked
+The top 100 of each rules	Top 100 tiap aturan
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	Bola sasaran ({ball}) berada di belakang garis kepala dan bola putih mengenainya tanpa melewati garis lebih dulu
 What changes between the rules: click to read them	Perbedaan antaraturan: klik untuk membacanya
 With the cue ball in hand behind the head string.	Dengan bola putih di tangan di belakang garis kepala.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Hanya frasa cepat (tanpa teks bebas)
 Messages	Pesan
 World	Dunia
 Friends ranking	Peringkat teman
-You and your friends · rated games	Kamu dan teman-temanmu · permainan berperingkat
+You and your friends	Kamu dan teman-temanmu
 Add friends to see where you stand among them.	Tambahkan teman untuk melihat posisimu di antara mereka.
 Chat and reactions	Obrolan dan reaksi
 Mute the opponent's chat	Bisukan obrolan lawan
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Belum ada yang members
 Last week's winners	Pemenang minggu lalu
 Doubles	Ganda
 Doubles ranking	Peringkat ganda
-Each player's doubles rating · rated doubles	Rating ganda setiap pemain · ganda berperingkat
+Each player's doubles rating	Rating ganda setiap pemain
 No rated doubles yet. Be the first pair!	Belum ada ganda berperingkat. Jadilah pasangan pertama!
 Clear the table in the least time	Bersihkan meja dalam waktu tersingkat
 Against the clock: {n} balls left	Melawan waktu: sisa {n} bola

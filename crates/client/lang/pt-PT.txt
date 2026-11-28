@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	As regras desta partida: clica para a
 The rules of your games: click to switch	As regras das tuas partidas: clica para mudar
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	O mesmo seletor do menu principal: online, contra o computador e dois jogadores. Cada conjunto de regras tem o seu rating.
 The table as it lies.	A mesa tal como está.
-The top 100 of each rules · rated games	Os 100 melhores de cada conjunto de regras · partidas com rating
+The top 100 of each rules	Os 100 melhores de cada conjunto de regras
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	A {ball} estava atrás da linha de cabeceira e a bola branca acertou-lhe sem atravessar primeiro a linha
 What changes between the rules: click to read them	O que muda entre as regras: clica para as leres
 With the cue ball in hand behind the head string.	Com a bola branca na mão atrás da linha de cabeceira.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Só as frases rápidas (sem texto livre)
 Messages	Mensagens
 World	Mundo
 Friends ranking	Ranking dos amigos
-You and your friends · rated games	Tu e os teus amigos · jogos a contar para o rating
+You and your friends	Tu e os teus amigos
 Add friends to see where you stand among them.	Adiciona amigos para veres a tua posição entre eles.
 Chat and reactions	Chat e reações
 Mute the opponent's chat	Silenciar o chat do adversário
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Ainda ninguém limpou 
 Last week's winners	Vencedores da semana passada
 Doubles	Duplas
 Doubles ranking	Classificação de duplas
-Each player's doubles rating · rated doubles	A classificação de duplas de cada jogador · duplas a contar
+Each player's doubles rating	A classificação de duplas de cada jogador
 No rated doubles yet. Be the first pair!	Ainda não há duplas a contar. Sê o primeiro par!
 Clear the table in the least time	Limpa a mesa no menor tempo
 Against the clock: {n} balls left	Contra o relógio: {n} bolas restantes

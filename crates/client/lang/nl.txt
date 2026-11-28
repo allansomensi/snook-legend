@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	De regels van deze partij: klik om ze
 The rules of your games: click to switch	De regels van je partijen: klik om te wisselen
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	De schakelaar in het hoofdmenu: online, tegen de computer en twee spelers. Elke regelset heeft een eigen rating.
 The table as it lies.	De tafel zoals hij ligt.
-The top 100 of each rules · rated games	De top 100 van elke regelset · ratingpartijen
+The top 100 of each rules	De top 100 van elke regelset
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	De {ball} lag achter de afstootlijn en de speelbal raakte hem zonder eerst de lijn over te gaan
 What changes between the rules: click to read them	Wat er verschilt tussen de regels: klik om ze te lezen
 With the cue ball in hand behind the head string.	Met de speelbal in de hand achter de afstootlijn.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Alleen de snelle zinnen (geen vrije tekst)
 Messages	Berichten
 World	Wereld
 Friends ranking	Ranglijst van vrienden
-You and your friends · rated games	Jij en je vrienden · partijen voor de rating
+You and your friends	Jij en je vrienden
 Add friends to see where you stand among them.	Voeg vrienden toe om te zien waar je tussen hen staat.
 Chat and reactions	Chat en reacties
 Mute the opponent's chat	Chat van de tegenstander dempen
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Niemand heeft deze wee
 Last week's winners	Winnaars van vorige week
 Doubles	Dubbel
 Doubles ranking	Dubbelranglijst
-Each player's doubles rating · rated doubles	De dubbelrating van elke speler · dubbels met rating
+Each player's doubles rating	De dubbelrating van elke speler
 No rated doubles yet. Be the first pair!	Nog geen dubbels met rating. Wees het eerste duo!
 Clear the table in the least time	Speel de tafel in de kortste tijd leeg
 Against the clock: {n} balls left	Tegen de klok: nog {n} ballen

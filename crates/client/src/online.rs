@@ -218,6 +218,8 @@ pub struct Online {
     chat_scroll: usize,
     /// The world ranking of each of the rules, and whether it came.
     pub leaderboard: PerRules<Vec<LeaderboardEntry>>,
+    /// A country's ranking, as last asked for: (rules, country, its top 100).
+    pub country_board: Option<(Rules, String, Vec<LeaderboardEntry>)>,
     pub leaderboard_loaded: PerRules<bool>,
     /// The rules the player plays (the game's choice, see
     /// [`Config::rules`]): the server is told when it changes.
@@ -761,6 +763,7 @@ impl Online {
             chat_input: crate::dev::var("SNOOK_LEGEND_CHAT_DRAFT").unwrap_or_default(),
             chat_scroll: 0,
             leaderboard: PerRules::default(),
+            country_board: None,
             leaderboard_loaded: PerRules::default(),
             rules: Rules::default(),
             rules_sent: None,
@@ -966,7 +969,13 @@ impl Online {
 
     pub fn request_leaderboard(&mut self, rules: Rules) {
         self.connect();
-        self.send(ClientMsg::Leaderboard { rules });
+        self.send(ClientMsg::Leaderboard { rules, country: String::new() });
+    }
+
+    /// Asks for the ranking of `country`'s players under `rules`.
+    pub fn request_country_leaderboard(&mut self, rules: Rules, country: &str) {
+        self.connect();
+        self.send(ClientMsg::Leaderboard { rules, country: country.to_string() });
     }
 
     /// Players online who play `rules` (this one included).
@@ -1397,7 +1406,7 @@ impl Online {
                     config.token_server = self.server.clone();
                     save = true;
                     self.send(ClientMsg::Friends);
-                    self.send(ClientMsg::Leaderboard { rules: self.rules });
+                    self.send(ClientMsg::Leaderboard { rules: self.rules, country: String::new() });
                     // The wallet: what the account owns (the tour's reward
                     // among it: see ladder::Progress::restore_from_reward).
                     self.send(ClientMsg::Shop);
@@ -1685,9 +1694,12 @@ impl Online {
                     self.selected_tournament = None;
                 }
             }
-            ServerMsg::Leaderboard { rules, entries } => {
+            ServerMsg::Leaderboard { rules, entries, country } if country.is_empty() => {
                 *self.leaderboard.get_mut(rules) = entries;
                 *self.leaderboard_loaded.get_mut(rules) = true;
+            }
+            ServerMsg::Leaderboard { rules, entries, country } => {
+                self.country_board = Some((rules, country.to_ascii_uppercase(), entries));
             }
             ServerMsg::Profile { profile } => self.profile = Some(*profile),
             ServerMsg::Friends { friends, incoming, outgoing, blocked } => {

@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	กติกา​ของ​เก�
 The rules of your games: click to switch	กติกา​ของ​เกม​คุณ: คลิก​เพื่อ​เปลี่ยน
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	ปุ่ม​สลับ​ที่​เมนูหลัก: ออนไลน์ เล่น​กับ​คอมพิวเตอร์ และ​สอง​ผู้เล่น กติกา​แต่ละ​แบบ​มี​เรตติ้ง​ของ​ตัวเอง
 The table as it lies.	เล่น​ต่อตาม​ตำแหน่ง​ลูก​ที่​เป็นอยู่
-The top 100 of each rules · rated games	100 อันดับ​แรก​ของ​แต่ละ​กติกา · เกม​จัดอันดับ
+The top 100 of each rules	100 อันดับ​แรก​ของ​แต่ละ​กติกา
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} อยู่​หลัง​เส้นหัวโต๊ะ และ​ลูกขาว​ชน​โดย​ไม่​ข้าม​เส้น​ก่อน
 What changes between the rules: click to read them	สิ่ง​ที่​ต่างกัน​ระหว่าง​กติกา: คลิก​เพื่อ​อ่าน
 With the cue ball in hand behind the head string.	ได้​ลูกขาว​ใน​มือ​หลัง​เส้นหัวโต๊ะ
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	เฉพาะวลีด่วน (พ�
 Messages	ข้อความ
 World	ทั่วโลก
 Friends ranking	อันดับเพื่อน
-You and your friends · rated games	คุณและเพื่อน · เกมจัดอันดับ
+You and your friends	คุณและเพื่อน
 Add friends to see where you stand among them.	เพิ่มเพื่อนเพื่อดูว่าคุณอยู่อันดับไหนในหมู่พวกเขา
 Chat and reactions	แชตและรีแอ็กชัน
 Mute the opponent's chat	ปิดเสียงแชตของคู่แข่ง
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	ยังไม่ม�
 Last week's winners	ผู้ชนะสัปดาห์ที่แล้ว
 Doubles	ประเภทคู่
 Doubles ranking	อันดับประเภทคู่
-Each player's doubles rating · rated doubles	เรตติ้งประเภทคู่ของผู้เล่นแต่ละคน · เกมคู่ที่นับเรตติ้ง
+Each player's doubles rating	เรตติ้งประเภทคู่ของผู้เล่นแต่ละคน
 No rated doubles yet. Be the first pair!	ยังไม่มีเกมคู่ที่นับเรตติ้ง มาเป็นคู่แรกเลย!
 Clear the table in the least time	เคลียร์โต๊ะในเวลาที่สั้นที่สุด
 Against the clock: {n} balls left	แข่งกับเวลา: เหลือ {n} ลูก

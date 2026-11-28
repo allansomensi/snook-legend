@@ -385,17 +385,32 @@ async fn full_rated_match_updates_ratings_profile_and_leaderboard() {
     )
     .await;
 
-    alice.send(ClientMsg::Leaderboard { rules: Rules::Brazilian }).await;
-    let ServerMsg::Leaderboard { rules, entries } =
+    alice.send(ClientMsg::Leaderboard { rules: Rules::Brazilian, country: String::new() }).await;
+    let ServerMsg::Leaderboard { rules, entries, country } =
         alice.expect("leaderboard", |m| matches!(m, ServerMsg::Leaderboard { .. })).await
     else {
         unreachable!()
     };
-    assert_eq!(rules, Rules::Brazilian);
+    assert_eq!((rules, country.as_str()), (Rules::Brazilian, ""));
     assert_eq!(entries.len(), 2);
     assert!(entries[0].rating > entries[1].rating);
     assert_eq!(entries[0].wins, 1);
     assert_eq!(entries[0].country, "BR");
+    // A country's ranking: its players only (any case), said which it is.
+    for (asked, players) in [("br", 2), ("PT", 0), ("not a country", 0)] {
+        alice.send(ClientMsg::Leaderboard { rules: Rules::Brazilian, country: asked.into() }).await;
+        let ServerMsg::Leaderboard { entries, country, .. } = alice
+            .expect(
+                "country",
+                |m| matches!(m, ServerMsg::Leaderboard { country, .. } if country == asked),
+            )
+            .await
+        else {
+            unreachable!()
+        };
+        assert_eq!(entries.len(), players, "{country}");
+        assert!(entries.iter().enumerate().all(|(k, e)| e.rank == k as u32 + 1));
+    }
 
     alice.send(ClientMsg::Profile { username: "BOB".into() }).await;
     let ServerMsg::Profile { profile } =
@@ -2628,8 +2643,8 @@ async fn a_rated_official_game_counts_under_the_official_rules_only() {
     assert!(result.rated);
     let winner = if result.winner == sa { "alice" } else { "bob" };
     for rules in Rules::ALL {
-        alice.send(ClientMsg::Leaderboard { rules }).await;
-        let ServerMsg::Leaderboard { rules: shown, entries } =
+        alice.send(ClientMsg::Leaderboard { rules, country: String::new() }).await;
+        let ServerMsg::Leaderboard { rules: shown, entries, .. } =
             alice.expect("leaderboard", |m| matches!(m, ServerMsg::Leaderboard { .. })).await
         else {
             unreachable!()

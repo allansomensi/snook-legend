@@ -1004,6 +1004,27 @@ impl MemoryStore {
         limit: u32,
         now: i64,
     ) -> StoreResult<Vec<LeaderboardEntry>> {
+        self.ranking(rules, None, limit, now)
+    }
+
+    pub fn country_leaderboard(
+        &self,
+        rules: Rules,
+        country: &str,
+        limit: u32,
+        now: i64,
+    ) -> StoreResult<Vec<LeaderboardEntry>> {
+        self.ranking(rules, Some(country), limit, now)
+    }
+
+    /// The world's ranking, or a country's.
+    fn ranking(
+        &self,
+        rules: Rules,
+        country: Option<&str>,
+        limit: u32,
+        now: i64,
+    ) -> StoreResult<Vec<LeaderboardEntry>> {
         let s = self.lock();
         let rec = |u: &User| *u.records.get(rules);
         // Banned players are left out while the ban lasts.
@@ -1011,6 +1032,7 @@ impl MemoryStore {
             .users
             .values()
             .filter(|u| rec(u).games > 0 && !u.is_banned(now) && u.deleted_at.is_none())
+            .filter(|u| country.is_none_or(|c| u.country.eq_ignore_ascii_case(c)))
             .collect();
         users.sort_by(|a, b| {
             let (ra, rb) = (rec(a), rec(b));

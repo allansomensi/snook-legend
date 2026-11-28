@@ -79,6 +79,7 @@ SCREENS = {
     "dm": (["--screen", "dm:Bruno"], {"SNOOK_LEGEND_OPEN": "dm:Bruno"}, True, 220),
     "ranking": (["--screen", "ranking"], {}, True, 200),
     "ranking-friends": (["--screen", "ranking-friends"], {}, True, 200),
+    "ranking-country": (["--screen", "ranking-country"], {}, True, 200),
     "ranking-doubles": (["--screen", "ranking-doubles"], {}, True, 200),
     "profile-games": (["--screen", "profile:Ana"], {}, True, 200),
     # Another player's profile: what can be done with them (a message too).

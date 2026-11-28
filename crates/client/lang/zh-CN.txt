@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	本局规则：点击查看
 The rules of your games: click to switch	你的对局规则：点击切换
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	与主菜单中的切换相同：适用于在线、人机和双人对战。每种规则都有独立的积分。
 The table as it lies.	按现有球局继续。
-The top 100 of each rules · rated games	每种规则的前100名 · 积分赛
+The top 100 of each rules	每种规则的前100名
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball}位于开球线后，母球未先越过开球线就击中了它
 What changes between the rules: click to read them	规则之间的区别：点击查看
 With the cue ball in hand behind the head string.	在开球线后获得自由球。
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	仅限快捷短语（不能自由输入）
 Messages	消息
 World	全球
 Friends ranking	好友排行
-You and your friends · rated games	你和你的好友 · 排位对局
+You and your friends	你和你的好友
 Add friends to see where you stand among them.	添加好友，看看你在他们之中的排名。
 Chat and reactions	聊天与互动表情
 Mute the opponent's chat	屏蔽对手的聊天
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	本周还没有人清�
 Last week's winners	上周获胜者
 Doubles	双打
 Doubles ranking	双打排行榜
-Each player's doubles rating · rated doubles	每位玩家的双打积分 · 计分双打
+Each player's doubles rating	每位玩家的双打积分
 No rated doubles yet. Be the first pair!	还没有计分双打。来当第一对搭档吧！
 Clear the table in the least time	用最短的时间清台
 Against the clock: {n} balls left	计时挑战：剩余 {n} 球

@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	এই গেমের নিয়�
 The rules of your games: click to switch	আপনার গেমের নিয়ম: বদলাতে ক্লিক করুন
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	মূল মেনুর সেই একই সুইচ: অনলাইন, কম্পিউটারের বিরুদ্ধে আর দুজন খেলোয়াড়। প্রতিটি নিয়মের নিজস্ব রেটিং আছে।
 The table as it lies.	টেবিল যেমন আছে।
-The top 100 of each rules · rated games	প্রতিটি নিয়মের সেরা 100 · রেটেড গেম
+The top 100 of each rules	প্রতিটি নিয়মের সেরা 100
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} হেড স্ট্রিংয়ের পেছনে ছিল এবং কিউ বল আগে লাইন পার না হয়েই সেটিতে লেগেছে
 What changes between the rules: click to read them	দুই নিয়মে কী কী আলাদা: পড়তে ক্লিক করুন
 With the cue ball in hand behind the head string.	হেড স্ট্রিংয়ের পেছনে হাতে কিউ বল নিয়ে।
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	শুধু দ্রুত বাক্�
 Messages	বার্তা
 World	বিশ্ব
 Friends ranking	বন্ধুদের র‍্যাঙ্কিং
-You and your friends · rated games	আপনি ও আপনার বন্ধুরা · রেটেড খেলা
+You and your friends	আপনি ও আপনার বন্ধুরা
 Add friends to see where you stand among them.	বন্ধু যোগ করুন, দেখুন তাদের মধ্যে আপনি কোথায়।
 Chat and reactions	চ্যাট ও প্রতিক্রিয়া
 Mute the opponent's chat	প্রতিপক্ষের চ্যাট মিউট করুন
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	এই সপ্তা
 Last week's winners	গত সপ্তাহের বিজয়ীরা
 Doubles	ডাবলস
 Doubles ranking	ডাবলস র‍্যাঙ্কিং
-Each player's doubles rating · rated doubles	প্রত্যেক খেলোয়াড়ের ডাবলস রেটিং · রেটেড ডাবলস
+Each player's doubles rating	প্রত্যেক খেলোয়াড়ের ডাবলস রেটিং
 No rated doubles yet. Be the first pair!	এখনো কোনো রেটেড ডাবলস হয়নি। প্রথম জুটি হোন!
 Clear the table in the least time	সবচেয়ে কম সময়ে টেবিল পরিষ্কার করুন
 Against the clock: {n} balls left	ঘড়ির বিপক্ষে: {n}টি বল বাকি

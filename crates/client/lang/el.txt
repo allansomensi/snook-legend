@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Οι κανόνες αυτής της
 The rules of your games: click to switch	Οι κανόνες των παρτίδων σου: κλικ για αλλαγή
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Ο διακόπτης του κύριου μενού: online, με τον υπολογιστή και δύο παίκτες. Κάθε σύνολο κανόνων έχει δική του βαθμολογία.
 The table as it lies.	Το τραπέζι όπως είναι.
-The top 100 of each rules · rated games	Οι 100 κορυφαίοι σε κάθε σύνολο κανόνων · βαθμολογημένες παρτίδες
+The top 100 of each rules	Οι 100 κορυφαίοι σε κάθε σύνολο κανόνων
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	Η {ball} ήταν πίσω από τη γραμμή κεφαλής και η λευκή τη χτύπησε χωρίς να περάσει πρώτα τη γραμμή
 What changes between the rules: click to read them	Τι αλλάζει μεταξύ των κανόνων: κλικ για να τους διαβάσεις
 With the cue ball in hand behind the head string.	Με τη λευκή στο χέρι πίσω από τη γραμμή κεφαλής.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Μόνο οι γρήγορες φράσε�
 Messages	Μηνύματα
 World	Κόσμος
 Friends ranking	Κατάταξη φίλων
-You and your friends · rated games	Εσείς και οι φίλοι σας · βαθμολογούμενες παρτίδες
+You and your friends	Εσείς και οι φίλοι σας
 Add friends to see where you stand among them.	Προσθέστε φίλους για να δείτε πού βρίσκεστε ανάμεσά τους.
 Chat and reactions	Συνομιλία και αντιδράσεις
 Mute the opponent's chat	Σίγαση της συνομιλίας του αντιπάλου
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Κανείς δεν έ
 Last week's winners	Οι νικητές της προηγούμενης εβδομάδας
 Doubles	Διπλό
 Doubles ranking	Κατάταξη διπλού
-Each player's doubles rating · rated doubles	Η βαθμολογία διπλού κάθε παίκτη · βαθμολογούμενα διπλά
+Each player's doubles rating	Η βαθμολογία διπλού κάθε παίκτη
 No rated doubles yet. Be the first pair!	Δεν υπάρχουν ακόμα βαθμολογούμενα διπλά. Γίνετε το πρώτο ζευγάρι!
 Clear the table in the least time	Καθάρισε το τραπέζι στον λιγότερο χρόνο
 Against the clock: {n} balls left	Κόντρα στο ρολόι: απομένουν {n} μπάλες

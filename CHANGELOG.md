@@ -8,6 +8,15 @@
 - The result of an online game: no "watch the deciding shot again" button
   under Report (put the result away with its "–", or press R).
 
+### Ranking
+- **A country's ranking**: World, **Country**, Friends and Doubles. The
+  country is the flag on the player's profile; without one, the ranking
+  offers to choose it there and then. (`ClientMsg::Leaderboard` and its
+  answer carry an optional `country`: a server before this version sends
+  the world's, and says so.)
+- Cleaner: the subtitles without "rated games", and the rules' tabs
+  without how many play each now.
+
 ### Main menu, shop, achievements
 - The main menu's row shows no hints: each button says what it is.
 - VIP's page: "Gift a friend" in place of "Give a month to a friend".

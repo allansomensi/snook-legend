@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Правила этой партии:
 The rules of your games: click to switch	Правила ваших партий: нажмите, чтобы сменить
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Тот же переключатель, что в главном меню: онлайн, против компьютера и на двоих. У каждых правил свой рейтинг.
 The table as it lies.	Стол как есть.
-The top 100 of each rules · rated games	Топ-100 по каждым правилам · рейтинговые партии
+The top 100 of each rules	Топ-100 по каждым правилам
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	Биток попал в {ball} в доме, не выйдя сначала за линию дома
 What changes between the rules: click to read them	Чем отличаются правила: нажмите, чтобы прочитать
 With the cue ball in hand behind the head string.	Биток с руки из дома.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Только быстрые фразы (б
 Messages	Сообщения
 World	Мир
 Friends ranking	Рейтинг друзей
-You and your friends · rated games	Вы и ваши друзья · рейтинговые партии
+You and your friends	Вы и ваши друзья
 Add friends to see where you stand among them.	Добавьте друзей, чтобы увидеть своё место среди них.
 Chat and reactions	Чат и реакции
 Mute the opponent's chat	Заглушить чат соперника
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	На этой неде
 Last week's winners	Победители прошлой недели
 Doubles	Пары
 Doubles ranking	Рейтинг пар
-Each player's doubles rating · rated doubles	Парный рейтинг каждого игрока · рейтинговые парные игры
+Each player's doubles rating	Парный рейтинг каждого игрока
 No rated doubles yet. Be the first pair!	Рейтинговых парных игр ещё нет. Станьте первой парой!
 Clear the table in the least time	Очистите стол за наименьшее время
 Against the clock: {n} balls left	На время: осталось шаров: {n}

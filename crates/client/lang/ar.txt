@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	قواعد هذه المباراة: �
 The rules of your games: click to switch	قواعد مبارياتك: انقر للتبديل
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	المفتاح نفسه في القائمة الرئيسية: عبر الإنترنت، وضد الكمبيوتر، ولاعبان. لكل نوع من القواعد تصنيفه الخاص.
 The table as it lies.	الطاولة كما هي.
-The top 100 of each rules · rated games	أفضل 100 في كل نوع من القواعد · مباريات مصنفة
+The top 100 of each rules	أفضل 100 في كل نوع من القواعد
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	كانت {ball} خلف خط الرأس ولمستها الكرة البيضاء دون أن تعبر الخط أولا
 What changes between the rules: click to read them	ما الذي يختلف بين القواعد: انقر لقراءتها
 With the cue ball in hand behind the head string.	مع الكرة البيضاء في اليد خلف خط الرأس.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	العبارات السريعة فقط (د
 Messages	الرسائل
 World	العالم
 Friends ranking	تصنيف الأصدقاء
-You and your friends · rated games	أنت وأصدقاؤك · مباريات مصنّفة
+You and your friends	أنت وأصدقاؤك
 Add friends to see where you stand among them.	أضف أصدقاء لترى ترتيبك بينهم.
 Chat and reactions	الدردشة وردود الفعل
 Mute the opponent's chat	كتم دردشة الخصم
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	لم ينظّف أحد
 Last week's winners	فائزو الأسبوع الماضي
 Doubles	زوجي
 Doubles ranking	تصنيف الزوجي
-Each player's doubles rating · rated doubles	تصنيف الزوجي لكل لاعب · مباريات زوجي مصنّفة
+Each player's doubles rating	تصنيف الزوجي لكل لاعب
 No rated doubles yet. Be the first pair!	لا توجد مباريات زوجي مصنّفة بعد. كونوا أول ثنائي!
 Clear the table in the least time	نظّف الطاولة في أقل وقت
 Against the clock: {n} balls left	ضد الساعة: بقي {n} كرات

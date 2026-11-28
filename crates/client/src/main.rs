@@ -490,7 +490,7 @@ async fn main() {
             shop.show_tab(tab);
             screen = Screen::Shop;
         }
-        Some(board @ ("ranking" | "ranking-friends" | "ranking-doubles")) => {
+        Some(board @ ("ranking" | "ranking-friends" | "ranking-doubles" | "ranking-country")) => {
             ranking.dev(board);
             ranking.open(&mut online);
             screen = Screen::Ranking;

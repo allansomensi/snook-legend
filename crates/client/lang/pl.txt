@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Zasady tej partii: kliknij, aby je pr
 The rules of your games: click to switch	Zasady twoich partii: kliknij, aby je zmienić
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Ten sam przełącznik co w menu głównym: online, z komputerem i dwóch graczy. Każdy zestaw zasad ma własny ranking.
 The table as it lies.	Stół tak, jak stoi.
-The top 100 of each rules · rated games	Top 100 dla każdego zestawu zasad · partie rankingowe
+The top 100 of each rules	Top 100 dla każdego zestawu zasad
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	Za linią startową leżała {ball}, a biała trafiła ją, nie przekraczając najpierw linii
 What changes between the rules: click to read them	Co się różni między zasadami: kliknij, aby przeczytać
 With the cue ball in hand behind the head string.	Z białą z ręki za linią startową.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Tylko szybkie frazy (bez dowolnego tekstu)
 Messages	Wiadomości
 World	Świat
 Friends ranking	Ranking znajomych
-You and your friends · rated games	Ty i twoi znajomi · partie rankingowe
+You and your friends	Ty i twoi znajomi
 Add friends to see where you stand among them.	Dodaj znajomych, aby zobaczyć swoje miejsce wśród nich.
 Chat and reactions	Czat i reakcje
 Mute the opponent's chat	Wycisz czat przeciwnika
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Nikt jeszcze nie wyczy
 Last week's winners	Zwycięzcy zeszłego tygodnia
 Doubles	Debel
 Doubles ranking	Ranking debla
-Each player's doubles rating · rated doubles	Ranking deblowy każdego gracza · debel rankingowy
+Each player's doubles rating	Ranking deblowy każdego gracza
 No rated doubles yet. Be the first pair!	Jeszcze nie było rankingowego debla. Bądźcie pierwszą parą!
 Clear the table in the least time	Wyczyść stół w najkrótszym czasie
 Against the clock: {n} balls left	Na czas: zostało bil: {n}

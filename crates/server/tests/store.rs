@@ -174,6 +174,11 @@ async fn exercise(store: Store) {
     assert_eq!(lb[0].username, "Alice");
     assert_eq!(lb[0].country, "BR");
     assert!(!lb[0].vip);
+    // A country's ranking: its players only, in any case, numbered from 1.
+    let br = store.country_leaderboard(Rules::Brazilian, "br", 10, t).await.unwrap();
+    assert_eq!((br[0].username.as_str(), br[0].rank), ("Alice", 1));
+    assert!(br.iter().all(|e| e.country == "BR"));
+    assert!(store.country_leaderboard(Rules::Brazilian, "ZZ", 10, t).await.unwrap().is_empty());
     assert_eq!(store.rank_of(b.id, Rules::Brazilian).await.unwrap(), Some(2));
     // Nobody has played under the official rules yet.
     assert!(store.leaderboard(Rules::Official, 10, t).await.unwrap().is_empty());

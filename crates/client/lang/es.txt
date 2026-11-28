@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	La regla de esta partida: haz clic pa
 The rules of your games: click to switch	La regla de tus partidas: haz clic para cambiarla
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	El mismo selector del menú principal: en línea, contra la computadora y dos jugadores. Cada regla tiene su rating.
 The table as it lies.	La mesa como está.
-The top 100 of each rules · rated games	Los 100 mejores de cada regla · partidas con rating
+The top 100 of each rules	Los 100 mejores de cada regla
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	La {ball} estaba detrás de la línea de cabecera y la blanca la tocó sin cruzar antes la línea
 What changes between the rules: click to read them	Qué cambia entre las reglas: haz clic para leerlas
 With the cue ball in hand behind the head string.	Con la blanca en mano detrás de la línea de cabecera.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Solo las frases rápidas (sin texto libre)
 Messages	Mensajes
 World	Mundo
 Friends ranking	Ranking de amigos
-You and your friends · rated games	Tú y tus amigos · partidas con rating
+You and your friends	Tú y tus amigos
 Add friends to see where you stand among them.	Agrega amigos para ver tu posición entre ellos.
 Chat and reactions	Chat y reacciones
 Mute the opponent's chat	Silenciar el chat del rival
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Nadie ha limpiado la m
 Last week's winners	Ganadores de la semana pasada
 Doubles	Dobles
 Doubles ranking	Clasificación de dobles
-Each player's doubles rating · rated doubles	El rating de dobles de cada jugador · dobles con rating
+Each player's doubles rating	El rating de dobles de cada jugador
 No rated doubles yet. Be the first pair!	Todavía no hay dobles con rating. ¡Sed la primera pareja!
 Clear the table in the least time	Limpia la mesa en el menor tiempo
 Against the clock: {n} balls left	Contrarreloj: quedan {n} bolas

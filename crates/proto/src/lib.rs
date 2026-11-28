@@ -1445,9 +1445,13 @@ pub enum ClientMsg {
     Rematch,
     /// Go back to the lounge after a match ends.
     LeaveMatch,
-    /// The world ranking of these rules.
+    /// The world ranking of these rules; with `country` (an ISO 3166-1
+    /// alpha-2 code), that country's players only. (A server before 0.13
+    /// ignores the country and sends the world's: the answer says which.)
     Leaderboard {
         rules: Rules,
+        #[serde(default, skip_serializing_if = "String::is_empty")]
+        country: String,
     },
     /// The rules this player plays now (their choice in the game): shown to
     /// the others in the lounge, and counted in the numbers of players
@@ -2130,9 +2134,12 @@ pub enum ServerMsg {
     RematchOffered,
     /// The opponent left after the game; the match room is closed.
     OpponentLeft,
+    /// A ranking of these rules: the world's, or `country`'s.
     Leaderboard {
         rules: Rules,
         entries: Vec<LeaderboardEntry>,
+        #[serde(default, skip_serializing_if = "String::is_empty")]
+        country: String,
     },
     Profile {
         profile: Box<Profile>,

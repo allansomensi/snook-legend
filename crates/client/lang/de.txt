@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Die Regeln dieser Partie: Zum Lesen k
 The rules of your games: click to switch	Die Regeln deiner Partien: Zum Wechseln klicken
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Der Schalter im Hauptmenü: online, gegen den Computer und zu zweit. Jedes Regelwerk hat seine eigene Wertung.
 The table as it lies.	Den Tisch spielen, wie er liegt.
-The top 100 of each rules · rated games	Die Top 100 jedes Regelwerks · gewertete Partien
+The top 100 of each rules	Die Top 100 jedes Regelwerks
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	Die {ball} lag hinter der Kopflinie, und der Spielball hat sie getroffen, ohne vorher die Linie zu überqueren
 What changes between the rules: click to read them	Was sich zwischen den Regelwerken ändert: Zum Lesen klicken
 With the cue ball in hand behind the head string.	Mit Ball in Hand hinter der Kopflinie.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Nur die Schnellsätze (kein freier Text)
 Messages	Nachrichten
 World	Welt
 Friends ranking	Freundesrangliste
-You and your friends · rated games	Du und deine Freunde · gewertete Partien
+You and your friends	Du und deine Freunde
 Add friends to see where you stand among them.	Füge Freunde hinzu, um zu sehen, wo du unter ihnen stehst.
 Chat and reactions	Chat und Reaktionen
 Mute the opponent's chat	Chat des Gegners stummschalten
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Diese Woche hat noch n
 Last week's winners	Gewinner der letzten Woche
 Doubles	Doppel
 Doubles ranking	Doppel-Rangliste
-Each player's doubles rating · rated doubles	Die Doppelwertung jedes Spielers · gewertete Doppel
+Each player's doubles rating	Die Doppelwertung jedes Spielers
 No rated doubles yet. Be the first pair!	Noch keine gewerteten Doppel. Seid das erste Paar!
 Clear the table in the least time	Räume den Tisch in kürzester Zeit ab
 Against the clock: {n} balls left	Gegen die Uhr: noch {n} Kugeln

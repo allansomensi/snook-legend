@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Pravidla této hry: kliknutím si je 
 The rules of your games: click to switch	Pravidla tvých her: kliknutím je změníš
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Stejný přepínač jako v hlavním menu: online, proti počítači a dva hráči. Každá pravidla mají vlastní rating.
 The table as it lies.	Stůl, jak leží.
-The top 100 of each rules · rated games	Top 100 pro každá pravidla · hodnocené hry
+The top 100 of each rules	Top 100 pro každá pravidla
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} ležela za čárou rozstřelu a bílá ji trefila, aniž by nejdřív přejela čáru
 What changes between the rules: click to read them	Co se mezi pravidly mění: kliknutím si je přečteš
 With the cue ball in hand behind the head string.	S bílou v ruce za čárou rozstřelu.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Jen rychlé fráze (žádný volný text)
 Messages	Zprávy
 World	Svět
 Friends ranking	Žebříček přátel
-You and your friends · rated games	Ty a tví přátelé · hodnocené partie
+You and your friends	Ty a tví přátelé
 Add friends to see where you stand among them.	Přidej si přátele a uvidíš, kde mezi nimi stojíš.
 Chat and reactions	Chat a reakce
 Mute the opponent's chat	Ztlumit chat soupeře
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Tento týden ještě n
 Last week's winners	Vítězové minulého týdne
 Doubles	Čtyřhra
 Doubles ranking	Žebříček čtyřhry
-Each player's doubles rating · rated doubles	Hodnocení čtyřhry každého hráče · hodnocená čtyřhra
+Each player's doubles rating	Hodnocení čtyřhry každého hráče
 No rated doubles yet. Be the first pair!	Zatím žádná hodnocená čtyřhra. Buďte první dvojicí!
 Clear the table in the least time	Vyčisti stůl v nejkratším čase
 Against the clock: {n} balls left	Na čas: zbývá koulí: {n}

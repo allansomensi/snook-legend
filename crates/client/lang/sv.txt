@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Reglerna för det här partiet: klick
 The rules of your games: click to switch	Reglerna för dina partier: klicka för att byta
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Samma val som i huvudmenyn: online, mot datorn och två spelare. Varje regelvariant har sin egen rating.
 The table as it lies.	Bordet som det ligger.
-The top 100 of each rules · rated games	Topp 100 för varje regelvariant · rankade partier
+The top 100 of each rules	Topp 100 för varje regelvariant
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} låg bakom huvudlinjen och vita bollen träffade den utan att först passera linjen
 What changes between the rules: click to read them	Vad som skiljer reglerna: klicka för att läsa dem
 With the cue ball in hand behind the head string.	Med vita bollen i hand bakom huvudlinjen.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Bara snabbfraserna (ingen fri text)
 Messages	Meddelanden
 World	Världen
 Friends ranking	Vänrankning
-You and your friends · rated games	Du och dina vänner · rankade partier
+You and your friends	Du och dina vänner
 Add friends to see where you stand among them.	Lägg till vänner för att se var du står bland dem.
 Chat and reactions	Chatt och reaktioner
 Mute the opponent's chat	Tysta motståndarens chatt
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Ingen har rensat borde
 Last week's winners	Förra veckans vinnare
 Doubles	Dubbel
 Doubles ranking	Dubbelranking
-Each player's doubles rating · rated doubles	Varje spelares dubbelrating · rankade dubblar
+Each player's doubles rating	Varje spelares dubbelrating
 No rated doubles yet. Be the first pair!	Inga rankade dubblar än. Bli det första paret!
 Clear the table in the least time	Rensa bordet på kortast tid
 Against the clock: {n} balls left	Mot klockan: {n} bollar kvar

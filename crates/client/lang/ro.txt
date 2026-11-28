@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Regulile acestei partide: dă clic ca
 The rules of your games: click to switch	Regulile partidelor tale: dă clic ca să le schimbi
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Același comutator ca în meniul principal: online, contra computerului și doi jucători. Fiecare set de reguli are ratingul lui.
 The table as it lies.	Masa așa cum e.
-The top 100 of each rules · rated games	Top 100 pentru fiecare set de reguli · partide cu rating
+The top 100 of each rules	Top 100 pentru fiecare set de reguli
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} era în spatele liniei de start, iar bila albă a atins-o fără să treacă întâi linia
 What changes between the rules: click to read them	Ce se schimbă între reguli: dă clic ca să le citești
 With the cue ball in hand behind the head string.	Cu bila albă în mână în spatele liniei de start.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Doar frazele rapide (fără text liber)
 Messages	Mesaje
 World	Lume
 Friends ranking	Clasamentul prietenilor
-You and your friends · rated games	Tu și prietenii tăi · partide cu rating
+You and your friends	Tu și prietenii tăi
 Add friends to see where you stand among them.	Adaugă prieteni ca să vezi unde te afli printre ei.
 Chat and reactions	Chat și reacții
 Mute the opponent's chat	Dezactivează chatul adversarului
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Nimeni n-a curățat m
 Last week's winners	Câștigătorii săptămânii trecute
 Doubles	Dublu
 Doubles ranking	Clasament la dublu
-Each player's doubles rating · rated doubles	Ratingul de dublu al fiecărui jucător · dubluri cu rating
+Each player's doubles rating	Ratingul de dublu al fiecărui jucător
 No rated doubles yet. Be the first pair!	Încă niciun dublu cu rating. Fiți prima pereche!
 Clear the table in the least time	Curăță masa în cel mai scurt timp
 Against the clock: {n} balls left	Contra cronometru: {n} bile rămase

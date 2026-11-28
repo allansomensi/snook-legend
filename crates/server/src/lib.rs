@@ -298,6 +298,9 @@ pub struct Server {
     hashing: Semaphore,
     /// The world ranking of each of the rules, with when it was read.
     leaderboard: Mutex<PerRules<Option<CachedBoard>>>,
+    /// The countries' rankings asked for lately (by rules and country), each
+    /// read again at most every 15 seconds; a few dozen kept.
+    country_boards: Mutex<std::collections::HashMap<(Rules, String), CachedBoard>>,
     /// The doubles ranking of each of the rules, the same way.
     doubles_leaderboard: Mutex<PerRules<Option<CachedBoard>>>,
     /// Requests to the public API (`/api/players`…) per address: each one is
@@ -410,6 +413,7 @@ impl Server {
             started: Instant::now(),
             hashing: Semaphore::new(2),
             leaderboard: Mutex::new(PerRules::default()),
+            country_boards: Mutex::new(std::collections::HashMap::new()),
             doubles_leaderboard: Mutex::new(PerRules::default()),
             api_limits: Mutex::new(Buckets::new(public_api::BURST, public_api::PER_SEC)),
             connections: Mutex::new(HashMap::new()),
@@ -511,6 +515,44 @@ impl Server {
         .await
     }
 
+    /// The top 100 of `country`'s players under `rules` (an ISO 3166-1
+    /// alpha-2 code; anything else is no country, and no one), read again
+    /// at most every 15 seconds; an empty `country` is the world's.
+    pub async fn ranking_of(&self, rules: Rules, country: &str) -> Vec<LeaderboardEntry> {
+        if country.is_empty() {
+            return self.leaderboard(rules).await;
+        }
+        if country.len() != 2 || !country.bytes().all(|b| b.is_ascii_alphabetic()) {
+            return Vec::new();
+        }
+        let key = (rules, country.to_ascii_uppercase());
+        {
+            let cache = self.country_boards.lock().unwrap_or_else(|e| e.into_inner());
+            if let Some((at, list)) = cache.get(&key)
+                && at.elapsed() < Duration::from_secs(15)
+            {
+                return list.clone();
+            }
+        }
+        match self.store.country_leaderboard(rules, &key.1, 100, now()).await {
+            Ok(list) => {
+                let mut cache = self.country_boards.lock().unwrap_or_else(|e| e.into_inner());
+                // Kept small: the stale ones go first.
+                if cache.len() >= 64 {
+                    cache.retain(|_, (at, _)| at.elapsed() < Duration::from_secs(15));
+                }
+                if cache.len() < 64 {
+                    cache.insert(key, (Instant::now(), list.clone()));
+                }
+                list
+            }
+            Err(e) => {
+                tracing::error!("country leaderboard query failed: {e}");
+                Vec::new()
+            }
+        }
+    }
+
     /// The doubles ranking of `rules` (its first hundred; read again at most
     /// every 15 seconds, like the singles one: anyone may ask for it, also
     /// before signing in and through the public API).
@@ -521,6 +563,7 @@ impl Server {
 
     pub(crate) fn invalidate_leaderboard(&self) {
         *self.leaderboard.lock().unwrap_or_else(|e| e.into_inner()) = PerRules::default();
+        self.country_boards.lock().unwrap_or_else(|e| e.into_inner()).clear();
         *self.doubles_leaderboard.lock().unwrap_or_else(|e| e.into_inner()) = PerRules::default();
     }
 
@@ -1601,8 +1644,9 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                     Auth::Dropped => break,
                 },
                 ClientMsg::Ping => send(ServerMsg::Pong),
-                ClientMsg::Leaderboard { rules } => {
-                    send(ServerMsg::Leaderboard { rules, entries: server.leaderboard(rules).await })
+                ClientMsg::Leaderboard { rules, country } => {
+                    let entries = server.ranking_of(rules, &country).await;
+                    send(ServerMsg::Leaderboard { rules, entries, country })
                 }
                 ClientMsg::DoublesLeaderboard { rules } => send(ServerMsg::DoublesLeaderboard {
                     rules,
@@ -1635,8 +1679,9 @@ async fn handle_socket(server: Arc<Server>, socket: WebSocket, ip: IpAddr) {
                 }
                 break;
             }
-            ClientMsg::Leaderboard { rules } => {
-                send(ServerMsg::Leaderboard { rules, entries: server.leaderboard(rules).await })
+            ClientMsg::Leaderboard { rules, country } => {
+                let entries = server.ranking_of(rules, &country).await;
+                send(ServerMsg::Leaderboard { rules, entries, country })
             }
             ClientMsg::DoublesLeaderboard { rules } => send(ServerMsg::DoublesLeaderboard {
                 rules,

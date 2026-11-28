@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Ang patakaran ng larong ito: i-click 
 The rules of your games: click to switch	Ang patakaran ng mga laro mo: i-click para palitan
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Ang switch sa main menu: online, laban sa computer at dalawang manlalaro. May sariling rating ang bawat patakaran.
 The table as it lies.	Ang mesa gaya ng ayos nito.
-The top 100 of each rules · rated games	Ang top 100 ng bawat patakaran · rated na laro
+The top 100 of each rules	Ang top 100 ng bawat patakaran
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	Nasa likod ng head string ang {ball} at tinamaan ito ng cue ball nang hindi muna tumatawid sa linya
 What changes between the rules: click to read them	Ano ang nagbabago sa pagitan ng mga patakaran: i-click para basahin
 With the cue ball in hand behind the head string.	May ball in hand sa likod ng head string.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Mabilis na parirala lang (walang malayang 
 Messages	Mga mensahe
 World	Mundo
 Friends ranking	Ranggo ng mga kaibigan
-You and your friends · rated games	Ikaw at ang mga kaibigan mo · mga larong may rating
+You and your friends	Ikaw at ang mga kaibigan mo
 Add friends to see where you stand among them.	Magdagdag ng kaibigan para makita ang puwesto mo sa kanila.
 Chat and reactions	Chat at mga reaksyon
 Mute the opponent's chat	I-mute ang chat ng kalaban
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Wala pang nakalinis ng
 Last week's winners	Mga nanalo noong nakaraang linggo
 Doubles	Doubles
 Doubles ranking	Ranking sa doubles
-Each player's doubles rating · rated doubles	Ang rating sa doubles ng bawat manlalaro · rated na doubles
+Each player's doubles rating	Ang rating sa doubles ng bawat manlalaro
 No rated doubles yet. Be the first pair!	Wala pang rated na doubles. Kayo na ang unang pares!
 Clear the table in the least time	Linisin ang mesa sa pinakamaikling oras
 Against the clock: {n} balls left	Laban sa oras: {n} bola ang natitira

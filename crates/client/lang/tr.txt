@@ -1994,7 +1994,7 @@ The rules of this game: click to read them	Bu oyunun kuralları: okumak için t�
 The rules of your games: click to switch	Oyunlarının kuralları: değiştirmek için tıkla
 The switch on the main menu: online, against the computer and two players. Each of the rules has its own rating.	Ana menüdeki seçimin aynısı: çevrim içi, bilgisayara karşı ve iki oyuncu. Her kuralın kendi puanı var.
 The table as it lies.	Masa olduğu gibi.
-The top 100 of each rules · rated games	Her kuralın ilk 100'ü · puanlı oyunlar
+The top 100 of each rules	Her kuralın ilk 100'ü
 The {ball} lay behind the head string and the cue ball hit it without crossing the line first	{ball} baş çizgisinin gerisindeydi ve beyaz top önce çizgiyi geçmeden ona değdi
 What changes between the rules: click to read them	Kurallar arasında neler değişiyor: okumak için tıkla
 With the cue ball in hand behind the head string.	Beyaz top baş çizgisinin gerisinde elde.
@@ -2430,7 +2430,7 @@ Only the quick phrases (no free text)	Yalnızca hızlı ifadeler (serbest metin 
 Messages	Mesajlar
 World	Dünya
 Friends ranking	Arkadaş sıralaması
-You and your friends · rated games	Sen ve arkadaşların · puanlı oyunlar
+You and your friends	Sen ve arkadaşların
 Add friends to see where you stand among them.	Aralarındaki yerini görmek için arkadaş ekle.
 Chat and reactions	Sohbet ve tepkiler
 Mute the opponent's chat	Rakibin sohbetini sessize al
@@ -2511,7 +2511,7 @@ Nobody has cleared the table this week yet. Be the first!	Bu hafta henüz kimse 
 Last week's winners	Geçen haftanın kazananları
 Doubles	Çiftler
 Doubles ranking	Çiftler sıralaması
-Each player's doubles rating · rated doubles	Her oyuncunun çiftler puanı · puanlı çiftler
+Each player's doubles rating	Her oyuncunun çiftler puanı
 No rated doubles yet. Be the first pair!	Henüz puanlı çiftler maçı yok. İlk çift siz olun!
 Clear the table in the least time	Masayı en kısa sürede temizle
 Against the clock: {n} balls left	Zamana karşı: {n} top kaldı

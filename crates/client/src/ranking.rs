@@ -28,8 +28,18 @@ pub struct Ranking {
     rules: Rules,
     /// Only the player and their friends (else the world's top 100).
     friends: bool,
+    /// The player's country's top 100 (by the flag on their profile).
+    country: bool,
+    /// The country's ranking asked for (rules, country): asked once the
+    /// player's own card says which country is theirs.
+    asked_country: Option<(Rules, String)>,
     /// The doubles ranking (each player's doubles rating).
     doubles: bool,
+}
+
+/// The country on the player's profile (its flag; empty: none chosen).
+fn my_country(online: &Online) -> String {
+    online.me.as_ref().map(|m| m.country.to_ascii_uppercase()).unwrap_or_default()
 }
 
 /// The player and their friends with rated games under `rules`, best first,
@@ -190,6 +200,7 @@ impl Ranking {
     pub fn dev(&mut self, board: &str) {
         self.friends = board == "ranking-friends";
         self.doubles = board == "ranking-doubles";
+        self.country = board == "ranking-country";
     }
 
     /// Opens on the ranking of the rules the player plays.
@@ -199,10 +210,16 @@ impl Ranking {
         self.request(online, self.rules);
     }
 
-    /// Asks for the ranking shown (singles or doubles) of `rules`.
+    /// Asks for the ranking shown (singles, the country's or doubles) of
+    /// `rules`.
     fn request(&self, online: &mut Online, rules: Rules) {
         if self.doubles {
             online.request_doubles_leaderboard(rules);
+        } else if self.country {
+            let country = my_country(online);
+            if !country.is_empty() {
+                online.request_country_leaderboard(rules, &country);
+            }
         } else {
             online.request_leaderboard(rules);
         }
@@ -212,11 +229,30 @@ impl Ranking {
         let sw = crate::ui::vw();
         let sh = crate::ui::vh();
         ui.screen_dim(0.5);
-        // The world's top 100, or only the player and their friends.
+        // The world's top 100, the country's, or only the player and their
+        // friends.
+        let country = my_country(online);
+        let country_loaded = online
+            .country_board
+            .as_ref()
+            .is_some_and(|(r, c, _)| *r == self.rules && *c == country);
+        if self.country
+            && !country.is_empty()
+            && !country_loaded
+            && self.asked_country.as_ref() != Some(&(self.rules, country.clone()))
+        {
+            self.asked_country = Some((self.rules, country.clone()));
+            online.request_country_leaderboard(self.rules, &country);
+        }
         let entries = if self.doubles {
             online.doubles.leaderboard.get(self.rules).clone()
         } else if self.friends {
             friends_board(online, self.rules)
+        } else if self.country {
+            match &online.country_board {
+                Some((_, _, list)) if country_loaded => list.clone(),
+                _ => Vec::new(),
+            }
         } else {
             online.leaderboard.get(self.rules).clone()
         };
@@ -229,20 +265,22 @@ impl Ranking {
         let room = ((sh - 40.0 - head - NOTE_H - PAD) / ROW_H).floor().max(3.0) as usize;
         let body_h =
             if entries.is_empty() { 200.0 } else { entries.len().min(room) as f32 * ROW_H };
-        let w = (sw - 40.0).min(760.0);
+        let w = (sw - 40.0).min(880.0);
         let h = (head + body_h + NOTE_H + PAD - 4.0).min(sh - 40.0);
         let r = Rect::new((sw - w) / 2.0, (sh - h) / 2.0, w, h);
         ui.panel(r);
         let mut action = RankingAction::None;
         // World or friends, by the refresh button (signed in only: the
         // friends are the account's).
+        // (Not signed in yet: the boards of an account wait for it.)
         let can_friends = online.account().is_some();
-        if !can_friends {
+        if !can_friends && online.signed_in() {
             self.friends = false;
+            self.country = false;
         }
-        // World, friends (signed in) and doubles.
+        // World, the player's country and friends (signed in), doubles.
         let views: Vec<&str> = if can_friends {
-            vec![t("World"), t("Friends"), t("Doubles")]
+            vec![t("World"), t("Country"), t("Friends"), t("Doubles")]
         } else {
             vec![t("World"), t("Doubles")]
         };
@@ -250,20 +288,37 @@ impl Ranking {
             views.iter().map(|v| ui.text_size(v, 13.0, true).x + 28.0).sum::<f32>().max(180.0);
         let seg = Rect::new(r.x + r.w - PAD - 36.0 - 12.0 - seg_w, r.y + 22.0, seg_w, 32.0);
         let (title, subtitle) = if self.doubles {
-            (t("Doubles ranking"), t("Each player's doubles rating · rated doubles"))
+            (t("Doubles ranking"), t("Each player's doubles rating").to_string())
         } else if self.friends {
-            (t("Friends ranking"), t("You and your friends · rated games"))
+            (t("Friends ranking"), t("You and your friends").to_string())
+        } else if self.country && !country.is_empty() {
+            let name = crate::flags::name(&country);
+            (t("Country ranking"), tw("The top 100 of {country}", &[("country", &name)]))
+        } else if self.country {
+            (t("Country ranking"), t("The best players of your country").to_string())
         } else {
-            (t("World ranking"), t("The top 100 of each rules · rated games"))
+            (t("World ranking"), t("The top 100 of each rules").to_string())
         };
         let right = seg.x - 12.0;
-        if screen_header_until(ui, r, Icon::Trophy, title, Some(subtitle), right) || ui.escape() {
+        let picking = crate::countries::is_open();
+        if screen_header_until(ui, r, Icon::Trophy, title, Some(&subtitle), right)
+            || (ui.escape() && !picking)
+        {
             action = RankingAction::Back;
         }
-        let picked = if self.doubles { views.len() - 1 } else { usize::from(self.friends) };
+        let picked = if self.doubles {
+            views.len() - 1
+        } else if !can_friends {
+            0
+        } else if self.friends {
+            2
+        } else {
+            usize::from(self.country)
+        };
         if let Some(k) = ui.segmented(seg, &views, picked) {
             self.doubles = k == views.len() - 1;
-            self.friends = can_friends && k == 1;
+            self.country = can_friends && k == 1;
+            self.friends = can_friends && k == 2;
             self.scroll.reset();
             if self.friends {
                 online.send(snook_legend_proto::ClientMsg::Friends);
@@ -283,16 +338,21 @@ impl Ranking {
                 self.request(online, self.rules);
             }
         }
-        // A tab for each of the rules, with how many play it now.
+        // A tab for each of the rules.
         let tabs = Rect::new(r.x + PAD, r.y + HEADER_H, r.w - PAD * 2.0, TABS_H);
-        let players = online.counts().map(|c| c.map(|_, n| n.players));
-        if let Some(rules) = crate::rulesui::switch(ui, tabs, self.rules, players) {
+        if let Some(rules) = crate::rulesui::switch(ui, tabs, self.rules, None) {
             self.rules = rules;
             self.scroll.reset();
             self.request(online, rules);
         }
         // Other rules or another board: the list slides in from that side.
-        let board = if self.doubles { 2 } else { i64::from(self.friends) };
+        let board = if self.doubles {
+            3
+        } else if self.friends {
+            2
+        } else {
+            i64::from(self.country)
+        };
         let rules = i64::from(self.rules == snook_legend_core::Rules::Official);
         let _switch =
             ui.switch_scope(crate::ui::motion::id("ranking-board"), rules * 4 + board, 16.0);
@@ -345,12 +405,36 @@ impl Ranking {
             empty_state(ui, list, Icon::People, text);
             return action;
         }
+        // The player's country: their flag first (it is chosen here too).
+        if self.country && country.is_empty() {
+            let text = t("Choose your country to see how you rank among its players.");
+            if crate::online::empty_state(
+                ui,
+                list,
+                crate::online::Glyph::Icon(Icon::Globe),
+                text,
+                Some(t("Choose my country")),
+            ) {
+                crate::countries::open();
+            }
+            if let Some(code) = crate::countries::draw_picker(ui) {
+                online.send(snook_legend_proto::ClientMsg::SetCountry { country: code.clone() });
+                if let Some(me) = online.me.as_mut() {
+                    me.country = code.clone();
+                }
+                online.request_country_leaderboard(self.rules, &code);
+            }
+            return action;
+        }
         if entries.is_empty() {
             if self.friends {
                 empty_state(ui, list, Icon::People, t("No rated games yet. Be the first!"));
             } else if self.doubles && *online.doubles.leaderboard_loaded.get(self.rules) {
                 empty_state(ui, list, Icon::Trophy, t("No rated doubles yet. Be the first pair!"));
-            } else if !self.doubles && *online.leaderboard_loaded.get(self.rules) {
+            } else if self.country && country_loaded {
+                let text = t("No rated games in your country yet. Be the first!");
+                empty_state(ui, list, Icon::Globe, text);
+            } else if !self.doubles && !self.country && *online.leaderboard_loaded.get(self.rules) {
                 empty_state(ui, list, Icon::Trophy, t("No rated games yet. Be the first!"));
             } else if let Some(error) = unreachable(online) {
                 if offline_state(ui, list, &error) {

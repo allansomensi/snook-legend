@@ -544,11 +544,12 @@ impl Scene {
             draw_layer(&self.room, gfx::Layer::Blended, &self.materials);
             self.materials.set_room(false);
         }
+        draw_layer(&self.table_parts, gfx::Layer::Inside, &self.materials);
+        draw_layer(&self.table_parts, gfx::Layer::Detail, &self.materials);
+        // (Over the cloth's marks: a spot under a ball is in its shadow.)
         if !self.soft_shadows && self.ball_shadows {
             self.draw_ball_shadows(balls);
         }
-        draw_layer(&self.table_parts, gfx::Layer::Inside, &self.materials);
-        draw_layer(&self.table_parts, gfx::Layer::Detail, &self.materials);
         if self.lamp_visible && hall {
             self.materials.set_room(true);
             draw_layer(&self.room, gfx::Layer::Lamp, &self.materials);
@@ -934,7 +935,10 @@ impl Scene {
             }
         }
         if !b.vertices.is_empty() {
-            self.materials.use_blended(Surface::UNLIT.cut(1.0));
+            // Leaving no depth: the shadows of balls side by side (a rack)
+            // overlap in the same plane, and one writing its depth hid
+            // part of the next, a hard-edged light patch that flickered.
+            self.materials.use_glow(Surface::UNLIT.cut(1.0));
             b.build_dynamic(&self.shadow).draw();
         }
     }

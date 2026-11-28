@@ -26,6 +26,13 @@
 - Looking at a chalk from low down: the foot of the cube no longer sinks
   into the floor's shadow (on Low and Medium), and the cue's tip is a
   rounded leather dome, no longer an open tube.
+- Looking at a hall zoomed all the way out: the camera stops short of
+  its walls and ceiling instead of going through them.
+
+### Graphics
+- The balls' shadows on Low and Medium no longer flicker: side by side (a
+  rack, a set in the showroom), one hid part of the next in light,
+  hard-edged patches that shimmered as the camera moved.
 
 ## 0.12.4 (protocol 26)
 

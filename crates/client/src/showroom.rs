@@ -508,6 +508,13 @@ impl Showroom {
             let least = (need / v.dist).min(0.99).asin();
             v.pitch = v.pitch.max(least).min(l.pitch.1);
         }
+        // In a hall, never through its walls or its ceiling: zoomed all the
+        // way out towards a near wall, the camera stops short of it.
+        if self.shows_hall() {
+            let (sp, cp) = v.pitch.sin_cos();
+            let dir = vec3(cp * v.yaw.cos(), sp, cp * v.yaw.sin());
+            v.dist = v.dist.min(room_reach(v.target, dir).max(l.dist.0));
+        }
         v
     }
 
@@ -1182,6 +1189,26 @@ fn now() -> f64 {
     START.get_or_init(std::time::Instant::now).elapsed().as_secs_f64()
 }
 
+/// How far from `target` the camera may go along `dir` and stay inside a
+/// hall's room (every hall is built in the same one), clear of the walls,
+/// of what stands along them and of the ceiling.
+fn room_reach(target: Vec3, dir: Vec3) -> f32 {
+    use crate::room::{HEIGHT, HX, HZ};
+    const WALLS: f32 = 0.6;
+    const CEILING: f32 = 0.35;
+    let mut reach = f32::MAX;
+    for (d, at, half) in [(dir.x, target.x, HX - WALLS), (dir.z, target.z, HZ - WALLS)] {
+        if d.abs() > 1e-5 {
+            let wall = half.copysign(d);
+            reach = reach.min(((wall - at) / d).max(0.0));
+        }
+    }
+    if dir.y > 1e-5 {
+        reach = reach.min(((HEIGHT - CEILING - target.y) / dir.y).max(0.0));
+    }
+    reach
+}
+
 /// The direction a cue chalking a cube rises in from its tip.
 fn chalk_cue_direction() -> Vec3 {
     vec3(-0.5, 0.8, -0.3).normalize()
@@ -1319,6 +1346,33 @@ mod tests {
 
     fn room(code: &str) -> Showroom {
         Showroom::open(code, &snook_legend_core::Table::default()).expect(code)
+    }
+
+    /// Looking at a hall, zoomed all the way out from anywhere it may look
+    /// at and towards any wall, the camera stays inside the room.
+    #[test]
+    fn a_hall_is_seen_from_inside() {
+        use crate::room::{HEIGHT, HX, HZ};
+        let hall = ITEMS.iter().find(|i| i.category == Category::Hall).expect("a hall");
+        let s = room(hall.code);
+        let l = s.limits();
+        for (x, z) in [(l.low.x, l.low.z), (l.high.x, l.high.z), (0.0, 0.0), (l.high.x, 0.0)] {
+            for y in [l.low.y, l.high.y] {
+                for k in 0..72 {
+                    for pitch in [0.0, 0.3, 0.8, 1.45] {
+                        let v = View {
+                            yaw: k as f32 / 72.0 * std::f32::consts::TAU,
+                            pitch,
+                            dist: 100.0,
+                            target: vec3(x, y, z),
+                        };
+                        let eye = s.clamp(v).eye();
+                        assert!(eye.x.abs() < HX && eye.z.abs() < HZ, "{v:?}: {eye}");
+                        assert!(eye.y < HEIGHT, "{v:?}: {eye}");
+                    }
+                }
+            }
+        }
     }
 
     /// Every item with a 3D picture opens in the showroom, its views keep
